@@ -21,7 +21,7 @@
 	headerTitle="Lookup" docTitle="" transactionalDocument="false">
 
 	<div class="headerarea-small" id="headerarea-small">
-	<h1><c:out value="${KualiForm.lookupable.title}" />
+	<h1><c:out value="${param.reportName}" />
 	<kul:help resourceKey="lookupHelpText" altText="lookup help" /></h1>
 	</div>
 	
@@ -60,7 +60,8 @@
 								   id="row"
 								   export="true"
 				                   pagesize="100"
-				                   defaultsort="1"
+				                   defaultsort="4"
+				                   defaultorder="descending"
 				                   requestURI="arCustomerOpenItemReportLookupable.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 
 					<c:forEach items="${row.columns}" var="column">

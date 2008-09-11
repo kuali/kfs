@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.dao.DocumentHeaderDao;
@@ -39,4 +40,9 @@ public interface FinancialSystemDocumentHeaderDao extends DocumentHeaderDao {
      */
     public Collection getByDocumentFinalDate(Date documentFinalDate);
     
+    /**
+     * @param documentNumbers
+     * @return documentHeaders of the documents which document numbers are in the documentNumbers
+     */
+    public Collection getByDocumentNumbers(List documentNumbers);
 }

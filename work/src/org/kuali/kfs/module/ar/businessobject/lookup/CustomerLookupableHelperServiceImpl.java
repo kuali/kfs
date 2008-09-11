@@ -43,18 +43,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         if (!ARUtil.isUserInArSupervisorGroup(user))
             return super.getEmptyActionUrls();
 
-        /*StringBuffer actions = new StringBuffer();
-        if (StringUtils.isNotBlank(getMaintenanceDocumentTypeName())) {
-            actions.append(getMaintenanceUrl(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
-        }
-
-        if (allowsMaintenanceNewOrCopyAction()) {
-            actions.append("&nbsp;&nbsp;");
-            actions.append(getMaintenanceUrl(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
-        }*/
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-
-        //actions.append("&nbsp;&nbsp;");
         anchorHtmlDataList.add(getCustomerOpenItemReportUrl(businessObject));
 
         return anchorHtmlDataList;
@@ -65,10 +54,11 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         Customer customer = (Customer) bo;
         String href="../arCustomerOpenItemReportLookup.do" +
                 "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +
-                "&returnLocation=portal.do&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
-                "&methodToCall=search&customerNumber="+customer.getCustomerNumber()+
-                "&customerName="+customer.getCustomerName()+
-                "&docFormKey=88888888";
+                "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
+                "&methodToCall=search&customerNumber="+customer.getCustomerNumber()+ 
+                "&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME +
+                "&customerName=" +customer.getCustomerName()+
+                "&reportName=Customer History Report&docFormKey=88888888";
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.CustomerConstants.ACTIONS_REPORT);
     }
 }

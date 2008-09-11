@@ -21,20 +21,25 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLookupableHelperServiceImpl;
+import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
@@ -49,10 +54,6 @@ import org.kuali.rice.kns.web.ui.Row;
 public class CustomerOpenItemReportAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportAction.class);
     private static final String TOTALS_TABLE_KEY = "totalsTable";
-
-    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
@@ -99,61 +100,6 @@ public class CustomerOpenItemReportAction extends KualiAction {
     }
 
     /**
-     * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LookupForm lookupForm = (LookupForm) form;
-        Lookupable lookupable = lookupForm.getLookupable();
-        if (lookupable == null) {
-            LOG.error("Lookupable is null.");
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        Map fieldValues = new HashMap();
-        Map values = lookupForm.getFields();
-
-        for (Iterator iter = lookupable.getRows().iterator(); iter.hasNext();) {
-            Row row = (Row) iter.next();
-
-            for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                Field field = (Field) iterator.next();
-                
-                if (field.getPropertyName() != null && !field.getPropertyName().equals("")) {
-                    if (request.getParameter(field.getPropertyName()) != null) {
-                        field.setPropertyValue(request.getParameter(field.getPropertyName()));
-                    } else if (values.get(field.getPropertyName()) != null) {
-                        field.setPropertyValue(values.get(field.getPropertyName()));
-                    }
-                }
-                fieldValues.put(field.getPropertyName(), field.getPropertyValue());
-            }
-        }
-        fieldValues.put(KFSConstants.DOC_FORM_KEY, lookupForm.getFormKey());
-        fieldValues.put(KFSConstants.BACK_LOCATION, lookupForm.getBackLocation());
-
-        if (lookupable.checkForAdditionalFields(fieldValues)) {
-            for (Iterator iter = lookupable.getRows().iterator(); iter.hasNext();) {
-                Row row = (Row) iter.next();
-                for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                    Field field = (Field) iterator.next();
-                    if (field.getPropertyName() != null && !field.getPropertyName().equals("")) {
-                        if (request.getParameter(field.getPropertyName()) != null) {
-                            field.setPropertyValue(request.getParameter(field.getPropertyName()));
-                            fieldValues.put(field.getPropertyName(), request.getParameter(field.getPropertyName()));
-                        } else if (values.get(field.getPropertyName()) != null) {
-                            field.setPropertyValue(values.get(field.getPropertyName()));
-                        }
-                    }
-                }
-            }
-        }
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * View results from balance inquiry action
      * 
      * @param mapping
@@ -175,4 +121,33 @@ public class CustomerOpenItemReportAction extends KualiAction {
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * Handling for screen close. Default action is return to caller.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    /*
+    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return returnToCaller(mapping, form, request, response);
+    }
+    
+    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
+        parameters.put(KFSConstants.DOC_FORM_KEY, budgetExpansionForm.getReturnFormKey());
+
+        if (StringUtils.isNotEmpty(budgetExpansionForm.getReturnAnchor())) {
+            parameters.put(KFSConstants.ANCHOR, budgetExpansionForm.getReturnAnchor());
+        }
+        parameters.put(KFSConstants.REFRESH_CALLER, this.getClass().getName());
+
+        this.addCallBackMessagesAsObjectInSession(budgetExpansionForm);
+
+        String backUrl = UrlFactory.parameterizeUrl(budgetExpansionForm.getBackLocation(), parameters);
+        return new ActionForward(backUrl, true);
+    }*/
 }

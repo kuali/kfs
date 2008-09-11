@@ -56,12 +56,14 @@
 <bean id="CustomerOpenItemReportDetail-documentPaymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="documentPaymentAmount" />
     <property name="label" value="Document Payment Amount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
 </bean>
 
 <bean id="CustomerOpenItemReportDetail-unpaidUnappliedAmount" parent="CustomerOpenItemReportDetail-unpaidUnappliedAmount-parentBean" />
 <bean id="CustomerOpenItemReportDetail-unpaidUnappliedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="unpaidUnappliedAmount" />
     <property name="label" value="Unpaid/Unapplied Amount" />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
 </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -621,6 +621,7 @@
 
 			</list>
 		</property>
+    	<property name="inquirableClass" value="org.kuali.kfs.module.ar.businessobject.inquiry.CustomerOpenItemReportInquirableImpl" />
 	</bean>
 
 	<!-- Business Object Lookup Definition -->

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,27 +25,20 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.datadictionary.mask.Mask;
+import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
-import org.kuali.rice.kns.web.format.CollectionFormatter;
 import org.kuali.rice.kns.web.format.DateFormatter;
 import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -54,10 +47,10 @@ import org.kuali.rice.kns.web.ui.ResultRow;
 
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerAgingReportLookupableHelperServiceImpl.class);
-    private Map fieldConversions;  
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportLookupableHelperServiceImpl.class);
+    private Map fieldConversions;
     private DataDictionaryService dataDictionaryService;
-    
+
     /**
      * Get the search results that meet the input search criteria.
      * 
@@ -71,34 +64,17 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        // create some fake entries to test with
-        CustomerOpenItemReportDetail detail1 = new CustomerOpenItemReportDetail();
-        detail1.setDocumentType("INV");
-        detail1.setDocumentNumber("01 BM3002707");
-        detail1.setDocumentDescription("BATMOBILE");
-        detail1.setDueApprovedDate(Date.valueOf("2006-08-06"));
-        detail1.setDocumentPaymentAmount(KualiDecimal.ZERO);
-        detail1.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
-        
-        CustomerOpenItemReportDetail detail2 = new CustomerOpenItemReportDetail();
-        detail2.setDocumentType("INV");
-        detail2.setDocumentNumber("01 BM3002708");
-        detail2.setDocumentDescription("BATCAVE MORTGAGE");
-        detail2.setDueApprovedDate(Date.valueOf("2006-08-06"));
-        detail2.setDocumentPaymentAmount(KualiDecimal.ZERO);
-        detail2.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
-        
-        List results = new ArrayList();
-        results.add(detail1);
-        results.add(detail2);
+        String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
+        List results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
 
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
-    }    
+    }
 
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
+    /*
     @Override
     public List getReturnKeys() {
         List returnKeys;
@@ -107,7 +83,8 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
         return returnKeys;
     }
-    
+    */
+
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */
@@ -120,7 +97,9 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         if (getReferencesToRefresh() != null) {
             parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
-        
+
+        String encryptedList = "";
+
         Iterator returnKeys = getReturnKeys().iterator();
         while (returnKeys.hasNext()) {
             String fieldNm = (String) returnKeys.next();
@@ -137,18 +116,9 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getUniversalUser().isMember( displayWorkgroup )) {
-//                try {
-//                    fieldVal = encryptionService.encrypt(fieldVal);
-//                }
-//                catch (GeneralSecurityException e) {
-//                    LOG.error("Exception while trying to encrypted value for inquiry framework.", e);
-//                    throw new RuntimeException(e);
-//                }
+            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getUniversalUser().isMember(displayWorkgroup)) {}
 
-            }
-            
-            //need to format date in url
+            // need to format date in url
             if (fieldVal instanceof Date) {
                 DateFormatter dateFormatter = new DateFormatter();
                 fieldVal = dateFormatter.format(fieldVal);
@@ -158,11 +128,11 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         }
 
         return parameters;
-    }    
-    
+    }
+
     /**
-     * 
      * This method performs the lookup and returns a collection of lookup items
+     * 
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -180,98 +150,70 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         else {
             displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
         }
-// MJM get resultTable populated here
-        
-        HashMap<String,Class> propertyTypes = new HashMap<String, Class>(); 
-        
+        // MJM get resultTable populated here
+
+        HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
+
         boolean hasReturnableRow = false;
-        
+
         // iterate through result list and wrap rows with return url and action urls
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
             BusinessObject element = (BusinessObject) iter.next();
 
-           // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
-           // String actionUrls = getActionUrls(element);
+            // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
+            // lookupForm.getLookupableImplServiceName());
+            // String actionUrls = getActionUrls(element);
             String returnUrl = "www.bigfrickenRETURNurl";
             String actionUrls = "www.someACTIONurl";
-            
+
             List<Column> columns = getColumns();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
-                
+
                 Column col = (Column) iterator.next();
                 Formatter formatter = col.getFormatter();
 
                 // pick off result column from result list, do formatting
                 String propValue = KNSConstants.EMPTY_STRING;
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
-                
-                // set comparator and formatter based on property type
-                Class propClass = propertyTypes.get(col.getPropertyName());
-//                if ( propClass == null ) {
-//                    try {
-//                        propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
-//                        propertyTypes.put( col.getPropertyName(), propClass );
-//                    } catch (Exception e) {
-//                        throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
-//                    }
-//                }
 
                 // formatters
                 if (prop != null) {
-                    // for Booleans, always use BooleanFormatter
-                    if (prop instanceof Boolean) {
-                        formatter = new BooleanFormatter();
-                    }
-                    
                     // for Dates, always use DateFormatter
-                    if (prop instanceof Date) {
+                    if (prop instanceof Date)
                         formatter = new DateFormatter();
-                    }
 
-                    // for collection, use the list formatter if a formatter hasn't been defined yet
-                    if (prop instanceof Collection && formatter == null) {
-                    formatter = new CollectionFormatter();
-                    }
-                    
-                    if (formatter != null) {
+                    if (formatter != null)
                         propValue = (String) formatter.format(prop);
-                    }
-                    else {
+                    else
                         propValue = prop.toString();
-                    }
                 }
 
                 // comparator
+                Class propClass = propertyTypes.get(col.getPropertyName());
                 col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
                 col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-                
-                // check security on field and do masking if necessary
-                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
-                if (!viewAuthorized) {
-                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
-                    propValue = displayMask.maskValue(propValue);
-                }
+
                 col.setPropertyValue(propValue);
 
-
                 if (StringUtils.isNotBlank(propValue)) {
-                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
+                    if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
+                        String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        col.setPropertyURL(propertyURL);
+                    }//else col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
                 }
             }
 
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
-            if ( element instanceof PersistableBusinessObject ) {
-                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
-            }
-            
+            if (element instanceof PersistableBusinessObject)
+                row.setObjectId(((PersistableBusinessObject) element).getObjectId());
+
             boolean rowReturnable = isResultReturnable(element);
             row.setRowReturnable(rowReturnable);
-            if (rowReturnable) {
+            if (rowReturnable)
                 hasReturnableRow = true;
-            }
+
             resultTable.add(row);
         }
-
         lookupForm.setHasReturnableRow(hasReturnableRow);
 
         return displayList;

@@ -338,7 +338,6 @@ public class KFSPropertyConstants {
     public static final String CURRENT_BUDGET_ADJUSTMENT_AMOUNT = "currentBudgetAdjustmentAmount";
     public static final String CURRENT_BUDGET_LINE_BALANCE_AMOUNT = "currentBudgetLineBalanceAmount";
     public static final String CURRENT_TASK_NUMBER = "currentTaskNumber";
-    public static final String DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR = KNSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR;
     public static final String DEBIT = "debit";
     public static final String DEBIT_CREDIT_CODE = "debitCreditCode";
     public static final String DEBIT_OR_CREDIT_CODE = "debitOrCreditCode";

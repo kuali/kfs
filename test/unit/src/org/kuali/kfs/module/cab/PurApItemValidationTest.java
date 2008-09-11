@@ -23,8 +23,9 @@ import java.util.HashSet;
 import org.kuali.kfs.coa.businessobject.ObjLevel;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -194,7 +195,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         objectCode.setFinancialObjectSubTypeCode("AM");
         financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
         objectCode.setFinancialObjectSubType(financialObjectSubType);
-        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        AssetTransactionType tranType = new AssetTransactionType();
         tranType.setCapitalAssetTransactionTypeCode("NEW");
         assertTrue(cabModuleService.validateObjectCodeVersusTransactionType(objectCode, tranType, false, "1"));
     }
@@ -207,7 +208,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         objectCode.setFinancialObjectSubTypeCode("AM");
         financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
         objectCode.setFinancialObjectSubType(financialObjectSubType);
-        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        AssetTransactionType tranType = new AssetTransactionType();
         tranType.setCapitalAssetTransactionTypeCode("FABR"); // "Fabrication"
         assertFalse(cabModuleService.validateObjectCodeVersusTransactionType(objectCode, tranType, false, "1"));
     }
@@ -220,7 +221,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
         objectCode.setFinancialObjectSubTypeCode("BI");
         financialObjectSubType.setFinancialObjectSubTypeName("Bond Issuance");
         objectCode.setFinancialObjectSubType(financialObjectSubType);
-        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        AssetTransactionType tranType = new AssetTransactionType();
         tranType.setCapitalAssetTransactionTypeCode("NEW");
         assertFalse(cabModuleService.validateObjectCodeVersusTransactionType(objectCode, tranType, false, "1"));
     }
@@ -233,7 +234,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
      */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
-        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
         assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }
@@ -243,28 +244,28 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
      */
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranTypeAndNoRecurringPaymentType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
-        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
         assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NoTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NO_TRAN_TYPE;
-        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
         assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
-        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
         assertTrue(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }
     
     public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranTypeAndNoRecurringPaymentType() {
         PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
-        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        CapitalAssetBuilderAssetTransactionType tranType = fixture.getCapitalAssetBuilderAssetTransactionType();
         RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
         assertFalse(cabModuleService.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
     }   

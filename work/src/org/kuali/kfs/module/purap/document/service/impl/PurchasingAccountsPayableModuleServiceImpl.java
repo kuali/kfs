@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
@@ -29,32 +30,61 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.UrlFactory;
 
-/**
- * 
- */
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
+    
+    private PurchaseOrderService purchaseOrderService;
+    private PurapService purapService;
+    private DocumentService documentService;
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
      */
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers) {
-        // TODO Auto-generated method stub
+        PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
+              
+        // Create and add the note.
+        String noteText = "Asset Numbers have been created for this document: ";
+        for(int i=0; i < assetNumbers.size(); i++) {
+            noteText += assetNumbers.get(i).toString();
+            if(i < assetNumbers.size() - 1) {
+                noteText += ", ";
+            }
+        }
+        try {
+            Note assetNote = documentService.createNoteFromDocument(document, noteText);
+            document.addNote(assetNote);
+        } catch ( Exception e ) {
+            throw new RuntimeException(e);
+        }
         
+        // Save the document.
+        purapService.saveDocumentNoValidation(document);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getPurchaseOrderInquiryUrl(java.lang.Integer)
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber) {
-        // TODO Auto-generated method stub
-        return null;
+        Properties parameters = new Properties();
+        PurchaseOrderDocument currentDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);      
+        parameters.setProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        parameters.setProperty("documentNumber", currentDocument.getDocumentNumber());
+        String url = UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, parameters);
+        return url;
     }
 
     /**
@@ -163,4 +193,28 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         
     }
 
+    public PurchaseOrderService getPurchaseOrderService() {
+        return purchaseOrderService;
+    }
+
+    public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
+        this.purchaseOrderService = purchaseOrderService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public PurapService getPurapService() {
+        return purapService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+    
 }

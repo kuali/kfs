@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -32,7 +32,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     private String capitalAssetTransactionTypeCode;
     private Integer capitalAssetSystemIdentifier;
     
-    private CapitalAssetTransactionType capitalAssetTransactionType;
+    private CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType;
     private CapitalAssetSystem purchasingCapitalAssetSystem;
     private PurchasingDocument purchasingDocument;
     
@@ -76,11 +76,11 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
     }
 
-    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
+    public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType() {
         return capitalAssetTransactionType;
     }
 
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
+    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
     }
 

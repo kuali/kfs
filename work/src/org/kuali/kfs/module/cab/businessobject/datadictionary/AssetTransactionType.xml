@@ -4,27 +4,27 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="CapitalAssetTransactionType" parent="CapitalAssetTransactionType-parentBean" />
+  <bean id="AssetTransactionType" parent="AssetTransactionType-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" />
+  <bean id="AssetTransactionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" />
     <property name="inquiryDefinition" >
-      <ref bean="CapitalAssetTransactionType-inquiryDefinition" />
+      <ref bean="AssetTransactionType-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
-      <ref bean="CapitalAssetTransactionType-lookupDefinition" />
+      <ref bean="AssetTransactionType-lookupDefinition" />
     </property>
     <property name="titleAttribute" value="capitalAssetTransactionTypeCode" />
-    <property name="objectLabel" value="Capital Asset Transaction Type" />
+    <property name="objectLabel" value="Asset Transaction Type" />
     <property name="attributes" >
       <list>
-        <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeCode" />
-        <ref bean="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription" />
-        <ref bean="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" />
-        <ref bean="CapitalAssetTransactionType-active" />
-        <ref bean="CapitalAssetTransactionType-versionNumber" />
-        <ref bean="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" />
-        <ref bean="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" />
+        <ref bean="AssetTransactionType-capitalAssetTransactionTypeCode" />
+        <ref bean="AssetTransactionType-capitalAssetTransactionTypeDescription" />
+        <ref bean="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" />
+        <ref bean="AssetTransactionType-active" />
+        <ref bean="AssetTransactionType-versionNumber" />
+        <ref bean="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText" />
+        <ref bean="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" />
       </list>
     </property>
   </bean>
@@ -32,9 +32,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeCode" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeCode-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeCode" parent="AssetTransactionType-capitalAssetTransactionTypeCode-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Capital Asset Transaction Type Code" />
@@ -45,13 +45,13 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.CapitalAssetTransactionTypeValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription" parent="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription" parent="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTransactionTypeDescription" />
     <property name="label" value="Capital Asset Transaction Type Description" />
     <property name="shortLabel" value="Description" />
@@ -65,9 +65,9 @@
             p:size="47" />
     </property>
   </bean>
-  <bean id="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" parent="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator" parent="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetTransactionType-capitalAssetNonquantityDrivenAllowIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetNonquantityDrivenAllowIndicator" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Capital Asset Nonquantity Driven Allow Indicator" />
@@ -77,34 +77,34 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="CapitalAssetTransactionType-active" parent="CapitalAssetTransactionType-active-parentBean" />
+  <bean id="AssetTransactionType-active" parent="AssetTransactionType-active-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="AssetTransactionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
-  <bean id="CapitalAssetTransactionType-versionNumber" parent="CapitalAssetTransactionType-versionNumber-parentBean" />
+  <bean id="AssetTransactionType-versionNumber" parent="AssetTransactionType-versionNumber-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  <bean id="AssetTransactionType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
-  <bean id="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText" parent="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText" parent="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" />
   
-  <bean id="CapitalAssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  <bean id="AssetTransactionType-capitalAssetQuantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
   	<property name="name" value="capitalAssetQuantitySubtypeRequiredText" />
   </bean>
   
-  <bean id="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" parent="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" />
+  <bean id="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText" parent="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" />
   
-  <bean id="CapitalAssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  <bean id="AssetTransactionType-capitalAssetNonquantitySubtypeRequiredText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
   	<property name="name" value="capitalAssetNonquantitySubtypeRequiredText" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CapitalAssetTransactionType-inquiryDefinition" parent="CapitalAssetTransactionType-inquiryDefinition-parentBean" />
+  <bean id="AssetTransactionType-inquiryDefinition" parent="AssetTransactionType-inquiryDefinition-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="AssetTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Capital Asset Transaction Type Inquiry" />
     <property name="inquirySections" >
       <list>
@@ -131,9 +131,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CapitalAssetTransactionType-lookupDefinition" parent="CapitalAssetTransactionType-lookupDefinition-parentBean" />
+  <bean id="AssetTransactionType-lookupDefinition" parent="AssetTransactionType-lookupDefinition-parentBean" />
 
-  <bean id="CapitalAssetTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="AssetTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Capital Asset Transaction Type Lookup" />
     <property name="instructions" value="Lookup a Capital Asset Transaction Type" />
     <property name="defaultSort" >

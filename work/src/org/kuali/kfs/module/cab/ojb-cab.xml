@@ -284,4 +284,15 @@
 	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" table="CB_AST_TRN_TYP_T">
+    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="capitalAssetTransactionTypeDescription" column="CPTL_AST_TRN_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="capitalAssetNonquantityDrivenAllowIndicator" column="CPTL_AST_NON_QTY_DRVN_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="capitalAssetQuantitySubtypeRequiredText" column="CPTLAST_QTY_SUBTYP_REQ_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetNonquantitySubtypeRequiredText" column="CPTLAST_NONQTY_SUBTYP_REQ_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
 </descriptor-repository>

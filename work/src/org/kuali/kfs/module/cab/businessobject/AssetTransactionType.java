@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.module.purap.businessobject;
+package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
- * Capital Asset Transaction Type Business Object.
+ * Asset Transaction Type Business Object.
  */
-public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
+public class AssetTransactionType extends PersistableBusinessObjectBase implements CapitalAssetBuilderAssetTransactionType {
 
     private String capitalAssetTransactionTypeCode;
     private String capitalAssetTransactionTypeDescription;
@@ -35,7 +36,7 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public CapitalAssetTransactionType() {
+    public AssetTransactionType() {
 
     }
     
@@ -43,7 +44,7 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
      * Constructs a CapitalAssetTransactionType.java.
      * @param capitalAssetTransactionTypeCode
      */
-    public CapitalAssetTransactionType(String capitalAssetTransactionTypeCode) {
+    public AssetTransactionType(String capitalAssetTransactionTypeCode) {
         this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
     }
 
@@ -70,6 +71,24 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
     public void setCapitalAssetNonquantityDrivenAllowIndicator(boolean capitalAssetNonquantityDrivenAllowIndicator) {
         this.capitalAssetNonquantityDrivenAllowIndicator = capitalAssetNonquantityDrivenAllowIndicator;
     }
+    
+    public String getCapitalAssetNonquantitySubtypeRequiredText() {
+        return capitalAssetNonquantitySubtypeRequiredText;
+    }
+
+    public void setCapitalAssetNonquantitySubtypeRequiredText(
+            String capitalAssetNonquantitySubtypeRequiredText) {
+        this.capitalAssetNonquantitySubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
+    }
+
+    public String getCapitalAssetQuantitySubtypeRequiredText() {
+        return capitalAssetQuantitySubtypeRequiredText;
+    }
+
+    public void setCapitalAssetQuantitySubtypeRequiredText(
+            String capitalAssetQuantitySubtypeRequiredText) {
+        this.capitalAssetQuantitySubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
+    }
 
     public boolean isActive() {
         return active;
@@ -88,21 +107,5 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
         return m;
     }
 
-	public String getCapitalAssetNonquantitySubtypeRequiredText() {
-		return capitalAssetNonquantitySubtypeRequiredText;
-	}
 
-	public void setCapitalAssetNonquantitySubtypeRequiredText(
-			String capitalAssetNonquantitySubtypeRequiredText) {
-		this.capitalAssetNonquantitySubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
-	}
-
-	public String getCapitalAssetQuantitySubtypeRequiredText() {
-		return capitalAssetQuantitySubtypeRequiredText;
-	}
-
-	public void setCapitalAssetQuantitySubtypeRequiredText(
-			String capitalAssetQuantitySubtypeRequiredText) {
-		this.capitalAssetQuantitySubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
-	}
 }

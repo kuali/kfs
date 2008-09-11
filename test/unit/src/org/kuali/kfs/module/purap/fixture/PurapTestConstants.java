@@ -18,9 +18,8 @@ package org.kuali.kfs.module.purap.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -28,6 +27,8 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurapTestConstants {
 
@@ -105,13 +106,83 @@ public class PurapTestConstants {
         static final ObjectCode CAPITAL_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7017"); //Level should be set to "CAP"
         static final ObjectCode POSSIBLE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7050"); //Level should be set to "S&E"
         static final ObjectCode EXPENSE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","5010"); //Level should be set to "DEBT"
-        static final CapitalAssetTransactionType NONRECURRING_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new CapitalAssetTransactionType("MDEX");
-        static final CapitalAssetTransactionType NONRECURRING_NON_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new CapitalAssetTransactionType("NEW");
-        static final CapitalAssetTransactionType RECURRING_TRAN_TYPE = new CapitalAssetTransactionType("LEAS");
+        static final CapitalAssetBuilderAssetTransactionType NONRECURRING_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new MockAssetTransactionType("MDEX");
+        static final CapitalAssetBuilderAssetTransactionType NONRECURRING_NON_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new MockAssetTransactionType("NEW");
+        static final CapitalAssetBuilderAssetTransactionType RECURRING_TRAN_TYPE = new MockAssetTransactionType("LEAS");
         static final RecurringPaymentType RECURRING_PAYMENT_TYPE = new RecurringPaymentType();
         static final Long ASSET_NUMBER_1 = new Long("333221");
         static final Long ASSET_NUMBER_2 = new Long("333222");
         
+        static class MockAssetTransactionType implements CapitalAssetBuilderAssetTransactionType {
+            private String capitalAssetTransactionTypeCode;
+            private String capitalAssetTransactionTypeDescription;
+            private boolean capitalAssetNonquantityDrivenAllowIndicator;
+            private String capitalAssetQuantitySubtypeRequiredText;
+            private String capitalAssetNonquantitySubtypeRequiredText;
+            private boolean active;
+            
+            /**
+             * Constructs a MockAssetTransactionType.java.
+             * @param capitalAssetTransactionTypeCode
+             */
+            public MockAssetTransactionType(String capitalAssetTransactionTypeCode) {
+                this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+            }
+
+            public String getCapitalAssetTransactionTypeCode() {
+                return capitalAssetTransactionTypeCode;
+            }
+
+            public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+                this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+            }
+
+            public String getCapitalAssetTransactionTypeDescription() {
+                return capitalAssetTransactionTypeDescription;
+            }
+
+            public void setCapitalAssetTransactionTypeDescription(String capitalAssetTransactionTypeDescription) {
+                this.capitalAssetTransactionTypeDescription = capitalAssetTransactionTypeDescription;
+            }
+
+            public boolean getCapitalAssetNonquantityDrivenAllowIndicator() {
+                return capitalAssetNonquantityDrivenAllowIndicator;
+            }
+
+            public void setCapitalAssetNonquantityDrivenAllowIndicator(boolean capitalAssetNonquantityDrivenAllowIndicator) {
+                this.capitalAssetNonquantityDrivenAllowIndicator = capitalAssetNonquantityDrivenAllowIndicator;
+            }
+            
+            public String getCapitalAssetNonquantitySubtypeRequiredText() {
+                return capitalAssetNonquantitySubtypeRequiredText;
+            }
+
+            public void setCapitalAssetNonquantitySubtypeRequiredText(
+                    String capitalAssetNonquantitySubtypeRequiredText) {
+                this.capitalAssetNonquantitySubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
+            }
+
+            public String getCapitalAssetQuantitySubtypeRequiredText() {
+                return capitalAssetQuantitySubtypeRequiredText;
+            }
+
+            public void setCapitalAssetQuantitySubtypeRequiredText(
+                    String capitalAssetQuantitySubtypeRequiredText) {
+                this.capitalAssetQuantitySubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
+            }
+
+            public boolean isActive() {
+                return active;
+            }
+
+            public void setActive(boolean active) {
+                this.active = active;
+            }
+            
+            public void refresh() {}
+            
+            public void prepareForWorkflow() {}
+        }
     }
     
     static class Threshold {

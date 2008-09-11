@@ -19,29 +19,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
- * Values finder for CapitalAssetTransactionTypes
+ * Values finder for CapitalAssetBuilderAssetTransactionTypes
  */
-public class CapitalAssetTransactionTypeValuesFinder extends KeyValuesBase {
+public class AssetTransactionTypeValuesFinder extends KeyValuesBase {
 
     /**
-     * Returns code/description pairs of all CapitalAssetTransactionTypes.
+     * Returns code/description pairs of all CapitalAssetBuilderAssetTransactionTypes.
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection types = boService.findAll(CapitalAssetTransactionType.class);
+        Collection types = boService.findAll(CapitalAssetBuilderAssetTransactionType.class);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("",""));
         for (Object type : types) {
-            CapitalAssetTransactionType camsType = (CapitalAssetTransactionType)type;           
+            CapitalAssetBuilderAssetTransactionType camsType = (CapitalAssetBuilderAssetTransactionType)type;           
             labels.add(new KeyLabelPair(camsType.getCapitalAssetTransactionTypeCode(), camsType.getCapitalAssetTransactionTypeDescription()));
         }
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
@@ -38,9 +38,9 @@ public interface PurchasingCapitalAssetItem {
 
     public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier);
 
-    public CapitalAssetTransactionType getCapitalAssetTransactionType();
+    public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType();
 
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType);
+    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType);
 
     public CapitalAssetSystem getPurchasingCapitalAssetSystem();
 

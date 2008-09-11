@@ -240,6 +240,8 @@
 		
 	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.KualiCodeDaoOjb" />
 
+	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />
+
 	<bean id="universityDateService" class="org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
         <property name="dateTimeService" ref="dateTimeService" />

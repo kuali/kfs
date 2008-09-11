@@ -148,6 +148,7 @@
         <ref bean="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
+        <ref bean="Asset-quantity" />
       </list>
     </property>
     <property name="relationships" >
@@ -1058,6 +1059,26 @@
     <property name="summary" value="landParcelNumber" />
     <property name="description" value="Land parcel number." />
   </bean>
+
+  <bean id="Asset-quantity" parent="Asset-quantity-parentBean" />
+
+  <bean id="Asset-quantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="quantity" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Quantity" />
+    <property name="shortLabel" value="Quantity" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="5" />
+    </property>
+    <property name="summary" value="quantity" />
+    <property name="description" value="quantity description..." />
+  </bean>
+
   <bean id="Asset-accumulatedDepreciation" parent="Asset-accumulatedDepreciation-parentBean" />
 
   <bean id="Asset-accumulatedDepreciation-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
@@ -1427,8 +1448,6 @@
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.CountryValuesFinder" />
     </property>
-    
-    
     
     <property name="summary" value="Asset Off Campus Country" />
     <property name="description" value="Asset Off Campus Country description..." />

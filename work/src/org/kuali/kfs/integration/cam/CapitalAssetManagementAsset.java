@@ -19,7 +19,7 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
- * An interface that declares methods to retrieve information about capital asset data collected by FP documents.
+ * An interface that declares methods to retrieve information about asset data collected by FP documents.
  */
 public interface CapitalAssetManagementAsset extends ExternalizableBusinessObject {
 
@@ -106,4 +106,11 @@ public interface CapitalAssetManagementAsset extends ExternalizableBusinessObjec
      * @return Returns the buildingSubRoomNumber
      */
     public String getBuildingSubRoomNumber();
+    
+    /**
+     * Gets the quantity attribute.
+     * 
+     * @return Returns the quantity
+     */
+    public Integer getQuantity();
 }

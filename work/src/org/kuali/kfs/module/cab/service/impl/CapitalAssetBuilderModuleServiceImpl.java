@@ -562,25 +562,37 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset) {
         boolean valid = true;
 
-        // Need to collect cams data?
+        // Check if we need to collect cams data
+        boolean dataEntryExpected = false;
         if (parameterService.parameterExists(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
-            boolean found = false;
-            
             List<String> financialProcessingCapitalObjectSubTypes = parameterService.getParameterValues(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
             for (SourceAccountingLine sourceAccountingLine : accountingLines) {
                 if (financialProcessingCapitalObjectSubTypes.contains(sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
-                    found = true;
+                    dataEntryExpected = true;
                     break;
                 }
             }
-            
-            if (!found) {
-                // No object sub type code that matches criteria, not going to validate rest of data
+        } // else leave dataEntryExpected on false
+        
+        if (!dataEntryExpected) {
+            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) ||
+                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
+                // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
+                    
+                return false;
+            } else {
+                // No data to be collected and no data entered. Hence no error
                 return true;
             }
-        } else {
-            // No parameter, not going to validate rest of data
-            return true;
         }
         
         if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber())) {
@@ -614,15 +626,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
                 // TODO Put previous blurb in system parameter (doesn't just affect this code but also whoever else uses those constants)
                 valid = false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ACTIVE_CAPITAL_ASSET_REQUIRED);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
             }
         } else {
             
             // Update Asset
-
-            // TODO
-            // Quantity is required.  Value must be >0. 
-
+            
+            if (capitalAssetManagementAsset.getQuantity() == null || capitalAssetManagementAsset.getQuantity() <= 0) {
+                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
+                valid = false;
+            }
+            
             if (StringUtils.isBlank(capitalAssetManagementAsset.getVendorName())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);

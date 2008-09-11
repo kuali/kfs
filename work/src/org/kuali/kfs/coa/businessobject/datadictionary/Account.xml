@@ -699,7 +699,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Account-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-    <property name="label" value="Closed?" />
+    <property name="label" value="Open?" />
   </bean>
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 

@@ -35,7 +35,20 @@
         </bean>
       </list>
     </property>
-  </bean>
+            <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="AdvanceDepositDocument-sourceAccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
+    <property name="routingDataGenerators">
+    	<list>
+    		<value>subFundGroupRoutingDataGenerator</value>
+    	</list>
+    </property>
+      </bean>
 
 <!-- Exported Workflow Properties -->
 
@@ -60,4 +73,45 @@
       </list>
     </property>
   </bean>
+  
+    <!-- accounting line groups -->
+  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup" parent="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="AdvanceDeposit-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	<bean id="AdvanceDeposit-accountingLineView"
+parent="AdvanceDeposit-accountingLineView-parent" />
+<bean id="AdvanceDeposit-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+	<bean parent="AccountingLineView-line">
+		<property name="elementName" value="lineDescription" />
+		<property name="fields">
+				<list>
+				<bean parent="AccountingLineView-field"
+					p:name="financialDocumentLineDescription" />
+				</list>
+				</property>
+	</bean>
+						</list>
+					</property>
+				</bean>
+<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -47,6 +47,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
 
+    private boolean processedOnElectronicInvoice;
 
     /**
      * Default constructor.
@@ -332,6 +333,33 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
                 this.refreshReferenceObject(PurapPropertyConstants.PURAP_DOC);
             }
         }
+    }
+    
+    /**
+     * Added for electronic invoice
+     */
+    public void addToUnitPrice(BigDecimal addThisValue) {
+        if (getItemUnitPrice() == null) {
+            setItemUnitPrice(BigDecimal.ZERO);
+        }
+        BigDecimal addedPrice = getItemUnitPrice().add(addThisValue);
+        setItemUnitPrice(addedPrice);
+    }
+
+    public void addToExtendedPrice(KualiDecimal addThisValue) {
+        if (getExtendedPrice() == null) {
+            setExtendedPrice(KualiDecimal.ZERO);
+        }
+        KualiDecimal addedPrice = getExtendedPrice().add(addThisValue);
+        setExtendedPrice(addedPrice);
+    }
+    
+    public boolean isProcessedOnElectronicInvoice() {
+        return processedOnElectronicInvoice;
+    }
+
+    public void setProcessedOnElectronicInvoice(boolean processedOnElectronicInvoice) {
+        this.processedOnElectronicInvoice = processedOnElectronicInvoice;
     }
 
 }

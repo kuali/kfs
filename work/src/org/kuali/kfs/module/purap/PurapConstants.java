@@ -792,8 +792,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String SHIPPING_SUMMARY_AMT_MISMATCH = "SHSA";
 //        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITMN";
         public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITME";
-//        public final static String ITEM_TYPE_NAME_NOT_AVAILABLE = "ITNA";
-        public final static String ITEM_TYPE_RECORD_NOT_AVAILABLE = "ITNA";
+        public final static String ITEM_TYPE_NAME_NOT_AVAILABLE = "ITNA";
+        public final static String ITEM_TYPE_RECORD_NOT_AVAILABLE = "ITRA";
         public final static String INVALID_NUMBER_FORMAT = "NFEX";
         public final static String PO_ID_EMPTY = "POIE";
         public final static String PO_ID_INVALID_FORMAT = "POII";
@@ -819,6 +819,8 @@ public class PurapConstants extends JSTLConstants {
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
         
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
+        public final static String PREQ_DISCOUNT_ERROR = "PRDE";
+        public final static String PREQ_ROUTING_FAILURE = "PRRF";
         
     }
     

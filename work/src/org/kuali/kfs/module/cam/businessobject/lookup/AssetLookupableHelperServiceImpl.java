@@ -102,7 +102,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         // Asset PK - constant will later be in OJB
         parameters.put(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-        //parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
 
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
         parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);

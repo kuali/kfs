@@ -21,6 +21,8 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface ExtractDao {
@@ -55,4 +57,13 @@ public interface ExtractDao {
      * @return List of Payment Request account history records
      */
     Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters);
+
+    /**
+     * This method implementation should retrieve all eligible pretaggable PO account lines from Purchasing module
+     * 
+     * @param batchParameters Batch Parameters
+     * @return List of pretaggable purchase order account lines
+     */
+    Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters);
+
 }

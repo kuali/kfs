@@ -202,7 +202,7 @@
 	<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="quantityInvoiced" column="QUANTITY_INVOICED" jdbc-type="DECIMAL"/>
+	<field-descriptor name="quantityInvoiced" column="QUANTITY_INVOICED" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>

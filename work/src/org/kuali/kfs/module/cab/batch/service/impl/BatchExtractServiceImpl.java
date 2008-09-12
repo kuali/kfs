@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.batch.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,16 +41,22 @@ import org.kuali.kfs.module.cab.batch.service.ReconciliationService;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
+import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -78,20 +86,35 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
 
     /**
-     * Creates a batch parameters object reading values from configured system parameters
+     * Creates a batch parameters object reading values from configured system parameters for CAB Extract
      * 
      * @return BatchParameters
      */
-    protected BatchParameters createBatchParameters() {
+    protected BatchParameters createCabBatchParameters() {
         BatchParameters parameters = new BatchParameters();
-        Timestamp lastRunTime = getLastRunTimestamp();
-        parameters.setLastRunTime(lastRunTime);
+        parameters.setLastRunTime(getCabLastRunTimestamp());
         parameters.setIncludedFinancialBalanceTypeCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.BALANCE_TYPES));
         parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
         parameters.setExcludedChartCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
         parameters.setExcludedDocTypeCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.DOCUMENT_TYPES));
         parameters.setExcludedFiscalPeriods(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.FISCAL_PERIODS));
         parameters.setExcludedSubFundCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
+        return parameters;
+    }
+
+    /**
+     * Creates a batch parameters object reading values from configured system parameters for Pre Tagging Extract
+     * 
+     * @return BatchParameters
+     */
+    protected BatchParameters createPreTagBatchParameters() {
+        // TODO - change the parameter names
+        BatchParameters parameters = new BatchParameters();
+        parameters.setLastRunDate(getPreTagLastRunDate());
+        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
+        parameters.setExcludedChartCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
+        parameters.setExcludedSubFundCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
+        parameters.setCapitalizationLimitAmount(new BigDecimal(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT)));
         return parameters;
     }
 
@@ -116,10 +139,16 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findElgibleGLEntries()
      */
     public Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog) {
-        BatchParameters parameters = createBatchParameters();
+        BatchParameters parameters = createCabBatchParameters();
         processLog.setLastExtractTime(parameters.getLastRunTime());
         return getExtractDao().findMatchingGLEntries(parameters);
     }
+
+    public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
+        BatchParameters parameters = createPreTagBatchParameters();
+        return getExtractDao().findPreTaggablePOAccounts(parameters);
+    }
+
 
     /**
      * Retrieves a payment request document for a specific document number
@@ -142,7 +171,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapPendingGLEntries()
      */
     public Collection<GeneralLedgerPendingEntry> findPurapPendingGLEntries() {
-        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = extractDao.findPurapPendingGLEntries(createBatchParameters());
+        Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = extractDao.findPurapPendingGLEntries(createCabBatchParameters());
         return purapPendingGLEntries;
     }
 
@@ -152,9 +181,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * 
      * @return Last run time stamp
      */
-    protected Timestamp getLastRunTimestamp() {
-        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+    protected Timestamp getCabLastRunTimestamp() {
         Timestamp lastRunTime;
+        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
         Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunTime = lastRunTS == null ? new Timestamp(yesterday.getTime()) : new Timestamp(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_TS }).getTime());
@@ -165,6 +194,19 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return lastRunTime;
     }
 
+    protected java.sql.Date getPreTagLastRunDate() {
+        // TODO -change parameter name and format
+        java.sql.Date lastRunDt;
+        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
+        try {
+            lastRunDt = lastRunTS == null ? new java.sql.Date(yesterday.getTime()) : new java.sql.Date(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_TS }).getTime());
+        }
+        catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return lastRunDt;
+    }
 
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
@@ -265,8 +307,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     public Collection<PurApAccountingLineBase> findPurapAccountHistory() {
         Collection<PurApAccountingLineBase> purapAcctLines = new ArrayList<PurApAccountingLineBase>();
-        Collection<CreditMemoAccountHistory> cmAccountHistory = extractDao.findCreditMemoAccountHistory(createBatchParameters());
-        Collection<PaymentRequestAccountHistory> preqAccountHistory = extractDao.findPaymentRequestAccountHistory(createBatchParameters());
+        Collection<CreditMemoAccountHistory> cmAccountHistory = extractDao.findCreditMemoAccountHistory(createCabBatchParameters());
+        Collection<PaymentRequestAccountHistory> preqAccountHistory = extractDao.findPaymentRequestAccountHistory(createCabBatchParameters());
         if (cmAccountHistory != null) {
             purapAcctLines.addAll(cmAccountHistory);
         }
@@ -508,6 +550,39 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DATE_FORMAT_TS);
             parameter.setParameterValue(format.format(time));
             businessObjectService.save(parameter);
+        }
+    }
+
+    public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
+        HashSet<String> savedLines = new HashSet<String>();
+        for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
+            PurchaseOrderItem purapItem = purchaseOrderAccount.getPurapItem();
+            PurchaseOrderDocument purchaseOrder = purapItem.getPurchaseOrder();
+            if (ObjectUtils.isNotNull(purchaseOrder)) {
+                Integer poId = purchaseOrder.getPurapDocumentIdentifier();
+                Integer itemLineNumber = purapItem.getItemLineNumber();
+                if (poId != null && itemLineNumber != null) {
+                    Map<String, Object> primaryKeys = new HashMap<String, Object>();
+                    primaryKeys.put("purchaseOrderNumber", poId);
+                    primaryKeys.put("lineItemNumber", itemLineNumber);
+                    // check if already in pre-tag table
+                    Pretag pretag = (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, primaryKeys);
+                    if (ObjectUtils.isNull(pretag) && savedLines.add("" + poId + "-" + itemLineNumber)) {
+                        pretag = new Pretag();
+                        pretag.setPurchaseOrderNumber(poId.toString());
+                        pretag.setLineItemNumber(Long.valueOf(itemLineNumber));
+                        pretag.setQuantityInvoiced(purapItem.getItemInvoicedTotalQuantity());
+                        pretag.setVendorName(purchaseOrder.getVendorName());
+                        pretag.setAssetTopsDescription(purapItem.getItemDescription());
+                        // TODO - How to get representativeUniversalIdentifier
+                        pretag.setPretagCreateDate(dateTimeService.getCurrentSqlDate());
+                        pretag.setChartOfAccountsCode(purchaseOrder.getChartOfAccountsCode());
+                        pretag.setOrganizationCode(purchaseOrder.getOrganizationCode());
+                        pretag.setActive(true);
+                        businessObjectService.save(pretag);
+                    }
+                }
+            }
         }
     }
 

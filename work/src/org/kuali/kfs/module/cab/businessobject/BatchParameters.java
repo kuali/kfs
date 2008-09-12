@@ -15,20 +15,26 @@
  */
 package org.kuali.kfs.module.cab.businessobject;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Value object to carry the system parameters associated with CAB Batch
  */
 public class BatchParameters {
     private Timestamp lastRunTime;
+    private Date lastRunDate;
     private List<String> excludedChartCodes;
     private List<String> excludedSubFundCodes;
     private List<String> includedFinancialBalanceTypeCodes;
     private List<String> excludedFiscalPeriods;
     private List<String> excludedDocTypeCodes;
     private List<String> includedFinancialObjectSubTypeCodes;
+    private BigDecimal capitalizationLimitAmount;
 
     /**
      * Gets the lastRunTime attribute.
@@ -168,6 +174,42 @@ public class BatchParameters {
 
     public void setIncludedFinancialObjectSubTypeCodes(List<String> includedFinancialObjectSubTypeCodes) {
         this.includedFinancialObjectSubTypeCodes = includedFinancialObjectSubTypeCodes;
+    }
+
+    /**
+     * Gets the capitalizationLimitAmount attribute.
+     * 
+     * @return Returns the capitalizationLimitAmount.
+     */
+    public BigDecimal getCapitalizationLimitAmount() {
+        return capitalizationLimitAmount;
+    }
+
+    /**
+     * Sets the capitalizationLimitAmount attribute value.
+     * 
+     * @param capitalizationLimitAmount The capitalizationLimitAmount to set.
+     */
+    public void setCapitalizationLimitAmount(BigDecimal capitalizationLimitAmount) {
+        this.capitalizationLimitAmount = capitalizationLimitAmount;
+    }
+
+    /**
+     * Gets the lastRunDate attribute.
+     * 
+     * @return Returns the lastRunDate.
+     */
+    public Date getLastRunDate() {
+        return lastRunDate;
+    }
+
+    /**
+     * Sets the lastRunDate attribute value.
+     * 
+     * @param lastRunDate The lastRunDate to set.
+     */
+    public void setLastRunDate(Date lastRunDate) {
+        this.lastRunDate = lastRunDate;
     }
 
 

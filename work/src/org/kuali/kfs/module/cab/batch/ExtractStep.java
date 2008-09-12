@@ -54,7 +54,7 @@ public class ExtractStep extends AbstractStep {
         ExtractProcessLog processLog = new ExtractProcessLog();
         try {
             Timestamp startTs = dateTimeService.getCurrentTimestamp();
-            LOG.info("CAB batch started at " + startTs);
+            LOG.info("CAB extract started at " + startTs);
             processLog.setStartTime(startTs);
             Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries(processLog);
 
@@ -81,7 +81,7 @@ public class ExtractStep extends AbstractStep {
             processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
             processLog.setSuccess(true);
         }
-        catch (Exception e) {
+        catch (Throwable e) {
             processLog.setSuccess(false);
             processLog.setErrorMessage("Unexpected error occured while performing CAB Extract. " + e.toString());
             LOG.error("Unexpected error occured while performing CAB Extract.", e);

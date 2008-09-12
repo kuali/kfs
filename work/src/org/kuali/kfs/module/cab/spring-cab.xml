@@ -46,12 +46,14 @@
 		</property>
 		<property name="jobNames">
 			<list>
-				<value>cabExtractJob</value>						
+				<value>cabExtractJob</value>		
+				<value>preAssetTaggingExtractJob</value>								
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>cabExtractJobTrigger</value>
+				<value>preAssetTaggingExtractJobTrigger</value>
 			</list>
 		</property>		
 	</bean>
@@ -142,6 +144,27 @@
 		<!--  it will run every day at 7 AM -->
 		<property name="cronExpression" value="0 0 7 ? * *" />
 	</bean>
+	<!-- End - CAB Batch Beans -->
+	
+	<!-- START - Pre-Asset tagging extract job beans -->
+	<bean id="preAssetTaggingExtractStep" class="org.kuali.kfs.module.cab.batch.PreAssetTaggingExtractStep" parent="step">
+	 	<property name="batchExtractService" ref="batchExtractService" />
+	 	<property name="dateTimeService" ref="dateTimeService" />	 	
+	</bean>
+	<bean id="preAssetTaggingExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="preAssetTaggingExtractStep"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="preAssetTaggingExtractJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="preAssetTaggingExtractJob" />
+		<!--  it will run every day at 7 AM -->
+		<property name="cronExpression" value="0 0 7 ? * *" />
+	</bean>
+	
 	<bean id="cabBatchStatusReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="CAB Batch Status Report" />
 		<property name="reportFileName" value="cab_batch_status_report" />
@@ -156,7 +179,7 @@
 			</map>
 		</property>
 	</bean>	
-<!-- End - CAB Batch Beans -->
+	<!-- END Pre-Asset tagging extract job beans -->
 	
 <!-- **** Begin of Lookupable beans **** -->
 	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">

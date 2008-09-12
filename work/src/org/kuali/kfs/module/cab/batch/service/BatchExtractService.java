@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 /**
@@ -92,4 +93,7 @@ public interface BatchExtractService {
     Collection<PurApAccountingLineBase> findPurapAccountHistory();
 
 
+    Collection<PurchaseOrderAccount> findPreTaggablePOAccounts();
+
+    void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts);
 }

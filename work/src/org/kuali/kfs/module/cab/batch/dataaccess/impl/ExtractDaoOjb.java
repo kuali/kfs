@@ -27,11 +27,11 @@ import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
-
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findMatchingGLEntries(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
@@ -45,8 +45,25 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addNotIn(CabPropertyConstants.Entry.UNIVERSITY_FISCAL_PERIOD_CODE, batchParameters.getExcludedFiscalPeriods());
         criteria.addNotIn(CabPropertyConstants.Entry.FINANCIAL_DOCUMENT_TYPE_CODE, batchParameters.getExcludedDocTypeCodes());
         QueryByCriteria query = new QueryByCriteria(Entry.class, criteria);
-        Collection<Entry> glEntryList = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        return glEntryList;
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
+    public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters) {
+        Criteria statusCodeCond1 = new Criteria();
+        statusCodeCond1.addEqualTo(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE, CabConstants.CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW);
+        Criteria statusCodeOrCond = new Criteria();
+        statusCodeOrCond.addIsNull(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE);
+        statusCodeOrCond.addOrCriteria(statusCodeCond1);
+        Criteria criteria = new Criteria();
+        criteria.addGreaterThan(CabPropertyConstants.PreTagExtract.PO_INITIAL_OPEN_DATE, batchParameters.getLastRunDate());
+        criteria.addEqualTo(CabPropertyConstants.PreTagExtract.PO_STATUS_CODE, CabConstants.PO_STATUS_CODE_OPEN);
+        criteria.addAndCriteria(statusCodeOrCond);
+        criteria.addGreaterOrEqualThan(CabPropertyConstants.PreTagExtract.PURAP_ITEM_UNIT_PRICE, batchParameters.getCapitalizationLimitAmount());
+        criteria.addNotIn(CabPropertyConstants.PreTagExtract.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.PreTagExtract.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.PreTagExtract.FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        QueryByCriteria query = new QueryByCriteria(PurchaseOrderAccount.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     /**
@@ -71,7 +88,6 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findCreditMemoAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
     public Collection<CreditMemoAccountHistory> findCreditMemoAccountHistory(BatchParameters batchParameters) {
-        // TODO - Check if we need to include university fiscal year and period code
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
         criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
@@ -86,7 +102,6 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPaymentRequestAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
     public Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters) {
-        // TODO - Check if we need to include university fiscal year and period code
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
         criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());

@@ -427,12 +427,12 @@ public class BudgetParametersRule {
             // check whether rates are within valid range
             if (budgetFringeRate.getContractsAndGrantsFringeRateAmount().isGreaterThan(maximumRate)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].contractsAndGrantsFringeRateAmount", "error.fringeRate.tooLarge");
+                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].contractsAndGrantsFringeRateAmount", CGKeyConstants.ERROR_FRINGE_RATE_TOO_LARGE);
             }
 
             if (budgetFringeRate.getInstitutionCostShareFringeRateAmount().isGreaterThan(maximumRate)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].institutionCostShareFringeRateAmount", "error.fringeRate.tooLarge");
+                GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].institutionCostShareFringeRateAmount", CGKeyConstants.ERROR_FRINGE_RATE_TOO_LARGE);
             }
 
             i++;

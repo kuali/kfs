@@ -333,7 +333,16 @@
 		</property>
 	</bean>
 	
-	<bean id="StateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
+	<bean id="countyService" class="org.kuali.kfs.sys.service.impl.CountyServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="stateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

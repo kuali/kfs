@@ -27,7 +27,31 @@ public class PdpConstants {
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";
     }
+    
+    public enum PayeeTypeCode {
+        SSN("S", "SSN"), 
+        EMPLOYEE_ID("E", "Employee ID"), 
+        FEIN("F", "FEIN"), 
+        VENDOR_ID("V", "Vendor ID"), 
+        OTHER("X", "Other");
 
+        private String typeCode;
+        private String description;
+
+        private PayeeTypeCode(String typeCode, String description) {
+            this.typeCode = typeCode;
+            this.description = description;
+        }
+
+        public String getTypeCode() {
+            return this.typeCode;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+    }
+    
     // TODO Probably should become a table
     public static class PayeeIdTypeCodes {
         public static String PAYEE_ID = "P";
@@ -85,8 +109,15 @@ public class PdpConstants {
     }
 
     public static class PaymentChangeCodes {
-        public static String CANCEL_DISBURSEMENT = "CD";
-        public static String CANCEL_REISSUE_DISBURSEMENT = "CRD";
+        public static final String CANCEL_DISBURSEMENT = "CD";
+        public static final String CANCEL_REISSUE_DISBURSEMENT = "CRD";
+        public static final String CANCEL_BATCH_CHNG_CD = "CB";
+        public static final String HOLD_BATCH_CHNG_CD = "HB";
+        public static final String REMOVE_HOLD_BATCH_CHNG_CD = "RHB";
+        public static final String CANCEL_PAYMENT_CHNG_CD = "CP";
+        public static final String HOLD_CHNG_CD = "HP";
+        public static final String CHANGE_IMMEDIATE_CHNG_CD = "IMP";
+        public static final String REMOVE_HOLD_CHNG_CD = "RHP";
     }
 
     public static class PaymentStatusCodes {
@@ -96,11 +127,12 @@ public class PdpConstants {
         public static String CANCEL_PAYMENT = "CPAY";
         public static String EXTRACTED = "EXTR";
         public static String PENDING_ACH = "PACH";
-        public static String HELD_TAX_EMPLOYEE_CD = "HTXE";
-        public static String HELD_TAX_NRA_CD = "HTXN";
-        public static String HELD_TAX_NRA_EMPL_CD = "HTXB";
         public static final String HELD_TAX_ALL = "HTXA";
         public static final String HELD_TAX_ALL_FOR_SEARCH = "HTX*";
+        public static final String HELD_CD = "HELD";
+        public static final String HELD_TAX_EMPLOYEE_CD = "HTXE";
+        public static final String HELD_TAX_NRA_CD = "HTXN";
+        public static final String HELD_TAX_NRA_EMPL_CD = "HTXB";
     }
     
     public static class PurapParameterConstants {

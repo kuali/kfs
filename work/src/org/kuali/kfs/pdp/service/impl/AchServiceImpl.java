@@ -21,9 +21,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AchInformation;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.pdp.service.AchService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AchServiceImpl implements AchService {
@@ -38,27 +40,27 @@ public class AchServiceImpl implements AchService {
         LOG.debug("getAchInformation() started");
 
         Map fields = new HashMap();
-        fields.put("active", Boolean.TRUE);
-        fields.put("payeeIdentifierTypeCode", idType);
-        fields.put("psdTransactionCode", psdTransactionCode);
+        fields.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        fields.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, idType);
+        fields.put(PdpPropertyConstants.PSD_TRANSACTION_CODE, psdTransactionCode);
         if (PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType)) {
-            fields.put("personUniversalIdentifier", payeeId);
+            fields.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.SSN.equals(idType)) {
-            fields.put("payeeSocialSecurityNumber", payeeId);
+            fields.put(PdpPropertyConstants.PAYEE_SOCIAL_SECURITY_NUMBER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.PAYEE_ID.equals(idType)) {
-            fields.put("disbVchrPayeeIdNumber", payeeId);
+            fields.put(PdpPropertyConstants.DISBURSEMENT_VOUCHER_PAYEE_ID_NUMBER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.FEIN.equals(idType)) {
-            fields.put("payeeFederalEmployerIdentificationNumber", payeeId);
+            fields.put(PdpPropertyConstants.PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(idType)) {
             String parts[] = payeeId.split("-");
             if (parts.length == 2) {
                 try {
-                    fields.put("vendorHeaderGeneratedIdentifier", new Integer(Integer.parseInt(parts[0])));
-                    fields.put("vendorDetailAssignedIdentifier", new Integer(Integer.parseInt(parts[1])));
+                    fields.put(PdpPropertyConstants.VENDOR_HEADER_GENERATED_IDENTIFIER, new Integer(Integer.parseInt(parts[0])));
+                    fields.put(PdpPropertyConstants.VENDOR_DETAIL_ASSIGNED_IDENTIFIER, new Integer(Integer.parseInt(parts[1])));
                 }
                 catch (NumberFormatException e) {
                     e.printStackTrace();

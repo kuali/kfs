@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.document.validation.impl;
 
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -39,40 +40,40 @@ public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
     private void blankFields() {
         String payeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
         if ( payeeIdTypeCd != null ) {
-            if (payeeIdTypeCd.equals("E")) {
+            if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.EMPLOYEE_ID.getTypeCode()) ) {
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
                 newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
-            else if (payeeIdTypeCd.equals("V")) {
+            else if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.VENDOR_ID.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
                 newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
             }
-            else if (payeeIdTypeCd.equals("F")) {
+            else if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.FEIN.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
                 newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
-            else if (payeeIdTypeCd.equals("S")) {
+            else if (  payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.SSN.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
                 newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
-            else if (payeeIdTypeCd.equals("P")) {
+            /*else if ( payeeIdTypeCd.equals("P")) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
-            }
+            }*/
         }
     }
 }

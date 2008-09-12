@@ -211,7 +211,7 @@ public class FormatServiceImpl implements FormatService {
             // If there isn't a PSD Transaction code for the customer, don't even look to see if any payment is ACH
             // If the payment ID is X, it's always a check
             // If any one of the payment details in the group are negative, we always force a check
-            if ((!"X".equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
+            if ((!PdpConstants.PayeeTypeCode.OTHER.getTypeCode().equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
                 // Check ACH service
                 LOG.debug("performFormat() Checking ACH");
                 ai = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
@@ -219,7 +219,7 @@ public class FormatServiceImpl implements FormatService {
             }
 
             if (check) {
-                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get("EXTR");
+                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get(PdpConstants.PaymentStatusCodes.EXTRACTED);
                 LOG.debug("performFormat() Check: " + ps);
                 pg.setDisbursementType(checkDisbursementType);
                 pg.setPaymentStatus(ps);
@@ -230,7 +230,7 @@ public class FormatServiceImpl implements FormatService {
                 pg.setBank(checkBank);
             }
             else {
-                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get("PACH");
+                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get(PdpConstants.PaymentStatusCodes.PENDING_ACH);
                 LOG.debug("performFormat() ACH: " + ps);
                 pg.setDisbursementType(achDisbursementType);
                 pg.setPaymentStatus(ps);

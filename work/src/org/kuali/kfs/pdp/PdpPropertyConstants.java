@@ -29,6 +29,14 @@ public class PdpPropertyConstants {
     public static final String LAST_ASSIGNED_DISBURSEMENT_NUMBER = "lastAssignedDisbNbr";
     public static final String SUB_UNIT = "subUnit";
     
+    public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
+    public static final String PSD_TRANSACTION_CODE = "psdTransactionCode";
+    public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
+    public static final String DISBURSEMENT_VOUCHER_PAYEE_ID_NUMBER = "disbVchrPayeeIdNumber";
+    public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";
+    public static final String VENDOR_HEADER_GENERATED_IDENTIFIER = "vendorHeaderGeneratedIdentifier";
+    public static final String VENDOR_DETAIL_ASSIGNED_IDENTIFIER = "vendorDetailAssignedIdentifier";
+    
     public static final String CHART_DB_COLUMN_NAME = "fin_coa_cd";
     public static final String ACCOUNT_DB_COLUMN_NAME = "account_nbr";
     public static final String SUB_ACCOUNT_DB_COLUMN_NAME = "sub_acct_nbr";

@@ -19,7 +19,7 @@
     </property>
     <property name="documentTypeName" value="YearEndGeneralErrorCorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndGeneralErrorCorrectionDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YEGE" />
     <property name="allowsCopy" value="true" />
@@ -38,11 +38,7 @@
         </bean>
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupRoutingDataGenerator</value>
-    	</list>
-    </property>
+    <property name="validationMap" ref="GeneralErrorCorrectionDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -72,4 +68,43 @@
       </list>
     </property>
   </bean>
+   <!-- Validations -->
+  
+  <bean id="YearEndGeneralErrorCorrectionDocument-validations" parent="YearEndGeneralErrorCorrectionDocument-validations-parentBean" />
+  
+  <bean id="YearEndGeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

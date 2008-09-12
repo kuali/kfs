@@ -16,7 +16,7 @@
     </property>
     <property name="documentTypeName" value="AdvanceDepositDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
     <property name="documentTypeCode" value="AD" />
     <property name="allowsCopy" value="true" />
@@ -35,7 +35,8 @@
         </bean>
       </list>
     </property>
-            <property name="accountingLineGroups">
+    <property name="validationMap" ref="AdvanceDepositDocument-validations" />
+     <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
@@ -48,7 +49,7 @@
     		<value>subFundGroupRoutingDataGenerator</value>
     	</list>
     </property>
-      </bean>
+  </bean>
 
 <!-- Exported Workflow Properties -->
 
@@ -74,7 +75,37 @@
     </property>
   </bean>
   
-    <!-- accounting line groups -->
+     <!-- Validations -->
+  
+  <bean id="AdvanceDepositDocument-validations" parent="AdvanceDepositDocument-validations-parentBean" />
+  
+  <bean id="AdvanceDepositDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>AdvanceDeposit-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+      <!-- accounting line groups -->
   <bean id="AdvanceDepositDocument-sourceAccountingLineGroup" parent="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" />
   
   <bean id="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
@@ -86,32 +117,32 @@
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
-	<bean id="AdvanceDeposit-accountingLineView"
-parent="AdvanceDeposit-accountingLineView-parent" />
-<bean id="AdvanceDeposit-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<bean id="AdvanceDeposit-accountingLineView" parent="AdvanceDeposit-accountingLineView-parent" />
+	<bean id="AdvanceDeposit-accountingLineView-parent" parent="AccountingLineView" abstract="true">
 	<property name="elements">
-			<list>
-				<bean parent="AccountingLineView-sequenceNumber" />
-				<bean parent="AccountingLineView-lines">
-					<property name="lines">
-						<list>
-							<ref bean="accountingInformation" />
-	<bean parent="AccountingLineView-line">
-		<property name="elementName" value="lineDescription" />
-		<property name="fields">
-				<list>
-				<bean parent="AccountingLineView-field"
-					p:name="financialDocumentLineDescription" />
-				</list>
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation" />
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription" />
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field"
+										p:name="financialDocumentLineDescription" />
+								</list>
+							</property>
+						</bean>
+					</list>
 				</property>
-	</bean>
-						</list>
-					</property>
-				</bean>
-<bean parent="AccountingLineView-field" p:name="amount"
-					p:required="true" />
-				<bean parent="AccountingLineView-actions" />
-			</list>
-		</property>
-	</bean>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount"
+				p:required="true" />
+			<bean parent="AccountingLineView-actions" />
+		</list>
+	</property>
+</bean>
+  
 </beans>

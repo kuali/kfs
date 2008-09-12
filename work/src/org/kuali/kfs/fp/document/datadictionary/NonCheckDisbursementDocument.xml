@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="NonCheckDisbursementDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.NonCheckDisbursementDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.NonCheckDisbursementDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ND" />
     <property name="allowsCopy" value="true" />
@@ -36,11 +36,7 @@
         </bean>
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
-    	</list>
-    </property>
+    <property name="validationMap" ref="NonCheckDisbursementDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -66,4 +62,37 @@
       </list>
     </property>
   </bean>
+  
+  
+     <!-- Validations -->
+  
+  <bean id="NonCheckDisbursementDocument-validations" parent="NonCheckDisbursementDocument-validations-parentBean" />
+  
+  <bean id="NonCheckDisbursementDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>NonCheckDisbursement-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

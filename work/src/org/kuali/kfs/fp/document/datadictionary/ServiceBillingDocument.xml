@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="ServiceBillingDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer" />
     <property name="documentTypeCode" value="SB" />
     <property name="allowsCopy" value="true" />
@@ -36,6 +36,8 @@
         </bean>
       </list>
     </property>
+    <property name="validationMap" ref="ServiceBillingDocument-validations" />
+    
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -57,4 +59,42 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="ServiceBillingDocument-validations" parent="ServiceBillingDocument-validations-parentBean" />
+  
+  <bean id="ServiceBillingDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>ServiceBilling-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>ServiceBilling-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>ServiceBilling-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>ServiceBilling-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>ServiceBilling-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>ServiceBilling-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>ServiceBilling-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

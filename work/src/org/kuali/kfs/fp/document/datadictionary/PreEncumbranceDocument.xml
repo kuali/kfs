@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="PreEncumbranceDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.PreEncumbranceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PE" />
     <property name="allowsCopy" value="true" />
@@ -41,11 +41,7 @@
         <ref bean="PreEncumbranceDocument-reversalDate" />
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
-    	</list>
-    </property>
+     <property name="validationMap" ref="PreEncumbranceDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -86,6 +82,38 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  
+     <!-- Validations -->
+  
+  <bean id="PreEncumbranceDocument-validations" parent="PreEncumbranceDocument-validations-parentBean" />
+  
+  <bean id="PreEncumbranceDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>PreEncumbrance-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>PreEncumbrance-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>PreEncumbrance-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>PreEncumbrance-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>PreEncumbrance-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

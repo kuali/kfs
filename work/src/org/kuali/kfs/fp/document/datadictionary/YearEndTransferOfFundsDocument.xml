@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="YearEndTransferOfFundsDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndTransferOfFundsDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="YETF" />
     <property name="allowsCopy" value="true" />
@@ -68,6 +68,45 @@
           </property>
         </bean>
       </list>
+    </property>
+  </bean>
+  
+  <!-- Validations -->
+  
+  <bean id="YearEndTransferOfFundsDocument-validations" parent="YearEndTransferOfFundsDocument-validations-parentBean" />
+  
+  <bean id="YearEndTransferOfFundsDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
     </property>
   </bean>
 </beans>

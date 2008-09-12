@@ -16,7 +16,7 @@
     </property>
     <property name="documentTypeName" value="CreditCardReceiptDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CCR" />
     <property name="allowsCopy" value="true" />
@@ -40,6 +40,7 @@
         <ref bean="CreditCardReceiptDocument-totalCreditCardAmount" />
       </list>
     </property>
+    <property name="validationMap" ref="CreditCardReceiptDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -75,4 +76,37 @@
       </list>
     </property>
   </bean>
+  
+    
+    <!-- Validations -->
+  
+  <bean id="CreditCardReceiptDocument-validations" parent="CreditCardReceiptDocument-validations-parentBean" />
+  
+  <bean id="CreditCardReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>CreditCardReceipt-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

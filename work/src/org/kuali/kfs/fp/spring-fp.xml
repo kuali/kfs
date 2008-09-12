@@ -406,9 +406,22 @@
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
 	<import resource="document/validation/configuration/BudgetAdjustmentValidation.xml" />
+	<import resource="document/validation/configuration/YearEndBudgetAdjustmentValidation.xml" />
 	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />
+	<import resource="document/validation/configuration/YearEndTransferOfFundsValidation.xml" />
 	<import resource="document/validation/configuration/AuxiliaryVoucherValidation.xml" />
+	<import resource="document/validation/configuration/AdvanceDepositValidation.xml" />
 	<import resource="document/validation/configuration/CashReceiptValidation.xml" />
+	<import resource="document/validation/configuration/CreditCardReceiptValidation.xml" />
+	<import resource="document/validation/configuration/IndirectCostAdjustmentValidation.xml" />
 	<import resource="document/validation/configuration/JournalVoucherValidation.xml" />
+	<import resource="document/validation/configuration/DistributionOfIncomeAndExpenseValidation.xml" />
+	<import resource="document/validation/configuration/YearEndDistributionOfIncomeAndExpenseValidation.xml" />
+	<import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />	
+	<import resource="document/validation/configuration/ServiceBillingValidation.xml" />
+	<import resource="document/validation/configuration/NonCheckDisbursementValidation.xml" />
+	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
+	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
+	
 	
 </beans>

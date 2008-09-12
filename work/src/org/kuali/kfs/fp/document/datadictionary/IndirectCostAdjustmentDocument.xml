@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="IndirectCostAdjustmentDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.IndirectCostAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ICA" />
     <property name="allowsCopy" value="true" />
@@ -36,11 +36,8 @@
         </bean>
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupRoutingDataGenerator</value>
-    	</list>
-    </property>
+    <property name="validationMap" ref="IndirectCostAdjustmentDocument-validations" />
+    
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -70,4 +67,41 @@
       </list>
     </property>
   </bean>
+  <bean id="IndirectCostAdjustmentDocument-validations" parent="IndirectCostAdjustmentDocument-validations-parentBean" />
+  
+  <bean id="IndirectCostAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

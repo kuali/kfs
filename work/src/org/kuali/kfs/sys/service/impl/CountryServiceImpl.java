@@ -34,7 +34,8 @@ public class CountryServiceImpl implements CountryService {
      */
     public Country getByPrimaryId(String postalCountryCode) {
         if (StringUtils.isBlank(postalCountryCode)) {
-            throw new IllegalArgumentException("The postalCountryCode cannot be empty String.");
+            //throw new IllegalArgumentException("The postalCountryCode cannot be empty String.");
+            return null;
         }
 
         Map<String, String> postalCountryMap = new HashMap<String, String>();

@@ -46,7 +46,8 @@ public class PostalCodeServiceImpl implements PostalCodeService {
      */
     public PostalCode getByPrimaryId(String postalCountryCode, String postalZipCode) {
         if (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank(postalZipCode)) {
-            throw new IllegalArgumentException("neither postalCountryCode nor postalZipCode can be empty String.");
+            //throw new IllegalArgumentException("neither postalCountryCode nor postalZipCode can be empty String.");
+            return null;
         }
 
         Map<String, String> postalCodeMap = new HashMap<String, String>();

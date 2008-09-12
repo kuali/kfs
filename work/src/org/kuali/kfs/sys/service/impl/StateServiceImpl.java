@@ -46,7 +46,8 @@ public class StateServiceImpl implements StateService {
      */
     public State getByPrimaryId(String postalCountryCode, String postalStateCode) {
         if (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank(postalStateCode)) {
-            throw new IllegalArgumentException("neither postalCountryCode nor postalStateCode can be empty String.");
+            //throw new IllegalArgumentException("neither postalCountryCode nor postalStateCode can be empty String.");
+            return null;
         }
 
         Map<String, String> postalStateMap = new HashMap<String, String>();

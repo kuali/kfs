@@ -66,11 +66,15 @@ public enum VendorRuleAddressStateZipFixture {
         country.setPostalCountryCode(country1);
         addr1.setVendorCountry(country);
         addr1.setVendorState(state);
+        addr1.setVendorCountryCode(country1);
+        addr1.setVendorStateCode(stateCd1);
         addr1.setVendorZipCode(zip1);
         country.setPostalCountryCode(country2);
         addr2.setVendorCountry(country);
         state.setPostalStateCode(stateCd2);
         addr2.setVendorState(state);
+        addr2.setVendorCountryCode(country2);
+        addr2.setVendorStateCode(stateCd2);
         addr2.setVendorZipCode(zip2);
         addrList.add(addr1);
         addrList.add(addr2);

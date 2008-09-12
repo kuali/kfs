@@ -18,8 +18,10 @@ package org.kuali.kfs.module.cam.document;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,6 +41,13 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
@@ -57,6 +66,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+
+    private Set<RoutingData> routingInfo;
 
     /**
      * Get Asset from AssetGlobal
@@ -475,4 +486,57 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         }
     }
+
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+    
+        Asset asset = (Asset) getBusinessObject();
+    
+        //Asset information
+        organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
+                            
+        //Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+    
+        List<String> routingTypes = new ArrayList<String>();
+        routingTypes.add(KualiCGAttribute.class.getSimpleName());
+        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+        routingTypes.add(KualiPDAttribute.class.getSimpleName());
+            
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
+    }    
+
+
 }

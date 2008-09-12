@@ -17,8 +17,10 @@ package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -30,9 +32,18 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -43,13 +54,12 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
 
-;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global location
  * assets
  */
-public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainableImpl  implements GenericRoutingInfo {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
@@ -63,6 +73,9 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.THEFT, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT });
     }
 
+    private Set<RoutingData> routingInfo;
+    
+    
     /**
      * This creates the particular locking representation for this global document.
      * 
@@ -247,5 +260,59 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
 
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 
+    }
+
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+        for (AssetRetirementGlobalDetail detailLine : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
+            String chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
+            String accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
+            String organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
+
+            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+        }
+                            
+        //Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+
+        List<String> routingTypes = new ArrayList<String>();
+        routingTypes.add(KualiCGAttribute.class.getSimpleName());
+        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+        routingTypes.add(KualiPDAttribute.class.getSimpleName());
+        
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
     }
 }

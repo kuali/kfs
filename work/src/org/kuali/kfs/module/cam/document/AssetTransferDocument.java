@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.cam.document;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -27,6 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
+import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -38,6 +41,14 @@ import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.PostalCodeService;
@@ -51,7 +62,7 @@ import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, GenericRoutingInfo {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
     private String representativeUniversalIdentifier;
     private String campusCode;
@@ -91,6 +102,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private Asset asset;
     private PostalCode postalZipCode;
 
+    private Set<RoutingData> routingInfo;
 
     public AssetTransferDocument() {
         super();
@@ -881,5 +893,70 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         this.oldOrganizationOwnerChartOfAccountsCode = oldOrganizationOwnerChartOfAccountsCode;
     }
 
+    
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
 
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+
+//        LOG.info("**** ASSET **********************");
+//        LOG.info("**** COA     :"+this.asset.getOrganizationOwnerChartOfAccountsCode());
+//        LOG.info("**** Org Code:"+this.asset.getOrganizationOwnerAccount().getOrganizationCode());
+//        LOG.info("**** Account :"+this.asset.getOrganizationOwnerAccountNumber());
+//        LOG.info("*********************************");
+                
+        //Asset information
+        organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
+        
+        //Asset tranfer information
+        organizationRoutingSet.add(new OrgReviewRoutingData(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccountNumber()));
+
+        
+//        LOG.info("**** TRANSFER **********************");
+//        LOG.info("**** COA     :"+this.getOrganizationOwnerChartOfAccountsCode());
+//        LOG.info("**** Org Code:"+this.getOrganizationOwnerAccount().getOrganizationCode());
+//        LOG.info("**** Account :"+this.getOrganizationOwnerAccountNumber());
+//        LOG.info("********************************* "+organizationRoutingSet.size());
+        
+        
+        //Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+
+        List<String> routingTypes = new ArrayList<String>();
+        routingTypes.add(KualiCGAttribute.class.getSimpleName());
+        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+        routingTypes.add(KualiPDAttribute.class.getSimpleName());
+        
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
+    }
 }

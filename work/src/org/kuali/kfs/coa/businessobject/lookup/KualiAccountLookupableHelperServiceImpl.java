@@ -52,9 +52,9 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
             currentUser.set(user);
         }
-        AnchorHtmlData urlDataCopy = getURLData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+        AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
         if (theAccount.isActive() || user.isAdministratorUser()) {
-            anchorHtmlDataList.add(getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
             urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");

@@ -49,6 +49,7 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
+    
   <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription" parent="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" />
 
   <bean id="AssetTransactionType-capitalAssetTransactionTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
@@ -105,7 +106,7 @@
   <bean id="AssetTransactionType-inquiryDefinition" parent="AssetTransactionType-inquiryDefinition-parentBean" />
 
   <bean id="AssetTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Capital Asset Transaction Type Inquiry" />
+    <property name="title" value="Asset Transaction Type Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -134,8 +135,8 @@
   <bean id="AssetTransactionType-lookupDefinition" parent="AssetTransactionType-lookupDefinition-parentBean" />
 
   <bean id="AssetTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Capital Asset Transaction Type Lookup" />
-    <property name="instructions" value="Lookup a Capital Asset Transaction Type" />
+    <property name="title" value="Asset Transaction Type Lookup" />
+    <property name="instructions" value="Lookup an Asset Transaction Type" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>

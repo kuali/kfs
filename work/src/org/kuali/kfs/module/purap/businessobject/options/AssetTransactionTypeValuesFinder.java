@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
@@ -36,9 +37,9 @@ public class AssetTransactionTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection types = boService.findAll(CapitalAssetBuilderAssetTransactionType.class);
-        List labels = new ArrayList();
+        CapitalAssetBuilderModuleService cabModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
+        List<CapitalAssetBuilderAssetTransactionType> types = cabModuleService.getAllAssetTransactionTypes();
+        List labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("",""));
         for (Object type : types) {
             CapitalAssetBuilderAssetTransactionType camsType = (CapitalAssetBuilderAssetTransactionType)type;           

@@ -196,8 +196,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
     
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
-        //TODO: Implement this.
-        return new ArrayList<CapitalAssetBuilderAssetTransactionType>();
+        List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
+        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>)businessObjectService.findAll(AssetTransactionType.class);
+        return tranTypes;
     }
     
     //-------- KULPURAP 2795 methods start here.

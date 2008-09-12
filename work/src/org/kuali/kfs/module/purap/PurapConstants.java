@@ -837,7 +837,7 @@ public class PurapConstants extends JSTLConstants {
     public static class CapitalAssetSystemTypes{
         public static final String ONE_SYSTEM = "ONE";
         public static final String INDIVIDUAL = "IND";
-        public static final String MULIPLE = "MUL";
+        public static final String MULTIPLE = "MUL";
     }
     
     

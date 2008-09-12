@@ -26,9 +26,12 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class State extends PersistableBusinessObjectBase implements Inactivateable {
 
+    private String postalCountryCode;
     private String postalStateCode;
     private String postalStateName;
     private boolean active;
+
+    private Country country;
 
     /**
      * Default no-arg constructor.
@@ -92,7 +95,8 @@ public class State extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -101,9 +105,47 @@ public class State extends PersistableBusinessObjectBase implements Inactivateab
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    /**
+     * Gets the postalCountryCode attribute.
+     * 
+     * @return Returns the postalCountryCode.
+     */
+    public String getPostalCountryCode() {
+        return postalCountryCode;
+    }
+
+    /**
+     * Sets the postalCountryCode attribute value.
+     * 
+     * @param postalCountryCode The postalCountryCode to set.
+     */
+    public void setPostalCountryCode(String postalCountryCode) {
+        this.postalCountryCode = postalCountryCode;
+    }
+
+    /**
+     * Gets the country attribute.
+     * 
+     * @return Returns the country.
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the country attribute value.
+     * 
+     * @param country The country to set.
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
 }

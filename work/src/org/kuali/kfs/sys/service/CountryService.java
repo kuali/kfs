@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,23 @@
  */
 package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import java.util.List;
 
-public interface PostalZipCodeService {
+import org.kuali.kfs.sys.businessobject.Country;
 
-    PostalZipCode getByPrimaryId(String postalZipCode);
+public interface CountryService {   
+
+    /**
+     * get a country object based on the given country code. The default country code is set up in the system.
+     * 
+     * @param postalCountryCode the given country code
+     * @return a country object with the given country code
+     */
+    Country getByPrimaryId(String postalCountryCode);
+    
+    /**
+     * get all countries
+     * @return all countries
+     */
+    List<Country> findAllCountries();
 }

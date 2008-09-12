@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -46,7 +49,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private Room buildingRoom;
     private State offCampusState;
     private Country offCampusCountry;
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
 
 
     private Integer locationQuantity;
@@ -496,6 +499,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
+        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryId(offCampusCountryCode, offCampusStateCode);
         return offCampusState;
     }
 
@@ -514,7 +518,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalZipCode getPostalZipCode() {
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(offCampusCountryCode, offCampusZipCode);
         return postalZipCode;
     }
 
@@ -524,7 +529,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param postalZipCode The postalZipCode to set.
      * @deprecated
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -534,6 +539,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
+        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(offCampusCountryCode);
         return offCampusCountry;
     }
 

@@ -8,6 +8,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -346,6 +347,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @return Returns the customerCountry.
      */
     public Country getCustomerCountry() {
+        customerCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(customerCountryCode);
         return customerCountry;
     }
 

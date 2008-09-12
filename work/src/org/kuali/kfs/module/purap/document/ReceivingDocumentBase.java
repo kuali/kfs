@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -782,9 +783,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @return Returns the vendorCountry.
      */
     public Country getVendorCountry() {
-        if(ObjectUtils.isNull(vendorCountry)){
-            this.refreshReferenceObject("vendorCountry");
-        }
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
         return vendorCountry;
     }
 

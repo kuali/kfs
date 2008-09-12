@@ -32,6 +32,7 @@ import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -580,6 +581,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     }
 
     public Country getVendorCountry() {
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
         return vendorCountry;
     }
 

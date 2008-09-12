@@ -324,7 +324,25 @@
 		</property>
 	</bean>		
 
-	<bean id="postalZipCodeService" class="org.kuali.kfs.sys.service.impl.PostalZipCodeServiceImpl">
+	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="StateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="countryService" class="org.kuali.kfs.sys.service.impl.CountryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

@@ -51,9 +51,6 @@
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="processingOrganizationCode" />
 	</reference-descriptor>
-    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="organizationRemitToStateCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.AgeTrialBalance" table="AR_AGE_TRIAL_BAL_T">
@@ -514,9 +511,6 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
-    <reference-descriptor name="customerCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="customerCountryCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode" table="AR_INV_ITM_CODE_T">
@@ -938,9 +932,6 @@
 	<reference-descriptor name="universityClearingChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="organizationRemitToStateCode" />
-    </reference-descriptor>
 	<reference-descriptor name="wireChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="wireChartOfAccountsCode" />
 	</reference-descriptor>

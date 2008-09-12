@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -104,6 +107,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     }
 
     public Country getPurchasingDepartmentCountry() {
+        purchasingDepartmentCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(purchasingDepartmentCountryCode);
         return purchasingDepartmentCountry;
     }
 
@@ -147,6 +151,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     }
 
     public State getPurchasingDepartmentState() {
+        purchasingDepartmentState = SpringContext.getBean(StateService.class).getByPrimaryId(purchasingDepartmentCountryCode, purchasingDepartmentStateCode);
         return purchasingDepartmentState;
     }
 

@@ -18,6 +18,8 @@ package org.kuali.kfs.pdp.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class AchBank extends PersistableBusinessObjectBase {
@@ -387,6 +389,7 @@ public class AchBank extends PersistableBusinessObjectBase {
      * @return Returns the bankState.
      */
     public State getBankState() {
+        bankState = SpringContext.getBean(StateService.class).getByPrimaryId(bankStateCode);
         return bankState;
     }
 

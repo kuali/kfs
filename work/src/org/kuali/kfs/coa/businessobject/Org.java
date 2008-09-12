@@ -26,8 +26,10 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -86,7 +88,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-    private PostalZipCode postalZip;
+    private PostalCode postalZip;
     private Country organizationCountry;
 
     // HRMS Org fields
@@ -478,6 +480,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
+        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(organizationCountryCode);
         return organizationCountry;
     }
 
@@ -672,7 +675,8 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * 
      * @return Returns the postalZip.
      */
-    public PostalZipCode getPostalZip() {
+    public PostalCode getPostalZip() {
+        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationCountryCode, organizationZipCode);
         return postalZip;
     }
 
@@ -681,7 +685,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * 
      * @param postalZip The postalZip to set.
      */
-    public void setPostalZip(PostalZipCode postalZip) {
+    public void setPostalZip(PostalCode postalZip) {
         this.postalZip = postalZip;
     }
 

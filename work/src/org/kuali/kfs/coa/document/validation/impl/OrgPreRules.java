@@ -15,26 +15,24 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.HashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
- * etc.
+ * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults,
+ * confirmations, etc.
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
     private Org newOrg;
-
+    private PostalCodeService postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
 
     public OrgPreRules() {
 
@@ -58,7 +56,6 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This looks for the org default account number and then sets the values to the continuation account value if it exists
      */
     private void checkForContinuationAccounts() {
@@ -74,10 +71,10 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     }
 
     /**
+     * This method sets the convenience objects like newOrg and copyOrg, so you have short and easy handles to the new and old
+     * objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load all
+     * sub-objects from the DB by their primary keys, if available.
      * 
-     * This method sets the convenience objects like newOrg and copyOrg, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
-     * all sub-objects from the DB by their primary keys, if available.
      * @param document
      */
     private void setupConvenienceObjects(MaintenanceDocument document) {
@@ -112,25 +109,21 @@ public class OrgPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This takes the org zip code and fills in state, city and country code based off of it
+     * 
      * @param maintenanceDocument
      */
     private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
 
         // organizationStateCode , organizationCityName are populated by looking up
         // the zip code and getting the state and city from that
-        if (!StringUtils.isBlank(newOrg.getOrganizationZipCode())) {
-
-            HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", newOrg.getOrganizationZipCode());
-            PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
+        if (!StringUtils.isBlank(newOrg.getOrganizationZipCode()) && !StringUtils.isBlank(newOrg.getOrganizationCountryCode())) {
+            PostalCode zip = postalZipCodeService.getByPrimaryId(newOrg.getOrganizationCountryCode(), newOrg.getOrganizationZipCode());
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs
                 newOrg.setOrganizationCityName(zip.getPostalCityName());
                 newOrg.setOrganizationStateCode(zip.getPostalStateCode());
-                newOrg.setOrganizationCountryCode("US");// no way to look up
             }
         }
     }

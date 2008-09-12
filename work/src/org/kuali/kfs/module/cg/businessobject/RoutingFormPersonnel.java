@@ -24,11 +24,14 @@ import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -63,7 +66,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private Org organization;
     private Chart chartOfAccounts;
     private State personState;
-    private PostalZipCode personZip;
+    private PostalCode personZip;
     private Country personCountry;
     private PersonRole personRole;
     // private RoutingFormDocument routingFormDocument;
@@ -579,6 +582,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personCountry.
      */
     public Country getPersonCountry() {
+        personCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(personCountryCode);
         return personCountry;
     }
 
@@ -598,6 +602,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personState.
      */
     public State getPersonState() {
+        personState = SpringContext.getBean(StateService.class).getByPrimaryId(personCountryCode, personStateCode);
         return personState;
     }
 
@@ -616,7 +621,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * 
      * @return Returns the personZip.
      */
-    public PostalZipCode getPersonZip() {
+    public PostalCode getPersonZip() {
+        personZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(personCountryCode, personZipCode);
         return personZip;
     }
 
@@ -626,7 +632,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @param personZip The personZip to set.
      * @deprecated
      */
-    public void setPersonZip(PostalZipCode personZip) {
+    public void setPersonZip(PostalCode personZip) {
         this.personZip = personZip;
     }
 

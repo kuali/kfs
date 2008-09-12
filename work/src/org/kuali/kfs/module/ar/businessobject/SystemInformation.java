@@ -10,6 +10,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -869,6 +870,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
+        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryId(organizationRemitToStateCode);
         return organizationRemitToState;
     }
 

@@ -16,16 +16,15 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -42,6 +41,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     private KualiConfigurationService configService;
     private AccountService accountService;
+    private PostalCodeService postalZipCodeService;
     private Account newAccount;
 
     private static final String GENERAL_FUND_CD = "GF";
@@ -58,6 +58,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     public AccountPreRules() {
         accountService = SpringContext.getBean(AccountService.class);
         configService = SpringContext.getBean(KualiConfigurationService.class);
+        postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
     }
 
     /**
@@ -209,10 +210,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that
         if (!StringUtils.isBlank(newAccount.getAccountZipCode())) {
-
-            HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", newAccount.getAccountZipCode());
-            PostalZipCode zip = (PostalZipCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalZipCode.class, primaryKeys);
+            PostalCode zip = postalZipCodeService.getByPrimaryId(newAccount.getAccountZipCode());
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs

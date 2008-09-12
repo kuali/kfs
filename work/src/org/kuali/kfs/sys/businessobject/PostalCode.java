@@ -24,22 +24,24 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class PostalZipCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class PostalCode extends PersistableBusinessObjectBase implements Inactivateable {
 
+    private String postalCountryCode;
     private String postalZipCode;
     private String postalStateCode;
     private String postalCityName;
     private String buildingCode;
     private String buildingRoomNumber;
-    private State state;
     private boolean active;
     private String countyCode;
 
-   
-	/**
+    private State state;
+    private Country country;
+
+    /**
      * Default no-arg constructor.
      */
-    public PostalZipCode() {
+    public PostalCode() {
 
     }
 
@@ -161,7 +163,8 @@ public class PostalZipCode extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -170,17 +173,54 @@ public class PostalZipCode extends PersistableBusinessObjectBase implements Inac
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
-	public String getCountyCode() {
-		return countyCode;
-	}
+    public String getCountyCode() {
+        return countyCode;
+    }
 
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
-	}
+    public void setCountyCode(String countyCode) {
+        this.countyCode = countyCode;
+    }
+
+    /**
+     * Gets the postalCountryCode attribute.
+     * 
+     * @return Returns the postalCountryCode.
+     */
+    public String getPostalCountryCode() {
+        return postalCountryCode;
+    }
+
+    /**
+     * Sets the postalCountryCode attribute value.
+     * 
+     * @param postalCountryCode The postalCountryCode to set.
+     */
+    public void setPostalCountryCode(String postalCountryCode) {
+        this.postalCountryCode = postalCountryCode;
+    }
+
+    /**
+     * Gets the country attribute.
+     * 
+     * @return Returns the country.
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the country attribute value.
+     * 
+     * @param country The country to set.
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }

@@ -4,18 +4,21 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="PostalZipCodeMaintenanceDocument" parent="PostalZipCodeMaintenanceDocument-parentBean" />
+  <bean id="PostalCodeMaintenanceDocument" parent="PostalCodeMaintenanceDocument-parentBean" />
 
-  <bean id="PostalZipCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.PostalZipCode" />
+  <bean id="PostalCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.PostalCode" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="PostalZipCodeMaintenanceDocument-EditPostalCodes" />
+        <ref bean="PostalCodeMaintenanceDocument-EditPostalCodes" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
       <list>
+      	<bean parent="ReferenceDefinition"
+              p:attributeName="country"
+              p:attributeToHighlightOnFail="postalCountryCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="state"
               p:attributeToHighlightOnFail="postalStateCode" />
@@ -23,6 +26,7 @@
     </property>
     <property name="lockingKeys" >
       <list>
+      	<value>postalCountryCode</value>
         <value>postalZipCode</value>
       </list>
     </property>
@@ -31,13 +35,13 @@
     <property name="summary" value="Postal Code maintenance document" />
     <property name="description" value="Document used to create or update Postal Code objects" />
     <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.PostalZipCode" p:parameterName="POSTAL_CODE" />
+      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.PostalCode" p:parameterName="POSTAL_CODE" />
     </property>
-    <property name="documentTypeName" value="PostalZipCodeMaintenanceDocument" />
+    <property name="documentTypeName" value="PostalCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ZIPC" />
     <property name="workflowProperties" >
-      <ref bean="PostalZipCodeMaintenanceDocument-workflowProperties" />
+      <ref bean="PostalCodeMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -56,13 +60,16 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="PostalZipCodeMaintenanceDocument-EditPostalCodes" parent="PostalZipCodeMaintenanceDocument-EditPostalCodes-parentBean" />
+  <bean id="PostalCodeMaintenanceDocument-EditPostalCodes" parent="PostalCodeMaintenanceDocument-EditPostalCodes-parentBean" />
 
-  <bean id="PostalZipCodeMaintenanceDocument-EditPostalCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="PostalCodeMaintenanceDocument-EditPostalCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Postal Codes" />
     <property name="title" value="Edit Postal Codes" />
     <property name="maintainableItems" >
       <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCountryCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="postalZipCode"
               p:required="true" />
@@ -88,8 +95,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="PostalZipCodeMaintenanceDocument-workflowProperties" parent="PostalZipCodeMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="PostalCodeMaintenanceDocument-workflowProperties" parent="PostalCodeMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="PostalZipCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="PostalCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

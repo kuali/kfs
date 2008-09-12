@@ -18,6 +18,7 @@
     <property name="objectLabel" value="County" />
     <property name="attributes" >
       <list>
+      	<ref bean="County-postalCountryCode" />
         <ref bean="County-countyCode" />
         <ref bean="County-stateCode" />
         <ref bean="County-countyName" />
@@ -26,6 +27,8 @@
       </list>
     </property>
   </bean>
+  
+  <bean id="County-postalCountryCode" parent="Country-postalCountryCode-parentBean" />
   
   <bean id="County-countyCode" parent="County-countyCode-parentBean" />
 
@@ -112,6 +115,8 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
+                    p:attributeName="postalCountryCode" />
+              <bean parent="FieldDefinition"
                     p:attributeName="countyCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="stateCode" />
@@ -145,6 +150,8 @@
     </property>
     <property name="lookupFields" >
       <list>
+      	<bean parent="FieldDefinition"
+              p:attributeName="postalCountryCode" />
         <bean parent="FieldDefinition"
               p:attributeName="countyCode" />
         <bean parent="FieldDefinition"
@@ -157,6 +164,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalCountryCode" />
         <bean parent="FieldDefinition"
               p:attributeName="countyCode" />
         <bean parent="FieldDefinition"

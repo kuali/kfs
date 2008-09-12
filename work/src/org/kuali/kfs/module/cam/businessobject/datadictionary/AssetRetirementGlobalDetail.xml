@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetRetirementGlobalDetail" parent="AssetRetirementGlobalDetail-parentBean" />
 
@@ -66,6 +68,19 @@
         <ref bean="AssetRetirementGlobalDetail-asset.bookValue" />
         <ref bean="AssetRetirementGlobalDetail-assetRetirementGlobal.retirementDate" />
         <ref bean="AssetRetirementGlobalDetail-versionNumber" />
+      </list>
+    </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="postalZipCode">
+            <dd:primitiveAttribute source="retirementZipCode" target="postalZipCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="retirementState">
+            <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode" />            
+        </dd:relationship>
+        <dd:relationship objectAttribute="retirementCountry">
+            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode" />
+        </dd:relationship>
       </list>
     </property>
   </bean>
@@ -312,7 +327,7 @@
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementZipCode" parent="AssetRetirementGlobalDetail-retirementZipCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="retirementZipCode" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />

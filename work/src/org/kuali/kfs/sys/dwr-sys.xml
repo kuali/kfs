@@ -28,11 +28,11 @@
 			<param name="beanName" value="originationCodeService" />
 			<include method="getByPrimaryKey" />
 		</create>
-		<convert converter="bean" match="org.kuali.kfs.sys.businessobject.PostalZipCode">
+		<convert converter="bean" match="org.kuali.kfs.sys.businessobject.PostalCode">
 			<param name="include" value="postalZipCode,postalStateCode,postalCityName,buildingCode,buildingRoomNumber" />
 		</convert>
-		<create creator="spring" javascript="PostalZipCodeService">
-			<param name="beanName" value="postalZipCodeService" />
+		<create creator="spring" javascript="PostalCodeService">
+			<param name="beanName" value="postalCodeService" />
 			<include method="getByPrimaryId" />
 		</create>
 						

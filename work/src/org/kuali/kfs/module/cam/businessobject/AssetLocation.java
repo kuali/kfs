@@ -3,8 +3,12 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -29,7 +33,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     
     private State assetLocationState;
     private Country assetLocationCountry;    
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
 	/**
 	 * Default constructor.
 	 */
@@ -273,7 +277,8 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * @return Returns the postalZipCode
      * 
      */
-	public PostalZipCode getPostalZipCode() {
+	public PostalCode getPostalZipCode() {
+	    postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(assetLocationCountryCode, assetLocationZipCode);
         return postalZipCode;
     }
 
@@ -283,7 +288,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * @param postalZipCode The postalZipCode to set.
      * 
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -337,6 +342,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public Country getAssetLocationCountry() {
+        assetLocationCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(assetLocationCountryCode);
         return assetLocationCountry;
     }
 
@@ -345,6 +351,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public State getAssetLocationState() {
+        assetLocationState = SpringContext.getBean(StateService.class).getByPrimaryId(assetLocationCountryCode, assetLocationStateCode);
         return assetLocationState;
     }
 

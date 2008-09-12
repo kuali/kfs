@@ -338,7 +338,7 @@
                                 <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
                                 <organizationPlantChart reference="../../../chartOfAccounts" />
                                 <campusPlantChart reference="../../../chartOfAccounts" />
-                                <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--386998e7" />
+                                <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--386998e7" />
                                 <organizationDefaultAccountNumber>1919330</organizationDefaultAccountNumber>
                                 <chartOfAccountsCode>UA</chartOfAccountsCode>
                                 <objectId>014F3DAF7F85A448E043814FD28EA448</objectId>
@@ -349,7 +349,7 @@
                             <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
                             <organizationPlantChart reference="../../chartOfAccounts" />
                             <campusPlantChart reference="../../chartOfAccounts" />
-                            <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--386998e7">
+                            <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--386998e7">
                                 <postalZipCode>47405</postalZipCode>
                                 <postalStateCode>IN</postalStateCode>
                                 <postalCityName>BLOOMINGTON</postalCityName>

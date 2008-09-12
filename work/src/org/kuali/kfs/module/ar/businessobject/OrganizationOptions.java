@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -507,6 +509,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
+        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryId(organizationRemitToStateCode);
         return organizationRemitToState;
     }
 

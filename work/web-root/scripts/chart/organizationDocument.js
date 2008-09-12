@@ -23,7 +23,7 @@ function updateLocation( postalCodeField, callbackFunction ) {
 				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
 			}
 		};
-		PostalZipCodeService.getByPrimaryId( postalCode, dwrReply );
+		PostalCodeService.getByPrimaryId( postalCode, dwrReply );
 	}	
 }
 

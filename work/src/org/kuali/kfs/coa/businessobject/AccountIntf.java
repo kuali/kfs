@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -975,14 +975,14 @@ public interface AccountIntf {
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalZipCode getPostalZipCode();
+    public PostalCode getPostalZipCode();
 
     /**
      * Sets the postalZipCode attribute value.
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode);
+    public void setPostalZipCode(PostalCode postalZipCode);
 
     /**
      * Gets the budgetRecordingLevel attribute.

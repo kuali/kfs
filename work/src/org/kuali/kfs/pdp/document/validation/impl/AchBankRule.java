@@ -24,6 +24,7 @@ import org.kuali.kfs.pdp.businessobject.AchBank;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -95,38 +96,11 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         }
         
         String stateCode = newAchBank.getBankStateCode();
-        if (stateCode != null)
-            validEntry &= validateStateCode(stateCode);
+        if (stateCode != null && newAchBank.getBankState() == null) {
+            putFieldError("bankStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
+            validEntry = false;
+        }
 
         return validEntry;
     }
-    
-    /**
-     * This method retrieves the entered state code and checks that this value is valid by comparing it against known values in the
-     * SH_STATE_T database table.
-     * 
-     * @param stateCode
-     * @return Whether state code entered is valid
-     */
-    private boolean validateStateCode(String stateCode) {
-        boolean valid = true;
-
-        // Create a query to do a lookup on.
-        Map criteria = new HashMap();
-        List<String> criteriaValues = new ArrayList<String>();
-        criteriaValues.add(stateCode);
-        criteria.put("postalStateCode", criteriaValues);
-
-        // Perform lookup for state code provided
-        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(State.class, criteria);
-
-        // If no values returned, state code is invalid, throw error
-        if (boList.size() < 1) {
-            putFieldError("bankStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
-            valid = false;
-        }
-
-        return valid;
-    }
-
 }

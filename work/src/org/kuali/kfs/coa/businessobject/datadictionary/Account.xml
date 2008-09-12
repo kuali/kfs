@@ -136,6 +136,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
             <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
         </dd:relationship>
+        <dd:relationship objectAttribute="postalZipCode">
+            <dd:primitiveAttribute source="accountZipCode" target="postalZipCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="accountState">
+            <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />
+        </dd:relationship>        
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -339,7 +345,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
 
-  <bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="accountZipCode" />
     <property name="label" value="Account Postal Code" />
     <property name="shortLabel" value="ZipCode" />
@@ -709,7 +715,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   	<property name="name" value="closed" />
   	<property name="label" value="Closed?" />
   </bean>
-  
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 
   <bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">

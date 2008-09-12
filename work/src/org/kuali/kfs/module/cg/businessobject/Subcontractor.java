@@ -20,6 +20,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -224,6 +227,7 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link Country} in which the subcontractor is located.
      */
     public Country getSubcontractorCountry() {
+        subcontractorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(subcontractorCountryCode);
         return subcontractorCountry;
     }
 
@@ -242,6 +246,7 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link State} in which the subcontractor is located.
      */
     public State getSubcontractorState() {
+        subcontractorState = SpringContext.getBean(StateService.class).getByPrimaryId(subcontractorCountryCode, subcontractorStateCode);
         return subcontractorState;
     }
 

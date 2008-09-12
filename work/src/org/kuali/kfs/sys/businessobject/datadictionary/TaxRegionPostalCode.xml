@@ -25,7 +25,7 @@
 
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean" />
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="postalCode" />
   </bean>
   

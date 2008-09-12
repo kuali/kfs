@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -217,6 +220,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public Country getVendorCountry() {
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
         return vendorCountry;
     }
 
@@ -231,6 +235,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public State getVendorState() {
+        vendorState = SpringContext.getBean(StateService.class).getByPrimaryId(vendorCountryCode, vendorStateCode);
         return vendorState;
     }
 

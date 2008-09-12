@@ -134,7 +134,7 @@
   </bean>
   <bean id="ProcurementCardVendor-vendorZipCode" parent="ProcurementCardVendor-vendorZipCode-parentBean" />
 
-  <bean id="ProcurementCardVendor-vendorZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="ProcurementCardVendor-vendorZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="vendorZipCode" />
     <property name="label" value="Vendor Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />

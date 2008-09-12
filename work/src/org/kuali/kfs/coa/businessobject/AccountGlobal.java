@@ -23,9 +23,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
@@ -78,7 +80,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private SubFundGroup subFundGroup;
     private State accountState;
     private HigherEdFunction financialHigherEdFunction;
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
     private SufficientFundsCode sufficientFundsCode;
 
     /**
@@ -778,6 +780,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @return Returns the accountState.
      */
     public State getAccountState() {
+        accountState = SpringContext.getBean(StateService.class).getByPrimaryId(accountStateCode);
         return accountState;
     }
 
@@ -831,7 +834,9 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalZipCode getPostalZipCode() {
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(accountZipCode);
+        
         return postalZipCode;
     }
 
@@ -840,7 +845,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 

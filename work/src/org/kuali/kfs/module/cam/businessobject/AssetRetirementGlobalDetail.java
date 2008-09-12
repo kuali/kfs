@@ -5,8 +5,12 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -44,7 +48,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
     private State retirementState;
     private Country retirementCountry;
     private AssetRetirementGlobal assetRetirementGlobal;
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
 
     // Non-persistent
 
@@ -270,7 +274,8 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @return Returns the postalZipCode
      * 
      */
-    public PostalZipCode getPostalZipCode() {
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(retirementCountryCode, retirementZipCode);
         return postalZipCode;
     }
 
@@ -280,7 +285,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @param postalZipCode The postalZipCode to set.
      * 
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -557,6 +562,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @return Returns the retirementCountry.
      */
     public Country getRetirementCountry() {
+        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(retirementCountryCode);
         return retirementCountry;
     }
 
@@ -576,6 +582,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @return Returns the retirementState.
      */
     public State getRetirementState() {
+        retirementState = SpringContext.getBean(StateService.class).getByPrimaryId(retirementCountryCode, retirementStateCode);
         return retirementState;
     }
 

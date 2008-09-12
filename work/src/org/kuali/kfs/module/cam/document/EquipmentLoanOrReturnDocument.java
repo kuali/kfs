@@ -26,10 +26,13 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -74,8 +77,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
-    private PostalZipCode borrowerPostalZipCode;
-    private PostalZipCode borrowerStoragePostalZipCode;
+    private PostalCode borrowerPostalZipCode;
+    private PostalCode borrowerStoragePostalZipCode;
     
     private boolean newLoan;
 
@@ -110,6 +113,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerCountry
      */
     public Country getBorrowerCountry() {
+        borrowerCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(borrowerCountryCode);
         return borrowerCountry;
     }
 
@@ -128,6 +132,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerState
      */
     public State getBorrowerState() {
+        borrowerState = SpringContext.getBean(StateService.class).getByPrimaryId(borrowerCountryCode, borrowerStateCode);
         return borrowerState;
     }
 
@@ -146,6 +151,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerStorageCountry
      */
     public Country getBorrowerStorageCountry() {
+        borrowerStorageCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(borrowerStorageCountryCode);
         return borrowerStorageCountry;
     }
 
@@ -164,6 +170,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the getBorrowerStorageState
      */
     public State getBorrowerStorageState() {
+        borrowerStorageState = SpringContext.getBean(StateService.class).getByPrimaryId(borrowerStorageCountryCode, borrowerStorageStateCode);
         return borrowerStorageState;
     }
 
@@ -453,7 +460,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerPostalZipCode
      */
-    public PostalZipCode getBorrowerPostalZipCode() {
+    public PostalCode getBorrowerPostalZipCode() {
         return borrowerPostalZipCode;
     }
 
@@ -462,7 +469,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerPostalZipCode The borrowerPostalZipCode to set.
      */
-    public void setBorrowerPostalZipCode(PostalZipCode borrowerPostalZipCode) {
+    public void setBorrowerPostalZipCode(PostalCode borrowerPostalZipCode) {
         this.borrowerPostalZipCode = borrowerPostalZipCode;
     }
 
@@ -471,7 +478,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
-    public PostalZipCode getBorrowerStoragePostalZipCode() {
+    public PostalCode getBorrowerStoragePostalZipCode() {
+    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(borrowerCountryCode, borrowerZipCode);
         return borrowerStoragePostalZipCode;
     }
 
@@ -480,7 +488,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStoragePostalZipCode
      */
-    public void setborrowerStoragePostalZipCode(PostalZipCode borrowerStoragePostalZipCode) {
+    public void setborrowerStoragePostalZipCode(PostalCode borrowerStoragePostalZipCode) {
         this.borrowerStoragePostalZipCode = borrowerStoragePostalZipCode;
     }
 

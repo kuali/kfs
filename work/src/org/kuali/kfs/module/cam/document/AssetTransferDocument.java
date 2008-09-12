@@ -32,13 +32,16 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -86,7 +89,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
     private transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
     private Asset asset;
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
 
 
     public AssetTransferDocument() {
@@ -250,6 +253,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
+        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryId(offCampusCountryCode, offCampusStateCode);
         return offCampusState;
     }
 
@@ -277,7 +281,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the postalZipCode
      */
-    public PostalZipCode getPostalZipCode() {
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(offCampusCountryCode, offCampusZipCode);
         return postalZipCode;
     }
 
@@ -287,6 +292,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
+        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(offCampusCountryCode);
         return offCampusCountry;
     }
 
@@ -647,7 +653,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 

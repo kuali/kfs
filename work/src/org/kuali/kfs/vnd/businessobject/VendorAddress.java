@@ -24,6 +24,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -210,6 +212,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     public State getVendorState() {
+        vendorState = SpringContext.getBean(StateService.class).getByPrimaryId(vendorCountryCode, vendorStateCode);
         return vendorState;
     }
 
@@ -224,6 +227,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     }
 
     public Country getVendorCountry() {
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
         return vendorCountry;
     }
 

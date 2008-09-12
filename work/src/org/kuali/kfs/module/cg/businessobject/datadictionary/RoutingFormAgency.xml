@@ -353,7 +353,7 @@
   </bean>
   <bean id="RoutingFormAgency-agencyZipCode" parent="RoutingFormAgency-agencyZipCode-parentBean" />
 
-  <bean id="RoutingFormAgency-agencyZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="RoutingFormAgency-agencyZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="agencyZipCode" />
     <property name="required" value="false" />
     <property name="label" value="Agency Zip Code" />

@@ -62,7 +62,7 @@
     <property name="documentTypeCode" value="ORGN" />
     <property name="webScriptFiles" >
       <list>
-        <value>../dwr/interface/PostalZipCodeService.js</value>
+        <value>../dwr/interface/PostalCodeService.js</value>
         <value>../scripts/chart/organizationDocument.js</value>
       </list>
     </property>

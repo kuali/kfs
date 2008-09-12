@@ -18,6 +18,10 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -40,7 +44,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
     
     private Campus campus;
     private State buildingAddressState;
-    private PostalZipCode buildingAddressZip;
+    private PostalCode buildingAddressZip;
     private Country buildingAddressCountry;
  
     /**
@@ -236,6 +240,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @return Returns the buildingAddressState.
      */
     public State getBuildingAddressState() {
+        buildingAddressState = SpringContext.getBean(StateService.class).getByPrimaryId(buildingAddressCountryCode, buildingAddressStateCode);
         return buildingAddressState;
     }
 
@@ -254,7 +259,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the buildingAddressZip.
      */
-    public PostalZipCode getBuildingAddressZip() {
+    public PostalCode getBuildingAddressZip() {
+        buildingAddressZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(buildingAddressCountryCode, buildingAddressZipCode);
         return buildingAddressZip;
     }
 
@@ -264,7 +270,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @param buildingAddressZip The buildingAddressZip to set.
      * @deprecated
      */
-    public void setBuildingAddressZip(PostalZipCode buildingAddressZip) {
+    public void setBuildingAddressZip(PostalCode buildingAddressZip) {
         this.buildingAddressZip = buildingAddressZip;
     }
     
@@ -289,6 +295,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @return Returns the buildingAddressCountry.
      */
     public Country getBuildingAddressCountry() {
+        buildingAddressCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(buildingAddressCountryCode);
         return buildingAddressCountry;
     }
 

@@ -165,7 +165,7 @@
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="capitalAssetPostalCode" />
     <property name="label" value="Capital Asset Postal Code" />
     <property name="shortLabel" value="Postal Code" />

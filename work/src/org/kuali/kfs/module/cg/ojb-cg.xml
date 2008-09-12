@@ -95,13 +95,6 @@
     <field-descriptor name="subcontractorZipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="subcontractorCountryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-
-    <reference-descriptor name="subcontractorState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="subcontractorStateCode" />
-    </reference-descriptor>
-    <reference-descriptor name="subcontractorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="subcontractorCountryCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <!-- 
@@ -1611,15 +1604,6 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="personState" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personStateCode" />
-    </reference-descriptor>
-    <reference-descriptor name="personZip" class-ref="org.kuali.kfs.sys.businessobject.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personZipCode" />
-    </reference-descriptor>    
-    <reference-descriptor name="personCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="personCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="personRole" class-ref="org.kuali.kfs.module.cg.businessobject.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personRoleCode" />
     </reference-descriptor>

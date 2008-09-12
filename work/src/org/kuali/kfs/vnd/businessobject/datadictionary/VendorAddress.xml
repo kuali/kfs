@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="VendorAddress" parent="VendorAddress-parentBean" />
 
@@ -38,6 +40,16 @@
         <ref bean="VendorAddress-active" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="vendorState">
+            <dd:primitiveAttribute source="vendorStateCode" target="postalStateCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="vendorCountry">
+            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode" />
+        </dd:relationship>        
+      </list>
+    </property>     
   </bean>
 
 <!-- Attribute Definitions -->
@@ -158,7 +170,7 @@
   </bean>
   <bean id="VendorAddress-vendorZipCode" parent="VendorAddress-vendorZipCode-parentBean" />
 
-  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="vendorZipCode" />
   </bean>
   <bean id="VendorAddress-vendorCountryCode" parent="VendorAddress-vendorCountryCode-parentBean" />

@@ -35,7 +35,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 /**
@@ -52,11 +53,11 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof LedgerEntry) {
                 LedgerEntry entry = (LedgerEntry) businessObject;
-                return new AnchorHtmlBase(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KFSConstants.EMPTY_STRING);
+                return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(entry), KFSConstants.EMPTY_STRING);
             }
         }
         else if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
@@ -68,7 +69,7 @@ public class LedgerEntryLookupableHelperServiceImpl extends AbstractLookupableHe
 
             BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
 
-            return positionData == null ? new AnchorHtmlBase(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING) : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+            return positionData == null ? new AnchorHtmlData(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING) : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
         }
         return (new EntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }

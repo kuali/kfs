@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;

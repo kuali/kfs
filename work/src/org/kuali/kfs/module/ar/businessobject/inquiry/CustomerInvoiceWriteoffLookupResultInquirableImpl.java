@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject.inquiry;
 
 import java.util.Properties;
 
-import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
@@ -26,7 +25,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -41,9 +41,9 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
-        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
+        AnchorHtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
         if (ArConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
             String baseUrl = KFSConstants.INQUIRY_ACTION;
             Properties parameters = new Properties();

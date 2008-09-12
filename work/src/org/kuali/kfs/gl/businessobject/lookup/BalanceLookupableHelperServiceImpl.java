@@ -31,7 +31,7 @@ import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -50,7 +50,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLoo
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new BalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

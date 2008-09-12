@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 
 /**
  * Action form for Effort Certification Document.
@@ -107,7 +107,7 @@ public class CertificationReportForm extends EffortCertificationForm {
      * 
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
-    public List<Map<String, AnchorHtmlBase>> getSummarizedDetailLineFieldInquiryUrl() {
+    public List<Map<String, HtmlData>> getSummarizedDetailLineFieldInquiryUrl() {
         LOG.info("getSummarizedDetailLineFieldInquiryUrl() start");
 
         return this.getDetailLineFieldInquiryUrl(this.getSummarizedDetailLines());

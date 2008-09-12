@@ -29,7 +29,7 @@ import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 
 /**
  * An extension of KualiLookupableImpl to support encumbrance lookups
@@ -47,7 +47,7 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         return (new EncumbranceInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }
 

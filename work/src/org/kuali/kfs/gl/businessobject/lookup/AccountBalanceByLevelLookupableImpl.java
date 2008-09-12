@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 
 /**
@@ -51,7 +51,7 @@ public class AccountBalanceByLevelLookupableImpl extends KualiLookupableImpl {
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
-    public AnchorHtmlBase getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
         return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

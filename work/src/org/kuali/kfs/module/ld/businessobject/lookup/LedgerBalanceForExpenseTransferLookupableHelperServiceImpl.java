@@ -37,7 +37,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -59,7 +60,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
             AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
@@ -69,7 +70,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
 
             BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
 
-            return positionData == null ? new AnchorHtmlBase() : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+            return positionData == null ? new AnchorHtmlData() : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
         }
         return (new LedgerBalanceForExpenseTransferInquirableImpl()).getInquiryUrl(bo, propertyName);
     }

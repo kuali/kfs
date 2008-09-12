@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.displaytag.util.Href;
 import org.kuali.kfs.coa.businessobject.KualiSystemCode;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
@@ -35,15 +34,15 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.struts.form.KualiHelpForm;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -57,7 +56,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, boolean)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         return this.getInquiryUrl(businessObject, attributeName);
     }
 
@@ -68,9 +67,9 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
         this.setBusinessObject(businessObject);
-        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
+        AnchorHtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 

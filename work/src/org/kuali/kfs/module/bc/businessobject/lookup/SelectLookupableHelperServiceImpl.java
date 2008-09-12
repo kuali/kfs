@@ -22,8 +22,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -65,8 +66,8 @@ public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServ
      *      java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlBase inquiryHref = super.getInquiryUrl(bo, propertyName);
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        AnchorHtmlData inquiryHref = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
         inquiryHref.setHref(StringUtils.replace(inquiryHref.getHref(), KNSConstants.INQUIRY_ACTION, KFSConstants.INQUIRY_ACTION));
 
         return inquiryHref;

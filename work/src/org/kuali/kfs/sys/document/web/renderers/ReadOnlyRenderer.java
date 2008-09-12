@@ -25,6 +25,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -144,7 +145,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return true if the inquiry link should be rendered, false otherwise
      */
     protected boolean shouldRenderInquiryLink() {
-        return !StringUtils.isBlank(getField().getInquiryURL().getHref()) && !StringUtils.isBlank(getField().getPropertyValue());
+        return !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue());
     }
     
     /**

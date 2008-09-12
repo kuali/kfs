@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -77,8 +76,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlBase inquiryUrl = super.getInquiryUrl(bo, propertyName);
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        AnchorHtmlData inquiryUrl = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
         Batch batch = (Batch) bo;
         if (propertyName.equalsIgnoreCase(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID)) {
             Properties params = new Properties();

@@ -20,13 +20,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.BusinessObjectProperty;
 import org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition;
@@ -34,9 +30,10 @@ import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -98,8 +95,8 @@ public class DataMappingFieldDefinitionLookupableHelperServiceImpl extends Kuali
     }
 
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlBase inquiryHref = super.getInquiryUrl(bo, propertyName);
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        AnchorHtmlData inquiryHref = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
         if (StringUtils.isNotBlank(inquiryHref.getHref())) {
             inquiryHref.setHref(new StringBuffer(inquiryHref.getHref()).append("&").append(KFSPropertyConstants.COMPONENT_CLASS).append("=").append(((DataMappingFieldDefinition) bo).getComponentClass()).append("&").append(KFSPropertyConstants.PROPERTY_NAME).append("=").append(((DataMappingFieldDefinition) bo).getPropertyName()).toString());
         }

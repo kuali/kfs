@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 
 /**
  * An extension of KualiLookupableImpl to support the account balance by object inquiry screen
@@ -53,7 +53,7 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
      * @return String url to inquiry
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }

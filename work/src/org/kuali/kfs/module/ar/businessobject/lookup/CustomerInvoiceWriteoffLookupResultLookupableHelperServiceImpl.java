@@ -19,7 +19,6 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,25 +26,18 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.CustomerInvoiceWriteoffLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
-import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
-import org.kuali.rice.kns.inquiry.Inquirable;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -261,7 +253,7 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new CustomerInvoiceWriteoffLookupResultInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

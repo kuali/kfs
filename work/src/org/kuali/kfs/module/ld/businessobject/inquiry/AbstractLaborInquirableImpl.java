@@ -30,8 +30,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -50,11 +51,11 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String attributeName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        AnchorHtmlBase inquiryHref = new AnchorHtmlBase(Constant.EMPTY_STRING, Constant.EMPTY_STRING);
+        HtmlData inquiryHref = new AnchorHtmlData(Constant.EMPTY_STRING, Constant.EMPTY_STRING);
         String baseUrl = KFSConstants.INQUIRY_ACTION;
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);

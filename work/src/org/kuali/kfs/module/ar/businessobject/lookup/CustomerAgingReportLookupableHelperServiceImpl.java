@@ -142,7 +142,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         //JUSTIN SAYS NOT WORKING SO DON'T USE: Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         CustomerAgingReportDetail testcustomer1 = new CustomerAgingReportDetail();
 
-        Map<String, Object> knownCustomers = new HashMap<String, Object>(invoices.size());
+        Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
         // EXAMPLE: fieldNamesValuesForParameter.put("parameterNamespaceCode",CustomerInvoiceDocumentBatchStep.
         // RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
 

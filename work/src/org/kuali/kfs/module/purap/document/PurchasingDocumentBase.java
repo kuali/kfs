@@ -23,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
@@ -48,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1124,4 +1126,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
         return managedLists;
     }
+    
+    /**
+     * Overrides the method in PurchasingAccountsPayableDocumentBase to remove the
+     * purchasingCapitalAssetSystem when the system type is either ONE or MULT.
+     * 
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM) || this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
+            //If the system state is ONE or MULT, we have to remove all the systems on the items because it's not applicable.
+            for (PurchasingCapitalAssetItem camsItem : this.getPurchasingCapitalAssetItems()) {
+                camsItem.setPurchasingCapitalAssetSystem(null);
+            }
+        }
+    }
+
 }

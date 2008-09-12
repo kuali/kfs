@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -25,13 +26,13 @@ public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase 
     
     public RequisitionCapitalAssetItem(){
         super();
-        //this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
+        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
     
     public RequisitionCapitalAssetItem(PurchasingDocument pd) {
         super(pd);
         setPurapDocumentIdentifier(pd.getPurapDocumentIdentifier());
-        //this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
+        this.setPurchasingCapitalAssetSystem(new RequisitionCapitalAssetSystem());
     }
 
     public Integer getPurapDocumentIdentifier() {

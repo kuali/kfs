@@ -161,6 +161,7 @@ public class ArConstants {
     
     public static class CustomerAgingReportFields {        
         public static final String REPORT_RUN_DATE = "reportRunDate";
+        public static final String REPORT_OPTION= "reportOption";
         
         // Report Options
         public static final String PROCESSING_ORG = "Processing Organization";

@@ -88,18 +88,29 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         
+        String reportOption = (String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_OPTION);
         String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
         Collection<CustomerInvoiceDetail> invoiceDetails = null;
         Collection<CustomerInvoiceDocument> invoices = null;
 
-
-        if (accountNumber.length()!=0) {
-            invoiceDetails= getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+        if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+            int invoisessize = invoices.size();
+            for (CustomerInvoiceDocument ci : invoices) {
+                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString());
+            }
         }
-        if (chartCode.length()!=0 && orgCode.length()!=0) {
-            invoices= customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+        if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
+            invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
+            for (CustomerInvoiceDocument ci : invoices) {
+                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+            }   
+        }
+        if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
+            invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
         }
         
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

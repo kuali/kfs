@@ -14,14 +14,6 @@
         <ref bean="AssetLocationGlobalMaintenanceDocument-EditListofAssets" />
       </list>
     </property>
-    <property name="defaultExistenceChecks" >
-      <list>
-        <bean parent="ReferenceDefinition"
-              p:attributeName="asset"
-              p:collection="assetLocationGlobalDetails"
-              p:attributeToHighlightOnFail="capitalAssetNumber" />
-      </list>
-    </property>
     <property name="lockingKeys" >
       <list>
         <value>documentNumber</value>

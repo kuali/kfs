@@ -37,7 +37,7 @@ public class StateServiceImpl implements StateService {
      * @see org.kuali.kfs.sys.service.StateService#getByPrimaryId(java.lang.String)
      */
     public State getByPrimaryId(String postalStateCode) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY_CODE);
+        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
         return this.getByPrimaryId(postalCountryCode, postalStateCode);
     }
 
@@ -60,7 +60,7 @@ public class StateServiceImpl implements StateService {
      * @see org.kuali.kfs.sys.service.StateService#findAllStates()
      */
     public List<State> findAllStates() {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY_CODE);
+        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
         return this.findAllStates(postalCountryCode);
     }
 

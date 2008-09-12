@@ -724,7 +724,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
 
-        public static final String DEFAULT_COUNTRY_CODE = "DEFAULT_COUNTRY_CODE";
+        public static final String DEFAULT_COUNTRY = "DEFAULT_COUNTRY";
     }
 
     public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";

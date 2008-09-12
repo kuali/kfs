@@ -36,7 +36,7 @@ public class PostalCodeServiceImpl implements PostalCodeService {
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryId(java.lang.String)
      */
     public PostalCode getByPrimaryId(String postalZipCode) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY_CODE);
+        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
         return this.getByPrimaryId(postalCountryCode, postalZipCode);
     }

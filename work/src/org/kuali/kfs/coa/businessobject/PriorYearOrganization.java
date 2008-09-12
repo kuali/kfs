@@ -724,7 +724,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(organizationCountryCode);
+        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(organizationCountryCode, organizationCountry);
         return organizationCountry;
     }
 

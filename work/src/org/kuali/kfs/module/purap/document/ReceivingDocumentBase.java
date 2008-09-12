@@ -783,7 +783,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
      * @return Returns the vendorCountry.
      */
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

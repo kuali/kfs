@@ -897,7 +897,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountState
      */
     public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryId(accountStateCode);
+        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(accountStateCode, accountState);
         return accountState;
     }
 
@@ -1521,7 +1521,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the postalZipCode.
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(accountZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(accountZipCode, postalZipCode);
         return postalZipCode;
     }
 

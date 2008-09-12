@@ -27,7 +27,7 @@ public interface StateService {
      * @param postalStateCode the given state code
      * @return a state object based on the given state code and default country code
      */
-    State getByPrimaryId(String postalStateCode);
+    public State getByPrimaryId(String postalStateCode);
 
     /**
      * get a state object based on the given state code and country code
@@ -36,18 +36,39 @@ public interface StateService {
      * @param postalStateCode the given state code
      * @return a state object based on the given state code and country code
      */
-    State getByPrimaryId(String postalCountryCode, String postalStateCode);
+    public State getByPrimaryId(String postalCountryCode, String postalStateCode);
+
+    /**
+     * get a state object based on the given state code and default country code. The default country code is set up in the system. The default country code is set up in
+     * the system. If the given postal state code is same as that of the given existing postal code, return the existing postal code;
+     * otherwise, retrieve a state object.
+     * 
+     * @param postalStateCode the given state code
+     * @return a state object based on the given state code and default country code
+     */
+    public State getByPrimaryIdIfNeccessary(String postalStateCode, State existingState);
+
+    /**
+     * get a state object based on the given state code and country code. If the given postal state code and country code
+     * are same as those of the given existing postal code, return the existing State; otherwise, retrieve a State
+     * object.
+     * 
+     * @param postalCountryCode the given country code
+     * @param postalStateCode the given state code
+     * @return a state object based on the given state code and country code
+     */
+    public State getByPrimaryIdIfNeccessary(String postalCountryCode, String postalStateCode, State existingState);
     
     /**
      * get all states in the system-default country 
      * @return all states in the system-default country 
      */
-    List<State> findAllStates();
+    public List<State> findAllStates();
     
     /**
      * get all states in the given country 
      * @param postalCountryCode the given country code
      * @return all states in the given country 
      */
-    List<State> findAllStates(String postalCountryCode);
+    public List<State> findAllStates(String postalCountryCode);
 }

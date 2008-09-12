@@ -26,7 +26,7 @@ public interface PostalCodeService {
      * @param postalZipCode the given zip code
      * @return the postal zip code object with the given zip code and default country code.
      */
-    PostalCode getByPrimaryId(String postalZipCode);
+    public PostalCode getByPrimaryId(String postalZipCode);
 
     /**
      * get the postal zip code object based on the given zip code and country code
@@ -35,5 +35,28 @@ public interface PostalCodeService {
      * @param postalZipCode the given zip code
      * @return the postal zip code object with the given zip code and country code.
      */
-    PostalCode getByPrimaryId(String postalCountryCode, String postalZipCode);
+    public PostalCode getByPrimaryId(String postalCountryCode, String postalZipCode);
+
+    /**
+     * get the postal zip code object based on the given zip code and default country code. The default country code is set up in
+     * the system. If the given postal zip code is same as that of the given existing postal code, return the existing postal code;
+     * otherwise, retrieve a postal code object.
+     * 
+     * @param postalZipCode the given zip code
+     * @param existingPostalCode the given existing postal code
+     * @return the postal zip code object with the given zip code and default country code if neccessary
+     */
+    public PostalCode getByPrimaryIdIfNeccessary(String postalZipCode, PostalCode existingPostalCode);
+
+    /**
+     * get the postal zip code object based on the given zip code and country code. If the given postal zip code and country code
+     * are same as those of the given existing postal code, return the existing postal code; otherwise, retrieve a postal code
+     * object.
+     * 
+     * @param postalCountryCode the given country code
+     * @param postalZipCode the given zip code
+     * @param existingPostalCode the given existing postal code
+     * @return the postal zip code object with the given zip code and country code if neccessary
+     */
+    public PostalCode getByPrimaryIdIfNeccessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
 }

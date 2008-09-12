@@ -582,7 +582,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personCountry.
      */
     public Country getPersonCountry() {
-        personCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(personCountryCode);
+        personCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(personCountryCode, personCountry);
         return personCountry;
     }
 
@@ -602,7 +602,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personState.
      */
     public State getPersonState() {
-        personState = SpringContext.getBean(StateService.class).getByPrimaryId(personCountryCode, personStateCode);
+        personState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(personCountryCode, personStateCode, personState);
         return personState;
     }
 
@@ -622,7 +622,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personZip.
      */
     public PostalCode getPersonZip() {
-        personZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(personCountryCode, personZipCode);
+        personZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(personCountryCode, personZipCode, personZip);
         return personZip;
     }
 

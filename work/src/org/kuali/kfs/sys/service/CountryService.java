@@ -19,18 +19,29 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Country;
 
-public interface CountryService {   
+public interface CountryService {
 
     /**
-     * get a country object based on the given country code. The default country code is set up in the system.
+     * get a country object based on the given country code.
      * 
      * @param postalCountryCode the given country code
      * @return a country object with the given country code
      */
     Country getByPrimaryId(String postalCountryCode);
-    
+
+    /**
+     * get a country object based on the given country code. If the postal country code of the existing country is same as the given
+     * country code, return the existing country; otherwise, retrieve a new country object.
+     * 
+     * @param postalCountryCode the given country code
+     * @param existingCountry the given existing ccountry
+     * @return a country object with the given country code if neccessary
+     */
+    Country getByPrimaryIdIfNeccessary(String postalCountryCode, Country existingCountry);
+
     /**
      * get all countries
+     * 
      * @return all countries
      */
     List<Country> findAllCountries();

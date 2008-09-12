@@ -240,7 +240,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @return Returns the buildingAddressState.
      */
     public State getBuildingAddressState() {
-        buildingAddressState = SpringContext.getBean(StateService.class).getByPrimaryId(buildingAddressCountryCode, buildingAddressStateCode);
+        buildingAddressState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(buildingAddressCountryCode, buildingAddressStateCode, buildingAddressState);
         return buildingAddressState;
     }
 
@@ -260,7 +260,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @return Returns the buildingAddressZip.
      */
     public PostalCode getBuildingAddressZip() {
-        buildingAddressZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(buildingAddressCountryCode, buildingAddressZipCode);
+        buildingAddressZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(buildingAddressCountryCode, buildingAddressZipCode, buildingAddressZip);
         return buildingAddressZip;
     }
 
@@ -295,7 +295,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @return Returns the buildingAddressCountry.
      */
     public Country getBuildingAddressCountry() {
-        buildingAddressCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(buildingAddressCountryCode);
+        buildingAddressCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(buildingAddressCountryCode, buildingAddressCountry);
         return buildingAddressCountry;
     }
 

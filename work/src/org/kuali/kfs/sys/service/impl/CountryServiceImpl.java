@@ -20,12 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class CountryServiceImpl implements CountryService {
+    private static Logger LOG = Logger.getLogger(CountryServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
 
@@ -34,7 +36,7 @@ public class CountryServiceImpl implements CountryService {
      */
     public Country getByPrimaryId(String postalCountryCode) {
         if (StringUtils.isBlank(postalCountryCode)) {
-            //throw new IllegalArgumentException("The postalCountryCode cannot be empty String.");
+            LOG.info("The postalCountryCode cannot be empty String.");
             return null;
         }
 
@@ -44,6 +46,19 @@ public class CountryServiceImpl implements CountryService {
         return (Country) businessObjectService.findByPrimaryKey(Country.class, postalCountryMap);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNeccessary(java.lang.String,
+     *      org.kuali.kfs.sys.businessobject.Country)
+     */
+    public Country getByPrimaryIdIfNeccessary(String postalCountryCode, Country existingCountry) {
+        if (existingCountry != null) {
+            if (StringUtils.equals(postalCountryCode, existingCountry.getPostalCountryCode())) {
+                return existingCountry;
+            }
+        }
+
+        return this.getByPrimaryId(postalCountryCode);
+    }
 
     /**
      * @see org.kuali.kfs.sys.service.CountryService#findAllCountries()

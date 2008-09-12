@@ -711,7 +711,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(vendorCountryCode);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

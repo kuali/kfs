@@ -107,7 +107,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     }
 
     public Country getPurchasingDepartmentCountry() {
-        purchasingDepartmentCountry = SpringContext.getBean(CountryService.class).getByPrimaryId(purchasingDepartmentCountryCode);
+        purchasingDepartmentCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(purchasingDepartmentCountryCode, purchasingDepartmentCountry);
         return purchasingDepartmentCountry;
     }
 
@@ -151,7 +151,7 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     }
 
     public State getPurchasingDepartmentState() {
-        purchasingDepartmentState = SpringContext.getBean(StateService.class).getByPrimaryId(purchasingDepartmentCountryCode, purchasingDepartmentStateCode);
+        purchasingDepartmentState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(purchasingDepartmentCountryCode, purchasingDepartmentStateCode, purchasingDepartmentState);
         return purchasingDepartmentState;
     }
 

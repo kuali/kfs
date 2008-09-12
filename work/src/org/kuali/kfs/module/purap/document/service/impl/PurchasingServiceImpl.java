@@ -142,5 +142,11 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             }
         }
     }
+    
+    public void prorateDiscountTradeIn(PurchasingDocument purDoc) {
+        //purapAccountingLineService.generateAccountDistributionForProration
+        
+    }
+
 
 }

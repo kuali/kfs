@@ -31,6 +31,8 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingAccountsPayableItemRule;
 import org.kuali.kfs.module.purap.document.validation.ImportPurchasingAccountsPayableItemRule;
 import org.kuali.kfs.module.purap.service.PurapAccountingLineRuleHelperService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -131,6 +133,21 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
         valid &= processVendorValidation(purapDocument);
         valid &= processItemValidation(purapDocument);
         valid &= newProcessItemValidation(purapDocument);
+        valid &= processAccountSummaryValidation(purapDocument);
+        return valid;
+    }
+
+    public boolean processAccountSummaryValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        List<SummaryAccount> summaryAccounts = SpringContext.getBean(PurapAccountingService.class).generateSummaryAccounts(purapDocument);
+        for (SummaryAccount summaryAccount : summaryAccounts) {
+            //TODO: ctk - do we need all these null checks
+            if(ObjectUtils.isNotNull(summaryAccount) && ObjectUtils.isNotNull(summaryAccount.getAccount()) && ObjectUtils.isNotNull(summaryAccount.getAccount().getAmount()) &&
+                    summaryAccount.getAccount().getAmount().isNegative()) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_ACCOUNT_NEGATIVE,summaryAccount.getAccount().getAccountNumber());
+            }
+        }
         return valid;
     }
 

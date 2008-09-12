@@ -152,7 +152,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An ActionForward
      */
     public ActionForward inactivateItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchaseOrderDocument purDocument = (PurchaseOrderDocument) purchasingForm.getDocument();
         PurchaseOrderItem item = (PurchaseOrderItem) purDocument.getItem(getSelectedLine(request));

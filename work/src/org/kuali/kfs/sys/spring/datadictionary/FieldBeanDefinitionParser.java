@@ -37,6 +37,7 @@ public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
         String defaultValue = element.getAttribute("defaultValue");
         String defaultValueFinderClass = element.getAttribute("defaultValueFinderClass");
         String maxLength = element.getAttribute("maxLength");
+        String useShortLabel = element.getAttribute("useShortLabel");
 
         // now, set on the bean definition
         if ( StringUtils.hasText(attributeName) ) {
@@ -62,6 +63,9 @@ public class FieldBeanDefinitionParser extends KualiBeanDefinitionParserBase {
             bean.addPropertyValue("noLookup", Boolean.TRUE);
         } else if ( lookup.equals( "force" ) ) {
             bean.addPropertyValue("forceLookup", Boolean.TRUE);
+        }
+        if ( StringUtils.hasText(useShortLabel) ) {
+            bean.addPropertyValue("useShortLabel", Boolean.parseBoolean(useShortLabel));
         }
 
         // handle any other simple child properties

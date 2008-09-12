@@ -3,8 +3,6 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -19,22 +17,14 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private Integer capitalAssetBuilderLineNumber;
     private String accountsPayableLineItemDescription;
     private KualiDecimal accountsPayableItemQuantity;
-    private String capitalAssetDescription;
-    private String capitalAssetTypeCode;
-    private String vendorName;
-    private String manufacturerName;
-    private String manufacturerModelNumber;
     private String capitalAssetManagementDocumentNumber;
     private boolean active;
 
     private PurchasingAccountsPayableDocument purchasingAccountsPayableDocument;
-    private AssetType capitalAssetType;
-    private List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetails;
     private List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts;
 
     // non persistent fields
     private Integer itemLineNumber;
-    // TODO: difference from capitalAssetTypeCode?
     private String capitalAssetTransactionTypeCode;
     private boolean additionalChargeNonTradeInIndicator;
     private boolean tradeInAllowance;
@@ -46,61 +36,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private boolean selectedValue;
     private String itemTypeCode;
 
-
-    public String getItemTypeCode() {
-        return itemTypeCode;
-    }
-
-    public void setItemTypeCode(String itemTypeCode) {
-        this.itemTypeCode = itemTypeCode;
-    }
-
-    public boolean isSelectedValue() {
-        return selectedValue;
-    }
-
-    public void setSelectedValue(boolean selectedValue) {
-        this.selectedValue = selectedValue;
-    }
-
-    public KualiDecimal getSplitQty() {
-        return splitQty;
-    }
-
-    public void setSplitQty(KualiDecimal splitQty) {
-        this.splitQty = splitQty;
-    }
-
-    public int getPurchasingAccountsPayableLineAssetAccountsSize() {
-        return this.purchasingAccountsPayableLineAssetAccounts.size();
-    }
-
-    public boolean isTradeInAllowance() {
-        return tradeInAllowance;
-    }
-
-    public void setTradeInAllowance(boolean tradeInIndicator) {
-        this.tradeInAllowance = tradeInIndicator;
-    }
-
-    public boolean isAdditionalChargeNonTradeInIndicator() {
-        return additionalChargeNonTradeInIndicator;
-    }
-
-    public void setAdditionalChargeNonTradeInIndicator(boolean itemTypeBelowTheLineIndicator) {
-        this.additionalChargeNonTradeInIndicator = itemTypeBelowTheLineIndicator;
-    }
-
-    public String getCapitalAssetTransactionTypeCode() {
-        return capitalAssetTransactionTypeCode;
-    }
-
-    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-    }
-
     public PurchasingAccountsPayableItemAsset() {
-        this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
     }
@@ -113,15 +49,133 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.firstFincialObjectCode = initialItemAsset.getFirstFincialObjectCode();
         this.active = true;
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
-        this.purchasingAccountsPayableAssetDetails = new TypedArrayList(PurchasingAccountsPayableAssetDetail.class);
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
     }
 
+    /**
+     * Gets the selectedValue attribute.
+     * 
+     * @return Returns the selectedValue.
+     */
+    public boolean isSelectedValue() {
+        return selectedValue;
+    }
+
+    /**
+     * Sets the selectedValue attribute value.
+     * 
+     * @param selectedValue The selectedValue to set.
+     */
+    public void setSelectedValue(boolean selectedValue) {
+        this.selectedValue = selectedValue;
+    }
+
+    /**
+     * Gets the itemTypeCode attribute.
+     * 
+     * @return Returns the itemTypeCode.
+     */
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
+
+    /**
+     * Sets the itemTypeCode attribute value.
+     * 
+     * @param itemTypeCode The itemTypeCode to set.
+     */
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
+
+    /**
+     * Gets the capitalAssetTransactionTypeCode attribute.
+     * 
+     * @return Returns the capitalAssetTransactionTypeCode.
+     */
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
+
+    /**
+     * Sets the capitalAssetTransactionTypeCode attribute value.
+     * 
+     * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
+     */
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
+
+    /**
+     * Gets the additionalChargeNonTradeInIndicator attribute.
+     * 
+     * @return Returns the additionalChargeNonTradeInIndicator.
+     */
+    public boolean isAdditionalChargeNonTradeInIndicator() {
+        return additionalChargeNonTradeInIndicator;
+    }
+
+    /**
+     * Sets the additionalChargeNonTradeInIndicator attribute value.
+     * 
+     * @param additionalChargeNonTradeInIndicator The additionalChargeNonTradeInIndicator to set.
+     */
+    public void setAdditionalChargeNonTradeInIndicator(boolean additionalChargeNonTradeInIndicator) {
+        this.additionalChargeNonTradeInIndicator = additionalChargeNonTradeInIndicator;
+    }
+
+    /**
+     * Gets the tradeInAllowance attribute.
+     * 
+     * @return Returns the tradeInAllowance.
+     */
+    public boolean isTradeInAllowance() {
+        return tradeInAllowance;
+    }
+
+    /**
+     * Sets the tradeInAllowance attribute value.
+     * 
+     * @param tradeInAllowance The tradeInAllowance to set.
+     */
+    public void setTradeInAllowance(boolean tradeInAllowance) {
+        this.tradeInAllowance = tradeInAllowance;
+    }
+
+    /**
+     * Gets the splitQty attribute.
+     * 
+     * @return Returns the splitQty.
+     */
+    public KualiDecimal getSplitQty() {
+        return splitQty;
+    }
+
+    /**
+     * Sets the splitQty attribute value.
+     * 
+     * @param splitQty The splitQty to set.
+     */
+    public void setSplitQty(KualiDecimal splitQty) {
+        this.splitQty = splitQty;
+    }
+
+
+    /**
+     * Gets the purchasingAccountsPayableLineAssetAccounts attribute.
+     * 
+     * @return Returns the purchasingAccountsPayableLineAssetAccounts.
+     */
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
         return purchasingAccountsPayableLineAssetAccounts;
     }
 
+    /**
+     * Sets the purchasingAccountsPayableLineAssetAccounts attribute value.
+     * 
+     * @param purchasingAccountsPayableLineAssetAccounts The purchasingAccountsPayableLineAssetAccounts to set.
+     */
     public void setPurchasingAccountsPayableLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts) {
         this.purchasingAccountsPayableLineAssetAccounts = purchasingAccountsPayableLineAssetAccounts;
     }
@@ -199,24 +253,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the purchasingAccountsPayableAssetDetail attribute.
-     * 
-     * @return Returns the purchasingAccountsPayableAssetDetail.
-     */
-    public List<PurchasingAccountsPayableAssetDetail> getPurchasingAccountsPayableAssetDetails() {
-        return purchasingAccountsPayableAssetDetails;
-    }
-
-    /**
-     * Sets the purchasingAccountsPayableAssetDetail attribute value.
-     * 
-     * @param purchasingAccountsPayableAssetDetail The purchasingAccountsPayableAssetDetail to set.
-     */
-    public void setPurchasingAccountsPayableAssetDetails(List<PurchasingAccountsPayableAssetDetail> purchasingAccountsPayableAssetDetails) {
-        this.purchasingAccountsPayableAssetDetails = purchasingAccountsPayableAssetDetails;
-    }
-
-    /**
      * Gets the capitalAssetBuilderLineNumber attribute.
      * 
      * @return Returns the capitalAssetBuilderLineNumber
@@ -234,113 +270,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.capitalAssetBuilderLineNumber = capitalAssetBuilderLineNumber;
     }
 
-    /**
-     * Gets the capitalAssetBuilderQuantity attribute.
-     * 
-     * @return Returns the capitalAssetBuilderQuantity
-     */
-    public KualiDecimal getCapitalAssetBuilderQuantity() {
-        return accountsPayableItemQuantity;
-    }
-
-    /**
-     * Sets the capitalAssetBuilderQuantity attribute.
-     * 
-     * @param capitalAssetBuilderQuantity The capitalAssetBuilderQuantity to set.
-     */
-    public void setCapitalAssetBuilderQuantity(KualiDecimal capitalAssetBuilderQuantity) {
-        this.accountsPayableItemQuantity = capitalAssetBuilderQuantity;
-    }
-
-    /**
-     * Gets the capitalAssetDescription attribute.
-     * 
-     * @return Returns the capitalAssetDescription
-     */
-    public String getCapitalAssetDescription() {
-        return capitalAssetDescription;
-    }
-
-    /**
-     * Sets the capitalAssetDescription attribute.
-     * 
-     * @param capitalAssetDescription The capitalAssetDescription to set.
-     */
-    public void setCapitalAssetDescription(String capitalAssetDescription) {
-        this.capitalAssetDescription = capitalAssetDescription;
-    }
-
-    /**
-     * Gets the capitalAssetTypeCode attribute.
-     * 
-     * @return Returns the capitalAssetTypeCode
-     */
-    public String getCapitalAssetTypeCode() {
-        return capitalAssetTypeCode;
-    }
-
-    /**
-     * Sets the capitalAssetTypeCode attribute.
-     * 
-     * @param capitalAssetTypeCode The capitalAssetTypeCode to set.
-     */
-    public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
-        this.capitalAssetTypeCode = capitalAssetTypeCode;
-    }
-
-    /**
-     * Gets the vendorName attribute.
-     * 
-     * @return Returns the vendorName
-     */
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    /**
-     * Sets the vendorName attribute.
-     * 
-     * @param vendorName The vendorName to set.
-     */
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    /**
-     * Gets the manufacturerName attribute.
-     * 
-     * @return Returns the manufacturerName
-     */
-    public String getManufacturerName() {
-        return manufacturerName;
-    }
-
-    /**
-     * Sets the manufacturerName attribute.
-     * 
-     * @param manufacturerName The manufacturerName to set.
-     */
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
-    }
-
-    /**
-     * Gets the manufacturerModelNumber attribute.
-     * 
-     * @return Returns the manufacturerModelNumber
-     */
-    public String getManufacturerModelNumber() {
-        return manufacturerModelNumber;
-    }
-
-    /**
-     * Sets the manufacturerModelNumber attribute.
-     * 
-     * @param manufacturerModelNumber The manufacturerModelNumber to set.
-     */
-    public void setManufacturerModelNumber(String manufacturerModelNumber) {
-        this.manufacturerModelNumber = manufacturerModelNumber;
-    }
 
     /**
      * Gets the capitalAssetManagementDocumentNumber attribute.
@@ -358,25 +287,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      */
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
         this.capitalAssetManagementDocumentNumber = capitalAssetManagementDocumentNumber;
-    }
-
-    /**
-     * Gets the capitalAssetType attribute.
-     * 
-     * @return Returns the capitalAssetType
-     */
-    public AssetType getCapitalAssetType() {
-        return capitalAssetType;
-    }
-
-    /**
-     * Sets the capitalAssetType attribute.
-     * 
-     * @param capitalAssetType The capitalAssetType to set.
-     * @deprecated
-     */
-    public void setCapitalAssetType(AssetType capitalAssetType) {
-        this.capitalAssetType = capitalAssetType;
     }
 
     public Integer getItemLineNumber() {
@@ -417,47 +327,99 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
 
+    /**
+     * Gets the purchasingAccountsPayableDocument attribute.
+     * 
+     * @return Returns the purchasingAccountsPayableDocument.
+     */
     public PurchasingAccountsPayableDocument getPurchasingAccountsPayableDocument() {
         return purchasingAccountsPayableDocument;
     }
 
+    /**
+     * Sets the purchasingAccountsPayableDocument attribute value.
+     * 
+     * @param purchasingAccountsPayableDocument The purchasingAccountsPayableDocument to set.
+     */
     public void setPurchasingAccountsPayableDocument(PurchasingAccountsPayableDocument purchasingAccountsPayableDocument) {
         this.purchasingAccountsPayableDocument = purchasingAccountsPayableDocument;
     }
 
-    public void setUnitCost(KualiDecimal unitCost) {
-        this.unitCost = unitCost;
-    }
-
-    public KualiDecimal getUnitCost() {
-        return this.unitCost;
-    }
-
-    public void setFirstFincialObjectCode(String firstFincialObjectCode) {
-        this.firstFincialObjectCode = firstFincialObjectCode;
-    }
-
-    public String getFirstFincialObjectCode() {
-        return this.firstFincialObjectCode;
-    }
-
-
+    /**
+     * Gets the itemAssignedToTradeInIndicator attribute.
+     * 
+     * @return Returns the itemAssignedToTradeInIndicator.
+     */
     public boolean isItemAssignedToTradeInIndicator() {
         return itemAssignedToTradeInIndicator;
     }
 
+    /**
+     * Sets the itemAssignedToTradeInIndicator attribute value.
+     * 
+     * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
+     */
     public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
     }
 
+    /**
+     * Gets the unitCost attribute.
+     * 
+     * @return Returns the unitCost.
+     */
+    public KualiDecimal getUnitCost() {
+        return unitCost;
+    }
+
+    /**
+     * Sets the unitCost attribute value.
+     * 
+     * @param unitCost The unitCost to set.
+     */
+    public void setUnitCost(KualiDecimal unitCost) {
+        this.unitCost = unitCost;
+    }
+
+    /**
+     * Gets the totalCost attribute.
+     * 
+     * @return Returns the totalCost.
+     */
     public KualiDecimal getTotalCost() {
         return totalCost;
     }
 
+    /**
+     * Sets the totalCost attribute value.
+     * 
+     * @param totalCost The totalCost to set.
+     */
     public void setTotalCost(KualiDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
+    /**
+     * Gets the firstFincialObjectCode attribute.
+     * 
+     * @return Returns the firstFincialObjectCode.
+     */
+    public String getFirstFincialObjectCode() {
+        return firstFincialObjectCode;
+    }
+
+    /**
+     * Sets the firstFincialObjectCode attribute value.
+     * 
+     * @param firstFincialObjectCode The firstFincialObjectCode to set.
+     */
+    public void setFirstFincialObjectCode(String firstFincialObjectCode) {
+        this.firstFincialObjectCode = firstFincialObjectCode;
+    }
+
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(PurchasingAccountsPayableItemAsset o) {
         boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() | this.isTradeInAllowance();
         boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() | o.isTradeInAllowance();

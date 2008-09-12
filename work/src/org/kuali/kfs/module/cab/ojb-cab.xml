@@ -27,17 +27,7 @@
 	<field-descriptor name="capitalAssetBuilderLineNumber" column="CB_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="capitalAssetBuilderQuantity" column="CB_QTY" jdbc-type="BIGINT"/>
-	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorName" column="CPTLAST_VENDOR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="capitalAssetManagementDocumentNumber" column="CM_FDOC_NBR" jdbc-type="VARCHAR"/>
-
-	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="capitalAssetTypeCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry" table="CB_GL_ENTRY_T">
@@ -160,16 +150,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="accountsPayableLineItemDescription" column="PUR_ITM_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountsPayableItemQuantity" column="PUR_ITM_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorName" column="CPTLAST_VENDOR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="capitalAssetManagementDocumentNumber" column="CM_FDOC_NBR" jdbc-type="VARCHAR"/>
-
-	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="capitalAssetTypeCode" />
-	</reference-descriptor>
 	<collection-descriptor name="purchasingAccountsPayableLineAssetAccounts" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="accountsPayableLineItemIdentifier" />
@@ -181,7 +162,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory" table="CB_PUR_ACTN_HIST_T">
-	<field-descriptor name="actionIdentifier" column="ACTN_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="actionIdentifier" column="ACTN_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="CB_ACTN_ID_SEQ"/>
 	<field-descriptor name="actionTypeCode" column="ACTN_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fromDocumentNumber" column="FRM_FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="fromPurApLineItemIdentifier" column="FRM_PUR_ITM_ID" jdbc-type="INTEGER"/>

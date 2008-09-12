@@ -125,4 +125,8 @@ public class CabPropertyConstants {
         public static final String PO_INITIAL_OPEN_DATE = "purapItem.purapDocument.purchaseOrderInitialOpenDate";
         public static final String PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE = "purapItem.purapDocument.capitalAssetSystemStateCode";
     }
+    
+    public static class purApRequisitionItem {
+        public static final String ITEM_LINE_NUMBER = "itemLineNumber";
+    }
 }

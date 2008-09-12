@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,52 +42,217 @@ public class PurApLineForm extends KualiForm {
     private String purApContactPhoneNumber;
 
     private List<PurchasingAccountsPayableDocument> purApDocs;
+    private List<PurchasingAccountsPayableActionHistory> actionsTakenHistory;
     private int actionPurApDocIndex;
     private int actionItemAssetIndex;
 
     private KualiDecimal mergeQty;
     private String mergeDesc;
     
+    private Integer requisitionIdentifier;
+    
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+        this.actionsTakenHistory = new TypedArrayList(PurchasingAccountsPayableActionHistory.class);
+    }
+
+    
+
+    /**
+     * Gets the requisitionIdentifier attribute. 
+     * @return Returns the requisitionIdentifier.
+     */
+    public Integer getRequisitionIdentifier() {
+        return requisitionIdentifier;
     }
 
 
-    public String getMergeDesc() {
-        return mergeDesc;
+
+    /**
+     * Sets the requisitionIdentifier attribute value.
+     * @param requisitionIdentifier The requisitionIdentifier to set.
+     */
+    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
+        this.requisitionIdentifier = requisitionIdentifier;
     }
 
 
-    public void setMergeDesc(String mergeDesc) {
-        this.mergeDesc = mergeDesc;
+
+    /**
+     * Gets the actionsTaken attribute.
+     * 
+     * @return Returns the actionsTaken.
+     */
+    public List<PurchasingAccountsPayableActionHistory> getActionsTakenHistory() {
+        return actionsTakenHistory;
     }
 
 
+    /**
+     * Sets the actionsTaken attribute value.
+     * 
+     * @param actionsTaken The actionsTaken to set.
+     */
+    public void setActionsTakenHistory(List<PurchasingAccountsPayableActionHistory> actionsTaken) {
+        this.actionsTakenHistory = actionsTaken;
+    }
+
+
+    /**
+     * Gets the mergeQty attribute.
+     * 
+     * @return Returns the mergeQty.
+     */
     public KualiDecimal getMergeQty() {
         return mergeQty;
     }
 
 
+    /**
+     * Sets the mergeQty attribute value.
+     * 
+     * @param mergeQty The mergeQty to set.
+     */
     public void setMergeQty(KualiDecimal mergeQty) {
         this.mergeQty = mergeQty;
     }
 
 
+    /**
+     * Gets the mergeDesc attribute.
+     * 
+     * @return Returns the mergeDesc.
+     */
+    public String getMergeDesc() {
+        return mergeDesc;
+    }
+
+
+    /**
+     * Sets the mergeDesc attribute value.
+     * 
+     * @param mergeDesc The mergeDesc to set.
+     */
+    public void setMergeDesc(String mergeDesc) {
+        this.mergeDesc = mergeDesc;
+    }
+
+
+    /**
+     * Gets the purApContactEmailAddress attribute.
+     * 
+     * @return Returns the purApContactEmailAddress.
+     */
     public String getPurApContactEmailAddress() {
         return purApContactEmailAddress;
     }
 
+
+    /**
+     * Sets the purApContactEmailAddress attribute value.
+     * 
+     * @param purApContactEmailAddress The purApContactEmailAddress to set.
+     */
     public void setPurApContactEmailAddress(String purApContactEmailAddress) {
         this.purApContactEmailAddress = purApContactEmailAddress;
     }
 
+
+    /**
+     * Gets the purApContactPhoneNumber attribute.
+     * 
+     * @return Returns the purApContactPhoneNumber.
+     */
     public String getPurApContactPhoneNumber() {
         return purApContactPhoneNumber;
     }
 
+
+    /**
+     * Sets the purApContactPhoneNumber attribute value.
+     * 
+     * @param purApContactPhoneNumber The purApContactPhoneNumber to set.
+     */
     public void setPurApContactPhoneNumber(String purApContactPhoneNumber) {
         this.purApContactPhoneNumber = purApContactPhoneNumber;
     }
+
+
+    /**
+     * Gets the actionPurApDocIndex attribute.
+     * 
+     * @return Returns the actionPurApDocIndex.
+     */
+    public int getActionPurApDocIndex() {
+        return actionPurApDocIndex;
+    }
+
+
+    /**
+     * Sets the actionPurApDocIndex attribute value.
+     * 
+     * @param actionPurApDocIndex The actionPurApDocIndex to set.
+     */
+    public void setActionPurApDocIndex(int actionPurApDocIndex) {
+        this.actionPurApDocIndex = actionPurApDocIndex;
+    }
+
+
+    /**
+     * Gets the actionItemAssetIndex attribute.
+     * 
+     * @return Returns the actionItemAssetIndex.
+     */
+    public int getActionItemAssetIndex() {
+        return actionItemAssetIndex;
+    }
+
+
+    /**
+     * Sets the actionItemAssetIndex attribute value.
+     * 
+     * @param actionItemAssetIndex The actionItemAssetIndex to set.
+     */
+    public void setActionItemAssetIndex(int actionItemAssetIndex) {
+        this.actionItemAssetIndex = actionItemAssetIndex;
+    }
+
+
+    /**
+     * Gets the purchaseOrderIdentifier attribute. 
+     * @return Returns the purchaseOrderIdentifier.
+     */
+    public String getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+
+    /**
+     * Sets the purchaseOrderIdentifier attribute value.
+     * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
+     */
+    public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    }
+
+
+    /**
+     * Gets the purApDocs attribute. 
+     * @return Returns the purApDocs.
+     */
+    public List<PurchasingAccountsPayableDocument> getPurApDocs() {
+        return purApDocs;
+    }
+
+
+    /**
+     * Sets the purApDocs attribute value.
+     * @param purApDocs The purApDocs to set.
+     */
+    public void setPurApDocs(List<PurchasingAccountsPayableDocument> purApDocs) {
+        this.purApDocs = purApDocs;
+    }
+
 
     @Override
     public void populate(HttpServletRequest request) {
@@ -104,42 +270,5 @@ public class PurApLineForm extends KualiForm {
                 this.setActionItemAssetIndex(Integer.parseInt(itemAssetIndex));
             }
         }
-    }
-
-
-    public int getActionPurApDocIndex() {
-        return actionPurApDocIndex;
-    }
-
-
-    public void setActionPurApDocIndex(int purApDocIndex) {
-        this.actionPurApDocIndex = purApDocIndex;
-    }
-
-
-    public int getActionItemAssetIndex() {
-        return actionItemAssetIndex;
-    }
-
-
-    public void setActionItemAssetIndex(int itemAssetIndex) {
-        this.actionItemAssetIndex = itemAssetIndex;
-    }
-
-
-    public List<PurchasingAccountsPayableDocument> getPurApDocs() {
-        return purApDocs;
-    }
-
-    public void setPurApDocs(List<PurchasingAccountsPayableDocument> purApDocs) {
-        this.purApDocs = purApDocs;
-    }
-
-    public String getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
-    }
-
-    public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 }

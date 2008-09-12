@@ -51,6 +51,7 @@ public class CabConstants extends JSTLConstants {
         public static final String ALLOCATE = "allocate";
         public static final String CREATE_NEW = "create new assets";
         public static final String ADD_PAYMENTS = "add payments";
+        public static final String PERCENT_PAYMENT = "percent payment";
     }
 
     public static class ValidationStrings {

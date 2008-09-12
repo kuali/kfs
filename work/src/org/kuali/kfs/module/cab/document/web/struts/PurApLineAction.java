@@ -163,7 +163,7 @@ public class PurApLineAction extends KualiAction {
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
         checkSplitQty(selectedLineItem, errorPath);
         if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
-            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem);
+            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineForm.getActionsTakenHistory());
             if (newItemAsset != null) {
                 purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
                 Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());
@@ -294,10 +294,11 @@ public class PurApLineAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward percentPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurchasingAccountsPayableItemAsset itemAsset = getSelectedLineItem((PurApLineForm) form);
+        PurApLineForm purApform = (PurApLineForm)form;
+        PurchasingAccountsPayableItemAsset itemAsset = getSelectedLineItem(purApform);
 
         if (itemAsset != null) {
-            purApLineService.processPercentPayment(itemAsset);
+            purApLineService.processPercentPayment(itemAsset,purApform.getActionsTakenHistory());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

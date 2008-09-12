@@ -47,6 +47,7 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     private Integer endDisbursementNbr;
     private BigDecimal processTotalAmount;
     private Integer processTotalCount;
+    
     private DisbursementType disbursementType;
     private PaymentProcess process;
     private CustomerProfile customer;
@@ -155,6 +156,30 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getDisbursementTypeCode() {
+        return disbursementTypeCode;
+    }
+
+    public void setDisbursementTypeCode(String disbursementTypeCode) {
+        this.disbursementTypeCode = disbursementTypeCode;
+    }
+
+    public Integer getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Integer processId) {
+        this.processId = processId;
     }
 
 }

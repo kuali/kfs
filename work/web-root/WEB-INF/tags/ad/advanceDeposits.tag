@@ -25,8 +25,7 @@
 	<table cellpadding=0 class="datatable" summary="Advance Deposits">
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${adAttributes.financialDocumentBankCode}"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${adAttributes.financialDocumentBankAccountNumber}"/>
+            <kfs:bankLabel align="center"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${adAttributes.financialDocumentAdvanceDepositDate}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${adAttributes.financialDocumentAdvanceDepositReferenceNumber}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${adAttributes.financialDocumentAdvanceDepositDescription}"/>
@@ -38,18 +37,9 @@
         <c:if test="${not readOnly}">
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
-                <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankCode}" property="newAdvanceDeposit.financialDocumentBankCode" />
-                	&nbsp;
-                	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank" fieldConversions="financialDocumentBankCode:newAdvanceDeposit.financialDocumentBankCode" />
-                </td>
-                <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankAccountNumber}" property="newAdvanceDeposit.financialDocumentBankAccountNumber" />
-                	&nbsp;
-                	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.BankAccount" fieldConversions="financialDocumentBankCode:newAdvanceDeposit.financialDocumentBankCode,finDocumentBankAccountNumber:newAdvanceDeposit.financialDocumentBankAccountNumber" lookupParameters="newAdvanceDeposit.financialDocumentBankCode:financialDocumentBankCode" />
-                </td>
-                <td class="infoline">
-                	<kul:dateInput attributeEntry="${adAttributes.financialDocumentAdvanceDepositDate}" property="newAdvanceDeposit.financialDocumentAdvanceDepositDate" />
+                <kfs:bankControl property="newAdvanceDeposit.financialDocumentBankCode" objectProperty="newAdvanceDeposit.bank" depositOnly="true" readOnly="${readOnly}" style="infoline"/>
+                <td class="infoline">    
+                    <kul:dateInput attributeEntry="${adAttributes.financialDocumentAdvanceDepositDate}" property="newAdvanceDeposit.financialDocumentAdvanceDepositDate"/>
                 </td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentAdvanceDepositReferenceNumber}" property="newAdvanceDeposit.financialDocumentAdvanceDepositReferenceNumber" />
@@ -78,20 +68,7 @@
                     <html:hidden property="document.advanceDepositDetail[${ctr}].versionNumber" />
                     <html:hidden property="document.advanceDepositDetail[${ctr}].objectId" />
                 </kul:htmlAttributeHeaderCell>
-                <td class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankCode}" property="document.advanceDepositDetail[${ctr}].financialDocumentBankCode" readOnly="${readOnly}" />
-                	<c:if test="${not readOnly}">
-	                	&nbsp;
-    	            	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank" fieldConversions="financialDocumentBankCode:document.advanceDepositDetail[${ctr}].financialDocumentBankCode" />
-                	</c:if>
-                </td>
-                <td class="datacell">
-                	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankAccountNumber}" property="document.advanceDepositDetail[${ctr}].financialDocumentBankAccountNumber" readOnly="${readOnly}" />
-                	<c:if test="${not readOnly}">
-	                	&nbsp;
-    	            	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.BankAccount" fieldConversions="financialDocumentBankCode:document.advanceDepositDetail[${ctr}].financialDocumentBankCode,finDocumentBankAccountNumber:document.advanceDepositDetail[${ctr}].financialDocumentBankAccountNumber" lookupParameters="document.advanceDepositDetail[${ctr}].financialDocumentBankCode:financialDocumentBankCode" />
-    	            </c:if>
-                </td>
+                <kfs:bankControl property="document.advanceDepositDetail[${ctr}].financialDocumentBankCode" objectProperty="document.advanceDepositDetail[${ctr}].bank" depositOnly="true" readOnly="${readOnly}"/>
                 <td class="datacell">
                 	<c:choose>
                         <c:when test="${readOnly}">

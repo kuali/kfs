@@ -63,7 +63,7 @@
 
     <bean id="pdpModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="pdpModuleConfiguration" />
-    </bean>
+	</bean>
 
 	<bean id="pdpPayeeTypeDao" class="org.kuali.kfs.pdp.dataaccess.impl.PayeeTypeDaoMap">
     	<property name="payees">
@@ -79,10 +79,6 @@
 	</bean>	
 
 	<bean id="pdpAchAccountNumberDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.AchAccountNumberDaoOjb"/>
-
-	<bean id="pdpBankDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BankDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
-	</bean>
 
 	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchMaintenanceDaoOjb">
 		<property name="referenceService" ref="pdpReferenceService" />
@@ -231,7 +227,8 @@
 	</bean>
 
 	<bean id="pdpLoadPaymentsStep" class="org.kuali.kfs.pdp.batch.LoadPaymentsStep" parent="step">
-		<property name="paymentFileService" ref="pdpPaymentFileService"/>
+		<property name="paymentFileService" ref="paymentFileService"/>
+		<property name="paymentInputFileType" ref="paymentInputFileType" />
 	</bean>
 
 	<bean id="pdpDailyReportStep" class="org.kuali.kfs.pdp.batch.DailyReportStep" parent="step">
@@ -293,10 +290,6 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
-	<bean id="pdpBankService" class="org.kuali.kfs.pdp.service.impl.BankServiceImpl">
-		<property name="bankDao" ref="pdpBankDao"/>
-	</bean>
-
 	<bean id="pdpBatchMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.BatchMaintenanceServiceImpl">
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
@@ -355,15 +348,59 @@
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 	</bean>
 
-	<bean id="pdpPaymentFileService" class="org.kuali.kfs.pdp.service.impl.PaymentFileServiceImpl">
-		<property name="mailService" ref="mailService"/>
+	<bean id="paymentFileService" class="org.kuali.kfs.pdp.service.impl.PaymentFileServiceImpl">
 		<property name="parameterService" ref="parameterService" />
-		<property name="environmentService" ref="pdpEnvironmentService"/>
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
-		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao"/>
-		<property name="universalUserService" ref="universalUserService"/>
-		<property name="incomingDirectoryName" value="${staging.directory}/PDP/incoming"/>
+		<property name="batchInputFileService" ref="batchInputFileService"/>
+		<property name="paymentFileValidationService" ref="paymentFileValidationService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="paymentFileEmailService" ref="paymentFileEmailService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="outgoingDirectoryName" value="${staging.directory}/PDP/outgoing"/>
+	</bean>
+	
+	<bean id="paymentFileEmailService" class="org.kuali.kfs.pdp.service.impl.PaymentFileEmailServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="mailService" ref="mailService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+	</bean>
+	
+    <bean id="paymentFileValidationService" class="org.kuali.kfs.pdp.service.impl.PaymentFileValidationServiceImpl">
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="accountService" ref="accountService" />
+		<property name="subAccountService" ref="subAccountService"/>
+		<property name="objectCodeService" ref="objectCodeService" />
+		<property name="subObjectCodeService" ref="subObjectCodeService"/>
+		<property name="projectCodeService" ref="projectCodeService" />
+		<property name="kualiCodeService" ref="kualiCodeService" />
+	</bean>
+	
+	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/PDP/incoming</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/kfs/pdp/batch/paymentDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>static/xml/fs/payment1.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	    <property name="paymentFileService">
+	       <ref bean="paymentFileService"/>
+	    </property>
 	</bean>
 
 	<bean id="pdpPaymentGroupService" class="org.kuali.kfs.pdp.service.impl.PaymentGroupServiceImpl">
@@ -434,7 +471,7 @@
 
 	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
 	</bean>
-	
+
 	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService" singleton="false">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />

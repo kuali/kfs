@@ -57,9 +57,6 @@ function checkCheckAllOrNone() {
   }
 }
 </script>
-	<script type='text/javascript' src="dwr/interface/BankService.js"></script>
-	<script type='text/javascript' src="dwr/interface/BankAccountService.js"></script>
-	<script type='text/javascript' src="scripts/financial/objectInfo.js"></script>
 
 	<html:hidden property="cashDrawerVerificationUnit" />
 	<html:hidden property="cashManagementDocId" />
@@ -76,12 +73,7 @@ function checkCheckAllOrNone() {
 			<table cellpadding="0" cellspacing="0" class="datatable"
 				summary="deposit header info">
 				<tr>
-					<kul:htmlAttributeHeaderCell labelFor="bankCode"
-						attributeEntry="${depositAttributes.depositBankCode}"
-						horizontal="true" align="left" />
-					<kul:htmlAttributeHeaderCell labelFor="bankAccountNumber"
-						attributeEntry="${depositAttributes.depositBankAccountNumber}"
-						align="left" />
+				    <kfs:bankLabel/>
 					<kul:htmlAttributeHeaderCell labelFor="depositTypeCode"
 						attributeEntry="${depositAttributes.depositTypeCode}"
 						hideRequiredAsterisk="true" horizontal="true" align="left" />
@@ -90,31 +82,7 @@ function checkCheckAllOrNone() {
 						hideRequiredAsterisk="true" horizontal="true" align="left" />
 				</tr>
 				<tr>
-					<td class="infoline"><kul:htmlControlAttribute property="bankCode"
-						attributeEntry="${depositAttributes.depositBankCode}"
-						onblur="loadBankInfo(document.forms['KualiForm'], 'bankCode', 'bank');" />
-					<c:if test="${!readOnly}">
-						<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank"
-							fieldConversions="financialDocumentBankCode:bankCode" />
-					</c:if> <br />
-					<div id="bank.div" class="fineprint"><bean:write name="KualiForm"
-						property="bankAccount.bank.financialDocumentBankShortNm" />&nbsp;
-					</div>
-					</td>
-					<td class="infoline"><kul:htmlControlAttribute
-						property="bankAccountNumber"
-						attributeEntry="${depositAttributes.depositBankAccountNumber}"
-						onblur="loadBankAccountInfo(document.forms['KualiForm'], 'bankCode', 'bankAccountNumber', 'bankAccount' );" />
-					<c:if test="${!readOnly}">
-						<kul:lookup
-							boClassName="org.kuali.kfs.fp.businessobject.BankAccount"
-							fieldConversions="financialDocumentBankCode:bankCode,finDocumentBankAccountNumber:bankAccountNumber"
-							lookupParameters="bankCode:financialDocumentBankCode" />
-					</c:if> <br />
-					<div id="bankAccount.div" class="fineprint"><bean:write
-						name="KualiForm" property="bankAccount.finDocumentBankAccountDesc" />&nbsp;
-					</div>
-					</td>
+                    <kfs:bankControl property="bankCode" objectProperty="bank" depositOnly="true" readOnly="${readOnly}" class="infoline" />				
 					<td class="infoline"><kul:htmlControlAttribute
 						property="depositTypeCode"
 						attributeEntry="${depositAttributes.depositTypeCode}"

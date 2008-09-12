@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -427,22 +428,23 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        if (isBankCashOffsetEnabled()) {
-            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             Integer universityFiscalYear = getUniversityFiscalYear();
             int interimDepositNumber = 1;
             for (Iterator iterator = getDeposits().iterator(); iterator.hasNext();) {
-                // todo: getDeposits() should return List<Deposit> not List
                 Deposit deposit = (Deposit) iterator.next();
-                deposit.refreshReferenceObject(KFSPropertyConstants.BANK_ACCOUNT);
+                deposit.refreshReferenceObject(KFSPropertyConstants.BANK);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), this, universityFiscalYear, sequenceHelper, bankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBank(), deposit.getDepositAmount(), this, universityFiscalYear, sequenceHelper, bankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
                     success = false;
-                    LOG.warn("Skipping ledger entries for depost " + deposit.getDepositTicketNumber() + ".");
-                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
-                    // all.
+                    LOG.warn("Skipping ledger entries for deposit " + deposit.getDepositTicketNumber() + ".");
+                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it
                 }
+                
                 bankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
                 getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
@@ -451,16 +453,14 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
                 success &= glpeService.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, bankOffsetEntry, sequenceHelper, offsetEntry);
                 getGeneralLedgerPendingEntries().add(offsetEntry);
                 sequenceHelper.increment();
-                /*
-                 * Only the final deposit will have non-null currency and coin. If this is the final deposit, generate the ledger
-                 * entries for currency and coin.
-                 */
+                
+                 // Only the final deposit will have non-null currency and coin. If this is the final deposit, generate the ledger
+                 // entries for currency and coin.
                 if (deposit.getDepositTypeCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
                     KualiDecimal totalCoinCurrencyAmount = deposit.getDepositedCurrency().getTotalAmount().add(deposit.getDepositedCoin().getTotalAmount());
                     GeneralLedgerPendingEntry coinCurrencyBankOffsetEntry = new GeneralLedgerPendingEntry();
-                    if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), totalCoinCurrencyAmount, this, universityFiscalYear, sequenceHelper, coinCurrencyBankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                    if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBank(), totalCoinCurrencyAmount, this, universityFiscalYear, sequenceHelper, coinCurrencyBankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
                         success = false;
-                        // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all.
                         LOG.warn("Skipping ledger entries for coin and currency.");
                         continue;
                     }
@@ -473,12 +473,11 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
                     success &= glpeService.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, coinCurrencyBankOffsetEntry, sequenceHelper, coinCurrnecyOffsetEntry);
                     getGeneralLedgerPendingEntries().add(coinCurrnecyOffsetEntry);
                     sequenceHelper.increment();
-
                 }
 
             }
-
         }
+        
         return success;
     }
     

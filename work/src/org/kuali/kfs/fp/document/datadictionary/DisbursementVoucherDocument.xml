@@ -60,6 +60,7 @@
         <ref bean="DisbursementVoucherDocument-paidDate" />
         <ref bean="DisbursementVoucherDocument-cancelDate" />
         <ref bean="DisbursementVoucherDocument-disbursementVoucherPdpStatus" />
+        <ref bean="DisbursementVoucherDocument-disbVchrBankCode" />
       </list>
     </property>
   </bean>
@@ -400,6 +401,11 @@
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="Current status of this document in relation to the Pre-Disbursement Processor." />
+  </bean>
+  
+  <bean id="DisbursementVoucherDocument-disbVchrBankCode" parent="DisbursementVoucherDocument-disbVchrBankCode-parentBean" />
+  <bean id="DisbursementVoucherDocument-disbVchrBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="disbVchrBankCode" />
   </bean>
 
 <!-- Exported Workflow Properties -->

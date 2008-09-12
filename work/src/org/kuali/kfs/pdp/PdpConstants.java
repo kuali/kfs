@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.pdp;
 
-
+/**
+ * Contains general PDP constants.
+ */
 public class PdpConstants {
-    /**
-     * Used as the file prefix for temp files for ManualUploadFileAction
-     */
-    public static final String PDP_MANUAL_FILE_UPLOAD_TEMP_FILE_PREFIX = "pdp-manual-upload-file-";
+    public static final String PDP_FILE_UPLOAD_FILE_PREFIX = "pdp_payment_file_";
+    public static final String PAYMENT_FILE_TYPE_INDENTIFIER = "paymentInputFileType";
+    public static final String PAYMENT_LOAD_CREATE_DATE_SEPARATOR = "T";
+    public static final String PAYMENT_LOAD_CREATE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";
@@ -88,12 +90,15 @@ public class PdpConstants {
     }
 
     public static class PaymentStatusCodes {
-        public static final String FORMAT = "FORM";
-        public static final String OPEN = "OPEN";
-        public static final String CANCEL_DISBURSEMENT = "CDIS";
-        public static final String CANCEL_PAYMENT = "CPAY";
-        public static final String EXTRACTED = "EXTR";
-        public static final String PENDING_ACH = "PACH";
+        public static String FORMAT = "FORM";
+        public static String OPEN = "OPEN";
+        public static String CANCEL_DISBURSEMENT = "CDIS";
+        public static String CANCEL_PAYMENT = "CPAY";
+        public static String EXTRACTED = "EXTR";
+        public static String PENDING_ACH = "PACH";
+        public static String HELD_TAX_EMPLOYEE_CD = "HTXE";
+        public static String HELD_TAX_NRA_CD = "HTXN";
+        public static String HELD_TAX_NRA_EMPL_CD = "HTXB";
         public static final String HELD_TAX_ALL = "HTXA";
         public static final String HELD_TAX_ALL_FOR_SEARCH = "HTX*";
     }
@@ -113,6 +118,14 @@ public class PdpConstants {
         public static final String CONFIRM_CANCEL_ACTION = "confirmCancel";
         public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmRemoveHold";
         public static final String CONFIRM_HOLD_ACTION = "confirmHold";
+    }
+    
+    public static class AccountChangeCodes {
+        public static final String INVALID_ACCOUNT = "ACCT";
+        public static final String INVALID_SUB_ACCOUNT = "SA";
+        public static final String INVALID_OBJECT = "OBJ";
+        public static final String INVALID_SUB_OBJECT = "SO";
+        public static final String INVALID_PROJECT = "PROJ";
     }
     
 }

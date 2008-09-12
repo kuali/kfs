@@ -301,13 +301,19 @@
 			<ref bean="pdpCustomerProfileService"/>
 		</property>
 		<property name="paymentFileService">
-			<ref bean="pdpPaymentFileService"/>
+			<ref bean="paymentFileService"/>
 		</property>
 		<property name="paymentGroupService">
 			<ref bean="pdpPaymentGroupService"/>
 		</property>
 		<property name="referenceService">
 			<ref bean="pdpReferenceService"/>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+		<property name="paymentFileEmailService">
+			<ref bean="paymentFileEmailService"/>
 		</property>
 	</bean>
 
@@ -338,18 +344,6 @@
 	<bean id="cashDetailTypeCodeService" class="org.kuali.kfs.fp.service.impl.CashDetailTypeCodeServiceImpl">
 		<property name="kualiCodeService">
 			<ref bean="kualiCodeService" />
-		</property>
-	</bean>
-	
-	<bean id="bankService" class="org.kuali.kfs.fp.service.impl.BankServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" /> 
-		</property>
-	</bean>
-
-	<bean id="bankAccountService" class="org.kuali.kfs.fp.service.impl.BankAccountServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" /> 
 		</property>
 	</bean>
 	

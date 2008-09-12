@@ -29,8 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.businessobject.Bank;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashieringTransaction;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -48,8 +46,10 @@ import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -102,7 +102,7 @@ public class DepositWizardAction extends KualiAction {
             CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
 
             try {
-                initializeForm(dwForm, cmDoc, depositTypeCode);
+            initializeForm(dwForm, cmDoc, depositTypeCode);
             } catch (CashDrawerStateException cdse) {
                 dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);
             }
@@ -234,23 +234,14 @@ public class DepositWizardAction extends KualiAction {
         DepositWizardForm dform = (DepositWizardForm) form;
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
 
-        // validate Bank and BankAccount
-        boolean hasBankAccountNumber = false;
-        String bankAccountNumber = dform.getBankAccountNumber();
-        if (StringUtils.isBlank(bankAccountNumber)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
-        }
-        else {
-            hasBankAccountNumber = true;
-        }
-
+        // validate Bank
         String bankCode = dform.getBankCode();
         if (StringUtils.isBlank(bankCode)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANK);
         }
         else {
             Map keyMap = new HashMap();
-            keyMap.put("financialDocumentBankCode", bankCode);
+            keyMap.put(KFSPropertyConstants.BANK_CODE, bankCode);
 
             Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
@@ -258,19 +249,6 @@ public class DepositWizardAction extends KualiAction {
             }
             else {
                 dform.setBank(bank);
-
-                if (hasBankAccountNumber) {
-                    keyMap.put("finDocumentBankAccountNumber", bankAccountNumber);
-
-                    BankAccount bankAccount = (BankAccount) boService.findByPrimaryKey(BankAccount.class, keyMap);
-                    if (bankAccount == null) {
-                        String[] msgParams = { bankAccountNumber, bankCode };
-                        GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
-                    }
-                    else {
-                        dform.setBankAccount(bankAccount);
-                    }
-                }
             }
         }
 
@@ -390,7 +368,7 @@ public class DepositWizardAction extends KualiAction {
                     String cmDocId = dform.getCashManagementDocId();
 
                     CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-                    cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
+                    cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBank(), selectedReceipts, selectedCashieringChecks, depositIsFinal);
 
                     if (depositIsFinal) {
                         // find the final deposit

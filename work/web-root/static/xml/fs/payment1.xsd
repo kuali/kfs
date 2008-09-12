@@ -16,24 +16,12 @@
 -->
 <xsd:schema elementFormDefault="qualified"
     targetNamespace="http://kuali.org/pdp/payment1"
+    xmlns:kfs="http://www.kuali.org/kfsTypes"
     xmlns="http://kuali.org/pdp/payment1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="../../../../../org/kuali/kfs/sys/batch/kfsTypes.xsd" />
+        
     <!-- simple data types -->
-    <xsd:simpleType name="chartType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="2"/>
-            <xsd:maxLength value="2"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="orgType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{1,4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="subUnitType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z]{1,4}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
     <xsd:simpleType name="idTypeType">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="E"/>
@@ -44,197 +32,64 @@
             <xsd:enumeration value="X"/>
         </xsd:restriction>
     </xsd:simpleType>
+    
     <xsd:simpleType name="versionType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="1.0"/>
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="indicatorType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Y"/>
-            <xsd:enumeration value="N"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="sourceDocNbrType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="14"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="invoiceNbrType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="14"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="poNbrType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="9"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="reqNbrType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="8"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="orgDocNbrType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="10"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="payeeIdType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="25"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="payeeNameType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="40"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="customerInstitutionNumberType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="30"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="addressLineType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="55"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="addressLine1Type">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="55"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="payeeOwnershipCodeType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z][A-Z]"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="cityType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="45"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="countryType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="30"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="stateType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="30"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="zipCodeType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="20"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="accountType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="7"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="subAcctType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="5"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="objectType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="4"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="subObjectType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="3"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="orgRefType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="8"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="projectType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="10"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="paymentTextType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="0"/>
-            <xsd:maxLength value="90"/>
-        </xsd:restriction>
-    </xsd:simpleType>
     <!-- definition of simple type elements -->
-    <xsd:element name="chart" type="chartType"/>
-    <xsd:element name="organization" type="orgType"/>
-    <xsd:element name="sub_unit" type="subUnitType"/>
+    
+    <xsd:element name="chart" type="kfs:twoCharType"/>
+    <xsd:element name="organization" type="kfs:oneToFourCharType"/>
+    <xsd:element name="sub_unit" type="kfs:oneToFourAlphaType"/>
     <xsd:element name="creation_date" type="xsd:dateTime"/>
-    <xsd:element name="source_doc_nbr" type="sourceDocNbrType"/>
-    <xsd:element name="invoice_nbr" type="invoiceNbrType"/>
-    <xsd:element name="po_nbr" type="poNbrType"/>
-    <xsd:element name="req_nbr" type="reqNbrType"/>
-    <xsd:element name="org_doc_nbr" type="orgDocNbrType"/>
-    <xsd:element name="payee_name" type="payeeNameType"/>
-    <xsd:element name="payee_own_cd" type="payeeOwnershipCodeType"/>
-    <xsd:element name="customer_institution_identifier" type="customerInstitutionNumberType"/>
-    <xsd:element name="address1" type="addressLine1Type"/>
-    <xsd:element name="address2" type="addressLineType"/>
-    <xsd:element name="address3" type="addressLineType"/>
-    <xsd:element name="address4" type="addressLineType"/>
-    <xsd:element name="city" type="cityType"/>
-    <xsd:element name="state" type="stateType"/>
-    <xsd:element name="zip" type="zipCodeType"/>
-    <xsd:element name="country" type="countryType"/>
-    <xsd:element name="campus_address_ind" type="indicatorType"/>
+    <xsd:element name="source_doc_nbr" type="kfs:fdocNumberType"/>
+    <xsd:element name="invoice_nbr" type="kfs:fdocNumberType"/>
+    <xsd:element name="po_nbr" type="kfs:oneToNineCharType"/>
+    <xsd:element name="req_nbr" type="kfs:oneToEightCharType"/>
+    <xsd:element name="org_doc_nbr" type="kfs:oneToTenCharType"/>
+    <xsd:element name="payee_name" type="kfs:oneToFortyCharType"/>
+    <xsd:element name="payee_own_cd" type="kfs:twoAlphaType"/>
+    <xsd:element name="customer_institution_identifier" type="kfs:zeroToThirtyCharType"/>
+    <xsd:element name="address1" type="kfs:oneToFiftyFiveCharType"/>
+    <xsd:element name="address2" type="kfs:zeroToFiftyFiveCharType"/>
+    <xsd:element name="address3" type="kfs:zeroToFiftyFiveCharType"/>
+    <xsd:element name="address4" type="kfs:zeroToFiftyFiveCharType"/>
+    <xsd:element name="city" type="kfs:zeroToFortyFiveCharType"/>
+    <xsd:element name="state" type="kfs:zeroToThirtyCharType"/>
+    <xsd:element name="zip" type="kfs:zeroToTwentyCharType"/>
+    <xsd:element name="country" type="kfs:zeroToThirtyCharType"/>
+    <xsd:element name="campus_address_ind" type="kfs:indicatorType"/>
     <xsd:element name="payment_date" type="xsd:date"/>
     <xsd:element name="invoice_date" type="xsd:date"/>
-    <xsd:element name="attachment_ind" type="indicatorType"/>
-    <xsd:element name="special_handling_ind" type="indicatorType"/>
-    <xsd:element name="taxable_ind" type="indicatorType"/>
+    <xsd:element name="attachment_ind" type="kfs:indicatorType"/>
+    <xsd:element name="special_handling_ind" type="kfs:indicatorType"/>
+    <xsd:element name="taxable_ind" type="kfs:indicatorType"/>
     <xsd:element name="orig_invoice_amt" type="xsd:decimal"/>
     <xsd:element name="net_payment_amt" type="xsd:decimal"/>
     <xsd:element name="invoice_tot_discount_amt" type="xsd:decimal"/>
     <xsd:element name="invoice_tot_ship_amt" type="xsd:decimal"/>
     <xsd:element name="invoice_tot_other_debits" type="xsd:decimal"/>
     <xsd:element name="invoice_tot_other_credits" type="xsd:decimal"/>
-    <xsd:element name="nra_ind" type="indicatorType"/>
-    <xsd:element name="combine_group_ind" type="indicatorType"/>
-    <xsd:element name="coa_cd" type="chartType"/>
-    <xsd:element name="account_nbr" type="accountType"/>
-    <xsd:element name="sub_account_nbr" type="subAcctType"/>
-    <xsd:element name="object_cd" type="objectType"/>
-    <xsd:element name="sub_object_cd" type="subObjectType"/>
-    <xsd:element name="org_ref_id" type="orgRefType"/>
-    <xsd:element name="project_cd" type="projectType"/>
+    <xsd:element name="nra_ind" type="kfs:indicatorType"/>
+    <xsd:element name="combine_group_ind" type="kfs:indicatorType"/>
+    <xsd:element name="coa_cd" type="kfs:twoCharType"/>
+    <xsd:element name="account_nbr" type="kfs:accountType"/>
+    <xsd:element name="sub_account_nbr" type="kfs:subAcctType"/>
+    <xsd:element name="object_cd" type="kfs:objectType"/>
+    <xsd:element name="sub_object_cd" type="kfs:subObjectType"/>
+    <xsd:element name="org_ref_id" type="kfs:ZeroToEightCharType"/>
+    <xsd:element name="project_cd" type="kfs:oneToTenCharType"/>
     <xsd:element name="amount" type="xsd:decimal"/>
-    <xsd:element name="payment_text" type="paymentTextType"/>
+    <xsd:element name="payment_text" type="kfs:zeroToNinetyCharType"/>
     <xsd:element name="detail_count" type="xsd:integer"/>
     <xsd:element name="detail_tot_amt" type="xsd:decimal"/>
     <!-- definition of attributes -->
+    
     <xsd:attribute name="id_type" type="idTypeType"/>
     <xsd:attribute name="version" type="xsd:string"/>
+    
     <!-- definition of complex type elements -->
     <xsd:element name="pdp_file">
         <xsd:complexType>
@@ -246,6 +101,7 @@
             <xsd:attribute name="version" type="versionType" use="required"/>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="accounting">
         <xsd:complexType>
             <xsd:sequence>
@@ -260,6 +116,7 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="header">
         <xsd:complexType>
             <xsd:sequence>
@@ -270,6 +127,7 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="trailer">
         <xsd:complexType>
             <xsd:sequence>
@@ -278,6 +136,7 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="group">
         <xsd:complexType>
             <xsd:sequence>
@@ -300,7 +159,7 @@
                 <xsd:element maxOccurs="1" minOccurs="0" ref="taxable_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="nra_ind"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="combine_group_ind"/>
-                <!-- An IU check stub holds 27 note lines.  There is a line printed for each detail
+                <!--  Default check stub holds 27 note lines.  There is a line printed for each detail
                       so the number of detail items on a check needs to be subtracted from the 
                       total allowed note lines.  This can't be enforced in the schema so it is possible
                       to provide too many note lines in some cases.  This rule will be enforced in
@@ -317,6 +176,7 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="detail">
         <xsd:complexType>
             <xsd:sequence>
@@ -333,7 +193,7 @@
                 <xsd:element maxOccurs="1" minOccurs="0" ref="invoice_tot_other_debits"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="invoice_tot_other_credits"/>
                 <xsd:element maxOccurs="unbounded" minOccurs="1" ref="accounting"/>
-                <!-- An IU check stub holds 27 note lines.  There is a line printed for each detail
+                <!--  Default check stub holds 27 note lines.  There is a line printed for each detail
                       so the number of detail items on a check needs to be subtracted from the 
                       total allowed note lines.  This can't be enforced in the schema so it is possible
                       to provide too many note lines in some cases.  This rule will be enforced in
@@ -350,13 +210,15 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+    
     <xsd:element name="payee_id">
         <xsd:complexType>
             <xsd:simpleContent>
-                <xsd:extension base="payeeIdType">
+                <xsd:extension base="kfs:oneToTwentyFiveCharType">
                     <xsd:attribute name="id_type" type="idTypeType" use="required"/>
                 </xsd:extension>
             </xsd:simpleContent>
         </xsd:complexType>
     </xsd:element>
+    
 </xsd:schema>

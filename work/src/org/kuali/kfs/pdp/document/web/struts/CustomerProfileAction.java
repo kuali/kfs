@@ -120,7 +120,7 @@ public class CustomerProfileAction extends BaseAction {
                     cbf.setDisbursementDescription(dt.getName());
                     CustomerBank cb = custProfile.getCustomerBankByDisbursementType(dt.getCode());
                     if (cb != null) {
-                        cbf.setBankId(cb.getBank().getId());
+                        cbf.setBankCode(cb.getBank().getBankCode());
                     }
                     cpf.setCustomerBankForms(i, cbf);
                     i++;

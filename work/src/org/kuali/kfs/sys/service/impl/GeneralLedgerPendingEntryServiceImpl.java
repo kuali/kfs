@@ -38,7 +38,6 @@ import org.kuali.kfs.coa.service.BalanceTypService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -48,6 +47,7 @@ import org.kuali.kfs.gl.service.SufficientFundsServiceConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -444,9 +444,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
-     * posted as a side-effect if the given BankAccount has not defined the necessary bank offset relations.
+     * posted as a side-effect if the given bank has not defined the necessary bank offset relations.
      * 
-     * @param bankAccount
+     * @param bank
      * @param depositAmount
      * @param financialDocument
      * @param universityFiscalYear
@@ -455,97 +455,105 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param errorPropertyName
      * @return whether the entry was populated successfully
      */
-    public boolean populateBankOffsetGeneralLedgerPendingEntry(BankAccount bankAccount, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
+    public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
         bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(financialDocument.getClass()));
         bankOffsetEntry.setVersionNumber(1L);
         bankOffsetEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
         Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         bankOffsetEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         bankOffsetEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
-        Account cashOffsetAccount = bankAccount.getCashOffsetAccount();
+        Account cashOffsetAccount = bank.getCashOffsetAccount();
+    
         if (ObjectUtils.isNull(cashOffsetAccount)) {
-            // Bank account offsets are optional, so a BankAccount might not have the necessary relations. Validate them here where
-            // they are used so the need is clear.
-            // todo: put() varargs, revisit this in phase 2 when error reporting is discussed. -Leo
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bank.getBankCode() });
             return false;
         }
+     
         if (!cashOffsetAccount.isActive()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] {bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }
+    
         if (cashOffsetAccount.isExpired()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_EXPIRED, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_EXPIRED, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }
-        bankOffsetEntry.setChartOfAccountsCode(bankAccount.getCashOffsetFinancialChartOfAccountCode());
-        bankOffsetEntry.setAccountNumber(bankAccount.getCashOffsetAccountNumber());
+    
+        bankOffsetEntry.setChartOfAccountsCode(bank.getCashOffsetFinancialChartOfAccountCode());
+        bankOffsetEntry.setAccountNumber(bank.getCashOffsetAccountNumber());
         bankOffsetEntry.setFinancialDocumentApprovedCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         bankOffsetEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         bankOffsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         bankOffsetEntry.setTransactionDebitCreditCode(depositAmount.isPositive() ? GL_DEBIT_CODE : GL_CREDIT_CODE);
         bankOffsetEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         bankOffsetEntry.setDocumentNumber(financialDocument.getDocumentNumber());
-        ObjectCode cashOffsetObject = bankAccount.getCashOffsetObject();
+        
+        ObjectCode cashOffsetObject = bank.getCashOffsetObject();
         if (ObjectUtils.isNull(cashOffsetObject)) {
-            // Bank account offsets are optional, so a BankAccount might not have the necessary relations. Validate them here where
-            // they are used so the need is clear.
-            // todo: put() varargs, revisit this in phase 2 when error reporting is discussed. -Leo
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_OBJECT_CODE, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber() });
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_OBJECT_CODE, new String[] { bank.getBankCode()});
             return false;
         }
+      
         if (!cashOffsetObject.isFinancialObjectActiveCode()) {
-            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_OBJECT_CODE, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetObject.getFinancialObjectCode() });
+            GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_OBJECT_CODE, new String[] { bank.getBankCode(), cashOffsetObject.getFinancialObjectCode() });
             return false;
         }
-        bankOffsetEntry.setFinancialObjectCode(bankAccount.getCashOffsetObjectCode());
-        bankOffsetEntry.setFinancialObjectTypeCode(bankAccount.getCashOffsetObject().getFinancialObjectTypeCode());
+     
+        bankOffsetEntry.setFinancialObjectCode(bank.getCashOffsetObjectCode());
+        bankOffsetEntry.setFinancialObjectTypeCode(bank.getCashOffsetObject().getFinancialObjectTypeCode());
         bankOffsetEntry.setOrganizationDocumentNumber(financialDocument.getDocumentHeader().getOrganizationDocumentNumber());
         bankOffsetEntry.setOrganizationReferenceId(null);
         bankOffsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
         bankOffsetEntry.setReferenceFinancialDocumentNumber(null);
         bankOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
         bankOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
-        if (StringUtils.isBlank(bankAccount.getCashOffsetSubAccountNumber())) {
+       
+        if (StringUtils.isBlank(bank.getCashOffsetSubAccountNumber())) {
             bankOffsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
         else {
-            SubAccount cashOffsetSubAccount = bankAccount.getCashOffsetSubAccount();
+            SubAccount cashOffsetSubAccount = bank.getCashOffsetSubAccount();
             if (ObjectUtils.isNull(cashOffsetSubAccount)) {
-                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_ACCOUNT, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bank.getCashOffsetSubAccountNumber() });
                 return false;
             }
+        
             if (!cashOffsetSubAccount.isActive()) {
-                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_ACCOUNT, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bankAccount.getCashOffsetSubAccountNumber() });
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_ACCOUNT, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bank.getCashOffsetSubAccountNumber() });
                 return false;
             }
-            bankOffsetEntry.setSubAccountNumber(bankAccount.getCashOffsetSubAccountNumber());
+          
+            bankOffsetEntry.setSubAccountNumber(bank.getCashOffsetSubAccountNumber());
         }
-        if (StringUtils.isBlank(bankAccount.getCashOffsetSubObjectCode())) {
+      
+        if (StringUtils.isBlank(bank.getCashOffsetSubObjectCode())) {
             bankOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
         else {
-            SubObjCd cashOffsetSubObject = bankAccount.getCashOffsetSubObject();
+            SubObjCd cashOffsetSubObject = bank.getCashOffsetSubObject();
             if (ObjectUtils.isNull(cashOffsetSubObject)) {
-                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_OBJ, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bank.getCashOffsetSubObjectCode() });
                 return false;
             }
+         
             if (!cashOffsetSubObject.isActive()) {
-                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_OBJ, new String[] { bankAccount.getFinancialDocumentBankCode(), bankAccount.getFinDocumentBankAccountNumber(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bankAccount.getCashOffsetSubObjectCode() });
+                GlobalVariables.getErrorMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_OBJ, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bank.getCashOffsetSubObjectCode() });
                 return false;
             }
-            bankOffsetEntry.setFinancialSubObjectCode(bankAccount.getCashOffsetSubObjectCode());
+          
+            bankOffsetEntry.setFinancialSubObjectCode(bank.getCashOffsetSubObjectCode());
         }
-        bankOffsetEntry.setFinancialSubObjectCode(getEntryValue(bankAccount.getCashOffsetSubObjectCode(), KFSConstants.getDashFinancialSubObjectCode()));
+     
+        bankOffsetEntry.setFinancialSubObjectCode(getEntryValue(bank.getCashOffsetSubObjectCode(), KFSConstants.getDashFinancialSubObjectCode()));
         bankOffsetEntry.setTransactionEntryOffsetIndicator(true);
         bankOffsetEntry.setTransactionLedgerEntryAmount(depositAmount.abs());
         bankOffsetEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
-        // classes
         bankOffsetEntry.setUniversityFiscalYear(universityFiscalYear);
         // TODO wait for core budget year data structures to be put in place
         // bankOffsetEntry.setBudgetYear(accountingLine.getBudgetYear());
         // bankOffsetEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
         bankOffsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
+  
         return true;
     }
 

@@ -19,31 +19,22 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * 
  */
 public class CustomerBank extends TimestampedBusinessObjectBase {
     private Integer id; // CUST_BNK_ID
-    
+
     private Integer customerId;
     private CustomerProfile customerProfile; // CUST_ID
 
-    private Integer bankId;
+    private String bankCode;
     private Bank bank; // BNK_ID
 
     private String disbursementTypeCode;
@@ -84,6 +75,24 @@ public class CustomerBank extends TimestampedBusinessObjectBase {
      */
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+    
+    /**
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     /**

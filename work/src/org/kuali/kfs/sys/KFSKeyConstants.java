@@ -438,6 +438,7 @@ public class KFSKeyConstants {
     public static final String QUESTION_GENERATE_LABOR_BENEFIT_LINES = "question.budgetAdjustment.generateBenefitLines";
 
     public static final String QUESTION_CLEAR_UNNEEDED_TAB = "question.dv.clearUnneededTab";
+    public static final String QUESTION_BANK_INACTIVE = "question.document.bank.inactive";
 
     public static final String ERROR_PAYEE_INITIATOR = "error.document.payeeinitiator";
     public static final String ERROR_PAYMENT_REASON_PAYEE = "error.document.payreason.payee";
@@ -799,9 +800,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID = "error.document.creditCardReceipt.creditCardReceiptTotalInvalid";
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET = "error.document.creditCardReceipt.requiredNumberOfCreditCardReceiptsNotMet";
         public static final String ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE = "error.document.creditCardReceipt.balance";
-        public static final String ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE = "error.document.creditCardReceipt.bankMustExistWhenFlexible";
-
-        public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset.creditCardReceipt";
+        public static final String ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_BANK_ENHANCEMENT_ENABLED = "error.document.creditCardReceipt.bankMustExistWhenBankEnhancementEnabled";
     }
 
     public static final class Deposit {
@@ -982,5 +981,13 @@ public class KFSKeyConstants {
         public static final String DEBIT_CREDIT_AMOUNT_OVERVIEW_LABEL = "accounting.line.debit.credit.amount.overview.label";
         public static final String DEBIT_CREDIT_AMOUNT_DEBIT_AMOUNT_LABEL = "accounting.line.debit.credit.amount.debit.amount.label";
         public static final String DEBIT_CREDIT_AMOUNT_CREDIT_AMOUNT_LABEL = "accounting.line.debit.credit.amount.credit.amount.label";
+    }
+    
+    public static final class Bank {
+        public static final String ERROR_MISSING_CASH_ACCOUNT_NUMBER = "error.document.bank.missingCashAccountNumber";
+        public static final String ERROR_MISSING_CASH_OBJECT_CODE = "error.document.bank.missingCashObjectCode";
+        public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset";
+        public static final String ERROR_DEPOSIT_NOT_SUPPORTED = "error.document.bank.depositNotSupported";
+        public static final String ERROR_DISBURSEMENT_NOT_SUPPORTED = "error.document.bank.disbursementNotSupported";      
     }
 }

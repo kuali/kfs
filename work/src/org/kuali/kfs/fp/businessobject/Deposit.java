@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -42,12 +43,11 @@ public class Deposit extends PersistableBusinessObjectBase {
     private String depositTicketNumber;
     // related objects and foreign keys
     private String depositBankCode;
-    private String depositBankAccountNumber;
 
     private CurrencyDetail depositedCurrency;
     private CoinDetail depositedCoin;
 
-    private BankAccount bankAccount;
+    private Bank bank;
     private CashManagementDocument cashManagementDocument;
     private List depositCashReceiptControl;
 
@@ -57,25 +57,24 @@ public class Deposit extends PersistableBusinessObjectBase {
      */
     public Deposit() {
         depositCashReceiptControl = new ArrayList();
-    }
-
-
-    /**
-     * @return current value of bankAccount.
-     */
-    public BankAccount getBankAccount() {
-        return bankAccount;
+        bank = new Bank();
     }
 
     /**
-     * Sets the bankAccount attribute value.
-     * 
-     * @param bankAccount The bankAccount to set.
+     * Gets the bank attribute. 
+     * @return Returns the bank.
      */
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
+    public Bank getBank() {
+        return bank;
     }
 
+    /**
+     * Sets the bank attribute value.
+     * @param bank The bank to set.
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
 
     /**
      * @return current value of cashManagementDocument.
@@ -109,24 +108,6 @@ public class Deposit extends PersistableBusinessObjectBase {
     public void setDepositCashReceiptControl(List depositCashReceiptControl) {
         this.depositCashReceiptControl = depositCashReceiptControl;
     }
-
-
-    /**
-     * @return current value of depositBankAccountNumber.
-     */
-    public String getDepositBankAccountNumber() {
-        return depositBankAccountNumber;
-    }
-
-    /**
-     * Sets the depositBankAccountNumber attribute value.
-     * 
-     * @param depositBankAccountNumber The depositBankAccountNumber to set.
-     */
-    public void setDepositBankAccountNumber(String depositBankAccountNumber) {
-        this.depositBankAccountNumber = depositBankAccountNumber;
-    }
-
 
     /**
      * @return current value of depositAmount.

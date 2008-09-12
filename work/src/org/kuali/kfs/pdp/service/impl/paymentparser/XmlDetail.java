@@ -185,7 +185,7 @@ public class XmlDetail implements Serializable {
             d.setInvoiceDate(new Timestamp(invoice_date.getTime()));
         }
         else {
-            d.setInvoiceDate(null);
+          //  d.setInvoiceDate(null);
         }
         d.setOrigInvoiceAmount(orig_invoice_amt);
         d.setNetPaymentAmount(net_payment_amt);

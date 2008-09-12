@@ -23,6 +23,8 @@ import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
  */
 final public class FinancialSystemTransactionalDocumentActionFlags extends FinancialSystemDocumentActionFlags {
     private boolean canErrorCorrect;
+    private boolean canViewBank;
+    private boolean canEditBank;
 
     /**
      * Default constructor.
@@ -41,6 +43,8 @@ final public class FinancialSystemTransactionalDocumentActionFlags extends Finan
         if (flags instanceof FinancialSystemTransactionalDocumentActionFlags) {
             FinancialSystemTransactionalDocumentActionFlags mflags = (FinancialSystemTransactionalDocumentActionFlags) flags;
             this.canErrorCorrect = mflags.canErrorCorrect;
+            this.canViewBank = mflags.canViewBank;
+            this.canEditBank = mflags.canEditBank;
         }
     }
 
@@ -56,6 +60,42 @@ final public class FinancialSystemTransactionalDocumentActionFlags extends Finan
      */
     public void setCanErrorCorrect(boolean canErrorCorrect) {
         this.canErrorCorrect = canErrorCorrect;
+    }
+
+    /**
+     * Gets the canViewBank attribute.
+     * 
+     * @return Returns the canViewBank.
+     */
+    public boolean getCanViewBank() {
+        return canViewBank;
+    }
+
+    /**
+     * Sets the canViewBank attribute value.
+     * 
+     * @param canViewBank The canViewBank to set.
+     */
+    public void setCanViewBank(boolean canViewBank) {
+        this.canViewBank = canViewBank;
+    }
+
+    /**
+     * Gets the canEditBank attribute.
+     * 
+     * @return Returns the canEditBank.
+     */
+    public boolean getCanEditBank() {
+        return canEditBank;
+    }
+
+    /**
+     * Sets the canEditBank attribute value.
+     * 
+     * @param canEditBank The canEditBank to set.
+     */
+    public void setCanEditBank(boolean canEditBank) {
+        this.canEditBank = canEditBank;
     }
 
     /**

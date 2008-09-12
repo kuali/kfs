@@ -20,7 +20,6 @@
         <ref bean="AdvanceDepositDetail-financialDocumentAdvanceDepositDescription" />
         <ref bean="AdvanceDepositDetail-financialDocumentAdvanceDepositReferenceNumber" />
         <ref bean="AdvanceDepositDetail-financialDocumentBankCode" />
-        <ref bean="AdvanceDepositDetail-financialDocumentBankAccountNumber" />
       </list>
     </property>
   </bean>
@@ -105,18 +104,12 @@
             p:size="16" />
     </property>
   </bean>
+  
   <bean id="AdvanceDepositDetail-financialDocumentBankCode" parent="AdvanceDepositDetail-financialDocumentBankCode-parentBean" />
-
   <bean id="AdvanceDepositDetail-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="financialDocumentBankCode" />
     <property name="label" value="Bank" />
     <property name="shortLabel" value="Bank" />
   </bean>
-  <bean id="AdvanceDepositDetail-financialDocumentBankAccountNumber" parent="AdvanceDepositDetail-financialDocumentBankAccountNumber-parentBean" />
 
-  <bean id="AdvanceDepositDetail-financialDocumentBankAccountNumber-parentBean" abstract="true" parent="BankAccount-finDocumentBankAccountNumber">
-    <property name="name" value="financialDocumentBankAccountNumber" />
-    <property name="label" value="Bank Account" />
-    <property name="shortLabel" value="Bank Account" />
-  </bean>
 </beans>

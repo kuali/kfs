@@ -101,7 +101,7 @@
         <form-bean name="CustomerOpenItemReportForm" 
         	type="org.kuali.kfs.module.ar.web.struts.CustomerOpenItemReportForm" />	
         <form-bean name="CustomerInvoiceWriteoffLookupForm" 
-        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />   
+        	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />        			
         <form-bean name="CustomerInvoiceWriteoffLookupSummaryForm" 
         	type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryForm" />        	     			
 		<form-bean name="CustomerStatementForm" 
@@ -393,7 +393,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/modules/ar/CustomerInvoiceWriteoffLookup.jsp" />
-		</action>
+		</action>		
 		
 		<action path="/arCustomerInvoiceWriteoffLookupSummary"
 			name="CustomerInvoiceWriteoffLookupSummaryForm" scope="request" attribute="KualiForm"
@@ -456,7 +456,7 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/financial/{1}.jsp" />
 		</action>
-		
+
 		<action path="/financialCashManagement" name="CashManagementForm"
 			input="/jsp/modules/financial/CashManagement.jsp"
 			type="org.kuali.kfs.fp.document.web.struts.CashManagementAction" scope="request"
@@ -868,20 +868,6 @@
 			type="org.kuali.kfs.pdp.document.web.struts.CustomerProfileSaveAction">
 			<forward name="list" path="/pdp/customerprofile.do" />
 			<forward name="edit" path="/pdp/customerprofile/edit.jsp" />
-		</action>
-
-		<!-- ********** Bank ********** -->
-		<action path="/pdp/bank"
-			type="org.kuali.kfs.pdp.document.web.struts.BankAction">
-			<forward name="list" path="/pdp/bank/list.jsp" />
-			<forward name="edit" path="/pdp/bank/edit.jsp" />
-		</action>
-
-		<action path="/pdp/banksave" name="PdpBankForm" validate="false"
-			input="/pdp/bank/edit.jsp" scope="request"
-			type="org.kuali.kfs.pdp.document.web.struts.BankSaveAction">
-			<forward name="list" path="/pdp/bank.do" />
-			<forward name="edit" path="/pdp/bank/edit.jsp" />
 		</action>
 
 		<!-- ********** Format ********** -->

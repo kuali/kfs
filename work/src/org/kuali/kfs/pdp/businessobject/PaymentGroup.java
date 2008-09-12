@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,11 +26,10 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class PaymentGroup extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
@@ -86,14 +84,13 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String disbursementTypeCode;
     private DisbursementType disbursementType; // DISB_TYP_CD
 
-    private Integer bankId;
+    private String bankCode;
     private Bank bank; // BNK_ID
 
     private AchAccountNumber achAccountNumber;
 
-    private List paymentGroupHistory = new ArrayList();
-
-    private List paymentDetails = new ArrayList();
+    private List<PaymentGroupHistory> paymentGroupHistory = new ArrayList<PaymentGroupHistory>();
+    private List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
 
     public PaymentGroup() {
         super();
@@ -220,7 +217,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return paymentDetails;
     }
 
-    public void setPaymentDetails(List paymentDetail) {
+    public void setPaymentDetails(List<PaymentDetail> paymentDetail) {
         this.paymentDetails = paymentDetail;
     }
 
@@ -238,11 +235,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @hibernate.collection-key column="pmt_grp_id"
      * @hibernate.collection-one-to-many class="edu.iu.uis.pdp.bo.PaymentGroupHistory"
      */
-    public List getPaymentGroupHistory() {
+    public List<PaymentGroupHistory> getPaymentGroupHistory() {
         return paymentGroupHistory;
     }
 
-    public void setPaymentGroupHistory(List paymentGroupHistory) {
+    public void setPaymentGroupHistory(List<PaymentGroupHistory> paymentGroupHistory) {
         this.paymentGroupHistory = paymentGroupHistory;
     }
 
@@ -341,9 +338,9 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="LST_UPDT_TS" length="7"
      */
-    /*public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }*/
+    /*
+     * public Timestamp getLastUpdate() { return lastUpdate; }
+     */
 
     /**
      * @return
@@ -391,6 +388,24 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public Batch getBatch() {
         return batch;
+    }
+
+    /**
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     /**
@@ -697,14 +712,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setEmployeeIndicator(Boolean boolean1) {
         employeeIndicator = boolean1;
     }
-
-    /**
-     * @param timestamp
-     */
-    /*public void setLastUpdate(Timestamp timestamp) {
-        lastUpdate = timestamp;
-    }*/
-
+    
     /**
      * @param string
      */
@@ -773,6 +781,16 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public void setPaymentDate(Timestamp timestamp) {
         paymentDate = timestamp;
+    }
+    
+    /**
+     * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
+     * paymentDate field
+     * 
+     * @param paymentDate Timestamp as string
+     */
+    public void setPaymentDate(String paymentDate) throws ParseException {
+        this.paymentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).convertToSqlDate(paymentDate).getTime());
     }
 
     /**
@@ -853,34 +871,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    /*public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-        lastUpdate = new Timestamp((new Date()).getTime());
-    }
-
-    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }
-
-    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
-
-    }*/
-
     /**
      * @return Returns the achAccountType.
      */
@@ -911,12 +901,30 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         this.epicPaymentPaidExtractedDate = epicPaymentPaidExtractedDate;
     }
 
+    /**
+     * Gets the batchId attribute.
+     * 
+     * @return Returns the batchId.
+     */
+    public Integer getBatchId() {
+        return batchId;
+    }
+
+    /**
+     * Sets the batchId attribute value.
+     * 
+     * @param batchId The batchId to set.
+     */
+    public void setBatchId(Integer batchId) {
+        this.batchId = batchId;
+    }
+
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap(); 
+        LinkedHashMap m = new LinkedHashMap();
 
         m.put("id", this.id);
-        
+
         return m;
     }
 

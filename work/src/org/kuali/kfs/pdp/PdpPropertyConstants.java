@@ -15,8 +15,26 @@
  */
 package org.kuali.kfs.pdp;
 
+/**
+ * Contains property name constants.
+ */
 public class PdpPropertyConstants {
+    public static final String BATCH_ID = "batchId";
+    public static final String CUSTOMER_ID = "customerId";
+    public static final String CUSTOMER_FILE_CREATE_TIMESTAMP = "customerFileCreateTimestamp";
+    public static final String DETAIL_COUNT = "detailCount";
+    public static final String PAYMENT_COUNT = "paymentCount";
+    public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
+    public static final String CREATION_DATE = "creationDate";
     public static final String LAST_ASSIGNED_DISBURSEMENT_NUMBER = "lastAssignedDisbNbr";
+    public static final String SUB_UNIT = "subUnit";
+    
+    public static final String CHART_DB_COLUMN_NAME = "fin_coa_cd";
+    public static final String ACCOUNT_DB_COLUMN_NAME = "account_nbr";
+    public static final String SUB_ACCOUNT_DB_COLUMN_NAME = "sub_acct_nbr";
+    public static final String OBJECT_DB_COLUMN_NAME = "fin_object_cd";
+    public static final String SUB_OBJECT_DB_COLUMN_NAME = "fin_sub_obj_cd";
+    public static final String PROJECT_DB_COLUMN_NAME = "project_cd";
     
     public static class BatchConstants{
         public static class Fields{
@@ -81,6 +99,4 @@ public class PdpPropertyConstants {
 
         }
     }
-    
-   
 }

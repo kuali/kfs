@@ -45,8 +45,10 @@ import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -55,8 +57,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -79,6 +83,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -87,7 +92,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
-    
+
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
     private String disbVchrContactPhoneNumber;
@@ -111,9 +116,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private Date extractDate;
     private Date paidDate;
     private Date cancelDate;
+    private String disbVchrBankCode;
 
     private boolean payeeAssigned = false;
-    
+
     private DocumentHeader financialDocument;
     private DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
     private DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
@@ -121,6 +127,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
+
+    private Bank bank;
 
     /**
      * Default no-arg constructor.
@@ -135,6 +143,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         dvPreConferenceDetail = new DisbursementVoucherPreConferenceDetail();
         dvWireTransfer = new DisbursementVoucherWireTransfer();
         disbVchrCheckTotalAmount = KualiDecimal.ZERO;
+        bank = new Bank();
     }
 
 
@@ -161,7 +170,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                         // does not have a flexible offset for cash or liability, set the object code to cash and add to list of
                         // PLEs to check for SF
 
-                        ple = new GeneralLedgerPendingEntry( ple );
+                        ple = new GeneralLedgerPendingEntry(ple);
                         ple.setFinancialObjectCode(ple.getChart().getFinancialCashObjectCode());
                         ple.setTransactionDebitCreditCode(ple.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
                         ples.add(ple);
@@ -668,7 +677,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Gets the cancelDate attribute. 
+     * Gets the cancelDate attribute.
+     * 
      * @return Returns the cancelDate.
      */
     public Date getCancelDate() {
@@ -677,6 +687,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     /**
      * Sets the cancelDate attribute value.
+     * 
      * @param cancelDate The cancelDate to set.
      */
     public void setCancelDate(Date cancelDate) {
@@ -684,7 +695,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Gets the extractDate attribute. 
+     * Gets the extractDate attribute.
+     * 
      * @return Returns the extractDate.
      */
     public Date getExtractDate() {
@@ -693,6 +705,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     /**
      * Sets the extractDate attribute value.
+     * 
      * @param extractDate The extractDate to set.
      */
     public void setExtractDate(Date extractDate) {
@@ -700,7 +713,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * Gets the paidDate attribute. 
+     * Gets the paidDate attribute.
+     * 
      * @return Returns the paidDate.
      */
     public Date getPaidDate() {
@@ -709,30 +723,36 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     /**
      * Sets the paidDate attribute value.
+     * 
      * @param paidDate The paidDate to set.
      */
     public void setPaidDate(Date paidDate) {
         this.paidDate = paidDate;
     }
-    
+
     /**
      * Based on which pdp dates are present (extract, paid, canceled), determines a String for the status
+     * 
      * @return a String representation of the status
      */
     public String getDisbursementVoucherPdpStatus() {
         if (cancelDate != null) {
             return "Canceled";
-        } else if (paidDate != null) {
+        }
+        else if (paidDate != null) {
             return "Paid";
-        } else if (extractDate != null) {
+        }
+        else if (extractDate != null) {
             return "Extracted";
-        } else {
+        }
+        else {
             return "Pre-Extraction";
         }
     }
-    
+
     /**
      * Pretends to set the PDP status for this document
+     * 
      * @param status the status to pretend to set
      */
     public void setDisbursementVoucherPdpStatus(String status) {
@@ -760,11 +780,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param method
-     * @deprecated This method should not be used.  There is no private attribute to store this value.
-     * The associated getter retrieves the value remotely.  
+     * @deprecated This method should not be used. There is no private attribute to store this value. The associated getter
+     *             retrieves the value remotely.
      */
     public void setDisbVchrPaymentMethodName(String method) {
     }
@@ -779,14 +799,54 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param name
-     * @deprecated This method should not be used.  There is no private attribute to store this value.
-     * The associated getter retrieves the value remotely.  
+     * @deprecated This method should not be used. There is no private attribute to store this value. The associated getter
+     *             retrieves the value remotely.
      */
     public void setDisbursementVoucherDocumentationLocationName(String name) {
     }
+
+
+    /**
+     * Gets the disbVchrBankCode attribute.
+     * 
+     * @return Returns the disbVchrBankCode.
+     */
+    public String getDisbVchrBankCode() {
+        return disbVchrBankCode;
+    }
+
+
+    /**
+     * Sets the disbVchrBankCode attribute value.
+     * 
+     * @param disbVchrBankCode The disbVchrBankCode to set.
+     */
+    public void setDisbVchrBankCode(String disbVchrBankCode) {
+        this.disbVchrBankCode = disbVchrBankCode;
+    }
+
+    /**
+     * Gets the bank attribute.
+     * 
+     * @return Returns the bank.
+     */
+    public Bank getBank() {
+        return bank;
+    }
+
+
+    /**
+     * Sets the bank attribute value.
+     * 
+     * @param bank The bank to set.
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
 
     /**
      * Convenience method to set dv payee detail fields based on a given vendor.
@@ -801,19 +861,19 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(vendor.getVendorNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(vendor.getVendorName());
-        
+
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
 
-        if(ObjectUtils.isNull(vendorAddress) || ObjectUtils.isNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
-            for(VendorAddress addr : vendor.getVendorAddresses()) {
-                if(addr.isVendorDefaultAddressIndicator()) {
+        if (ObjectUtils.isNull(vendorAddress) || ObjectUtils.isNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
+            for (VendorAddress addr : vendor.getVendorAddresses()) {
+                if (addr.isVendorDefaultAddressIndicator()) {
                     vendorAddress = addr;
                     break;
                 }
             }
         }
 
-        if(ObjectUtils.isNotNull(vendorAddress) && ObjectUtils.isNotNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
+        if (ObjectUtils.isNotNull(vendorAddress) && ObjectUtils.isNotNull(vendorAddress.getVendorAddressGeneratedIdentifier())) {
             this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(vendorAddress.getVendorAddressGeneratedIdentifier().toString());
             this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(vendorAddress.getVendorLine1Address());
             this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(vendorAddress.getVendorLine2Address());
@@ -826,15 +886,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(vendor.getVendorHeader().getVendorForeignIndicator());
         this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(VendorConstants.VendorTypes.SUBJECT_PAYMENT.equals(vendor.getVendorHeader().getVendorTypeCode()));
         this.getDvPayeeDetail().setDisbVchrEmployeePaidOutsidePayrollCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(vendor.getVendorHeaderGeneratedIdentifier()));
-        
+
         this.getDvPayeeDetail().setHasMultipleVendorAddresses(1 < vendor.getVendorAddresses().size());
-        
-        this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator()==null?false:vendor.getVendorHeader().getVendorW9ReceivedIndicator();
-        
+
+        this.disbVchrPayeeW9CompleteCode = vendor.getVendorHeader().getVendorW9ReceivedIndicator() == null ? false : vendor.getVendorHeader().getVendorW9ReceivedIndicator();
+
         Date vendorFederalWithholdingTaxBeginDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate();
         Date vendorFederalWithholdingTaxEndDate = vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate();
-        if((vendorFederalWithholdingTaxBeginDate!=null && vendorFederalWithholdingTaxBeginDate.before(SpringContext.getBean(DateTimeService.class).getCurrentDate())) &&
-           (vendorFederalWithholdingTaxEndDate==null || vendorFederalWithholdingTaxEndDate.after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
+        if ((vendorFederalWithholdingTaxBeginDate != null && vendorFederalWithholdingTaxBeginDate.before(SpringContext.getBean(DateTimeService.class).getCurrentDate())) && (vendorFederalWithholdingTaxEndDate == null || vendorFederalWithholdingTaxEndDate.after(SpringContext.getBean(DateTimeService.class).getCurrentDate()))) {
             this.disbVchrPayeeTaxControlCode = DisbursementVoucherRuleConstants.TAX_CONTROL_CODE_BEGIN_WITHHOLDING;
         }
     }
@@ -852,7 +911,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
-        
+
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getPersonCampusAddress());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
         this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
@@ -870,11 +929,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
             if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM)) {
                 String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
-                if(StringUtils.isNotBlank(researchPayLimit)) {
+                if (StringUtils.isNotBlank(researchPayLimit)) {
                     KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
                     if (getDisbVchrCheckTotalAmount().isLessThan(payLimit)) {
-                            this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(true);
+                        this.getDvPayeeDetail().setDvPayeeSubjectPaymentCode(true);
                     }
                 }
             }
@@ -915,31 +974,34 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * This method is overridden to populate some local variables that are not persisted to the database.  These values 
-     * need to be computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing.  Some of 
-     * the routing rules rely on these variables.
+     * This method is overridden to populate some local variables that are not persisted to the database. These values need to be
+     * computed and saved to the DV Payee Detail BO so they can be serialized to XML for routing. Some of the routing rules rely on
+     * these variables.
      * 
      * @see org.kuali.rice.kns.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
         DisbursementVoucherPayeeDetail payeeDetail = getDvPayeeDetail();
-        
-        if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
+
+        if (StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
             payeeDetail.setDisbVchrAlienPaymentCode(SpringContext.getBean(VendorService.class).isVendorForeign(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
             payeeDetail.setDisbVchrPayeeEmployeeCode(SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
             payeeDetail.setDvPayeeSubjectPaymentCode(SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger()));
         }
-        else if(StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        else if (StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
             // Determine if employee is a non-resident alien
             try {
                 UniversalUser uu = SpringContext.getBean(UniversalUserService.class).getUniversalUser(payeeDetail.getDisbVchrEmployeeIdNumber());
-                payeeDetail.setDisbVchrAlienPaymentCode(!"S".equals(uu.getPersonTaxIdentifierTypeCode())); // If tax id code is NOT "S" then assume employee is foreign
-            } catch(UserNotFoundException unfe) {
+                payeeDetail.setDisbVchrAlienPaymentCode(!"S".equals(uu.getPersonTaxIdentifierTypeCode())); // If tax id code is NOT
+                                                                                                            // "S" then assume
+                                                                                                            // employee is foreign
+            }
+            catch (UserNotFoundException unfe) {
                 // Setting value to false, because I can't retrieve the value for the UniversalUser
                 payeeDetail.setDisbVchrAlienPaymentCode(false);
             }
-            
+
             // Determine if employee is ... an employee! :-)
             payeeDetail.setDisbVchrPayeeEmployeeCode(true);
 
@@ -949,20 +1011,20 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             if (researchPaymentReasonCodeEvaluator.evaluationSucceeds()) {
                 if (paramService.parameterExists(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM)) {
                     String researchPayLimit = paramService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM);
-                    if(StringUtils.isNotBlank(researchPayLimit)) {
+                    if (StringUtils.isNotBlank(researchPayLimit)) {
                         KualiDecimal payLimit = new KualiDecimal(researchPayLimit);
 
                         if (getDisbVchrCheckTotalAmount().isLessThan(payLimit)) {
-                                payeeDetail.setDvPayeeSubjectPaymentCode(true);
+                            payeeDetail.setDvPayeeSubjectPaymentCode(true);
                         }
                     }
                 }
             }
         }
-        
-        super.populateDocumentForRouting(); // Call last, serializes to XML        
+
+        super.populateDocumentForRouting(); // Call last, serializes to XML
     }
-    
+
     /**
      * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
      * should not be persisted.
@@ -1011,7 +1073,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         getDvPayeeDetail().setDisbVchrPayeeZipCode("");
         getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
-        
+
         setDisbVchrPayeeTaxControlCode("");
 
         // clear nra
@@ -1027,7 +1089,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             VendorAddress vendorAddress = new VendorAddress();
             vendorAddress.setVendorAddressGeneratedIdentifier(dvPayeeDetail.getDisbVchrVendorAddressIdNumberAsInteger());
             vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
-            
+
             if (vendorDetail == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
                 GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
@@ -1045,8 +1107,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         setDisbVchrContactPersonName(currentUser.getPersonName());
         setDisbVchrContactPhoneNumber(currentUser.getPersonLocalPhoneNumber());
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(currentUser,KFSConstants.Modules.CHART);
-        if ( chartOrg != null && chartOrg.getOrganization() != null ) {
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(currentUser, KFSConstants.Modules.CHART);
+        if (chartOrg != null && chartOrg.getOrganization() != null) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
         }
 
@@ -1058,6 +1120,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // default doc location
         if (StringUtils.isBlank(getDisbursementVoucherDocumentationLocationCode())) {
             setDisbursementVoucherDocumentationLocationCode(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+        }
+
+        // default bank code
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(DisbursementVoucherDocument.class);
+        if (defaultBank != null) {
+            this.disbVchrBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
         }
     }
 
@@ -1098,7 +1167,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public KualiDecimal getTotalDollarAmount() {
         return this.getDisbVchrCheckTotalAmount();
     }
-    
+
     /**
      * Returns true if accounting line debit
      * 
@@ -1114,20 +1183,19 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
 
-        if (getDvNonResidentAlienTax() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(((AccountingLine)postable).getSequenceNumber().toString())) {
+        if (getDvNonResidentAlienTax() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(((AccountingLine) postable).getSequenceNumber().toString())) {
             return postable.getAmount().isPositive();
         }
 
-        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine)postable);
+        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine) postable);
     }
-    
+
     /**
      * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
      * 
      * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line in submitted accounting document 
-     * @param explicitEntry explicit GLPE 
-     * 
+     * @param accountingLine accounting line in submitted accounting document
+     * @param explicitEntry explicit GLPE
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
@@ -1151,7 +1219,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @return true if GLPE's are generated successfully
-     * 
      * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
@@ -1176,6 +1243,12 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             // generate credits
             processWireChargeCreditEntries(sequenceHelper, wireCharge, chargeEntry);
         }
+        
+        // for wire or drafts generate bank offset entry (if enabled), for ACH and checks offset will be generated by PDP
+        if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) || DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(getDisbVchrPaymentMethodCode())) {
+            generateDocumentBankOffsetEntries(sequenceHelper);
+        }
+
         return true;
     }
 
@@ -1184,7 +1257,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
      * 
      * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence 
+     * @param sequenceHelper helper class to keep track of GLPE sequence
      * @param wireCharge wireCharge object from current fiscal year
      * @return GeneralLedgerPendingEntry generated wire charge debit
      */
@@ -1230,10 +1303,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * is used for the entry.
      * 
      * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence 
+     * @param sequenceHelper helper class to keep track of GLPE sequence
      * @param chargeEntry GLPE charge
      * @param wireCharge wireCharge object from current fiscal year
-     *  
      */
     private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
 
@@ -1275,7 +1347,39 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         addPendingEntry(offsetEntry);
     }
-    
+
+    /**
+     * If bank specification is enabled generates bank offsetting entries for the document amount
+     * 
+     * @param sequenceHelper helper class to keep track of GLPE sequence
+     */
+    public boolean generateDocumentBankOffsetEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = true;
+
+        if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+            return success;
+        }
+
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+
+        GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), this.getSourceTotal(), this, getPostingYear(), sequenceHelper, bankOffsetEntry, KNSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.DISB_VCHR_BANK_CODE);
+
+        if (success) {
+            AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+            bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+            getGeneralLedgerPendingEntries().add(bankOffsetEntry);
+            sequenceHelper.increment();
+
+            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+            success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+            getGeneralLedgerPendingEntries().add(offsetEntry);
+            sequenceHelper.increment();
+        }
+
+        return success;
+    }
+
     /**
      * Retrieves the wire transfer information for the current fiscal year.
      * 
@@ -1296,17 +1400,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
 
     /**
-     * Gets the payeeAssigned attribute. 
-     * 
-     * This method returns a flag that is used to indicate if the payee type and value has been set on the DV.
-     * This value is used to determine the correct page that should be loaded by the DV flow.
+     * Gets the payeeAssigned attribute. This method returns a flag that is used to indicate if the payee type and value has been
+     * set on the DV. This value is used to determine the correct page that should be loaded by the DV flow.
      * 
      * @return Returns the payeeAssigned.
      */
     public boolean isPayeeAssigned() {
-        // If value is false, check state of document.  We should assume payee is assigned if document has been saved.
+        // If value is false, check state of document. We should assume payee is assigned if document has been saved.
         // Otherwise, value will be set during creation process.
-        if(!payeeAssigned) {
+        if (!payeeAssigned) {
             payeeAssigned = !this.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
         }
         return payeeAssigned;
@@ -1315,6 +1417,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     /**
      * Sets the payeeAssigned attribute value.
+     * 
      * @param payeeAssigned The payeeAssigned to set.
      */
     public void setPayeeAssigned(boolean payeeAssigned) {

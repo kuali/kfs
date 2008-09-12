@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
 /**
@@ -23,4 +26,17 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
  * because it doesn't need to.
  */
 public class NonCheckDisbursementAction extends KualiAccountingDocumentActionBase {
+
+    /**
+     * Override to set default bank code.
+     * 
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        
+        ((NonCheckDisbursementDocument) kualiDocumentFormBase.getDocument()).setDefautBankCode();
+    }
+    
 }

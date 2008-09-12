@@ -42,5 +42,13 @@
 	    	<param name="beanName" value="financialSystemUserService" />
 	    	<include method="getUniversalUserByPersonPayrollIdentifier" />
 	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.sys.businessobject.Bank">
+	   		<param name="include" value="bankCode,bankName,bankShortName" />
+	   	</convert>
+	    <create creator="spring" javascript="BankService">
+	    	<param name="beanName" value="bankService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
 	</allow>
 </dwr>

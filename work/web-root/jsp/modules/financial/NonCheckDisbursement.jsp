@@ -21,8 +21,11 @@
 	showTabButtons="true">
 
 	<kfs:hiddenDocumentFields />
-
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.financialDocumentBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
 
 	<fin:accountingLines sourceAccountingLinesOnly="true"
 		editingMode="${KualiForm.editingMode}"

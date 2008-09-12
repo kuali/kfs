@@ -26,7 +26,7 @@
 				            	Payment Bank:
 				            </th>
 				            <td align=left class="datacell">						
-				              <c:out value="${PaymentDetail.paymentGroup.bank.description}"/>
+				              <c:out value="${PaymentDetail.paymentGroup.bank.bankName}"/>
 				            	&nbsp;
 										</td>	
 				          </tr>				    

@@ -42,7 +42,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     private UniversalUser lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Long version; // VER_NBR
-    private Integer bankId;
+    private String bankCode;
 
     public DisbursementNumberMaintenanceForm() {
 
@@ -53,7 +53,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     }
 
     public void setForm(DisbursementNumberRange dnr) {
-        this.setBankId(dnr.getBank().getId());
+        this.setBankCode(dnr.getBank().getBankCode());
         this.setBeginDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getBeginDisbursementNbr()));
         this.setDisbNbrEffectiveDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrEffectiveDt()));
         this.setDisbNbrExpirationDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrExpirationDt()));
@@ -102,7 +102,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
         if (buttonPressed.startsWith("btnSave")) {
             // check for bank radio button being selected
-            if (this.getBankId() == null) {
+            if (this.getBankCode() == null) {
                 actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.bankId.missing"));
             }
             // Check for validity of the Dates entered
@@ -178,7 +178,7 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
      */
     public void clearForm() {
 
-        this.setBankId(null);
+        this.setBankCode(null);
         this.setBeginDisbursementNbr(null);
         this.setDisbNbrEffectiveDt(null);
         this.setDisbNbrExpirationDt(null);
@@ -191,13 +191,6 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         this.setPhysCampusProcCode(null);
         this.setVersion(null);
 
-    }
-
-    /**
-     * @return Returns the bank.
-     */
-    public Integer getBankId() {
-        return bankId;
     }
 
     /**
@@ -278,10 +271,21 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
     }
 
     /**
-     * @param bank The bank to set.
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
      */
-    public void setBankId(Integer bankId) {
-        this.bankId = bankId;
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     /**

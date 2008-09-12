@@ -44,6 +44,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
@@ -71,7 +72,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * This is the default implementation of the DisbursementVoucherExtractService interface.
  */
 @Transactional
@@ -86,6 +86,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
     private ReferenceService referenceService;
+    private BusinessObjectService businessObjectService;
+    private PaymentFileEmailService paymentFileEmailService;
     private int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -93,11 +95,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     boolean testMode = false;
 
     /**
-     * This method extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a
-     * batch for processing.
+     * This method extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a batch for
+     * processing.
      * 
      * @return Always returns true if the method completes.
-     * 
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractPayments()
      */
     public boolean extractPayments() {
@@ -136,9 +137,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
-     * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus
-     * and adds these payments to a batch file that is uploaded for processing.
+     * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus and
+     * adds these payments to a batch file that is uploaded for processing.
      * 
      * @param campusCode The id code of the campus the payments will be retrieved for.
      * @param user The user object used when creating the batch file to upload with outstanding payments.
@@ -160,13 +160,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
-        paymentFileService.saveBatch(batch);
-        paymentFileService.sendLoadEmail(batch);
+        
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendLoadEmail(batch);
     }
 
     /**
-     * 
      * This method creates a payment group from the disbursement voucher and batch provided and persists that group to the database.
+     * 
      * @param document The document used to build a payment group detail.
      * @param batch The batch file used to build a payment group and detail.
      * @param processRunDate The date the batch file is to post.
@@ -183,25 +184,22 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         if (!testMode) {
             try {
-            document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
+                document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
                 document.setExtractDate(new java.sql.Date(processRunDate.getTime()));
                 SpringContext.getBean(DocumentService.class).saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-        }
+            }
             catch (WorkflowException we) {
-                LOG.error("Could not save disbursement voucher document #"+document.getDocumentNumber()+": "+we);
+                LOG.error("Could not save disbursement voucher document #" + document.getDocumentNumber() + ": " + we);
                 throw new RuntimeException(we);
-    }
+            }
         }
     }
 
     /**
-     * 
-     * This method creates a PaymentGroup from the disbursement voucher and batch provided.  The values provided by the 
-     * disbursement voucher are used to assign appropriate attributes to the payment group, including address and vendor detail
-     * information.  
-     * 
-     * The information added to the payment group includes tax encoding to identify if taxes should be taken out of the 
-     * payment.  The tax rules vary depending on the type of individual or entity being paid 
+     * This method creates a PaymentGroup from the disbursement voucher and batch provided. The values provided by the disbursement
+     * voucher are used to assign appropriate attributes to the payment group, including address and vendor detail information. The
+     * information added to the payment group includes tax encoding to identify if taxes should be taken out of the payment. The tax
+     * rules vary depending on the type of individual or entity being paid
      * 
      * @param document The document to be used for retrieving the information about the vendor being paid.
      * @param batch The batch that the payment group will be associated with.
@@ -219,65 +217,49 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         String rc = pd.getDisbVchrPaymentReasonCode();
 
         // If the payee is an employee, set these flags accordingly
-        if ((StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) &&
-            SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) ||
-            StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
-                pg.setEmployeeIndicator(Boolean.TRUE);
-                pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
+        if ((StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || StringUtils.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+            pg.setEmployeeIndicator(Boolean.TRUE);
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID);
 
-                // All payments are taxable except research participant, rental & royalties
-                pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
-        } else { // Payee is not an employee
+            // All payments are taxable except research participant, rental & royalties
+            pg.setTaxablePayment((!DisbursementVoucherRuleConstants.PaymentReasonCodes.RESEARCH_PARTICIPANT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)) && (!DisbursementVoucherRuleConstants.PaymentReasonCodes.ROYALTIES.equals(rc)));
+        }
+        else { // Payee is not an employee
             // Assume it is not taxable until proven otherwise
             pg.setTaxablePayment(Boolean.FALSE);
-    
+
             // These are taxable
             VendorDetail vendDetail = SpringContext.getBean(VendorService.class).getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
             String vndrOwnrCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
             String vndrOwnrCatCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
             String payReasonCode = pd.getDisbVchrPaymentReasonCode();
-            
+
             // ((VH.vndr_ownr_cd IN ('NP', 'FC')
             // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd IS NULL))
             // AND PD.dv_pmt_reas_cd IN ('H', 'J'))
-            if((("NP".equals(vndrOwnrCode) || "FC".equals(vndrOwnrCode)) || 
-               ("CP".equals(vndrOwnrCode) && StringUtils.isBlank(vndrOwnrCatCode))) &&
-               ("H".equals(payReasonCode) || "J".equals(payReasonCode))) {
+            if ((("NP".equals(vndrOwnrCode) || "FC".equals(vndrOwnrCode)) || ("CP".equals(vndrOwnrCode) && StringUtils.isBlank(vndrOwnrCatCode))) && ("H".equals(payReasonCode) || "J".equals(payReasonCode))) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
 
             // OR
             // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H')
             // AND PD.dv_pmt_reas_cd IN ('C', 'E', 'H', 'L', 'J'))
-            else if(("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode)) &&
-                    ("C".equals(payReasonCode) || "E".equals(payReasonCode) || 
-                     "H".equals(payReasonCode) || "L".equals(payReasonCode) || 
-                     "J".equals(payReasonCode))) {
+            else if (("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode)) && ("C".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
                 pg.setTaxablePayment(Boolean.TRUE);
-            }                
-            
+            }
+
             // OR
             // ((VH.vndr_ownr_cd IN ('NR', 'ID', 'PT')
             // OR (VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'H'))
             // AND PD.dv_pmt_reas_cd IN ('A', 'C', 'E', 'H', 'R', 'T', 'X', 'Y', 'L', 'J'))
-            else if((("NR".equals(vndrOwnrCode) || "ID".equals(vndrOwnrCode) || "PT".equals(vndrOwnrCode)) || 
-                    ("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode))) &&
-                    ("A".equals(payReasonCode) || "C".equals(payReasonCode) || 
-                     "E".equals(payReasonCode) || "H".equals(payReasonCode) || 
-                     "R".equals(payReasonCode) || "T".equals(payReasonCode) || 
-                     "X".equals(payReasonCode) || "Y".equals(payReasonCode) || 
-                     "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
+            else if ((("NR".equals(vndrOwnrCode) || "ID".equals(vndrOwnrCode) || "PT".equals(vndrOwnrCode)) || ("CP".equals(vndrOwnrCode) && "H".equals(vndrOwnrCatCode))) && ("A".equals(payReasonCode) || "C".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "R".equals(payReasonCode) || "T".equals(payReasonCode) || "X".equals(payReasonCode) || "Y".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
-            
+
             // OR
             // ((VH.vndr_ownr_cd = 'CP' AND VH.vndr_ownr_ctgry_cd = 'L')
             // AND PD.dv_pmt_reas_cd IN ('A', 'E', 'H', 'R', 'T', 'X', 'L', 'J')))
-            else if(("CP".equals(vndrOwnrCode) && "L".equals(vndrOwnrCatCode)) && 
-                    ("A".equals(payReasonCode) || "X".equals(payReasonCode) || 
-                     "E".equals(payReasonCode) || "H".equals(payReasonCode) || 
-                     "R".equals(payReasonCode) || "T".equals(payReasonCode) || 
-                     "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
+            else if (("CP".equals(vndrOwnrCode) && "L".equals(vndrOwnrCatCode)) && ("A".equals(payReasonCode) || "X".equals(payReasonCode) || "E".equals(payReasonCode) || "H".equals(payReasonCode) || "R".equals(payReasonCode) || "T".equals(payReasonCode) || "L".equals(payReasonCode) || "J".equals(payReasonCode))) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
         }
@@ -299,16 +281,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
 
-        //PaymentStatus open = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
-        //pg.setPaymentStatus(open);
+        // PaymentStatus open = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        // pg.setPaymentStatus(open);
 
         return pg;
     }
 
     /**
-     * 
-     * This method builds a payment detail object from the disbursement voucher document provided and links that detail file
-     * to the batch and process run date given.  
+     * This method builds a payment detail object from the disbursement voucher document provided and links that detail file to the
+     * batch and process run date given.
      * 
      * @param document The disbursement voucher document to retrieve payment information from to populate the PaymentDetail.
      * @param batch The batch file associated with the payment.
@@ -478,9 +459,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 if (line < (maxNoteLines - 3)) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
-                    if ( lines[i].length() > 90 ) {
-                        pnt.setCustomerNoteText(lines[i].substring(0,90));
-                    } else {
+                    if (lines[i].length() > 90) {
+                        pnt.setCustomerNoteText(lines[i].substring(0, 90));
+                    }
+                    else {
                         pnt.setCustomerNoteText(lines[i]);
                     }
                     pd.addNote(pnt);
@@ -491,8 +473,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
-     * This method creates a Batch instance and populates it with the information provided.  
+     * This method creates a Batch instance and populates it with the information provided.
      * 
      * @param campusCode The campus code used to retrieve a customer profile to be set on the batch.
      * @param user The user who submitted the batch.
@@ -518,15 +499,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         // Set these for now, we will update them later
         batch.setPaymentCount(0);
         batch.setPaymentTotalAmount(new BigDecimal("0"));
-        paymentFileService.saveBatch(batch);
+        
+        businessObjectService.save(batch);
 
         return batch;
     }
 
     /**
-     * 
-     * This method retrieves a collection of campus instances representing all the campuses which currently have 
-     * disbursement vouchers with the status code provided.
+     * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
+     * vouchers with the status code provided.
      * 
      * @param statusCode The status code to retrieve disbursement vouchers by.
      * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
@@ -540,7 +521,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         for (DisbursementVoucherDocument element : docs) {
 
             String dvdCampusCode = element.getCampusCode();
-            
+
             DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
             if (dvpd != null) {
                 List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
@@ -554,7 +535,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method retrieves a list of disbursement voucher documents that are in the status provided for the campus code given.
      * 
      * @param statusCode The status of the disbursement vouchers to be retrieved.
@@ -569,9 +549,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         try {
             Collection<DisbursementVoucherDocument> docs = SpringContext.getBean(FinancialSystemDocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
             for (DisbursementVoucherDocument element : docs) {
-    
+
                 String dvdCampusCode = element.getCampusCode();
-    
+
                 DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
                 if (dvpd != null) {
                     List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
@@ -579,14 +559,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                         dvdCampusCode = campusCodes.get(0);
                     }
                 }
-    
+
                 if (dvdCampusCode.equals(campusCode)) {
                     list.add(element);
                 }
             }
         }
         catch (WorkflowException we) {
-            LOG.error("Could not load Disbursement Voucher Documents with status code = "+statusCode+": "+we);
+            LOG.error("Could not load Disbursement Voucher Documents with status code = " + statusCode + ": " + we);
             throw new RuntimeException(we);
         }
         return list;
@@ -594,6 +574,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This cancels the disbursement voucher
+     * 
      * @param dv the disbursement voucher document to cancel
      * @param processDate the date of the cancelation
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
@@ -610,21 +591,22 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                     SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(dv);
                     // for each pending entry, opposite-ify it and reattach it to the document
                     GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
-                    for (GeneralLedgerPendingEntry glpe: dv.getGeneralLedgerPendingEntries()) {
+                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
                         oppositifyEntry(glpe, boService, glpeSeqHelper);
                     }
-                } 
+                }
                 else {
                     List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
-                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(dv.getGeneralLedgerPendingEntries().size()+1);
-                    for (GeneralLedgerPendingEntry glpe: dv.getGeneralLedgerPendingEntries()) {
+                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(dv.getGeneralLedgerPendingEntries().size() + 1);
+                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
                         glpe.refresh();
                         if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
                             // damn! it got processed! well, make a copy, oppositify, and save
                             GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
                             oppositifyEntry(undoer, boService, glpeSeqHelper);
                             newGLPEs.add(undoer);
-                        } else {
+                        }
+                        else {
                             // just delete the GLPE before anything happens to it
                             boService.delete(glpe);
                         }
@@ -637,21 +619,23 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
             catch (WorkflowException we) {
-                LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+                LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
                 throw new RuntimeException(we);
             }
         }
     }
-    
+
     /**
-     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this, in effect,
-     * undoes the entries that were already posted for this document
+     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,
+     * in effect, undoes the entries that were already posted for this document
+     * 
      * @param glpe the general ledger pending entry to undo
      */
     private void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
         if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
             glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        } else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+        }
+        else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
             glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }
         glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
@@ -662,6 +646,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
+     * 
      * @param dv the disbursement voucher document to reset
      * @param processDate the date of the reseting
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
@@ -675,13 +660,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
     }
 
     /**
      * Looks up the document using document service, and deals with any nasty WorkflowException or ClassCastExceptions that pop up
+     * 
      * @param documentNumber the number of the document to look up
      * @return the dv doc if found, or null otherwise
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
@@ -689,10 +675,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     public DisbursementVoucherDocument getDocumentById(String documentNumber) {
         DisbursementVoucherDocument dv = null;
         try {
-            dv = (DisbursementVoucherDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            dv = (DisbursementVoucherDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
         }
         catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to retrieve Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            LOG.error("encountered workflow exception while attempting to retrieve Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
         return dv;
@@ -700,6 +686,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
     /**
      * Marks the disbursement voucher as paid by setting its paid date
+     * 
      * @param dv the dv document to mark as paid
      * @param processDate the date when the dv was paid
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
@@ -710,14 +697,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
     }
 
     /**
-     * 
      * This method sets the disbursementVoucherDao instance.
+     * 
      * @param disbursementVoucherDao The DisbursementVoucherDao to be set.
      */
     public void setDisbursementVoucherDao(DisbursementVoucherDao disbursementVoucherDao) {
@@ -725,8 +712,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the ParameterService instance.
+     * 
      * @param parameterService The ParameterService to be set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -734,8 +721,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the dateTimeService instance.
+     * 
      * @param dateTimeService The DateTimeService to be set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -743,8 +730,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the universalUserService instance.
+     * 
      * @param universalUserService The UniversalUserService to be set.
      */
     public void setUniversalUserService(UniversalUserService universalUserService) {
@@ -752,8 +739,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the customerProfileService instance.
+     * 
      * @param customerProfileService The CustomerProfileService to be set.
      */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
@@ -761,8 +748,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the paymentFileService instance.
+     * 
      * @param paymentFileService The PaymentFileService to be set.
      */
     public void setPaymentFileService(PaymentFileService paymentFileService) {
@@ -770,8 +757,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the paymentGroupService instance.
+     * 
      * @param paymentGroupService The PaymentGroupService to be set.
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
@@ -779,11 +766,30 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * 
      * This method sets the referenceService instance.
+     * 
      * @param rs The ReferenceService to be set.
      */
     public void setReferenceService(ReferenceService rs) {
         this.referenceService = rs;
     }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the paymentFileEmailService attribute value.
+     * 
+     * @param paymentFileEmailService The paymentFileEmailService to set.
+     */
+    public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
+        this.paymentFileEmailService = paymentFileEmailService;
+    }
+
 }

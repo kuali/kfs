@@ -31,7 +31,7 @@
       <li><portal:portalLink displayTitle="true" title="Format Checks/ACH" url="pdp/formatselection.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Format Summary Review" url="pdp/formatsummary.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Format Summary Review Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.ProcessSummary&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
-      <li><portal:portalLink displayTitle="true" title="Manually Upload Payment File" url="pdp/manualupload.do"/></li>
+	  <li><portal:portalLink displayTitle="true" title="Payment File Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=paymentInputFileType" /></li>
 	  <li><portal:portalLink displayTitle="true" title="Payee ACH Account" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PayeeAchAccount&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Batch" url="pdp/batchsearch.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Payment" url="pdp/paymentsearch.do"/></li>

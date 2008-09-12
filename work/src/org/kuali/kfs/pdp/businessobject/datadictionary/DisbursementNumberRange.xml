@@ -24,7 +24,7 @@
         <ref bean="DisbursementNumberRange-endDisbursementNbr" />
         <ref bean="DisbursementNumberRange-disbNbrEffectiveDt" />
         <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
-        <ref bean="DisbursementNumberRange-bankId" />
+        <ref bean="DisbursementNumberRange-bankCode" />
         <ref bean="DisbursementNumberRange-versionNumber" />
       </list>
     </property>
@@ -147,25 +147,9 @@
     <property name="description" value="Expiration Date" />
   </bean>
   
-  <bean id="DisbursementNumberRange-bankId" parent="DisbursementNumberRange-bankId-parentBean" />
-  <bean id="DisbursementNumberRange-bankId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="bankId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Bank Code" />
-    <property name="shortLabel" value="Bank Code" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="Bank Code" />
-    <property name="description" value="Bank Code" />
-  </bean>
-  
+  <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean" />
+  <bean id="DisbursementNumberRange-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
+
   <bean id="DisbursementNumberRange-versionNumber" parent="DisbursementNumberRange-versionNumber-parentBean" />
   <bean id="DisbursementNumberRange-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
 

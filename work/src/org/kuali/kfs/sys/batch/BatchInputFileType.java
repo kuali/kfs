@@ -56,6 +56,14 @@ public interface BatchInputFileType extends BatchInputType {
      * @param parsedFileContents - object populated with the uploaded file contents
      */
     public boolean validate(Object parsedFileContents);
+    
+    /**
+     * Invokes optional processing of file after validation
+     * 
+     * @param fileName name of the file
+     * @param parsedFileContents objects populated with file contents
+     */
+    public void process(String fileName, Object parsedFileContents);
 
     /**
      * Returns the name with path for the digestor rules file that tells the digestor how to parse files of this type.

@@ -19,20 +19,13 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * 
@@ -46,8 +39,8 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     private Integer endDisbursementNbr; // END_DISB_NBR
     private Timestamp disbNbrEffectiveDt; // DISB_NBR_EFF_DT
     private Timestamp disbNbrExpirationDt; // DISB_NBR_EXPR_DT
-    
-    private Integer bankId;
+
+    private String bankCode;
     private Bank bank;
 
     public DisbursementNumberRange() {
@@ -68,14 +61,31 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     public void setId(Integer documentTypeId) {
         this.id = documentTypeId;
     }
-    
+
     /**
      * @return
      * 
      */
-   
     public Bank getBank() {
         return bank;
+    }
+    
+    /**
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     /**
@@ -190,13 +200,5 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-    
-    public Integer getBankId() {
-        return bankId;
-    }
-    
-    public void setBankId(Integer bankId) {
-        this.bankId = bankId;
     }
 }

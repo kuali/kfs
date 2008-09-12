@@ -108,7 +108,7 @@
 						              <c:out value="${item.origPaymentStatus.description}"/>&nbsp;
 												</td>
 						            <td class="datacell">
-						              <c:out value="${item.bank.description}"/>&nbsp;
+						              <c:out value="${item.bank.bankName}"/>&nbsp;
 												</td>
 						            <td class="datacell">
 						              <c:out value="${item.origAchBankRouteNbr}"/>&nbsp;

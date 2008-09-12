@@ -25,12 +25,17 @@ import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
@@ -60,6 +65,8 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         preRulesOK &= checkWireTransferTabState(dvDocument);
 
         preRulesOK &= checkForeignDraftTabState(dvDocument);
+        
+        preRulesOK &= checkBankCodeActive(dvDocument);
 
         return preRulesOK;
     }
@@ -278,6 +285,39 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
         }
 
         return tabStatesOK;
+    }
+    
+    /**
+     * If bank specification is enabled, prompts user to use the continuation bank code when the
+     * given bank code is inactive
+     * 
+     * @param dvDocument document containing bank code
+     * @return true
+     */
+    private boolean checkBankCodeActive(DisbursementVoucherDocument dvDocument) {
+        boolean continueRules = true;
+        
+        // if bank specification is not enabled, no need to validate bank
+        if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+            return continueRules;
+        }
+
+        // refresh bank reference so continuation bank can be checked for active status
+        dvDocument.refreshReferenceObject(KFSPropertyConstants.BANK);
+        Bank bank = dvDocument.getBank();
+
+        // if bank is inactive and continuation is active, prompt user to use continuation bank
+        if (bank != null && !bank.isActive() && bank.getContinuationBank().isActive()) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
+            questionText = MessageFormat.format(questionText, dvDocument.getDisbVchrBankCode(), bank.getContinuationBankCode());
+
+            boolean useContinuation = super.askOrAnalyzeYesNoQuestion(KFSConstants.USE_CONTINUATION_BANK_QUESTION, questionText);
+            if (useContinuation) {
+                dvDocument.setDisbVchrBankCode(bank.getContinuationBankCode());
+            }
+        }
+
+        return continueRules;
     }
 
     /**

@@ -231,7 +231,7 @@ public class DataLoadHandler implements PdpFileHandler {
         }
         batch.setPaymentTotalAmount(trailer.getPaymentTotalAmount());
         batch.setSubmiterUser(user);
-        loadDao.createBatch(batch);
+     //   loadDao.createBatch(batch);
 
         // Load all the accounting change codes
         acctgChngCds = referenceDao.getAllMap("AccountingChange");
@@ -349,7 +349,7 @@ public class DataLoadHandler implements PdpFileHandler {
             }
         }
 
-        loadDao.createGroup(pg);
+      //  loadDao.createGroup(pg);
     }
 
     private void processGroupSoftEdits(PaymentGroup group) {

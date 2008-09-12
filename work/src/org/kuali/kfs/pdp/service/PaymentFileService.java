@@ -17,36 +17,48 @@ package org.kuali.kfs.pdp.service;
 
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
+import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.exception.PaymentLoadException;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.ErrorMap;
 
+/**
+ * Handles processing (validation, loading, and reporting) of incoming payment files.
+ */
 public interface PaymentFileService {
+
     /**
      * Process all incoming payment files
+     * 
+     * @param paymentInputFileType <code>BatchInputFileType</code> for payment files
      */
-    public void processPaymentFiles();
+    public void processPaymentFiles(BatchInputFileType paymentInputFileType);
 
     /**
-     * Load a Payment file
+     * Performs hard edits on payment file
      * 
-     * @param filename
-     * @param user
-     * @return
-     * @throws PaymentLoadException
+     * @param paymentFile <code>PaymentFileLoad</code> containing parsed file contents
+     * @param errorMap <code>Map</code> that will hold errors encountered
      */
-    public LoadPaymentStatus loadPayments(String filename, UniversalUser user) throws PaymentLoadException;
+    public void doPaymentFileValidation(PaymentFileLoad paymentFile, ErrorMap errorMap);
 
     /**
-     * Send notification email about a loaded batch
+     * Performs soft edits of payment file data and loads records into database
      * 
-     * @param batch
+     * @param paymentFile <code>PaymentFileLoad</code> containing parsed file contents
+     * @param status <code>LoadPaymentStatus</code> containing status information for load
+     * @param incomingFileName string file name
      */
-    public void sendLoadEmail(Batch batch);
+    public void loadPayments(PaymentFileLoad paymentFile, LoadPaymentStatus status, String incomingFileName);
 
     /**
-     * Save a batch
+     * Creates the PDP XML output which can be parsed to obtain load status information
      * 
-     * @param batch
+     * @param status <code>LoadPaymentStatus</code> containing status information for load
+     * @param inputFileName incomingFileName string file name
+     * @return true if output file was successfully created, false otherwise
      */
-    public void saveBatch(Batch batch);
+    public boolean createOutputFile(LoadPaymentStatus status, String inputFileName);
+
 }

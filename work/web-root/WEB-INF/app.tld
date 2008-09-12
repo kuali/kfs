@@ -42,21 +42,4 @@
     </attribute>
   </tag>
 
-  <tag>
-    <name>getBank</name>
-    <tagclass>org.kuali.kfs.pdp.web.GetBankTag</tagclass>
-    <bodycontent>empty</bodycontent>
-    <info>
-      Put lists of banks in the page context so it can be used
-      by the options tag.
-
-      active - Y for active only, N for not-active, leave out for all
-      banks
-    </info>
-    <attribute>
-      <name>active</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-  </tag>
 </taglib>

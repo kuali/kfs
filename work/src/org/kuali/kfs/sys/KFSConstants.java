@@ -217,6 +217,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[] { "LLGL" };
     public static final String PERCENTAGE_SIGN = "%";
     public static final String RICE_PATH_PREFIX = "kr/";
+    public static final String USE_CONTINUATION_BANK_QUESTION = "UseContinuationBankQuestion";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field
@@ -785,7 +786,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class SystemGroupParameterNames {
 
         public static final String FLEXIBLE_OFFSET_ENABLED_FLAG = "USE_FLEXIBLE_OFFSET_IND";
-        public static final String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "USE_FLEXIBLE_CLAIM_ON_CASH_IND";
         public static final String ICR_ENCUMBRANCE_ENABLED_FLAG = "USE_ICR_ENCUMBRANCE_IND";
         public static final String PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
         public static final String PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR = "PRIOR_TO_YEAR";

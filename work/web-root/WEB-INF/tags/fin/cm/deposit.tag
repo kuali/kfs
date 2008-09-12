@@ -56,9 +56,7 @@
             <html:hidden property="${depositPropertyBase}.versionNumber" />
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
-                    <kul:htmlAttributeHeaderCell labelFor="${labelBase}.depositBankCode" attributeEntry="${depositAttributes.depositBankCode}" align="left" />
-                    <kul:htmlAttributeHeaderCell labelFor="${labelBase}.depositBankAccountNumber" attributeEntry="${depositAttributes.depositBankAccountNumber}" align="left" />
-
+                    <kfs:bankLabel align="left"/>
                     <kul:htmlAttributeHeaderCell labelFor="${labelBase}.depositTicketNumber" attributeEntry="${depositAttributes.depositTicketNumber}" align="left" />
                     <kul:htmlAttributeHeaderCell labelFor="${labelBase}.depositTypeCode" attributeEntry="${depositAttributes.depositTypeCode}" hideRequiredAsterisk="true" align="left" />
                     <kul:htmlAttributeHeaderCell labelFor="${labelBase}.depositDate" attributeEntry="${depositAttributes.depositDate}" hideRequiredAsterisk="true" align="left" />
@@ -66,30 +64,8 @@
                 </tr>
 
                 <tr>
-                    <td align="left" rowspan="2">
-                        <kul:htmlControlAttribute property="${depositPropertyBase}.depositBankCode" attributeEntry="${depositAttributes.depositBankCode}" readOnly="${readOnly}" onblur="loadBankInfo(document.forms['KualiForm'], '${depositPropertyBase}.depositBankCode', '${depositPropertyBase}.bank');" />
-                        <c:if test="${!readOnly}">
-                            <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.Bank" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode" />
-                        </c:if>
-                        
-                        <br/>
-                        <div id="${depositPropertyBase}.bank.div" class="fineprint">
-                            <bean:write name="KualiForm" property="${depositPropertyBase}.bankAccount.bank.financialDocumentBankShortNm"/>&nbsp;
-                        </div>
-                    </td>
-
-                    <td align="left" rowspan="2">
-                        <kul:htmlControlAttribute property="${depositPropertyBase}.depositBankAccountNumber" attributeEntry="${depositAttributes.depositBankAccountNumber}" readOnly="${readOnly}" onblur="loadBankAccountInfo(document.forms['KualiForm'], '${depositPropertyBase}.depositBankCode', '${depositPropertyBase}.depositBankAccountNumber', '${depositPropertyBase}.bankAccount' );" />
-                        <c:if test="${!readOnly}">
-                            <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.BankAccount" fieldConversions="financialDocumentBankCode:${depositPropertyBase}.depositBankCode,finDocumentBankAccountNumber:${depositPropertyBase}.depositBankAccountNumber" lookupParameters="${depositPropertyBase}.depositBankCode:financialDocumentBankCode" />
-                        </c:if>
-                        
-                        <br/>
-                        <div id="${depositPropertyBase}.bankAccount.div" class="fineprint">
-                            <bean:write name="KualiForm" property="${depositPropertyBase}.bankAccount.finDocumentBankAccountDesc"/>&nbsp;
-                        </div>
-                    </td>
-
+                    <kfs:bankControl property="${depositPropertyBase}.depositBankCode" objectProperty="${depositPropertyBase}.bank" depositOnly="true" readOnly="${readOnly}"/>
+                    
                     <td align="left" rowspan="2">
                         <kul:htmlControlAttribute property="${depositPropertyBase}.depositTicketNumber" attributeEntry="${depositAttributes.depositTicketNumber}" readOnly="${readOnly}"/>
                         <br/>

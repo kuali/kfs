@@ -43,17 +43,17 @@ import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.pdp.GeneralUtilities;
-import org.kuali.kfs.pdp.businessobject.Bank;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
-import org.kuali.kfs.pdp.service.BankService;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 
 
@@ -138,7 +138,7 @@ public class CustomerProfileSaveAction extends BaseAction {
                 CustomerBankForm[] dtl = newProfile.getCustomerBankForms();
                 for (int i = 0; i < dtl.length; i++) {
                     CustomerBankForm cbf = dtl[i];
-                    cbf.setBankId(null);
+                    cbf.setBankCode(null);
                     newProfile.setCustomerBankForms(i, cbf);
                 }
                 newProfile.clearForm();
@@ -215,8 +215,8 @@ public class CustomerProfileSaveAction extends BaseAction {
                     if ((!(storedProfile == null)) && (!(storedCustomerBanks.equals(null)))) {
                         // Profile exists and at least one CustomerBank Exists
                         LOG.debug("executeLogic() At least one CustomerBank and profile stored");
-                        LOG.debug("executeLogic() The Bank ID entered is " + element.getBankId());
-                        if (!(element.getBankId().equals(new Integer(0)))) {
+                        LOG.debug("executeLogic() The Bank Code entered is " + element.getBankCode());
+                        if (StringUtils.isNotBlank(element.getBankCode())) {
                             // User has stored a bankId
                             CustomerBank cb = new CustomerBank();
                             DisbursementType dt = (DisbursementType) SpringContext.getBean(KualiCodeService.class).getByCode(DisbursementType.class, element.getDisbursementTypeCode());
@@ -234,7 +234,7 @@ public class CustomerProfileSaveAction extends BaseAction {
                                 }
                             }
 
-                            Bank b = bankService.get(element.getBankId());
+                            Bank b = bankService.getByPrimaryId(element.getBankCode());
                             cb.setBank(b);
                             //LOG.debug("executeLogic() Now storing CustomerBank with bankId " + element.getBankId() + " and DisbursementType of " + dt.getName());
                             customerProfileService.saveCustomerBank(cb);
@@ -254,11 +254,11 @@ public class CustomerProfileSaveAction extends BaseAction {
                     }
                     else {
                         // There are no stored CustomerBanks or no profile (therefore no CustomerBanks
-                        if (!(element.getBankId().equals(new Integer(0)))) {
+                        if (StringUtils.isNotBlank(element.getBankCode())) {
                             // Array for this ACH type contains a bankId
-                            LOG.debug("executeLogic() No CustomerBanks or profile stored... so now storing with bankId " + element.getBankId());
+                            LOG.debug("executeLogic() No CustomerBanks or profile stored... so now storing with bank code" + element.getBankCode());
                             //DisbursementType dt = (DisbursementType) referenceService.getCode("DisbursementType", element.getDisbursementTypeCode());
-                            Bank b = bankService.get(element.getBankId());
+                            Bank b = bankService.getByPrimaryId(element.getBankCode());
 
                             CustomerBank cb = new CustomerBank();
                             //cb.setDisbursementType(dt);

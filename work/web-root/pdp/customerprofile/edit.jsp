@@ -15,10 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<%@page import="java.util.ArrayList, java.util.Iterator, java.util.List, 
-                org.kuali.kfs.pdp.businessobject.Bank, org.kuali.kfs.pdp.document.web.struts.CustomerProfileForm,
-                org.kuali.kfs.pdp.businessobject.Bank, org.kuali.kfs.pdp.web.struts.CustomerBankForm" %>
-<app:getBank active="Y" />
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
 <link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
@@ -29,7 +26,6 @@
   <body>
 <h1><strong>Customer Profile Maintenance</strong></h1>
 <br>
-  <jsp:include page="${request.contextPath}/pdp/TestEnvironmentWarning.jsp" flush="true"/>
 <html:form action="/pdp/customerprofilesave">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
      <tr>
@@ -501,6 +497,7 @@
       </tr>
     </tbody>
   </table>
+  
   <br>
   <table width="50%" border=0 cellpadding=3 cellspacing=0 class="bord-r-t" align="center">
     <tbody>
@@ -520,33 +517,13 @@
           <html:hidden property="customerBankForms[${i}].disbursementTypeCode"/>
           </td>
           <td align=left class="datacell">
-            <html:select size="1" property="customerBankForms[${i}].bankId">
-              <html:option value="none">None</html:option>
-              
-              
-              <% 
-                  //  In this section we are taking a list of all active banks and getting
-                 //  each according to their DisbursementType
-                 
-                 List disbursementTypeBankList = new ArrayList();
-                 CustomerProfileForm cpf = (CustomerProfileForm)request.getAttribute("PdpCustomerProfileForm");
-                 List bankList = (List)pageContext.getAttribute("BankList");
-                 String disbursementTypeCode = ((CustomerBankForm)cpf.getCustomerBankForms()[i.intValue()]).getDisbursementTypeCode();
-                 for(Iterator iter = bankList.iterator(); iter.hasNext();) {
-                   Bank b = (Bank)iter.next();
-                   if (b.getDisbursementType().getCode().equals(disbursementTypeCode)) {
-                     disbursementTypeBankList.add(b);
-                   }
-                 }
-                 request.setAttribute("disbursementBanks",disbursementTypeBankList);
-              %>
-              <html:optionsCollection name="disbursementBanks" value="id" label="name" />
-            </html:select>
+            <html:text property="customerBankForms[${i}].bankCode" maxlength="4" />
           </td>
         </tr>
       </logic:iterate>
     </tbody>
   </table>
+  
   <br>
   <table cellpadding=0 width="100%" cellspacing=0 border=0>
     <tbody>
@@ -567,6 +544,5 @@
     </tbody>
   </table>
 </html:form>
-<c:import url="/backdoor.jsp"/>
-  </body>
+</body>
 </html:html>

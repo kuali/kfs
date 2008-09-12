@@ -310,7 +310,7 @@
 			<ref bean="balanceTypService" />
 		</property>
 	</bean>
-	
+
 	
 	<bean id="taxService" class="org.kuali.kfs.sys.service.impl.TaxServiceImpl">
 		<property name="taxRegionService">
@@ -423,7 +423,7 @@
             </bean>
         </property>
     </bean>
-    
+
     <bean id="businessObjectMetaDataDao" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" />
 
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">
@@ -455,8 +455,8 @@
     <bean id="functionalFieldDescriptionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
         	<bean class="org.kuali.kfs.sys.businessobject.lookup.FunctionalFieldDescriptionLookupableHelperServiceImpl" parent="lookupableHelperService">
-    			<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
-    		</bean>
+    	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+    </bean>
         </property>
     </bean>
 
@@ -555,9 +555,21 @@
     		</list>
     	</property>
     </bean>
+    
+     <bean id="bankService" class="org.kuali.kfs.sys.service.impl.BankServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" /> 
+		</property>
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" /> 
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" /> 
+		</property>
+	</bean>
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
-    
+
     <bean id="subFundGroupRoutingDataGenerator" class="org.kuali.kfs.sys.document.service.impl.SubFundGroupRoutingDataGenerator">
     	<property name="accountingLineCollectionProperties">
     		<list>

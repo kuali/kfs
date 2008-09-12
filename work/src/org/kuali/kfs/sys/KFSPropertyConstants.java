@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.sys;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 
@@ -161,8 +166,16 @@ public class KFSPropertyConstants {
     public static final String BALANCE_TYPE = "balanceType";
     public static final String BALANCE_TYPE_CODE = "balanceTypeCode";
     public static final String BANK = "bank";
-    public static final String BANK_ACCOUNT = "bankAccount";
+    public static final String BANK_ACCOUNT_DESCRIPTION = "bankAccountDescription";
+    public static final String BANK_ACCOUNT_NUMBER = "bankAccountNumber";
     public static final String BANK_ACCOUNTS = "bankAccounts";
+    public static final String BANK_ACH_INDICATOR = "bankAchIndicator";
+    public static final String BANK_CHECK_INDICATOR = "bankCheckIndicator";
+    public static final String BANK_DEPOSIT_INDICATOR = "bankDepositIndicator";
+    public static final String BANK_DISBURSEMENT_INDICATOR = "bankDisbursementIndicator";
+    public static final String BANK_NAME = "bankName";
+    public static final String BANK_ROUTING_NUMBER = "bankRoutingNumber";
+    public static final String BANK_SHORT_NAME = "bankShortName";
     public static final String BASE_BUDGET_ADJUSTMENT_AMOUNT = "baseBudgetAdjustmentAmount";
     public static final String BASE_SALARY = "baseSalary";
     public static final String BATCH_SEQUENCE_NUMBER = "batchSequenceNumber";
@@ -268,9 +281,13 @@ public class KFSPropertyConstants {
     public static final String CASH_OFFSET_ACCOUNT = "cashOffsetAccount";
     public static final String CASH_OFFSET_ACCOUNT_NUMBER = "cashOffsetAccountNumber";
     public static final String CASH_OFFSET_FINANCIAL_CHART_OF_ACCOUNT = "cashOffsetFinancialChartOfAccount";
-    public static final String CASH_OFFSET_FINANCIAL_CHART_OF_ACCOUNT_CODE = "cashOffsetFinancialChartOfAccountCode";
+    public static final String CASH_OFFSET_FINANCIAL_CHART_OF_ACCOUNTS_CODE = "cashOffsetFinancialChartOfAccountCode";
     public static final String CASH_OFFSET_OBJECT_CODE = "cashOffsetObjectCode";
+    public static final String CASH_OFFSET_SUB_ACCOUNT_NUMBER = "cashOffsetSubAccountNumber";
     public static final String CASH_OFFSET_SUB_OBJECT_CODE = "cashOffsetSubObjectCode";
+    public static final String CASH_OFFSET_OBJECT = "cashOffsetObject";
+    public static final String CASH_OFFSET_SUB_OBJECT = "cashOffsetSubObject";
+    public static final String CASH_OFFSET_SUB_ACCOUNT = "cashOffsetSubAccount";
     public static final String CASH_RECEIPT = "cashReceipt";
     public static final String CATALOG_OF_DOMESTIC_ASSISTANCE_NUMBER = "accountCfdaNumber";
     public static final String CENTRAL_PROCESSOR_USER = "centralProcessorUser";
@@ -344,7 +361,7 @@ public class KFSPropertyConstants {
     public static final String DEBIT_TOTAL = "debitTotal";
     public static final String DELEGATE_GLOBALS = "delegateGlobals";
     public static final String DEPOSIT = "deposit";
-    public static final String DEPOSIT_BANK_ACCOUNT_NUMBER = "depositBankAccountNumber";
+    public static final String DEPOSIT_BANK_CODE = "depositBankCode";
     public static final String DEPOSIT_DATE = "depositDate";
     public static final String DEPTID = "deptid";
     public static final String DETAIL_POSITION_REQUIRED_INDICATOR = "detailPositionRequiredIndicator";
@@ -360,6 +377,7 @@ public class KFSPropertyConstants {
     public static final String DISB_VCHR_AUTO_TO_CITY_NAME = "disbVchrAutoToCityName";
     public static final String DISB_VCHR_AUTO_TO_STATE_CODE = "disbVchrAutoToStateCode";
     public static final String DISB_VCHR_BANK_CITY_NAME = "disbVchrBankCityName";
+    public static final String DISB_VCHR_BANK_CODE = "disbVchrBankCode";
     public static final String DISB_VCHR_BANK_COUNTRY_NAME = "disbVchrBankCountryName";
     public static final String DISB_VCHR_BANK_ROUTING_NUMBER = "disbVchrBankRoutingNumber";
     public static final String DISB_VCHR_BANK_STATE_CODE = "disbVchrBankStateCode";
@@ -438,14 +456,17 @@ public class KFSPropertyConstants {
     public static final String DISPLAY_NAME = "displayName";
     public static final String DOCUMENT = KNSPropertyConstants.DOCUMENT;
     public static final String DOCUMENT_CONTENTS = "documentContents";
+    public static final String DOCUMENT_DESCRIPTION = KNSPropertyConstants.DOCUMENT_DESCRIPTION;
     public static final String DOCUMENT_EXPLANATION = KNSPropertyConstants.DOCUMENT_EXPLANATION;
     public static final String DOCUMENT_FINAL_DATE = "documentFinalDate";
     public static final String DOCUMENT_HEADER = KNSPropertyConstants.DOCUMENT_HEADER;
     public static final String DOCUMENT_HEADER_ID = "documentHeaderId";
     public static final String DOCUMENT_NUMBER = KNSPropertyConstants.DOCUMENT_NUMBER;
     public static final String DOCUMENT_REVERSAL_DATE = "documentReversalDate";
+    public static final String DOCUMENT_TEMPLATE_NUMBER = KNSPropertyConstants.DOCUMENT_TEMPLATE_NUMBER;
     public static final String DOCUMENT_TITLE = "documentTitle";
     public static final String DOCUMENT_TYPE = "documentType";
+    public static final String DOCUMENT_TYPE_CODE = KNSPropertyConstants.DOCUMENT_TYPE_CODE;
     public static final String DOMESTIC_CHARGE_AMT = "domesticChargeAmt";
     public static final String DUMMY_BUSINESS_OBJECT = "dummyBusinessObject";
     public static final String DV_ADMIN_USER = "DVAdminUser";
@@ -563,16 +584,10 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT = "financialDocument";
     public static final String FINANCIAL_DOCUMENT_APPROVED_CODE = "financialDocumentApprovedCode";
     public static final String FINANCIAL_DOCUMENT_ATTACHMENT_FILE_SIZE = "financialDocumentAttachmentFileSize";
-    public static final String FINANCIAL_DOCUMENT_BANK = "financialDocumentBank";
-    public static final String FINANCIAL_DOCUMENT_BANK_ACCOUNT = "financialDocumentBankAccount";
-    public static final String FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER = "financialDocumentBankAccountNumber";
     public static final String FINANCIAL_DOCUMENT_BANK_CODE = "financialDocumentBankCode";
-    public static final String FINANCIAL_DOCUMENT_BANK_NAME = "financialDocumentBankName";
-    public static final String FINANCIAL_DOCUMENT_BANK_SHORT_NM = "financialDocumentBankShortNm";
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE = "financialDocumentCreditCardTypeCode";
     public static final String FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER = "financialDocumentCreditCardVendorNumber";
     public static final String FINANCIAL_DOCUMENT_DEPOSIT_LINE_NUMBER = "financialDocumentDepositLineNumber";
-    public static final String DOCUMENT_DESCRIPTION = KNSPropertyConstants.DOCUMENT_DESCRIPTION;
     @Deprecated
     public static final String FINANCIAL_DOCUMENT_DESCRIPTION = "financialDocumentDescription";
     public static final String FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "financialDocumentInErrorNumber";
@@ -599,11 +614,9 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_STATUS = "financialDocumentStatus";
     public static final String FINANCIAL_DOCUMENT_STATUS_CODE = "financialDocumentStatusCode";
     public static final String FINANCIAL_DOCUMENT_STATUS_NAME = "financialDocumentStatusName";
-    public static final String DOCUMENT_TEMPLATE_NUMBER = KNSPropertyConstants.DOCUMENT_TEMPLATE_NUMBER;
     @Deprecated
     public static final String FINANCIAL_DOCUMENT_TEMPLATE_NUMBER = "financialDocumentTemplateNumber";
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT = "financialDocumentTotalAmount";
-    public static final String DOCUMENT_TYPE_CODE = KNSPropertyConstants.DOCUMENT_TYPE_CODE;
     // below field used by KFS specifically
     public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     public static final String FINANCIAL_ELIMINATIONS_OBJECT_CODE = "financialEliminationsObjectCode";
@@ -891,6 +904,7 @@ public class KFSPropertyConstants {
     public static final String ORIGINATION = "origination";
     public static final String OVERRIDE_CODE = "overrideCode";
     public static final String PAY_GROUP = "payGroup";
+    public static final String PAY_PERIOD_END_DATE = "payPeriodEndDate";
     public static final String PAYEE = "payee";
     public static final String PAYEE_ACTIVE_CODE = "payeeActiveCode";
     public static final String PAYEE_ADDRESS_IDENTIFIER = "payeeAddressIdentifier";
@@ -914,16 +928,15 @@ public class KFSPropertyConstants {
     public static final String PAYEE_TYPE_CODE = "payeeTypeCode";
     public static final String PAYEE_W9_COMPLETE_CODE = "payeeW9CompleteCode";
     public static final String PAYEE_ZIP_CODE = "payeeZipCode";
-    public static final String PAYROLL_END_DATE_FISCAL_YEAR = "payrollEndDateFiscalYear"; 
-    public static final String PAY_PERIOD_END_DATE = "payPeriodEndDate";
+    public static final String PAYROLL_END_DATE_FISCAL_YEAR = "payrollEndDateFiscalYear";
     public static final String PENDING_ACCT_SUFFICIENT_FUNDS_INDICATOR = "pendingAcctSufficientFundsIndicator";
     public static final String PENDING_ENTRY_OPTION = "pendingEntryOption";
-    public static final String PERCENT = "accountLinePercent";
     public static final String PER_DIEM_COUNTRY_NAME = "perDiemCountryName";
     public static final String PER_DIEM_COUNTRY_TEXT = "perDiemCountryText";
     public static final String PER_DIEM_END_DATE_TIME = "perDiemEndDateTime";
     public static final String PER_DIEM_RATE = "perDiemRate";
     public static final String PER_DIEM_START_DATE_TIME = "perDiemStartDateTime";
+    public static final String PERCENT = "accountLinePercent";
     public static final String PERIOD = "period";
     public static final String PERIOD_LIST_SIZE = "periodListSize";
     public static final String PERIODS = "periods";
@@ -1115,8 +1128,8 @@ public class KFSPropertyConstants {
     public static final String TRANSACTION_ENCUMBRANCE_UPDT_CD = "transactionEncumbranceUpdateCode";
     public static final String TRANSACTION_ENTRIES = "transactionEntries";
     public static final String TRANSACTION_ENTRY_OFFSET_INDICATOR = "transactionEntryOffsetIndicator";
-    public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
     public static final String TRANSACTION_ENTRY_PROCESSED_TIMESTAMP = "transactionEntryProcessedTimestamp";
+    public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
     public static final String TRANSACTION_ENTRY_SEQUENCE_ID = "transactionEntrySequenceId";
     public static final String TRANSACTION_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
@@ -1169,18 +1182,18 @@ public class KFSPropertyConstants {
     public static final String VALID = "valid";
     public static final String VALUE = KNSPropertyConstants.VALUE;
     public static final String VENDOR = "vendor";
-    public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
-    public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
     public static final String VENDOR_ADDRESS_GENERATED_ID = "vendorAddressGeneratedIdentifier";
+    public static final String VENDOR_CITY_NAME = "vendorCityName";
+    public static final String VENDOR_COUNTRY_CODE = "vendorCountryCode";
+    public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
+    public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String VENDOR_LINE_1_ADDRESS = "vendorLine1Address";
     public static final String VENDOR_LINE_2_ADDRESS = "vendorLine1Address";
-    public static final String VENDOR_CITY_NAME = "vendorCityName";
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
     public static final String VENDOR_ZIP_CODE = "vendorZipCode";
-    public static final String VENDOR_COUNTRY_CODE = "vendorCountryCode";
     public static final String VERSION_NUMBER = KNSPropertyConstants.VERSION_NUMBER;
     public static final String WORKFLOW_DOCUMENT = KNSPropertyConstants.WORKFLOW_DOCUMENT;
-    public static final String WORKGROUP_NAME = "workgroupName";   
+    public static final String WORKGROUP_NAME = "workgroupName";
     public static final String XML_DOCUMENT_CONTENTS = KNSPropertyConstants.XML_DOCUMENT_CONTENTS;
     public static final String ZIP_CODE = "zipCode";
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";

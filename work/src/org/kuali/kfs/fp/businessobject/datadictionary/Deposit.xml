@@ -18,7 +18,6 @@
         <ref bean="Deposit-depositAmount" />
         <ref bean="Deposit-depositTicketNumber" />
         <ref bean="Deposit-depositBankCode" />
-        <ref bean="Deposit-depositBankAccountNumber" />
       </list>
     </property>
   </bean>
@@ -85,14 +84,10 @@
             p:size="10" />
     </property>
   </bean>
+  
   <bean id="Deposit-depositBankCode" parent="Deposit-depositBankCode-parentBean" />
-
   <bean id="Deposit-depositBankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="depositBankCode" />
   </bean>
-  <bean id="Deposit-depositBankAccountNumber" parent="Deposit-depositBankAccountNumber-parentBean" />
 
-  <bean id="Deposit-depositBankAccountNumber-parentBean" abstract="true" parent="BankAccount-finDocumentBankAccountNumber">
-    <property name="name" value="depositBankAccountNumber" />
-  </bean>
 </beans>

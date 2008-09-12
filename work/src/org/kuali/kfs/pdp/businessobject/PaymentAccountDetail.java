@@ -49,21 +49,21 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     private String orgReferenceId; // ORG_REFERENCE_ID
     private String projectCode; // PROJECT_CD
     private BigDecimal accountNetAmount; // ACCT_NET_AMT
-    
+
     private Integer paymentDetailId;
     private PaymentDetail paymentDetail; // PMT_DTL_ID
 
-    private List accountHistory = new ArrayList();
+    private List<PaymentAccountHistory> accountHistory = new ArrayList<PaymentAccountHistory>();
 
     public PaymentAccountDetail() {
         super();
     }
 
-    public List getAccountHistory() {
+    public List<PaymentAccountHistory> getAccountHistory() {
         return accountHistory;
     }
 
-    public void setAccountHistory(List ah) {
+    public void setAccountHistory(List<PaymentAccountHistory> ah) {
         accountHistory = ah;
     }
 
@@ -225,6 +225,24 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      */
     public void setSubAccountNbr(String string) {
         subAccountNbr = string;
+    }
+
+    /**
+     * Gets the paymentDetailId attribute.
+     * 
+     * @return Returns the paymentDetailId.
+     */
+    public Integer getPaymentDetailId() {
+        return paymentDetailId;
+    }
+
+    /**
+     * Sets the paymentDetailId attribute value.
+     * 
+     * @param paymentDetailId The paymentDetailId to set.
+     */
+    public void setPaymentDetailId(Integer paymentDetailId) {
+        this.paymentDetailId = paymentDetailId;
     }
 
     public boolean equals(Object obj) {

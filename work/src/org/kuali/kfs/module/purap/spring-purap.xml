@@ -90,7 +90,7 @@
 	<bean id="pdpExtractService" class="org.kuali.kfs.module.purap.service.impl.PdpExtractServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentRequestService" ref="paymentRequestService"/>
-		<property name="paymentFileService" ref="pdpPaymentFileService"/>
+		<property name="paymentFileService" ref="paymentFileService"/>
 		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
@@ -103,6 +103,7 @@
 	    <property name="mailService" ref="mailService"/>
     	<property name="environmentService" ref="pdpEnvironmentService"/>
         <property name="purapRunDateService" ref="purapRunDateService" />
+        <property name="paymentFileEmailService" ref="paymentFileEmailService" />
 	</bean>
 
 	<bean id="pdpEnvironmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">

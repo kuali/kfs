@@ -31,7 +31,6 @@ import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.AchInformation;
-import org.kuali.kfs.pdp.businessobject.Bank;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
@@ -64,6 +63,7 @@ import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeExceptio
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
@@ -90,7 +90,7 @@ public class FormatServiceImpl implements FormatService {
     private SchedulerService schedulerService;
     private BusinessObjectService businessObjectService;
     private KualiCodeService kualiCodeService;
-    
+
     public FormatServiceImpl() {
         super();
     }
@@ -469,7 +469,7 @@ public class FormatServiceImpl implements FormatService {
             DisbursementNumberRange range = getRange(disbursementRanges, pg.getBank(), now);
 
             if (range == null) {
-                String err = "No disbursement range for bankId=" + pg.getBank().getId() + ",campusId=" + campus + ",disbursementType=" + pg.getBank().getDisbursementType().getCode();
+                String err = "No disbursement range for bank code=" + pg.getBank().getBankCode() + ", campus Id=" + campus;
                 LOG.error("pass2() " + err);
                 throw new MissingDisbursementRangeException(err);
             }
@@ -482,14 +482,14 @@ public class FormatServiceImpl implements FormatService {
                     int number = 1 + range.getLastAssignedDisbNbr().intValue();
                     checkNumber = number; // Save for next payment
                     if (number > range.getEndDisbursementNbr().intValue()) {
-                        String err = "No more disbursement numbers for bankId=" + pg.getBank().getId() + ",campusId=" + campus + ",disbursementType=" + pg.getBank().getDisbursementType().getCode();
+                        String err = "No more disbursement numbers for bank code=" + pg.getBank().getBankCode() + ", campus Id=" + campus;
                         LOG.error("pass2() " + err);
                         throw new MissingDisbursementRangeException(err);
                     }
                     pg.setDisbursementNbr(new Integer(number));
 
                     range.setLastAssignedDisbNbr(new Integer(number));
-                    
+
                     // Update the summary information
                     fps.setDisbursementNumber(pg, new Integer(number));
                 }
@@ -497,14 +497,14 @@ public class FormatServiceImpl implements FormatService {
             else if ("ACH".equals(pg.getDisbursementType().getCode())) {
                 int number = 1 + range.getLastAssignedDisbNbr().intValue();
                 if (number > range.getEndDisbursementNbr().intValue()) {
-                    String err = "No more disbursement numbers for bankId=" + pg.getBank().getId() + ",campusId=" + campus + ",disbursementType=" + pg.getBank().getDisbursementType().getCode();
+                    String err = "No more disbursement numbers for bank code=" + pg.getBank().getBankCode() + ", campus Id=" + campus;
                     LOG.error("pass2() " + err);
                     throw new MissingDisbursementRangeException(err);
                 }
                 pg.setDisbursementNbr(new Integer(number));
 
                 range.setLastAssignedDisbNbr(new Integer(number));
-                
+
                 // Update the summary information
                 fps.setDisbursementNumber(pg, new Integer(number));
             }
@@ -529,21 +529,18 @@ public class FormatServiceImpl implements FormatService {
             DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
                 rc++;
                 paymentDetailDao.saveDisbursementNumberRange(element);
-        }
+            }
         LOG.debug("pass2() " + rc + " ranges saved");
     }
 
     private DisbursementNumberRange getRange(List ranges, Bank bank, Date today) {
-        LOG.debug("getRange() Looking for bank = " + bank.getId() + " for " + today);
+        LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " for " + today);
         for (Iterator iter = ranges.iterator(); iter.hasNext();) {
             DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
             Date eff = element.getDisbNbrEffectiveDt();
             Date exp = element.getDisbNbrExpirationDt();
 
-            if (element.getBank().equals(bank)) {
-                LOG.debug("getRange() Found bank");
-            }
-            if (element.getBank().equals(bank) && (today.getTime() >= eff.getTime()) && (today.getTime() <= exp.getTime())) {
+            if (element.getBank().getBankCode().equals(bank.getBankCode()) && (today.getTime() >= eff.getTime()) && (today.getTime() <= exp.getTime())) {
                 LOG.debug("getRange() Found match");
                 return element;
             }
@@ -658,7 +655,7 @@ public class FormatServiceImpl implements FormatService {
     public void setBusinessObjectService(BusinessObjectService bos) {
         this.businessObjectService = bos;
     }
-
+    
     public KualiCodeService getKualiCodeService() {
         return kualiCodeService;
     }

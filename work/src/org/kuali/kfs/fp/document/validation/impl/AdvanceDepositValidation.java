@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -55,18 +56,7 @@ public class AdvanceDepositValidation extends GenericValidation {
         }
 
         if (isValid) {
-            isValid = SpringContext.getBean(DictionaryValidationService.class).validateReferenceExists(advanceDeposit, KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK);
-            if (!isValid) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(AdvanceDepositDetail.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE);
-                errorMap.putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
-            }
-        }
-        if (isValid) {
-            isValid = SpringContext.getBean(DictionaryValidationService.class).validateReferenceExists(advanceDeposit, KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
-            if (!isValid) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(AdvanceDepositDetail.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER);
-                errorMap.putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-            }
+            isValid = BankCodeValidation.validate(advanceDeposit.getFinancialDocumentBankCode(), KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, true, false);
         }
 
         return isValid;

@@ -198,7 +198,7 @@ public class XmlGroup implements Serializable {
             d.setPaymentDate(new Timestamp(payment_date.getTime()));
         }
         else {
-            d.setPaymentDate(null);
+           // d.setPaymentDate(null);
         }
         d.setPymtAttachment(attachment_ind);
         d.setPymtSpecialHandling(special_handling_ind);

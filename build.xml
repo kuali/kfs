@@ -36,7 +36,7 @@
 	</target>
 	
 	<target name="init-properties" depends="init-property-files">
-		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
+		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="context.docbase" value="" />
 		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>

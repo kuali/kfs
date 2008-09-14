@@ -72,8 +72,9 @@
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+          <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
 

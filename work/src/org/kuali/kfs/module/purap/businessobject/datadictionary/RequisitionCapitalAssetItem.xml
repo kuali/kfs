@@ -61,6 +61,11 @@
     <property name="name" value="capitalAssetTransactionTypeCode" />
     <property name="label" value="Capital Asset Transaction Type" />
     <property name="shortLabel" value="Capital Asset Transaction Type" />
+    <property name="control" >
+          <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
 
   <bean id="RequisitionCapitalAssetItem-itemIdentifier" parent="RequisitionCapitalAssetItem-itemIdentifier-parentBean" />

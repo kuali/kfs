@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
@@ -1136,10 +1137,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        if (this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM) || this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
-            //If the system state is ONE or MULT, we have to remove all the systems on the items because it's not applicable.
-            for (PurchasingCapitalAssetItem camsItem : this.getPurchasingCapitalAssetItems()) {
-                camsItem.setPurchasingCapitalAssetSystem(null);
+        if (StringUtils.isNotBlank(this.getCapitalAssetSystemTypeCode())) {
+            if (this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM) || this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
+                //If the system state is ONE or MULT, we have to remove all the systems on the items because it's not applicable.
+                for (PurchasingCapitalAssetItem camsItem : this.getPurchasingCapitalAssetItems()) {
+                    camsItem.setPurchasingCapitalAssetSystem(null);
+                }
             }
         }
     }

@@ -28,6 +28,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
@@ -107,21 +108,29 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
+    
+    private final static Class[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new Class[] { Account.class };
+    // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the active-derived Closed? indicator instead (KFSMI-1393)
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         List<Class> noActiveFieldClassList = new ArrayList<Class>();
+        
+        List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
+        
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
-            try {
-                if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
-                    LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
-                    if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
-                        noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
+            if (!ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
+                List<Class> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+                try {
+                    if(iList.contains(Class.forName("org.kuali.rice.kns.bo.Inactivateable"))){
+                        LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
+                        if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains("active") && lookupDefinition.getLookupFieldNames().contains("active"))){
+                            noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
+                        }
                     }
                 }
-            }
-            catch (ClassNotFoundException e) {
-                throw(e);
+                catch (ClassNotFoundException e) {
+                    throw(e);
+                }
             }
         }
         assertEquals(noActiveFieldClassList.toString(), 0, noActiveFieldClassList.size());

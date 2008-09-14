@@ -29,14 +29,18 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 
 /**
- * @author jsissom
+ * Data access methods for payment load process.
  */
 public interface PaymentFileLoadDao {
-    public boolean isDuplicateBatch(CustomerProfile customer, Integer count, BigDecimal totalAmount, Timestamp now);
 
-    public void createBatch(Batch batch);
-
-    public void createGroup(PaymentGroup group);
-
-    public void createPaymentAccountHistory(PaymentAccountHistory pah);
+    /**
+     * Checks whether a <code>Batch</code> record already exists for the given key.
+     * 
+     * @param customer payment file customer
+     * @param count payment total count
+     * @param totalAmount payment total amount
+     * @param createDate payment file create datetime
+     * @return true if the batch already exists
+     */
+    public boolean isDuplicateBatch(CustomerProfile customer, Integer count, BigDecimal totalAmount, Timestamp createDate);
 }

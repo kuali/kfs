@@ -870,7 +870,7 @@
               <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
               <organizationPlantChart reference="../../chartOfAccounts"/>
               <campusPlantChart reference="../../chartOfAccounts"/>
-              <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
+              <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--aeb63fe4"/>
               <organizationCountry>
                 <postalCountryCode>US</postalCountryCode>
                 <postalCountryName>UNITED STATES</postalCountryName>
@@ -987,7 +987,7 @@
           <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232" reference="../organizationPlantAccount"/>
           <organizationPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
           <campusPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../organizationPlantAccount/chartOfAccounts"/>
-          <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../organizationPlantAccount/postalZipCode"/>
+          <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--aeb63fe4" reference="../organizationPlantAccount/postalZipCode"/>
           <organizationCountry class="org.kuali.kfs.sys.businessobject.Country--EnhancerByCGLIB--25adb78f" reference="../organizationPlantAccount/organization/organizationCountry"/>
           <organizationExtension>
             <chartOfAccountsCode>IU</chartOfAccountsCode>
@@ -1048,7 +1048,7 @@
         <campusPlantAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
         <organizationPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
         <campusPlantChart class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../chartOfAccounts"/>
-        <postalZip class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../reportsToOrganization/organizationPlantAccount/postalZipCode"/>
+        <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--aeb63fe4" reference="../reportsToOrganization/organizationPlantAccount/postalZipCode"/>
         <organizationCountry class="org.kuali.kfs.sys.businessobject.Country--EnhancerByCGLIB--25adb78f" reference="../reportsToOrganization/organizationPlantAccount/organization/organizationCountry"/>
         <organizationExtension>
           <chartOfAccountsCode>UA</chartOfAccountsCode>
@@ -2090,7 +2090,7 @@
             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
             <accountRestrictedStatus reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountRestrictedStatus"/>
             <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
-            <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4"/>
+            <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--aeb63fe4"/>
             <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848"/>
             <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--55b6171a"/>
             <forContractsAndGrants>false</forContractsAndGrants>
@@ -2119,7 +2119,7 @@
             <newCollectionRecord>false</newCollectionRecord>
             <boNotes/>
           </incomeStreamAccount>
-          <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalZipCode--EnhancerByCGLIB--aeb63fe4" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
+          <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--aeb63fe4" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/postalZipCode"/>
           <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--3906a848">
             <code>O</code>
             <name>Object</name>

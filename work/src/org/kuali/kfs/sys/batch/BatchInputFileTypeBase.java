@@ -96,4 +96,11 @@ public abstract class BatchInputFileTypeBase implements BatchInputFileType {
         return KFSConstants.SystemGroupParameterNames.FILE_TYPE_WORKGROUP_PARAMETER_NAME;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#process(java.lang.String, java.lang.Object)
+     */
+    public void process(String fileName, Object parsedFileContents) {
+        // default impl does nothing
+    }
+
 }

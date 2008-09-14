@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="YearEndBudgetAdjustmentDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndBudgetAdjustmentDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndBudgetAdjustmentDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="YEBA" />
@@ -44,6 +44,7 @@
         <ref bean="YearEndBudgetAdjustmentDocument-postingYear" />
       </list>
     </property>
+    <property name="validationMap" ref="BudgetAdjustmentDocument-validations" />
     <property name="accountingLineGroups">
     	<map>
     		<entry>
@@ -56,13 +57,7 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupRoutingDataGenerator</value>
-    	</list>
-    </property>
-  </bean>
-
+	</bean>
 <!-- Attribute Definitions -->
 
 
@@ -143,24 +138,65 @@
       </list>
     </property>
   </bean>
+  
+   <!-- validations -->
+  
+  <bean id="YearEndBudgetAdjustmentDocument-validations" parent="YearEndBudgetAdjustmentDocument-validations-parentBean" />
+  
+  <bean id="YearEndBudgetAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>YearEndBudgetAdjustment-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>YearEndBudgetAdjustment-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>YearEndBudgetAdjustment-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>YearEndBudgetAdjustment-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>YearEndBudgetAdjustment-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>YearEndBudgetAdjustment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>YearEndBudgetAdjustment-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+
 <!-- accounting line groups -->
   <bean id="YearEndBudgetAdjustmentDocument-sourceAccountingLineGroup" parent="YearEndBudgetAdjustmentDocument-sourceAccountingLineGroup-parentBean" />
   
   <bean id="YearEndBudgetAdjustmentDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine" />
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	  <property name="groupLabel" value="From/Decrease" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
 	<bean id="YearEndBudgetAdjustmentDocument-targetAccountingLineGroup" parent="YearEndBudgetAdjustmentDocument-targetAccountingLineGroup-parentBean" />
 	
 	<bean id="YearEndBudgetAdjustmentDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-	  <property name="accountingLineView" ref="BudgetAdjustment-accountingLineView" />
-	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine" />
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
 	  <property name="groupLabel" value="To/Increase" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="target" />

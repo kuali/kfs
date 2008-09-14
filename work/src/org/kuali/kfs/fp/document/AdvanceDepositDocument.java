@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.document.Copyable;
@@ -217,23 +218,26 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      * @param financialDocument submitted financial document
      * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
      * @return true if there are no issues creating GLPE's
+     * 
      * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        if (isBankCashOffsetEnabled()) {
+
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             int displayedDepositNumber = 1;
-            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             for (AdvanceDepositDetail detail : getAdvanceDeposits()) {
-                detail.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
+                detail.refreshReferenceObject(KFSPropertyConstants.BANK);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
+                if (!glpeService.populateBankOffsetGeneralLedgerPendingEntry(detail.getBank(), detail.getFinancialDocumentAdvanceDepositAmount(), this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
                     success = false;
-                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
-                    // all.
+                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it
                 }
+
                 AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
                 bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
                 addPendingEntry(bankOffsetEntry);
@@ -245,6 +249,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
                 sequenceHelper.increment();
             }
         }
+
         return success;
     }
 }

@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.cab.CabConstants.ValidationStrings;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType;
+import org.kuali.kfs.module.cab.CabConstants.ValidationStrings;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PurCams;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -58,7 +58,7 @@ public enum PurchasingCapitalAssetFixture {
     ObjectCode objectCode;
     KualiDecimal quantity;
     KualiDecimal extendedPrice;
-    CapitalAssetTransactionType capitalAssetTransactionType = null;
+    CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType = null;
     RecurringPaymentType recurringPaymentType = null;
     List<ItemCapitalAsset> assets = null;
     
@@ -96,8 +96,8 @@ public enum PurchasingCapitalAssetFixture {
      * @param capitalAssetTransactionTypeCode
      * @see PurchasingDocumentRuleBase.validateCapitalAssetTransactionTypeVersusRecurrence
      */
-    private PurchasingCapitalAssetFixture(RecurringPaymentType recurringPaymentType, CapitalAssetTransactionType capitalAssetTransactionType) {
-        this.capitalAssetTransactionType = capitalAssetTransactionType;
+    private PurchasingCapitalAssetFixture(RecurringPaymentType recurringPaymentType, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = (CapitalAssetBuilderAssetTransactionType)capitalAssetTransactionType;
         this.recurringPaymentType = recurringPaymentType;
     }
     
@@ -105,11 +105,11 @@ public enum PurchasingCapitalAssetFixture {
      * Constructor used for tests of PurchasingDocumentRuleBase.validateCapitalAssetNumberRequirements.
      * Note the variable capitalAssetNumbers argument.
      * 
-     * @param capitalAssetTransactionType       A CapitalAssetTransactionType
+     * @param capitalAssetTransactionType       A CapitalAssetBuilderAssetTransactionType
      * @param capitalAssetNumbers               A variable argument of Longs.
      * @see PurchasingDocumentRuleBase.validateCapitalAssetNumberRequirements
      */
-    private PurchasingCapitalAssetFixture(CapitalAssetTransactionType capitalAssetTransactionType, Long... capitalAssetNumbers) {
+    private PurchasingCapitalAssetFixture(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, Long... capitalAssetNumbers) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
         if ( capitalAssetNumbers != null ) {
             this.assets = new ArrayList<ItemCapitalAsset>();
@@ -164,11 +164,11 @@ public enum PurchasingCapitalAssetFixture {
         this.assets = assets;
     }
 
-    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
+    public CapitalAssetBuilderAssetTransactionType getCapitalAssetBuilderAssetTransactionType() {
         return capitalAssetTransactionType;
     }
 
-    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
+    public void setCapitalAssetBuilderAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
     }
 

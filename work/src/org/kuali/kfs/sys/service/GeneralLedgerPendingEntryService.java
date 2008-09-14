@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -249,9 +249,9 @@ public interface GeneralLedgerPendingEntryService {
     
     /**
      * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
-     * posted as a side-effect if the given BankAccount has not defined the necessary bank offset relations.
+     * posted as a side-effect if the given Bank has not defined the necessary bank offset relations.
      * 
-     * @param bankAccount
+     * @param bank
      * @param depositAmount
      * @param financialDocument
      * @param universityFiscalYear
@@ -259,6 +259,6 @@ public interface GeneralLedgerPendingEntryService {
      * @param bankOffsetEntry
      * @param errorPropertyName
      */
-    public boolean populateBankOffsetGeneralLedgerPendingEntry(BankAccount bankAccount, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName);
+    public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName);
 
 }

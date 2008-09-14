@@ -19,16 +19,12 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -59,7 +55,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private String disbursementTypeCode;
     private DisbursementType disbursementType;
 
-    private Integer bankId;
+    private String bankCode;
     private Bank bank;
 
     private String paymentStatusCode;
@@ -333,6 +329,24 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public Bank getBank() {
         return bank;
     }
+    
+    /**
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
+     */
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
     /**
      * @param PaymentProcess
@@ -404,7 +418,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-
+    
     public Integer getProcessId() {
         return processId;
     }

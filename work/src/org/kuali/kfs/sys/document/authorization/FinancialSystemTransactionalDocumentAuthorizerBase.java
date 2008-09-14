@@ -17,11 +17,19 @@ package org.kuali.kfs.sys.document.authorization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.bo.user.KualiGroup;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -54,8 +62,26 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         else {
             flags.setHasAmountTotal(false);
         }
+        
+        // check bank specification is enabled and set flag accordingly
+        boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
+        flags.setCanViewBank(bankSpecificationEnabled);
+
+        // check user can edit bank and set flag accordingly
+        if (bankSpecificationEnabled) {
+            String editBankGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.BANK_EDITABLE_GROUP);
+            try {
+                KualiGroup editBankGroup = SpringContext.getBean(KualiGroupService.class).getByGroupName(editBankGroupName);
+                flags.setCanEditBank(editBankGroup.hasMember(user));
+            }
+            catch (GroupNotFoundException e) {
+                LOG.error("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName, e);
+                throw new RuntimeException("Group given for parameter" + KFSParameterKeyConstants.BANK_EDITABLE_GROUP + " is not valid: " + editBankGroupName, e);
+            }
+        }
 
         return flags;
     }
+    
 
 }

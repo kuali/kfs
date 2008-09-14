@@ -123,17 +123,6 @@
     <field-descriptor name="itemTypeAboveTheLineIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" table="CB_AST_TRN_TYP_T">
-    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="capitalAssetTransactionTypeDescription" column="CPTL_AST_TRN_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
-    <field-descriptor name="capitalAssetNonquantityDrivenAllowIndicator" column="CPTL_AST_NON_QTY_DRVN_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="capitalAssetQuantitySubtypeRequiredText" column="CPTLAST_QTY_SUBTYP_REQ_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="capitalAssetNonquantitySubtypeRequiredText" column="CPTLAST_NONQTY_SUBTYP_REQ_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ShipmentReceiving" table="PUR_SHPMNT_RCVNG_T">
     <field-descriptor name="shipmentReceivingIdentifier" column="SHPMNT_RCVNG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SHPMNT_RCVNG_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -386,9 +375,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="capitalAssetSystemType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="capitalAssetSystemTypeCode" />
     </reference-descriptor>
@@ -626,9 +612,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -863,9 +846,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -1091,9 +1071,6 @@
     </reference-descriptor>
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
@@ -1322,9 +1299,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -1550,9 +1524,6 @@
     </reference-descriptor>
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
@@ -1780,9 +1751,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -2008,9 +1976,6 @@
     </reference-descriptor>
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
-    </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
@@ -2238,9 +2203,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -2467,9 +2429,6 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
@@ -2604,9 +2563,6 @@
     </reference-descriptor>
     <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorPaymentTermsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
     <reference-descriptor name="paymentRequestCostSource" class-ref="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="paymentRequestCostSourceCode" />
@@ -2883,8 +2839,8 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="postingYear" />
-        <foreignkey field-ref="postingPeriodCode" />
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3048,9 +3004,6 @@
     </reference-descriptor>
     <reference-descriptor name="purchaseOrderQuoteStatus" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderQuoteStatusCode" />
-    </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3262,7 +3215,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping" table="AP_ELCTRNC_INV_MAP_T">
-	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="INTEGER" primarykey="true" index="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
+	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="VARCHAR" primarykey="true" index="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3506,9 +3459,6 @@
     <reference-descriptor name="processingCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="processingCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
@@ -3664,8 +3614,8 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="postingYear" />
-        <foreignkey field-ref="postingPeriodCode" />
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3900,9 +3850,6 @@
 	<reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="deliveryCampusCode" />
 	</reference-descriptor>
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     <reference-descriptor name="carrier" class-ref="org.kuali.kfs.module.purap.businessobject.Carrier" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="carrierCode" />
     </reference-descriptor>
@@ -4055,7 +4002,7 @@
     </collection-descriptor>
     <collection-descriptor name="capitalAssetLocations" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="capitalAssetSystemIdentifier" />
-    </collection-descriptor>       
+    </collection-descriptor>   
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation" table="PUR_REQS_CPTL_AST_LOC_T">
@@ -4120,7 +4067,7 @@
     <reference-descriptor name="purchasingDocument" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>    
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor> 
     <reference-descriptor name="purchasingCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
@@ -4139,7 +4086,7 @@
     <reference-descriptor name="purchasingDocument" class-ref="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>       
-    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="capitalAssetTransactionTypeCode" />
     </reference-descriptor> 
     <reference-descriptor name="purchasingCapitalAssetSystem" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -4258,10 +4205,6 @@
     <reference-descriptor name="deliveryCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="deliveryCampusCode" />
 	</reference-descriptor>
-	
-    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorCountryCode" />
-    </reference-descriptor>
     
     <reference-descriptor name="carrier" class-ref="org.kuali.kfs.module.purap.businessobject.Carrier" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="carrierCode" />

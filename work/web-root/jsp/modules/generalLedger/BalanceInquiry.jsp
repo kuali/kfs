@@ -115,7 +115,7 @@
 					</c:forEach>
 				</c:url>
 
-				<a href="<c:out value='${amountViewSwitch}'/>"> 
+				<a href="<c:out value='${amountViewSwitch}'/>">
 					<c:out value='${amountViewLabel}'/>
 				</a>
 			</c:if>
@@ -132,6 +132,13 @@
 				
 				<c:set var="columnLength" value="${fn:length(row.columns)-13}" />
 				<c:forEach items="${row.columns}" var="column" begin="1" varStatus="status">
+
+					<c:if test="${!empty column.columnAnchor.title}">
+						<c:set var="title" value="${column.columnAnchor.title}" />
+					</c:if>
+					<c:if test="${empty column.columnAnchor.title}">
+						<c:set var="title" value="${column.propertyValue}" />
+					</c:if>
    				    <c:if test="${status.index > 0}">
 					
 							<c:choose>
@@ -145,7 +152,7 @@
 										<c:choose>
 		
 											<c:when test="${column.propertyURL != \"\"}">
-													<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
+													<a href="<c:out value="${column.propertyURL}"/>" title="<c:out value="${column.columnAnchor.title}" />"
 														target="blank"><c:out value="${column.propertyValue}" /></a>	
 											</c:when>
 											
@@ -168,7 +175,7 @@
 												title="${column.columnTitle}" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 												comparator="${column.comparator}">
 		
-												<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
+												<a href="<c:out value="${column.propertyURL}"/>" title="<c:out value="${column.columnAnchor.title}" />"
 													target="blank"><c:out value="${column.propertyValue}" /></a>
 		
 											</display:column>

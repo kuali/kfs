@@ -25,6 +25,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -50,8 +52,8 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         success = super.validateMaintenanceDocument(maintenanceDocument);
 
         newSubcontractor = (Subcontractor) super.getNewBo();
-        success &= validateStateCode(newSubcontractor.getSubcontractorStateCode());
         success &= validateCountryCode(newSubcontractor.getSubcontractorCountryCode());
+        success &= validateStateCode(newSubcontractor.getSubcontractorCountryCode(), newSubcontractor.getSubcontractorStateCode());
 
         return success;
     }
@@ -64,20 +66,14 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
      * @param stateCode
      * @return Whether state code entered is valid
      */
-    private boolean validateStateCode(String stateCode) {
+    private boolean validateStateCode(String countryCode, String stateCode) {
         boolean valid = true;
 
-        // Create a query to do a lookup on.
-        Map criteria = new HashMap();
-        List<String> criteriaValues = new ArrayList<String>();
-        criteriaValues.add(stateCode);
-        criteria.put("postalStateCode", criteriaValues);
-
         // Perform lookup for state code provided
-        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(State.class, criteria);
+        State state = SpringContext.getBean(StateService.class).getByPrimaryId(countryCode, stateCode);
 
         // If no values returned, state code is invalid, throw error
-        if (boList.size() < 1) {
+        if (state== null) {
             putFieldError("subcontractorStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
             valid = false;
         }
@@ -95,18 +91,10 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
     private boolean validateCountryCode(String countryCode) {
         boolean valid = true;
 
-        // Create a query to do a lookup on.
-        Map criteria = new HashMap();
-
-        List<String> criteriaValues = new ArrayList<String>();
-        criteriaValues.add(countryCode);
-        criteria.put("postalCountryCode", criteriaValues);
-
-        // Perform lookup for country code provided
-        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Country.class, criteria);
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(countryCode);
 
         // If no values returned, country code is invalid, throw error
-        if (boList.size() < 1) {
+        if (country == null) {
             putFieldError("subcontractorCountryCode", KFSKeyConstants.ERROR_COUNTRY_CODE_INVALID, countryCode);
             valid = false;
         }

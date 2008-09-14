@@ -44,6 +44,8 @@
 	
 	<bean id="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" class="org.kuali.kfs.sys.document.validation.impl.OneSidedRequiredAccountingLinesCountValidation" abstract="true" />
 	
+	<bean id="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" class="org.kuali.kfs.sys.document.validation.impl.OptionalOneSidedDocumentAccountingLinesCountValidation" abstract="true" />
+	
 	<bean id="AccountingDocument-accountingLineDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation" abstract="true">
 		<property name="accountingLineRuleHelperService"><ref bean="accountingLineRuleHelperService" /></property>
 	</bean>

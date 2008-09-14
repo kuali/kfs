@@ -62,7 +62,7 @@ public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectD
 
     private List<QuestionType> getAllQuestionTypes() {
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
+        criteria.put(KFSPropertyConstants.ACTIVE, true);
         List<QuestionType> questionTypes = (List<QuestionType>) businessObjectService.findMatchingOrderBy(QuestionType.class, criteria, "questionTypeSortNumber", true);
         return questionTypes;
     }

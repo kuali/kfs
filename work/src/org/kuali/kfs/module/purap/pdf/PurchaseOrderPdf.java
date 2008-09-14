@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -306,6 +307,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         Collection errors = new ArrayList();
 
+        // Date format pattern: MM-dd-yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+
         // This turns on the page events that handle the header and page numbers.
         PurchaseOrderPdf events = new PurchaseOrderPdf().getPageEvents();
         writer.setPageEvent(this); // Passing in "this" lets it know about the po, campusName, etc.
@@ -381,7 +385,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         }
         shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n\n");
         p = new Paragraph();
-        p.add(new Chunk("  Ship to address", ver_5_normal));
+        p.add(new Chunk("  Shiping Address", ver_5_normal));
         p.add(new Chunk(shipToInfo.toString(), cour_10_normal));
         cell = new PdfPCell(p);
         infoTable.addCell(cell);
@@ -415,11 +419,11 @@ public class PurchaseOrderPdf extends PurapPdf {
         p.add(new Chunk("  Delivery Required By\n", ver_5_normal));
 
         if (po.getDeliveryRequiredDate() != null && po.getDeliveryRequiredDateReason() != null) {
-            p.add(new Chunk("     " + po.getDeliveryRequiredDate(), cour_10_normal));
+            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_10_normal));
             p.add(new Chunk(" - " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_10_normal));
         }
         else if (po.getDeliveryRequiredDate() != null && po.getDeliveryRequiredDateReason() == null) {
-            p.add(new Chunk("     " + po.getDeliveryRequiredDate(), cour_10_normal));
+            p.add(new Chunk("     " + sdf.format(po.getDeliveryRequiredDate()), cour_10_normal));
         }
         else if (po.getDeliveryRequiredDate() == null && po.getDeliveryRequiredDateReason() != null) {
             p.add(new Chunk("     " + po.getDeliveryRequiredDateReason().getDeliveryRequiredDateReasonDescription(), cour_10_normal));
@@ -440,15 +444,15 @@ public class PurchaseOrderPdf extends PurapPdf {
         nestedInfoTable.setSplitLate(false);
 
         p = new Paragraph();
-        p.add(new Chunk("  Order date\n", ver_5_normal));
+        p.add(new Chunk("  Order Date\n", ver_5_normal));
 
         String orderDate = "";
         if (po.getPurchaseOrderInitialOpenDate() != null) {
-            orderDate = po.getPurchaseOrderInitialOpenDate().toString();
+            orderDate = sdf.format(po.getPurchaseOrderInitialOpenDate());
         }
-        else { // This date isn't set until the first time this document is printed, so will be null
-            // the first time; use today's date.
-            orderDate = getDateTimeService().getCurrentSqlDate().toString();
+        else { 
+            // This date isn't set until the first time this document is printed, so will be null the first time; use today's date.
+            orderDate = sdf.format(getDateTimeService().getCurrentSqlDate());
         }
 
         p.add(new Chunk("     " + orderDate, cour_10_normal));
@@ -457,7 +461,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         nestedInfoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  I.U. customer no.\n", ver_5_normal));
+        p.add(new Chunk("  Customer #\n", ver_5_normal));
         if (po.getVendorCustomerNumber() != null) {
             p.add(new Chunk("     " + po.getVendorCustomerNumber(), cour_10_normal));
         }
@@ -466,7 +470,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         nestedInfoTable.addCell(cell);
 
         p = new Paragraph();
-        p.add(new Chunk("  Delivery instructions\n", ver_5_normal));
+        p.add(new Chunk("  Delivery Instructions\n", ver_5_normal));
         if (StringUtils.isNotBlank(po.getDeliveryInstructionText())) {
             p.add(new Chunk("     " + po.getDeliveryInstructionText(), cour_10_normal));
         }
@@ -500,7 +504,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             billToInfo.append("     " + po.getBillingPhoneNumber());
         }
         p = new Paragraph();
-        p.add(new Chunk("  Bill to address", ver_5_normal));
+        p.add(new Chunk("  Billing Address", ver_5_normal));
         p.add(new Chunk("     " + billToInfo.toString(), cour_10_normal));
         p.add(new Chunk("\n Invoice status inquiry: " + statusInquiryUrl, ver_6_normal));
         cell = new PdfPCell(p);

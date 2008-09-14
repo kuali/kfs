@@ -61,12 +61,12 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         VendorDetail vendor = (VendorDetail) businessObject;
-        AnchorHtmlData anchorHtmlData = super.getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+        AnchorHtmlData anchorHtmlData = super.getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         anchorHtmlDataList.add(anchorHtmlData);
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
-            anchorHtmlDataList.add(super.getURLData(
+            anchorHtmlDataList.add(super.getUrlData(
                     businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
         }
         return anchorHtmlDataList;
@@ -80,10 +80,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      * is not a parent, or if the vendor is a parent and the link is not the create new division link (i.e. if the link is "edit").
      * We'll always add the vendor header id in the query string in all links.
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionURLHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
-    protected String getActionURLHref(BusinessObject businessObject, String methodToCall, List pkNames){
+    protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
         if (!methodToCall.equals(KFSConstants.COPY_METHOD)) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);

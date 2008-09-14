@@ -240,6 +240,8 @@
 		
 	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.KualiCodeDaoOjb" />
 
+	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />
+
 	<bean id="universityDateService" class="org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
         <property name="dateTimeService" ref="dateTimeService" />
@@ -308,7 +310,7 @@
 			<ref bean="balanceTypService" />
 		</property>
 	</bean>
-	
+
 	
 	<bean id="taxService" class="org.kuali.kfs.sys.service.impl.TaxServiceImpl">
 		<property name="taxRegionService">
@@ -322,7 +324,34 @@
 		</property>
 	</bean>		
 
-	<bean id="postalZipCodeService" class="org.kuali.kfs.sys.service.impl.PostalZipCodeServiceImpl">
+	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="countyService" class="org.kuali.kfs.sys.service.impl.CountyServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="stateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+	
+	<bean id="countryService" class="org.kuali.kfs.sys.service.impl.CountryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -394,7 +423,7 @@
             </bean>
         </property>
     </bean>
-    
+
     <bean id="businessObjectMetaDataDao" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" />
 
     <bean id="kfsBusinessObjectMetaDataService" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl">
@@ -426,8 +455,8 @@
     <bean id="functionalFieldDescriptionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
         <property name="lookupableHelperService">
         	<bean class="org.kuali.kfs.sys.businessobject.lookup.FunctionalFieldDescriptionLookupableHelperServiceImpl" parent="lookupableHelperService">
-    			<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
-    		</bean>
+    	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+    </bean>
         </property>
     </bean>
 
@@ -526,9 +555,21 @@
     		</list>
     	</property>
     </bean>
+    
+     <bean id="bankService" class="org.kuali.kfs.sys.service.impl.BankServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" /> 
+		</property>
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" /> 
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" /> 
+		</property>
+	</bean>
 
     <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
-    
+
     <bean id="subFundGroupRoutingDataGenerator" class="org.kuali.kfs.sys.document.service.impl.SubFundGroupRoutingDataGenerator">
     	<property name="accountingLineCollectionProperties">
     		<list>

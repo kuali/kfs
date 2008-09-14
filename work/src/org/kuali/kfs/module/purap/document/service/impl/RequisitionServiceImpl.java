@@ -228,13 +228,12 @@ public class RequisitionServiceImpl implements RequisitionService {
                     return commodityCodesReason;
                 }
             }
-//TODO RELEASE 3 - Discounts and trade-ins
-//          if (EpicConstants.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getCode()) || EpicConstants.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getCode())) {
-//              if ((item.getUnitPrice() != null) && ((zero.compareTo(item.getUnitPrice())) != 0)) {
-//                  // discount or trade-in item has unit price that is not empty or zero
-//                  return "Requisition contains a " + item.getItemType().getDescription() + " item, so it does not qualify as an APO.";
-//              }
-//          }
+          if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
+              if ((item.getItemUnitPrice() != null) && ((KualiDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
+                  // discount or trade-in item has unit price that is not empty or zero
+                  return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
+              }
+          }
 //TODO RELEASE 3 - Capital Asset Codes
 //          if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
 //              for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {

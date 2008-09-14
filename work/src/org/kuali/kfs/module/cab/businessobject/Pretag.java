@@ -1,6 +1,5 @@
 package org.kuali.kfs.module.cab.businessobject;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,6 +12,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -22,7 +22,7 @@ public class Pretag extends PersistableBusinessObjectBase {
 
     private String purchaseOrderNumber;
     private Long lineItemNumber;
-    private BigDecimal quantityInvoiced;
+    private KualiDecimal quantityInvoiced;
     private String capitalAssetTypeCode;
     private String manufacturerName;
     private String manufacturerModelNumber;
@@ -98,7 +98,7 @@ public class Pretag extends PersistableBusinessObjectBase {
      * 
      * @return Returns the quantityInvoiced
      */
-    public BigDecimal getQuantityInvoiced() {
+    public KualiDecimal getQuantityInvoiced() {
         return quantityInvoiced;
     }
 
@@ -107,7 +107,7 @@ public class Pretag extends PersistableBusinessObjectBase {
      * 
      * @param quantityInvoiced The quantityInvoiced to set.
      */
-    public void setQuantityInvoiced(BigDecimal quantityInvoiced) {
+    public void setQuantityInvoiced(KualiDecimal quantityInvoiced) {
         this.quantityInvoiced = quantityInvoiced;
     }
 

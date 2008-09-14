@@ -17,7 +17,7 @@
     </property>
     <property name="documentTypeName" value="YearEndDistributionOfIncomeAndExpenseDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndDistributionOfIncomeAndExpenseDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer" />
     <property name="documentTypeCode" value="YEDI" />
     <property name="allowsCopy" value="true" />
@@ -36,23 +36,20 @@
         </bean>
       </list>
     </property>
-            <property name="accountingLineGroups">
+    <property name="validationMap" ref="YearEndDistributionOfIncomeAndExpenseDocument-validations" />
+    <property name="accountingLineGroups">
     	<map>
     		<entry>
     			<key><value>source</value></key>
-	    		<ref bean="YearEndDistributionOfIncomeAndExpenseDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndDistributionOfIncomeAndExpense-sourceAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
 	    	<entry>
 	    		<key><value>target</value></key>
-	    		<ref bean="YearEndDistributionOfIncomeAndExpenseDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    		<ref bean="YearEndDistributionOfIncomeAndExpense-targetAccountingLineGroup" parent="AccountingLineGroup" />
 	    	</entry>
     	</map>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupRoutingDataGenerator</value>
-    	</list>
-    </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -82,28 +79,68 @@
       </list>
     </property>
   </bean>
-      <!-- accounting line groups -->
-  <bean id="YearEndDistributionOfIncomeAndExpenseDocument-sourceAccountingLineGroup" parent="YearEndDistributionOfIncomeAndExpenseDocument-sourceAccountingLineGroup-parentBean" />
   
-  <bean id="YearEndDistributionOfIncomeAndExpenseDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+    <!-- Validations -->
+  
+  <bean id="YearEndDistributionOfIncomeAndExpenseDocument-validations" parent="YearEndDistributionOfIncomeAndExpenseDocument-validations-parentBean" />
+  
+  <bean id="YearEndDistributionOfIncomeAndExpenseDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="YearEndDistributionOfIncomeAndExpense-sourceAccountingLineGroup" parent="YearEndDistributionOfIncomeAndExpense-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="YearEndDistributionOfIncomeAndExpense-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-	  <property name="groupLabel" value="From" />
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseAccountingLineAuthorizer" />
+	  <property name="groupLabel" value="Income" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
 	</bean>
 	
-	<bean id="YearEndDistributionOfIncomeAndExpenseDocument-targetAccountingLineGroup" parent="YearEndDistributionOfIncomeAndExpenseDocument-targetAccountingLineGroup-parentBean" />
+	<bean id="YearEndDistributionOfIncomeAndExpense-targetAccountingLineGroup" parent="YearEndDistributionOfIncomeAndExpense-targetAccountingLineGroup-parentBean" />
 	
-	<bean id="YearEndDistributionOfIncomeAndExpenseDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	<bean id="YearEndDistributionOfIncomeAndExpense-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-	  <property name="groupLabel" value="To" />
+	  <property name="groupLabel" value="Expense" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="target" />
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
 	</bean>
-	</beans>
+</beans>

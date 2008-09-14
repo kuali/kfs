@@ -104,14 +104,6 @@
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionRate"
         	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Effective Date/Rate">
-        	<!-- 
-        	p:attributeToHighlightOnDuplicateKey="effectiveDate"
-        	<property name="duplicateIdentificationFields">
-        		<list>
-        			<bean parent="MaintainableFieldDefinition" p:name="taxRegionCode" />
-        			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
-        		</list>
-        	</property>-->
         	<property name="summaryFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
@@ -120,8 +112,8 @@
         	</property>
         	<property name="maintainableFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:readOnlyAfterAdd="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" p:readOnlyAfterAdd="true" />
 	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         		</list>
         	</property>

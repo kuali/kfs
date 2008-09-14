@@ -20,6 +20,7 @@ import java.util.HashMap;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 
@@ -98,4 +99,6 @@ public interface AccountsPayableService {
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
+    
+    public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po);
 }

@@ -35,9 +35,11 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -126,7 +128,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private UniversalUser accountFiscalOfficerUser;
     private UniversalUser accountSupervisoryUser;
     private UniversalUser accountManagerUser;
-    private PostalZipCode postalZipCode;
+    private PostalCode postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private ContractsAndGrantsCfda cfda;
@@ -806,6 +808,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
+     * Returns whether this account is not active or not
+     * @return the opposite of isActive()
+     */
+    public boolean isClosed() {
+        return !active;
+    }
+
+    /**
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
@@ -887,6 +897,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountState
      */
     public State getAccountState() {
+        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(accountStateCode, accountState);
         return accountState;
     }
 
@@ -1509,7 +1520,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalZipCode getPostalZipCode() {
+    public PostalCode getPostalZipCode() {
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(accountZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -1518,7 +1530,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalZipCode postalZipCode) {
+    public void setPostalZipCode(PostalCode postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 

@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
@@ -51,9 +52,9 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
             currentUser.set(user);
         }
-        AnchorHtmlData urlDataCopy = getURLData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+        AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
         if (theAccount.isActive() || user.isAdministratorUser()) {
-            anchorHtmlDataList.add(getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
             urlDataCopy.setPrependDisplayText("&nbsp;&nbsp;&nbsp;&nbsp;");
@@ -61,4 +62,23 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         anchorHtmlDataList.add(urlDataCopy);
         return anchorHtmlDataList;
     }
+    /**
+     * Overridden to changed the "closed" parameter to an "active" parameter
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
+        if (parameters.containsKey("closed")) {
+            final String closedValue = parameters.get("closed");
+            if ("Y1T".indexOf(closedValue) > -1) {
+                parameters.put("active", "N");
+            } else if ("N0F".indexOf(closedValue) > -1){
+                parameters.put("active", "Y");
+            }
+            parameters.remove("closed");
+        }
+        return super.getSearchResults(parameters);
+    }
+    
+    
 }

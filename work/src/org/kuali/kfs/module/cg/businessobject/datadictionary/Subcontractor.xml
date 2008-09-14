@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Subcontractor" parent="Subcontractor-parentBean" />
 
@@ -30,6 +32,16 @@
         <ref bean="Subcontractor-versionNumber" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="subcontractorState">
+            <dd:primitiveAttribute source="subcontractorStateCode" target="postalStateCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="subcontractorCountry">
+            <dd:primitiveAttribute source="subcontractorCountryCode" target="postalCountryCode" />
+        </dd:relationship>
+      </list>
+    </property>     
   </bean>
 
 <!-- Attribute Definitions -->
@@ -131,7 +143,7 @@
   </bean>
   <bean id="Subcontractor-subcontractorZipCode" parent="Subcontractor-subcontractorZipCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="subcontractorZipCode" />
     <property name="required" value="true" />
   </bean>

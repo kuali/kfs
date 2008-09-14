@@ -15,27 +15,52 @@
  */
 package org.kuali.kfs.pdp.batch;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 
+/**
+ * This step will call the <code>PaymentService</code> to pick up incoming PDP payment files and process.
+ */
 public class LoadPaymentsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LoadPaymentsStep.class);
 
     private PaymentFileService paymentFileService;
+    private BatchInputFileType paymentInputFileType;
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.debug("execute() started");
+        paymentFileService.processPaymentFiles(paymentInputFileType);
 
-        paymentFileService.processPaymentFiles();
         return true;
     }
 
-    public void setPaymentFileService(PaymentFileService pfs) {
-        paymentFileService = pfs;
+    /**
+     * Sets the paymentFileService attribute value.
+     * 
+     * @param paymentFileService The paymentFileService to set.
+     */
+    public void setPaymentFileService(PaymentFileService paymentFileService) {
+        this.paymentFileService = paymentFileService;
     }
+
+    /**
+     * Sets the paymentInputFileType attribute value.
+     * 
+     * @param paymentInputFileType The paymentInputFileType to set.
+     */
+    public void setPaymentInputFileType(BatchInputFileType paymentInputFileType) {
+        this.paymentInputFileType = paymentInputFileType;
+    }
+
 }

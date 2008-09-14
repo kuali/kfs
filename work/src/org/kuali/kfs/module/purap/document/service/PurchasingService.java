@@ -23,14 +23,16 @@ public interface PurchasingService {
     public void setupCapitalAssetItems(PurchasingDocument purDoc);
     
     public void deleteCapitalAssetItems(PurchasingDocument purDoc, Integer itemIdentifier);
-
-    public void setupCapitalAssetSystem(PurchasingDocument purDoc);
     
+    public void setupCapitalAssetSystem(PurchasingDocument purDoc);
+
     /**
      * Saves the document without doing validation by invoking the saveDocument method of documentService.
      * 
      * @param purchasingDocument the purchasing document to be saved
      */
     public void saveDocumentWithoutValidation(PurchasingDocument purchasingDocument);
-
+        
+    public void prorateDiscountTradeIn(PurchasingDocument purDoc);
+    
 }

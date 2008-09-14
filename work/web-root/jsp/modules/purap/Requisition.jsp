@@ -20,12 +20,13 @@
 	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
+
+
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
-
 	<kfs:hiddenDocumentFields excludePostingYear="true" />
-
+	
     <purap:hiddenPurapFields />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
@@ -38,22 +39,22 @@
 	    	detailSectionLabel="Requisition Detail"
 	    	editableFundingSource="true" />
     </kfs:documentOverview>
-	
+
     <purap:vendor
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
-
+ 
     <purap:puritems itemAttributes="${DataDictionary.RequisitionItem.attributes}"
     	accountingLineAttributes="${DataDictionary.RequisitionAccount.attributes}" 
     	displayRequisitionFields="true"/>
-
-	<purap:purCams documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
+ 	<purap:purCams documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
 		itemAttributes="${DataDictionary.RequisitionItem.attributes}" 
 		camsItemAttributes="${DataDictionary.RequisitionCapitalAssetItem.attributes}" 
 		camsSystemAttributes="${DataDictionary.RequisitionCapitalAssetSystem.attributes}"
 		camsAssetAttributes="${DataDictionary.RequisitionItemCapitalAsset.attributes}"
 		camsLocationAttributes="${DataDictionary.RequisitionCapitalAssetLocation.attributes}" 
 		isRequisition="true" />
+
 
     <purap:paymentinfo
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
@@ -65,7 +66,6 @@
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
          
-    <!-- TEMPORARILY DISABLING ACCOUNT SUMMARY FUNCTIONALITY -->
     <purap:summaryaccounts
         itemAttributes="${DataDictionary.RequisitionItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />

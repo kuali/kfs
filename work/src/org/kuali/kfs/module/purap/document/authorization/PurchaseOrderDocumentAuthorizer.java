@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
@@ -81,9 +82,12 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
-        KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
-
+        KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();        
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) d;
+        
+        //By default lock cams tab
+        editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
+        
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             //users cannot edit vendor name if the vendor has been selected from the database
             if (ObjectUtils.isNotNull(poDocument.getVendorHeaderGeneratedIdentifier())) {
@@ -101,8 +105,10 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                     editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
                 }
             }
+            
         }
-
+        
+        
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
@@ -110,6 +116,13 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
                 // for ex, contract manager, manual status change, and quote etc
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
+            }
+            
+            //if user is part of the purchasing group, allow edit while in process
+            String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+            if (user.isMember(purchasingGroup)) {
+                editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
+                editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
@@ -123,6 +136,13 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 // FULL_ENTRY allowed; also set internal purchasing lock
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_INTERNAL_PURCHASING_ENTRY, "TRUE");
+
+                //if user is part of the purchasing group, allow edit while awaiting internal purchasing review
+                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+                if (user.isMember(purchasingGroup)) {
+                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
+                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
+                }
             }
 
             /**

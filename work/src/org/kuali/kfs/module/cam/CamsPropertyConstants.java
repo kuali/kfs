@@ -76,6 +76,7 @@ public class CamsPropertyConstants {
         public static final String LAND_COUNTRY_NAME = "landCountyName";
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
+        public static final String QUANTITY = "quantity";
         
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";

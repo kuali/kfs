@@ -111,7 +111,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         List<PurApAccountingLine> newAccounts = new ArrayList();
 
         if (totalAmount.isZero()) {
-            throwRuntimeException(methodName, "Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");        }
+            throwRuntimeException(methodName, "Purchasing/Accounts Payable account distribution for proration does not allow zero dollar total.");        
+        }
 
         BigDecimal percentTotal = BigDecimal.ZERO;
         BigDecimal totalAmountBigDecimal = totalAmount.bigDecimalValue();
@@ -199,7 +200,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else if ((ONE_HUNDRED.compareTo(percentTotal)) > 0) {
             /*
              * The total percent is less than one hundred Here we find the last account in our list and add the remaining required
-             * percent to it's already calculated percent
+             * percent to its already calculated percent
              */
             BigDecimal difference = ONE_HUNDRED.subtract(percentTotal);
             if ( LOG.isDebugEnabled() ) {

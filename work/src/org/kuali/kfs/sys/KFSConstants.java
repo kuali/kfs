@@ -217,6 +217,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[] { "LLGL" };
     public static final String PERCENTAGE_SIGN = "%";
     public static final String RICE_PATH_PREFIX = "kr/";
+    public static final String USE_CONTINUATION_BANK_QUESTION = "UseContinuationBankQuestion";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field
@@ -723,6 +724,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNIVERSAL_USER_EDIT_WORKGROUP_PARM = "UNIVERSAL_USER_EDIT_GROUP";
         public static final String FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM = "FINANCIAL_SYSTEM_USER_EDIT_GROUP";
         public static final String SERVICE_BUS_ACCESS_GROUP_PARM = "SERVICE_BUS_ACCESS_GROUP";
+
+        public static final String DEFAULT_COUNTRY = "DEFAULT_COUNTRY";
     }
 
     public static final String MAINTENANCE_ADMIN_WORKGROUP_PARM_NM = "MAINTENANCE_ADMIN_GROUP";
@@ -783,7 +786,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static class SystemGroupParameterNames {
 
         public static final String FLEXIBLE_OFFSET_ENABLED_FLAG = "USE_FLEXIBLE_OFFSET_IND";
-        public static final String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "USE_FLEXIBLE_CLAIM_ON_CASH_IND";
         public static final String ICR_ENCUMBRANCE_ENABLED_FLAG = "USE_ICR_ENCUMBRANCE_IND";
         public static final String PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
         public static final String PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR = "PRIOR_TO_YEAR";
@@ -1170,7 +1172,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SEQUENCE_NUMBER_BLOCK = "sequenceNumber";
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
-       
+    
     public static final class TaxRegionConstants {
         public static final String TAX_REGION_RATES = "taxRegionRates";
         public static final String TAX_REGION_COUNTIES = "taxRegionCounties";
@@ -1179,6 +1181,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TAX_REGION_STATE_CODE = "stateCode";
         public static final String TAX_REGION_COUNTY_CODE = "countyCode";
         public static final String TAX_REGION_POSTAL_CODE = "postalCode";
+        public static final String TAX_REGION_TAX_RATE = "taxRate";
+        public static final String TAX_REGION_EFFECTIVE_DATE = "effectiveDate";
     }
     
     public static final class SubAccountType {

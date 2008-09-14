@@ -19,6 +19,10 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="AdvanceDeposit-advanceDepositValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositValidation" abstract="true" />
+
+	<bean id="AdvanceDeposit-minimumAdvanceDepositValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositMinimumAdvanceDepositValidation" abstract="true" />
 	
 	<bean id="InternalBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 	
@@ -130,6 +134,24 @@
 		<property name="cashReceiptService" ref="cashReceiptService" />
 	</bean>
 	
+	<bean id="CreditCardReceipt-minimumCreditCardReceiptValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptMinimumCreditCardReceiptValidation" abstract="true" />
+	
+	<bean id="CreditCardReceipt-cashTotalsValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptCashTotalsValidation" abstract="true" />
+	
+	<bean id="CreditCardReceipt-creditCardReceiptValidation" class="org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptValidation" abstract="true" />
+	
+	<bean id="GeneralErrorCorrection-objectTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionObjectTypeValidation" abstract="true" >
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="GeneralErrorCorrection-requiredReferenceFieldValidation" class="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionRequiredReferenceFieldValidation" abstract="true" >
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="IndirectCostAdjustment-chartOfAccountsValidation" class="org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentChartOfAccountsValidation" abstract="true" />
+	
+	<bean id="IndirectCostAdjustment-accountValidation" class="org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentAccountValidation" abstract="true" />
+	
 	<bean id="JournalVoucher-accountingLineAmountValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherAccountingLineAmountValidation" abstract="true" />
 	
 	<bean id="JournalVoucher-accountingLineExternalEncumbranceReferenceValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherAccountingLineExternalEncumbranceReferenceValidation" abstract="true">
@@ -148,10 +170,91 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
-	<bean id="JournalVoucher-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherReversalDateValidation" abstract="true" />
-	
 	<bean id="JournalVoucher-accountingLineObjectTypeCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherObjectTypeValidation">
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingLineRuleHelperService" ref="accountingLineRuleHelperService" />
 	</bean>
+	
+	<bean id="JournalVoucher-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.JournalVoucherReversalDateValidation" abstract="true" />
+
+	<bean id="PreEncumbrance-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceReversalDateValidation" abstract="true" >
+		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService" />
+	</bean>
+
+	<bean id="ProcurementCard-accountNumberValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountNumberValidation" abstract="true" />
+
+	<bean id="ProcurementCard-accountAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountAccessibilityValidation" abstract="true" />
+
+	<bean id="ProcurementCard-balanceValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardBalanceValidation" abstract="true" />
+
+	<bean id="ProcurementCard-fixErrorPathValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardFixErrorPathValidation" abstract="true" />
+
+	<bean id="ProcurementCard-newAccountingLineBranchingValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardNewAccountingLineBranchingValidation" abstract="true" />
+
+	<bean id="ProcurementCard-objectCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardObjectCodeValidation" abstract="true" />
+
+	<bean id="ServiceBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
+
+	<bean id="ServiceBilling-accountingLineAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ServiceBillingAccountingLineAccessibilityValidation" abstract="true" />
+
+	<bean id="YearEndBudgetAdjustment-accountingLineAccountHasRecordingLevelValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineAccountHasRecordingLevelValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-accountingLineAccountIncomeStreamValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineAccountIncomeStreamValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-accountingLineAmountValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineAmountValidation" abstract="true">
+		<property name="debitDeterminerService" ref="debitDeterminerService" />
+	</bean>
+	
+	<bean id="YearEndBudgetAdjustment-accountingLineBaseAmountValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineBaseAmountValidation" abstract="true">
+		<property name="fiscalYearFunctionControlService" ref="fiscalYearFunctionControlService" />
+	</bean>
+	
+	<bean id="YearEndBudgetAdjustment-accountingLineMonthlyLinesValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineMonthlyLinesValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-accountingLinesRequiredForRoutingValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLinesRequiredForRoutingValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-accountingLineTotalsUnchangedValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentAccountingLineTotalsUnchangedValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-documentBalancedValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentBalancedValidation" abstract="true" />
+	
+	<bean id="YearEndBudgetAdjustment-fundGroupAdjustmentRestrictionValidation" class="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentFundGroupAdjustmentRestrictionValidation" abstract="true">
+		<property name="accountingLineRuleHelperService" ref="accountingLineRuleHelperService" />
+	</bean>
+
+	<bean id="YearEndGeneralErrorCorrection-objectTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionObjectTypeValidation" abstract="true" >
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="YearEndGeneralErrorCorrection-requiredReferenceFieldValidation" class="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionRequiredReferenceFieldValidation" abstract="true" >
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="YearEndTransferOfFunds-transferTotalsBalanceValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsTransferTotalsBalancedValidation" abstract="true">
+		<property name="transferOfFundsService" ref="transferOfFundsService" />
+	</bean>
+	
+	<bean id="YearEndTransferOfFunds-fundGroupsBalancedValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsFundGroupsBalancedValidation" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="YearEndTransferOfFunds-objectSubTypeValueAllowedValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsObjectSubTypeValueAllowedValidation">
+		<property name="transferOfFundsService" ref="transferOfFundsService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="responsibleProperty" value="financialObjectCode" />
+		<property name="propertyPath" value="objectCode.financialObjectSubTypeCode" />
+		<property name="parameterToCheckAgainst" value="OBJECT_SUB_TYPES" />
+	</bean>
+	
+	<bean id="YearEndTransferOfFunds-objectCodeValueAllowedValidation" class="org.kuali.kfs.fp.document.validation.impl.TransferOfFundsObjectCodeValueAllowedValidation">
+		<property name="debitDeterminerService" ref="debitDeterminerService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="responsibleProperty" value="financialObjectCode" />
+		<property name="propertyPath" value="financialObjectCode" />
+		<property name="parameterToCheckAgainst" value="OBJECT_CODES" />
+	</bean>
+
+
+	
+	
+
 </beans>

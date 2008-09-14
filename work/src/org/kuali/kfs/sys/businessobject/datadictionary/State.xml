@@ -18,6 +18,7 @@
     <property name="objectLabel" value="State" />
     <property name="attributes" >
       <list>
+        <ref bean="State-postalCountryCode" />
         <ref bean="State-postalStateCode" />
         <ref bean="State-postalStateName" />
         <ref bean="State-codeAndDescription" />
@@ -28,7 +29,7 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
+  <bean id="State-postalCountryCode" parent="Country-postalCountryCode-parentBean" />
 
   <bean id="State-postalStateCode" parent="State-postalStateCode-parentBean" />
 
@@ -111,6 +112,8 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
+              		p:attributeName="postalCountryCode" />
+              <bean parent="FieldDefinition"
                     p:attributeName="postalStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="postalStateName" />
@@ -143,6 +146,8 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
+              p:attributeName="postalCountryCode" />
+        <bean parent="FieldDefinition"
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateName" />
@@ -152,6 +157,8 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="postalCountryCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"

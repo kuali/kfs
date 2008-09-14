@@ -139,6 +139,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private KualiDecimal yearToDateDepreciation;
     private KualiDecimal currentMonthDepreciation;
     private Date depreciationDateCopy;
+    private transient Integer quantity;
 
     /**
      * Default constructor.
@@ -1932,5 +1933,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     public void setAgency(Agency agency) {
         this.agency = agency;
+    }
+    
+    public Integer getQuantity() {
+        return quantity;
     }
 }

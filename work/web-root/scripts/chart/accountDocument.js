@@ -27,9 +27,24 @@ function onblur_subFundGroup( sfgField, callbackFunction ) {
     }
 }
 
+/* Same as onblur_subFundGroup */
+function updateSubFundGroup( sfgFieldName, callbackFunction ) {
+    var subFundGroup = getElementValue(sfgFieldName);
+
+    if (subFundGroup != '') {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		SubFundGroupService.getByPrimaryId( subFundGroup, dwrReply );
+    }
+}
+
 function onblur_accountRestrictedStatusCode( codeField, callbackFunction ) {
-	var subFundGroupFieldName = getElementValue( findElPrefix( codeField.name ) + ".subFundGroupCode" );
-	obblur_subFundGroup( subFundGroupFieldName, callbackFunction );
+	var subFundGroupFieldName = findElPrefix( codeField.name ) + ".subFundGroupCode";
+	updateSubFundGroup( subFundGroupFieldName, callbackFunction );
 }
 
 function checkRestrictedStatusCode_Callback( data ) {

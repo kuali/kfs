@@ -66,7 +66,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<DueDateType> getDueDateTypes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         return new ArrayList(businessObjectService.findMatching(DueDateType.class, fieldValues));
     }
@@ -76,7 +76,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<PersonRole> getPersonRoles() {
         Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         Collection col = businessObjectService.findMatchingOrderBy(PersonRole.class, fieldValues, KFSPropertyConstants.PERSON_ROLE_SORT_NUMBER, true);
 
@@ -88,7 +88,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<ProjectType> getProjectTypes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         Collection col = businessObjectService.findMatchingOrderBy(ProjectType.class, fieldValues, KFSPropertyConstants.SORT_NUMBER, true);
 
@@ -100,7 +100,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<ResearchTypeCode> getResearchTypeCodes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         Collection col = businessObjectService.findMatching(ResearchTypeCode.class, fieldValues);
 

@@ -81,7 +81,7 @@
             <logic:iterate name="ranges" id="range">
             <tr>
               <th><c:out value="${range.physCampusProcCode}"/></th>
-              <td><c:out value="${range.bank.name} - ${range.bank.disbursementType.name}"/></td>
+              <td><c:out value="${range.bank.bankName}"/></td>
               <td align="right"><c:out value="${range.lastAssignedDisbNbr}"/></td>
             </tr>
             </logic:iterate>

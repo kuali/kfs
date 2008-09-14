@@ -308,6 +308,86 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         return list;
     }
 
+    public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po) {
+
+        HashMap<String, ExpiredOrClosedAccountEntry> list = new HashMap<String, ExpiredOrClosedAccountEntry>();
+        ExpiredOrClosedAccountEntry entry = null;
+        ExpiredOrClosedAccount originalAcct = null;
+        ExpiredOrClosedAccount replaceAcct = null;
+        String chartAccount = null;
+
+
+        if (po != null) {
+            // get list of active accounts
+            List<SourceAccountingLine> accountList = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
+
+            // loop through accounts
+            for (SourceAccountingLine poAccountingLine : accountList) {
+
+                Account account = accountService.getByPrimaryId(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber());
+
+                entry = new ExpiredOrClosedAccountEntry();
+
+                originalAcct = new ExpiredOrClosedAccount(poAccountingLine.getChartOfAccountsCode(), poAccountingLine.getAccountNumber(), poAccountingLine.getSubAccountNumber());
+
+                if (!account.isActive()) {
+
+                    // 1. if the account is closed, get the continuation account and add it to the list
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+
+                    if (continuationAccount == null) {
+                        replaceAcct = new ExpiredOrClosedAccount();
+                        originalAcct.setContinuationAccountMissing(true);
+
+                        entry.setOriginalAccount(originalAcct);
+                        entry.setReplacementAccount(replaceAcct);
+
+                        list.put(createChartAccountString(originalAcct), entry);
+                    }
+                    else {
+                        replaceAcct = new ExpiredOrClosedAccount(continuationAccount.getChartOfAccountsCode(), continuationAccount.getAccountNumber(), poAccountingLine.getSubAccountNumber());
+
+                        entry.setOriginalAccount(originalAcct);
+                        entry.setReplacementAccount(replaceAcct);
+
+                        list.put(createChartAccountString(originalAcct), entry);
+                    }
+                    // 2. if the account is expired and the current date is <= 90 days from the expiration date, do nothing
+                    // 3. if the account is expired and the current date is > 90 days from the expiration date, get the continuation
+                    // account and add it to the list
+                }
+                else if (account.isExpired()) {
+                    Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
+
+                    // if account is C&G and expired then add to list.
+                    if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > 90)) {
+
+                        if (continuationAccount == null) {
+                            replaceAcct = new ExpiredOrClosedAccount();
+                            originalAcct.setContinuationAccountMissing(true);
+
+                            entry.setOriginalAccount(originalAcct);
+                            entry.setReplacementAccount(replaceAcct);
+
+                            list.put(createChartAccountString(originalAcct), entry);
+                        }
+                        else {
+                            replaceAcct = new ExpiredOrClosedAccount(continuationAccount.getChartOfAccountsCode(), continuationAccount.getAccountNumber(), poAccountingLine.getSubAccountNumber());
+
+                            entry.setOriginalAccount(originalAcct);
+                            entry.setReplacementAccount(replaceAcct);
+
+                            list.put(createChartAccountString(originalAcct), entry);
+                        }
+                    }
+
+                    // if account is not C&G, use the same account, do not replace
+                }
+            }
+        }
+        return list;
+    }
+    
     /**
      * Creates a chart-account string.
      * 

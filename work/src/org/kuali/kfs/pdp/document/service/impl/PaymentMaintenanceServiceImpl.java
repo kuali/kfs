@@ -59,25 +59,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentMaintenanceServiceImpl.class);
 
-    // Payment Status Codes
-    private static String HELD_CD = "HELD";
-    private static String OPEN_CD = "OPEN";
-    private static String CANCEL_PAYMENT_CD = "CPAY";
-    private static String CANCEL_DISBURSEMENT_CD = "CDIS";
-    private static String EXTRACTED_CD = "EXTR";
-    private static String PENDING_ACH_CD = "PACH";
-    private static String HELD_TAX_EMPLOYEE_CD = "HTXE";
-    private static String HELD_TAX_NRA_CD = "HTXN";
-    private static String HELD_TAX_NRA_EMPL_CD = "HTXB";
-
-    // Payment Change Codes
-    private static String CANCEL_PAYMENT_CHNG_CD = "CP";
-    private static String HOLD_CHNG_CD = "HP";
-    private static String REMOVE_HOLD_CHNG_CD = "RHP";
-    private static String CHANGE_IMMEDIATE_CHNG_CD = "IMP";
-    private static String CANCEL_DISBURSEMENT_CHNG_CD = "CD";
-    private static String CANCEL_REISSUE_CHNG_CD = "CRD";
-
     private PaymentGroupDao paymentGroupDao;
     private PaymentDetailDao paymentDetailDao;
     private AchAccountNumberDao achAccountNumberDao;
@@ -145,11 +126,11 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-        if (!(CANCEL_PAYMENT_CD.equals(paymentStatus))) {
+        if (!(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT.equals(paymentStatus))) {
             LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
-            if ((HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (HELD_TAX_NRA_CD.equals(paymentStatus)) || (HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
+            if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
                 if (sr.isTaxHoldersRole() || sr.isSysAdminRole()) {
-                    changeStatus(paymentGroup, CANCEL_PAYMENT_CD, CANCEL_PAYMENT_CHNG_CD, note, user);
+                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
                     // set primary cancel indicator for EPIC to use
                     PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
                     if (pd != null) {
@@ -164,9 +145,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     throw new CancelPaymentException("Invalid status to cancel pending payment.");
                 }
             }
-            else if (OPEN_CD.equals(paymentStatus) || HELD_CD.equals(paymentStatus)) {
+            else if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus) || PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
                 if (sr.isCancelRole()) {
-                    changeStatus(paymentGroup, CANCEL_PAYMENT_CD, CANCEL_PAYMENT_CHNG_CD, note, user);
+                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
                     // set primary cancel indicator for EPIC to use
                     PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
                     if (pd != null) {
@@ -212,10 +193,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-        if (!(HELD_CD.equals(paymentStatus))) {
-            if (OPEN_CD.equals(paymentStatus)) {
+        if (!(PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus))) {
+            if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus)) {
                 LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; continue with hold.");
-                changeStatus(paymentGroup, HELD_CD, HOLD_CHNG_CD, note, user);
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_CHNG_CD, note, user);
                 LOG.debug("holdPendingPayment() Pending payment was put on hold; exit method.");
             }
             else {
@@ -248,11 +229,11 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-        if (!(OPEN_CD.equals(paymentStatus))) {
+        if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
             LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
-            if ((HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (HELD_TAX_NRA_CD.equals(paymentStatus)) || (HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
+            if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
                 if (sr.isTaxHoldersRole() || sr.isSysAdminRole()) {
-                    changeStatus(paymentGroup, OPEN_CD, REMOVE_HOLD_CHNG_CD, note, user);
+                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
                 }
                 else {
@@ -260,9 +241,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     throw new CancelPaymentException("Invalid status to hold pending payment.");
                 }
             }
-            else if (HELD_CD.equals(paymentStatus)) {
+            else if (PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus)) {
                 if (sr.isHoldRole()) {
-                    changeStatus(paymentGroup, OPEN_CD, REMOVE_HOLD_CHNG_CD, note, user);
+                    changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
                 }
                 else {
@@ -295,7 +276,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             paymentGroup.setProcessImmediate(new Boolean("True"));
         }
 
-        changeStatus(paymentGroup, paymentGroup.getPaymentStatus().getCode(), CHANGE_IMMEDIATE_CHNG_CD, note, user, paymentGroupHistory);
+        changeStatus(paymentGroup, paymentGroup.getPaymentStatus().getCode(), PdpConstants.PaymentChangeCodes.CHANGE_IMMEDIATE_CHNG_CD, note, user, paymentGroupHistory);
         LOG.debug("changeImmediateFlag() exit method.");
     }
 
@@ -318,8 +299,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-        if (!(CANCEL_DISBURSEMENT_CD.equals(paymentStatus))) {
-            if (((EXTRACTED_CD.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PENDING_ACH_CD.equals(paymentStatus))) {
+        if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
+            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
                 List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr());
 
@@ -328,7 +309,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals("CHCK"))) {
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
-                    changeStatus(element, CANCEL_DISBURSEMENT_CD, CANCEL_DISBURSEMENT_CHNG_CD, note, user, pgh);
+                    changeStatus(element, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
                     glPendingTransactionService.createCancellationTransaction(element);
                 }
                 // set primary cancel indicator for EPIC to use
@@ -368,8 +349,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-        if (!(OPEN_CD.equals(paymentStatus))) {
-            if (((EXTRACTED_CD.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PENDING_ACH_CD.equals(paymentStatus))) {
+        if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
+            if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
                 List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr());
 
@@ -407,7 +388,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pg.setAdviceEmailAddress(null);
                     pg.setDisbursementType(null);
                     pg.setProcess(null);
-                    changeStatus(pg, OPEN_CD, CANCEL_REISSUE_CHNG_CD, note, user, pgh);
+                    changeStatus(pg, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT, note, user, pgh);
                 }
 
                 LOG.debug("cancelReissueDisbursement() Disbursement cancelled and reissued; exit method.");

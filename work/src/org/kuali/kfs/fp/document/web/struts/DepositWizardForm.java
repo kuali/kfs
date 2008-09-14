@@ -18,8 +18,6 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.Bank;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -27,8 +25,13 @@ import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.DepositWizardCashieringCheckHelper;
 import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
 import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
+import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -47,8 +50,6 @@ public class DepositWizardForm extends KualiForm {
     // Deposit fields
     private Bank bank;
     private String bankCode;
-    private BankAccount bankAccount;
-    private String bankAccountNumber;
 
     private String depositTypeCode;
     private String depositTicketNumber;
@@ -66,8 +67,19 @@ public class DepositWizardForm extends KualiForm {
         depositWizardCashieringCheckHelpers = new ArrayList<DepositWizardCashieringCheckHelper>();
 
         setFormatterType("depositTypeCode", CashReceiptDepositTypeFormatter.class);
+        setDefautBankCode();
     }
-
+    
+    /**
+     * Sets the bank code for a new deposit to the setup default for the Cash Management document.
+     */
+    public void setDefautBankCode() {
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(CashManagementDocument.class);
+        if (defaultBank != null) {
+            this.bankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
+    }
 
     /**
      * @return current value of cashManagementDocId.
@@ -195,24 +207,6 @@ public class DepositWizardForm extends KualiForm {
         this.bankCode = bankCode;
     }
 
-
-    /**
-     * @return current value of bankAccountNumber.
-     */
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
-    }
-
-    /**
-     * Sets the bankAccountNumber attribute value.
-     * 
-     * @param bankAccountNumber The bankAccountNumber to set.
-     */
-    public void setBankAccountNumber(String bankAccountNumber) {
-        this.bankAccountNumber = bankAccountNumber;
-    }
-
-
     /**
      * @return current value of depositTicketNumber.
      */
@@ -243,22 +237,6 @@ public class DepositWizardForm extends KualiForm {
      */
     public void setBank(Bank bank) {
         this.bank = bank;
-    }
-
-    /**
-     * @return current value of bankAccount.
-     */
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    /**
-     * Sets the bankAccount attribute value.
-     * 
-     * @param bankAccount The bankAccount to set.
-     */
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
     }
 
     /**

@@ -30,7 +30,7 @@ import org.apache.struts.action.ActionForm;
 public class CustomerBankForm extends ActionForm {
     private String disbursementDescription;
     private String disbursementTypeCode;
-    private Integer bankId;
+    private String bankCode;
 
     public CustomerBankForm() {
     }
@@ -50,13 +50,6 @@ public class CustomerBankForm extends ActionForm {
     }
 
     /**
-     * @return Returns the bankId.
-     */
-    public Integer getBankId() {
-        return bankId;
-    }
-
-    /**
      * @return Returns the disbursementDescription.
      */
     public String getDisbursementDescription() {
@@ -64,10 +57,21 @@ public class CustomerBankForm extends ActionForm {
     }
 
     /**
-     * @param bankId The bankId to set.
+     * Gets the bankCode attribute.
+     * 
+     * @return Returns the bankCode.
      */
-    public void setBankId(Integer bankId) {
-        this.bankId = bankId;
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    /**
+     * Sets the bankCode attribute value.
+     * 
+     * @param bankCode The bankCode to set.
+     */
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     /**

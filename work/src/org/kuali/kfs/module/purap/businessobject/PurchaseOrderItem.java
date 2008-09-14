@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -86,7 +88,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         
         this.setItemTypeCode(ri.getItemTypeCode());
 
-        if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0) {
+        if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0 && 
+                !StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,ri.getItemType().getItemTypeCode())) {
             List accounts = new ArrayList();
             for (PurApAccountingLine account : ri.getSourceAccountingLines()) {
                 PurchaseOrderAccount poAccount = new PurchaseOrderAccount(account);

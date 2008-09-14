@@ -181,7 +181,7 @@
   </bean>
   <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean" />
 
-  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="zipCode" />
     <property name="required" value="false" />
   </bean>

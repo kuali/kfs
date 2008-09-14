@@ -100,14 +100,12 @@
     <th>Id</th>
     <th>Name</th>
     <th>Active?</th>
-    <th>Last Update User</th>
   </tr>
   <c:forEach var="b" items="${BankList}">
   <tr> 
-    <td><c:out value="${b.id}"/></td>
-    <td><c:out value="${b.name}"/></td>
+    <td><c:out value="${b.code}"/></td>
+    <td><c:out value="${b.bankName}"/></td>
     <td><c:out value="${b.active}"/></td>
-    <td><c:out value="${b.lastUpdateUser.fullName}"/></td>
   </tr>
   </c:forEach>
 </table>

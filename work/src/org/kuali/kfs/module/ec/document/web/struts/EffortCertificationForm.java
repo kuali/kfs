@@ -45,8 +45,9 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.inquiry.Inquirable;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -168,7 +169,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * 
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
-    public List<Map<String, AnchorHtmlBase>> getDetailLineFieldInquiryUrl() {
+    public List<Map<String, HtmlData>> getDetailLineFieldInquiryUrl() {
         LOG.info("getDetailLineFieldInquiryUrl() start");
 
         return this.getDetailLineFieldInquiryUrl(this.getDetailLines());
@@ -213,17 +214,17 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * 
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
-    protected List<Map<String, AnchorHtmlBase>> getDetailLineFieldInquiryUrl(List<EffortCertificationDetail> detailLines) {
+    protected List<Map<String, HtmlData>> getDetailLineFieldInquiryUrl(List<EffortCertificationDetail> detailLines) {
         LOG.info("getDetailLineFieldInquiryUrl(List<EffortCertificationDetail>) start");
 
         Inquirable inquirable = this.getInquirable();
         
-        List<Map<String, AnchorHtmlBase>> inquiryURL = new ArrayList<Map<String, AnchorHtmlBase>>();
+        List<Map<String, HtmlData>> inquiryURL = new ArrayList<Map<String, HtmlData>>();
 
         for (EffortCertificationDetail detailLine : detailLines) {
             detailLine.refreshNonUpdateableReferences();
-            Map<String, AnchorHtmlBase> inquiryURLForAttribute = new HashMap<String, AnchorHtmlBase>();
-            AnchorHtmlBase inquiryHref;
+            Map<String, HtmlData> inquiryURLForAttribute = new HashMap<String, HtmlData>();
+            HtmlData inquiryHref;
             for (String attributeName : this.getInquirableFieldNames()) {
                 String url = KFSConstants.EMPTY_STRING;
 
@@ -250,8 +251,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param attributeName the specified attribute name
      * @return the inquiry URL for the specified attribute
      */
-    protected AnchorHtmlBase getCustomizedInquiryUrl(EffortCertificationDetail detailLine, String attributeName) {
-        AnchorHtmlBase inquiryHref = getInquirable().getInquiryUrl(detailLine, attributeName, false);
+    protected HtmlData getCustomizedInquiryUrl(EffortCertificationDetail detailLine, String attributeName) {
+        AnchorHtmlData inquiryHref = (AnchorHtmlData)getInquirable().getInquiryUrl(detailLine, attributeName, false);
         inquiryHref.setHref(this.getCompleteURL(inquiryHref.getHref()));
 
         return inquiryHref;

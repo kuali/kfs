@@ -83,7 +83,7 @@
   </bean>
   <bean id="BuildingParameter-buildingOverrideAddressZipCode" parent="BuildingParameter-buildingOverrideAddressZipCode-parentBean" />
 
-  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="buildingOverrideAddressZipCode" />
     <property name="label" value="Building Override Address Zip Code" />
     <property name="shortLabel" value="Code" />

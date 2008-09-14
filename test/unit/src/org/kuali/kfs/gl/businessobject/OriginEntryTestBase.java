@@ -31,12 +31,12 @@ import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
@@ -320,7 +320,6 @@ public class OriginEntryTestBase extends KualiTestBase {
     }
 
     protected static Object[] FLEXIBLE_OFFSET_ENABLED_FLAG = { OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
-    protected static Object[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
 
     /**
      * Resets the flexible offset and flexible claim on cash parameters, so that processes running as unit tests have consistent behaviors
@@ -328,7 +327,6 @@ public class OriginEntryTestBase extends KualiTestBase {
      */
     protected void resetAllEnhancementFlags() throws Exception {
         setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
-        setApplicationConfigurationFlag((Class) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], (String) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], false);
     }
 
     /**

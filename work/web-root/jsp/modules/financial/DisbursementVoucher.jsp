@@ -59,7 +59,10 @@
 	<html:hidden property="document.dvNonResidentAlienTax.documentNumber" />
 	<html:hidden property="document.dvNonResidentAlienTax.versionNumber" />
 
-	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
+	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.disbVchrBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
 
 	<dv:dvPayee />
 

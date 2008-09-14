@@ -207,6 +207,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
             fileWriter.close();
 
             createDoneFile(fileToSave);
+            
+            batchInputFileType.process(saveFileName, fileContents);
         }
         catch (IOException e) {
             LOG.error("unable to save contents to file " + saveFileName, e);

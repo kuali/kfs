@@ -36,8 +36,12 @@ public class AdvanceDepositForm extends KualiAccountingDocumentFormBase {
      */
     public AdvanceDepositForm() {
         super();
+        
         setDocument(new AdvanceDepositDocument());
-        setNewAdvanceDeposit(new AdvanceDepositDetail());
+        
+        AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
+        advanceDepositDetail.setDefautBankCode();
+        setNewAdvanceDeposit(advanceDepositDetail);
     }
 
     /**

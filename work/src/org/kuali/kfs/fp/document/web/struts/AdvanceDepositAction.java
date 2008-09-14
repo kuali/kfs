@@ -80,7 +80,9 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
             adDoc.addAdvanceDeposit(newAdvanceDeposit);
 
             // clear the used advanceDeposit
-            adForm.setNewAdvanceDeposit(new AdvanceDepositDetail());
+            AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
+            advanceDepositDetail.setDefautBankCode();
+            adForm.setNewAdvanceDeposit(advanceDepositDetail);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

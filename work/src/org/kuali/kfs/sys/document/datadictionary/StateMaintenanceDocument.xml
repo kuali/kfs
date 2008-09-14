@@ -14,8 +14,16 @@
         <ref bean="StateMaintenanceDocument-EditStates" />
       </list>
     </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="country"
+              p:attributeToHighlightOnFail="postalCountryCode" />
+      </list>
+    </property>    
     <property name="lockingKeys" >
       <list>
+      	<value>postalCountryCode</value>
         <value>postalStateCode</value>
       </list>
     </property>
@@ -56,6 +64,9 @@
     <property name="title" value="Edit States" />
     <property name="maintainableItems" >
       <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="postalCountryCode"
+              p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="postalStateCode"
               p:required="true" />

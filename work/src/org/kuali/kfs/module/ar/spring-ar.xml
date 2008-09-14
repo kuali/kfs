@@ -537,6 +537,26 @@
 			<ref bean="customerInvoiceWriteoffLookupResultLookupableHelperService" />
 		</property>
 	</bean>
+	<bean id="customerOpenItemReportService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerOpenItemReportServiceImpl">
+		<property name="accountsReceivableDocumentHeaderDao">
+			<ref bean="accountsReceivableDocumentHeaderDao" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>
+		<property name="financialSystemDocumentHeaderDao">
+			<ref bean="documentHeaderDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>	
+	</bean>
 		
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />

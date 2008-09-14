@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
+import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -302,6 +303,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         LOG.debug("validating document fields");
         validateDocumentFields(dvDocument);
+        
+        validateBankCode(dvDocument);
 
         LOG.debug("validating payment reason");
         validatePaymentReason(dvDocument);
@@ -1110,6 +1113,16 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         accountNumberAllowed = accountNumberAllowed && getParameterService().getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getAccount().getSubFundGroupCode()).evaluateAndAddError(SourceAccountingLine.class, "account.subFundGroupCode", KFSPropertyConstants.ACCOUNT_NUMBER);
 
         return accountNumberAllowed;
+    }
+    
+    /**
+     * Calls <code>BankCodeValidation</code> to validate bank code.
+     * @return true if bank code passes all validations
+     */
+    public boolean validateBankCode(AccountingDocument financialDocument) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
+        
+        return BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
     }
 
     /**

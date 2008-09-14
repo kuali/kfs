@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -37,13 +38,14 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
     private String financialDocumentRevolvingFundDescription;
     private KualiDecimal financialDocumentRevolvingFundAmount;
     private String financialDocumentBankCode;
-    private String financialDocumentBankAccountNumber;
+    
+    private Bank bank;
 
     /**
      * Default constructor.
      */
     public RevolvingFundDetail() {
-
+        bank = new Bank();
     }
 
     /**
@@ -216,23 +218,22 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
         this.financialDocumentBankCode = financialDocumentBankCode;
     }
 
-
     /**
-     * Gets the financialDocumentBankAccountNumber attribute.
+     * Gets the bank attribute.
      * 
-     * @return Returns the financialDocumentBankAccountNumber
+     * @return Returns the bank.
      */
-    public String getFinancialDocumentBankAccountNumber() {
-        return financialDocumentBankAccountNumber;
+    public Bank getBank() {
+        return bank;
     }
 
     /**
-     * Sets the financialDocumentBankAccountNumber attribute.
+     * Sets the bank attribute value.
      * 
-     * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
+     * @param bank The bank to set.
      */
-    public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
-        this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     /**

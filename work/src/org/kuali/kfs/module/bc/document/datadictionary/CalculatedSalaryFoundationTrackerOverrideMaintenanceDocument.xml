@@ -24,7 +24,6 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="account"
               p:activeIndicatorAttributeName="active"
-              p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber"
               p:displayFieldName="Account Number" />
         <bean parent="ReferenceDefinition"

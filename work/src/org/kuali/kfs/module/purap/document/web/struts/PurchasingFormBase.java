@@ -290,7 +290,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
         
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ||
-            (PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ){
+            (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ){
             
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
             
@@ -324,7 +324,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
 
-        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) || PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode())) ){
+        if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) || PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode())) ){
             
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
             
@@ -342,7 +342,7 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
 
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ||
-            (PurapConstants.CapitalAssetSystemTypes.MULIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
+            (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
             
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
             

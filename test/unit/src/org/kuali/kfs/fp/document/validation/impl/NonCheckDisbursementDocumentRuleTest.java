@@ -166,39 +166,39 @@ public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
         assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
-    public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
-    }
-
-    public void testIsObjectTypeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
-    }
-
-    public void testIsObjectCodeAllowed_Valid() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
-    }
-
-    public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
-        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
-    }
-
-    public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
-        AccountingDocument doc = createDocumentWithInvalidObjectSubType();
-        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false);
-    }
+//    public void testIsObjectTypeAllowed_InvalidObjectType() throws Exception {
+//        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getInvalidObjectTypeSourceLine(), false);
+//    }
+//
+//    public void testIsObjectTypeAllowed_Valid() throws Exception {
+//        testAddAccountingLineRule_IsObjectTypeAllowed(DOCUMENT_CLASS, getValidObjectTypeSourceLine(), true);
+//    }
+//
+//    public void testIsObjectCodeAllowed_Valid() throws Exception {
+//        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getValidObjectCodeSourceLine(), true);
+//    }
+//
+//    public void testIsObjectCodeAllowed_InvalidObjectCode() throws Exception {
+//        testAddAccountingLineRule_IsObjectCodeAllowed(DOCUMENT_CLASS, getInvalidObjectCodeSourceLine(), false);
+//    }
+//
+//    public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
+//        AccountingDocument doc = createDocumentWithInvalidObjectSubType();
+//        testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, false);
+//    }
 
     public void testAddAccountingLine_Valid() throws Exception {
         AccountingDocument doc = createDocumentWithValidObjectSubType();
         testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules(doc, true);
     }
 
-    public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
-    }
-
-    public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
-        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
-    }
+//    public void testIsObjectSubTypeAllowed_InvalidSubType() throws Exception {
+//        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getInvalidObjectSubTypeTargetLine(), false);
+//    }
+//
+//    public void testIsObjectSubTypeAllowed_ValidSubType() throws Exception {
+//        testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
+//    }
 
     public void testProcessSaveDocument_Valid() throws Exception {
         testSaveDocumentRule_ProcessSaveDocument(createDocument(), true);

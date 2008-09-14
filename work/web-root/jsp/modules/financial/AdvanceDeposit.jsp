@@ -35,11 +35,12 @@
 	    //-->
 	</SCRIPT>
 	<ad:advanceDeposits editingMode="${KualiForm.editingMode}" />
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		sourceAccountingLinesOnly="true"
-		extraSourceRowFields="financialDocumentLineDescription" />
-	<gl:generalLedgerPendingEntries />
+		<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+				<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>
+		<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

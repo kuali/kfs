@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.Bank;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
@@ -49,6 +47,7 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KFSConstants.CurrencyCoinSources;
 import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -249,8 +248,8 @@ public class CashManagementServiceImpl implements CashManagementService {
      *      java.lang.String, org.kuali.kfs.fp.businessobject.BankAccount, java.util.List)
      */
     @SuppressWarnings("deprecation")
-    public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts, List selectedCashieringChecks, boolean isFinalDeposit) {
-        validateDepositParams(cashManagementDoc, bankAccount, selectedCashReceipts);
+    public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, Bank bank, List selectedCashReceipts, List selectedCashieringChecks, boolean isFinalDeposit) {
+        validateDepositParams(cashManagementDoc, bank, selectedCashReceipts);
 
         String depositTypeCode = DepositConstants.DEPOSIT_TYPE_INTERIM;
         if (isFinalDeposit) {
@@ -272,7 +271,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // create the Deposit
-        Deposit deposit = buildDeposit(cashManagementDoc, depositTypeCode, depositTicketNumber, bankAccount, selectedCashReceipts, checksToSave);
+        Deposit deposit = buildDeposit(cashManagementDoc, depositTypeCode, depositTicketNumber, bank, selectedCashReceipts, checksToSave);
 
         // attach the deposit to the document
         List deposits = cashManagementDoc.getDeposits();
@@ -318,10 +317,10 @@ public class CashManagementServiceImpl implements CashManagementService {
      * Validates the given Deposit parameters, throwing various (runtime) exceptions if errors exist.
      * 
      * @param cashManagementDoc The document the deposit will be added to.
-     * @param bankAccount The bank account of the deposit being added.
+     * @param bank The bank account of the deposit being added.
      * @param selectedCashReceipts The collection of cash receipts associated with the new deposit.
      */
-    private void validateDepositParams(CashManagementDocument cashManagementDoc, BankAccount bankAccount, List<CashReceiptDocument> selectedCashReceipts) {
+    private void validateDepositParams(CashManagementDocument cashManagementDoc, Bank bank, List<CashReceiptDocument> selectedCashReceipts) {
         if (cashManagementDoc == null) {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
@@ -331,8 +330,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         else if (cashManagementDoc.hasFinalDeposit()) {
             throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getDocumentNumber() + "' hasFinalDeposit");
         }
-        if (bankAccount == null) {
-            throw new IllegalArgumentException("invalid (null) bankAccount");
+        if (bank == null) {
+            throw new IllegalArgumentException("invalid (null) bank");
         }
 
         if (selectedCashReceipts == null) {
@@ -355,12 +354,12 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param cashManagementDoc The cash management document the deposit will be added to.
      * @param depositTypeCode The type code associated with the deposit.
      * @param depositTicketNumber The deposit ticket number to be set on the deposit object.
-     * @param bankAccount The bank account of the deposit.
+     * @param bank The bank account of the deposit.
      * @param selectedCashReceipts The cash receipts that make up the deposit.
      * @param selectedCashieringChecks The cashiering checks that make up the deposit.
      * @return A new instance of a deposit generated from all the parameters provided.
      */
-    private Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, BankAccount bankAccount, List<CashReceiptDocument> selectedCashReceipts, List selectedCashieringChecks) {
+    private Deposit buildDeposit(CashManagementDocument cashManagementDoc, String depositTypeCode, String depositTicketNumber, Bank bank, List<CashReceiptDocument> selectedCashReceipts, List selectedCashieringChecks) {
         Deposit deposit = new Deposit();
         deposit.setDocumentNumber(cashManagementDoc.getDocumentNumber());
         deposit.setCashManagementDocument(cashManagementDoc);
@@ -369,9 +368,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         deposit.setDepositDate(dateTimeService.getCurrentSqlDate());
 
-        deposit.setBankAccount(bankAccount);
-        deposit.setDepositBankCode(bankAccount.getBank().getFinancialDocumentBankCode());
-        deposit.setDepositBankAccountNumber(bankAccount.getFinDocumentBankAccountNumber());
+        deposit.setBank(bank);
+        deposit.setDepositBankCode(bank.getBankCode());
 
         // derive the line number
         int lineNumber = cashManagementDoc.getNextDepositLineNumber();
@@ -394,36 +392,6 @@ public class CashManagementServiceImpl implements CashManagementService {
         deposit.setDepositAmount(total);
 
         return deposit;
-    }
-
-    /**
-     * Performs a lookup of the Bank using the bank code provided.
-     * 
-     * @param bankCode The bank code used to identify the Bank.
-     * @return Bank associated with the given bankCode, or null if none is found.
-     */
-    private Bank lookupBank(String bankCode) {
-        Map keyMap = new HashMap();
-        keyMap.put("financialDocumentBankCode", bankCode);
-
-        Bank bank = (Bank) businessObjectService.findByPrimaryKey(Bank.class, keyMap);
-        return bank;
-    }
-
-    /**
-     * Performs a lookup of a BankAccount using the bank code and account number provided.
-     * 
-     * @param bankCode The bank code used to identify the Bank.
-     * @param accountNumber The account number used to identify the Account.
-     * @return BankAccount associated with the given bankCode and accountNumber, or null if none is found.
-     */
-    private BankAccount lookupBankAccount(String bankCode, String accountNumber) {
-        Map keyMap = new HashMap();
-        keyMap.put("financialDocumentBankCode", bankCode);
-        keyMap.put("finDocumentBankAccountNumber", accountNumber);
-
-        BankAccount bankAccount = (BankAccount) businessObjectService.findByPrimaryKey(BankAccount.class, keyMap);
-        return bankAccount;
     }
 
     /**

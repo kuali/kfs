@@ -123,7 +123,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusZipCode" attributeEntry="${assetTransferAttributes.offCampusZipCode}" />
 					&nbsp;
-	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalZipCode" fieldConversions="postalZipCode:document.offCampusZipCode" lookupParameters="document.offCampusZipCode:postalZipCode,document.offCampusStateCode:postalStateCode" />
+	                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalCode" fieldConversions="postalZipCode:document.offCampusZipCode" lookupParameters="document.offCampusZipCode:postalZipCode,document.offCampusStateCode:postalStateCode" />
 				</td>
 			</tr>
 			<tr>

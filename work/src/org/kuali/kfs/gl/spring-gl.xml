@@ -67,8 +67,6 @@
 		<property name="moduleConfiguration" ref="glModuleConfiguration" />
 	</bean>
 
-	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" />
-
 	<bean id="glBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />

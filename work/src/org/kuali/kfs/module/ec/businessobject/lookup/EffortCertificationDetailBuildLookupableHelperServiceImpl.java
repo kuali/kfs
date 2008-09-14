@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ec.businessobject.lookup;
 
 import org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
 public class EffortCertificationDetailBuildLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -27,7 +27,7 @@ public class EffortCertificationDetailBuildLookupableHelperServiceImpl extends K
      *      java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new EffortLedgerBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 }

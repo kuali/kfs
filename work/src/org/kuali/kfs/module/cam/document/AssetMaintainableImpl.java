@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.module.cam.document;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
@@ -28,6 +32,13 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -43,6 +54,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private Asset newAsset;
     private Asset copyAsset;
+
+    private Set<RoutingData> routingInfo;
 
     /**
      * @see org.kuali.rice.kns.maintenance.Maintainable#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
@@ -178,4 +191,56 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         }
     }
 
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        
+        if (this.isAssetFabrication()) {
+            Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+            Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+    
+            Asset asset = (Asset) getBusinessObject();
+    
+            //Asset information
+            organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
+            accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
+                            
+            //Storing data
+            RoutingData organizationRoutingData = new RoutingData();
+            organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+            organizationRoutingData.setRoutingSet(organizationRoutingSet);
+            routingInfo.add(organizationRoutingData);
+    
+            List<String> routingTypes = new ArrayList<String>();
+            routingTypes.add(KualiCGAttribute.class.getSimpleName());
+            routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+            routingTypes.add(KualiPDAttribute.class.getSimpleName());
+            
+            RoutingData accountRoutingData = new RoutingData();
+            accountRoutingData.setRoutingTypes(routingTypes);
+            accountRoutingData.setRoutingSet(accountRoutingSet);
+            routingInfo.add(accountRoutingData);
+        }
+    }    
 }

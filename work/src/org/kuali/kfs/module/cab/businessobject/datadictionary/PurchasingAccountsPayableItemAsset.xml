@@ -22,11 +22,6 @@
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" />
         <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" />
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetDescription" />
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode" />
-        <ref bean="PurchasingAccountsPayableItemAsset-vendorName" />
-        <ref bean="PurchasingAccountsPayableItemAsset-manufacturerName" />
-        <ref bean="PurchasingAccountsPayableItemAsset-manufacturerModelNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-versionNumber" />
         <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
@@ -152,92 +147,6 @@
     <property name="summary" value="accountsPayableItemQuantity" />
     <property name="description" value="accountsPayableItemQuantity description..." />
   </bean>
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription" parent="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Asset Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="2000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextareaControlDefinition"
-            p:rows="10"
-            p:cols="40" />
-    </property>
-    <property name="summary" value="capitalAssetDescription" />
-    <property name="description" value="capitalAssetDescription description..." />    
-  </bean>
-
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode" parent="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetType-capitalAssetTypeCode">
-    <property name="label" value="Asset Type Code" />
-  </bean>
-
-  <bean id="PurchasingAccountsPayableItemAsset-vendorName" parent="PurchasingAccountsPayableItemAsset-vendorName-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="vendorName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Vendor Name" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
-    <property name="summary" value="vendorName" />
-    <property name="description" value="vendorName description..." />
-  </bean>
-
-  <bean id="PurchasingAccountsPayableItemAsset-manufacturerName" parent="PurchasingAccountsPayableItemAsset-manufacturerName-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-manufacturerName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Manufacturer" />
-    <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="42" />
-    </property>
-    <property name="summary" value="manufacturerName" />
-    <property name="description" value="manufacturerName description..." />
-  </bean>
-
-  <bean id="PurchasingAccountsPayableItemAsset-manufacturerModelNumber" parent="PurchasingAccountsPayableItemAsset-manufacturerModelNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableItemAsset-manufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="manufacturerModelNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Model Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="25" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="27" />
-    </property>
-    <property name="summary" value="manufacturerModelNumber" />
-    <property name="description" value="manufacturerModelNumber description..." />
-  </bean>
 
   <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" />
 
@@ -318,16 +227,6 @@
               <bean parent="FieldDefinition"
                     p:attributeName="accountsPayableItemQuantity" />
               <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetDescription" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="capitalAssetTypeCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="vendorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="manufacturerName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="manufacturerModelNumber" />
-              <bean parent="FieldDefinition"
                     p:attributeName="capitalAssetManagementDocumentNumber" />
             </list>
           </property>
@@ -359,16 +258,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="accountsPayableItemQuantity" />
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="manufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="manufacturerModelNumber" />
-        <bean parent="FieldDefinition"
               p:attributeName="capitalAssetManagementDocumentNumber" />
       </list>
     </property>
@@ -382,16 +271,6 @@
               p:attributeName="capitalAssetBuilderLineNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="accountsPayableItemQuantity" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetDescription" />
-        <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="vendorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="manufacturerName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="manufacturerModelNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="capitalAssetManagementDocumentNumber" />
       </list>

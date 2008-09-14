@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -46,16 +47,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceServiceImpl.class);
-
-    // Payment Status Codes
-    private static String HELD_CD = "HELD";
-    private static String OPEN_CD = "OPEN";
-    private static String CANCEL_PAYMENT_CD = "CPAY";
-
-    // Payment Change Codes
-    private static String CANCEL_BATCH_CHNG_CD = "CB";
-    private static String HOLD_BATCH_CHNG_CD = "HB";
-    private static String REMOVE_HOLD_BATCH_CHNG_CD = "RHB";
 
     private BatchMaintenanceDao batchMaintenanceDao;
     private PaymentGroupDao paymentGroupDao;
@@ -101,7 +92,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             // All actions must be performed on entire group not individual detail record
             for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
                 PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, CANCEL_PAYMENT_CD, CANCEL_BATCH_CHNG_CD, note, user);
+                changeStatus(element, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_BATCH_CHNG_CD, note, user);
             }
             LOG.debug("cancelPendingBatch() All payment groups in batch have been canceled; exit method.");
         }
@@ -132,7 +123,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             // All actions must be performed on entire group not individual detail record
             for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
                 PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, HELD_CD, HOLD_BATCH_CHNG_CD, note, user);
+                changeStatus(element, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_BATCH_CHNG_CD, note, user);
             }
             LOG.debug("holdPendingBatch() All payment groups in batch have been held; exit method.");
         }
@@ -163,7 +154,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             // All actions must be performed on entire group not individual detail record
             for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
                 PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, OPEN_CD, REMOVE_HOLD_BATCH_CHNG_CD, note, user);
+                changeStatus(element, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_BATCH_CHNG_CD, note, user);
             }
             LOG.debug("removeBatchHold() All payment groups in batch have been held; exit method.");
         }

@@ -101,6 +101,12 @@
 
 				<c:forEach items="${row.columns}" var="column">
 
+					<c:if test="${!empty column.columnAnchor.title}">
+						<c:set var="title" value="${column.columnAnchor.title}" />
+					</c:if>
+					<c:if test="${empty column.columnAnchor.title}">
+						<c:set var="title" value="${column.propertyValue}" />
+					</c:if>
 					<c:choose>
 
 						<c:when
@@ -113,7 +119,8 @@
 								<c:choose>
 
 									<c:when test="${column.propertyURL != \"\"}">
-											<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
+											<a href="<c:out value="${column.propertyURL}"/>" 
+												title="<c:out value="${title}" />"
 												target="blank"><c:out value="${column.propertyValue}" /></a>	
 									</c:when>
 	
@@ -136,7 +143,8 @@
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 
-										<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
+										<a href="<c:out value="${column.propertyURL}"/>" 
+											title="<c:out value="${title}" />"
 											target="blank"><c:out value="${column.propertyValue}" /></a>
 
 									</display:column>

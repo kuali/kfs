@@ -66,9 +66,8 @@
 <table width="95%" border=0 cellpadding=0 cellspacing=0 class="bord-r-t" align="center" >
   <tbody>
     <tr>
-    	<th><div align="center">Disbursement Range ID</div></th>
+      <th><div align="center">Disbursement Range ID</div></th>
       <th><div align="center">Campus Processing Location</div></th>
-      <th><div align="center">Disbursement Type</div></th>
       <th><div align="center">Bank</div></th>
       <th><div align="center">Beginning Disbursement Number</div></th>
       <th><div align="center">Ending Disbursement Number</div></th>
@@ -83,8 +82,7 @@
         <a href="disbursementmaint.do?dnrId=<c:out value="${b.id}"/>"><c:out value="${b.id}"/></a>&nbsp;
       </td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.physCampusProcCode}"/>&nbsp;</td>
-      <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.disbursementType.name}"/>&nbsp;</td>
-      <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.description}"/>&nbsp;</td>
+      <td nowrap="nowrap" class="datacell"><c:out value="${b.bank.bankName}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.beginDisbursementNbr}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.endDisbursementNbr}"/>&nbsp;</td>
       <td nowrap="nowrap" class="datacell"><c:out value="${b.lastAssignedDisbNbr}"/>&nbsp;</td>

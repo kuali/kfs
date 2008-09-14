@@ -40,6 +40,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AccountingChange;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -63,11 +64,6 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
  */
 public class DataLoadHandler implements PdpFileHandler {
     private static Logger LOG = Logger.getLogger(DataLoadHandler.class);
-
-    private static String HELD_TAX_EMPLOYEE_CD = "HTXE";
-    private static String HELD_TAX_NRA_CD = "HTXN";
-    private static String HELD_TAX_NRA_EMPL_CD = "HTXB";
-    private static String OPEN_CD = "OPEN";
 
     // Injected services
     private AccountService accountService;
@@ -231,15 +227,15 @@ public class DataLoadHandler implements PdpFileHandler {
         }
         batch.setPaymentTotalAmount(trailer.getPaymentTotalAmount());
         batch.setSubmiterUser(user);
-        loadDao.createBatch(batch);
+     //   loadDao.createBatch(batch);
 
         // Load all the accounting change codes
         acctgChngCds = referenceDao.getAllMap("AccountingChange");
         
-        openStatus = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, OPEN_CD);
-        heldForEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, HELD_TAX_EMPLOYEE_CD);
-        heldForNRA = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, HELD_TAX_NRA_CD);
-        heldForNRAEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, HELD_TAX_NRA_EMPL_CD);
+        openStatus = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
+        heldForEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
+        heldForNRA = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
+        heldForNRAEmployee = (PaymentStatus) SpringContext.getBean(KualiCodeService.class).getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD);
 
     }
 
@@ -349,7 +345,7 @@ public class DataLoadHandler implements PdpFileHandler {
             }
         }
 
-        loadDao.createGroup(pg);
+      //  loadDao.createGroup(pg);
     }
 
     private void processGroupSoftEdits(PaymentGroup group) {

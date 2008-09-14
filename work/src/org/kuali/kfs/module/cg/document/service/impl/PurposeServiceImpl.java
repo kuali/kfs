@@ -36,7 +36,7 @@ public class PurposeServiceImpl implements PurposeService {
      */
     public List<Purpose> getPurposes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         Collection col = businessObjectService.findMatchingOrderBy(Purpose.class, fieldValues, KFSPropertyConstants.USER_SORT_NUMBER, true);
 

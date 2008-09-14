@@ -815,9 +815,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward selectSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
-        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+        SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

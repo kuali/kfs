@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
-import org.kuali.kfs.pdp.businessobject.Bank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -39,6 +38,7 @@ import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -408,9 +408,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     private void writeBank(BufferedWriter os, int indent, Bank b) throws IOException {
         if ( b != null ) {
-            writeOpenTagAttribute(os, indent, "bank", "id", b.getId().toString());
-            writeTag(os, indent + 2, "accountNumber", b.getAccountNumber());
-            writeTag(os, indent + 2, "routingNumber", b.getRoutingNumber());
+            writeOpenTagAttribute(os, indent, "bank", "code", b.getBankCode());
+            writeTag(os, indent + 2, "accountNumber", b.getBankAccountNumber());
+            writeTag(os, indent + 2, "routingNumber", b.getBankRoutingNumber());
             writeCloseTag(os, indent, "bank");
         }
     }

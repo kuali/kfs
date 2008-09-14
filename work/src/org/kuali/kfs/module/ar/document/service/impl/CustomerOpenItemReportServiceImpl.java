@@ -48,7 +48,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReportService {
     
     private AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;

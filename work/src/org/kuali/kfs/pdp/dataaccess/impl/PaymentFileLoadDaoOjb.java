@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
@@ -31,9 +32,8 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
-
 /**
- * @author jsissom
+ * @see org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao
  */
 public class PaymentFileLoadDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentFileLoadDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileLoadDaoOjb.class);
@@ -42,30 +42,19 @@ public class PaymentFileLoadDaoOjb extends PlatformAwareDaoBaseOjb implements Pa
         super();
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao#isDuplicateBatch(org.kuali.kfs.pdp.businessobject.CustomerProfile,
+     *      java.lang.Integer, java.math.BigDecimal, java.sql.Timestamp)
+     */
     public boolean isDuplicateBatch(CustomerProfile customer, Integer count, BigDecimal totalAmount, Timestamp now) {
         LOG.debug("isDuplicateBatch() starting");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("customerId", customer.getId());
-        criteria.addEqualTo("customerFileCreateTimestamp", now);
-        criteria.addEqualTo("paymentCount", count);
-        criteria.addEqualTo("paymentTotalAmount", totalAmount);
+        criteria.addEqualTo(PdpPropertyConstants.CUSTOMER_ID, customer.getId());
+        criteria.addEqualTo(PdpPropertyConstants.CUSTOMER_FILE_CREATE_TIMESTAMP, now);
+        criteria.addEqualTo(PdpPropertyConstants.PAYMENT_COUNT, count);
+        criteria.addEqualTo(PdpPropertyConstants.PAYMENT_TOTAL_AMOUNT, totalAmount);
 
         return getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Batch.class, criteria)) != null;
-    }
-
-    public void createBatch(Batch batch) {
-        LOG.debug("createBatch() started");
-
-        getPersistenceBrokerTemplate().store(batch);
-    }
-
-    public void createGroup(PaymentGroup group) {
-        LOG.debug("createGroup() started");
-        getPersistenceBrokerTemplate().store(group);
-    }
-
-    public void createPaymentAccountHistory(PaymentAccountHistory pah) {
-        getPersistenceBrokerTemplate().store(pah);
     }
 }

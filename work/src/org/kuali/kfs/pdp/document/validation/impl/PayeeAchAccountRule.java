@@ -18,6 +18,7 @@ package org.kuali.kfs.pdp.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -85,7 +86,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         Map<String,Object> criteria = new HashMap<String,Object>();
         String identifierField = "";
         
-        if (payeeIdTypeCd.equals("E")) {
+        if (payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.EMPLOYEE_ID.getTypeCode())) {
             identifierField = "personUniversalIdentifier";
             payeeUserId = newPayeeAchAccount.getPersonUniversalIdentifier();
             if (payeeUserId == null) {
@@ -95,7 +96,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
             else
                 criteria.put("personUniversalIdentifier", payeeUserId);
         }
-        else if (payeeIdTypeCd.equals("V")) {
+        else if (payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.VENDOR_ID.getTypeCode())) {
             identifierField = "vendorHeaderGeneratedIdentifier";
             vendorGnrtdId = newPayeeAchAccount.getVendorHeaderGeneratedIdentifier();
             vendorAsndId = newPayeeAchAccount.getVendorDetailAssignedIdentifier();
@@ -108,7 +109,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 criteria.put("vendorDetailAssignedIdentifier", vendorAsndId);
             }
         }
-        else if (payeeIdTypeCd.equals("F")) {
+        else if (payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.FEIN.getTypeCode())) {
             identifierField = "payeeFederalEmployerIdentificationNumber";
             feinNumber = newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber();
             if (feinNumber == null) {
@@ -118,7 +119,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
             else
                 criteria.put("payeeFederalEmployerIdentificationNumber", feinNumber);
         }
-        else if (payeeIdTypeCd.equals("S")) {
+        else if (payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.SSN.getTypeCode())) {
             identifierField = "payeeSocialSecurityNumber";
             ssn = newPayeeAchAccount.getPayeeSocialSecurityNumber();
             if (ssn == null) {
@@ -158,19 +159,19 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
 
         if (newPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && oldPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPayeeAchAccount.getAchAccountGeneratedIdentifier())) {
             if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newPsdTransactionCd.equals(oldPayeeAchAccount.getPsdTransactionCode())) {
-                if (newPayeeIdTypeCd.equals("E")) {
+                if (newPayeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.EMPLOYEE_ID.getTypeCode())) {
                     if (newPayeeAchAccount.getPersonUniversalIdentifier().equals(oldPayeeAchAccount.getPersonUniversalIdentifier()))
                         return valid;
                 }
-                else if (newPayeeIdTypeCd.equals("V")) {
+                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.VENDOR_ID.getTypeCode())) {
                     if (newPayeeAchAccount.getVendorHeaderGeneratedIdentifier().equals(oldPayeeAchAccount.getVendorHeaderGeneratedIdentifier()) && newPayeeAchAccount.getVendorDetailAssignedIdentifier().equals(oldPayeeAchAccount.getVendorDetailAssignedIdentifier()))
                         return valid;
                 }
-                else if (newPayeeIdTypeCd.equals("F")) {
+                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.FEIN.getTypeCode())) {
                     if (newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber().equals(oldPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber()))
                         return valid;
                 }
-                else if (newPayeeIdTypeCd.equals("S")) {
+                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.SSN.getTypeCode())) {
                     if (newPayeeAchAccount.getPayeeSocialSecurityNumber().equals(oldPayeeAchAccount.getPayeeSocialSecurityNumber()))
                         return valid;
                 }

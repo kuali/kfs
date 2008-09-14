@@ -26,19 +26,14 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
-import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
 
@@ -167,8 +162,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlBase inquiryUrl = super.getInquiryUrl(bo, propertyName);
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        HtmlData inquiryUrl = super.getInquiryUrl(bo, propertyName);
 
 //        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
 //            PaymentDetail paymentDetail = (PaymentDetail) bo;

@@ -15,9 +15,43 @@
  */
 package org.kuali.kfs.pdp;
 
+/**
+ * Contains error and message key constants for PDP.
+ */
 public class PdpKeyConstants {
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_SMALL = "DisbursementNumberMaintenanceForm.endAssignedDisburseNbr.smaller";
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_LARGE = "DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.outofrange";
+    
+    public static final String ERROR_PAYMENT_LOAD_INVALID_CUSTOMER = "error.pdp.paymentLoad.invalidCustomer";
+    public static final String ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER = "error.pdp.paymentLoad.inactiveCustomer";
+    public static final String ERROR_PAYMENT_LOAD_PAYMENT_COUNT_MISMATCH = "error.pdp.paymentLoad.paymentCountMismatch";   
+    public static final String ERROR_PAYMENT_LOAD_PAYMENT_TOTAL_MISMATCH = "error.pdp.paymentLoad.paymentTotalMismatch";       
+    public static final String ERROR_PAYMENT_LOAD_DUPLICATE_BATCH = "error.pdp.paymentLoad.duplicateBatch";       
+    public static final String ERROR_PAYMENT_LOAD_NEGATIVE_GROUP_TOTAL = "error.pdp.paymentLoad.negativeGroupTotal";          
+    public static final String ERROR_PAYMENT_LOAD_MAX_NOTE_LINES = "error.pdp.paymentLoad.maxNoteLines";            
+    public static final String ERROR_PAYMENT_LOAD_DETAIL_TOTAL_MISMATCH = "error.pdp.paymentLoad.detailTotalMismatch";
+    
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PAYMENT = "message.batchUpload.title.payment";
+    public static final String MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD = "message.pdp.paymentLoad.fileThreshold";
+    public static final String MESSAGE_PAYMENT_LOAD_PAYDATE_OVER_30_DAYS_PAST = "message.pdp.paymentLoad.paydateOver30DaysPast";
+    public static final String MESSAGE_PAYMENT_LOAD_PAYDATE_OVER_30_DAYS_OUT = "message.pdp.paymentLoad.paydateOver30DaysOut";
+    public static final String MESSAGE_PAYMENT_LOAD_DETAIL_THRESHOLD = "message.pdp.paymentLoad.detailThreshold";
+    public static final String MESSAGE_PAYMENT_LOAD_INVALID_ACCOUNT = "message.pdp.paymentLoad.invalidAccount";
+    public static final String MESSAGE_PAYMENT_LOAD_INVALID_SUB_ACCOUNT = "message.pdp.paymentLoad.invalidSubAccount";
+    public static final String MESSAGE_PAYMENT_LOAD_INVALID_OBJECT = "message.pdp.paymentLoad.invalidObject";
+    public static final String MESSAGE_PAYMENT_LOAD_INVALID_SUB_OBJECT = "message.pdp.paymentLoad.invalidSubObject";
+    public static final String MESSAGE_PAYMENT_LOAD_INVALID_PROJECT = "message.pdp.paymentLoad.invalidProject";
+    public static final String MESSAGE_PAYMENT_EMAIL_BAD_FILE_PARSE = "message.pdp.paymentLoad.email.badFileParse";
+    public static final String MESSAGE_PAYMENT_EMAIL_INVALID_CUSTOMER = "message.pdp.paymentLoad.email.invalidCustomer";
+    public static final String MESSAGE_PAYMENT_EMAIL_FILE_NOT_LOADED = "message.pdp.paymentLoad.email.fileNotLoaded";
+    public static final String MESSAGE_PAYMENT_EMAIL_ERROR_MESSAGES = "message.pdp.paymentLoad.email.errorMessages";
+    public static final String MESSAGE_PAYMENT_EMAIL_FILE_LOADED = "message.pdp.paymentLoad.email.fileLoaded";
+    public static final String MESSAGE_PAYMENT_EMAIL_WARNING_MESSAGES = "message.pdp.paymentLoad.email.warningMessages";
+    public static final String MESSAGE_PAYMENT_EMAIL_FILE_THRESHOLD = "message.pdp.paymentLoad.email.fileThreshold";
+    public static final String MESSAGE_PAYMENT_EMAIL_DETAIL_THRESHOLD = "message.pdp.paymentLoad.email.detailThreshold";
+    public static final String MESSAGE_PAYMENT_EMAIL_PAYMENT_DETAIL_THRESHOLD = "message.pdp.paymentLoad.email.paymentDetailThreshold";
+    public static final String MESSAGE_PAYMENT_EMAIL_FILE_TAX_LOADED = "message.pdp.paymentLoad.email.fileTaxLoaded";
+    public static final String MESSAGE_PAYMENT_EMAIL_GO_TO_PDP = "message.pdp.paymentLoad.email.goToPdp";
     
     public static class BatchConstants{
         public static class ErrorMessages{

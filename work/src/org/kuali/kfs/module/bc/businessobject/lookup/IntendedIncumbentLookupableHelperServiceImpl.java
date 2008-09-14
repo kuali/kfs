@@ -62,12 +62,11 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
 
     /***
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionURLHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
-    protected String getActionURLHref(BusinessObject businessObject, String methodToCall, List pkNames){
-        LOG.info("inside getActionURLHref overridden in IntendedIncumbentLookupableHelperSI");
-        String href = super.getActionURLHref(businessObject, methodToCall, pkNames);
+    protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
+        String href = super.getActionUrlHref(businessObject, methodToCall, pkNames);
         return StringUtils.replace(href, KFSConstants.MAINTENANCE_ACTION,
                 KFSConstants.RICE_PATH_PREFIX + KFSConstants.MAINTENANCE_ACTION);
     }

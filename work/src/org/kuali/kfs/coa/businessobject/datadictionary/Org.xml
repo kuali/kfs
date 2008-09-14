@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org" parent="Org-parentBean" />
 
@@ -133,6 +135,13 @@
             </list>
           </property>
         </bean>
+        <dd:relationship objectAttribute="postalZip">
+        	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="organizationZipCode" target="postalZipCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="organizationCountry">
+            <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
+        </dd:relationship>         
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -322,7 +331,7 @@
   </bean>
   <bean id="Org-organizationZipCode" parent="Org-organizationZipCode-parentBean" />
 
-  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="organizationZipCode" />
     <property name="label" value="Organization Postal Code" />
     <property name="shortLabel" value="Postal Code" />

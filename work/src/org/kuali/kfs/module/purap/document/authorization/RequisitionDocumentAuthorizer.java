@@ -66,6 +66,9 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         FinancialSystemUser kfsUser = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(user);
 
+        //by default lock cams tab
+        editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
+
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
@@ -80,6 +83,10 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY, "TRUE");
                 }
             }
+            
+            //If not routed, anyone can edit cams data
+            editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
+            editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
         }
 
         if (workflowDocument.stateIsEnroute()) {
@@ -92,6 +99,13 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW)) {
                 // FULL_ENTRY will be set by super which is fine; also set content lock
                 editMode = PurapAuthorizationConstants.RequisitionEditMode.LOCK_CONTENT_ENTRY;
+                
+                //if enroute, only content approvers can edit
+                if(workflowDocument.isApprovalRequested()){
+                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
+                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
+                }
+
             }
 
             /**
@@ -125,13 +139,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
              */
             else {
                 // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
-                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-
-                //if enroute, only content reviewers can edit, all else has cams entry locked
-                if(workflowDocument.isApprovalRequested()){
-                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
-                }
-
+                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);                
             }
             
             editModeMap.put(editMode, "TRUE");

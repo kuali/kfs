@@ -28,14 +28,14 @@ import org.kuali.kfs.module.cab.batch.service.PreAssetTaggingService;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.util.StringUtils;
 
 
 /**
-import org.kuali.module.cams.service.CamsReportService;
-import org.kuali.module.cams.util.ObjectUtil;
-import org.kuali.module.cams.util.ReportRegistry;
-**/
+ * import org.kuali.module.cams.service.CamsReportService; import org.kuali.module.cams.util.ObjectUtil; import
+ * org.kuali.module.cams.util.ReportRegistry;
+ */
 
 public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
 
@@ -45,33 +45,34 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
     private PreAssetTaggingInputFileType preAssetTaggingInputFileType;
     private static final String DATEFORMAT = "MM/dd/yyyy";
 
-/**
-* This method copies the pre-asset Tagging entries from a csv flat file
-*/
-    public void copyPreAssetTaggingEntries(){
+    /**
+     * This method copies the pre-asset Tagging entries from a csv flat file
+     */
+    public void copyPreAssetTaggingEntries() {
 
         String filename = preAssetTaggingInputFileType.getDirectoryPath() + "." + preAssetTaggingInputFileType.getFileExtension();
         String separator = ",";
-//        String fieldNames = "purchaseOrderNumber,lineItemNumber,quantityInvoiced,vendorName,assetTopsDescription,organizationInventoryName,pretagCreateDate,chartOfAccountsCode,organizationCode";
-        
+        // String fieldNames =
+        // "purchaseOrderNumber,lineItemNumber,quantityInvoiced,vendorName,assetTopsDescription,organizationInventoryName,pretagCreateDate,chartOfAccountsCode,organizationCode";
+
 
         File uploadFile = new File(filename);
         if (!uploadFile.exists()) {
             LOG.error("File " + filename + " does not exist.");
             throw new RuntimeException("File does not exist");
         }
-        
+
         BufferedReader input = null;
         try {
             input = new BufferedReader(new FileReader(filename));
             String line = null;
             while ((line = input.readLine()) != null) {
                 Pretag pretag = new Pretag();
-/*
- * example: http://www.jdocs.com/spring/1.2.8/org/springframework/beans/propertyeditors/StringArrayPropertyEditor.html 
- * also org.springframework.beans.propertyeditors package
- * 
- */
+                /*
+                 * example:
+                 * http://www.jdocs.com/spring/1.2.8/org/springframework/beans/propertyeditors/StringArrayPropertyEditor.html also
+                 * org.springframework.beans.propertyeditors package
+                 */
                 String[] lineStrings = StringUtils.delimitedListToStringArray(line, separator);
 
                 HashMap map = new HashMap();
@@ -85,23 +86,23 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
                 map.put("pretagCreateDate", new java.sql.Date(((new SimpleDateFormat(DATEFORMAT)).parse(lineStrings[6])).getTime()));
                 map.put("chartOfAccountsCode", lineStrings[7]);
                 map.put("organizationCode", lineStrings[8]);
-                           
+
                 persistableBusinessObject = (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, map);
-                
+
                 if (persistableBusinessObject == null) {
 
                     pretag.setPurchaseOrderNumber(lineStrings[0]);
                     pretag.setLineItemNumber(new Long(Long.parseLong(lineStrings[1])));
-                    pretag.setObjectId(lineStrings[0]+lineStrings[1]);
-                    pretag.setQuantityInvoiced(new BigDecimal(lineStrings[2]));
+                    pretag.setObjectId(lineStrings[0] + lineStrings[1]);
+                    pretag.setQuantityInvoiced(new KualiDecimal(lineStrings[2]));
                     pretag.setVendorName(lineStrings[3]);
                     pretag.setAssetTopsDescription(lineStrings[4]);
                     pretag.setOrganizationInventoryName(lineStrings[5]);
                     pretag.setPretagCreateDate(new java.sql.Date(((new SimpleDateFormat(DATEFORMAT)).parse(lineStrings[6])).getTime()));
-                    pretag.setChartOfAccountsCode(lineStrings[7]); 
+                    pretag.setChartOfAccountsCode(lineStrings[7]);
                     pretag.setOrganizationCode(lineStrings[8]);
 
- //                   ObjectUtil.convertLineToBusinessObject(pretag, line, separator, fieldNames );
+                    // ObjectUtil.convertLineToBusinessObject(pretag, line, separator, fieldNames );
                     businessObjectService.save(pretag);
                 }
             }
@@ -121,6 +122,7 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
             }
         }
     }
+
     /**
      * Gets the businessObjectService attribute.
      * 
@@ -138,7 +140,7 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-       
+
     /**
      * Gets the preAssetTaggingInputFileType attribute.
      * 
@@ -156,5 +158,5 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
     public void setPreAssetTaggingInputFileType(PreAssetTaggingInputFileType preAssetTaggingInputFileType) {
         this.preAssetTaggingInputFileType = preAssetTaggingInputFileType;
     }
-   
+
 }

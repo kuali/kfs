@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
@@ -126,12 +127,13 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                 }
                 
                 if (StringUtils.isNotBlank(detail.getCampusTagNumber())) {
-                    asset.setOldTagNumber(asset.getCampusTagNumber());
-                    asset.setCampusTagNumber(detail.getCampusTagNumber());
+                    if (!StringUtils.equalsIgnoreCase(detail.getCampusTagNumber(), asset.getCampusTagNumber())) {
+                        asset.setOldTagNumber(asset.getCampusTagNumber());
+                        asset.setCampusTagNumber(detail.getCampusTagNumber());
+                    }
                 }
                 
                 persistables.add(asset);
-
             }
         }
 

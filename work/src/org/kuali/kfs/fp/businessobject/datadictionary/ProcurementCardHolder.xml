@@ -171,7 +171,7 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderZipCode" parent="ProcurementCardHolder-cardHolderZipCode-parentBean" />
 
-  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="cardHolderZipCode" />
     <property name="label" value="Card Holder Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />

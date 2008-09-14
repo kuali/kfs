@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.businessobject.DepositCashReceiptControl;
@@ -34,8 +33,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -240,14 +242,9 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         //Deposit has updatable references, but for validation we do not need to refresh the updatable references. 
         //E.g. updatable collections - they might have been set by the user and we would not want to overwrite their changes.
         deposit.refreshNonUpdateableReferences();
-
-        // only check for BankAccount if both bankCode and bankAccountNumber are present
-        if (StringUtils.isNotBlank(deposit.getDepositBankCode()) && StringUtils.isNotBlank(deposit.getDepositBankAccountNumber())) {
-            BankAccount bankAccount = deposit.getBankAccount();
-            if (ObjectUtils.isNull(bankAccount)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, "Bank Account");
-            }
-        }
+        
+        // validate bank code
+        BankCodeValidation.validate(deposit.getDepositBankCode(), KFSPropertyConstants.DEPOSIT_BANK_CODE, true, false);
 
         return GlobalVariables.getErrorMap().isEmpty();
     }

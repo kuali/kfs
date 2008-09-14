@@ -43,7 +43,8 @@ public class CabKeyConstants {
     public static final String QUESTION_TRADE_IN_INDICATOR_EXISTING = "question.trade.in.indicator.existing";
     
     public static class CapitalAssetManagementAsset {
+        public static final String ERROR_ASSET_DO_NOT_ENTER_ANY_DATA = "error.asset.do.not.enter.any.data";
         public static final String ERROR_ASSET_NEW_OR_UPDATE_ONLY = "error.asset.new.or.update.only";
-        public static final String ERROR_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.active.capital.asset.required";
+        public static final String ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED = "error.asset.active.capital.asset.required";
     }
 }

@@ -447,7 +447,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, date);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
         List<File> reports = new ArrayList<File>();
 
         for (Iterator itr = invoices.iterator(); itr.hasNext();) {
@@ -510,7 +510,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
 
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode, null);
+        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
         List<CustomerStatementDetailReportDataHolder> details = new ArrayList<CustomerStatementDetailReportDataHolder>();
         CustomerCreditMemoDocumentService service = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
         List<File> reports = new ArrayList<File>();

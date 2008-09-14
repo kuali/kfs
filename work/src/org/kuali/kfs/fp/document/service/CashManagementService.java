@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashieringItemInProcess;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CoinDetail;
@@ -26,6 +25,7 @@ import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -50,11 +50,11 @@ public interface CashManagementService {
      * 
      * @param cashManagementDoc
      * @param depositTicketNumber
-     * @param bankAccount
+     * @param bank
      * @param selectedCashReceipts
      * @param isFinalDeposit
      */
-    public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts, List selectedCashieringChecks, boolean isFinalDeposit);
+    public void addDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, Bank bank, List selectedCashReceipts, List selectedCashieringChecks, boolean isFinalDeposit);
 
 
     /**

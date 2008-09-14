@@ -16,27 +16,23 @@
 package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
-import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -246,56 +242,44 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        if (isBankCashOffsetEnabled()) {
+        
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             KualiDecimal depositTotal = calculateCreditCardReceiptTotal();
-            GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-            // todo: what if the total is 0? e.g., 5 minus 5, should we generate a 0 amount GLPE and offset? I think the other rules
-            // combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            final BankAccount offsetBankAccount = getOffsetBankAccount();
-            if (ObjectUtils.isNull(offsetBankAccount)) {
+            
+            Bank offsetBank = getOffsetBank();
+            if (ObjectUtils.isNull(offsetBank)) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_FLEXIBLE, new String[] { KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT });
+                GlobalVariables.getErrorMap().putError("newCreditCardReceipt.financialDocumentCreditCardTypeCode", KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_BANK_MUST_EXIST_WHEN_BANK_ENHANCEMENT_ENABLED, new String[] { KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE });
             }
             else {
-                success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBankAccount, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
-                // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
-                // successful.
+                success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(offsetBank, depositTotal, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+               
+                // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it 
                 if (success) {
                     AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-                    bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
+                    bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
                     getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                     sequenceHelper.increment();
 
                     GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
                     success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                    // unsuccessful offsets may be added, but that's consistent with the offsets for regular GLPEs (i.e., maybe
-                    // neither
-                    // should?)
                     getGeneralLedgerPendingEntries().add(offsetEntry);
                     sequenceHelper.increment();
                 }
             }
         }
+        
         return success;
     }
     
     /**
-     * Returns a credit cards flexible offset bank account
-     * 
-     * @return the Credit Card Receipt's flexible offset bank account, as configured in the APC.
-     * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
+     * Returns the default bank code for Credit Card Receipt documents.
      */
-    private BankAccount getOffsetBankAccount() {
-        final String[] parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT).toArray(new String[] {});
-        if (parameterValues.length != 2) {
-            throw new RuntimeException(CreditCardReceiptDocument.class.getSimpleName() + "/" + CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT + ": invalid parameter format: must be 'bankCode;bankAccountNumber'");
-        }
-        final String bankCode = parameterValues[0];
-        final String bankAccountNumber = parameterValues[1];
-        final Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, bankCode);
-        primaryKeys.put(KFSPropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
-        return (BankAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BankAccount.class, primaryKeys);
+    private Bank getOffsetBank() {
+        return SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditCardReceiptDocument.class);
     }
+    
 }

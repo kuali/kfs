@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrganizationOptions" parent="OrganizationOptions-parentBean" />
 
@@ -42,6 +44,13 @@
         <ref bean="OrganizationOptions-versionNumber" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="organizationRemitToState">
+            <dd:primitiveAttribute source="organizationRemitToStateCode" target="postalStateCode" />
+        </dd:relationship>        
+      </list>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
@@ -302,7 +311,7 @@
   </bean>
   <bean id="OrganizationOptions-organizationRemitToZipCode" parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 
-  <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="PostalZipCode-postalZipCode">
+  <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="organizationRemitToZipCode" />
     <property name="required" value="true" />
     <property name="summary" value="organizationRemitToZipCode" />

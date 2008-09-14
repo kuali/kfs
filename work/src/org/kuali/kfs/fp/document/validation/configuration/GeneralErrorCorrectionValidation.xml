@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="GeneralErrorCorrection-routeDocumentValidation" parent="GeneralErrorCorrection-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="GeneralErrorCorrection-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountingDocument-debitsAndCreditsBalanceValidation" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="validationFieldConversion">
+               					<property name="sourceEventProperty" value="document" />
+               					<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+             				</bean>
+           				</list> 
+                   </property>
+       			</bean>
+
+  				<bean parent="AccountingDocument-optionalOneSidedDocumentAccountingLinesCountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+  			</list>
+  		</property>
+  	</bean>
+  
+  	<bean id="GeneralErrorCorrection-approveDocumentValidation" parent="GeneralErrorCorrection-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="GeneralErrorCorrection-approveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
+  		</property>
+  	</bean>
+  
+	<bean id="GeneralErrorCorrection-blanketApproveDocumentValidation" parent="GeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="GeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
+  		</property>
+	</bean>
+  
+	<bean id="GeneralErrorCorrection-addAccountingLineValidation" parent="GeneralErrorCorrection-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="GeneralErrorCorrection-addAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="GeneralErrorCorrection-objectTypeValidation" scope="prototype" >
+  					<property name="parameterProperties">
+           				<list>
+            				<bean parent="validationFieldConversion">
+               					<property name="sourceEventProperty" value="accountingLine" />
+ 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
+   		          			</bean>
+    	       			</list> 
+      	          </property>
+     	       </bean>
+      	      <bean parent="GeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
+  					<property name="parameterProperties">
+       	    			<list>
+       		     			<bean parent="validationFieldConversion">
+           	    				<property name="sourceEventProperty" value="accountingLine" />
+           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
+           		  			</bean>
+           				</list> 
+           			</property>
+            	</bean>
+            </list>
+  		</property>
+	</bean>
+  
+	<bean id="GeneralErrorCorrection-deleteAccountingLineValidation" parent="GeneralErrorCorrection-deleteAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="GeneralErrorCorrection-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+  		</property>
+	</bean>
+  
+	<bean id="GeneralErrorCorrection-updateAccountingLineValidation" parent="GeneralErrorCorrection-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="GeneralErrorCorrection-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<bean parent="AccountingDocument-UpdateAccountingLine-DefaultValidation" scope="prototype" />
+  		</property>
+	</bean>
+  
+	<bean id="GeneralErrorCorrection-reviewAccountingLineValidation" parent="GeneralErrorCorrection-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="GeneralErrorCorrection-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="GeneralErrorCorrection-objectTypeValidation" scope="prototype" >
+  					<property name="parameterProperties">
+           				<list>
+            				<bean parent="validationFieldConversion">
+               					<property name="sourceEventProperty" value="accountingLine" />
+ 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
+   		          			</bean>
+    	       			</list> 
+      	          </property>
+     	       </bean>
+      	      <bean parent="GeneralErrorCorrection-requiredReferenceFieldValidation" scope="prototype" >
+  					<property name="parameterProperties">
+       	    			<list>
+       		     			<bean parent="validationFieldConversion">
+           	    				<property name="sourceEventProperty" value="accountingLine" />
+           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
+           		  			</bean>
+           				</list> 
+           			</property>
+            	</bean>
+            </list>
+  		</property>
+	</bean>
+
+</beans>

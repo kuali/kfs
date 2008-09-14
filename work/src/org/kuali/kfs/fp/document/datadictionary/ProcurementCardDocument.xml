@@ -13,7 +13,7 @@
     <property name="description" value="Document for the distribution of procurement card expenses." />
     <property name="documentTypeName" value="ProcurementCardDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.ProcurementCardDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentRule" />
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
     <property name="documentTypeCode" value="PCDO" />
     <property name="workflowProperties" >
@@ -36,6 +36,7 @@
     		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
     	</list>
     </property>
+     <property name="validationMap" ref="ProcurementCardDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -65,4 +66,41 @@
       </list>
     </property>
   </bean>
+  
+     <!-- Validations -->
+  
+  <bean id="ProcurementCardDocument-validations" parent="ProcurementCardDocument-validations-parentBean" />
+  
+  <bean id="ProcurementCardDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>ProcurementCard-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>ProcurementCard-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>ProcurementCard-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>ProcurementCard-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>ProcurementCard-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>ProcurementCard-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+  
 </beans>

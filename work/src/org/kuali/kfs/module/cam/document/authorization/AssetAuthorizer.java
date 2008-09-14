@@ -28,6 +28,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
@@ -43,7 +44,38 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
 
+    /*
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        super.canInitiate(documentTypeName, user);
+        
+        // TODO
+        // 1. create KFSConstants.Modules.CAM
+        // 2. no parameters access here. How do I get what asset is to be edited?
+        // 3. DocumentInitiationAuthorizationException requires passing of workgroups. Also note that CustomerInvoiceDocumentAuthorizer.canInitiate has the same problem (stacktrace right now)
+        
+        List<? extends ChartOrgHolder> chartOrgHolders = financialSystemUserService.getSecurityOrganizationsByModuleId(KFSConstants.Modules.CAM);
+        
+        String[] capitalAssetNumberString = parameters.get(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
+        if (capitalAssetNumberString != null) {
+            Long capitalAssetNumber = Long.parseLong(capitalAssetNumberString[0].toString());
+        }
+        
+        // Retrieve asset
+        
+        // Check if they have access to default user record chart / org
+        
+        // Loop over ChartOrgHolder and if any one has match on the asset retrieved above don't throw an exception
+        // Do the match check by hierarchy if necessary (indicator on user record)
+
+        //if organization doesn't exist
+        if (check) {
+            throw new DocumentInitiationAuthorizationException("some error message");
+        }
+    }
+    */
 
     /**
      * Returns the set of authorization restrictions (if any) that apply to this Asset in this context.

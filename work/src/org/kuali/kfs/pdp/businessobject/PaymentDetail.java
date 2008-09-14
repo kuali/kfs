@@ -21,17 +21,21 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.pdp.service.impl.paymentparser.XmlAccounting;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * 
@@ -56,9 +60,9 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private BigDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
     private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
     private Timestamp lastDisbursementActionDate;
-    
-    private List accountDetail = new ArrayList();
-    private List notes = new ArrayList();
+
+    private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();
+    private List<PaymentNoteText> notes = new ArrayList<PaymentNoteText>();
 
     private Integer paymentGroupId;
     private PaymentGroup paymentGroup;
@@ -67,7 +71,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         super();
     }
 
-    private boolean isDetailAmountProvided() {
+    public boolean isDetailAmountProvided() {
         return (origInvoiceAmount != null) || (invTotDiscountAmount != null) || (invTotShipAmount != null) || (invTotOtherDebitAmount != null) || (invTotOtherCreditAmount != null);
     }
 
@@ -105,6 +109,21 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         return ((disbursementDate.compareTo(this.lastDisbursementActionDate)) >= 0);
     }
 
+    /**
+     * @return total of all account detail amounts
+     */
+    public BigDecimal getAccountTotal() {
+        BigDecimal acctTotal = new BigDecimal(0.00);
+
+        for (PaymentAccountDetail paymentAccountDetail : accountDetail) {
+            if (paymentAccountDetail.getAccountNetAmount() != null) {
+                acctTotal = acctTotal.add(paymentAccountDetail.getAccountNetAmount());
+            }
+        }
+
+        return acctTotal;
+    }
+
     public Timestamp getLastDisbursementActionDate() {
         return lastDisbursementActionDate;
     }
@@ -120,17 +139,27 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvoiceDate(Timestamp invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
+    
+    /**
+     * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
+     * invoiceDate field
+     * 
+     * @param invoiceDate Timestamp as string
+     */
+    public void setInvoiceDate(String invoiceDate) throws ParseException {
+        this.invoiceDate = new Timestamp(SpringContext.getBean(DateTimeService.class).convertToSqlDate(invoiceDate).getTime());
+    }
 
     /**
      * @hibernate.set name="accountDetail"
      * @hibernate.collection-key column="pmt_dtl_id"
      * @hibernate.collection-one-to-many class="edu.iu.uis.pdp.bo.PaymentAccountDetail"
      */
-    public List getAccountDetail() {
+    public List<PaymentAccountDetail> getAccountDetail() {
         return accountDetail;
     }
 
-    public void setAccountDetail(List ad) {
+    public void setAccountDetail(List<PaymentAccountDetail> ad) {
         accountDetail = ad;
     }
 
@@ -143,17 +172,31 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         accountDetail.remove(pad);
     }
 
-    public List getNotes() {
+    public List<PaymentNoteText> getNotes() {
         return notes;
     }
 
-    public void setNotes(List n) {
+    public void setNotes(List<PaymentNoteText> n) {
         notes = n;
     }
 
     public void addNote(PaymentNoteText pnt) {
         pnt.setPaymentDetail(this);
         notes.add(pnt);
+    }
+    
+    /**
+     * Constructs a new <code>PaymentNoteText</code> for the given payment text and adds to the detail <code>List</code>
+     * 
+     * @param paymentText note text
+     */
+    public void addPaymentText(String paymentText) {
+        PaymentNoteText paymentNoteText = new PaymentNoteText();
+
+        paymentNoteText.setCustomerNoteText(paymentText);
+        paymentNoteText.setCustomerNoteLineNbr(this.notes.size() + 1);
+
+        addNote(paymentNoteText);
     }
 
     public void deleteNote(PaymentNoteText pnt) {
@@ -383,6 +426,24 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         this.paymentGroup = paymentGroup;
     }
 
+    /**
+     * Gets the paymentGroupId attribute.
+     * 
+     * @return Returns the paymentGroupId.
+     */
+    public Integer getPaymentGroupId() {
+        return paymentGroupId;
+    }
+
+    /**
+     * Sets the paymentGroupId attribute value.
+     * 
+     * @param paymentGroupId The paymentGroupId to set.
+     */
+    public void setPaymentGroupId(Integer paymentGroupId) {
+        this.paymentGroupId = paymentGroupId;
+    }
+
     public boolean equals(Object obj) {
         if (!(obj instanceof PaymentDetail)) {
             return false;
@@ -398,10 +459,9 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-    
+
     /**
      * Returns the value of the system parameter that contains the disbursement cancellation email address
-     * 
      */
     public String getDisbursementCancellationEmailAddress() {
         return SpringContext.getBean(ParameterService.class).getParameterValue(PaymentDetail.class, PdpParameterConstants.DISBURSEMENT_CANCELLATION_EMAIL_ADDRESSES);

@@ -12,6 +12,9 @@
     <property name="attributes" >
       <list>
         <ref bean="PaymentProcess-id" />
+        <ref bean="PaymentProcess-campus" />
+        <ref bean="PaymentProcess-processTimestamp" />
+        <ref bean="PaymentProcess-processUserId" />        
         <ref bean="PaymentProcess-versionNumber" />
       </list>
     </property>
@@ -36,6 +39,49 @@
     </property>
     <property name="summary" value="id" />
     <property name="description" value="Process ID." />
+  </bean>
+  <bean id="PaymentProcess-campus" parent="PaymentProcess-campus-parentBean" />
+
+  <bean id="PaymentProcess-campus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campus" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Process campus" />
+    <property name="shortLabel" value="Campus" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="campus" />
+    <property name="description" value="Process Campus." />
+  </bean>
+  <bean id="PaymentProcess-processTimestamp" parent="PaymentProcess-processTimestamp-parentBean" />
+
+  <bean id="PaymentProcess-processTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="processTimestamp" />
+    <property name="label" value="Process Timestamp" />
+    <property name="shortLabel" value="Timestamp" />
+  </bean>  
+  <bean id="PaymentProcess-processUserId" parent="PaymentProcess-processUserId-parentBean" />
+  
+  <bean id="PaymentProcess-processUserId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="processUserId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Process User ID" />
+    <property name="shortLabel" value="User ID" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="processUserId" />
+    <property name="description" value="Process User ID." />
   </bean>
 
   <bean id="PaymentProcess-versionNumber" parent="PaymentProcess-versionNumber-parentBean" />

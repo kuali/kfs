@@ -55,7 +55,6 @@
               p:attributeName="account"
               p:collection="awardAccounts"
               p:activeIndicatorAttributeName="active"
-              p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="accountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"

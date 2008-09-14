@@ -23,13 +23,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.kuali.kfs.pdp.businessobject.Bank;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
-import org.kuali.kfs.pdp.service.BankService;
 import org.kuali.kfs.pdp.service.DisbursementNumberRangeService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 
 public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberMaintenanceSaveAction.class);
@@ -87,7 +87,7 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
             else {
                 dnr.setId(dnmf.getId());
             }
-            dnr.setBank((Bank) bankService.get(dnmf.getBankId()));
+            dnr.setBank((Bank) bankService.getByPrimaryId((dnmf.getBankCode())));
             //dnr.setLastUpdateUser(getUser(request));
 
             try {

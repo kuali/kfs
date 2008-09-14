@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
 
 /**
  * An extension of KualiLookupableImpl to support the account balance by consolidation inquiry screen
@@ -53,8 +53,8 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
      * @return String url to inquiry
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlBase hRef = (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
+    public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
+        HtmlData hRef = (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
         return hRef;
     }
 

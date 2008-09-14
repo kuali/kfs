@@ -36,11 +36,7 @@
         </bean>
       </list>
     </property>
-    <property name="routingDataGenerators">
-    	<list>
-    		<value>subFundGroupRoutingDataGenerator</value>
-    	</list>
-    </property>
+    <property name="validationMap" ref="GeneralErrorCorrectionDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -70,4 +66,44 @@
       </list>
     </property>
   </bean>
+  
+   <!-- Validations -->
+  
+  <bean id="GeneralErrorCorrectionDocument-validations" parent="GeneralErrorCorrectionDocument-validations-parentBean" />
+  
+  <bean id="GeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>GeneralErrorCorrection-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>GeneralErrorCorrection-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>GeneralErrorCorrection-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>GeneralErrorCorrection-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>GeneralErrorCorrection-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>GeneralErrorCorrection-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>GeneralErrorCorrection-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
 </beans>

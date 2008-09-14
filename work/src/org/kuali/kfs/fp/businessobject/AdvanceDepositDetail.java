@@ -20,7 +20,11 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -37,17 +41,26 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     private String financialDocumentAdvanceDepositDescription;
     private KualiDecimal financialDocumentAdvanceDepositAmount;
     private String financialDocumentBankCode;
-    private String financialDocumentBankAccountNumber;
 
     private AdvanceDepositDocument advanceDepositDocument;
-    private Bank financialDocumentBank;
-    private BankAccount financialDocumentBankAccount;
+    private Bank bank;
 
     /**
      * Default constructor.
      */
     public AdvanceDepositDetail() {
-
+        bank = new Bank();
+    }
+    
+    /**
+     * Sets the bank code for a new AdvanceDepositDetail to the setup default for the Advance Deposit document.
+     */
+    public void setDefautBankCode() {
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(AdvanceDepositDocument.class);
+        if (defaultBank != null) {
+            this.financialDocumentBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
     }
 
     /**
@@ -218,25 +231,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
         this.financialDocumentBankCode = financialDocumentBankCode;
     }
 
-
-    /**
-     * Gets the financialDocumentBankAccountNumber attribute.
-     * 
-     * @return Returns the financialDocumentBankAccountNumber
-     */
-    public String getFinancialDocumentBankAccountNumber() {
-        return financialDocumentBankAccountNumber;
-    }
-
-    /**
-     * Sets the financialDocumentBankAccountNumber attribute.
-     * 
-     * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
-     */
-    public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
-        this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;
-    }
-
     /**
      * @return AdvanceDepositDocument
      */
@@ -254,29 +248,15 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     /**
      * @return Bank
      */
-    public Bank getFinancialDocumentBank() {
-        return financialDocumentBank;
+    public Bank getBank() {
+        return bank;
     }
 
     /**
-     * @param financialDocumentBank
+     * @param bank
      */
-    public void setFinancialDocumentBank(Bank financialDocumentBank) {
-        this.financialDocumentBank = financialDocumentBank;
-    }
-
-    /**
-     * @return BankAccount
-     */
-    public BankAccount getFinancialDocumentBankAccount() {
-        return financialDocumentBankAccount;
-    }
-
-    /**
-     * @param financialDocumentBankAccount
-     */
-    public void setFinancialDocumentBankAccount(BankAccount financialDocumentBankAccount) {
-        this.financialDocumentBankAccount = financialDocumentBankAccount;
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     /**

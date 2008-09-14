@@ -35,7 +35,6 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="budgetReversionAccount"
               p:activeIndicatorAttributeName="active"
-              p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="budgetReversionAccountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionFinancialChartOfAccounts"
@@ -44,7 +43,6 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="cashReversionAccount"
               p:activeIndicatorAttributeName="active"
-              p:activeIndicatorReversed="true"
               p:attributeToHighlightOnFail="cashReversionAccountNumber" />
       </list>
     </property>

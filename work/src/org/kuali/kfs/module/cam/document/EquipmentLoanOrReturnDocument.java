@@ -17,8 +17,10 @@ package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -26,10 +28,21 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalZipCode;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -40,7 +53,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
-public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
+public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase implements GenericRoutingInfo {
 
     private String documentNumber;
     private String campusTagNumber;
@@ -74,11 +87,14 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private Country borrowerStorageCountry;
     private UniversalUser borrowerUniversalUser;
     private Asset asset;
-    private PostalZipCode borrowerPostalZipCode;
-    private PostalZipCode borrowerStoragePostalZipCode;
+    private PostalCode borrowerPostalZipCode;
+    private PostalCode borrowerStoragePostalZipCode;
     
     private boolean newLoan;
 
+    private Set<RoutingData> routingInfo;
+
+    
     /**
      * Default constructor.
      */
@@ -110,6 +126,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerCountry
      */
     public Country getBorrowerCountry() {
+        borrowerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerCountry);
         return borrowerCountry;
     }
 
@@ -128,6 +145,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerState
      */
     public State getBorrowerState() {
+        borrowerState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerStateCode, borrowerState);
         return borrowerState;
     }
 
@@ -146,6 +164,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerStorageCountry
      */
     public Country getBorrowerStorageCountry() {
+        borrowerStorageCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(borrowerStorageCountryCode, borrowerStorageCountry);
         return borrowerStorageCountry;
     }
 
@@ -164,6 +183,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the getBorrowerStorageState
      */
     public State getBorrowerStorageState() {
+        borrowerStorageState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(borrowerStorageCountryCode, borrowerStorageStateCode, borrowerStorageState);
         return borrowerStorageState;
     }
 
@@ -453,7 +473,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerPostalZipCode
      */
-    public PostalZipCode getBorrowerPostalZipCode() {
+    public PostalCode getBorrowerPostalZipCode() {
         return borrowerPostalZipCode;
     }
 
@@ -462,7 +482,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerPostalZipCode The borrowerPostalZipCode to set.
      */
-    public void setBorrowerPostalZipCode(PostalZipCode borrowerPostalZipCode) {
+    public void setBorrowerPostalZipCode(PostalCode borrowerPostalZipCode) {
         this.borrowerPostalZipCode = borrowerPostalZipCode;
     }
 
@@ -471,7 +491,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
-    public PostalZipCode getBorrowerStoragePostalZipCode() {
+    public PostalCode getBorrowerStoragePostalZipCode() {
+    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerZipCode, borrowerStoragePostalZipCode);
         return borrowerStoragePostalZipCode;
     }
 
@@ -480,7 +501,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStoragePostalZipCode
      */
-    public void setborrowerStoragePostalZipCode(PostalZipCode borrowerStoragePostalZipCode) {
+    public void setborrowerStoragePostalZipCode(PostalCode borrowerStoragePostalZipCode) {
         this.borrowerStoragePostalZipCode = borrowerStoragePostalZipCode;
     }
 
@@ -682,7 +703,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
 
             maintenanceDocumentService.deleteLocks(this.getDocumentNumber());
 
-            List<MaintenanceLock> maintenanceLocks = new ArrayList();
+            List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
             maintenanceLocks.add(assetService.generateAssetLock(documentNumber, capitalAssetNumber));
             maintenanceDocumentService.storeLocks(maintenanceLocks);
         }
@@ -745,5 +766,52 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         this.newLoan = newLoan;
     }
 
+    
+    /**
+     * Gets the routingInfo attribute.
+     * 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
 
+    /**
+     * Sets the routingInfo attribute value.
+     * 
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        routingInfo = new HashSet<RoutingData>();
+        Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
+        Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
+
+        //Asset information
+        organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
+                        
+        //Storing data
+        RoutingData organizationRoutingData = new RoutingData();
+        organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
+        organizationRoutingData.setRoutingSet(organizationRoutingSet);
+        routingInfo.add(organizationRoutingData);
+
+        List<String> routingTypes = new ArrayList<String>();
+        routingTypes.add(KualiCGAttribute.class.getSimpleName());
+        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
+        routingTypes.add(KualiPDAttribute.class.getSimpleName());
+        
+        RoutingData accountRoutingData = new RoutingData();
+        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingSet(accountRoutingSet);
+        routingInfo.add(accountRoutingData);
+    }
 }

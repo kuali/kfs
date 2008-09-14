@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<app:getBank active="Y" />
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html:html locale="true">
 <link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
@@ -63,10 +63,7 @@
 	<tr>
     <th align="right" valign="top" nowrap="true">* Bank:</th>
     <td align="left" class="datacell">
-    <logic:iterate id="b" name="BankList" indexId="i">
-    	<html:radio property="bankId" value="${b.id}" tabindex="2" />
-    		<c:out value="${b.name}"/> - <c:out value="${b.disbursementType.name}"/><br>
-    </logic:iterate>&nbsp;
+      <html:text property="bankCode" tabindex="2" maxlength="4"/>&nbsp;
     </td>
   </tr>
   <tr>

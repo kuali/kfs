@@ -191,6 +191,13 @@ lookup. Has no effect when used in other locations.
                             </xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
+                    <xsd:attribute name="useShortLabel" type="xsd:boolean">
+                        <xsd:annotation>
+                            <xsd:documentation>
+Whether this field is using label or shortLabel.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                     <xsd:attribute name="inquiry" type="forceEnum">
                         <xsd:annotation>
                             <xsd:documentation>

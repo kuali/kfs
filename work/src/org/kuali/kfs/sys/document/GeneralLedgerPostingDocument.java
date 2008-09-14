@@ -51,14 +51,6 @@ public interface GeneralLedgerPostingDocument extends LedgerPostingDocument {
     void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries);
 
     /**
-     * Returns whether the system has enabled flexible bank offsets. The CashManagementDocument displays the GLPE tag conditionally
-     * based on this.
-     * 
-     * @return whether the system has enabled flexible bank offsets
-     */
-    boolean isBankCashOffsetEnabled();
-
-    /**
      * This method will check sufficient funds for the document
      * 
      * @return a list of sufficientfundsitems that do not have sufficient funds. It returns an empty list if there is sufficient

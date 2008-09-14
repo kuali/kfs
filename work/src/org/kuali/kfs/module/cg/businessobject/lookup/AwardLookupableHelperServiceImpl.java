@@ -35,7 +35,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        anchorHtmlDataList.add(getURLData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+        anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         return anchorHtmlDataList;
     }
 

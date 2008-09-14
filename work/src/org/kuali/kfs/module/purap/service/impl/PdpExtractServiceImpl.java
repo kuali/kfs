@@ -53,6 +53,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
@@ -95,7 +96,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private MailService mailService;
     private EnvironmentService environmentService;
     private PurapRunDateService purapRunDateService;
-    
+    private PaymentFileEmailService paymentFileEmailService;
+
     private PaymentStatus openPaymentStatus;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -107,7 +109,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     public void extractImmediatePaymentsOnly() {
         LOG.debug("extractImmediatePaymentsOnly() started");
-        
+
         Date processRunDate = dateTimeService.getCurrentDate();
         extractPayments(true, processRunDate);
     }
@@ -125,14 +127,14 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * Extracts payments from the database
      * 
      * @param immediateOnly whether to pick up immediate payments only
-     * @param processRunDate time/date to use to put on the {@link Batch} that's created; and when immediateOnly is false, is also used as the maximum
-     * allowed PREQ pay date when searching PREQ documents eligible to have payments extracted 
+     * @param processRunDate time/date to use to put on the {@link Batch} that's created; and when immediateOnly is false, is also
+     *        used as the maximum allowed PREQ pay date when searching PREQ documents eligible to have payments extracted
      */
     private void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
         if (openPaymentStatus == null) {
-            //openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+            // openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         }
 
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
@@ -181,8 +183,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         batch.setPaymentCount(count);
         batch.setPaymentTotalAmount(totalAmount);
-        paymentFileService.saveBatch(batch);
-        paymentFileService.sendLoadEmail(batch);
+
+        businessObjectService.save(batch);
+        paymentFileEmailService.sendLoadEmail(batch);
     }
 
     /**
@@ -195,37 +198,37 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return
      */
     private Totals extractRegularPaymentsForChart(String campusCode, UniversalUser puser, Date processRunDate, Batch batch) {
-        LOG.debug( "START - extractRegularPaymentsForChart()" );
+        LOG.debug("START - extractRegularPaymentsForChart()");
         Totals t = new Totals();
 
         List<String> preqsWithOutstandingCreditMemos = new ArrayList<String>();
-        
+
         // NEW PSEUDOCODE:
         // get list of all vendor id/detail IDs on eligible CMs
         // loop over vendor's IDs and get matching lists of CMs and PREQs
         // if net > 0, generate PDP payment groups and update the documents
-        Set<VendorGroupingHelper> vendors = creditMemoService.getVendorsOnCreditMemosToExtract(campusCode); 
+        Set<VendorGroupingHelper> vendors = creditMemoService.getVendorsOnCreditMemosToExtract(campusCode);
 
         java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
-        
+
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
-        for ( VendorGroupingHelper vendor : vendors ) {
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Processing Vendor: " + vendor );
+        for (VendorGroupingHelper vendor : vendors) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Processing Vendor: " + vendor);
             }
             prds.clear();
             cmds.clear();
             KualiDecimal creditMemoAmount = KualiDecimal.ZERO;
             KualiDecimal paymentRequestAmount = KualiDecimal.ZERO;
-        // Get all the matching credit memos
-            Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtractByVendor(campusCode,vendor);
-        while (cmIter.hasNext()) {
-            CreditMemoDocument cmd = cmIter.next();
-                creditMemoAmount = creditMemoAmount.add( cmd.getCreditMemoAmount() );
-            cmds.add(cmd);
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Added CM to bundle: " + cmd.getDocumentNumber() + " - $" + cmd.getCreditMemoAmount() );
+            // Get all the matching credit memos
+            Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtractByVendor(campusCode, vendor);
+            while (cmIter.hasNext()) {
+                CreditMemoDocument cmd = cmIter.next();
+                creditMemoAmount = creditMemoAmount.add(cmd.getCreditMemoAmount());
+                cmds.add(cmd);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Added CM to bundle: " + cmd.getDocumentNumber() + " - $" + cmd.getCreditMemoAmount());
                 }
             }
             // get all matching payment requests
@@ -234,70 +237,72 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 PaymentRequestDocument prd = pri.next();
                 paymentRequestAmount = paymentRequestAmount.add(prd.getGrandTotal());
                 prds.add(prd);
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Added PREQ to bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal() );
-            }
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Added PREQ to bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal());
+                }
             }
             // check if there is anything left to pay
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Bundle Total: " + paymentRequestAmount.subtract(creditMemoAmount) );
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Bundle Total: " + paymentRequestAmount.subtract(creditMemoAmount));
             }
             if (paymentRequestAmount.compareTo(creditMemoAmount) >= 0) {
                 // if so, create a payment group and add the CM and PREQ documents
                 PaymentGroup pg = buildPaymentGroup(prds, cmds, batch);
-                if(validatePaymentGroup(pg)) { 
-                paymentGroupService.save(pg);
-                    if ( LOG.isDebugEnabled() ) {
-                        LOG.debug( "Created PaymentGroup: " + pg.getId() );
+                if (validatePaymentGroup(pg)) {
+                    paymentGroupService.save(pg);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Created PaymentGroup: " + pg.getId());
                     }
-                    
-                t.count++;
-                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+
+                    t.count++;
+                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
 
                     // mark the CMs and PREQs as processed
                     for (CreditMemoDocument cm : cmds) {
                         updateCreditMemo(cm, puser, processRunDate);
-                }
+                    }
                     for (PaymentRequestDocument pr : prds) {
                         updatePaymentRequest(pr, puser, processRunDate);
+                    }
                 }
-                } else {
-                    LOG.debug( "bundle failed validation - NO BUNDLE CREATED" );
+                else {
+                    LOG.debug("bundle failed validation - NO BUNDLE CREATED");
                     // stops PREQ documents from being processed by putting them on a "do not process" list
                     // until validation problems can be resolved
-                    for ( PaymentRequestDocument doc : prds ) {
-                        preqsWithOutstandingCreditMemos.add( doc.getDocumentNumber() );
+                    for (PaymentRequestDocument doc : prds) {
+                        preqsWithOutstandingCreditMemos.add(doc.getDocumentNumber());
+                    }
+                }
             }
-        }
-            } else {
-                LOG.debug( "bundle net < 0 - NO BUNDLE CREATED" );
+            else {
+                LOG.debug("bundle net < 0 - NO BUNDLE CREATED");
                 // put the PREQ documents in this bundle on a "do not process" list for this run
                 // to prevent them from being picked up by the code below
-                for ( PaymentRequestDocument doc : prds ) {
-                    preqsWithOutstandingCreditMemos.add( doc.getDocumentNumber() );
+                for (PaymentRequestDocument doc : prds) {
+                    preqsWithOutstandingCreditMemos.add(doc.getDocumentNumber());
                 }
             }
         }
 
-        LOG.debug( "processing PREQs without CMs" );
+        LOG.debug("processing PREQs without CMs");
 
         // Get all the payment requests to process that do not have credit memos
         Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
         while (prIter.hasNext()) {
             PaymentRequestDocument prd = prIter.next();
             // if in the list created above, don't create the payment group
-            if ( !preqsWithOutstandingCreditMemos.contains( prd.getDocumentNumber() )  ) {
-            PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Added PREQ to solo bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal() );
+            if (!preqsWithOutstandingCreditMemos.contains(prd.getDocumentNumber())) {
+                PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Added PREQ to solo bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal());
                 }
 
-            t.count = t.count + pg.getPaymentDetails().size();
-            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
-        }
+                t.count = t.count + pg.getPaymentDetails().size();
+                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+            }
         }
 
-        LOG.debug( "END - extractRegularPaymentsForChart()" );
+        LOG.debug("END - extractRegularPaymentsForChart()");
         return t;
     }
 
@@ -316,17 +321,17 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         prds.add(prd);
 
         PaymentGroup pg = buildPaymentGroup(prds, cmds, batch);
-        if(validatePaymentGroup(pg)) {
-        paymentGroupService.save(pg);
-        updatePaymentRequest(prd, puser, processRunDate);
+        if (validatePaymentGroup(pg)) {
+            paymentGroupService.save(pg);
+            updatePaymentRequest(prd, puser, processRunDate);
         }
 
         return pg;
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param key
      * @param itemsToProcess
      * @param typeCode
@@ -346,8 +351,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param key
      * @param itemsToProcess
      * @return
@@ -441,10 +446,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         // There should always be at least one Payment Request Document in the list.
         PaymentGroup pg = null;
-        if ( cmds.size() > 0 ) {
+        if (cmds.size() > 0) {
             CreditMemoDocument firstCmd = cmds.get(0);
             pg = populatePaymentGroup(firstCmd, batch);
-        } else {
+        }
+        else {
             PaymentRequestDocument firstPrd = prds.get(0);
             pg = populatePaymentGroup(firstPrd, batch);
         }
@@ -462,49 +468,50 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param pg
      * @return
      */
     private boolean validatePaymentGroup(PaymentGroup pg) {
         // Check to see if the payment group has too many note lines to be printed on a check
         List<PaymentDetail> payDetails = pg.getPaymentDetails();
-        
+
         int noteLines = 0;
         int maxNoteLines = getMaxNoteLines();
 
-        for(PaymentDetail pd : payDetails) {
+        for (PaymentDetail pd : payDetails) {
             noteLines++; // Add one for each payment detail; summary of each detail is included on check and counts as a line
             noteLines += pd.getNotes().size(); // get all the possible notes for a given detail
         }
-        
-        if(noteLines > maxNoteLines) {
-            
+
+        if (noteLines > maxNoteLines) {
+
             // compile list of all doc numbers that make up payment group
             List<String> preqDocIds = new ArrayList<String>();
             List<String> cmDocIds = new ArrayList<String>();
-            
+
             List<PaymentDetail> pds = pg.getPaymentDetails();
-            for(PaymentDetail payDetail : pds) {
-                if("CM".equals(payDetail.getFinancialDocumentTypeCode())) {
+            for (PaymentDetail payDetail : pds) {
+                if ("CM".equals(payDetail.getFinancialDocumentTypeCode())) {
                     cmDocIds.add(payDetail.getCustPaymentDocNbr());
-                } else {
+                }
+                else {
                     preqDocIds.add(payDetail.getCustPaymentDocNbr());
                 }
             }
-            
+
             // send warning email and prevent group from being processed by returning null
             sendExceedsMaxNotesWarningEmail(cmDocIds, preqDocIds, noteLines, maxNoteLines);
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     private int getMaxNoteLines() {
@@ -579,9 +586,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setInvTotOtherCreditAmount(creditAmount);
         pd.setInvTotOtherDebitAmount(debitAmount);
 
-        pd.setPrimaryCancelledPayment(Boolean.FALSE);        
-        
-        addAccounts(cmd, pd,"CM");
+        pd.setPrimaryCancelledPayment(Boolean.FALSE);
+
+        addAccounts(cmd, pd, "CM");
         addNotes(cmd, pd);
         return pd;
     }
@@ -654,8 +661,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setInvTotOtherDebitAmount(debitAmount);
 
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
-        
-        addAccounts(prd, pd,"PREQ");
+
+        addAccounts(prd, pd, "PREQ");
         addNotes(prd, pd);
         return pd;
     }
@@ -666,7 +673,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param prd
      * @param pd
      */
-    private void addAccounts(AccountsPayableDocumentBase prd, PaymentDetail pd,String documentType) {
+    private void addAccounts(AccountsPayableDocumentBase prd, PaymentDetail pd, String documentType) {
         // Calculate the total amount for each account across all items
         Map accounts = new HashMap();
         for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
@@ -676,12 +683,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(), account.getAccountNumber(), account.getSubAccountNumber(), account.getFinancialObjectCode(), account.getFinancialSubObjectCode(), account.getOrganizationReferenceId(), account.getProjectCode());
 
                 BigDecimal amt = account.getAmount().bigDecimalValue();
-                if ( "CM".equals(documentType) ) {
+                if ("CM".equals(documentType)) {
                     amt = amt.negate();
                 }
 
                 if (accounts.containsKey(ai)) {
-                    BigDecimal total = amt.add( (BigDecimal)accounts.get(ai) );
+                    BigDecimal total = amt.add((BigDecimal) accounts.get(ai));
                     accounts.put(ai, total);
                 }
                 else {
@@ -811,8 +818,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param cmd
      * @param batch
      * @return
@@ -890,7 +897,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         // Set these for now, we will update them later
         batch.setPaymentCount(0);
         batch.setPaymentTotalAmount(new BigDecimal("0"));
-        paymentFileService.saveBatch(batch);
+
+        businessObjectService.save(batch);
 
         return batch;
     }
@@ -920,10 +928,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return output;
     }
 
-    
+
     /**
-     * 
      * This method...
+     * 
      * @param idList
      * @param lineTotal
      * @param maxNoteLines
@@ -971,41 +979,41 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        String fromAddressList[] = {mailService.getBatchMailingList()};
+        String fromAddressList[] = { mailService.getBatchMailingList() };
 
-        if(fromAddressList.length > 0) {
+        if (fromAddressList.length > 0) {
             for (int i = 0; i < fromAddressList.length; i++) {
                 if (fromAddressList[i] != null) {
                     message.setFromAddress(fromAddressList[i].trim());
                 }
             }
         }
-        
+
         body.append("The positive pay bundle associated with the following credit memo(s) and payment request(s) ");
         body.append("exceeds the row limit. The credit memo(s) may need to be processed as several separate credit ");
         body.append("memos to reduce the number of rows associated with the positive pay bundle. \n\n");
         body.append("The Credit Memo Document Id(s) are ");
-        
+
         int cmCount = cmIdList.size();
-        for(String id : cmIdList) {
+        for (String id : cmIdList) {
             body.append(id);
-            if(--cmCount > 0) {
+            if (--cmCount > 0) {
                 body.append(", ");
-            } 
+            }
         }
-        
+
         body.append(".  The PREQ Document Id(s) are ");
-        
+
         int prCount = preqIdList.size();
-        for(String id : preqIdList) {
+        for (String id : preqIdList) {
             body.append(id);
-            if(--prCount > 0) {
+            if (--prCount > 0) {
                 body.append(", ");
-            } 
+            }
         }
         body.append(".  There were ").append(lineTotal).append(" lines all together, which is more than the ");
         body.append(maxNoteLines).append(" allowed.");
-        
+
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
@@ -1015,9 +1023,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
-    
+
     /**
-     * 
      * This class...
      */
     class Payment {
@@ -1207,16 +1214,26 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     public void setDocumentService(DocumentService ds) {
         documentService = ds;
     }
-    
+
     public void setMailService(MailService ms) {
         mailService = ms;
-}
+    }
+
     public void setEnvironmentService(EnvironmentService es) {
         environmentService = es;
     }
 
     public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
         this.purapRunDateService = purapRunDateService;
+    }
+
+    /**
+     * Sets the paymentFileEmailService attribute value.
+     * 
+     * @param paymentFileEmailService The paymentFileEmailService to set.
+     */
+    public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
+        this.paymentFileEmailService = paymentFileEmailService;
     }
 
 }

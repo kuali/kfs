@@ -65,7 +65,7 @@ public class ManualUploadFileAction extends BaseAction {
 
         UploadForm uForm = (UploadForm) form;
 
-        String filename = getTmpDir() + File.separator + PdpConstants.PDP_MANUAL_FILE_UPLOAD_TEMP_FILE_PREFIX + request.getSession().getId() + ".xml";
+        String filename = getTmpDir() + File.separator + PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX + request.getSession().getId() + ".xml";
         LOG.debug("executeLogic() Filename: " + filename);
         File outputFile = new File(filename);
 
@@ -73,30 +73,30 @@ public class ManualUploadFileAction extends BaseAction {
         out.write(uForm.getFile().getFileData());
         out.close();
 
-        try {
-            LoadPaymentStatus status = getPaymentFileService().loadPayments(filename, getUser(request));
-            if (status.getWarnings().size() > 0) {
-                LOG.debug("executeLogic() There were warnings when loading " + filename);
-                request.setAttribute("errors", status.getWarnings());
-            }
-            // Save the status in the request so we can print info from it
-            request.setAttribute("status", status);
-        }
-        catch (PaymentLoadException e1) {
-            LOG.error("executeLogic() Exception when parsing XML", e1);
-
-            request.setAttribute("errors", e1.getErrors());
-            return mapping.findForward("hard_errors");
-        }
-        finally {
-            try {
-                // Delete the file because we're done with it
-                outputFile.delete();
-            }
-            catch (RuntimeException e) {
-                LOG.error("Error trying to delete temporary file in ManualUploadFileAction.", e);
-            }
-        }
+//        try {
+////            LoadPaymentStatus status = getPaymentFileService().loadPayments(filename, getUser(request));
+////            if (status.getWarnings().size() > 0) {
+////                LOG.debug("executeLogic() There were warnings when loading " + filename);
+////                request.setAttribute("errors", status.getWarnings());
+////            }
+////            // Save the status in the request so we can print info from it
+////            request.setAttribute("status", status);
+//        }
+//        catch (PaymentLoadException e1) {
+//            LOG.error("executeLogic() Exception when parsing XML", e1);
+//
+//            request.setAttribute("errors", e1.getErrors());
+//            return mapping.findForward("hard_errors");
+//        }
+//        finally {
+//            try {
+//                // Delete the file because we're done with it
+//                outputFile.delete();
+//            }
+//            catch (RuntimeException e) {
+//                LOG.error("Error trying to delete temporary file in ManualUploadFileAction.", e);
+//            }
+//        }
 
         LOG.debug("executeLogic() File load was successful");
         return mapping.findForward("successful");

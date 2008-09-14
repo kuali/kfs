@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -36,7 +37,7 @@ public class StateValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        Collection<State> codes = SpringContext.getBean(KeyValuesService.class).findAll(State.class);
+        Collection<State> codes = SpringContext.getBean(StateService.class).findAllStates();
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
         for (State state : codes) {

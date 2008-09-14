@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.Bank;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -73,13 +73,6 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocument#isBankCashOffsetEnabled()
-     */
-    public boolean isBankCashOffsetEnabled() {
-        return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG);
     }
 
     /**

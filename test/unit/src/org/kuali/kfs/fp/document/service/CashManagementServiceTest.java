@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.BankAccount;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Deposit;
@@ -37,6 +36,7 @@ import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
@@ -233,7 +233,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // add interim deposit
             changeCurrentUser(TWATSON);
             CashManagementDocument interimDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
-            SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, new ArrayList(), false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
 
             //
@@ -284,7 +284,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         boolean failedAsExpected = false;
 
         try {
-            SpringContext.getBean(CashManagementService.class).addDeposit(null, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, null, false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(null, VALID_DEPOSIT_TICKET, lookupBank(), null, null, false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -360,7 +360,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             crList.add(cr);
 
             // add invalid interim deposit
-            SpringContext.getBean(CashManagementService.class).addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, new ArrayList(), false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
         }
         catch (InvalidCashReceiptState e) {
             failedAsExpected = true;
@@ -409,7 +409,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             crList.add(cr);
 
             // add interim deposit
-            SpringContext.getBean(CashManagementService.class).addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, new ArrayList(), false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -464,7 +464,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // add interim deposit
             changeCurrentUser(TWATSON);
-            SpringContext.getBean(CashManagementService.class).addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, new ArrayList(), false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
 
             //
@@ -560,7 +560,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // add interim deposit
             changeCurrentUser(TWATSON);
             CashManagementDocument interimDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
-            SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, new ArrayList(), false);
+            SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
 
             //
@@ -762,15 +762,14 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    private BankAccount lookupBankAccount() throws GeneralSecurityException {
-        Map keyMap = new HashMap();
-        keyMap.put("financialDocumentBankCode", "TEST");
-        keyMap.put("finDocumentBankAccountNumber", "1111");
+    private Bank lookupBank() throws GeneralSecurityException {
+        Map<String, String> keyMap = new HashMap<String, String>();
+        keyMap.put("bankCode", "TEST");
 
-        BankAccount bankAccount = (BankAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BankAccount.class, keyMap);
+        Bank bank = (Bank) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Bank.class, keyMap);
 
-        assertNotNull("invalid bank account for test", bankAccount);
-        return bankAccount;
+        assertNotNull("invalid bank for test", bank);
+        return bank;
     }
 
     private void cleanupCancel(String documentId) throws Exception {

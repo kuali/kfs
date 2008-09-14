@@ -34,7 +34,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.AnchorHtmlBase;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
 /**
@@ -51,10 +52,10 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
      *      java.lang.String)
      */
     @Override
-    public AnchorHtmlBase getInquiryUrl(BusinessObject businessObject, String propertyName) {
+    public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (KFSPropertyConstants.DOCUMENT_NUMBER.equals(propertyName) && businessObject instanceof LaborLedgerPendingEntry) {
             LaborLedgerPendingEntry pendingEntry = (LaborLedgerPendingEntry) businessObject;
-            return new AnchorHtmlBase(new InquirableFinancialDocument().getInquirableDocumentUrl(pendingEntry), KFSConstants.EMPTY_STRING);
+            return new AnchorHtmlData(new InquirableFinancialDocument().getInquirableDocumentUrl(pendingEntry), KFSConstants.EMPTY_STRING);
         }
         else if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LaborLedgerPendingEntry pendingEntry = (LaborLedgerPendingEntry) businessObject;
@@ -65,7 +66,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
 
             BusinessObject positionData = positionDataDetailsInquirable.getBusinessObject(fieldValues);
 
-            return positionData == null ? new AnchorHtmlBase(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING) : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
+            return positionData == null ? new AnchorHtmlData(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING) : positionDataDetailsInquirable.getInquiryUrl(positionData, propertyName);
         }
         return (new LedgerPendingEntryInquirableImpl()).getInquiryUrl(businessObject, propertyName);
     }

@@ -28,7 +28,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="make-source" />
 
 	<target name="check-modularization" depends="make-source">
-		<verifydesign design="design.xml">
+		<verifydesign design="test/unit/src/design.xml">
 			<path>
 				<fileset dir="${war.classes.directory}/org/kuali/kfs/module" includes="**/*.class" />
       		</path>

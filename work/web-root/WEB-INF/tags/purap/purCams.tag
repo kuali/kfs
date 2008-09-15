@@ -45,7 +45,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetItems}"/>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" readOnly="${!empty KualiForm.document.purchasingCapitalAssetItems}"/>
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
 		</td>
 	</tr>
 	<tr>

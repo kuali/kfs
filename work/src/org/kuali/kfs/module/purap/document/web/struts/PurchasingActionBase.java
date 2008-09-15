@@ -47,6 +47,7 @@ import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingItemCapitalAssetEvent;
+import org.kuali.kfs.module.purap.document.validation.event.ChangeSystemPurapEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
@@ -826,7 +827,21 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
-        
+        Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+
+        if (question == null) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM);
+
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+        }
+        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+            SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
+            
+            GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

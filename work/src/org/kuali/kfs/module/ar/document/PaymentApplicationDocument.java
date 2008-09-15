@@ -26,11 +26,15 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
 
     private List<InvoicePaidApplied> appliedPayments;
     private List<NonInvoiced> nonInvoicedPayments;
@@ -160,4 +164,126 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return nonInvoicedPayments;
     }
 
+    private boolean isForLockbox() {
+        // TODO
+        return false;
+    }
+    
+    private boolean isForCreditCard() {
+        // TODO
+        return false;
+    }
+    
+    private boolean isForWireTransfer() {
+        // TODO
+        return false;
+    }
+    
+    /**
+     * @param sequenceHelper
+     * @return
+     */
+    private List<GeneralLedgerPendingEntry> createPendingEntriesForLockboxDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        String processingOrganizationClearingAccountNumber = null;
+        String billingOrganizationAccountNumber = null;
+        String cashObjectCode = null;
+        String accountsReceivableObjectCode = null;
+        String unappliedCashObjectCode = null;
+        String accountsReceivableRefundsDueObjectCode = null;
+        
+        // TODO Fill in code to set all of the object codes and accounts numbers needed.
+        // TODO Fill in business logic.
+        
+        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+        
+        return entries;
+    }
+
+    /**
+     * @param sequenceHelper
+     * @return
+     */
+    private List<GeneralLedgerPendingEntry> createPendingEntriesForCreditCardDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        String processingOrganizationClearingAccountNumber = null;
+        String billingOrganizationAccountNumber = null;
+        String cashObjectCode = null;
+        String accountsReceivableObjectCode = null;
+        String unappliedCashObjectCode = null;
+        String creditCardChargesObjectCode = null;
+        
+        // TODO Fill in code to set all of the object codes and accounts numbers needed.
+        // TODO Fill in business logic.
+        
+        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+        return entries;
+    }
+    
+    /**
+     * @param sequenceHelper
+     * @return
+     */
+    private List<GeneralLedgerPendingEntry> createPendingEntriesForWireTransferDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        
+        String eftClearingAccountNumber = null;
+        String processingOrganizationClearingAccountNumber = null;
+        String billingOrganizationAccountNumber = null;
+        String cashObjectCode = null;
+        String accountsReceivableObjectCode = null;
+        String unappliedCashObjectCode = null;
+        String incomeObjectCode = null;
+        
+        // TODO Fill in code to set all of the object codes and accounts numbers needed.
+        // TODO Fill in business logic.
+        
+        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+        return entries;
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        
+        String billingOrganizationAccountNumber = null;
+        String accountReceivableObjectCode = null;
+        String incomeObjectCode = null;
+        String cashObjectCode = null;
+        
+        try {
+            List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+            if(isForLockbox()) {
+                entries = createPendingEntriesForLockboxDocument(sequenceHelper);
+            } else if(isForCreditCard()) {
+                entries = createPendingEntriesForCreditCardDocument(sequenceHelper);
+            } else if (isForWireTransfer()) {
+                entries = createPendingEntriesForWireTransferDocument(sequenceHelper);
+            }
+        } catch(Throwable t) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    
 }

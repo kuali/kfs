@@ -51,5 +51,5 @@ public interface TaxService {
      * @param amount amount to be taxed
      * @return
      */
-    KualiDecimal getTotalSalesTaxAmount( Date dateOfTransaction, String postalCode, KualiDecimal amount );
+    KualiDecimal getTotalSalesTaxAmount( Date dateOfTransaction, String postalCode, String stateCode, String countryCode, KualiDecimal amount );
 }

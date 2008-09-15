@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,26 +27,25 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 public class TaxRegion extends PersistableBusinessObjectBase {
 
-    private String taxRegionCode; //(e.g., state code or district code)
-    private String taxRegionName; //(e.g., state name or tax district name)
+    private String taxRegionCode; // (e.g., state code or district code)
+    private String taxRegionName; // (e.g., state name or tax district name)
     private String taxRegionTypeCode;
     private String taxRegionUseTaxIndicator;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
     private boolean active;
-    
+
     private Chart chartOfAccounts;
     private Account account;
     private ObjectCodeCurrent objectCode;
     private TaxRegionType taxRegionType;
-    private TaxRegionRate selectedTaxRegionRate;
-    
+
     private List<TaxRegionRate> taxRegionRates = new TypedArrayList(TaxRegionRate.class);
     private List<TaxRegionState> taxRegionStates = new TypedArrayList(TaxRegionState.class);
     private List<TaxRegionCounty> taxRegionCounties = new TypedArrayList(TaxRegionCounty.class);
     private List<TaxRegionPostalCode> taxRegionPostalCodes = new TypedArrayList(TaxRegionPostalCode.class);
-    
+
     public List<TaxRegionRate> getTaxRegionRates() {
         return taxRegionRates;
     }
@@ -164,28 +164,36 @@ public class TaxRegion extends PersistableBusinessObjectBase {
         this.objectCode = objectCode;
     }
 
-	public String getTaxRegionTypeCode() {
-		return taxRegionTypeCode;
-	}
-
-	public void setTaxRegionTypeCode(String taxRegionTypeCode) {
-		this.taxRegionTypeCode = taxRegionTypeCode;
-	}
-
-	public String getTaxRegionUseTaxIndicator() {
-		return taxRegionUseTaxIndicator;
-	}
-
-	public void setTaxRegionUseTaxIndicator(String taxRegionUseTaxIndicator) {
-		this.taxRegionUseTaxIndicator = taxRegionUseTaxIndicator;
-	}
-	
-    public TaxRegionRate getSelectedTaxRegionRate() {
-        return selectedTaxRegionRate;
+    public String getTaxRegionTypeCode() {
+        return taxRegionTypeCode;
     }
 
-    public void setSelectedTaxRegionRate(TaxRegionRate selectedTaxRegionRate) {
-        this.selectedTaxRegionRate = selectedTaxRegionRate;
-    }	
+    public void setTaxRegionTypeCode(String taxRegionTypeCode) {
+        this.taxRegionTypeCode = taxRegionTypeCode;
+    }
 
+    public String getTaxRegionUseTaxIndicator() {
+        return taxRegionUseTaxIndicator;
+    }
+
+    public void setTaxRegionUseTaxIndicator(String taxRegionUseTaxIndicator) {
+        this.taxRegionUseTaxIndicator = taxRegionUseTaxIndicator;
+    }
+
+    /**
+     * This method returns the effective tax region rate based off the date of transaction passed in
+     * @param dateOfTransaction
+     * @return
+     */
+    public TaxRegionRate getEffectiveTaxRegionRate(Date dateOfTransaction) {
+        TaxRegionRate selectedTaxRegionRate = null;
+
+        for (TaxRegionRate taxRegionRate : taxRegionRates) {
+            if (taxRegionRate.getEffectiveDate().before(dateOfTransaction)) {
+                selectedTaxRegionRate = taxRegionRate;
+            }
+        }
+        
+        return selectedTaxRegionRate;
+    }
 }

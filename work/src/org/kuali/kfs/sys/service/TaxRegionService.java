@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.sys.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 
 public interface TaxRegionService {
     
-    List<TaxRegion> getSalesTaxRegions( Date dateOfTransaction, String postalCode );
+    List<TaxRegion> getSalesTaxRegions( String postalCode );
     
-    List<TaxRegion> getUseTaxRegions( Date dateOfTransaction, String postalCode );    
+    List<TaxRegion> getUseTaxRegions( String postalCode );    
 }

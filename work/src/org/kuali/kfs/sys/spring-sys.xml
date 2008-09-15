@@ -322,6 +322,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="postalCodeService">
+			<ref bean="postalCodeService" />
+		</property>		
 	</bean>		
 
 	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">

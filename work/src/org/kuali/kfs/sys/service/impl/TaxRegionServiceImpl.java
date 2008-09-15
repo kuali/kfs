@@ -15,18 +15,101 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
+import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
+import org.kuali.kfs.sys.businessobject.TaxRegionState;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class TaxRegionServiceImpl implements TaxRegionService {
+    
+    private BusinessObjectService businessObjectService;
+    private PostalCodeService postalCodeService;
+
+    public List<TaxRegion> getSalesTaxRegions(String postalCode) {
+        
+        List<TaxRegion> salesTaxRegions = new ArrayList<TaxRegion>();
+        
+        PostalCode postalCodeObj = postalCodeService.getByPrimaryId(postalCode);        
+        salesTaxRegions.addAll(getPostalCodeTaxRegions( postalCodeObj.getPostalZipCode(), false));
+        salesTaxRegions.addAll(getStateTaxRegions( postalCodeObj.getPostalStateCode(), false));
+        salesTaxRegions.addAll(getCountyTaxRegions( postalCodeObj.getCountyCode(), false));
+        
+        return salesTaxRegions;
+    }
+
+    public List<TaxRegion> getUseTaxRegions(String postalCode) {
+        
+        List<TaxRegion> useTaxRegions = new ArrayList<TaxRegion>();
+        
+        PostalCode postalCodeObj = postalCodeService.getByPrimaryId(postalCode);        
+        useTaxRegions.addAll(getPostalCodeTaxRegions( postalCodeObj.getPostalZipCode(), true));
+        useTaxRegions.addAll(getStateTaxRegions( postalCodeObj.getPostalStateCode(), true));
+        useTaxRegions.addAll(getCountyTaxRegions( postalCodeObj.getCountyCode(), true));
+        
+        return useTaxRegions;
+    }
+    
+    protected List<TaxRegion> getPostalCodeTaxRegions( String postalCode, boolean useTaxOnly ){
+        
+        List<TaxRegion> postalCodeTaxRegions = new ArrayList<TaxRegion>();
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("postalCode", postalCode);
+        //criteria.put("countryCode", countryCode);
+        if( useTaxOnly ){
+            criteria.put("taxRegion.taxRegionUseTaxIndicator", new Boolean(useTaxOnly));
+        }
+        
+        List<TaxRegionPostalCode> taxRegionPostalCodes =( List<TaxRegionPostalCode> )businessObjectService.findMatching(TaxRegionPostalCode.class, criteria);
+        for( TaxRegionPostalCode taxRegionPostalCode : taxRegionPostalCodes ){
+            postalCodeTaxRegions.add(taxRegionPostalCode.getTaxRegion());
+        }        
+        return postalCodeTaxRegions;
+    }
+    
+    protected List<TaxRegion> getStateTaxRegions( String stateCode, boolean useTaxOnly ){
+        
+        List<TaxRegion> stateTaxRegions = new ArrayList<TaxRegion>();
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("stateCode", stateCode);
+        //criteria.put("countryCode", countryCode);
+        if( useTaxOnly ){
+            criteria.put("taxRegion.taxRegionUseTaxIndicator", new Boolean(useTaxOnly));
+        }
+        
+        List<TaxRegionState> taxRegionStates =( List<TaxRegionState> )businessObjectService.findMatching(TaxRegionState.class, criteria);
+        for( TaxRegionState taxRegionState : taxRegionStates ){
+            stateTaxRegions.add(taxRegionState.getTaxRegion());
+        }        
+        return stateTaxRegions;
+    }    
+    
+    protected List<TaxRegion> getCountyTaxRegions( String countyCode, boolean useTaxOnly ){
+        
+        List<TaxRegion> countyTaxRegions = new ArrayList<TaxRegion>();
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("countyCode", countyCode);
+        //criteria.put("countryCode", countryCode);
+        if( useTaxOnly ){
+            criteria.put("taxRegion.taxRegionUseTaxIndicator", new Boolean(useTaxOnly));
+        }
+        
+        List<TaxRegionCounty> taxRegionCounties =( List<TaxRegionCounty> )businessObjectService.findMatching(TaxRegionCounty.class, criteria);
+        for( TaxRegionCounty taxRegionState : taxRegionCounties ){
+            countyTaxRegions.add(taxRegionState.getTaxRegion());
+        }        
+        return countyTaxRegions;
+    }          
     
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -36,27 +119,11 @@ public class TaxRegionServiceImpl implements TaxRegionService {
         this.businessObjectService = businessObjectService;
     }
 
-    private BusinessObjectService businessObjectService;
-
-    public List<TaxRegion> getSalesTaxRegions(Date dateOfTransaction, String postalCode) {
-        
-        List<TaxRegion> salesTaxRegions = new ArrayList<TaxRegion>();
-        
-        //get postal codes
-        Map<String, String> criteria = new HashMap<String, String>();
-        List<TaxRegionPostalCode> taxRegionPostalCodes =( List<TaxRegionPostalCode> )businessObjectService.findMatching(TaxRegionPostalCode.class, criteria);
-        
-        for( TaxRegionPostalCode taxRegionPostalCode : taxRegionPostalCodes ){
-            salesTaxRegions.add(taxRegionPostalCode.getTaxRegion());
-        }
-        
-        //go through state codes
-        
-        
-        return salesTaxRegions;
+    public PostalCodeService getPostalCodeService() {
+        return postalCodeService;
     }
 
-    public List<TaxRegion> getUseTaxRegions(Date dateOfTransaction, String postalCode) {
-        return null;
-    }
+    public void setPostalCodeService(PostalCodeService postalCodeService) {
+        this.postalCodeService = postalCodeService;
+    }    
 }

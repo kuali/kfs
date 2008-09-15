@@ -25,10 +25,11 @@ import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class TaxServiceImpl implements TaxService {
     
-    private BusinessObjectService businessObjectService;
     private TaxRegionService taxRegionService;
 
     /**
@@ -37,8 +38,8 @@ public class TaxServiceImpl implements TaxService {
     public List<TaxDetail> getSalesTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
 
-        for( TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(dateOfTransaction, postalCode)){
-            salesTaxDetails.add(populateTaxDetail( taxRegion, null ));
+        for( TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)){
+            salesTaxDetails.add(populateTaxDetail( taxRegion, dateOfTransaction, amount));
         }
         
         return salesTaxDetails;
@@ -50,8 +51,8 @@ public class TaxServiceImpl implements TaxService {
     public List<TaxDetail> getUseTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
         
-        for( TaxRegion taxRegion : taxRegionService.getUseTaxRegions(dateOfTransaction, postalCode)){
-            useTaxDetails.add(populateTaxDetail( taxRegion, null ));
+        for( TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)){
+            useTaxDetails.add(populateTaxDetail( taxRegion, dateOfTransaction, amount ));
         }
         
         return useTaxDetails;
@@ -60,7 +61,7 @@ public class TaxServiceImpl implements TaxService {
     /**
      * @see org.kuali.kfs.sys.service.TaxService#getTotalSalesTaxAmount(java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
+    public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, String stateCode, String countryCode, KualiDecimal amount) {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
         
         for( TaxDetail taxDetail : getSalesTaxDetails( dateOfTransaction, postalCode, amount )){
@@ -76,25 +77,17 @@ public class TaxServiceImpl implements TaxService {
      * @param amount
      * @return
      */
-    protected TaxDetail populateTaxDetail( TaxRegion taxRegion, KualiDecimal amount ){
+    protected TaxDetail populateTaxDetail( TaxRegion taxRegion, Date dateOfTransaction, KualiDecimal amount ){
         TaxDetail taxDetail = new TaxDetail();
         taxDetail.setAccountNumber(taxRegion.getAccountNumber());
         taxDetail.setChartOfAccountsCode(taxRegion.getChartOfAccountsCode());
         taxDetail.setFinancialObjectCode(taxRegion.getFinancialObjectCode());
         taxDetail.setRateCode( taxRegion.getTaxRegionCode() );
         taxDetail.setRateName( taxRegion.getTaxRegionName() );
-        taxDetail.setTaxRate( taxRegion.getSelectedTaxRegionRate().getTaxRate() );
-        taxDetail.setTaxAmount( amount.multiply( new KualiDecimal ( taxDetail.getTaxRate() ) ) );
+        taxDetail.setTaxRate( taxRegion.getEffectiveTaxRegionRate( dateOfTransaction ).getTaxRate() );
+        taxDetail.setTaxAmount( amount.multiply( new KualiDecimal( taxDetail.getTaxRate() ) ) );
         
         return taxDetail;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public TaxRegionService getTaxRegionService() {

@@ -2341,4 +2341,24 @@
     	<foreignkey field-ref="sequenceNumber"/>
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" table="FP_CPTL_AST_INFO_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="buildingSubroomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="capitalAssetTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetQuantity" column="CPTLAST_QTY" jdbc-type="INTEGER" />
+    <field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetManufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetManufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetSerialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
+</class-descriptor>
 </descriptor-repository>

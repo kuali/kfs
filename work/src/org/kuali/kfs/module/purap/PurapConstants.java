@@ -15,14 +15,17 @@
  */
 package org.kuali.kfs.module.purap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -839,22 +842,21 @@ public class PurapConstants extends JSTLConstants {
         public static final String INDIVIDUAL = "IND";
         public static final String MULTIPLE = "MUL";
     }
-    
-    
+
     public static final class CAMS_REQUIREDNESS_FIELDS {
         private static final Map<String, String> getRequirednessFieldsByParameterNames() {
             Map<String, String> fieldsByParameterNames = new HashMap<String, String>();
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_REQUISITION, "purchasingCapitalAssetSystems.itemCapitalAssets.capitalAssetNumber");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_REQUISITION, "purchasingCapitalAssetItems.capitalAssetTransactionType");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TYPE_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetTypeCode"); 
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_COMMENTS_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetNoteText");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_DESCRIPTION_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetSystemDescription");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.capitalAssetLine1Address"); 
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_QUANTITY_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetLocations.itemQuantity");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetManufacturerName");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetModelDescription");
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_REQUISITION, "purchasingCapitalAssetItems.purchasingCapitalAssetSystem.capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
-            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_REQUISITION, "purchasingCapitalAssetSystems.capitalAssetCountAssetNumber"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_REQUISITION, "itemCapitalAssets.capitalAssetNumber");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_REQUISITION, "capitalAssetTransactionType");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TYPE_ON_REQUISITION, "capitalAssetTypeCode"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_COMMENTS_ON_REQUISITION, "capitalAssetNoteText");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_DESCRIPTION_ON_REQUISITION, "capitalAssetSystemDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_REQUISITION, "capitalAssetLocations.capitalAssetLine1Address"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_LOCATIONS_QUANTITY_ON_REQUISITION, "capitalAssetLocations.itemQuantity");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MANUFACTURER_ON_REQUISITION, "capitalAssetManufacturerName");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_REQUISITION, "capitalAssetModelDescription");
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_REQUISITION, "capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
+            fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_REQUISITION, "capitalAssetCountAssetNumber"); 
 
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_NUMBER_ON_PURCHASE_ORDER, "purchasingCapitalAssetSystems.itemCapitalAssets.capitalAssetNumber");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_ASSET_TRANSACTION_TYPE_ON_PURCHASE_ORDER, "purchasingCapitalAssetItems.capitalAssetTransactionType");
@@ -873,8 +875,96 @@ public class PurapConstants extends JSTLConstants {
         
         public static final Map<String, String> REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES = getRequirednessFieldsByParameterNames();
     }
+    
     public static class CapitalAssetSystemStates{
         public static final String NEW = "NEW";
         public static final String MODIFY = "MOD";
+    }
+    
+    public static final class CAMS_AVAILABILITY_MATRIX {
+
+        public static final List<AvailabilityMatrix> MATRIX_LIST = getAllFromAvailabilityMatrix();
+
+        private static List<AvailabilityMatrix> getAllFromAvailabilityMatrix() {
+            List<AvailabilityMatrix> result = new ArrayList<AvailabilityMatrix>();
+            result.add(AvailabilityMatrix.TRAN_TYPE_ONE_NEW);
+            result.add(AvailabilityMatrix.TRAN_TYPE_ONE_MOD);
+            result.add(AvailabilityMatrix.TRAN_TYPE_IND_NEW);
+            result.add(AvailabilityMatrix.TRAN_TYPE_IND_MOD);
+            result.add(AvailabilityMatrix.TRAN_TYPE_MULT_NEW);
+            result.add(AvailabilityMatrix.TRAN_TYPE_MULT_MOD);
+
+            result.add(AvailabilityMatrix.ASSET_NUMBER_ONE_NEW);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_ONE_MOD);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_IND_NEW);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_IND_MOD);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_MULT_NEW);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.COMMENTS_ONE_NEW);
+            result.add(AvailabilityMatrix.COMMENTS_ONE_MOD);
+            result.add(AvailabilityMatrix.COMMENTS_IND_NEW);
+            result.add(AvailabilityMatrix.COMMENTS_IND_MOD);
+            result.add(AvailabilityMatrix.COMMENTS_MULT_NEW);
+            result.add(AvailabilityMatrix.COMMENTS_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_ONE_NEW);
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_ONE_MOD);
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_IND_NEW);
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_IND_MOD);
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_MULT_NEW);
+            result.add(AvailabilityMatrix.NOT_CURRENT_FY_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.ASSET_TYPE_ONE_NEW);
+            result.add(AvailabilityMatrix.ASSET_TYPE_ONE_MOD);
+            result.add(AvailabilityMatrix.ASSET_TYPE_IND_NEW);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_IND_MOD);
+            result.add(AvailabilityMatrix.ASSET_TYPE_MULT_NEW);
+            result.add(AvailabilityMatrix.ASSET_NUMBER_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.MANUFACTURER_ONE_NEW);
+            result.add(AvailabilityMatrix.MANUFACTURER_ONE_MOD);
+            result.add(AvailabilityMatrix.MANUFACTURER_IND_NEW);
+            result.add(AvailabilityMatrix.MANUFACTURER_IND_MOD);
+            result.add(AvailabilityMatrix.MANUFACTURER_MULT_NEW);
+            result.add(AvailabilityMatrix.MANUFACTURER_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.MODEL_ONE_NEW);
+            result.add(AvailabilityMatrix.MODEL_ONE_MOD);
+            result.add(AvailabilityMatrix.MODEL_IND_NEW);
+            result.add(AvailabilityMatrix.MODEL_IND_MOD);
+            result.add(AvailabilityMatrix.MODEL_MULT_NEW);
+            result.add(AvailabilityMatrix.MODEL_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.DESCRIPTION_ONE_NEW);
+            result.add(AvailabilityMatrix.DESCRIPTION_ONE_MOD);
+            result.add(AvailabilityMatrix.DESCRIPTION_IND_NEW);
+            result.add(AvailabilityMatrix.DESCRIPTION_IND_MOD);
+            result.add(AvailabilityMatrix.DESCRIPTION_MULT_NEW);
+            result.add(AvailabilityMatrix.DESCRIPTION_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.LOC_QUANTITY_ONE_NEW);
+            result.add(AvailabilityMatrix.LOC_QUANTITY_ONE_MOD);
+            result.add(AvailabilityMatrix.LOC_QUANTITY_IND_NEW);
+            result.add(AvailabilityMatrix.LOC_QUANTITY_IND_MOD);
+            result.add(AvailabilityMatrix.LOC_QUANTITY_MULT_NEW);
+            result.add(AvailabilityMatrix.LOC_QUANTITY_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.LOC_ADDRESS_ONE_NEW);
+            result.add(AvailabilityMatrix.LOC_ADDRESS_ONE_MOD);
+            result.add(AvailabilityMatrix.LOC_ADDRESS_IND_NEW);
+            result.add(AvailabilityMatrix.LOC_ADDRESS_IND_MOD);
+            result.add(AvailabilityMatrix.LOC_ADDRESS_MULT_NEW);
+            result.add(AvailabilityMatrix.LOC_ADDRESS_MULT_MOD);
+            
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_ONE_NEW);
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_ONE_MOD);
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_IND_NEW);
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_IND_MOD);
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_MULT_NEW);
+            result.add(AvailabilityMatrix.HOW_MANY_ASSETS_MULT_MOD);
+            
+            return result;
+        }
     }
 }

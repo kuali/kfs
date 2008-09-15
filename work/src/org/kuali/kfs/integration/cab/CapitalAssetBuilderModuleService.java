@@ -84,4 +84,7 @@ public interface CapitalAssetBuilderModuleService {
     public boolean isCapitalAssetObjectCode(ObjectCode oc);
     
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes();
+
+    public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState);
+    
 }

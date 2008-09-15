@@ -44,6 +44,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -96,7 +97,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
     
     public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
-        return validateAllFieldRequirementsByChart(capitalAssetSystems, capitalAssetItems, chartCode, documentType);
+        return validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
     }
     
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, CapitalAssetSystem capitalAssetSystem) {
@@ -126,7 +127,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return false;
     }
 
-    private boolean validateAllFieldRequirementsByChart(List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
+    private boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, "KFS-CAB");
@@ -137,26 +138,41 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<Parameter> results = SpringContext.getBean(PurapService.class).getParametersGivenLikeCriteria(fieldValues);
 
         for (Parameter parameter : results) {
-            valid &= validateFieldRequirementByChart(capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+            if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+            }
+            else {
+                valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValue());
+            }
         }
         return valid;
     }
-    
-    private boolean validateFieldRequirementByChart(List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
+
+    private boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;        
         boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
         
         if (needValidation) {
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
+            
             if (mappedName != null) {
-                // If the mappedName contains a "." that means it's a field within a collection entry.
-                String[] mappedNames = mappedName.split("\\.");
-                if (mappedNames[0].equals("purchasingCapitalAssetItems")) {
+                //Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
+                //to validate any further.
+                String availableValue = getValueFromAvailabilityMatrix(mappedName, systemType, systemState);
+                if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
+                    return true;
+                }
+                
+                //capitalAssetTransactionType field is off the item
+                if (mappedName.equals("capitalAssetTransactionType")) {
+                    String[] mappedNames = {"purchasingCapitalAssetItems", mappedName};
                     for (PurchasingCapitalAssetItem item : capitalAssetItems) {
                         valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
                     }
                 }
-                else if (mappedNames[0].equals("purchasingCapitalAssetSystems")) {
+                //all the other fields are off the system.
+                else {
+                    String[] mappedNames = {"purchasingCapitalAssetSystems", mappedName};
                     for (CapitalAssetSystem system : capitalAssetSystems) {
                         valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
                     }
@@ -165,7 +181,43 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
-
+    
+    private boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
+        boolean valid = true;        
+        boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        
+        if (needValidation) {
+            String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
+            if (mappedName != null) {
+                //Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
+                //to validate any further.
+                String availableValue = getValueFromAvailabilityMatrix(mappedName, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, systemState);
+                if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
+                    return true;
+                }
+                //capitalAssetTransactionType field is off the item
+                List<String> mappedNamesList = new ArrayList<String>();
+                
+                if (mappedName.equals("capitalAssetTransactionType")) {
+                    mappedNamesList.add("purchasingCapitalAssetItems");
+                    mappedNamesList.add(mappedName);
+                }
+                //all the other fields are off the system which is off the item
+                else {
+                    mappedNamesList.add("purchasingCapitalAssetItems");
+                    mappedNamesList.add("purchasingCapitalAssetSystem");
+                    mappedNamesList.add(mappedName);     
+                }
+                //For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get it through
+                //the purchasingCapitalAssetSystem of the item.
+                for (PurchasingCapitalAssetItem item : capitalAssetItems) {
+                    valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()));
+                }
+            }
+        }
+        return valid;
+    }
+    
     private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames) {
         boolean valid = true;
         Object value = ObjectUtils.getPropertyValue(bean, (String)mappedNames[0]);
@@ -196,9 +248,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
     
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
-        List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
-        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>)businessObjectService.findAll(AssetTransactionType.class);
-        return tranTypes;
+        //TODO: Implement this.
+        return new ArrayList<CapitalAssetBuilderAssetTransactionType>();
+    }
+    
+    public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState) {
+        for (AvailabilityMatrix am : PurapConstants.CAMS_AVAILABILITY_MATRIX.MATRIX_LIST) {   
+            if (am.fieldName.equals(fieldName) && am.systemState.equals(systemState) && am.systemType.equals(systemType)) {
+                return am.availableValue;        
+            }
+        }
+        //if we can't find any matching from availability matrix, return null for now.
+        return null;
     }
     
     //-------- KULPURAP 2795 methods start here.

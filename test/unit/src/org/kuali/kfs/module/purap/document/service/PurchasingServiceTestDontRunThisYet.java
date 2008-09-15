@@ -124,15 +124,24 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         assertTrue(requisition.getPurchasingCapitalAssetSystems().size() == 1);
     }
     
-    public void testCABModuleServiceIndividualValidation() {
-        Map fieldValues = new HashMap();
-        fieldValues.put("capitalAssetSystemIdentifier", 3);  
-        List<CapitalAssetSystem> capitalAssetSystems = (List<CapitalAssetSystem>)SpringContext.getBean(BusinessObjectService.class).findMatching(RequisitionCapitalAssetSystem.class, fieldValues);
-        RequisitionCapitalAssetSystem system = (RequisitionCapitalAssetSystem)capitalAssetSystems.get(0);
-        Integer requisitionId = system.getPurapDocumentIdentifier();
+    public void testCABModuleServiceIndividualNewRequisitionValidation() {
+        Integer requisitionId = new Integer(1234);
         RequisitionDocument document = SpringContext.getBean(RequisitionService.class).getRequisitionById(requisitionId);
         List<PurchasingCapitalAssetItem> capitalAssetItems = document.getPurchasingCapitalAssetItems();
-        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing("NEW", capitalAssetSystems, capitalAssetItems, "EA", "REQUISITION");
+        //The capitalAssetSystems is supposed to be null in the INDIVIDUAL system type.
+        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing("NEW", null, capitalAssetItems, "EA", "REQUISITION");
         assertFalse(result);
     }
+    
+    public void testGetValueFromAvailabilityMatrix() {
+        String ttOneNew = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getValueFromAvailabilityMatrix("capitalAssetTransactionType", "ONE", "NEW");
+        assertEquals(ttOneNew, "EACH");
+        String ttIndMod = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getValueFromAvailabilityMatrix("capitalAssetTransactionType", "IND", "MOD");
+        assertEquals(ttIndMod, "EACH");
+        String assetNumberOneNew = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getValueFromAvailabilityMatrix("itemCapitalAssets.capitalAssetNumber", "ONE", "NEW");
+        assertEquals(assetNumberOneNew, "NONE");
+        String blaOneNew = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getValueFromAvailabilityMatrix("assetNumber", "ONE", "NEW");
+        assertEquals(blaOneNew, null);
+    }
+
 }

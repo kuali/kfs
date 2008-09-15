@@ -466,6 +466,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="personZipCode" />
     <property name="label" value="Zip" />
     <property name="shortLabel" value="Code" />
+    <property name="required" value="false" />
     <property name="summary" value="personZipCode" />
     <property name="description" value="personZipCode description..." />
   </bean>

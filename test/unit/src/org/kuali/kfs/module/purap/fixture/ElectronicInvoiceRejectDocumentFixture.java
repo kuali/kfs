@@ -108,7 +108,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             null, // invoiceDiscountAmount
             new BigDecimal("1821.00"), // invoiceNetAmount
             new ElectronicInvoiceRejectItemFixture[] {ElectronicInvoiceRejectItemFixture.EIRI_BASIC},
-            new ElectronicInvoiceRejectReasonFixture[] {ElectronicInvoiceRejectReasonFixture.EIRR_BASIC}            
+            new ElectronicInvoiceRejectReasonFixture[] {}            
     ), ;
 
     public Integer purapDocumentIdentifier;

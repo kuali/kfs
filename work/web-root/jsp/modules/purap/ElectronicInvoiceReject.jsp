@@ -104,6 +104,11 @@
 	                </td>
 	            </tr>
 
+				<c:set var="colCount" value="9" />
+				<c:if test="${KualiForm.document.invoiceFileSpecialHandlingInLineIndicator || KualiForm.document.invoiceFileShippingInLineIndicator || KualiForm.document.invoiceFileDiscountInLineIndicator}">
+					<c:set var="colCount" value="${colCount + 1}" />
+				</c:if>
+
 	            <tr>
 	                <td colspan="4">
 
@@ -111,7 +116,6 @@
 				            <tr>
 				                <td colspan="${colCount}" class="subhead">Electronic Invoice Items:</td>
 				            </tr>
-							<c:set var="colCount" value="9" />
 							<tr>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemLineNumber}"/>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemQuantity}"/>
@@ -123,7 +127,6 @@
 								<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemTaxAmount}" />				
 		    					<c:if test="${KualiForm.document.invoiceFileSpecialHandlingInLineIndicator || KualiForm.document.invoiceFileShippingInLineIndicator || KualiForm.document.invoiceFileDiscountInLineIndicator}">
 									<th>Inline Item Values</th>
-									<c:set var="colCount" value="${colCount + 1}" />
 		    					</c:if>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemNetAmount}"/>
 							</tr>

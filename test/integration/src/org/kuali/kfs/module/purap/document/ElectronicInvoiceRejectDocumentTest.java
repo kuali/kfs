@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -56,13 +58,58 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
+        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
+        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        boService.save(eils);
+
+        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
+        eirDoc.prepareForSave();
+
+        
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        saveDocument(eirDoc, "saving copy source document", documentService);
+        Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertMatch(eirDoc, result);
+    }
+
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions = true)
+    public final void testSaveDocumentWithNonMatchingPO() throws Exception {
+        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
+        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        boService.save(eils);
+
+        changeCurrentUser(PARKE);
+        Integer poId = routePO();
+        changeCurrentUser(APPLETON);
+        
+        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
+        eirDoc.setPurchaseOrderIdentifier(poId);
+        eirDoc.prepareForSave();
+        
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        saveDocument(eirDoc, "saving copy source document", documentService);
+        Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertMatch(eirDoc, result);
+    }
+
+    public final void testSaveDocumentWithMatchingPO() throws Exception {
 //        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
 //        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
 //        boService.save(eils);
 //
+//        changeCurrentUser(PARKE);
+//        Integer poId = routePO();
+//        changeCurrentUser(APPLETON);
+//        
 //        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
+//        eirDoc.setPurchaseOrderIdentifier(poId);
 //        eirDoc.prepareForSave();
-//
 //        
 //        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 //        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
@@ -75,19 +122,19 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)
     public final void testRouteDocument() throws Exception {
-//        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
-//        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
-//        boService.save(eils);
-//        
-//        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
-//        eirDoc.prepareForSave();
-//        
-//        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-//        routeDocument(eirDoc, "saving copy source document", documentService);
-//        WorkflowTestUtils.waitForStatusChange(eirDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
-//        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-//        assertTrue("Document should  be final.", result.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
+        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        boService.save(eils);
+        
+        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
+        eirDoc.prepareForSave();
+        
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        routeDocument(eirDoc, "saving copy source document", documentService);
+        WorkflowTestUtils.waitForStatusChange(eirDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertTrue("Document should  be final.", result.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)
@@ -168,6 +215,24 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        for (int i = 0; i < d1.getInvoiceRejectReasons().size(); i++) {
 //            d1.getInvoiceRejectReason(i).isLike(d2.getInvoiceRejectReason(i));
 //        }
+    }
+    
+    private Integer routePO() {
+        PurchaseOrderDocumentTest purchaseOrderDocumentTest = new PurchaseOrderDocumentTest();
+        PurchaseOrderDocument poDocument;
+        try {
+            poDocument = purchaseOrderDocumentTest.buildSimpleDocument();
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            poDocument.prepareForSave();       
+            AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
+            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+            return poDocument.getPurapDocumentIdentifier();
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

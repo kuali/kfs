@@ -20,7 +20,6 @@
         <ref bean="ContractGrantProposal-proposalCreateDate" />
         <ref bean="ContractGrantProposal-proposalNumber" />
         <ref bean="ContractGrantProposal-documentNumber" />
-        <ref bean="ContractGrantProposal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -81,10 +80,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="ContractGrantProposal-versionNumber" parent="ContractGrantProposal-versionNumber-parentBean" />
-
-  <bean id="ContractGrantProposal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -16,7 +16,6 @@
         <ref bean="TargetAccountingLine-sequenceNumber" />
         <ref bean="TargetAccountingLine-financialObjectCode" />
         <ref bean="TargetAccountingLine-accountNumber" />
-        <ref bean="TargetAccountingLine-objectId" />
         <ref bean="TargetAccountingLine-organizationReferenceId" />
         <ref bean="TargetAccountingLine-chartOfAccountsCode" />
         <ref bean="TargetAccountingLine-postingYear" />
@@ -27,7 +26,6 @@
         <ref bean="TargetAccountingLine-referenceTypeCode" />
         <ref bean="TargetAccountingLine-projectCode" />
         <ref bean="TargetAccountingLine-financialSubObjectCode" />
-        <ref bean="TargetAccountingLine-versionNumber" />
         <ref bean="TargetAccountingLine-documentNumber" />
         <ref bean="TargetAccountingLine-debitCreditCode" />
         <ref bean="TargetAccountingLine-encumbranceUpdateCode" />
@@ -87,11 +85,6 @@
   <bean id="TargetAccountingLine-accountNumber" parent="TargetAccountingLine-accountNumber-parentBean" />
 
   <bean id="TargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="TargetAccountingLine-objectId" parent="TargetAccountingLine-objectId-parentBean" />
-
-  <bean id="TargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="TargetAccountingLine-organizationReferenceId" parent="TargetAccountingLine-organizationReferenceId-parentBean" />
 
@@ -212,11 +205,6 @@
   <bean id="TargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. SubObject Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="TargetAccountingLine-versionNumber" parent="TargetAccountingLine-versionNumber-parentBean" />
-
-  <bean id="TargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="TargetAccountingLine-documentNumber" parent="TargetAccountingLine-documentNumber-parentBean" />
 

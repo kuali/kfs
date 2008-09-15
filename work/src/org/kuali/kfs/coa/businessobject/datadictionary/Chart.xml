@@ -37,7 +37,6 @@
         <ref bean="Chart-icrIncomeFinancialObjectCode" />
         <ref bean="Chart-icrExpenseFinancialObjectCd" />
         <ref bean="Chart-fundBalanceObjectCode" />
-        <ref bean="Chart-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -299,10 +298,6 @@
     <property name="label" value="Fund Balance Object Code" />
     <property name="shortLabel" value="FndBalObjCde" />
     <property name="required" value="false" />
-  </bean>
-  <bean id="Chart-versionNumber" parent="Chart-versionNumber-parentBean" />
-
-  <bean id="Chart-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

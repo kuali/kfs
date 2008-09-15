@@ -16,11 +16,9 @@
         <ref bean="InternalBillingItem-itemServiceDate" />
         <ref bean="InternalBillingItem-total" />
         <ref bean="InternalBillingItem-itemStockNumber" />
-        <ref bean="InternalBillingItem-objectId" />
         <ref bean="InternalBillingItem-itemSequenceId" />
         <ref bean="InternalBillingItem-unitOfMeasureCode" />
         <ref bean="InternalBillingItem-itemQuantity" />
-        <ref bean="InternalBillingItem-versionNumber" />
         <ref bean="InternalBillingItem-documentNumber" />
       </list>
     </property>
@@ -78,10 +76,6 @@
             p:size="11" />
     </property>
   </bean>
-  <bean id="InternalBillingItem-objectId" parent="InternalBillingItem-objectId-parentBean" />
-
-  <bean id="InternalBillingItem-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-  </bean>
   <bean id="InternalBillingItem-itemSequenceId" parent="InternalBillingItem-itemSequenceId-parentBean" />
 
   <bean id="InternalBillingItem-itemSequenceId-parentBean" abstract="true" parent="GenericAttributes-transactionEntrySequenceId">
@@ -117,10 +111,6 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-  </bean>
-  <bean id="InternalBillingItem-versionNumber" parent="InternalBillingItem-versionNumber-parentBean" />
-
-  <bean id="InternalBillingItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="InternalBillingItem-documentNumber" parent="InternalBillingItem-documentNumber-parentBean" />
 

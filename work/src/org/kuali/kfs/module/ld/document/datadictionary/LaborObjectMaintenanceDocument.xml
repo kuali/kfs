@@ -87,8 +87,6 @@
               p:name="financialObjectPayTypeCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="positionObjectGroupCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

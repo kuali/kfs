@@ -55,7 +55,6 @@
         <ref bean="Proposal-proposalTotalAmount" />
         <ref bean="Proposal-proposalTotalProjectAmount" />
         <ref bean="Proposal-active" />
-        <ref bean="Proposal-versionNumber" />
       </list>
     </property>
     <property name="collections" >
@@ -505,10 +504,6 @@
 	<property name="name" value="active" />
   </bean>
 
-  <bean id="Proposal-versionNumber" parent="Proposal-versionNumber-parentBean" />
-
-  <bean id="Proposal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

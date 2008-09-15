@@ -30,7 +30,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Building-alternateBuildingCode" />
         <ref bean="Building-buildingAddressCountryCode" />
         <ref bean="Building-active" />
-        <ref bean="Building-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -223,10 +222,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <property name="name" value="active" />
   </bean>
 
-  <bean id="Building-versionNumber" parent="Building-versionNumber-parentBean" />
-
-  <bean id="Building-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

@@ -17,7 +17,6 @@
         <ref bean="RequisitionCapitalAssetItem-capitalAssetTransactionTypeCode" />
         <ref bean="RequisitionCapitalAssetItem-itemIdentifier" />
         <ref bean="RequisitionCapitalAssetItem-purapDocumentIdentifier" />
-        <ref bean="RequisitionCapitalAssetItem-versionNumber" />
       </list>
     </property>
   </bean>
@@ -79,10 +78,5 @@
     <property name="label" value="Payment Request Nbr" />
     <property name="shortLabel" value="PREQ Nbr" />
   </bean>
-
-  <bean id="RequisitionCapitalAssetItem-versionNumber" parent="RequisitionCapitalAssetItem-versionNumber-parentBean" />
-  <bean id="RequisitionCapitalAssetItem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
-        p:name="versionNumber"
-        p:required="false" />
 
 </beans>

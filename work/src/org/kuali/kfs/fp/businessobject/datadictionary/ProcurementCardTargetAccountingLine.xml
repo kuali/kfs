@@ -23,7 +23,6 @@
         <ref bean="ProcurementCardTargetAccountingLine-sequenceNumber" />
         <ref bean="ProcurementCardTargetAccountingLine-financialObjectCode" />
         <ref bean="ProcurementCardTargetAccountingLine-accountNumber" />
-        <ref bean="ProcurementCardTargetAccountingLine-objectId" />
         <ref bean="ProcurementCardTargetAccountingLine-organizationReferenceId" />
         <ref bean="ProcurementCardTargetAccountingLine-chartOfAccountsCode" />
         <ref bean="ProcurementCardTargetAccountingLine-postingYear" />
@@ -34,7 +33,6 @@
         <ref bean="ProcurementCardTargetAccountingLine-referenceTypeCode" />
         <ref bean="ProcurementCardTargetAccountingLine-projectCode" />
         <ref bean="ProcurementCardTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="ProcurementCardTargetAccountingLine-versionNumber" />
         <ref bean="ProcurementCardTargetAccountingLine-documentNumber" />
         <ref bean="ProcurementCardTargetAccountingLine-debitCreditCode" />
         <ref bean="ProcurementCardTargetAccountingLine-encumbranceUpdateCode" />
@@ -129,11 +127,6 @@
   <bean id="ProcurementCardTargetAccountingLine-accountNumber" parent="ProcurementCardTargetAccountingLine-accountNumber-parentBean" />
 
   <bean id="ProcurementCardTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="ProcurementCardTargetAccountingLine-objectId" parent="ProcurementCardTargetAccountingLine-objectId-parentBean" />
-
-  <bean id="ProcurementCardTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-organizationReferenceId" parent="ProcurementCardTargetAccountingLine-organizationReferenceId-parentBean" />
 
@@ -247,11 +240,6 @@
   <bean id="ProcurementCardTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="ProcurementCardTargetAccountingLine-versionNumber" parent="ProcurementCardTargetAccountingLine-versionNumber-parentBean" />
-
-  <bean id="ProcurementCardTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="ProcurementCardTargetAccountingLine-documentNumber" parent="ProcurementCardTargetAccountingLine-documentNumber-parentBean" />
 

@@ -72,7 +72,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="PriorYearAccount-reportsToAccountNumber" />
         <ref bean="PriorYearAccount-reportsToChartOfAccountsCode" />
         <ref bean="PriorYearAccount-subFundGroupCode" />
-        <ref bean="PriorYearAccount-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -954,10 +953,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-  </bean>
-  <bean id="PriorYearAccount-versionNumber" parent="PriorYearAccount-versionNumber-parentBean" />
-
-  <bean id="PriorYearAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

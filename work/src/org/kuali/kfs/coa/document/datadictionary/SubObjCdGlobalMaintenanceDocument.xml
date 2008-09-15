@@ -88,8 +88,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -129,8 +127,6 @@
                     p:template="financialObjectCode" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="duplicateIdentificationFields">
@@ -179,8 +175,6 @@
                     p:template="accountName" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="duplicateIdentificationFields">

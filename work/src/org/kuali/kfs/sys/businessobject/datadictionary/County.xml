@@ -22,7 +22,6 @@
         <ref bean="County-countyCode" />
         <ref bean="County-stateCode" />
         <ref bean="County-countyName" />
-        <ref bean="County-versionNumber" />
         <ref bean="County-active" />
       </list>
     </property>
@@ -98,10 +97,6 @@
     <property name="name" value="active" />
   </bean>
   
-  <bean id="County-versionNumber" parent="County-versionNumber-parentBean" />
-
-  <bean id="County-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
   <bean id="County-inquiryDefinition" parent="County-inquiryDefinition-parentBean" />
 

@@ -15,7 +15,6 @@
         <ref bean="TaxRegionPostalCode-postalCode" />
         <ref bean="TaxRegionPostalCode-taxRegionCode" />
         <ref bean="TaxRegionPostalCode-active" />
-        <ref bean="TaxRegionPostalCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -41,9 +40,4 @@
     <property name="name" value="active" />
   </bean>
   
-  <bean id="TaxRegionPostalCode-versionNumber" parent="TaxRegionPostalCode-versionNumber-parentBean" />
-
-  <bean id="TaxRegionPostalCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
 </beans>

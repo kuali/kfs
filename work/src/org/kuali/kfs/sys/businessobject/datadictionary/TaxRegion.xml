@@ -26,7 +26,6 @@
         <ref bean="TaxRegion-accountNumber" />
         <ref bean="TaxRegion-financialObjectCode" />
         <ref bean="TaxRegion-active" />
-        <ref bean="TaxRegion-versionNumber" />
       </list>
     </property>
   </bean>
@@ -112,10 +111,6 @@
   <bean id="TaxRegion-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
       <property name="name" value="active" />
   </bean>
-
-  <bean id="TaxRegion-versionNumber" parent="TaxRegion-versionNumber-parentBean" />
-
-  <bean id="TaxRegion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
 
 <!-- Business Object Lookup Definition -->
 

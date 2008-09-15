@@ -18,7 +18,6 @@
         <ref bean="SalesTax-financialDocumentGrossSalesAmount" />
         <ref bean="SalesTax-financialDocumentTaxableSalesAmount" />
         <ref bean="SalesTax-financialDocumentSaleDate" />
-        <ref bean="SalesTax-versionNumber" />
       </list>
     </property>
   </bean>
@@ -75,9 +74,5 @@
     <property name="label" value="Financial Document Sale Date" />
     <property name="shortLabel" value="Sale Date" />
     <property name="required" value="true" />
-  </bean>
-  <bean id="SalesTax-versionNumber" parent="SalesTax-versionNumber-parentBean" />
-
-  <bean id="SalesTax-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

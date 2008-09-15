@@ -77,7 +77,7 @@
 		<property name="fields">
 			<list>
 				<bean parent="AccountingLineView-field"
-					p:name="salesTax.versionNumber" p:hidden="true" />
+					p:name="salesTax." p:hidden="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="salesTax.objectId" p:hidden="true" />
 				<bean parent="AccountingLineView-field"

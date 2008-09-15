@@ -20,7 +20,6 @@
         <ref bean="BudgetRecordingLevel-active" />
         <ref bean="BudgetRecordingLevel-code" />
         <ref bean="BudgetRecordingLevel-name" />
-        <ref bean="BudgetRecordingLevel-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
       <bean parent="TextControlDefinition"
             p:size="42" />
     </property>
-  </bean>
-  <bean id="BudgetRecordingLevel-versionNumber" parent="BudgetRecordingLevel-versionNumber-parentBean" />
-
-  <bean id="BudgetRecordingLevel-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -21,7 +21,6 @@
         <ref bean="ObjSubTyp-code" />
         <ref bean="ObjSubTyp-name" />
         <ref bean="ObjSubTyp-active" />
-        <ref bean="ObjSubTyp-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,10 +65,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="ObjSubTyp-versionNumber" parent="ObjSubTyp-versionNumber-parentBean" />
-
-  <bean id="ObjSubTyp-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

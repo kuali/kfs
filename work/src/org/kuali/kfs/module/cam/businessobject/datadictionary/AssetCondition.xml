@@ -20,7 +20,6 @@
         <ref bean="AssetCondition-active" />
         <ref bean="AssetCondition-assetConditionCode" />
         <ref bean="AssetCondition-assetConditionName" />
-        <ref bean="AssetCondition-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
     </property>
     <property name="summary" value="assetConditionName" />
     <property name="description" value="assetConditionName description..." />
-  </bean>
-  <bean id="AssetCondition-versionNumber" parent="AssetCondition-versionNumber-parentBean" />
-
-  <bean id="AssetCondition-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

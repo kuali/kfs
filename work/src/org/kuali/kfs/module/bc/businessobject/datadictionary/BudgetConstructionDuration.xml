@@ -21,7 +21,6 @@
         <ref bean="BudgetConstructionDuration-appointmentDurationCode" />
         <ref bean="BudgetConstructionDuration-appointmentDurationDescription" />
         <ref bean="BudgetConstructionDuration-rowActiveIndicator" />
-        <ref bean="BudgetConstructionDuration-versionNumber" />
       </list>
     </property>
   </bean>
@@ -80,10 +79,6 @@
     </property>
     <property name="summary" value="Duration Code active code" />
     <property name="description" value="Appointment Duration Code active code." />
-  </bean>
-  <bean id="BudgetConstructionDuration-versionNumber" parent="BudgetConstructionDuration-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionDuration-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

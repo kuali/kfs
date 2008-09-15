@@ -14,7 +14,6 @@
         <ref bean="TaxRegionRate-taxRegionCode" />
         <ref bean="TaxRegionRate-effectiveDate" />
         <ref bean="TaxRegionRate-taxRate" />
-        <ref bean="TaxRegionRate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -53,8 +52,5 @@
     <property name="summary" value="Tax Rate" />
     <property name="description" value="Tax rate." />
   </bean>
-  
-  <bean id="TaxRegionRate-versionNumber" parent="TaxRegionRate-versionNumber-parentBean" />
-  <bean id="TaxRegionRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
   
 </beans>

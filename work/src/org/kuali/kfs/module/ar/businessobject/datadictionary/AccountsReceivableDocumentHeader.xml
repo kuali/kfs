@@ -24,7 +24,6 @@
         <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccountCode" />
         <ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode" />
         <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" />
-        <ref bean="AccountsReceivableDocumentHeader-versionNumber" />
       </list>
     </property>
   </bean>
@@ -125,10 +124,6 @@
       <bean parent="TextControlDefinition"
             p:size="11" />
     </property>
-  </bean>
-  <bean id="AccountsReceivableDocumentHeader-versionNumber" parent="AccountsReceivableDocumentHeader-versionNumber-parentBean" />
-
-  <bean id="AccountsReceivableDocumentHeader-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

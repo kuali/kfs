@@ -42,7 +42,6 @@
         <ref bean="BudgetConstructionMonthSummary-organizationCode" />
         <ref bean="BudgetConstructionMonthSummary-personUniversalIdentifier" />
         <ref bean="BudgetConstructionMonthSummary-subFundGroupCode" />
-        <ref bean="BudgetConstructionMonthSummary-versionNumber" />
       </list>
     </property>
   </bean>
@@ -499,10 +498,6 @@
     </property>
     <property name="summary" value="subFundGroupCode" />
     <property name="description" value="subFundGroupCode description..." />
-  </bean>
-  <bean id="BudgetConstructionMonthSummary-versionNumber" parent="BudgetConstructionMonthSummary-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionMonthSummary-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

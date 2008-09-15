@@ -24,7 +24,6 @@
         <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetSystemIdentifier" />
         <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetTypeCode" />
         <ref bean="PurchaseOrderCapitalAssetSystem-documentNumber" />
-        <ref bean="PurchaseOrderCapitalAssetSystem-versionNumber" />
         <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText" />
         <ref bean="PurchaseOrderCapitalAssetSystem-capitalAssetCountAssetNumber" />
       </list>
@@ -154,10 +153,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="PurchaseOrderCapitalAssetSystem-versionNumber" parent="PurchaseOrderCapitalAssetSystem-versionNumber-parentBean" />
-
-  <bean id="PurchaseOrderCapitalAssetSystem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText" parent="PurchaseOrderCapitalAssetSystem-capitalAssetNoteText-parentBean" />

@@ -30,7 +30,6 @@
         <ref bean="OrganizationExtension-hrmsIuTitleAllowedFlag" />
         <ref bean="OrganizationExtension-hrmsIuOccupationalUnitAllowedFlag" />
         <ref bean="OrganizationExtension-hrmsLastUpdateDate" />
-        <ref bean="OrganizationExtension-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -297,9 +296,5 @@
     <property name="name" value="hrmsLastUpdateDate" />
     <property name="label" value="Last Update Date" />
     <property name="shortLabel" value="Last Update Date" />
-  </bean>
-  <bean id="OrganizationExtension-versionNumber" parent="OrganizationExtension-versionNumber-parentBean" />
-
-  <bean id="OrganizationExtension-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -40,7 +40,6 @@
         <ref bean="PendingBudgetConstructionAppointmentFunding-positionSalaryChangeIndicator" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-subAccountNumber" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-universityFiscalYear" />
-        <ref bean="PendingBudgetConstructionAppointmentFunding-versionNumber" /> 
         <ref bean="PendingBudgetConstructionAppointmentFunding-adjustmentMeasurement" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-adjustmentAmount" />       
       </list>
@@ -459,10 +458,6 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
-  </bean>
-  <bean id="PendingBudgetConstructionAppointmentFunding-versionNumber" parent="PendingBudgetConstructionAppointmentFunding-versionNumber-parentBean" />
-
-  <bean id="PendingBudgetConstructionAppointmentFunding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="PendingBudgetConstructionAppointmentFunding-adjustmentAmount" parent="PendingBudgetConstructionAppointmentFunding-adjustmentAmount-parentBean" />

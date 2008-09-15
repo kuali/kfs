@@ -27,7 +27,6 @@
         <ref bean="IndirectCostRecoveryRateDetail-financialSubObjectCode" />
         <ref bean="IndirectCostRecoveryRateDetail-transactionDebitIndicator" />
         <ref bean="IndirectCostRecoveryRateDetail-awardIndrCostRcvyRatePct" />
-        <ref bean="IndirectCostRecoveryRateDetail-versionNumber" />
         <ref bean="IndirectCostRecoveryRateDetail-active" />
       </list>
     </property>
@@ -188,9 +187,6 @@
     <property name="required" value="true" />
   </bean>
   
-  <bean id="IndirectCostRecoveryRateDetail-versionNumber" parent="IndirectCostRecoveryRateDetail-versionNumber-parentBean" />
-  <bean id="IndirectCostRecoveryRateDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
   
   <bean id="IndirectCostRecoveryRateDetail-active" parent="IndirectCostRecoveryRateDetail-active-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

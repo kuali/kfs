@@ -26,7 +26,6 @@
         <ref bean="AssetRepairHistory-repairContactName" />
         <ref bean="AssetRepairHistory-repairNoteText" />
         <ref bean="AssetRepairHistory-repairSolutionDescription" />
-        <ref bean="AssetRepairHistory-versionNumber" />
         <ref bean="AssetRepairHistory-newCollectionRecord" />
       </list>
     </property>
@@ -146,10 +145,6 @@
     </property>
     <property name="summary" value="repairSolutionDescription" />
     <property name="description" value="repairSolutionDescription description..." />
-  </bean>
-  <bean id="AssetRepairHistory-versionNumber" parent="AssetRepairHistory-versionNumber-parentBean" />
-
-  <bean id="AssetRepairHistory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetRepairHistory-newCollectionRecord" parent="AssetRepairHistory-newCollectionRecord-parentBean" />
 

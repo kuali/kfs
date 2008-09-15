@@ -39,7 +39,6 @@
         <ref bean="AssetRetirementGlobal-sharedRetirementInfo.preventiveMaintenanceAmount" />
         <ref bean="AssetRetirementGlobal-sharedRetirementInfo.buyerDescription" />
         <ref bean="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber" />
-        <ref bean="AssetRetirementGlobal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -232,10 +231,6 @@
 
   <bean id="AssetRetirementGlobal-sharedRetirementInfo.paidCaseNumber-parentBean" abstract="true" parent="AssetRetirementGlobalDetail-paidCaseNumber">
     <property name="name" value="sharedRetirementInfo.paidCaseNumber" />
-  </bean>
-  <bean id="AssetRetirementGlobal-versionNumber" parent="AssetRetirementGlobal-versionNumber-parentBean" />
-
-  <bean id="AssetRetirementGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

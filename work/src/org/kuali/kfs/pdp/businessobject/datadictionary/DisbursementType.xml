@@ -19,7 +19,6 @@
       <list>
         <ref bean="DisbursementType-code" />
         <ref bean="DisbursementType-name" />
-        <ref bean="DisbursementType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -60,11 +59,6 @@
   </bean>
  
  
-  <bean id="DisbursementType-versionNumber" parent="DisbursementType-versionNumber-parentBean" />
-
-  <bean id="DisbursementType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
 <!-- Business Object Inquiry Definition -->
 
 

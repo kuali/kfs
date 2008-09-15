@@ -24,7 +24,6 @@
         <ref bean="ProposalSubcontractor-proposalSubcontractorDescription" />
         <ref bean="ProposalSubcontractor-subcontractor.subcontractorName" />
         <ref bean="ProposalSubcontractor-newCollectionRecord" />
-        <ref bean="ProposalSubcontractor-versionNumber" />
         <ref bean="ProposalSubcontractor-active" />
       </list>
     </property>
@@ -96,10 +95,6 @@
   <bean id="ProposalSubcontractor-newCollectionRecord" parent="ProposalSubcontractor-newCollectionRecord-parentBean" />
 
   <bean id="ProposalSubcontractor-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
-  <bean id="ProposalSubcontractor-versionNumber" parent="ProposalSubcontractor-versionNumber-parentBean" />
-
-  <bean id="ProposalSubcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

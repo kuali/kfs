@@ -35,7 +35,6 @@
         <ref bean="PaymentGroupHistory-paymentGroup.batch.customerProfile.orgCode" />
         <ref bean="PaymentGroupHistory-paymentGroup.batch.customerProfile.subUnitCode" />
         
-        <ref bean="PaymentGroupHistory-versionNumber" />
       </list>
     </property>
   </bean>
@@ -162,10 +161,6 @@
 
   <bean id="PaymentGroupHistory-origPaymentStatus.code-parentBean" abstract="true" parent="PaymentStatus-code">
     <property name="name" value="origPaymentStatus.code" />
-  </bean>
-  <bean id="PaymentGroupHistory-versionNumber" parent="PaymentGroupHistory-versionNumber-parentBean" />
-
-  <bean id="PaymentGroupHistory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

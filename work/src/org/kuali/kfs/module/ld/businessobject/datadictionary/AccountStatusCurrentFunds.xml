@@ -32,7 +32,6 @@
         <ref bean="AccountStatusCurrentFunds-outstandingEncum" />
         <ref bean="AccountStatusCurrentFunds-july1BudgetAmount" />
         <ref bean="AccountStatusCurrentFunds-variance" />
-        <ref bean="AccountStatusCurrentFunds-versionNumber" />
         <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" />
         <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.consolidationOption" />
         <ref bean="AccountStatusCurrentFunds-dummyBusinessObject.pendingEntryOption" />
@@ -123,10 +122,6 @@
     <property name="label" value="Variance" />
     <property name="shortLabel" value="Variance" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
-  </bean>
-  <bean id="AccountStatusCurrentFunds-versionNumber" parent="AccountStatusCurrentFunds-versionNumber-parentBean" />
-
-  <bean id="AccountStatusCurrentFunds-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount" parent="AccountStatusCurrentFunds-dummyBusinessObject.genericAmount-parentBean" />
 

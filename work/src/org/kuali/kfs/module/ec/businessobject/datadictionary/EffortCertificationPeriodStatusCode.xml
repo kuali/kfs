@@ -20,7 +20,6 @@
       <list>
         <ref bean="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusCode" />
         <ref bean="EffortCertificationPeriodStatusCode-effortCertificationReportPeriodStatusDescription" />
-        <ref bean="EffortCertificationPeriodStatusCode-versionNumber" />
       </list>
     </property>
     <property name="titleAttribute" value="effortCertificationReportPeriodStatusCode"/>
@@ -65,10 +64,6 @@
     </property>
     <property name="summary" value="EffortCertificationReportPeriodStatusDescription" />
     <property name="description" value="EffortCertificationReportPeriodStatusDescription description..." />
-  </bean>
-  <bean id="EffortCertificationPeriodStatusCode-versionNumber" parent="EffortCertificationPeriodStatusCode-versionNumber-parentBean" />
-
-  <bean id="EffortCertificationPeriodStatusCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

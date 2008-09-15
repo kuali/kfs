@@ -23,7 +23,6 @@
         <ref bean="AssetType-movingIndicator" />
         <ref bean="AssetType-requiredBuildingIndicator" />
         <ref bean="AssetType-active" />
-        <ref bean="AssetType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -118,10 +117,6 @@
 
   <bean id="AssetType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AssetType-versionNumber" parent="AssetType-versionNumber-parentBean" />
-
-  <bean id="AssetType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

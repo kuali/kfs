@@ -22,8 +22,6 @@
         <ref bean="NonpersonnelCategory-active" />
         <ref bean="NonpersonnelCategory-name" />
         <ref bean="NonpersonnelCategory-sortNumber" />
-        <ref bean="NonpersonnelCategory-objectId" />
-        <ref bean="NonpersonnelCategory-versionNumber" />
       </list>
     </property>
   </bean>
@@ -93,14 +91,6 @@
     </property>
     <property name="summary" value="Nonpersonnel Category Sort Number" />
     <property name="description" value="The order in which Nonpersonnel Categories will be displayed within the application." />
-  </bean>
-  <bean id="NonpersonnelCategory-objectId" parent="NonpersonnelCategory-objectId-parentBean" />
-
-  <bean id="NonpersonnelCategory-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-  </bean>
-  <bean id="NonpersonnelCategory-versionNumber" parent="NonpersonnelCategory-versionNumber-parentBean" />
-
-  <bean id="NonpersonnelCategory-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

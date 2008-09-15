@@ -36,7 +36,6 @@
         <ref bean="PositionData-standardHoursFrequency" />
         <ref bean="PositionData-statusDate" />
         <ref bean="PositionData-dummyBusinessObject.linkButtonOption" />
-        <ref bean="PositionData-versionNumber" />
       </list>
     </property>
   </bean>
@@ -322,10 +321,6 @@
     <property name="name" value="dummyBusinessObject.linkButtonOption" />
     <property name="label" value="Position Funding" />
     <property name="shortLabel" value="Position Funding" />
-  </bean>
-  <bean id="PositionData-versionNumber" parent="PositionData-versionNumber-parentBean" />
-
-  <bean id="PositionData-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

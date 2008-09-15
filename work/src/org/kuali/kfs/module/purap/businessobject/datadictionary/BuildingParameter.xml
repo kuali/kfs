@@ -25,7 +25,6 @@
         <ref bean="BuildingParameter-buildingOverrideName" />
         <ref bean="BuildingParameter-buildingOverrideStreetAddress" />
         <ref bean="BuildingParameter-campusCode" />
-        <ref bean="BuildingParameter-versionNumber" />
       </list>
     </property>
   </bean>
@@ -138,10 +137,6 @@
 
   <bean id="BuildingParameter-campusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="required" value="true" />
-  </bean>
-  <bean id="BuildingParameter-versionNumber" parent="BuildingParameter-versionNumber-parentBean" />
-
-  <bean id="BuildingParameter-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

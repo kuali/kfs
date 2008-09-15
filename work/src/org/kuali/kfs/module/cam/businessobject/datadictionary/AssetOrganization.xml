@@ -22,7 +22,6 @@
         <ref bean="AssetOrganization-organizationDescription" />
         <ref bean="AssetOrganization-organizationTagNumber" />
         <ref bean="AssetOrganization-organizationText" />
-        <ref bean="AssetOrganization-versionNumber" />
       </list>
     </property>
   </bean>
@@ -121,10 +120,6 @@
     </property>
     <property name="summary" value="organizationText" />
     <property name="description" value="organizationText description..." />
-  </bean>
-  <bean id="AssetOrganization-versionNumber" parent="AssetOrganization-versionNumber-parentBean" />
-
-  <bean id="AssetOrganization-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

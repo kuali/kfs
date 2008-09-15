@@ -41,7 +41,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="OrganizationOptions-organizationRemitToZipCode" />
         <ref bean="OrganizationOptions-printInvoiceIndicator" />
         <ref bean="OrganizationOptions-universityName" />
-        <ref bean="OrganizationOptions-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -352,10 +351,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="universityName" />
     <property name="description" value="universityName description..." />
-  </bean>
-  <bean id="OrganizationOptions-versionNumber" parent="OrganizationOptions-versionNumber-parentBean" />
-
-  <bean id="OrganizationOptions-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -66,8 +66,6 @@
               p:name="financialSystemFunctionDefaultIndicator" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialSystemFunctionDescription" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

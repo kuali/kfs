@@ -20,7 +20,6 @@
       <list>
         <ref bean="MessageOfTheDay-financialSystemOriginationCode" />
         <ref bean="MessageOfTheDay-financialSystemMessageOfTheDayText" />
-        <ref bean="MessageOfTheDay-versionNumber" />
       </list>
     </property>
   </bean>
@@ -48,10 +47,6 @@
             p:rows="5"
             p:cols="40" />
     </property>
-  </bean>
-  <bean id="MessageOfTheDay-versionNumber" parent="MessageOfTheDay-versionNumber-parentBean" />
-
-  <bean id="MessageOfTheDay-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

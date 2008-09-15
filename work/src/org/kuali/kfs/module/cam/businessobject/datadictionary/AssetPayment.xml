@@ -67,7 +67,6 @@
         <ref bean="AssetPayment-secondaryDepreciationBaseAmount" />
         <ref bean="AssetPayment-subAccountNumber" />
         <ref bean="AssetPayment-transferPaymentCode" />
-        <ref bean="AssetPayment-versionNumber" />
         <ref bean="AssetPayment-yearToDate" />
 		<ref bean="AssetPayment-asset.campusTagNumber"/>   
 		
@@ -1055,10 +1054,6 @@
     </property>
     <property name="summary" value="transferPaymentCode" />
     <property name="description" value="transferPaymentCode description..." />
-  </bean>
-  <bean id="AssetPayment-versionNumber" parent="AssetPayment-versionNumber-parentBean" />
-
-  <bean id="AssetPayment-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AssetPayment-yearToDate" parent="AssetPayment-yearToDate-parentBean" />
 

@@ -21,7 +21,6 @@
         <ref bean="RoutingFormOtherCostShare-routingFormCostShareSequenceNumber" />
         <ref bean="RoutingFormOtherCostShare-routingFormCostShareSourceName" />
         <ref bean="RoutingFormOtherCostShare-documentNumber" />
-        <ref bean="RoutingFormOtherCostShare-versionNumber" />
       </list>
     </property>
   </bean>
@@ -103,10 +102,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="RoutingFormOtherCostShare-versionNumber" parent="RoutingFormOtherCostShare-versionNumber-parentBean" />
-
-  <bean id="RoutingFormOtherCostShare-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

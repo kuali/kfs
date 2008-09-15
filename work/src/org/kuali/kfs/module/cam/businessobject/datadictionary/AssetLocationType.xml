@@ -20,7 +20,6 @@
         <ref bean="AssetLocationType-assetLocationTypeCode" />
         <ref bean="AssetLocationType-assetLocationTypeName" />
         <ref bean="AssetLocationType-active" />
-        <ref bean="AssetLocationType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
 
   <bean id="AssetLocationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AssetLocationType-versionNumber" parent="AssetLocationType-versionNumber-parentBean" />
-
-  <bean id="AssetLocationType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

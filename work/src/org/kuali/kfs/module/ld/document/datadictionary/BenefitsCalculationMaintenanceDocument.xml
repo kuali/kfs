@@ -90,8 +90,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="positionFringeBenefitPercent"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

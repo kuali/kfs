@@ -24,7 +24,6 @@
         <ref bean="AssetLocationGlobalDetail-campusTagNumber" />
         <ref bean="AssetLocationGlobalDetail-capitalAssetNumber" />
         <ref bean="AssetLocationGlobalDetail-documentNumber" />
-        <ref bean="AssetLocationGlobalDetail-versionNumber" />
         <ref bean="AssetLocationGlobalDetail-newCollectionRecord" />
       </list>
     </property>
@@ -159,10 +158,6 @@
     <property name="description" value="documentNumber description..." />
   </bean>
   
-  <bean id="AssetLocationGlobalDetail-versionNumber" parent="AssetLocationGlobalDetail-versionNumber-parentBean" />
-
-  <bean id="AssetLocationGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
-
   <bean id="AssetLocationGlobalDetail-newCollectionRecord" parent="AssetLocationGlobalDetail-newCollectionRecord-parentBean" />
 
   <bean id="AssetLocationGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />

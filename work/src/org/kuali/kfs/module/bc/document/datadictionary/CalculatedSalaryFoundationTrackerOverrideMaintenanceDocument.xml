@@ -117,8 +117,6 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="csfDeleteCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

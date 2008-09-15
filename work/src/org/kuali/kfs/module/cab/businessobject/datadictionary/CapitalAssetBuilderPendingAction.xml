@@ -20,7 +20,6 @@
         <ref bean="CapitalAssetBuilderPendingAction-actionCode" />
         <ref bean="CapitalAssetBuilderPendingAction-actionDescription" />
         <ref bean="CapitalAssetBuilderPendingAction-active" />
-        <ref bean="CapitalAssetBuilderPendingAction-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
 
   <bean id="CapitalAssetBuilderPendingAction-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="CapitalAssetBuilderPendingAction-versionNumber" parent="CapitalAssetBuilderPendingAction-versionNumber-parentBean" />
-
-  <bean id="CapitalAssetBuilderPendingAction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

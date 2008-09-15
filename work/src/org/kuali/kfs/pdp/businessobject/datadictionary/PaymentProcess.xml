@@ -15,7 +15,6 @@
         <ref bean="PaymentProcess-campus" />
         <ref bean="PaymentProcess-processTimestamp" />
         <ref bean="PaymentProcess-processUserId" />        
-        <ref bean="PaymentProcess-versionNumber" />
       </list>
     </property>
   </bean>
@@ -83,11 +82,5 @@
     <property name="summary" value="processUserId" />
     <property name="description" value="Process User ID." />
   </bean>
-
-  <bean id="PaymentProcess-versionNumber" parent="PaymentProcess-versionNumber-parentBean" />
-
-  <bean id="PaymentProcess-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
 
 </beans>

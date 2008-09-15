@@ -23,7 +23,6 @@
         <ref bean="PurchaseOrderContractLanguage-purchaseOrderContractLanguageDescription" />
         <ref bean="PurchaseOrderContractLanguage-contractLanguageCreateDate" />
         <ref bean="PurchaseOrderContractLanguage-active" />
-        <ref bean="PurchaseOrderContractLanguage-versionNumber" />
       </list>
     </property>
   </bean>
@@ -80,10 +79,6 @@
 
   <bean id="PurchaseOrderContractLanguage-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="PurchaseOrderContractLanguage-versionNumber" parent="PurchaseOrderContractLanguage-versionNumber-parentBean" />
-
-  <bean id="PurchaseOrderContractLanguage-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

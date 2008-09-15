@@ -20,7 +20,6 @@
         <ref bean="IndirectCostRecoveryType-code" />
         <ref bean="IndirectCostRecoveryType-name" />
         <ref bean="IndirectCostRecoveryType-codeAndDescription" />
-        <ref bean="IndirectCostRecoveryType-versionNumber" />
         <ref bean="IndirectCostRecoveryType-active" />
       </list>
     </property>
@@ -72,9 +71,6 @@
     </property>
   </bean>
   
-  <bean id="IndirectCostRecoveryType-versionNumber" parent="IndirectCostRecoveryType-versionNumber-parentBean" />
-  <bean id="IndirectCostRecoveryType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
   
   <bean id="IndirectCostRecoveryType-active" parent="IndirectCostRecoveryType-active-parentBean" />
   <bean id="IndirectCostRecoveryType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">

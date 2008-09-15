@@ -29,7 +29,6 @@
         <ref bean="BudgetConstructionAccountSummary-subAccountNumber" />
         <ref bean="BudgetConstructionAccountSummary-subFundGroupCode" />
         <ref bean="BudgetConstructionAccountSummary-subFundSortCode" />
-        <ref bean="BudgetConstructionAccountSummary-versionNumber" />
       </list>
     </property>
   </bean>
@@ -252,10 +251,6 @@
     </property>
     <property name="summary" value="subFundSortCode" />
     <property name="description" value="subFundSortCode description..." />
-  </bean>
-  <bean id="BudgetConstructionAccountSummary-versionNumber" parent="BudgetConstructionAccountSummary-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionAccountSummary-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

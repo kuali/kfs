@@ -18,7 +18,6 @@
         <ref bean="AccountDescription-responsibilityCenterDescription" />
         <ref bean="AccountDescription-campusCode" />
         <ref bean="AccountDescription-buildingCode" />
-        <ref bean="AccountDescription-versionNumber" />
       </list>
     </property>
   </bean>
@@ -122,9 +121,5 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-  </bean>
-  <bean id="AccountDescription-versionNumber" parent="AccountDescription-versionNumber-parentBean" />
-
-  <bean id="AccountDescription-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

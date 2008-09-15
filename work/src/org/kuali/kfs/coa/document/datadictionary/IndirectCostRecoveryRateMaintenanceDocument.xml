@@ -62,8 +62,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialIcrSeriesIdentifier"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
     	<bean parent="MaintainableFieldDefinition"
     	      p:name="active"
     	      p:defaultValue="true" />
@@ -119,8 +117,6 @@
 		      <bean parent="MaintainableFieldDefinition"
     		        p:name="awardIndrCostRcvyRatePct"
     	    	    p:required="true" />
-		      <bean parent="MaintainableFieldDefinition"
-					p:name="versionNumber" />
     		  <bean parent="MaintainableFieldDefinition"
     		        p:name="active"
     		        p:defaultValue="true" />

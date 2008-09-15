@@ -20,7 +20,6 @@
         <ref bean="RoutingFormStatus-dataObjectMaintenanceCodeActiveIndicator" />
         <ref bean="RoutingFormStatus-routingFormStatusCode" />
         <ref bean="RoutingFormStatus-routingFormStatusDescription" />
-        <ref bean="RoutingFormStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -77,10 +76,6 @@
     </property>
     <property name="summary" value="routingFormStatusDescription" />
     <property name="description" value="routingFormStatusDescription description..." />
-  </bean>
-  <bean id="RoutingFormStatus-versionNumber" parent="RoutingFormStatus-versionNumber-parentBean" />
-
-  <bean id="RoutingFormStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -35,7 +35,6 @@
         <ref bean="ProcessSummary-customer.customerDescription" />
         <ref bean="ProcessSummary-disbursementType.name" />
         
-        <ref bean="ProcessSummary-versionNumber" />
       </list>
     </property>
   </bean>
@@ -198,11 +197,6 @@
 
   <bean id="ProcessSummary-disbursementType.name-parentBean" abstract="true" parent="DisbursementType-name">
     <property name="name" value="disbursementType.name" />
-  </bean>
-
-  <bean id="ProcessSummary-versionNumber" parent="ProcessSummary-versionNumber-parentBean" />
-
-  <bean id="ProcessSummary-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -13,7 +13,6 @@
       <list>
         <ref bean="ObjectCodeGlobalDetail-universityFiscalYear" />
         <ref bean="ObjectCodeGlobalDetail-chartOfAccountsCode" />
-        <ref bean="ObjectCodeGlobalDetail-versionNumber" />
         <ref bean="ObjectCodeGlobalDetail-newCollectionRecord" />
       </list>
     </property>
@@ -39,10 +38,6 @@
             p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-  </bean>
-  <bean id="ObjectCodeGlobalDetail-versionNumber" parent="ObjectCodeGlobalDetail-versionNumber-parentBean" />
-
-  <bean id="ObjectCodeGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="ObjectCodeGlobalDetail-newCollectionRecord" parent="ObjectCodeGlobalDetail-newCollectionRecord-parentBean" />
 

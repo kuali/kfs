@@ -25,7 +25,6 @@
         <ref bean="Batch-customerProfile.subUnitCode" />
         <ref bean="Batch-paymentTotalAmount" />
         <ref bean="Batch-customerFileCreateTimestamp" />
-        <ref bean="Batch-versionNumber" />
       </list>
     </property>
   </bean>
@@ -93,10 +92,6 @@
     <property name="label" value="Total Payment Amount" />
     <property name="shortLabel" value="Payment Amount" />
     <property name="required" value="true" />
-  </bean>
-  <bean id="Batch-versionNumber" parent="Batch-versionNumber-parentBean" />
-
-  <bean id="Batch-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
   <bean id="Batch-customerFileCreateTimestamp" parent="Batch-customerFileCreateTimestamp-parentBean" />

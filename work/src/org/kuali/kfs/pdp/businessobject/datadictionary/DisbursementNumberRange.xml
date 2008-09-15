@@ -25,7 +25,6 @@
         <ref bean="DisbursementNumberRange-disbNbrEffectiveDt" />
         <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
         <ref bean="DisbursementNumberRange-bankCode" />
-        <ref bean="DisbursementNumberRange-versionNumber" />
       </list>
     </property>
   </bean>
@@ -149,9 +148,6 @@
   
   <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean" />
   <bean id="DisbursementNumberRange-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
-
-  <bean id="DisbursementNumberRange-versionNumber" parent="DisbursementNumberRange-versionNumber-parentBean" />
-  <bean id="DisbursementNumberRange-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
 
 <!-- Business Object Inquiry Definition -->
 

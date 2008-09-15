@@ -22,8 +22,6 @@
         <ref bean="BudgetTask-budgetTaskSequenceNumber" />
         <ref bean="BudgetTask-budgetTaskOnCampus" />
         <ref bean="BudgetTask-budgetTaskName" />
-        <ref bean="BudgetTask-objectId" />
-        <ref bean="BudgetTask-versionNumber" />
       </list>
     </property>
   </bean>
@@ -105,42 +103,6 @@
     <property name="summary" value="Budget Task Name" />
     <property name="description" value="Budget Task Name..." />
   </bean>
-  <bean id="BudgetTask-objectId" parent="BudgetTask-objectId-parentBean" />
-
-  <bean id="BudgetTask-objectId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Id" />
-    <property name="shortLabel" value="GUID" />
-    <property name="maxLength" value="36" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="36" />
-    </property>
-    <property name="summary" value="objectId summary..." />
-    <property name="description" value="objectId description..." />
-  </bean>
-  <bean id="BudgetTask-versionNumber" parent="BudgetTask-versionNumber-parentBean" />
-
-  <bean id="BudgetTask-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="versionNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Version Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="-1" />
-    </property>
-    <property name="summary" value="versionNumber summary..." />
-    <property name="description" value="versionNumber description..." />
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -162,10 +124,6 @@
                     p:attributeName="budgetTaskSequenceNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="budgetTaskName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="objectId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -210,10 +168,6 @@
               p:attributeName="budgetTaskName" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetTaskOnCampus" />
-        <bean parent="FieldDefinition"
-              p:attributeName="objectId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

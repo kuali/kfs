@@ -21,7 +21,6 @@
         <ref bean="ProjectType-projectTypeDescription" />
         <ref bean="ProjectType-sortNumber" />
         <ref bean="ProjectType-active" />
-        <ref bean="ProjectType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -88,10 +87,6 @@
 
   <bean id="ProjectType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ProjectType-versionNumber" parent="ProjectType-versionNumber-parentBean" />
-
-  <bean id="ProjectType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

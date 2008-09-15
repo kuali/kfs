@@ -130,8 +130,6 @@
               p:name="active"
               p:defaultValue="true"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -163,8 +161,6 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="duplicateIdentificationFields">

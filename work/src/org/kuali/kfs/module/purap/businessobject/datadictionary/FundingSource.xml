@@ -21,7 +21,6 @@
         <ref bean="FundingSource-fundingSourceCode" />
         <ref bean="FundingSource-fundingSourceDescription" />
         <ref bean="FundingSource-active" />
-        <ref bean="FundingSource-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
 
   <bean id="FundingSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="FundingSource-versionNumber" parent="FundingSource-versionNumber-parentBean" />
-
-  <bean id="FundingSource-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

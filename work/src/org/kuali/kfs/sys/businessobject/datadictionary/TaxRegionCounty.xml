@@ -16,7 +16,6 @@
         <ref bean="TaxRegionCounty-stateCode" />
         <ref bean="TaxRegionCounty-taxRegionCode" />
         <ref bean="TaxRegionCounty-active" />
-        <ref bean="TaxRegionCounty-versionNumber" />
       </list>
     </property>
   </bean>
@@ -48,9 +47,4 @@
     <property name="name" value="active" />
   </bean>
   
-  <bean id="TaxRegionCounty-versionNumber" parent="TaxRegionCounty-versionNumber-parentBean" />
-
-  <bean id="TaxRegionCounty-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
 </beans>

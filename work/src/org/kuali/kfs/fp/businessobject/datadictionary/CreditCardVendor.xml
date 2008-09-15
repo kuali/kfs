@@ -32,7 +32,6 @@
         <ref bean="CreditCardVendor-expenseFinancialObjectCode" />
         <ref bean="CreditCardVendor-expenseFinancialSubObjectCode" />
         <ref bean="CreditCardVendor-active" />
-        <ref bean="CreditCardVendor-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -178,10 +177,6 @@
     <property name="name" value="active" />
   </bean>
 
-  <bean id="CreditCardVendor-versionNumber" parent="CreditCardVendor-versionNumber-parentBean" />
-
-  <bean id="CreditCardVendor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

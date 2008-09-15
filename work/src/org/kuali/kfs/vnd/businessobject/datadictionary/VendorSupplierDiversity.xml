@@ -14,7 +14,6 @@
         <ref bean="VendorSupplierDiversity-vendorSupplierDiversityCode" />
         <ref bean="VendorSupplierDiversity-newCollectionRecord" />
         <ref bean="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier" />
-        <ref bean="VendorSupplierDiversity-versionNumber" />
         <ref bean="VendorSupplierDiversity-active" />
       </list>
     </property>
@@ -43,10 +42,6 @@
   <bean id="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier" parent="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier-parentBean" />
 
   <bean id="VendorSupplierDiversity-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-  </bean>
-  <bean id="VendorSupplierDiversity-versionNumber" parent="VendorSupplierDiversity-versionNumber-parentBean" />
-
-  <bean id="VendorSupplierDiversity-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="VendorSupplierDiversity-active" parent="VendorSupplierDiversity-active-parentBean" />
 

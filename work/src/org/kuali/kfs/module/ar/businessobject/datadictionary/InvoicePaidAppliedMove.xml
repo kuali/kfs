@@ -24,7 +24,6 @@
         <ref bean="InvoicePaidAppliedMove-paidAppliedItemNumber" />
         <ref bean="InvoicePaidAppliedMove-universityFiscalPeriodCode" />
         <ref bean="InvoicePaidAppliedMove-universityFiscalYear" />
-        <ref bean="InvoicePaidAppliedMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -157,10 +156,6 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
-  </bean>
-  <bean id="InvoicePaidAppliedMove-versionNumber" parent="InvoicePaidAppliedMove-versionNumber-parentBean" />
-
-  <bean id="InvoicePaidAppliedMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

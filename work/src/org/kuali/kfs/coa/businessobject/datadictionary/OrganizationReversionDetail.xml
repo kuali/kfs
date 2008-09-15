@@ -24,7 +24,6 @@
         <ref bean="OrganizationReversionDetail-organizationReversionObjectCode" />
         <ref bean="OrganizationReversionDetail-organizationReversionCode" />
         <ref bean="OrganizationReversionDetail-newCollectionRecord" />
-        <ref bean="OrganizationReversionDetail-versionNumber" />
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -87,10 +86,6 @@
   <bean id="OrganizationReversionDetail-newCollectionRecord" parent="OrganizationReversionDetail-newCollectionRecord-parentBean" />
 
   <bean id="OrganizationReversionDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
-  </bean>
-  <bean id="OrganizationReversionDetail-versionNumber" parent="OrganizationReversionDetail-versionNumber-parentBean" />
-
-  <bean id="OrganizationReversionDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

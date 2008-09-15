@@ -125,9 +125,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:maintField attributeName="accountRestrictedStatusDate" />
         <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd" />
         <dd:maintField attributeName="endowmentIncomeAccountNumber" />
-        <dd:maintField attributeName="versionNumber" />
-        <dd:maintField attributeName="accountGuideline.versionNumber" />
-        <dd:maintField attributeName="accountDescription.versionNumber" />
       </list>
     </property>
   </bean>

@@ -20,7 +20,6 @@
         <ref bean="TravelMileageRate-disbursementVoucherMileageEffectiveDate" />
         <ref bean="TravelMileageRate-mileageLimitAmount" />
         <ref bean="TravelMileageRate-mileageRate" />
-        <ref bean="TravelMileageRate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -60,10 +59,6 @@
             p:formattedMaxLength="26"
             p:size="10" />
     </property>
-  </bean>
-  <bean id="TravelMileageRate-versionNumber" parent="TravelMileageRate-versionNumber-parentBean" />
-
-  <bean id="TravelMileageRate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -27,7 +27,6 @@
         <ref bean="ProjectCode-code" />
         <ref bean="ProjectCode-projectDescription" />
         <ref bean="ProjectCode-name" />
-        <ref bean="ProjectCode-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -160,10 +159,6 @@
       <bean parent="TextControlDefinition"
             p:size="40" />
     </property>
-  </bean>
-  <bean id="ProjectCode-versionNumber" parent="ProjectCode-versionNumber-parentBean" />
-
-  <bean id="ProjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

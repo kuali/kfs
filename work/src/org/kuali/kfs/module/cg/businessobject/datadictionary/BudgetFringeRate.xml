@@ -23,8 +23,6 @@
         <ref bean="BudgetFringeRate-contractsAndGrantsFringeRateAmount" />
         <ref bean="BudgetFringeRate-institutionCostShareFringeRateAmount" />
         <ref bean="BudgetFringeRate-budgetLastUpdateTimestamp" />
-        <ref bean="BudgetFringeRate-objectId" />
-        <ref bean="BudgetFringeRate-versionNumber" />
       </list>
     </property>
   </bean>
@@ -124,42 +122,6 @@
     <property name="summary" value="Budget Last Update Timestamp" />
     <property name="description" value="Budget Last Update Timestamp..." />
   </bean>
-  <bean id="BudgetFringeRate-objectId" parent="BudgetFringeRate-objectId-parentBean" />
-
-  <bean id="BudgetFringeRate-objectId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectId" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Object Id" />
-    <property name="shortLabel" value="GUID" />
-    <property name="maxLength" value="36" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="36" />
-    </property>
-    <property name="summary" value="objectId summary..." />
-    <property name="description" value="objectId description..." />
-  </bean>
-  <bean id="BudgetFringeRate-versionNumber" parent="BudgetFringeRate-versionNumber-parentBean" />
-
-  <bean id="BudgetFringeRate-versionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="versionNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Version Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="-1" />
-    </property>
-    <property name="summary" value="versionNumber summary..." />
-    <property name="description" value="versionNumber description..." />
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -185,10 +147,6 @@
                     p:attributeName="institutionCostShareFringeRateAmount" />
               <bean parent="FieldDefinition"
                     p:attributeName="budgetLastUpdateTimestamp" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="objectId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -231,10 +189,6 @@
               p:attributeName="institutionCostShareFringeRateAmount" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetLastUpdateTimestamp" />
-        <bean parent="FieldDefinition"
-              p:attributeName="objectId" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

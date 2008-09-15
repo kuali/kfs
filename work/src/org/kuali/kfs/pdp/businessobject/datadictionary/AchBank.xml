@@ -34,7 +34,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AchBank-bankPhoneSuffixNumber" />
         <ref bean="AchBank-bankInstitutionStatusCode" />
         <ref bean="AchBank-bankDataViewCode" />
-        <ref bean="AchBank-versionNumber" />
       </list>
     </property>
 	<property name="relationships" >
@@ -336,10 +335,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="Bank Data View Code" />
     <property name="description" value="1=Current view" />
-  </bean>
-  <bean id="AchBank-versionNumber" parent="AchBank-versionNumber-parentBean" />
-
-  <bean id="AchBank-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

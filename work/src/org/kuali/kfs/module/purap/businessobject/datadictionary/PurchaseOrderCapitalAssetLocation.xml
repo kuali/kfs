@@ -25,7 +25,6 @@
         <ref bean="PurchaseOrderCapitalAssetLocation-capitalAssetSystemIdentifier" />
         <ref bean="PurchaseOrderCapitalAssetLocation-itemQuantity" />
         <ref bean="PurchaseOrderCapitalAssetLocation-offCampusIndicator" />
-        <ref bean="PurchaseOrderCapitalAssetLocation-versionNumber" />
       </list>
     </property>
   </bean>
@@ -233,11 +232,6 @@
         p:name="offCampusIndicator"
         p:required="false" />
 
-  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber" parent="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" />
-  <bean id="PurchaseOrderCapitalAssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
-        p:name="versionNumber"
-        p:required="false" />
-
   <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition" parent="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" />
 
   <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
@@ -261,7 +255,6 @@
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
               <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
               <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
-              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -298,7 +291,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -315,7 +307,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="itemQuantity" />
         <bean parent="FieldDefinition" p:attributeName="offCampusIndicator" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

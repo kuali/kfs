@@ -20,7 +20,6 @@
         <ref bean="ResearchTypeCode-researchTypeCode" />
         <ref bean="ResearchTypeCode-researchTypeDescription" />
         <ref bean="ResearchTypeCode-active" />
-        <ref bean="ResearchTypeCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
 
   <bean id="ResearchTypeCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ResearchTypeCode-versionNumber" parent="ResearchTypeCode-versionNumber-parentBean" />
-
-  <bean id="ResearchTypeCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

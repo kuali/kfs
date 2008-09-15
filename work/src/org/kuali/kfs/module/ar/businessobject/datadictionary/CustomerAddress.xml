@@ -33,7 +33,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CustomerAddress-customerZipCode" />
         <ref bean="CustomerAddress-customerCountryCode" />
         <ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
-        <ref bean="CustomerAddress-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -294,10 +293,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="description" value="customerAddressInternationalProvinceName description..." />
   </bean>
   
-  <bean id="CustomerAddress-versionNumber" parent="CustomerAddress-versionNumber-parentBean" />
-
-  <bean id="CustomerAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

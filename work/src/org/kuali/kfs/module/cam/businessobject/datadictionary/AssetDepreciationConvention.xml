@@ -19,7 +19,6 @@
       <list>
         <ref bean="AssetDepreciationConvention-financialObjectSubTypeCode" />
         <ref bean="AssetDepreciationConvention-depreciationConventionCode" />
-        <ref bean="AssetDepreciationConvention-versionNumber" />
       </list>
     </property>
   </bean>
@@ -50,10 +49,6 @@
     </property>
     <property name="summary" value="depreciationConventionCode" />
     <property name="description" value="depreciationConventionCode description..." />
-  </bean>
-  <bean id="AssetDepreciationConvention-versionNumber" parent="AssetDepreciationConvention-versionNumber-parentBean" />
-
-  <bean id="AssetDepreciationConvention-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -20,7 +20,6 @@
         <ref bean="TravelPerDiem-fiscalYear" />
         <ref bean="TravelPerDiem-perDiemCountryName" />
         <ref bean="TravelPerDiem-perDiemCountryText" />
-        <ref bean="TravelPerDiem-versionNumber" />
       </list>
     </property>
   </bean>
@@ -69,10 +68,6 @@
       <bean parent="TextControlDefinition"
             p:size="75" />
     </property>
-  </bean>
-  <bean id="TravelPerDiem-versionNumber" parent="TravelPerDiem-versionNumber-parentBean" />
-
-  <bean id="TravelPerDiem-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

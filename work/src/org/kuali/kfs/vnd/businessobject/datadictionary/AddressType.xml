@@ -22,7 +22,6 @@
         <ref bean="AddressType-vendorAddressTypeDescription" />
         <ref bean="AddressType-vendorDefaultIndicator" />
         <ref bean="AddressType-active" />
-        <ref bean="AddressType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -81,10 +80,6 @@
 
   <bean id="AddressType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AddressType-versionNumber" parent="AddressType-versionNumber-parentBean" />
-
-  <bean id="AddressType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

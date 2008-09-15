@@ -28,7 +28,6 @@
         <ref bean="BillingAddress-billingPostalCode" />
         <ref bean="BillingAddress-billingStateCode" />
         <ref bean="BillingAddress-active" />
-        <ref bean="BillingAddress-versionNumber" />
       </list>
     </property>
   </bean>
@@ -104,10 +103,6 @@
 
   <bean id="BillingAddress-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="BillingAddress-versionNumber" parent="BillingAddress-versionNumber-parentBean" />
-
-  <bean id="BillingAddress-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

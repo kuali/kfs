@@ -21,7 +21,6 @@
         <ref bean="AicpaFunction-financialAicpaFunctionCode" />
         <ref bean="AicpaFunction-financialAicpaFunctionName" />
         <ref bean="AicpaFunction-active" />
-        <ref bean="AicpaFunction-versionNumber" />
       </list>
     </property>
   </bean>
@@ -66,10 +65,6 @@
     <property name="name" value="active"/>
   </bean>
 
-  <bean id="AicpaFunction-versionNumber" parent="AicpaFunction-versionNumber-parentBean" />
-
-  <bean id="AicpaFunction-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

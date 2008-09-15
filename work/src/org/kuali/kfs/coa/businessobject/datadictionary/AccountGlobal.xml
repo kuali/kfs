@@ -38,7 +38,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AccountGlobal-accountManagerSystemIdentifier" />
         <ref bean="AccountGlobal-accountManagerUser.personUserIdentifier" />
         <ref bean="AccountGlobal-accountManagerUser.personName" />
-        <ref bean="AccountGlobal-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -378,9 +377,5 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="accountManagerUser.personName" />
     <property name="label" value="Account Manager Name" />
     <property name="required" value="false" />
-  </bean>
-  <bean id="AccountGlobal-versionNumber" parent="AccountGlobal-versionNumber-parentBean" />
-
-  <bean id="AccountGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

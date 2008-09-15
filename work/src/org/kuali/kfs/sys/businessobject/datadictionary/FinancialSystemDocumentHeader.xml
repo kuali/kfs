@@ -21,7 +21,6 @@
         <ref bean="FinancialSystemDocumentHeader-financialDocumentInErrorNumber" />
         <ref bean="FinancialSystemDocumentHeader-correctedByDocumentId" />
         <ref bean="FinancialSystemDocumentHeader-financialDocumentTotalAmount" />
-        <ref bean="FinancialSystemDocumentHeader-objectId" />
       </list>
     </property>
   </bean>
@@ -117,9 +116,5 @@
     <property name="name" value="financialDocumentTotalAmount" />
     <property name="label" value="Total Amount" />
     <property name="description" value="The total dollar amount for the document." />
-  </bean>
-  <bean id="FinancialSystemDocumentHeader-objectId" parent="FinancialSystemDocumentHeader-objectId-parentBean" />
-
-  <bean id="FinancialSystemDocumentHeader-objectId-parentBean" abstract="true" parent="AttributeReferenceDummy-objectId">
   </bean>
 </beans>

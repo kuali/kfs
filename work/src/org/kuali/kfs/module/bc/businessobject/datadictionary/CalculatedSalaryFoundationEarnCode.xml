@@ -23,7 +23,6 @@
         <ref bean="CalculatedSalaryFoundationEarnCode-effectiveDate" />
         <ref bean="CalculatedSalaryFoundationEarnCode-hrmsCompany" />
         <ref bean="CalculatedSalaryFoundationEarnCode-payGroup" />
-        <ref bean="CalculatedSalaryFoundationEarnCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -138,10 +137,6 @@
     </property>
     <property name="summary" value="payGroup" />
     <property name="description" value="payGroup description..." />
-  </bean>
-  <bean id="CalculatedSalaryFoundationEarnCode-versionNumber" parent="CalculatedSalaryFoundationEarnCode-versionNumber-parentBean" />
-
-  <bean id="CalculatedSalaryFoundationEarnCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

@@ -67,8 +67,6 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Retirement Reason" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="retirementReasonCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
@@ -168,8 +166,6 @@
           </property>
           <property name="maintainableFields" >
             <list>
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="capitalAssetNumber"
                     p:readOnlyAfterAdd="true"

@@ -16,7 +16,6 @@
         <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetNumber" />
         <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" />
         <ref bean="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier" />
-        <ref bean="PurchaseOrderItemCapitalAsset-versionNumber" />
       </list>
     </property>
   </bean>
@@ -73,11 +72,6 @@
     </property>
   </bean>
 
-  <bean id="PurchaseOrderItemCapitalAsset-versionNumber" parent="PurchaseOrderItemCapitalAsset-versionNumber-parentBean" />
-  <bean id="PurchaseOrderItemCapitalAsset-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" 
-        p:name="versionNumber"
-        p:required="false" />
-
   <bean id="PurchaseOrderItemCapitalAsset-inquiryDefinition" parent="PurchaseOrderItemCapitalAsset-inquiryDefinition-parentBean" />
 
   <bean id="PurchaseOrderItemCapitalAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
@@ -92,7 +86,6 @@
               <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
               <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
               <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
-              <bean parent="FieldDefinition" p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -120,7 +113,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -128,7 +120,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber" />
         <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier" />
         <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier" />
-        <bean parent="FieldDefinition" p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

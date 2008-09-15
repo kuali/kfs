@@ -26,7 +26,6 @@
         <ref bean="AccountStatusBaseFunds-financialObjectCode" />
         <ref bean="AccountStatusBaseFunds-financialObjectTypeCode" />
         <ref bean="AccountStatusBaseFunds-financialSubObjectCode" />
-        <ref bean="AccountStatusBaseFunds-versionNumber" />
         <ref bean="AccountStatusBaseFunds-csfAmount" />
         <ref bean="AccountStatusBaseFunds-baseCSFVarianceAmount" />
         <ref bean="AccountStatusBaseFunds-baseBudgetAmount" />
@@ -74,10 +73,6 @@
   <bean id="AccountStatusBaseFunds-financialSubObjectCode" parent="AccountStatusBaseFunds-financialSubObjectCode-parentBean" />
 
   <bean id="AccountStatusBaseFunds-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
-  </bean>
-  <bean id="AccountStatusBaseFunds-versionNumber" parent="AccountStatusBaseFunds-versionNumber-parentBean" />
-
-  <bean id="AccountStatusBaseFunds-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="AccountStatusBaseFunds-csfAmount" parent="AccountStatusBaseFunds-csfAmount-parentBean" />
 

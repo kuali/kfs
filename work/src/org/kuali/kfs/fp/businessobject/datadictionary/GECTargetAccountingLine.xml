@@ -22,7 +22,6 @@
         <ref bean="GECTargetAccountingLine-sequenceNumber" />
         <ref bean="GECTargetAccountingLine-financialObjectCode" />
         <ref bean="GECTargetAccountingLine-accountNumber" />
-        <ref bean="GECTargetAccountingLine-objectId" />
         <ref bean="GECTargetAccountingLine-organizationReferenceId" />
         <ref bean="GECTargetAccountingLine-chartOfAccountsCode" />
         <ref bean="GECTargetAccountingLine-postingYear" />
@@ -33,7 +32,6 @@
         <ref bean="GECTargetAccountingLine-referenceTypeCode" />
         <ref bean="GECTargetAccountingLine-projectCode" />
         <ref bean="GECTargetAccountingLine-financialSubObjectCode" />
-        <ref bean="GECTargetAccountingLine-versionNumber" />
         <ref bean="GECTargetAccountingLine-documentNumber" />
         <ref bean="GECTargetAccountingLine-debitCreditCode" />
         <ref bean="GECTargetAccountingLine-encumbranceUpdateCode" />
@@ -124,11 +122,6 @@
   <bean id="GECTargetAccountingLine-accountNumber" parent="GECTargetAccountingLine-accountNumber-parentBean" />
 
   <bean id="GECTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
-  <bean id="GECTargetAccountingLine-objectId" parent="GECTargetAccountingLine-objectId-parentBean" />
-
-  <bean id="GECTargetAccountingLine-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-    <property name="required" value="false" />
   </bean>
   <bean id="GECTargetAccountingLine-organizationReferenceId" parent="GECTargetAccountingLine-organizationReferenceId-parentBean" />
 
@@ -242,11 +235,6 @@
   <bean id="GECTargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
     <property name="required" value="false" />
     <property name="description" value="The code that partitions the Object Code into a greater amount of detail. Sub-Object Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType." />
-  </bean>
-  <bean id="GECTargetAccountingLine-versionNumber" parent="GECTargetAccountingLine-versionNumber-parentBean" />
-
-  <bean id="GECTargetAccountingLine-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-    <property name="required" value="false" />
   </bean>
   <bean id="GECTargetAccountingLine-documentNumber" parent="GECTargetAccountingLine-documentNumber-parentBean" />
 

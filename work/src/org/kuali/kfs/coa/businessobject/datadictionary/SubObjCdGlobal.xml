@@ -17,7 +17,6 @@
         <ref bean="SubObjCdGlobal-financialSubObjectCodeName" />
         <ref bean="SubObjCdGlobal-financialSubObjectCodeShortName" />
         <ref bean="SubObjCdGlobal-active" />
-        <ref bean="SubObjCdGlobal-versionNumber" />
       </list>
     </property>
   </bean>
@@ -100,9 +99,5 @@
 
   <bean id="SubObjCdGlobal-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="SubObjCdGlobal-versionNumber" parent="SubObjCdGlobal-versionNumber-parentBean" />
-
-  <bean id="SubObjCdGlobal-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

@@ -20,7 +20,6 @@
         <ref bean="NonAppliedHolding-customerNumber" />
         <ref bean="NonAppliedHolding-financialDocumentLineAmount" />
         <ref bean="NonAppliedHolding-referenceFinancialDocumentNumber" />
-        <ref bean="NonAppliedHolding-versionNumber" />
       </list>
     </property>
   </bean>
@@ -81,10 +80,6 @@
     </property>
     <property name="summary" value="referenceFinancialDocumentNumber" />
     <property name="description" value="referenceFinancialDocumentNumber description..." />
-  </bean>
-  <bean id="NonAppliedHolding-versionNumber" parent="NonAppliedHolding-versionNumber-parentBean" />
-
-  <bean id="NonAppliedHolding-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

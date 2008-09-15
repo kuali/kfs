@@ -21,7 +21,6 @@
         <ref bean="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationName" />
         <ref bean="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationAddress" />
         <ref bean="DisbursementVoucherDocumentationLocation-active" />
-        <ref bean="DisbursementVoucherDocumentationLocation-versionNumber" />
       </list>
     </property>
   </bean>
@@ -78,10 +77,6 @@
     <property name="name" value="active"/>
   </bean>
 
-  <bean id="DisbursementVoucherDocumentationLocation-versionNumber" parent="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" />
-
-  <bean id="DisbursementVoucherDocumentationLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

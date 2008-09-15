@@ -24,7 +24,6 @@
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-personUniversalIdentifier" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-setidSalary" />
-        <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber" />
       </list>
     </property>
   </bean>
@@ -157,10 +156,6 @@
     </property>
     <property name="summary" value="setidSalary" />
     <property name="description" value="setidSalary description..." />
-  </bean>
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber" parent="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

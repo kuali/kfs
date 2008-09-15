@@ -69,8 +69,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -101,8 +99,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="contractManagerCode"
                     p:required="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
             </list>

@@ -36,7 +36,6 @@
 				<ref bean="PaymentGroup-disbursementType.name" />
 				<ref bean="PaymentGroup-paymentDetails.netPaymentAmount" />
 
-				<ref bean="PaymentGroup-versionNumber" />
 			</list>
 		</property>
 		<property name="collections">
@@ -283,15 +282,4 @@
 		abstract="true" parent="PaymentDetail-netPaymentAmount">
 		<property name="name" value="paymentDetails.netPaymentAmount" />
 	</bean>
-	
-	
-
-	<bean id="PaymentGroup-versionNumber"
-		parent="PaymentGroup-versionNumber-parentBean" />
-
-	<bean id="PaymentGroup-versionNumber-parentBean" abstract="true"
-		parent="GenericAttributes-versionNumber">
-	</bean>
-
-
 </beans>

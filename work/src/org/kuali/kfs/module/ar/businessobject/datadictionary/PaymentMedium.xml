@@ -21,7 +21,6 @@
         <ref bean="PaymentMedium-customerPaymentMediumCode" />
         <ref bean="PaymentMedium-customerPaymentMediumDescription" />
         <ref bean="PaymentMedium-active" />
-        <ref bean="PaymentMedium-versionNumber" />
       </list>
     </property>
   </bean>
@@ -72,10 +71,6 @@
 
   <bean id="PaymentMedium-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="PaymentMedium-versionNumber" parent="PaymentMedium-versionNumber-parentBean" />
-
-  <bean id="PaymentMedium-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

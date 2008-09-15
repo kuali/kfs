@@ -35,7 +35,6 @@
         <ref bean="BudgetConstructionBalanceByAccount-subAccountNumber" />
         <ref bean="BudgetConstructionBalanceByAccount-typeFinancialReportSortCode" />
         <ref bean="BudgetConstructionBalanceByAccount-universityFiscalYear" />
-        <ref bean="BudgetConstructionBalanceByAccount-versionNumber" />
       </list>
     </property>
   </bean>
@@ -366,10 +365,6 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
-  </bean>
-  <bean id="BudgetConstructionBalanceByAccount-versionNumber" parent="BudgetConstructionBalanceByAccount-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionBalanceByAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

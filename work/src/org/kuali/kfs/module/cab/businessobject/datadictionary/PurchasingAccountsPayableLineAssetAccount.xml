@@ -22,7 +22,6 @@
         <ref bean="PurchasingAccountsPayableLineAssetAccount-capitalAssetBuilderLineNumber" />
         <ref bean="PurchasingAccountsPayableLineAssetAccount-generalLedgerAccountIdentifier" />
         <ref bean="PurchasingAccountsPayableLineAssetAccount-itemAccountTotalAmount" />
-        <ref bean="PurchasingAccountsPayableLineAssetAccount-versionNumber" />
       </list>
     </property>
   </bean>
@@ -65,10 +64,6 @@
   	<property name="name" value="itemAccountTotalAmount" />
   	<property name="label" value="Item Account Total Amount" />
     <property name="shortLabel" value="Amount" />
-  </bean>
-  <bean id="PurchasingAccountsPayableLineAssetAccount-versionNumber" parent="PurchasingAccountsPayableLineAssetAccount-versionNumber-parentBean" />
-
-  <bean id="PurchasingAccountsPayableLineAssetAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   
 <!-- Business Object Inquiry Definition -->

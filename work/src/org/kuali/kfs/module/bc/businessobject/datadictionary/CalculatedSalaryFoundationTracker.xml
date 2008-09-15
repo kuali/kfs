@@ -23,7 +23,6 @@
         <ref bean="CalculatedSalaryFoundationTracker-subAccountNumber" />
         <ref bean="CalculatedSalaryFoundationTracker-financialObjectCode" />
         <ref bean="CalculatedSalaryFoundationTracker-financialSubObjectCode" />
-        <ref bean="CalculatedSalaryFoundationTracker-versionNumber" />
         <ref bean="CalculatedSalaryFoundationTracker-csfAmount" />
         <ref bean="CalculatedSalaryFoundationTracker-csfCreateTimestamp" />
         <ref bean="CalculatedSalaryFoundationTracker-csfDeleteCode" />
@@ -72,10 +71,6 @@
   <bean id="CalculatedSalaryFoundationTracker-financialSubObjectCode" parent="CalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" />
 
   <bean id="CalculatedSalaryFoundationTracker-financialSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
-  </bean>
-  <bean id="CalculatedSalaryFoundationTracker-versionNumber" parent="CalculatedSalaryFoundationTracker-versionNumber-parentBean" />
-
-  <bean id="CalculatedSalaryFoundationTracker-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
   <bean id="CalculatedSalaryFoundationTracker-csfAmount" parent="CalculatedSalaryFoundationTracker-csfAmount-parentBean" />
 

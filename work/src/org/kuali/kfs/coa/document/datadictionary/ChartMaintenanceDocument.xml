@@ -142,8 +142,6 @@
               p:name="icrExpenseFinancialObjectCd" />
         <bean parent="MaintainableFieldDefinition"
               p:name="fundBalanceObjectCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

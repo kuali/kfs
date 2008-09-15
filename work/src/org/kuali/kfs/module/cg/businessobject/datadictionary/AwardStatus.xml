@@ -21,7 +21,6 @@
         <ref bean="AwardStatus-awardStatusCodeDropDown" />
         <ref bean="AwardStatus-awardStatusDescription" />
         <ref bean="AwardStatus-active" />
-        <ref bean="AwardStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -76,10 +75,6 @@
 
   <bean id="AwardStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="AwardStatus-versionNumber" parent="AwardStatus-versionNumber-parentBean" />
-
-  <bean id="AwardStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

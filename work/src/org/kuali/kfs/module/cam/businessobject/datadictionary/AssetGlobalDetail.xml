@@ -32,7 +32,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetGlobalDetail-organizationInventoryName" />
         <ref bean="AssetGlobalDetail-serialNumber" />
         <ref bean="AssetGlobalDetail-locationQuantity" />
-        <ref bean="AssetGlobalDetail-versionNumber" />
         <ref bean="AssetGlobalDetail-newCollectionRecord" />
         <!-- Asset Separate - START -->
         <ref bean="AssetGlobalDetail-representativeUniversalIdentifier" />
@@ -411,9 +410,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="locationQuantity" />
     <property name="description" value="locationQuantity description..." />
   </bean>
-  
-  <bean id="AssetGlobalDetail-versionNumber" parent="AssetGlobalDetail-versionNumber-parentBean" />
-  <bean id="AssetGlobalDetail-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
   
   <bean id="AssetGlobalDetail-newCollectionRecord" parent="AssetGlobalDetail-newCollectionRecord-parentBean" />
   <bean id="AssetGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="AttributeReferenceDummy-newCollectionRecord" />

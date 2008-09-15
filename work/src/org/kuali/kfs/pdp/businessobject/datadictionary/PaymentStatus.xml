@@ -19,7 +19,6 @@
       <list>
         <ref bean="PaymentStatus-code" />
         <ref bean="PaymentStatus-name" />
-        <ref bean="PaymentStatus-versionNumber" />
       </list>
     </property>
   </bean>
@@ -60,11 +59,6 @@
   </bean>
  
  
-  <bean id="PaymentStatus-versionNumber" parent="PaymentStatus-versionNumber-parentBean" />
-
-  <bean id="PaymentStatus-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
-
 <!-- Business Object Inquiry Definition -->
 
 

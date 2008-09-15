@@ -29,7 +29,6 @@
         <ref bean="AccountsPayableSummaryAccount-projectCode" />
         <ref bean="AccountsPayableSummaryAccount-purapDocumentIdentifier" />
         <ref bean="AccountsPayableSummaryAccount-subAccountNumber" />
-        <ref bean="AccountsPayableSummaryAccount-versionNumber" />
         <ref bean="AccountsPayableSummaryAccount-creditMemoId" />
         <ref bean="AccountsPayableSummaryAccount-updateTimestamp" />  
       </list>
@@ -229,10 +228,6 @@
       <bean parent="TextControlDefinition"
             p:size="7" />
     </property>
-  </bean>
-  <bean id="AccountsPayableSummaryAccount-versionNumber" parent="AccountsPayableSummaryAccount-versionNumber-parentBean" />
-
-  <bean id="AccountsPayableSummaryAccount-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
  
   <bean id="AccountsPayableSummaryAccount-creditMemoId" parent="AccountsPayableSummaryAccount-creditMemoId-parentBean" />

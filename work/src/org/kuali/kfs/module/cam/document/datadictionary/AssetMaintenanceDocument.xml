@@ -173,8 +173,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="federalContribution"
               p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -213,8 +211,6 @@
               />
         <bean parent="MaintainableFieldDefinition"
               p:name="offCampusLocation.assetLocationCountryCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="offCampusLocation.versionNumber" />
       </list>
     </property>
   </bean>
@@ -240,8 +236,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationAssetTypeIdentifier" 
               p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetOrganization.versionNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="receiveDate" />
         <bean parent="MaintainableFieldDefinition"
@@ -399,8 +393,6 @@
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="paymentSequenceNumber" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
         </bean>
@@ -475,8 +467,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="assetRetirementGlobal.retirementDate"
                     p:readOnly="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
         </bean>
@@ -662,8 +652,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="assetWarranty.warrantyText" 
               p:noLookup="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetWarranty.versionNumber" />
       </list>
     </property>
   </bean>
@@ -705,8 +693,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="repairNoteText"
                     p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
             </list>
@@ -792,8 +778,6 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="componentWarrantyText"
                     p:readOnlyAfterAdd="true" />
-              <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
           </property>
           <property name="maintainableCollections" >
@@ -829,8 +813,6 @@
                     <bean parent="MaintainableFieldDefinition"
                           p:name="componentRepairNoteText"
                           p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="versionNumber" />
                   </list>
                 </property>
               </bean>

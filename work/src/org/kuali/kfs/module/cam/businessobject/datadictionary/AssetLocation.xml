@@ -30,7 +30,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetLocation-assetLocationTypeCode" />
         <ref bean="AssetLocation-assetLocationZipCode" />
         <ref bean="AssetLocation-capitalAssetNumber" />
-        <ref bean="AssetLocation-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -231,10 +230,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
-  </bean>
-  <bean id="AssetLocation-versionNumber" parent="AssetLocation-versionNumber-parentBean" />
-
-  <bean id="AssetLocation-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

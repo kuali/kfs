@@ -28,7 +28,6 @@
         <ref bean="Delegate-accountsDelegatePrmrtIndicator" />
         <ref bean="Delegate-accountDelegateActiveIndicator" />
         <ref bean="Delegate-accountDelegateStartDate" />
-        <ref bean="Delegate-versionNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -143,10 +142,6 @@
     <property name="label" value="Account Delegate Start Date" />
     <property name="shortLabel" value="DelegateStartDt" />
     <property name="required" value="true" />
-  </bean>
-  <bean id="Delegate-versionNumber" parent="Delegate-versionNumber-parentBean" />
-
-  <bean id="Delegate-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

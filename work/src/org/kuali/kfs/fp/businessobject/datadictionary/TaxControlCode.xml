@@ -21,7 +21,6 @@
         <ref bean="TaxControlCode-code" />
         <ref bean="TaxControlCode-name" />
         <ref bean="TaxControlCode-active" />
-        <ref bean="TaxControlCode-versionNumber" />
       </list>
     </property>
   </bean>
@@ -64,10 +63,6 @@
     <property name="name" value="active"/>
   </bean>
 
-  <bean id="TaxControlCode-versionNumber" parent="TaxControlCode-versionNumber-parentBean" />
-
-  <bean id="TaxControlCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

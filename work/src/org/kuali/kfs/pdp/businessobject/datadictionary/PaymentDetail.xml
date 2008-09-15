@@ -43,7 +43,6 @@
         <ref bean="PaymentDetail-paymentGroup.disbursementType.name" />
         
         
-        <ref bean="PaymentDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -236,10 +235,6 @@
 
   <bean id="PaymentDetail-paymentGroup.disbursementType.name-parentBean" abstract="true" parent="PaymentGroup-disbursementType.name">
     <property name="name" value="paymentGroup.disbursementType.name" />
-  </bean>
-  <bean id="PaymentDetail-versionNumber" parent="PaymentDetail-versionNumber-parentBean" />
-
-  <bean id="PaymentDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

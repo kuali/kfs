@@ -17,7 +17,6 @@
         <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
         <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
         <ref bean="AssetGlobal-agencyNumber" />
-        <ref bean="AssetGlobal-versionNumber" />
         <ref bean="AssetGlobal-acquisitionTypeCode" />
         <ref bean="AssetGlobal-inventoryStatusCode" />
         <ref bean="AssetGlobal-conditionCode" />
@@ -98,10 +97,6 @@
   <bean id="AssetGlobal-agencyNumber" parent="AssetGlobal-agencyNumber-parentBean" />
 
   <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber" />
-
-   <bean id="AssetGlobal-versionNumber" parent="AssetGlobal-versionNumber-parentBean" />
-
-  <bean id="AssetGlobal-versionNumber-parentBean" abstract="true" parent="Asset-versionNumber" />
 
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
 

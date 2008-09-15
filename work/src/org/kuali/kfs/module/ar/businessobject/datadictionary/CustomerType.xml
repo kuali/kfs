@@ -21,7 +21,6 @@
         <ref bean="CustomerType-customerTypeCode" />
         <ref bean="CustomerType-customerTypeDescription" />
         <ref bean="CustomerType-active" />
-        <ref bean="CustomerType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -71,10 +70,6 @@
 
   <bean id="CustomerType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="CustomerType-versionNumber" parent="CustomerType-versionNumber-parentBean" />
-
-  <bean id="CustomerType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

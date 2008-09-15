@@ -86,7 +86,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
       </list>
     </property>
   </bean>
@@ -114,7 +113,6 @@
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:readOnlyAfterAdd="true" />
 	        		<bean parent="MaintainableFieldDefinition" p:name="taxRate" p:required="true" p:readOnlyAfterAdd="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         		</list>
         	</property>
         </bean>
@@ -151,7 +149,6 @@
         	<property name="maintainableFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         		</list>
         	</property>
         </bean>
@@ -189,7 +186,6 @@
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
 	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         		</list>
         	</property>
         </bean>
@@ -224,7 +220,6 @@
         	<property name="maintainableFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode" p:required="true" />
-	        		<bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
         		</list>
         	</property>
         </bean>

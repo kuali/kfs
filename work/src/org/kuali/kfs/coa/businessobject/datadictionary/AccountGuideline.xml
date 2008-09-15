@@ -16,7 +16,6 @@
         <ref bean="AccountGuideline-accountExpenseGuidelineText" />
         <ref bean="AccountGuideline-accountIncomeGuidelineText" />
         <ref bean="AccountGuideline-accountPurposeText" />
-        <ref bean="AccountGuideline-versionNumber" />
       </list>
     </property>
   </bean>
@@ -52,9 +51,5 @@
     <property name="name" value="accountPurposeText" />
     <property name="label" value="Account Purpose Text" />
     <property name="shortLabel" value="AcctPurpTxt" />
-  </bean>
-  <bean id="AccountGuideline-versionNumber" parent="AccountGuideline-versionNumber-parentBean" />
-
-  <bean id="AccountGuideline-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>

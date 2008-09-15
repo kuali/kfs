@@ -22,7 +22,6 @@
         <ref bean="AccountGlobalDetail-account.accountName" />
         <ref bean="AccountGlobalDetail-documentNumber" />
         <ref bean="AccountGlobalDetail-newCollectionRecord" />
-        <ref bean="AccountGlobalDetail-versionNumber" />
       </list>
     </property>
   </bean>
@@ -56,10 +55,6 @@
 
   <bean id="AccountGlobalDetail-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
-  <bean id="AccountGlobalDetail-versionNumber" parent="AccountGlobalDetail-versionNumber-parentBean" />
-
-  <bean id="AccountGlobalDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
-  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -81,8 +76,6 @@
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="documentNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="versionNumber" />
             </list>
           </property>
         </bean>
@@ -110,8 +103,6 @@
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
       </list>
     </property>
     <property name="resultFields" >
@@ -122,8 +113,6 @@
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="versionNumber" />
       </list>
     </property>
   </bean>

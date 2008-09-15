@@ -21,7 +21,6 @@
         <ref bean="RoutingFormSubcontractor-routingFormSubcontractorNumber" />
         <ref bean="RoutingFormSubcontractor-routingFormSubcontractorSequenceNumber" />
         <ref bean="RoutingFormSubcontractor-documentNumber" />
-        <ref bean="RoutingFormSubcontractor-versionNumber" />
       </list>
     </property>
   </bean>
@@ -98,10 +97,6 @@
     </property>
     <property name="summary" value="documentNumber" />
     <property name="description" value="documentNumber description..." />
-  </bean>
-  <bean id="RoutingFormSubcontractor-versionNumber" parent="RoutingFormSubcontractor-versionNumber-parentBean" />
-
-  <bean id="RoutingFormSubcontractor-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

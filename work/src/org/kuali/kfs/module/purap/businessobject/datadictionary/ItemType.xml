@@ -23,7 +23,6 @@
         <ref bean="ItemType-quantityBasedGeneralLedgerIndicator" />
         <ref bean="ItemType-itemTypeAboveTheLineIndicator" />
         <ref bean="ItemType-active" />
-        <ref bean="ItemType-versionNumber" />
       </list>
     </property>
   </bean>
@@ -81,10 +80,6 @@
 
   <bean id="ItemType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
-  </bean>
-  <bean id="ItemType-versionNumber" parent="ItemType-versionNumber-parentBean" />
-
-  <bean id="ItemType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

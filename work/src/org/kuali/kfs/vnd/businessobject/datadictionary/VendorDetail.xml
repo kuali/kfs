@@ -71,9 +71,7 @@
         <ref bean="VendorDetail-vendorCustomerNumbers.chartOfAccountsCode" />
         <ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" />
         <ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
-        <ref bean="VendorDetail-vendorHeader.versionNumber" />
         <ref bean="VendorDetail-activeIndicator" />
-        <ref bean="VendorDetail-versionNumber" />
       </list>
     </property>
     <property name="collections" >
@@ -602,18 +600,9 @@
   <bean id="VendorDetail-vendorCommodities.purchasingCommodityCode-parentBean" abstract="true" parent="VendorCommodityCode-purchasingCommodityCode">
     <property name="name" value="vendorCommodities.purchasingCommodityCode" />
   </bean>
-  <bean id="VendorDetail-vendorHeader.versionNumber" parent="VendorDetail-vendorHeader.versionNumber-parentBean" />
-
-  <bean id="VendorDetail-vendorHeader.versionNumber-parentBean" abstract="true" parent="VendorHeader-versionNumber">
-    <property name="name" value="vendorHeader.versionNumber" />
-  </bean>
   <bean id="VendorDetail-activeIndicator" parent="VendorDetail-activeIndicator-parentBean" />
 
   <bean id="VendorDetail-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-  </bean>
-  <bean id="VendorDetail-versionNumber" parent="VendorDetail-versionNumber-parentBean" />
-
-  <bean id="VendorDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

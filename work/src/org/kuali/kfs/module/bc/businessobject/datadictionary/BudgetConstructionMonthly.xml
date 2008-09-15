@@ -38,7 +38,6 @@
         <ref bean="BudgetConstructionMonthly-financialSubObjectCode" />
         <ref bean="BudgetConstructionMonthly-subAccountNumber" />
         <ref bean="BudgetConstructionMonthly-universityFiscalYear" />
-        <ref bean="BudgetConstructionMonthly-versionNumber" />
       </list>
     </property>
   </bean>
@@ -447,10 +446,6 @@
     </property>
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
-  </bean>
-  <bean id="BudgetConstructionMonthly-versionNumber" parent="BudgetConstructionMonthly-versionNumber-parentBean" />
-
-  <bean id="BudgetConstructionMonthly-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 
 <!-- Business Object Inquiry Definition -->

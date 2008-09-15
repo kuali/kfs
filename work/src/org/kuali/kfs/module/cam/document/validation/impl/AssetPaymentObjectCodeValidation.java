@@ -51,7 +51,7 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
 
-        List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES);
+        List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES);
         String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
         
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
@@ -63,7 +63,7 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
             //LOG.info("**** AssetPaymentObjectCodeValidation - Asset:"+assetPaymentAssetDetail.getAsset().getCapitalAssetNumber());            
             if (assetService.isCapitalAsset(assetPaymentAssetDetail.getAsset())) {
                 if (!validSubtypeCodes.contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {            
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPE_CODES+" "+parameterDetail,validSubtypeCodes.toString() });
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.Payment.ERROR_INVALID_OBJECT_SUBTYPE, new String[] { assetPaymentDetail.getFinancialObjectCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode(), CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES +" "+parameterDetail,validSubtypeCodes.toString() });
                     result = false;
                     break;
                 }

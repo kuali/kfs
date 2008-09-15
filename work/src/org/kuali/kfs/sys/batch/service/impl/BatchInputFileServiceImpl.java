@@ -22,6 +22,7 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.UrlResource;
 import org.xml.sax.SAXException;
 
 /**
@@ -106,23 +107,29 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @param fileContents - xml contents to validate against the schema
      */
     private void validateContentsAgainstSchema(String schemaLocation, InputStream fileContents) throws XMLParseException {
-
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        // get schemaFile from classpath
-        ClassPathResource resource = new ClassPathResource(schemaLocation);
-        File schemaFile;
+        // get schemaFile
+        UrlResource schemaResource = null;
         try {
-            schemaFile = resource.getFile();
+            schemaResource = new UrlResource(schemaLocation);
         }
-        catch (IOException e2) {
-            LOG.error("unable to get schema file: " + e2.getMessage());
-            throw new RuntimeException("unable to get schema file: " + e2.getMessage());
+        catch (MalformedURLException e2) {
+            LOG.error("error getting schema url: " + e2.getMessage());
+            throw new RuntimeException("error getting schema url:  " + e2.getMessage(), e2);
         }
 
         // load a WXS schema, represented by a Schema instance
-        Source schemaSource = new StreamSource(schemaFile);
+        Source schemaSource = null;
+        try {
+            schemaSource = new StreamSource(schemaResource.getInputStream());
+        }
+        catch (IOException e2) {
+            LOG.error("error getting schema stream from url: " + e2.getMessage());
+            throw new RuntimeException("error getting schema stream from url:   " + e2.getMessage(), e2);
+        }
+        
         Schema schema = null;
         try {
             schema = factory.newSchema(schemaSource);
@@ -130,7 +137,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         catch (SAXException e) {
             LOG.error("error occured while setting schema file: " + e.getMessage());
             throw new RuntimeException("error occured while setting schema file: " + e.getMessage(), e);
-        }
+        }    
 
         // create a Validator instance, which can be used to validate an instance document
         Validator validator = schema.newValidator();
@@ -208,7 +215,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
             createDoneFile(fileToSave);
             
-            batchInputFileType.process(saveFileName, fileContents);
+            batchInputFileType.process(saveFileName, parsedObject);
         }
         catch (IOException e) {
             LOG.error("unable to save contents to file " + saveFileName, e);

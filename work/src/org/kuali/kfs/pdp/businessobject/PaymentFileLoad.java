@@ -203,6 +203,15 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     public void setPaymentCount(int paymentCount) {
         this.paymentCount = paymentCount;
     }
+    
+    /**
+     * Helper method to set the paymentCount int from a string.
+     * 
+     * @param paymentCount String payment count
+     */
+    public void setPaymentCount(String paymentCount) {
+        this.paymentCount = Integer.parseInt(paymentCount);
+    }
 
     /**
      * Gets the paymentTotalAmount attribute.

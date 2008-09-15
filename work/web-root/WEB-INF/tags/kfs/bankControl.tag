@@ -13,7 +13,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
+<script type='text/javascript' src="dwr/interface/BankService.js"></script>
+<script language="JavaScript" type="text/javascript" src="scripts/financial/objectInfo.js"></script>
 
 <%@ attribute name="property" required="true" description="name of the property that holds the bank code value in the form" %>
 <%@ attribute name="objectProperty" required="true" description="name of the property that holds the bank object in the form" %>
@@ -26,8 +29,6 @@
 <html:hidden property="documentActionFlags.canViewBank" />
   
 <c:if test="${KualiForm.documentActionFlags.canViewBank}">
-
-  <script type='text/javascript' src="scripts/kfs/objectInfo.js"></script>
 
   <c:if test="${not KualiForm.documentActionFlags.canEditBank}">
     <c:set var="readOnly" value="true" />

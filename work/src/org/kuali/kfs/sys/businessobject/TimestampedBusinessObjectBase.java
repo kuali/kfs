@@ -95,11 +95,15 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
     }
 
     public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+        super.beforeInsert(broker);
+        
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
     }
 
     public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
+        super.beforeUpdate(broker);
+        
         lastUpdate = new Timestamp((new Date()).getTime());
         lastUpdateUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
     } 

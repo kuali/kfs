@@ -752,22 +752,6 @@
 			<forward name="channel" path="/pdp/channel.jsp" />
 		</action>
 
-		<!-- *********** Upload a data file ************* -->
-		<action path="/pdp/manualupload"
-			type="org.kuali.kfs.pdp.web.struts.ManualUploadAction">
-			<forward name="upload" path="/pdp/upload/upload.jsp" />
-		</action>
-
-		<action path="/pdp/manualuploadfile"
-			type="org.kuali.kfs.pdp.web.struts.ManualUploadFileAction"
-			name="PdpUploadForm" scope="request"
-			input="/pdp/upload/upload.jsp">
-			<forward name="successful"
-				path="/pdp/upload/successful.jsp" />
-			<forward name="hard_errors"
-				path="/pdp/upload/hard_errors.jsp" />
-		</action>
-
 		<!-- ********** Batch Search ********** -->
 		<action path="/pdp/batchsearch" name="PdpBatchSearchForm"
 			validate="true" input="/pdp/search/batchsearch.jsp" scope="request"

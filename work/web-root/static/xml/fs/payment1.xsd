@@ -19,7 +19,7 @@
     xmlns:kfs="http://www.kuali.org/kfsTypes"
     xmlns="http://kuali.org/pdp/payment1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     
-    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="../../../../../org/kuali/kfs/sys/batch/kfsTypes.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="http://localhost:8080/kuali-dev/static/xml/fs/kfsTypes.xsd" />
         
     <!-- simple data types -->
     <xsd:simpleType name="idTypeType">

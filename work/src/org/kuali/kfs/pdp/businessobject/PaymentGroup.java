@@ -947,4 +947,8 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setPaymentStatusCode(String paymentStatusCode) {
         this.paymentStatusCode = paymentStatusCode;
     }
+    
+    public void setId_type(String idType) {
+        this.payeeIdTypeCd = idType;
+    }
 }

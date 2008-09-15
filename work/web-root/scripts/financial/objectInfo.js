@@ -13,3 +13,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+ /*
+ * Given an form and an element name, returns the uppercased, trimmed value of that element
+ */
+function cleanupElementValue( kualiForm, name ) {
+    var element = kualiForm.elements[ name ];
+
+    if ( typeof element == 'undefined' ) {
+        alert( 'undefined element "' + name + '"' );
+    }
+
+    element.value = element.value.toUpperCase().trim();
+
+    return element.value;
+}
+
+/*
+ * Clears the value of the given target.
+ */
+function clearTarget(kualiForm, targetBase) {
+    setTargetValue(kualiForm, targetBase, '');
+}
+
+
+/*
+ * Sets the value contained by the named div to the given value, or to a non-breaking space if the given value is empty.
+ */
+function setTargetValue(kualiForm, targetBase, value, isError) {
+    var containerHidden = kualiForm.elements[targetBase];
+    var containerName = targetBase + '.div';
+
+    var containerDiv = document.getElementById( containerName );
+
+    if (containerDiv) {
+        if (value == '') {
+			DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+        } else {
+			DWRUtil.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+        }
+    }
+    if (containerHidden) {
+        containerHidden.value = value;
+    }
+}
+
+
+function loadBankInfo(kualiForm, bankCodeFieldName, bankNameFieldName ) {
+	var bankCode = cleanupElementValue( kualiForm, bankCodeFieldName );
+
+	if (bankCode=='') {
+		clearTarget(kualiForm, bankNameFieldName);
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {
+					setTargetValue( kualiForm, bankNameFieldName, data.bankName );
+				} else {
+					setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank not found" ), true );			
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+				setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank not found" ), true );
+			}
+		};
+		BankService.getByPrimaryId( bankCode, dwrReply );
+	}
+}

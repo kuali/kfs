@@ -121,7 +121,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         }
 
         // compare trailer total amount with actual total amount
-        if (paymentFile.getCalculatedPaymentTotalAmount().equals(paymentFile.getPaymentTotalAmount())) {
+        if (paymentFile.getCalculatedPaymentTotalAmount().compareTo(paymentFile.getPaymentTotalAmount()) != 0) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYMENT_TOTAL_MISMATCH, paymentFile.getPaymentTotalAmount().toString(), paymentFile.getCalculatedPaymentTotalAmount().toString());
         }
 
@@ -198,6 +198,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD, paymentFile.getPaymentTotalAmount().toString(), customer.getFileThresholdAmount().toString());
             paymentFile.setFileThreshold(true);
         }
+        
+        processGroupSoftEdits(paymentFile, customer, warnings);
 
         return warnings;
     }
@@ -214,6 +216,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
         for (PaymentGroup paymentGroup : paymentFile.getPaymentGroups()) {
             paymentGroup.setBatchId(paymentFile.getBatchId());
+            paymentGroup.setPaymentStatusCode(openStatus.getCode());
             paymentGroup.setPaymentStatus(openStatus);
             paymentGroup.setPayeeName(paymentGroup.getPayeeName().toUpperCase());
 

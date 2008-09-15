@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.service.impl.paymentparser.XmlHeader;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.ErrorMap;
 

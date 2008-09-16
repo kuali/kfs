@@ -25,68 +25,74 @@ import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class TaxServiceImpl implements TaxService {
-    
+
     private TaxRegionService taxRegionService;
 
     /**
-     * @see org.kuali.kfs.sys.service.TaxService#getSalesTaxDetails(java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.sys.service.TaxService#getSalesTaxDetails(java.lang.String, java.lang.String,
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public List<TaxDetail> getSalesTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
 
-        for( TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)){
-            salesTaxDetails.add(populateTaxDetail( taxRegion, dateOfTransaction, amount));
+        for (TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)) {
+            salesTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
         }
-        
+
         return salesTaxDetails;
     }
-    
+
     /**
-     * @see org.kuali.kfs.sys.service.TaxService#getUseTaxDetails(java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.sys.service.TaxService#getUseTaxDetails(java.lang.String, java.lang.String,
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
     public List<TaxDetail> getUseTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
-        
-        for( TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)){
-            useTaxDetails.add(populateTaxDetail( taxRegion, dateOfTransaction, amount ));
+
+        for (TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)) {
+            useTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
         }
-        
+
         return useTaxDetails;
-    }    
+    }
 
     /**
-     * @see org.kuali.kfs.sys.service.TaxService#getTotalSalesTaxAmount(java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.sys.service.TaxService#getTotalSalesTaxAmount(java.lang.String, java.lang.String,
+     *      org.kuali.rice.kns.util.KualiDecimal)
      */
-    public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, String stateCode, String countryCode, KualiDecimal amount) {
+    public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
-        
-        for( TaxDetail taxDetail : getSalesTaxDetails( dateOfTransaction, postalCode, amount )){
+
+        for (TaxDetail taxDetail : getSalesTaxDetails(dateOfTransaction, postalCode, amount)) {
             totalSalesTaxAmount = totalSalesTaxAmount.add(taxDetail.getTaxAmount());
         }
-        
+
         return totalSalesTaxAmount;
     }
-    
+
     /**
      * This method returns a populated Tax Detail BO based on the Tax Region BO and amount
+     * 
      * @param taxRegion
      * @param amount
      * @return
      */
-    protected TaxDetail populateTaxDetail( TaxRegion taxRegion, Date dateOfTransaction, KualiDecimal amount ){
+    protected TaxDetail populateTaxDetail(TaxRegion taxRegion, Date dateOfTransaction, KualiDecimal amount) {
         TaxDetail taxDetail = new TaxDetail();
         taxDetail.setAccountNumber(taxRegion.getAccountNumber());
         taxDetail.setChartOfAccountsCode(taxRegion.getChartOfAccountsCode());
         taxDetail.setFinancialObjectCode(taxRegion.getFinancialObjectCode());
-        taxDetail.setRateCode( taxRegion.getTaxRegionCode() );
-        taxDetail.setRateName( taxRegion.getTaxRegionName() );
-        taxDetail.setTaxRate( taxRegion.getEffectiveTaxRegionRate( dateOfTransaction ).getTaxRate() );
-        taxDetail.setTaxAmount( amount.multiply( new KualiDecimal( taxDetail.getTaxRate() ) ) );
-        
+        taxDetail.setRateCode(taxRegion.getTaxRegionCode());
+        taxDetail.setRateName(taxRegion.getTaxRegionName());
+        if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction)))) {
+            taxDetail.setTaxRate(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
+            taxDetail.setTaxAmount(amount.multiply(new KualiDecimal(taxDetail.getTaxRate())));
+        }
         return taxDetail;
     }
 

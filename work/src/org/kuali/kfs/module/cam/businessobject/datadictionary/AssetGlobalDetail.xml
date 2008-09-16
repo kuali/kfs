@@ -284,14 +284,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusCountryCode" parent="AssetGlobalDetail-offCampusCountryCode-parentBean" />
-  <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="Country-postalCountryCode">
     <property name="name" value="offCampusCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Off Campus Country Code" />
     <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="2" />
+	<property name="maxLength" value="2" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+    <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
@@ -321,13 +321,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
-  <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  
+  <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="State-postalStateCode">
     <property name="name" value="offCampusStateCode" />
-    <property name="forceUppercase" value="true" />
     <property name="label" value="Off Campus State Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="summary" value="offCampusStateCode" />
-    <property name="description" value="offCampusStateCode description..." />
+    <property name="shortLabel" value="State" />
   </bean>
   
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />

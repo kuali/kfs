@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CashReceiptHeader;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
@@ -49,7 +50,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * only accepting funds into the university, the accounting line data will be held in the source accounting line data structure
  * only.
  */
-public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
+public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling, CapitalAssetEditable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
@@ -73,6 +74,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private CoinDetail coinDetail;
 
     private CashReceiptHeader cashReceiptHeader;
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Initializes the array lists and line incrementers.
@@ -621,5 +623,20 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return newCheck;
     }
 
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
 
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
+    }
 }

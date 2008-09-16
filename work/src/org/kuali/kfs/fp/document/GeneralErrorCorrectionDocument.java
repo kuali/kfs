@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.KFSConstants.FROM;
 import static org.kuali.kfs.sys.KFSConstants.TO;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
@@ -40,7 +41,10 @@ import org.kuali.rice.kns.document.Copyable;
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
  */
-public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
+public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
+    
+    private CapitalAssetInformation capitalAssetInformation;
+    
     /**
      * Initializes the array lists and some basic info.
      */
@@ -155,5 +159,22 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
         }
 
         return description;
+    }
+    
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
  * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd
  * version and the non-yearEnd version of a document is the glpe's generation.
  */
-public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling, ElectronicPaymentClaiming {
+public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
 
     /**
      * Constructs a YearEndDistributionOfIncomeAndExpenseDocument.java.

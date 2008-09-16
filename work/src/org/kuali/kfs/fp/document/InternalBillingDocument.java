@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -39,10 +40,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and Income.
  */
-public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
+public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
 
     private List items;
     private Integer nextItemLineNumber;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Initializes the array lists and some basic info.
@@ -174,5 +177,22 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
+    }
+    
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

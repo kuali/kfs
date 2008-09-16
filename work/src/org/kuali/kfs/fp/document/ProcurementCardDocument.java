@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
@@ -47,12 +48,14 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * document, but only target lines are displayed because source lines cannot be changed. Transaction, Card, and Vendor information
  * are associated with the document to help better distribute the expense.
  */
-public class ProcurementCardDocument extends AccountingDocumentBase implements AmountTotaling {
+public class ProcurementCardDocument extends AccountingDocumentBase implements AmountTotaling, CapitalAssetEditable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
 
     private ProcurementCardHolder procurementCardHolder;
 
     private List transactionEntries;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Default constructor.
@@ -251,5 +254,22 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
         return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
+    }
+    
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

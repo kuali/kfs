@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
  * version except that it has slightly different routing and that it only allows posting to the year end accounting period for a
  * year.
  */
-public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument, AmountTotaling {
+public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument, AmountTotaling, CapitalAssetEditable {
 
     /**
      * Initializes the array lists and some basic info.

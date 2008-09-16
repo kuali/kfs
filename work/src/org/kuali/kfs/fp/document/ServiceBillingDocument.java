@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -29,8 +30,10 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
  * {@link org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentRule} for details on how it differs from
  * {@link InternalBillingDocument}.
  */
-public class ServiceBillingDocument extends InternalBillingDocument {
+public class ServiceBillingDocument extends InternalBillingDocument implements CapitalAssetEditable {
 
+    private CapitalAssetInformation capitalAssetInformation;
+    
     /**
      * @see org.kuali.kfs.fp.document.InternalBillingDocument#getAccountingLineParser()
      */
@@ -79,5 +82,22 @@ public class ServiceBillingDocument extends InternalBillingDocument {
         if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);
         }
+    }
+    
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

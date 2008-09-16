@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document;
 
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
@@ -35,9 +36,11 @@ import org.kuali.rice.kns.document.Copyable;
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
  * being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts.
  */
-public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, ElectronicPaymentClaiming {
+public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseDocument.class);
     private List<ElectronicPaymentClaim> electronicPaymentClaims;
+    
+    private CapitalAssetInformation capitalAssetInformation;
     
     /**
      * Constructs a DistributionOfIncomeAndExpenseDocument.java.
@@ -100,5 +103,22 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
      */
     public void setElectronicPaymentClaims(List<ElectronicPaymentClaim> electronicPaymentClaims) {
         this.electronicPaymentClaims = electronicPaymentClaims;
+    }
+    
+    /**
+     * Gets the capitalAssetInformation attribute. 
+     * @return Returns the capitalAssetInformation.
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * Sets the capitalAssetInformation attribute value.
+     * @param capitalAssetInformation The capitalAssetInformation to set.
+     */
+    @Deprecated
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

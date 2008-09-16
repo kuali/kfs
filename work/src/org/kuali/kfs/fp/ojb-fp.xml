@@ -2360,5 +2360,15 @@
     <field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetManufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetSerialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR" />
+
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="campusCode"/>
+    	<foreignkey field-ref="buildingCode"/>
+    </reference-descriptor> 
+    <reference-descriptor name="room" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="campusCode"/>
+    	<foreignkey field-ref="buildingCode"/>
+    	<foreignkey field-ref="buildingRoomNumber"/>
+    </reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

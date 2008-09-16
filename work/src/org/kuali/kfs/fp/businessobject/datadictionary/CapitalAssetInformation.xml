@@ -38,20 +38,42 @@
   
   <bean id="CapitalAssetInformation-campusCode" parent="CapitalAssetInformation-campusCode-parentBean" />
   
-  <bean id="CapitalAssetInformation-campusCode-parentBean" abstract="true" parent="Building-campusCode" />
+  <bean id="CapitalAssetInformation-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  	<property name="name" value="campusCode"/>
+  	<property name="required" value="false" />
+  </bean>
   
   <bean id="CapitalAssetInformation-buildingCode" parent="CapitalAssetInformation-buildingCode-parentBean" />
   
-  <bean id="CapitalAssetInformation-buildingCode-parentBean" abstract="true" parent="Building-buildingCode" />
+  <bean id="CapitalAssetInformation-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+   	<property name="name" value="buildingCode"/>
+  	<property name="required" value="false" />
+  </bean>
   
   <bean id="CapitalAssetInformation-buildingRoomNumber" parent="CapitalAssetInformation-buildingRoomNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber" />
+  <bean id="CapitalAssetInformation-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
+	<property name="name" value="buildingRoomNumber"/>
+	<property name="required" value="false" />
+  </bean>
   
   <bean id="CapitalAssetInformation-buildingSubroomNumber" parent="CapitalAssetInformation-buildingSubroomNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-buildingSubroomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber" >
-  	<property name="name" value="buildingSubroomNumber" />
+  <bean id="CapitalAssetInformation-buildingSubroomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingSubroomNumber" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Building Sub Room Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="building subroom number" />
+    <property name="description" value="building subroom number description..." />
   </bean>
   
   <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" parent="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" />
@@ -64,43 +86,65 @@
   
   <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber" />
+  <bean id="CapitalAssetInformation-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="capitalAssetNumber">
+	<property name="name" value="capitalAssetNumber"/>
+  </bean> 
   
   <bean id="CapitalAssetInformation-capitalAssetTagNumber" parent="CapitalAssetInformation-capitalAssetTagNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetTagNumber-parentBean" abstract="true" parent="Asset-campusTagNumber" >
+  <bean id="CapitalAssetInformation-capitalAssetTagNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="campusTagNumber">
   	<property name="name" value="capitalAssetTagNumber" />
   </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetQuantity" parent="CapitalAssetInformation-capitalAssetQuantity-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetQuantity-parentBean" abstract="true" parent="Asset-quantity" >
+  <bean id="CapitalAssetInformation-capitalAssetQuantity-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="quantity">
       <property name="name" value="capitalAssetQuantity" />
   </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetTypeCode" parent="CapitalAssetInformation-capitalAssetTypeCode-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetTypeCode-parentBean" abstract="true" parent="Asset-capitalAssetTypeCode" />
+  <bean id="CapitalAssetInformation-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="capitalAssetTypeCode">
+      <property name="name" value="capitalAssetTypeCode" />
+  </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetManufacturerName" parent="CapitalAssetInformation-capitalAssetManufacturerName-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetManufacturerName-parentBean" abstract="true" parent="Asset-manufacturerName" >
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerName-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="manufacturerName">
      <property name="name" value="capitalAssetManufacturerName" />
   </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetDescription" parent="CapitalAssetInformation-capitalAssetDescription-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetDescription-parentBean" abstract="true" parent="Asset-capitalAssetDescription" />
+  <bean id="CapitalAssetInformation-capitalAssetDescription-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="capitalAssetDescription">
+     <property name="name" value="capitalAssetDescription" />
+  </bean> 
   
   <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber" parent="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" abstract="true" parent="Asset-manufacturerModelNumber" >
-  	<property name="name" value="capitalAssetManufacturerModelNumber" />
-  </bean>	
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="manufacturerModelNumber">
+     <property name="name" value="capitalAssetManufacturerModelNumber" />
+  </bean>  
   
   <bean id="CapitalAssetInformation-capitalAssetSerialNumber" parent="CapitalAssetInformation-capitalAssetSerialNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-capitalAssetSerialNumber-parentBean" abstract="true" parent="Asset-serialNumber" >
-  	<property name="name" value="capitalAssetSerialNumber" />
-  </bean>  
+  <bean id="CapitalAssetInformation-capitalAssetSerialNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="serialNumber">
+     <property name="name" value="capitalAssetSerialNumber" />
+  </bean> 
 </beans>

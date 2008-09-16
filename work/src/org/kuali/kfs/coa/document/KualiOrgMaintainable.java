@@ -16,11 +16,18 @@
 package org.kuali.kfs.coa.document;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
@@ -30,11 +37,13 @@ import org.kuali.rice.kns.web.ui.Section;
 /**
  * This class overrides the getCoreSections method to provide specific field conversions for the postal code
  */
-public class KualiOrgMaintainable extends KualiMaintainableImpl {
+public class KualiOrgMaintainable extends KualiMaintainableImpl implements GenericRoutingInfo {
 
     private static final long serialVersionUID = -3182120468758958991L;
 
     public static final String KUALI_ORG_SECTION = "Edit Organization Code";
+    
+    private Set<RoutingData> routingInfo;
 
     /**
      * Provides special field conversions for the Org.organizationZipCode
@@ -105,4 +114,56 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
         return sections;
     }
 
+    /**
+     * Gets the routingInfo attribute. 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * Populates the routing info with the organization review data
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        if (routingInfo == null) {
+            routingInfo = new HashSet<RoutingData>();
+        }
+        
+        routingInfo.add(getOrgReviewRoutingData());
+    }
+
+    /**
+     * Generates a RoutingData object holding the information about what organization to route to
+     * @return an initialized RoutingData object
+     */
+    protected RoutingData getOrgReviewRoutingData() {
+        RoutingData routingData = new RoutingData();
+        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
+        
+        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
+        routingSet.add(gatherOrgToReview());
+        routingData.setRoutingSet(routingSet);
+        
+        return routingData;
+    }
+    
+    /**
+     * Gathers the data from the maintained Org object for org review routing.  Hey, take a guess at
+     * what org it routes to.
+     * @return a properly initialized OrgReviewRoutingData with the org to review
+     */
+    protected OrgReviewRoutingData gatherOrgToReview() {
+        final Org org = (Org)getBusinessObject();
+        return new OrgReviewRoutingData(org.getChartOfAccountsCode(), org.getOrganizationCode());
+    }
 }

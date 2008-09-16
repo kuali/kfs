@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.coa.document;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -24,6 +26,10 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -36,8 +42,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * can automatically deactivate the Sub-Accounts related to the account It also overrides the processAfterCopy so that it sets
  * specific fields that shouldn't be copied to default values {@link KualiPostProcessor}
  */
-public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
+public class KualiAccountMaintainableImpl extends KualiMaintainableImpl implements GenericRoutingInfo {
     private static final Logger LOG = Logger.getLogger(KualiAccountMaintainableImpl.class);
+    
+    private Set<RoutingData> routingInfo;
     
     /**
      * Automatically deactivates {@link SubAccount}s after saving the {@link Account}
@@ -102,5 +110,54 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
             }
         }
         return false;
+    }
+
+    /**
+     * Gets the routingInfo attribute. 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        if (routingInfo == null) {
+            routingInfo = new HashSet<RoutingData>();
+        }
+        routingInfo.add(getOrgReviewRoutingInfo());
+    }
+    
+    /**
+     * Generates org review data for this account maintenance document
+     * @return a RoutingData instance with the org review information for this document
+     */
+    protected RoutingData getOrgReviewRoutingInfo() {
+        RoutingData routingData = new RoutingData();
+        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
+        
+        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
+        routingSet.add(gatherOrgToReview());
+        routingData.setRoutingSet(routingSet);
+        return routingData;
+    }
+    
+    /**
+     * Returns the organization this account maintenance document should route to
+     * @return a property initialized OrgReviewRoutingData instance
+     */
+    protected OrgReviewRoutingData gatherOrgToReview() {
+        final Account account = (Account)getBusinessObject();
+        return new OrgReviewRoutingData(account.getChartOfAccountsCode(), account.getOrganizationCode());
     }
 }

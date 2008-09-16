@@ -16,13 +16,22 @@
 package org.kuali.kfs.coa.document;
 
 import java.security.GeneralSecurityException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Delegate;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingAccount;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -36,8 +45,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the
  * default Start Date on edits and copies, ala JIRA #KULRNE-62.
  */
-public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
+public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl implements GenericRoutingInfo {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiDelegateMaintainableImpl.class);
+    
+    private Set<RoutingData> routingInfo;
 
     /**
      * This method will reset AccountDelegate's Start Date to the current timestamp on edits and copies
@@ -64,7 +75,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     /**
      * This method sets the start date on {@link Delegate} BO
      */
-    private void setStartDateDefault() {
+    protected void setStartDateDefault() {
         if (this.businessObject != null && this.businessObject instanceof Delegate) {
             Delegate delegate = (Delegate) this.businessObject;
             delegate.setAccountDelegateStartDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
@@ -92,7 +103,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * @param fieldNames
      * @return the maintenance lock for supplied field names
      */
-    private MaintenanceLock createMaintenanceLock(String[] fieldNames) {
+    protected MaintenanceLock createMaintenanceLock(String[] fieldNames) {
         MaintenanceLock lock = new MaintenanceLock();
         lock.setDocumentNumber(this.documentNumber);
         lock.setLockingRepresentation(createLockingRepresentation(fieldNames));
@@ -106,7 +117,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * @param fieldNames
      * @return locking representation string
      */
-    private String createLockingRepresentation(String[] fieldNames) {
+    protected String createLockingRepresentation(String[] fieldNames) {
         StringBuilder lockRepresentation = new StringBuilder();
 
         lockRepresentation.append(Delegate.class.getName());
@@ -137,7 +148,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * @param ddService
      * @return string field value for a lock
      */
-    private String retrieveFieldValueForLock(String fieldName, DataDictionaryService ddService, EncryptionService encryptionService) {
+    protected String retrieveFieldValueForLock(String fieldName, DataDictionaryService ddService, EncryptionService encryptionService) {
         Object fieldValue = ObjectUtils.getPropertyValue(this.businessObject, fieldName);
         if (fieldValue == null) {
             fieldValue = "";
@@ -155,5 +166,81 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
             }
         }
         return String.valueOf(fieldValue);
+    }
+
+    /**
+     * Gets the routingInfo attribute. 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * Makes sure the routingInfo property is initialized and populates account review and org review data 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        if (routingInfo == null) {
+            routingInfo = new HashSet<RoutingData>();
+        }
+        
+        routingInfo.add(getAccountReviewData());
+        routingInfo.add(getOrgReviewData());
+    }
+    
+    /**
+     * Generates a RoutingData object with the accounts to review
+     * @return a properly initialized RoutingData object for account review
+     */
+    protected RoutingData getAccountReviewData() {
+        RoutingData routingData = new RoutingData();
+        routingData.setRoutingType(KualiAccountAttribute.class.getName());
+        
+        Set<RoutingAccount> routingSet = new HashSet<RoutingAccount>();
+        routingSet.add(gatherAccountToReview());
+        routingData.setRoutingSet(routingSet);
+        
+        return routingData;
+    }
+    
+    /**
+     * @return an OrgReviewRoutingData object populated with the account information that this maintenance document should route to
+     */
+    protected RoutingAccount gatherAccountToReview() {
+        final Delegate delegate = (Delegate)getBusinessObject();
+        return new RoutingAccount(delegate.getChartOfAccountsCode(), delegate.getAccountNumber());
+    }
+    
+    /**
+     * Generates a RoutingData object with the accounts to review
+     * @return a properly initialized RoutingData object for account review
+     */
+    protected RoutingData getOrgReviewData() {
+        RoutingData routingData = new RoutingData();
+        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
+        
+        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
+        routingSet.add(gatherOrgToReview());
+        routingData.setRoutingSet(routingSet);
+        
+        return routingData;
+    }
+    
+    /**
+     * @return an OrgReviewRoutingData object populated with the organization information that this maintenance document should route to
+     */
+    protected OrgReviewRoutingData gatherOrgToReview() {
+        final Delegate delegate = (Delegate)getBusinessObject();
+        delegate.refreshReferenceObject("account");
+        return new OrgReviewRoutingData(delegate.getChartOfAccountsCode(), delegate.getAccount().getOrganizationCode());
     }
 }

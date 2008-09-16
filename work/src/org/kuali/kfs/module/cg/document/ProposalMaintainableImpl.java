@@ -20,10 +20,13 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.PROPOSAL_SUBCONTRACTORS;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -35,6 +38,10 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormResearchRiskService;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
+import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -50,7 +57,8 @@ import org.kuali.rice.kns.web.ui.Section;
 /**
  * Methods for the Proposal maintenance document UI.
  */
-public class ProposalMaintainableImpl extends KualiMaintainableImpl {
+public class ProposalMaintainableImpl extends KualiMaintainableImpl implements GenericRoutingInfo {
+    private Set<RoutingData> routingInfo;
 
     public ProposalMaintainableImpl() {
         super();
@@ -70,9 +78,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      * Use a new proposal number when creating a copy.
      */
     @Override
-    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         getProposal().setProposalNumber(NextProposalNumberFinder.getLongValue());
-        super.processAfterCopy( document, parameters );
+        super.processAfterCopy(document, parameters);
     }
 
     /**
@@ -268,4 +276,54 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         return sections;
     }
 
+    /**
+     * Gets the routingInfo attribute. 
+     * @return Returns the routingInfo.
+     */
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    /**
+     * Sets the routingInfo attribute value.
+     * @param routingInfo The routingInfo to set.
+     */
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
+
+    /**
+     * Makes sure the routingInfo property is initialized and populates account review and org review data 
+     * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
+     */
+    public void populateRoutingInfo() {
+        if (routingInfo == null) {
+            routingInfo = new HashSet<RoutingData>();
+        }
+        
+        routingInfo.add(getOrgReviewData());
+    }
+
+    /**
+     * Generates a RoutingData object with the accounts to review
+     * @return a properly initialized RoutingData object for account review
+     */
+    protected RoutingData getOrgReviewData() {
+        RoutingData routingData = new RoutingData();
+        routingData.setRoutingType(KualiOrgReviewAttribute.class.getName());
+        
+        Set<OrgReviewRoutingData> routingSet = new HashSet<OrgReviewRoutingData>();
+        routingSet.add(gatherOrgToReview());
+        routingData.setRoutingSet(routingSet);
+        
+        return routingData;
+    }
+    
+    /**
+     * @return an OrgReviewRoutingData object populated with the organization information that this maintenance document should route to
+     */
+    protected OrgReviewRoutingData gatherOrgToReview() {
+        final Proposal proposal = (Proposal)getBusinessObject();
+        return new OrgReviewRoutingData(proposal.getRoutingChart(), proposal.getRoutingOrg());
+    }
 }

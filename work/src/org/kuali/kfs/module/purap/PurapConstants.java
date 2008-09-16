@@ -741,7 +741,7 @@ public class PurapConstants extends JSTLConstants {
         
         public static final String INDIVIDUAL_ASSETS = "IND";
         public static final String ONE_SYSTEM = "ONE";
-        public static final String MULTIPLE_SYSTEMS = "MULT";
+        public static final String MULTIPLE_SYSTEMS = "MUL";
         public static final String INDIVIDUAL_ASSETS_DESC = "Each of the lines will be capitalized as INDIVIDUAL ASSETS.";
         public static final String ONE_SYSTEM_DESC = "Line items are being added together to create ONE SYSTEM.";
         public static final String MULTIPLE_SYSTEMS_DESC = "Any of the line items will be added together to create MULTIPLE SYSTEMS.";

@@ -274,6 +274,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String ITEM_TYPE_RESTCK_FEE_CODE = "RSTO";
         public static final String ITEM_TYPE_MISC_CRDT_CODE = "MSCR";
         public static final String ITEM_TYPE_UNORDERED_ITEM_CODE = "UNOR";
+        public static final String ITEM_TYPE_SHIPPING_CODE = "SHIP";
 
         public static final Set<String> EXCLUDED_ITEM_TYPES = new HashSet<String>();
         static {
@@ -774,12 +775,24 @@ public class PurapConstants extends JSTLConstants {
 
         // ELECTRONIC INVOICE SHIPPING DESCRIPTION
         public static String SHIPPING_DESCRIPTION = "Electronic Invoice Shipping";
+        public static String DEFAULT_BELOW_LINE_ITEM_DESCRIPTION = "Electronically entered amount";
         
+        public final static String DEFAULT_SHIPPING_DESCRIPTION = "Shipping";
+        
+        public static String CXML_ADDRESS_SHIP_TO_ROLE_ID = "shipTo";
+        public static String CXML_ADDRESS_BILL_TO_ROLE_ID = "billTo";
+        public static String CXML_ADDRESS_REMIT_TO_ROLE_ID = "remitTo";
+        
+        // name of our default address name we use (null for first available)
+        public static String CXML_ADDRESS_SHIP_TO_NAME = null;
+        public static String CXML_ADDRESS_BILL_TO_NAME = null;
+        public static String CXML_ADDRESS_REMIT_TO_NAME = null;
+
         /**
          * Here is a list of reject reason type codes
          */
         public final static String DUNS_INVALID = "INDU";
-        public final static String INVOICE_ID_INVALID = "INID";
+//        public final static String INVOICE_ID_INVALID = "INID";
         public final static String INVOICE_ID_EMPTY = "IIDE";
         public final static String INVOICE_DATE_GREATER = "IDAG";
         public final static String INVOICE_DATE_INVALID = "IDIV";
@@ -794,9 +807,9 @@ public class PurapConstants extends JSTLConstants {
         public final static String SPL_HANDLING_SUMMARY_AMT_MISMATCH = "SSAM";
         public final static String SHIPPING_SUMMARY_AMT_MISMATCH = "SHSA";
 //        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITMN";
-        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITME";
+//        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITME";
         public final static String ITEM_TYPE_NAME_NOT_AVAILABLE = "ITNA";
-        public final static String ITEM_TYPE_RECORD_NOT_AVAILABLE = "ITRA";
+//        public final static String ITEM_TYPE_RECORD_NOT_AVAILABLE = "ITRA";
         public final static String INVALID_NUMBER_FORMAT = "NFEX";
         public final static String PO_ID_EMPTY = "POIE";
         public final static String PO_ID_INVALID_FORMAT = "POII";
@@ -808,7 +821,7 @@ public class PurapConstants extends JSTLConstants {
         public final static String INACTIVE_LINE_ITEM = "ILIA";
         public final static String CATALOG_NUMBER_MISMATCH = "IICN";
         public final static String UNIT_OF_MEASURE_MISMATCH = "IUOM";
-        public final static String UNIT_PRICE_INVALID = "IUPI";
+//        public final static String UNIT_PRICE_INVALID = "IUPI";
         public final static String OUTSTANDING_ENCUMBERED_QTY_AVAILABLE = "UEOQ";
         public final static String INVOICE_QTY_EMPTY = "IIQE";
         public final static String PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY = "PILI";
@@ -818,12 +831,37 @@ public class PurapConstants extends JSTLConstants {
         public final static String PO_COST_SOURCE_EMPTY = "CSEM";
         public final static String INVOICE_AMT_GREATER_THAN_UPPER_VARIANCE = "AGUV";
         public final static String INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE = "ALLV";
-        public final static String PAYMENT_REQUEST_CREATION_ERROR = "PRCE";
+//        public final static String PAYMENT_REQUEST_CREATION_ERROR = "PRCE";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
         
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
         public final static String PREQ_DISCOUNT_ERROR = "PRDE";
         public final static String PREQ_ROUTING_FAILURE = "PRRF";
+        public final static String PREQ_ROUTING_VALIDATION_ERROR = "PRVE";
+        public final static String ERROR_ADDING_SCHEMA = "EASC";
+        
+
+        public static class RejectDocumentFields{
+            public final static String INVOICE_FILE_NUMBER = "invoiceFileNumber";
+            public final static String INVOICE_FILE_DATE = "invoiceFileDate";
+            
+            //VendorID?
+            
+            public final static String VENDOR_DUNS_NUMBER = "vendorDunsNumber";
+            public final static String INVOICE_PO_ID = "invoiceOrderPurchaseOrderIdentifier";
+            public final static String INVOICE_ITEM_LINE_NUMBER = "invoiceItemLineNumber";
+            public final static String INVOICE_ITEM_QUANTITY = "invoiceItemQuantity";
+            public final static String INVOICE_ITEM_UOM = "invoiceItemUnitOfMeasureCode";
+            public final static String INVOICE_ITEM_CATALOG_NUMBER = "invoiceItemCatalogNumber";
+            public final static String INVOICE_ITEM_UNIT_PRICE = "invoiceItemUnitPrice";
+            public final static String INVOICE_ITEM_SUBTOTAL_MAT = "invoiceItemSubTotalAmount";
+            public final static String INVOICE_ITEM_TAX_AMT = "invoiceItemTaxAmount";
+            public final static String INVOICE_ITEM_SPL_HANDLING_AMT = "invoiceItemSpecialHandlingAmount";
+            public final static String INVOICE_ITEM_SHIPPING_AMT = "invoiceItemShippingAmount";
+            public final static String INVOICE_ITEM_DISCOUNT_AMT = "invoiceItemDiscountAmount";
+            public final static String INVOICE_ITEM_NET_AMT = "invoiceItemNetAmount";
+            
+        }
         
     }
     

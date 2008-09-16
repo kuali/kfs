@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
@@ -59,6 +61,11 @@ public class ElectronicInvoiceOrderHolder {
     private boolean isRejectDocumentHolder;
     private boolean validateHeader;
     
+    private String[] summaryRejectCodes = new String[]{PurapConstants.ElectronicInvoice.TAX_SUMMARY_AMT_MISMATCH,
+                                                       PurapConstants.ElectronicInvoice.SHIPPING_SUMMARY_AMT_MISMATCH,
+                                                       PurapConstants.ElectronicInvoice.SPL_HANDLING_SUMMARY_AMT_MISMATCH,
+                                                       PurapConstants.ElectronicInvoice.DISCOUNT_SUMMARY_AMT_MISMATCH};
+    
     public ElectronicInvoiceOrderHolder(ElectronicInvoiceRejectDocument rejectDocument,
                                         Map itemTypeMappings,
                                         Map itemTypes){
@@ -81,12 +88,60 @@ public class ElectronicInvoiceOrderHolder {
             
             PurApItem poItem = null;
             if (poDocument != null){
-                poItem = poDocument.getItemByLineNumber(invoiceRejectItem.getInvoiceReferenceItemLineNumber());
+                try{
+                    poItem = poDocument.getItemByLineNumber(invoiceRejectItem.getInvoiceReferenceItemLineNumber());
+                }catch(NullPointerException e){
+                    /**
+                     * Not needed to hadle this invalid item here, this will be handled in the matching process 
+                     */
+                }
             }
             
             items.add(new ElectronicInvoiceItemHolder(invoiceRejectItem,itemTypeMappings,poItem == null ? null : (PurchaseOrderItem)poItem,this));
         }
+        
+        /**
+         * It's needed to retain any reject reasons which is related to summary amount matching
+         * which should not escape from the matching process 
+         */
+        retainSummaryRejects(rejectDocument);
+        
     }
+    
+    private void retainSummaryRejects(ElectronicInvoiceRejectDocument rejectDocument){
+        
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Searching for summary rejects");
+        }
+        
+        List<ElectronicInvoiceRejectReason> retainList = new ArrayList<ElectronicInvoiceRejectReason>();
+        List<ElectronicInvoiceRejectReason> rejectReasons = rejectDocument.getInvoiceRejectReasons();
+        
+        for (int i = 0; i < rejectReasons.size(); i++) {
+            if (ArrayUtils.contains(summaryRejectCodes,rejectReasons.get(i).getInvoiceRejectReasonTypeCode())){
+                retainList.add(rejectReasons.get(i));
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Retaining Reject [Code=" + rejectReasons.get(i).getInvoiceRejectReasonTypeCode() + ",Desc=" + rejectReasons.get(i).getInvoiceRejectReasonDescription());
+                }
+            }
+        }
+        
+        if (LOG.isDebugEnabled()){
+            if (retainList.size() == 0){
+                LOG.debug("No summary rejects found");
+            }
+        }
+        
+        /**
+         * FIXME: Use rejectDocument.getInvoiceRejectReasons().remove(index) instead of creating a new list
+         */
+        rejectDocument.getInvoiceRejectReasons().clear();
+        
+        for (int i = 0; i < retainList.size(); i++) {
+            rejectDocument.addRejectReason(retainList.get(i));
+        }
+    }
+    
     
     public ElectronicInvoiceOrderHolder(ElectronicInvoice eInvoice,
                                         ElectronicInvoiceOrder invoiceOrder,
@@ -123,7 +178,7 @@ public class ElectronicInvoiceOrderHolder {
                     poItem = poDocument.getItemByLineNumber(orderItem.getReferenceLineNumberInteger());
                 }catch(NullPointerException e){
                     /**
-                     * Not needed to hadle this invalid item here, this will be handled in the matching process 
+                     * Not needed to handle this invalid item here, this will be handled in the matching process 
                      */
                 }
             }
@@ -189,7 +244,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceFileNumber();
         }else{
-            return eInvoice.getInvoiceDetailRequestHeader().getInvoiceId();
+            return eInvoice.getInvoiceDetailRequestHeader().getInvoiceIdStripped();
         }
     }
     
@@ -238,7 +293,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceItemTaxAmount();
         }else{
-            return eInvoice.getInvoiceDetailRequestSummary().getInvoiceTaxAmount();
+            return eInvoice.getInvoiceTaxAmount(invoiceOrder);
         }
     }
     
@@ -250,11 +305,19 @@ public class ElectronicInvoiceOrderHolder {
         }
     }
     
-    public BigDecimal getSpecialHandlingAmount(){
+    public BigDecimal getInvoiceSpecialHandlingAmount(){
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceItemSpecialHandlingAmount();
         }else{
-            return eInvoice.getInvoiceDetailRequestSummary().getInvoiceSpecialHandlingAmount();
+            return eInvoice.getInvoiceSpecialHandlingAmount(invoiceOrder);
+        }
+    }
+    
+    public String getInvoiceSpecialHandlingDescription(){
+        if (isRejectDocumentHolder()){
+            return rejectDocument.getInvoiceItemSpecialHandlingDescription();
+        }else{
+            return eInvoice.getInvoiceSpecialHandlingDescription(invoiceOrder);
         }
     }
     
@@ -270,7 +333,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceItemShippingAmount();
         }else{
-            return eInvoice.getInvoiceDetailRequestSummary().getInvoiceShippingAmount();
+            return eInvoice.getInvoiceShippingAmount(invoiceOrder);
         }
     }
     
@@ -294,10 +357,26 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceItemDiscountAmount();
         }else{
-            return eInvoice.getInvoiceDetailRequestSummary().getInvoiceDiscountAmount();
+            return eInvoice.getInvoiceDiscountAmount(invoiceOrder);
         }
     }
     
+    public BigDecimal getInvoiceDepositAmount() {
+        if (isRejectDocumentHolder()){
+            throw new UnsupportedOperationException("Deposit amount not available for the reject document");
+        }else{
+            return eInvoice.getInvoiceDepositAmount();    
+        }
+    }
+
+    public BigDecimal getInvoiceDueAmount() {
+        if (isRejectDocumentHolder()){
+            throw new UnsupportedOperationException("Deposit amount not available for the reject document");
+        }else{
+            return eInvoice.getInvoiceDueAmount();
+        }
+    }
+      
     public PurchaseOrderDocument getPurchaseOrderDocument(){
         return poDocument;
     }
@@ -325,18 +404,19 @@ public class ElectronicInvoiceOrderHolder {
     }
     
     public void addInvoiceHeaderRejectReason(ElectronicInvoiceRejectReason rejectReason){
-        addInvoiceHeaderRejectReason(rejectReason,null);
+        addInvoiceHeaderRejectReason(rejectReason,null,null);
     }
     
     public void addInvoiceHeaderRejectReason(ElectronicInvoiceRejectReason rejectReason,
-                                             String fieldName){
+                                             String fieldName,
+                                             String applnResourceKey){
         
         LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
         
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
-            if (fieldName != null){
-                GlobalVariables.getErrorMap().putError("vendorDunsNumber", rejectReason.getInvoiceRejectReasonDescription());    
+            if (fieldName != null && applnResourceKey != null){
+//                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);    
             }
         }else{
             eInvoice.addFileRejectReasonToList(rejectReason);
@@ -346,13 +426,19 @@ public class ElectronicInvoiceOrderHolder {
     
     public void addInvoiceOrderRejectReason(ElectronicInvoiceRejectReason rejectReason,
                                             String fieldName){
+        addInvoiceOrderRejectReason(rejectReason,fieldName,null);
+    }
+
+    public void addInvoiceOrderRejectReason(ElectronicInvoiceRejectReason rejectReason,
+                                            String fieldName,
+                                            String applnResourceKey){
         
         LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
         
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
-            if (fieldName != null){
-                GlobalVariables.getErrorMap().putError("vendorDunsNumber", null);
+            if (fieldName != null && applnResourceKey != null){
+//                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);
             }
         }else{
             invoiceOrder.addRejectReasonToList(rejectReason);
@@ -361,7 +447,7 @@ public class ElectronicInvoiceOrderHolder {
     }
     
     public void addInvoiceOrderRejectReason(ElectronicInvoiceRejectReason rejectReason) {
-        addInvoiceOrderRejectReason(rejectReason,null);
+        addInvoiceOrderRejectReason(rejectReason,null,null);
     }
     
     public boolean isValidateHeaderInformation(){
@@ -389,19 +475,19 @@ public class ElectronicInvoiceOrderHolder {
         }
     }*/
     
-    public boolean isItemTypeAvailableInItemMapping(String invoiceItemTypeCode) {
+    public boolean isItemTypeAvailableInItemMapping(String kualiItemTypeCode) {
         if (itemTypeMappings == null) {
             return false;
         }
         else {
-            return itemTypeMappings.containsKey(invoiceItemTypeCode);
+            return itemTypeMappings.containsKey(kualiItemTypeCode);
         }
     }
 
     
     public boolean isInvoiceRejected() {
         if (isRejectDocumentHolder()) {
-            return rejectDocument.getInvoiceRejectReasons() != null && rejectDocument.getInvoiceRejectReasons().size() > 1;
+            return rejectDocument.getInvoiceRejectReasons() != null && rejectDocument.getInvoiceRejectReasons().size() > 0;
         }
         else {
             return eInvoice.isFileRejected();
@@ -487,7 +573,7 @@ public class ElectronicInvoiceOrderHolder {
 
         if (!isRejectDocumentHolder()) {
 
-            ElectronicInvoicePostalAddress shipToAddress = eInvoice.getCxmlPostalAddress(invoiceOrder, ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_ROLE_ID, ElectronicInvoiceMappingService.CXML_ADDRESS_SHIP_TO_NAME);
+            ElectronicInvoicePostalAddress shipToAddress = eInvoice.getCxmlPostalAddress(invoiceOrder, PurapConstants.ElectronicInvoice.CXML_ADDRESS_SHIP_TO_ROLE_ID, PurapConstants.ElectronicInvoice.CXML_ADDRESS_SHIP_TO_NAME);
             if (shipToAddress != null) {
 
                 if (StringUtils.isNotEmpty(shipToAddress.getName())) {
@@ -539,8 +625,8 @@ public class ElectronicInvoiceOrderHolder {
         if (!isRejectDocumentHolder()){
             
             ElectronicInvoicePostalAddress billToAddress = eInvoice.getCxmlPostalAddress(invoiceOrder,
-                                                                                         ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_ROLE_ID,
-                                                                                         ElectronicInvoiceMappingService.CXML_ADDRESS_BILL_TO_NAME);
+                                                                                         PurapConstants.ElectronicInvoice.CXML_ADDRESS_BILL_TO_ROLE_ID,
+                                                                                         PurapConstants.ElectronicInvoice.CXML_ADDRESS_BILL_TO_NAME);
             
             if (billToAddress != null) {
 

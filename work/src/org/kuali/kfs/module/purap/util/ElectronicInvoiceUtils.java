@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.util;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,9 +23,12 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 
 public class ElectronicInvoiceUtils {
+    
+    private final static Logger LOG = Logger.getLogger(ElectronicInvoiceUtils.class);
     
     public static Date getDate(String invoiceDateString){
         
@@ -100,6 +104,20 @@ public class ElectronicInvoiceUtils {
         }
     }
     
+    public static String stripSplChars(String data){
+        if (data != null){
+            StringBuffer result = new StringBuffer();
+            for (int i = 0; i < data.length(); i++) {
+              if (Character.isLetterOrDigit(data.charAt(i))){
+                  result.append(data.charAt(i));
+              }
+            }
+            return result.toString();
+        }else{
+            return null;
+        }
+    }
+    
     public static void main(String s[]){
         //TestCase 1 - cdw.xml 
         String invoiceDate = "2008-08-11T00:00:00-06:00";
@@ -118,8 +136,8 @@ public class ElectronicInvoiceUtils {
         System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate));
         
         //TestCase 5 - For reject doc date (in kuali format)
-        invoiceDate = "2008/07/23";
-        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (KauliFormat check) ");
+        invoiceDate = "07/23/2008";
+        System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (KualiFormat check) ");
         
         //TestCase 6 - For invalid format 1
         invoiceDate = "2008|07|23";
@@ -128,5 +146,20 @@ public class ElectronicInvoiceUtils {
         //TestCase 7 - For invalid format 2
         invoiceDate = null;
         System.out.println("Actual Date= " + invoiceDate + ", Converted Date = " + getDate(invoiceDate) + "  (InvalidFormat check) ");
+        
+        //Invoice Id Check
+        String rawInvoiceId = "A1!B2#C3$D4%";
+        System.out.println("Processed InvId " + stripSplChars(rawInvoiceId));
+        
+        
+        BigDecimal d1 = new BigDecimal("0");
+        BigDecimal d2 = new BigDecimal("-50");
+        
+        System.out.println(d2.compareTo(d1) < 0);
+        if (d2.compareTo(d1) < 0){
+            System.out.println("D2 greater");
+        }else{
+            System.out.println("D1 greater");
+        }
     }
 }

@@ -22,9 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.batch.service.ElectronicInvoiceHelperService;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceLoadService;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceParserService;
+import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -33,16 +31,15 @@ public class ElectronicInvoiceStep extends AbstractStep {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceStep.class);
 
-    private ElectronicInvoiceParserService electronicInvoiceParserService;
+    private ElectronicInvoiceHelperService electronicInvoiceHelperService;
 
-    public boolean execute(String jobName, 
-                           Date jobRunDate) {
-//        return electronicInvoiceLoadService.loadElectronicInvoices();
+    public boolean execute(String jobName, Date jobRunDate) {
+//        return electronicInvoiceHelperService.loadElectronicInvoices();
         return true;
     }
 
-    public void setElectronicInvoiceParserService(ElectronicInvoiceParserService electronicInvoiceParserService) {
-        this.electronicInvoiceParserService = electronicInvoiceParserService;
+    public void setElectronicInvoiceHelperService(ElectronicInvoiceHelperService electronicInvoiceHelperService) {
+        this.electronicInvoiceHelperService = electronicInvoiceHelperService;
     }
 
 }

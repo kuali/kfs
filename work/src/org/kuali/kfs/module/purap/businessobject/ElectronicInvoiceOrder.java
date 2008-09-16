@@ -18,6 +18,7 @@ import java.util.Locale;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 
 /**
  * @author delyea
@@ -98,18 +99,18 @@ public class ElectronicInvoiceOrder {
   }
   
   public ElectronicInvoiceContact getCxmlContactByRoleID(String roleID) {
-	if (roleID != null) {
-	  for (Iterator itemIter = this.invoiceItems.iterator(); itemIter.hasNext();) {
-	    ElectronicInvoiceItem eii = (ElectronicInvoiceItem) itemIter.next();
-	    for (Iterator iter = eii.getInvoiceShippingContacts().iterator(); iter.hasNext();) {
-	      ElectronicInvoiceContact contact = (ElectronicInvoiceContact) iter.next();
-	      if (roleID.equalsIgnoreCase(contact.getRole())) {
-	        return contact;
-	      }
-	    }
-	  }
-	}
-	return null;
+    if (roleID != null) {
+      for (Iterator itemIter = this.invoiceItems.iterator(); itemIter.hasNext();) {
+        ElectronicInvoiceItem eii = (ElectronicInvoiceItem) itemIter.next();
+        for (Iterator iter = eii.getInvoiceShippingContacts().iterator(); iter.hasNext();) {
+          ElectronicInvoiceContact contact = (ElectronicInvoiceContact) iter.next();
+          if (roleID.equalsIgnoreCase(contact.getRole())) {
+            return contact;
+          }
+        }
+      }
+    }
+    return null;
   }
   /**
    * This method returns the first shipping date found in the list of items.  This 
@@ -165,7 +166,7 @@ public class ElectronicInvoiceOrder {
       ElectronicInvoiceItem eii = (ElectronicInvoiceItem) iter.next();
       BigDecimal shippingAmount = eii.getInvoiceLineShippingAmountBigDecimal(); 
       if ( (shippingAmount != null) && (zero.compareTo(shippingAmount) != 0) ) {
-        return ElectronicInvoiceMappingService.E_INVOICE_SHIPPING_DESCRIPTION;
+        return PurapConstants.ElectronicInvoice.DEFAULT_SHIPPING_DESCRIPTION;
       }
     }
     return null;
@@ -245,7 +246,7 @@ public class ElectronicInvoiceOrder {
    */
   public void setMasterAgreementIDInfoDateString(String masterAgreementIDInfoDateString) {
     this.masterAgreementIDInfoDateString = masterAgreementIDInfoDateString;
-    if ( (masterAgreementIDInfoDateString != null) && (!("".equals(masterAgreementIDInfoDateString))) ) {
+    /*if ( (masterAgreementIDInfoDateString != null) && (!("".equals(masterAgreementIDInfoDateString))) ) {
       SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
       try {
         this.masterAgreementIDInfoDate = sdf.parse(masterAgreementIDInfoDateString);
@@ -256,7 +257,8 @@ public class ElectronicInvoiceOrder {
       }
     } else {
       this.masterAgreementIDInfoDate = null;
-    }
+    }*/
+    setMasterAgreementIDInfoDate(ElectronicInvoiceUtils.getDate(masterAgreementIDInfoDateString));
   }
   /**
    * Altered for special circumstances
@@ -265,7 +267,7 @@ public class ElectronicInvoiceOrder {
    */
   public void setMasterAgreementReferenceDateString(String masterAgreementReferenceDateString) {
     this.masterAgreementReferenceDateString = masterAgreementReferenceDateString;
-    if ( (masterAgreementReferenceDateString != null) && (!("".equals(masterAgreementReferenceDateString))) ) {
+    /*if ( (masterAgreementReferenceDateString != null) && (!("".equals(masterAgreementReferenceDateString))) ) {
       SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
       try {
         this.masterAgreementReferenceDate = sdf.parse(masterAgreementReferenceDateString);
@@ -276,7 +278,8 @@ public class ElectronicInvoiceOrder {
       }
     } else {
       this.masterAgreementIDInfoDate = null;
-    }
+    }*/
+    setMasterAgreementIDInfoDate(ElectronicInvoiceUtils.getDate(masterAgreementReferenceDateString));
   }
   /**
    * Altered for special circumstances
@@ -285,7 +288,7 @@ public class ElectronicInvoiceOrder {
    */
   public void setOrderIDInfoDateString(String orderIDInfoDateString) {
     this.orderIDInfoDateString = orderIDInfoDateString;
-    if ( (orderIDInfoDateString != null) && (!("".equals(orderIDInfoDateString))) ) {
+    /*if ( (orderIDInfoDateString != null) && (!("".equals(orderIDInfoDateString))) ) {
       SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
       try {
         this.orderIDInfoDate = sdf.parse(orderIDInfoDateString);
@@ -296,7 +299,8 @@ public class ElectronicInvoiceOrder {
       }
     } else {
       this.orderIDInfoDate = null;
-    }
+    }*/
+    setOrderIDInfoDate(ElectronicInvoiceUtils.getDate(orderIDInfoDateString));
   }
   /**
    * @return Returns the invoiceItems.

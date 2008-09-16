@@ -3215,7 +3215,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping" table="AP_ELCTRNC_INV_MAP_T">
-	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="VARCHAR" primarykey="true" index="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
+	<field-descriptor name="invoiceMapIdentifier" column="AP_ELCTRNC_INV_MAP_ID" jdbc-type="INTEGER" primarykey="true" index="true" sequence-name="AP_ELCTRNC_INV_MAP_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3229,9 +3229,9 @@
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="invoiceItemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <!-- <reference-descriptor name="invoiceItemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="invoiceItemTypeCode" />
-    </reference-descriptor>
+    </reference-descriptor> -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary" table="AP_ELCTRNC_INV_LOAD_SUM_T">

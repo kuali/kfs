@@ -863,7 +863,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Process Date" />
     <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="100" />
     <property name="validationPattern" >
       <bean parent="DateValidationPattern" />
     </property>
@@ -914,9 +914,9 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Invoice Ship Date" />
     <property name="shortLabel" value="Date" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="100" />
     <property name="validationPattern" >
-      <bean parent="DateValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"

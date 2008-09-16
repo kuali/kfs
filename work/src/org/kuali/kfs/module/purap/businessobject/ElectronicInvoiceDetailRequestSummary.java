@@ -7,6 +7,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
 
@@ -59,7 +60,7 @@ public class ElectronicInvoiceDetailRequestSummary {
     if (this.shippingAmount != null) {
       try {
         if (zero.compareTo(this.getInvoiceShippingAmount()) != 0) {
-          return ElectronicInvoiceMappingService.E_INVOICE_SHIPPING_DESCRIPTION;
+          return PurapConstants.ElectronicInvoice.DEFAULT_SHIPPING_DESCRIPTION;
         } else {
           return null;
         }

@@ -130,7 +130,17 @@ public class ElectronicInvoice {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         // we add one to the month below because January = 0, February = 1, March = 2, and so on
-        String useDate = (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DATE) + "/" + c.get(Calendar.YEAR);
+        String monthPart = (c.get(Calendar.MONTH) + 1) + "";
+        String dayPart = c.get(Calendar.DATE) + "";
+        if (monthPart.length() == 1){
+            monthPart = "0" + monthPart;
+        }
+        
+        if (dayPart.length() == 1){
+            dayPart = "0" + dayPart;
+        }
+        
+        String useDate =  monthPart + "/" + dayPart + "/" + c.get(Calendar.YEAR);
         String actualDate = (date != null) ? date.toString() : "empty given date";
         LOG.info("getDateDisplayText() Returning Date '" + useDate + "' garnered from " + actualDate);
         return useDate;

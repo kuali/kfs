@@ -364,13 +364,4 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      */
     public boolean isAwaitingReceiving(Integer paymentRequestIdentifier);
     
-    /**
-     * This validates an electronic invoice and makes sure it can be turned into a Payment Request
-     * 
-     * @param orderHolder         holds reject document or electronicinvoice class
-     * @return A PaymentRequestInitializationValidationErrors object containing continuation accounting
-     *             and error messages if need be
-     */
-    public void validateElectronicInvoicePaymentRequest(ElectronicInvoiceOrderHolder orderHolder,
-                                                        PaymentRequestInitializationValidationErrors validationErrors);
 }

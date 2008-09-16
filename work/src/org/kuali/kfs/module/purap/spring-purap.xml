@@ -590,13 +590,10 @@
 		<property name="mailService" ref="mailService"/>
 	</bean>
 	
-	<bean id="electronicInvoiceParserService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceParserServiceImpl">
+	<bean id="electronicInvoiceHelperService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceHelperServiceImpl">
 		<property name="electronicInvoicingDao">
 		    <ref bean="electronicInvoicingDao" />
 		</property>
-         <property name="electronicInvoiceMappingService">
-            <ref bean="electronicInvoiceMappingService" />
-        </property>
         <property name="electronicInvoiceInputFileType">
 		    <ref bean="electronicInvoiceInputFileType" />
 		</property>
@@ -670,8 +667,8 @@
 	</bean>
 	
 	<bean id="electronicInvoiceExtractStep" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep" parent="step">
-		<property name="electronicInvoiceParserService">
-			<ref bean="electronicInvoiceParserService" />
+		<property name="electronicInvoiceHelperService">
+			<ref bean="electronicInvoiceHelperService" />
 		</property>
 	</bean>
 	
@@ -686,7 +683,8 @@
 	       <value>org/kuali/kfs/module/purap/batch/electronicInvoiceDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value>
+	    <!-- <value>${externalizable.xml.url}/purap/electronicInvoice.xsd</value> -->
+	       <value>work/src/org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value>
 	    </property>
 	</bean>
 	

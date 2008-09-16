@@ -153,18 +153,19 @@ public class ElectronicInvoiceDetailRequestHeader {
    */
   public void setShippingDateString(String shippingDateString) {
     this.shippingDateString = shippingDateString;
-    if ( (shippingDateString != null) && (!("".equals(shippingDateString))) ) {
-      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
-      try {
-        this.shippingDate = sdf.parse(shippingDateString);
-      } catch (ParseException e) {
-        // setting shipping date to null to identify problem
-        LOG.error("setShippingDateString() SimpleDateFormat parser error attempting to set invalid date string " + shippingDateString + " in ShippingDate field... setting date to null");
-        this.shippingDate = null;
-      }
-    } else {
-      this.shippingDate = null;
-    }
+//    if ( (shippingDateString != null) && (!("".equals(shippingDateString))) ) {
+//      SimpleDateFormat sdf = new SimpleDateFormat(PurapConstants.ElectronicInvoice.CXML_DATE_FORMAT, Locale.US);
+//      try {
+//        this.shippingDate = sdf.parse(shippingDateString);
+//      } catch (ParseException e) {
+//        // setting shipping date to null to identify problem
+//        LOG.error("setShippingDateString() SimpleDateFormat parser error attempting to set invalid date string " + shippingDateString + " in ShippingDate field... setting date to null");
+//        this.shippingDate = null;
+//      }
+//    } else {
+//      this.shippingDate = null;
+//    }
+    setShippingDate(ElectronicInvoiceUtils.getDate(shippingDateString));
   }
 
   /**
@@ -213,6 +214,11 @@ public class ElectronicInvoiceDetailRequestHeader {
   public String getInvoiceId() {
     return invoiceId;
   }
+  
+  public String getInvoiceIdStripped(){
+      return ElectronicInvoiceUtils.stripSplChars(getInvoiceId());
+    }
+  
   /**
    * @param invoiceId The invoiceId to set.
    */

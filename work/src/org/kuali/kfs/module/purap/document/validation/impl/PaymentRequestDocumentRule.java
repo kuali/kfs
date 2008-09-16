@@ -132,6 +132,13 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         isValid &= checkNegativeAccounts(paymentRequestDocument);
         return isValid;
     }
+    
+    /**
+     * This is for EInvoice
+     */
+    public boolean processRouteDocumentBusinessRules(Document document) {
+        return processCustomRouteDocumentBusinessRules(document);
+    }
 
     /**
      * Ensures source accounting lines amounts are not negative.

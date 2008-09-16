@@ -288,4 +288,10 @@ public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.ne
     public static final String MESSAGE_BULK_RECEIVING_DUPLICATE_PREFIX = "message.bulkReceiving.duplicate.prefix";
     public static final String ERROR_BULK_RECEIVING_PDF = "error.bulkreceiving.pdf";
     
+    //Electronic Invoice
+    public static final String ERROR_REJECT_INVALID_DUNS = "errors.reject.invalidDuns";
+    public static final String ERROR_REJECT_INVOICE_NUMBER_EMPTY = "errors.reject.invoicenumber.empty";
+    public static final String ERROR_REJECT_INVOICE_DATE_INVALID = "errors.reject.invoicedate.invalid";
+    public static final String ERROR_REJECT_INVOICE_DATE_GREATER = "errors.reject.invoicedate.greater";
+    
 }

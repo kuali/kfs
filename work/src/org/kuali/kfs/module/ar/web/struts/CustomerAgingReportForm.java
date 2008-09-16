@@ -59,20 +59,7 @@ public class CustomerAgingReportForm extends LookupForm {
     private Lookupable lookupable;
     private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
-    private CustomerAgingReportDetail customerAgingReportDetail;
 
-    public CustomerAgingReportForm() {
-        super();
-        
-        this.customerAgingReportDetail = new CustomerAgingReportDetail();
-        this.setReportOption(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
-        this.setReportOption(ArConstants.CustomerAgingReportFields.BILLING_ORG);
-        this.setReportOption(ArConstants.CustomerAgingReportFields.ACCT);
-
-        // MJM one of these should f'n work!
-       // this.set setTitle("BC Request Import Tool");
-        // this.setReportMode("requestImport");      
-    }
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
@@ -82,11 +69,7 @@ public class CustomerAgingReportForm extends LookupForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        try {
-            this.setReportOption(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
-            this.setReportOption(ArConstants.CustomerAgingReportFields.BILLING_ORG);
-            this.setReportOption(ArConstants.CustomerAgingReportFields.ACCT);
-            
+        try {            
             if (StringUtils.isBlank(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
 
                 // get the business object class for the lookup
@@ -112,11 +95,6 @@ public class CustomerAgingReportForm extends LookupForm {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
                 throw new RuntimeException("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
             }
-
-            // (laran) I put this here to allow the Exception to be thrown if the localLookupable is null.
-//            if (Entry.class.getName().equals(getBusinessObjectClassName())) {
-//                setPendingEntryLookupable(LookupableSpringContext.getLookupable(GeneralLedgerConstants.LookupableBeanKeys.PENDING_ENTRY));
-//            }
 
             if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
                 setLookupableImplServiceName(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));
@@ -371,14 +349,7 @@ public class CustomerAgingReportForm extends LookupForm {
     }
 
 
-/**
- * Sets the report option   
- * 
- * @param reportOption
- */
-public void setReportOption(String reportOption) {
-    this.customerAgingReportDetail.setReportOption(reportOption);
-}
+
 
 
 

@@ -29,6 +29,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
@@ -96,16 +97,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         this.assetService = assetService;
     }
     
-    public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
-        return validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
+    public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
+        //For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for validateAllFieldRequirementsByChart
+        //should be null. So we'll pass in a null here.
+        boolean valid = validateAllFieldRequirementsByChart(systemState, null, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
+        valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems);
+        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
+        //against CAMS data (for example, asset # exist in CAMS) 
+        return valid;
     }
     
-    public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, CapitalAssetSystem capitalAssetSystem) {
-        return true;
+    public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
+        boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM);
+        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
+        //against CAMS data (for example, asset # exist in CAMS) 
+        return valid;
     }
 
-    public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems) {
-        return true;
+    public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
+        boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.MULTIPLE);
+        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
+        //against CAMS data (for example, asset # exist in CAMS) 
+        return valid;
     }
     
     /**
@@ -134,7 +147,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, "Document");
         String name = "CHARTS_REQUIRING%" + documentType;
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAME, name);
-        //TODO: Chris or Heather's input to Ailish's email about changing the parameters.
+        //TODO: KULPURAP-2837, Find a more permanent home for the codes for handling "LIKE" criterias. This works fine for now
+        //to serve its purpose, although this is probably not the permanent location (ask Chris).
         List<Parameter> results = SpringContext.getBean(PurapService.class).getParametersGivenLikeCriteria(fieldValues);
 
         for (Parameter parameter : results) {
@@ -172,9 +186,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 //all the other fields are off the system.
                 else {
-                    String[] mappedNames = {"purchasingCapitalAssetSystems", mappedName};
+                    List<String> mappedNamesList = new ArrayList<String>();
+                    mappedNamesList.add("purchasingCapitalAssetSystems");
+                    if (mappedName.indexOf(".") < 0) {
+                        mappedNamesList.add(mappedName);     
+                    }
+                    else {
+                        mappedNamesList.addAll(mappedNameSplitter(mappedName));
+                    }
                     for (CapitalAssetSystem system : capitalAssetSystems) {
-                        valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
+                        valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()));
                     }
                 }
             }
@@ -201,12 +222,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 if (mappedName.equals("capitalAssetTransactionType")) {
                     mappedNamesList.add("purchasingCapitalAssetItems");
                     mappedNamesList.add(mappedName);
+     
                 }
                 //all the other fields are off the system which is off the item
                 else {
                     mappedNamesList.add("purchasingCapitalAssetItems");
                     mappedNamesList.add("purchasingCapitalAssetSystem");
-                    mappedNamesList.add(mappedName);     
+                    if (mappedName.indexOf(".") < 0) {
+                        mappedNamesList.add(mappedName);     
+                    }
+                    else {
+                        mappedNamesList.addAll(mappedNameSplitter(mappedName));
+                    }
                 }
                 //For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get it through
                 //the purchasingCapitalAssetSystem of the item.
@@ -216,6 +243,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         return valid;
+    }
+    
+    private List<String> mappedNameSplitter(String mappedName) {
+        List<String> result = new ArrayList<String>();    
+        String[] mappedNamesArray = mappedName.split(".");
+        for (int i=0; i<mappedNamesArray.length; i++) {
+            result.add(mappedNamesArray[i]);
+        }
+        return result;
     }
     
     private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames) {
@@ -260,6 +296,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         //if we can't find any matching from availability matrix, return null for now.
         return null;
+    }
+
+    /**
+     * Validates that the total quantity on all locations equals to the quantity on the line item.
+     * This is only used for IND system type.
+     * 
+     * @param capitalAssetItems
+     * @return true if the total quantity on all locations equals to the quantity on the line item.
+     */
+    private boolean validateQuantityOnLocationsEqualsQuantityOnItem(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+        boolean valid = true;
+        for (PurchasingCapitalAssetItem item : capitalAssetItems) {
+            KualiDecimal total = new KualiDecimal(0);
+            for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
+                total = total.add(location.getItemQuantity());
+            }
+            if (!item.getPurchasingItem().getItemQuantity().equals(total)) {
+                valid = false;
+            }
+        }
+        
+        return valid;
     }
     
     //-------- KULPURAP 2795 methods start here.

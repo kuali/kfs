@@ -125,11 +125,11 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
     }
     
     public void testCABModuleServiceIndividualNewRequisitionValidation() {
-        Integer requisitionId = new Integer(1234);
+        Integer requisitionId = new Integer(1003);
         RequisitionDocument document = SpringContext.getBean(RequisitionService.class).getRequisitionById(requisitionId);
         List<PurchasingCapitalAssetItem> capitalAssetItems = document.getPurchasingCapitalAssetItems();
         //The capitalAssetSystems is supposed to be null in the INDIVIDUAL system type.
-        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing("NEW", null, capitalAssetItems, "EA", "REQUISITION");
+        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing("NEW", capitalAssetItems, "EA", "REQUISITION");
         assertFalse(result);
     }
     

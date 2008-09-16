@@ -2,15 +2,21 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.CountyService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TaxRegionCounty extends PersistableBusinessObjectBase implements Inactivateable {
 	
+    private String postalCountryCode;
 	private String countyCode;
 	private String stateCode;
 	private String taxRegionCode;
 	private boolean active;
+	
+	private Country country;
 	private County county;
 	private TaxRegion taxRegion;
 	
@@ -53,9 +59,39 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
         return m;
     }
 	public County getCounty() {
+	    county = SpringContext.getBean(CountyService.class).getByPrimaryIdIfNecessary(postalCountryCode, stateCode, countyCode, county);
 		return county;
 	}
 	public void setCounty(County county) {
 		this.county = county;
 	}
+    /**
+     * Gets the postalCountryCode attribute. 
+     * @return Returns the postalCountryCode.
+     */
+    public String getPostalCountryCode() {
+        return postalCountryCode;
+    }
+    /**
+     * Sets the postalCountryCode attribute value.
+     * @param postalCountryCode The postalCountryCode to set.
+     */
+    public void setPostalCountryCode(String postalCountryCode) {
+        this.postalCountryCode = postalCountryCode;
+    }
+    /**
+     * Gets the country attribute. 
+     * @return Returns the country.
+     */
+    public Country getCountry() {
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(postalCountryCode, country);
+        return country;
+    }
+    /**
+     * Sets the country attribute value.
+     * @param country The country to set.
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
 }

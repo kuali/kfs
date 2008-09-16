@@ -95,31 +95,31 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
      * @param taxRegionRate
      * @return
      */
-    protected boolean isValidEffectiveDate(TaxRegionRate taxRegionRate){
+    protected boolean isValidEffectiveDate(TaxRegionRate taxRegionRate) {
         boolean success = true;
-            if (taxRegionRate.getEffectiveDate() != null) {
+        if (taxRegionRate.getEffectiveDate() != null) {
             Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-                int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
-                if (comparison == 0 || comparison < 0) {
+            int comparison = taxRegionRate.getEffectiveDate().compareTo(currentDate);
+            if (comparison == 0 || comparison < 0) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_EFFECTIVE_DATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT);
-                    success = false;
-                }
+                success = false;
             }
+        }
         return success;
     }
-    
+
     /**
      * This method returns true if the tax rate is between 0 and 1.
      * 
      * @param taxRegionRate
      * @return
      */
-    protected boolean isValidTaxRate(TaxRegionRate taxRegionRate){
+    protected boolean isValidTaxRate(TaxRegionRate taxRegionRate) {
         boolean success = true;
-            if (taxRegionRate.getTaxRate() != null) {
-                if (taxRegionRate.getTaxRate().intValue() > 1 || taxRegionRate.getTaxRate().intValue() < 0) {
+        if (taxRegionRate.getTaxRate() != null) {
+            if (taxRegionRate.getTaxRate().intValue() > 1 || taxRegionRate.getTaxRate().intValue() < 0) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_TAX_RATE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1);
-                    success = false;
+                success = false;
             }
         }
 
@@ -135,15 +135,10 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionState(TaxRegionState taxRegionState) {
         boolean success = true;
 
-        if (StringUtils.isNotEmpty(taxRegionState.getStateCode())) {
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("postalStateCode", taxRegionState.getStateCode());
-            State state = (State) businessObjectService.findByPrimaryKey(State.class, criteria);
-
-            if (ObjectUtils.isNull(state) || !state.isActive()) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
-                success = false;
-            }
+        State state = taxRegionState.getState();
+        if (ObjectUtils.isNull(state) || !state.isActive()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
+            success = false;
         }
 
         return success;
@@ -158,16 +153,10 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
         boolean success = true;
 
-        if (StringUtils.isNotEmpty(taxRegionCounty.getStateCode()) || StringUtils.isNotEmpty(taxRegionCounty.getCountyCode())) {
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("stateCode", taxRegionCounty.getStateCode());
-            criteria.put("countyCode", taxRegionCounty.getCountyCode());
-            County county = (County) businessObjectService.findByPrimaryKey(County.class, criteria);
-
-            if (ObjectUtils.isNull(county) || !county.isActive()) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
-                success = false;
-            }
+        County county = taxRegionCounty.getCounty();
+        if (ObjectUtils.isNull(county) || !county.isActive()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
+            success = false;
         }
 
         return success;
@@ -182,15 +171,10 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
         boolean success = true;
 
-        if (StringUtils.isNotEmpty(taxRegionPostalCode.getTaxRegionCode())) {
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("postalZipCode", taxRegionPostalCode.getPostalCode());
-            PostalCode postalZipCode = (PostalCode) businessObjectService.findByPrimaryKey(PostalCode.class, criteria);
- 
-            if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
-                success = false;
-            }
+        PostalCode postalZipCode = taxRegionPostalCode.getPostalZip();
+        if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
+            success = false;
         }
 
         return success;

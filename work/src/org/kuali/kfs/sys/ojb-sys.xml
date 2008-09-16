@@ -816,20 +816,11 @@
 		<field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	    
-		<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-	        <foreignkey field-ref="postalCountryCode" />
-	    </reference-descriptor>	   
+	    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />   
 	    
 	    <reference-descriptor name="taxRegion" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="taxRegionCode" />
         </reference-descriptor>	    
-	    
-	    <reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-            <foreignkey field-ref="postalCountryCode" />
-            <foreignkey field-ref="stateCode" />
-        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionCounty" table="FS_TAX_COUNTY_T" >
@@ -840,21 +831,6 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	    
-	    <reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="postalCountryCode" />
-    	</reference-descriptor>
-
-	    <reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-            <foreignkey field-ref="postalCountryCode" />
-            <foreignkey field-ref="stateCode" />
-        </reference-descriptor>		    
-	    
-	    <reference-descriptor name="county" class-ref="org.kuali.kfs.sys.businessobject.County" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-            <foreignkey field-ref="postalCountryCode" />
-            <foreignkey field-ref="countyCode" />
-            <foreignkey field-ref="stateCode" />
-        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode" table="FS_TAX_POSTAL_CD_T" >
@@ -868,15 +844,6 @@
 	    <reference-descriptor name="taxRegion" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="taxRegionCode" />
         </reference-descriptor>		    
-	    
-		<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
-	        <foreignkey field-ref="postalCountryCode" />
-	    </reference-descriptor>
-    	    
-	    <reference-descriptor name="postalZip" class-ref="org.kuali.kfs.sys.businessobject.PostalCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-            <foreignkey field-ref="postalCountryCode" />
-            <foreignkey field-ref="postalCode" />
-        </reference-descriptor>
 	</class-descriptor>
 	
 </descriptor-repository>

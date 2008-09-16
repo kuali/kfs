@@ -132,6 +132,24 @@ public class PurchasingServiceTestDontRunThisYet extends KualiTestBase {
         boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing("NEW", capitalAssetItems, "EA", "REQUISITION");
         assertFalse(result);
     }
+
+    public void testCABModuleServiceOneSystemNewRequisitionValidation() {
+        Integer requisitionId = new Integer(1004);
+        RequisitionDocument document = SpringContext.getBean(RequisitionService.class).getRequisitionById(requisitionId);
+        List<PurchasingCapitalAssetItem> capitalAssetItems = document.getPurchasingCapitalAssetItems();
+        List<CapitalAssetSystem> capitalAssetSystems = document.getPurchasingCapitalAssetSystems();
+        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateOneSystemCapitalAssetSystemFromPurchasing("NEW", capitalAssetSystems, capitalAssetItems, "EA", "REQUISITION");
+        assertFalse(result);
+    }
+
+    public void testCABModuleServiceMultipleSystemNewRequisitionValidation() {
+        Integer requisitionId = new Integer(1005);
+        RequisitionDocument document = SpringContext.getBean(RequisitionService.class).getRequisitionById(requisitionId);
+        List<PurchasingCapitalAssetItem> capitalAssetItems = document.getPurchasingCapitalAssetItems();
+        List<CapitalAssetSystem> capitalAssetSystems = document.getPurchasingCapitalAssetSystems();
+        boolean result = SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateMultipleSystemsCapitalAssetSystemFromPurchasing("NEW", capitalAssetSystems, capitalAssetItems, "EA", "REQUISITION");
+        assertFalse(result);
+    }
     
     public void testGetValueFromAvailabilityMatrix() {
         String ttOneNew = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getValueFromAvailabilityMatrix("capitalAssetTransactionType", "ONE", "NEW");

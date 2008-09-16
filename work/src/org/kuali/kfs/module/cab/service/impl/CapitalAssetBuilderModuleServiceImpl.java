@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
@@ -104,6 +105,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
+        valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
         return valid;
     }
     
@@ -111,6 +113,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
+        String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
+        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType);
         return valid;
     }
 
@@ -194,6 +198,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     else {
                         mappedNamesList.addAll(mappedNameSplitter(mappedName));
                     }
+                    //For One system type, we would only have 1 CapitalAssetSystem, however, for multiple we may have more than
+                    //one systems (ask Chris). Either way, this for loop should allow both the one system and multiple system
+                    //types to work fine.
                     for (CapitalAssetSystem system : capitalAssetSystems) {
                         valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()));
                     }
@@ -247,7 +254,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     
     private List<String> mappedNameSplitter(String mappedName) {
         List<String> result = new ArrayList<String>();    
-        String[] mappedNamesArray = mappedName.split(".");
+        String[] mappedNamesArray = mappedName.split("\\.");
         for (int i=0; i<mappedNamesArray.length; i++) {
             result.add(mappedNamesArray[i]);
         }
@@ -318,6 +325,53 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         
         return valid;
+    }
+    
+    /**
+     * Validates for the individual system type that for each of the items, the capitalAssetTransactionTypeCode 
+     * matches the system parameter PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, the
+     * method will return true but if it doesn't match the system parameter, then loop through each of the itemCapitalAssets.
+     * If there is any non-null capitalAssetNumber then return false.
+     * 
+     * @param capitalAssetItems the List of PurchasingCapitalAssetItems on the document to be validated
+     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers
+     *         but the itemCapitalAsset contains at least one asset numbers.
+     */
+    private boolean validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+        boolean valid = true;
+        for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
+            valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItem.getPurchasingCapitalAssetSystem(), capitalAssetItem.getCapitalAssetTransactionTypeCode());
+        }
+        return valid;
+    }
+
+    /**
+     * Generic validation that if the capitalAssetTransactionTypeCode does not match the system parameter
+     * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets
+     * contain a non-null capitalAssetNumber then return false.
+     * This method is used by one system and multiple system types as well as being used as a helper method
+     * for validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers method.
+     * 
+     * @param capitalAssetSystem the capitalAssetSystem containing a List of itemCapitalAssets to be validated.
+     * @param capitalAssetTransactionType the capitalAssetTransactionTypeCode containing asset numbers to be validated.
+     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers
+     *         but the itemCapitalAsset contains at least one asset numbers. 
+     */
+    private boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType) {
+        String parameterName = CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS;
+        boolean allowedAssetNumbers = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
+        if (allowedAssetNumbers) {
+            //If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
+            return true;
+        }
+        else {
+            for (ItemCapitalAsset asset : capitalAssetSystem.getItemCapitalAssets()) {
+                if (asset.getCapitalAssetNumber() != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
     //-------- KULPURAP 2795 methods start here.

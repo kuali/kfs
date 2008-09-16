@@ -118,7 +118,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private PurchaseOrderCostSource paymentRequestCostSource;
     private RecurringPaymentType recurringPaymentType;
 
-
+    private boolean isCreatedByElectronicInvoice = false;
+    
     /**
      * Default constructor.
      */
@@ -148,7 +149,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     @Override
     public void populateDocumentForRouting() {
         this.setRequisitionIdentifier(getPurchaseOrderDocument().getRequisitionIdentifier());
-        this.setAwaitingReceiving(SpringContext.getBean(PaymentRequestService.class).isAwaitingReceiving(this.getPurapDocumentIdentifier()));
+        /**
+         * PurapDocumentIdentifier will be null for PREQ created in EInvoice process. 
+         */
+        if (!isCreatedByElectronicInvoice()){
+            this.setAwaitingReceiving(SpringContext.getBean(PaymentRequestService.class).isAwaitingReceiving(this.getPurapDocumentIdentifier()));
+        }
         super.populateDocumentForRouting();                
     }
 
@@ -1015,5 +1021,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setAwaitingReceiving(boolean awaitingReceiving) {
         this.awaitingReceiving = awaitingReceiving;
+    }
+
+    public boolean isCreatedByElectronicInvoice() {
+        return isCreatedByElectronicInvoice;
+    }
+
+    public void setCreatedByElectronicInvoice(boolean isCreatedByElectroniInvoice) {
+        this.isCreatedByElectronicInvoice = isCreatedByElectroniInvoice;
     }
 }

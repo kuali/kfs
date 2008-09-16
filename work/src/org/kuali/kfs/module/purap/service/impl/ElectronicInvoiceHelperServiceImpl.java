@@ -796,7 +796,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(noteText);
 
             
-//            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
+            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
 //            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
             
         }catch (WorkflowException e) {
@@ -1076,7 +1076,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         preqDoc.setVendorInvoiceAmount(new KualiDecimal(orderHolder.getInvoiceNetAmount()));
         preqDoc.setAccountsPayableProcessorIdentifier("E-Invoice");
         preqDoc.setVendorCustomerNumber(orderHolder.getCustomerNumber());
-//        preqDoc.setCreatedByElectronicInvoice(true);
+        preqDoc.setCreatedByElectronicInvoice(true);
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(poDoc.getRequisitionIdentifier());
         String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
@@ -1114,6 +1114,16 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc,false);
         
         SpringContext.getBean(KualiRuleService.class).applyRules(new PaymentRequestForEInvoiceEvent(preqDoc));
+        
+        if(GlobalVariables.getErrorMap().size() > 0){
+//            StringBuffer errors = new StringBuffer(); 
+//            for (int i = 0; i < GlobalVariables.getErrorMap().size(); i++) {
+//                errors.append(GlobalVariables.getErrorMap().getPropertiesWithErrors().get(i));
+//            }
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, GlobalVariables.getErrorMap().toString(), orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            return null;
+        }
         
         /**
          * Is it ok to proceed with the warnings????

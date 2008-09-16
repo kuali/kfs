@@ -265,7 +265,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusState.
      */
     public State getOffCampusState() {
-        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(offCampusCountryCode, offCampusStateCode, offCampusState);
+        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusStateCode, offCampusState);
         return offCampusState;
     }
 
@@ -294,7 +294,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the postalZipCode
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -304,7 +304,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusCountry.
      */
     public Country getOffCampusCountry() {
-        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(offCampusCountryCode, offCampusCountry);
+        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusCountry);
         return offCampusCountry;
     }
 

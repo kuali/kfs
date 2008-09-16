@@ -47,10 +47,10 @@ public class CountryServiceImpl implements CountryService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNeccessary(java.lang.String,
+     * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.Country)
      */
-    public Country getByPrimaryIdIfNeccessary(String postalCountryCode, Country existingCountry) {
+    public Country getByPrimaryIdIfNecessary(String postalCountryCode, Country existingCountry) {
         if (existingCountry != null) {
             if (StringUtils.equals(postalCountryCode, existingCountry.getPostalCountryCode())) {
                 return existingCountry;

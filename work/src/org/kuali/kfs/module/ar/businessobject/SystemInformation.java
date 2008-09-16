@@ -870,7 +870,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
-        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(organizationRemitToStateCode, organizationRemitToState);
+        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(organizationRemitToStateCode, organizationRemitToState);
         return organizationRemitToState;
     }
 

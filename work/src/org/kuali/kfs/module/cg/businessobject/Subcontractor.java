@@ -227,7 +227,7 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link Country} in which the subcontractor is located.
      */
     public Country getSubcontractorCountry() {
-        subcontractorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(subcontractorCountryCode, subcontractorCountry);
+        subcontractorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(subcontractorCountryCode, subcontractorCountry);
         return subcontractorCountry;
     }
 
@@ -246,7 +246,7 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
      * @return the {@link State} in which the subcontractor is located.
      */
     public State getSubcontractorState() {
-        subcontractorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(subcontractorCountryCode, subcontractorStateCode, subcontractorState);
+        subcontractorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(subcontractorCountryCode, subcontractorStateCode, subcontractorState);
         return subcontractorState;
     }
 

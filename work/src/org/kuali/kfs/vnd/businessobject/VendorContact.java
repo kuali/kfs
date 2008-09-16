@@ -220,7 +220,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(vendorCountryCode, vendorCountry);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 
@@ -235,7 +235,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     }
 
     public State getVendorState() {
-        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(vendorCountryCode, vendorStateCode, vendorState);
+        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorStateCode, vendorState);
         return vendorState;
     }
 

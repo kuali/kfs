@@ -347,7 +347,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @return Returns the customerCountry.
      */
     public Country getCustomerCountry() {
-        customerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(customerCountryCode, customerCountry);
+        customerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(customerCountryCode, customerCountry);
         return customerCountry;
     }
 

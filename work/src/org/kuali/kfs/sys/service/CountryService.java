@@ -35,9 +35,9 @@ public interface CountryService {
      * 
      * @param postalCountryCode the given country code
      * @param existingCountry the given existing ccountry
-     * @return a country object with the given country code if neccessary
+     * @return a country object with the given country code if necessary
      */
-    Country getByPrimaryIdIfNeccessary(String postalCountryCode, Country existingCountry);
+    Country getByPrimaryIdIfNecessary(String postalCountryCode, Country existingCountry);
 
     /**
      * get all countries

@@ -126,7 +126,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerCountry
      */
     public Country getBorrowerCountry() {
-        borrowerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerCountry);
+        borrowerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerCountry);
         return borrowerCountry;
     }
 
@@ -145,7 +145,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerState
      */
     public State getBorrowerState() {
-        borrowerState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerStateCode, borrowerState);
+        borrowerState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerStateCode, borrowerState);
         return borrowerState;
     }
 
@@ -164,7 +164,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerStorageCountry
      */
     public Country getBorrowerStorageCountry() {
-        borrowerStorageCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(borrowerStorageCountryCode, borrowerStorageCountry);
+        borrowerStorageCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageCountry);
         return borrowerStorageCountry;
     }
 
@@ -183,7 +183,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the getBorrowerStorageState
      */
     public State getBorrowerStorageState() {
-        borrowerStorageState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(borrowerStorageCountryCode, borrowerStorageStateCode, borrowerStorageState);
+        borrowerStorageState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageStateCode, borrowerStorageState);
         return borrowerStorageState;
     }
 
@@ -492,7 +492,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
     public PostalCode getBorrowerStoragePostalZipCode() {
-    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(borrowerCountryCode, borrowerZipCode, borrowerStoragePostalZipCode);
+    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerZipCode, borrowerStoragePostalZipCode);
         return borrowerStoragePostalZipCode;
     }
 

@@ -275,7 +275,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * 
      */
     public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(retirementCountryCode, retirementZipCode, postalZipCode);
+        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -562,7 +562,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @return Returns the retirementCountry.
      */
     public Country getRetirementCountry() {
-        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(retirementCountryCode, retirementCountry);
+        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementCountry);
         return retirementCountry;
     }
 
@@ -582,7 +582,7 @@ public class AssetRetirementGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @return Returns the retirementState.
      */
     public State getRetirementState() {
-        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(retirementCountryCode, retirementStateCode, retirementState);
+        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementStateCode, retirementState);
         return retirementState;
     }
 

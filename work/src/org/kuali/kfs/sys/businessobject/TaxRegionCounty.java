@@ -84,7 +84,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(postalCountryCode, country);
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
         return country;
     }
     /**

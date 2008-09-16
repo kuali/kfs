@@ -44,9 +44,9 @@ public interface PostalCodeService {
      * 
      * @param postalZipCode the given zip code
      * @param existingPostalCode the given existing postal code
-     * @return the postal zip code object with the given zip code and default country code if neccessary
+     * @return the postal zip code object with the given zip code and default country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNeccessary(String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(String postalZipCode, PostalCode existingPostalCode);
 
     /**
      * get the postal zip code object based on the given zip code and country code. If the given postal zip code and country code
@@ -56,7 +56,7 @@ public interface PostalCodeService {
      * @param postalCountryCode the given country code
      * @param postalZipCode the given zip code
      * @param existingPostalCode the given existing postal code
-     * @return the postal zip code object with the given zip code and country code if neccessary
+     * @return the postal zip code object with the given zip code and country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNeccessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
 }

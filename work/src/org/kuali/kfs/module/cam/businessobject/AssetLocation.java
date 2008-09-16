@@ -278,7 +278,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
      * 
      */
 	public PostalCode getPostalZipCode() {
-	    postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNeccessary(assetLocationCountryCode, assetLocationZipCode, postalZipCode);
+	    postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationZipCode, postalZipCode);
         return postalZipCode;
     }
 
@@ -342,7 +342,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public Country getAssetLocationCountry() {
-        assetLocationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(assetLocationCountryCode, assetLocationCountry);
+        assetLocationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationCountry);
         return assetLocationCountry;
     }
 
@@ -351,7 +351,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
     }
 
     public State getAssetLocationState() {
-        assetLocationState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(assetLocationCountryCode, assetLocationStateCode, assetLocationState);
+        assetLocationState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(assetLocationCountryCode, assetLocationStateCode, assetLocationState);
         return assetLocationState;
     }
 

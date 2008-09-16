@@ -60,20 +60,20 @@ public class StateServiceImpl implements StateService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNeccessary(java.lang.String,
+     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.State)
      */
-    public State getByPrimaryIdIfNeccessary(String postalStateCode, State existingState) {
+    public State getByPrimaryIdIfNecessary(String postalStateCode, State existingState) {
         String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
-        return this.getByPrimaryIdIfNeccessary(postalCountryCode, postalStateCode, existingState);
+        return this.getByPrimaryIdIfNecessary(postalCountryCode, postalStateCode, existingState);
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNeccessary(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.State)
      */
-    public State getByPrimaryIdIfNeccessary(String postalCountryCode, String postalStateCode, State existingState) {
+    public State getByPrimaryIdIfNecessary(String postalCountryCode, String postalStateCode, State existingState) {
         if (existingState != null) {
             String existingCountryCode = existingState.getPostalCountryCode();
             String existingPostalStateCode = existingState.getPostalStateCode();

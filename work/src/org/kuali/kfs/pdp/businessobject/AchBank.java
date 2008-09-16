@@ -389,7 +389,7 @@ public class AchBank extends PersistableBusinessObjectBase {
      * @return Returns the bankState.
      */
     public State getBankState() {
-        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNeccessary(bankStateCode, bankState);
+        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(bankStateCode, bankState);
         return bankState;
     }
 

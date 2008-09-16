@@ -581,7 +581,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNeccessary(vendorCountryCode, vendorCountry);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

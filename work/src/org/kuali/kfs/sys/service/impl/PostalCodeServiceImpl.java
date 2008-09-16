@@ -60,20 +60,20 @@ public class PostalCodeServiceImpl implements PostalCodeService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNeccessary(java.lang.String,
+     * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNeccessary(String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(String postalZipCode, PostalCode existingPostalCode) {
         String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
-        return this.getByPrimaryIdIfNeccessary(postalCountryCode, postalZipCode, existingPostalCode);
+        return this.getByPrimaryIdIfNecessary(postalCountryCode, postalZipCode, existingPostalCode);
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNeccessary(java.lang.String, java.lang.String,
+     * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNeccessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode) {
         if (existingPostalCode != null) {
             String existingCountryCode = existingPostalCode.getPostalCountryCode();
             String existingPostalZipCode = existingPostalCode.getPostalZipCode();

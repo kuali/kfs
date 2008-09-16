@@ -899,7 +899,10 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH_OBJCD_SUBACCT = "error.document.IndirectCostRecovery.wildcardsMustMatchObjCdSubAcct";
         public static final String ERROR_DOCUMENT_ICR_WILDCARD_NOT_VALID = "error.document.IndirectCostRecovery.wildcardNotValid";
         public static final String ERROR_DOCUMENT_ICR_WILDCARDS_NOT_VALID_OBJCD_ACCOUNT= "error.document.IndirectCostRecovery.wildcardsNotValidObjCdAccount";
-        
+        public static final String ERROR_DOCUMENT_ICR_MULTIPLE_WILDCARDS_ON_ITEM = "error.document.IndirectCostRecovery.multipleWildcardsOnItem";
+        public static final String ERROR_DOCUMENT_ICR_SUB_OBJ_ACTUAL_VALUE_WITH_WILDCARDS = "error.document.IndirectCostRecovery.subObjActualValueOnlyIfNoWildcards";
+        public static final String ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD = "error.document.IndirectCostRecovery.cannotBeWildcard";
+        public static final String ERROR_DOCUMENT_ICR_CHART_CODE_NOT_ONLY_WILDCARD = "error.document.IndirectCostRecovery.chartCodeNotOnlyWildcard";
         public static final String ERROR_DOCUMENT_ICR_INVALID_DASH_STRING = "error.document.IndirectCostRecovery.invalidDashString";
         public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD = "error.document.IndirectCostRecovery.fieldMustNotBeWildcard";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL = "error.document.IndirectCostRecovery.ratePercentsNotEqual";

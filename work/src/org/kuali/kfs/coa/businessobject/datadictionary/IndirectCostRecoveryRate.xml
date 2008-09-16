@@ -76,6 +76,37 @@
             </list>
           </property>
         </bean>
+        <bean parent="InquirySectionDefinition" p:title="Indirect Cost Recovery Rate Details">
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition" p:attributeName="indirectCostRecoveryRateDetails"
+                    p:businessObjectClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail">
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="awardIndrCostRcvyEntryNbr" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="chartOfAccountsCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="accountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="subAccountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="financialSubObjectCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="transactionDebitIndicator" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="awardIndrCostRcvyRatePct" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="active" />
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>

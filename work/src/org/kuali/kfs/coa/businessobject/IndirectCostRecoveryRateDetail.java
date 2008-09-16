@@ -34,8 +34,6 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
      * Default no-arg constructor.
      */
     public IndirectCostRecoveryRateDetail() {
-        // initialize the object fiscal year to the current fiscal year
-        universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
 
     private Integer universityFiscalYear;
@@ -51,8 +49,8 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
     private boolean active;
 
     private Options universityFiscal;
-    private BalanceTyp financialBalanceTyp;
-
+    private IndirectCostRecoveryRate indirectCostRecoveryRate;
+    
     /*
      * Don't use reference objects because Chart, Account, Sub-Account, etc. contain special characters. RO 2/8/06 private Chart
      * chartOfAccounts; private Account account; private SubAccount subAccount; private ObjectCode financialObject; private SubObjCd
@@ -102,16 +100,6 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-
-    public BalanceTyp getFinancialBalanceTyp() {
-        return financialBalanceTyp;
-    }
-
-
-    public void setFinancialBalanceTyp(BalanceTyp financialBalanceTyp) {
-        this.financialBalanceTyp = financialBalanceTyp;
     }
 
 
@@ -220,4 +208,11 @@ public class IndirectCostRecoveryRateDetail extends PersistableBusinessObjectBas
         this.active = active;
     }
 
+    public IndirectCostRecoveryRate getIndirectCostRecoveryRate() {
+        return indirectCostRecoveryRate;
+    }
+
+    public void setIndirectCostRecoveryRate(IndirectCostRecoveryRate indirectCostRecoveryRate) {
+        this.indirectCostRecoveryRate = indirectCostRecoveryRate;
+    }
 }

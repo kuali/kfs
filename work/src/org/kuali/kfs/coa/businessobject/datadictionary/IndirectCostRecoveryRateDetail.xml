@@ -13,8 +13,7 @@
     <property name="lookupDefinition" >
       <ref bean="IndirectCostRecoveryRateDetail-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="awardIndrCostRcvyEntryNbr" />
-    <property name="objectLabel" value="Indirect Cost Recovery Automated Entry" />
+    <property name="objectLabel" value="Indirect Cost Recovery Rate Detail" />
     <property name="attributes" >
       <list>
         <ref bean="IndirectCostRecoveryRateDetail-universityFiscalYear" />
@@ -197,7 +196,7 @@
 
   <bean id="IndirectCostRecoveryRateDetail-inquiryDefinition" parent="IndirectCostRecoveryRateDetail-inquiryDefinition-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Indirect Cost Recovery Automated Entry Inquiry" />
+    <property name="title" value="Indirect Cost Recovery Rate Detail Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -238,8 +237,8 @@
 
   <bean id="IndirectCostRecoveryRateDetail-lookupDefinition" parent="IndirectCostRecoveryRateDetail-lookupDefinition-parentBean" />
   <bean id="IndirectCostRecoveryRateDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Indirect Cost Recovery Automated Entry Lookup" />
-    <property name="instructions" value="Lookup an Indirect Cost Recovery Automated Entry" />
+    <property name="title" value="Indirect Cost Recovery Rate Detail Lookup" />
+    <property name="instructions" value="Lookup an Indirect Cost Recovery Rate Detail" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

@@ -17,8 +17,10 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -39,12 +41,13 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 
 public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
 
-    protected static final String MAINTAINABLE_DETAIL_ERROR_PATH = "indirectCostRecoveryRateDetails";
+    protected static final String MAINTAINABLE_DETAIL_ERROR_PATH = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "indirectCostRecoveryRateDetails";
     protected static final String MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH = "add.indirectCostRecoveryRateDetails";
     
     private IndirectCostRecoveryRate indirectCostRecoveryRate;
@@ -63,23 +66,27 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         BigDecimal awardIndrCostRcvyRatePctCredits = new BigDecimal(0);
         BigDecimal awardIndrCostRcvyRatePctDebits = new BigDecimal(0);
         
-        for(int i = 0;i<indirectCostRecoveryRateDetails.size();i++) {
-            if(indirectCostRecoveryRateDetails.get(i).isActive()) {
-                GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH + "[" + i + "]");
-                success &= processCollectionLine(indirectCostRecoveryRateDetails.get(i));
-                GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH + "[" + i + "]");
-                
+        if (!processYear()) {
+            success = false;
+        }
+        else {
+            for(int i = 0;i<indirectCostRecoveryRateDetails.size();i++) {
                 if(indirectCostRecoveryRateDetails.get(i).isActive()) {
-                    if(KFSConstants.GL_CREDIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
-                        awardIndrCostRcvyRatePctCredits = awardIndrCostRcvyRatePctCredits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
+                    GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "[" + i + "]");
+                    success &= processCollectionLine(indirectCostRecoveryRateDetails.get(i));
+                    GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ERROR_PATH + "[" + i + "]");
+                    
+                    if(indirectCostRecoveryRateDetails.get(i).isActive()) {
+                        if(KFSConstants.GL_CREDIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
+                            awardIndrCostRcvyRatePctCredits = awardIndrCostRcvyRatePctCredits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
+                        }
+                        if(KFSConstants.GL_DEBIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
+                            awardIndrCostRcvyRatePctDebits = awardIndrCostRcvyRatePctDebits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
+                        }                    
                     }
-                    if(KFSConstants.GL_DEBIT_CODE.equals(indirectCostRecoveryRateDetails.get(i).getTransactionDebitIndicator())) {
-                        awardIndrCostRcvyRatePctDebits = awardIndrCostRcvyRatePctDebits.add(indirectCostRecoveryRateDetails.get(i).getAwardIndrCostRcvyRatePct());
-                    }                    
                 }
             }
         }
-        
         success &= checkCreditsAndDebits(awardIndrCostRcvyRatePctCredits, awardIndrCostRcvyRatePctDebits);
         
         return success;
@@ -91,9 +98,8 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         // global errors, in KeyConstants or KFSconstants or something, use one for the top of the page (mark doc once)
         // include the key word active (informing that only active records are considered)
         if(!(credits.compareTo(debits) == 0)) {
-            GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject." + MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
-            logErrorUtility(KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL);
-            GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject." + MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KNSConstants.GLOBAL_ERRORS, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRateDetail.class, KFSPropertyConstants.AWARD_INDR_COST_RCVY_RATE_PCT));
             success = false;
         }
 
@@ -136,31 +142,31 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         Integer year = indirectCostRecoveryRate.getUniversityFiscalYear();
         pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         if(!checkExistenceFromTable(Options.class, pkMap)) {
-            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
-            logErrorUtility(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RiceKeyConstants.ERROR_EXISTENCE);
-            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_DETAIL_ADDLINE_ERROR_PATH);
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                    RiceKeyConstants.ERROR_EXISTENCE, 
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(IndirectCostRecoveryRate.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
             success = false;
         }
         return success;
     }
     
-    public boolean processChart(IndirectCostRecoveryRateDetail item) {
+    protected boolean processChart(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         Map pkMap = new HashMap();
         String chart = item.getChartOfAccountsCode();
         if(StringUtils.isNotBlank(chart)) {
             if(!propertyIsWildcard(chart)) {
-                pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);    
-            }
-            if(!checkExistenceFromTable(Chart.class, pkMap)) {
-                logErrorUtility(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, RiceKeyConstants.ERROR_EXISTENCE);
-                success = false;
+                pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);
+                if(!checkExistenceFromTable(Chart.class, pkMap)) {
+                    logErrorUtility(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, RiceKeyConstants.ERROR_EXISTENCE);
+                    success = false;
+                }
             }
         }
         return success;
     }
     
-    public boolean processAccount(IndirectCostRecoveryRateDetail item) {
+    protected boolean processAccount(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         Map pkMap = new HashMap();
         String chart = item.getChartOfAccountsCode();
@@ -170,17 +176,17 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                 pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);    
             }
             if(!propertyIsWildcard(acct)) {
-                pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, acct);    
-            }
-            if(!checkExistenceFromTable(Account.class, pkMap)) {
-                logErrorUtility(KFSPropertyConstants.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
-                success = false;
+                pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, acct);
+                if(!checkExistenceFromTable(Account.class, pkMap)) {
+                    logErrorUtility(KFSPropertyConstants.ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
+                    success = false;
+                }
             }
         }
         return success;
     }
     
-    public boolean processSubAccount(IndirectCostRecoveryRateDetail item) {
+    protected boolean processSubAccount(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         Map pkMap = new HashMap();
         String chart = item.getChartOfAccountsCode();
@@ -195,16 +201,16 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
             }
             if(!propertyIsWildcard(subAcct) && StringUtils.isNotBlank(subAcct) && !StringUtils.containsOnly(subAcct, "-")) {
                 pkMap.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAcct);
-            }
-            if(!checkExistenceFromTable(SubAccount.class, pkMap)) {
-                logErrorUtility(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
-                success = false;
+                if(!checkExistenceFromTable(SubAccount.class, pkMap)) {
+                    logErrorUtility(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, RiceKeyConstants.ERROR_EXISTENCE);
+                    success = false;
+                }
             }
         }
         return success;
     }
     
-    public boolean processObjectCode(IndirectCostRecoveryRateDetail item) {
+    protected boolean processObjectCode(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         Map pkMap = new HashMap();
         Integer year = indirectCostRecoveryRate.getUniversityFiscalYear();
@@ -217,16 +223,16 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
             }
             if(!propertyIsWildcard(objCd)) {
                 pkMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objCd);
-            }
-            if(!checkExistenceFromTable(ObjectCode.class, pkMap)) {
-                logErrorUtility(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
-                success = false;
+                if(!checkExistenceFromTable(ObjectCode.class, pkMap)) {
+                    logErrorUtility(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
+                    success = false;
+                }
             }
         }
         return success;
     }
     
-    public boolean processSubObjectCode(IndirectCostRecoveryRateDetail item) { // chart being a wildcard implies account number being a wildcard, redundant checking?
+    protected boolean processSubObjectCode(IndirectCostRecoveryRateDetail item) { // chart being a wildcard implies account number being a wildcard, redundant checking?
         boolean success = true;
         Map pkMap = new HashMap();
         Integer year = indirectCostRecoveryRate.getUniversityFiscalYear();
@@ -234,7 +240,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
         String acct = item.getAccountNumber();
         String objCd = item.getFinancialObjectCode();
         String subObjCd = item.getFinancialSubObjectCode();
-        if(StringUtils.isNotBlank(subObjCd) && !StringUtils.containsOnly(subObjCd, "-")) {
+        if(StringUtils.isNotBlank(subObjCd) && !propertyIsWildcard(subObjCd) && !StringUtils.containsOnly(subObjCd, "-")) {
             pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
             if(!propertyIsWildcard(chart)) {
                 pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chart);    
@@ -245,10 +251,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
             if(!propertyIsWildcard(objCd)) {
                 pkMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objCd);
             }
-            if(!propertyIsWildcard(subObjCd) && StringUtils.isNotBlank(subObjCd) && !StringUtils.containsOnly(subObjCd, "-")) {
-                pkMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjCd);
-            }
-            
+            pkMap.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, subObjCd);
             if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subObjCd) && !checkExistenceFromTable(SubObjCd.class, pkMap)) {
                 logErrorUtility(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, RiceKeyConstants.ERROR_EXISTENCE);
                 success = false;
@@ -295,225 +298,207 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
     }
     
     public boolean propertyIsWildcard(String property) {
-        boolean success = false;
-        if(!(property == null)) {
-            success = GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(property) || GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(property);
-        }
-        return success;
+        return GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(property) || GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(property);
     }
-    
-    public boolean isAlphaNumeric(String str) {
-        boolean success = false;
-        if(StringUtils.isAlpha(str) ||
-                StringUtils.isNumeric(str) ||
-                StringUtils.isAlphanumeric(str)) {
-            success = true;
-        }
-        return success;
-    }
-    
 
-    public boolean checkExpenditureEntryRule(IndirectCostRecoveryRateDetail item) {
-        // Validates the use case of using "@" for chart, account, sub-account, and sub-object code.
-        boolean success = false;
-        
-        String chart = item.getChartOfAccountsCode();
-        String acct = item.getAccountNumber();
-        String subAcct = item.getSubAccountNumber();
-        String objCd = item.getFinancialObjectCode();
-        String subObjCd = item.getFinancialSubObjectCode();
-        
-        if(
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(chart) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(acct) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(subAcct) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(objCd) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(subObjCd)
-                ) {
-            success = true;
+    protected boolean checkAccountNumberWildcardRules(IndirectCostRecoveryRateDetail item) {
+        String accountNumber = item.getAccountNumber();
+        boolean success = true;
+        if (!accountNumber.equals(item.getChartOfAccountsCode())) {
+            GlobalVariables.getErrorMap().putError(
+                    KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)
+                    );
+            success = false;
         }
+        if (!accountNumber.equals(item.getSubAccountNumber())) {
+            GlobalVariables.getErrorMap().putError(
+                    KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)
+                    );
+            success = false;
+        }
+        /*if (!accountNumber.equals(item.getFinancialSubObjectCode())) {
+            GlobalVariables.getErrorMap().putError(
+                    KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
+                    );
+            success = false;
+        }*/
+        return success;
+    }
+    
+    protected boolean checkAccountNumberNotWildcardRules(IndirectCostRecoveryRateDetail item) {
+        boolean success = true;
+        if (propertyIsWildcard(item.getSubAccountNumber())) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER),
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER));
+            success = false;
+        }
+        return success;
+    }
 
-        return success;
-    }
-    
-    public boolean checkIcrAccountRule(IndirectCostRecoveryRateDetail item) {
-        // Validates the use case of using "#" for chart, account, sub-account, and sub-object code.
-        boolean success = false;
-        
-        String chart = item.getChartOfAccountsCode();
-        String acct = item.getAccountNumber();
-        String subAcct = item.getSubAccountNumber();
-        String objCd = item.getFinancialObjectCode();
-        String subObjCd = item.getFinancialSubObjectCode();
-        
-        if(
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(chart) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(acct) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subAcct) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(objCd) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subObjCd)
-                ) {
-            success = true;
-        }
-        
-        return success;
-    }
-    
-    public boolean checkExpenditureEntryObjAcctSubObjRule(IndirectCostRecoveryRateDetail item) { 
-        // Validates the use case of using "@" for object-code and chart, and using either the same wildcard for account or a specific value for account and dashes or the same wildcard for sub object code.
-        boolean success = false;
-        
-        String chart = item.getChartOfAccountsCode();
-        String acct = item.getAccountNumber();
-        String subAcct = item.getSubAccountNumber();
-        String objCd = item.getFinancialObjectCode();
-        String subObjCd = item.getFinancialSubObjectCode();
-        
-        if(
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(chart) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(acct) &&
-                !GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(acct) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subAcct) &&
-                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd) &&
-                StringUtils.containsOnly(subObjCd, "-")
-                ) {
-            success = true;            
-        }
-        
-        return success;
-    }
-    
-    public boolean checkWildcardRules(IndirectCostRecoveryRateDetail item) {
-        boolean success = false;
-        String chart = item.getChartOfAccountsCode();
-        String acct = item.getAccountNumber();
-        String subAcct = item.getSubAccountNumber();
-        String objCd = item.getFinancialObjectCode();
-        String subObjCd = item.getFinancialSubObjectCode();
-        if(StringUtils.isNotBlank(acct) && StringUtils.isNotBlank(objCd)) {
-            if(!checkExpenditureEntryRule(item) && !checkIcrAccountRule(item) && !checkExpenditureEntryObjAcctSubObjRule(item)) {
-
-                if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd) && !GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(objCd)) {
-                    if(GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(chart)) {
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(acct)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.ACCOUNT_NUMBER,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER)
-                                    );
-                        }
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(subAcct)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)
-                                    );                
-                        }
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(subObjCd)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
-                                    );                
-                        }
-                    } else if(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(chart)) {
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(acct)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.ACCOUNT_NUMBER,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER)
-                                    );
-                        }
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subAcct)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)
-                                    );                
-                        }
-                        if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subObjCd)) {
-                            GlobalVariables.getErrorMap().putError(
-                                    KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
-                                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE),
-                                    GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
-                                    );                
-                        }
-                    }
-                } else if(GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(objCd)) {
+    protected boolean checkObjectCodeWildcardRules(IndirectCostRecoveryRateDetail item) {
+        String financialObjectCode = item.getFinancialObjectCode();
+        boolean success = true;
+        if (propertyIsWildcard(financialObjectCode)) {
+            if (!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(financialObjectCode)) {
+                GlobalVariables.getErrorMap().putError(
+                        KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
+                        KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARD_NOT_VALID,
+                        GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT,
+                        SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
+                        GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY
+                        );
+                success = false;
+            }
+            else {
+                if (!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(item.getChartOfAccountsCode())) {
                     GlobalVariables.getErrorMap().putError(
-                            KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
-                            KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARD_NOT_VALID,
-                            GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT,
-                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE)
+                            KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                            KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)
                             );
-                } else if(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(objCd)) {
-                    if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(chart)) {
-                        GlobalVariables.getErrorMap().putError(
-                                KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                                KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
-                                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)
-                                );
-                    }
-                    if(GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(acct) ||
-                            GeneralLedgerConstants.PosterService.SYMBOL_USE_ICR_FROM_ACCOUNT.equals(acct)) {
-                        GlobalVariables.getErrorMap().putError(
-                                KFSPropertyConstants.ACCOUNT_NUMBER,
-                                KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_NOT_VALID_OBJCD_ACCOUNT,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE)
-                                );
-                    }
-                    if(!GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY.equals(subAcct)) {
-                        GlobalVariables.getErrorMap().putError(
-                                KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
-                                KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
-                                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER)
-                                );
-                    }
-                    if(!StringUtils.containsOnly(subObjCd, "-")) {
+                    success = false;
+                }
+                // if object code is a wildcard and the account is not the same wildcard (i.e. the account "IS" a specific value) then the sub object code must be dashes. 
+                if (!financialObjectCode.equals(item.getAccountNumber())) {
+                    if (!KFSConstants.getDashFinancialSubObjectCode().equals(item.getFinancialSubObjectCode())) {
                         GlobalVariables.getErrorMap().putError(
                                 KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
                                 KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH_OBJCD_SUBACCT,
                                 SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
                                 GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
+                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
+                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE),
+                                KFSConstants.getDashFinancialSubObjectCode()
                                 );
+                        success = false;
                     }
                 }
-            } else {
-                success = true;
             }
         }
-            
         return success;
     }
     
-    public boolean subFieldsValueValid(String wildcard, String value) {
-        boolean success = false;
-        if(StringUtils.isBlank(value) || StringUtils.containsOnly(value, "-") || wildcard.equals(value)) {
-            success = true;
+    protected boolean checkObjectCodeNotWildcardRules(IndirectCostRecoveryRateDetail item) {
+        boolean success = true;
+        if (propertyIsWildcard(item.getFinancialSubObjectCode())) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD,
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE),
+                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
+            success = false;
         }
         return success;
     }
     
+    public boolean checkWildcardRules(IndirectCostRecoveryRateDetail item) {
+        boolean success = checkAtMostOneWildcardUsed(item);
+        if (success) {
+            if (propertyIsWildcard(item.getFinancialObjectCode())) {
+                success &= checkObjectCodeWildcardRules(item);
+            }
+            else {
+                success &= checkObjectCodeNotWildcardRules(item);
+            }
+            if (propertyIsWildcard(item.getAccountNumber())) {
+                success &= checkAccountNumberWildcardRules(item);
+            }
+            else {
+                success &= checkAccountNumberNotWildcardRules(item);
+            }
+            
+            if (!(propertyIsWildcard(item.getFinancialObjectCode()) || propertyIsWildcard(item.getAccountNumber()))) {
+                // chart code can't be the only wildcard on the item
+                if (success && propertyIsWildcard(item.getChartOfAccountsCode())) {
+                    success = false;
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CHART_CODE_NOT_ONLY_WILDCARD,
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+                }
+            }
+            
+            if (success) {
+                success = checkFinancialSubObjectCode(item);
+            }
+        }
+        return success;
+    }
+
+    protected boolean checkAtMostOneWildcardUsed(IndirectCostRecoveryRateDetail item) {
+        String chart = item.getChartOfAccountsCode();
+        String acct = item.getAccountNumber();
+        String subAcct = item.getSubAccountNumber();
+        String objCd = item.getFinancialObjectCode();
+        String subObjCd = item.getFinancialSubObjectCode();
+        
+        boolean success = true;
+        String errorPropertyName = null;
+        
+        Set<String> wildcards = new HashSet<String>();
+        if (propertyIsWildcard(chart)) {
+            wildcards.add(chart);
+            errorPropertyName = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+        }
+        if (success && propertyIsWildcard(acct)) {
+            wildcards.add(acct);
+            if (wildcards.size() > 1) {
+                success = false;
+                errorPropertyName = KFSPropertyConstants.ACCOUNT_NUMBER;
+            }
+        }
+        if (success && propertyIsWildcard(subAcct)) {
+            wildcards.add(subAcct);
+            if (wildcards.size() > 1) {
+                success = false;
+                errorPropertyName = KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
+            }
+        }
+        if (success && propertyIsWildcard(objCd)) {
+            wildcards.add(objCd);
+            if (wildcards.size() > 1) {
+                success = false;
+                errorPropertyName = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+            }
+        }
+        if (success && propertyIsWildcard(subObjCd)) {
+            wildcards.add(subObjCd);
+            if (wildcards.size() > 1) {
+                success = false;
+                errorPropertyName = KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+            }
+        }
+        
+        if (!success) {
+            GlobalVariables.getErrorMap().putError(
+                    errorPropertyName,
+                    KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_MULTIPLE_WILDCARDS_ON_ITEM);
+        }
+        return success;
+    }
+    
+    protected boolean checkFinancialSubObjectCode(IndirectCostRecoveryRateDetail item) {
+        String financialSubObjectCode = item.getFinancialSubObjectCode();
+        boolean success = true;
+        if (StringUtils.isNotBlank(financialSubObjectCode)) {
+            // The only time a sub object code can not be dashes or a wildcard is if the chart, account, object code, and sub object code are all non wild cards (specific values).
+            if (!StringUtils.containsOnly(financialSubObjectCode, KFSConstants.DASH) && !propertyIsWildcard(financialSubObjectCode)) {
+                if (itemUsesWildcard(item)) {
+                    success = false;
+                    GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_SUB_OBJ_ACTUAL_VALUE_WITH_WILDCARDS,
+                            SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE));
+                }
+            }
+        }
+        return success;
+    }
     public boolean checkRateFormat(IndirectCostRecoveryRateDetail item) {
         boolean success = true;
         BigDecimal zero = new BigDecimal(0.00);

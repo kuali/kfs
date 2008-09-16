@@ -291,8 +291,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
     
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
-        //TODO: Implement this.
-        return new ArrayList<CapitalAssetBuilderAssetTransactionType>();
+        List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
+        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>)businessObjectService.findAll(AssetTransactionType.class);
+        return tranTypes;
     }
     
     public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState) {

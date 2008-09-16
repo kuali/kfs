@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestImport;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -34,8 +35,11 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.web.ui.Row;
+
 
 /**
  * This class is the action form for Customer Aging Reports.
@@ -55,14 +59,20 @@ public class CustomerAgingReportForm extends LookupForm {
     private Lookupable lookupable;
     private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
+    private CustomerAgingReportDetail customerAgingReportDetail;
 
-//    public CustomerAgingReportForm() {
-//        super();
-//       // this.CustomerAgingReportDetail = new CustomerAgingReportDetail();
-//        setValue(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
-//        this.set setTitle("BC Request Import Tool");
-//        this.setReportMode("requestImport");      
-//    }
+    public CustomerAgingReportForm() {
+        super();
+        
+        this.customerAgingReportDetail = new CustomerAgingReportDetail();
+        this.setReportOption(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
+        this.setReportOption(ArConstants.CustomerAgingReportFields.BILLING_ORG);
+        this.setReportOption(ArConstants.CustomerAgingReportFields.ACCT);
+
+        // MJM one of these should f'n work!
+       // this.set setTitle("BC Request Import Tool");
+        // this.setReportMode("requestImport");      
+    }
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
@@ -73,6 +83,10 @@ public class CustomerAgingReportForm extends LookupForm {
         super.populate(request);
 
         try {
+            this.setReportOption(ArConstants.CustomerAgingReportFields.PROCESSING_ORG);
+            this.setReportOption(ArConstants.CustomerAgingReportFields.BILLING_ORG);
+            this.setReportOption(ArConstants.CustomerAgingReportFields.ACCT);
+            
             if (StringUtils.isBlank(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
 
                 // get the business object class for the lookup
@@ -133,7 +147,7 @@ public class CustomerAgingReportForm extends LookupForm {
             Map fieldValues = new HashMap();
             Map formFields = getFields();
             Class boClass = Class.forName(getBusinessObjectClassName());
-            LOG.info("\n\n\n\nBusiness Object class " + getBusinessObjectClassName() + " not found\n\n\n\n");
+            LOG.info("\n\n\n\nBusiness Object class " + getBusinessObjectClassName() + " is found\n\n\n\n");
             for (Iterator iter = getLookupable().getRows().iterator(); iter.hasNext();) {
                 Row row = (Row) iter.next();
 
@@ -166,6 +180,8 @@ public class CustomerAgingReportForm extends LookupForm {
                         // check whether form already has value for field
                         if (formFields != null && formFields.containsKey(field.getPropertyName())) {
                             field.setPropertyValue(formFields.get(field.getPropertyName()));
+                            LOG.info("\n\n\n\n");
+                            LOG.info("field " + field.toString() + " = "+ field.getPropertyValue()+" ***\n\n");
                         }
 
                         // override values with request
@@ -353,4 +369,17 @@ public class CustomerAgingReportForm extends LookupForm {
     public Lookupable getPendingEntryLookupable() {
         return this.pendingEntryLookupable;
     }
+
+
+/**
+ * Sets the report option   
+ * 
+ * @param reportOption
+ */
+public void setReportOption(String reportOption) {
+    this.customerAgingReportDetail.setReportOption(reportOption);
+}
+
+
+
 }

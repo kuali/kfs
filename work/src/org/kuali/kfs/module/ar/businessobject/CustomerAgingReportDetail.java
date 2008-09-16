@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -31,7 +32,7 @@ private String customerNumber;
 private String chartOfAccountsCode;
 private String organizationCode;
 private String accountNumber;
-private String reportOption;
+private String reportOption = ArConstants.CustomerAgingReportFields.PROCESSING_ORG;
 private Date reportRunDate;
 private KualiDecimal unpaidBalance0to30 = KualiDecimal.ZERO;
 private KualiDecimal unpaidBalance31to60 = KualiDecimal.ZERO;

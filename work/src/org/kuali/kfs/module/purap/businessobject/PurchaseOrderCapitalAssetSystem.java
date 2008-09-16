@@ -1,6 +1,11 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 
 
 
@@ -17,6 +22,19 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
 	 */
 	public PurchaseOrderCapitalAssetSystem() {
        super();
+	}
+	
+	public PurchaseOrderCapitalAssetSystem(CapitalAssetSystem reqSystem) {
+	    super();
+	    this.setCapitalAssetSystemDescription(reqSystem.getCapitalAssetSystemDescription());
+	    this.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(reqSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator());
+	    this.setCapitalAssetTypeCode(reqSystem.getCapitalAssetTypeCode());
+	    this.setCapitalAssetManufacturerName(reqSystem.getCapitalAssetManufacturerName());
+	    this.setCapitalAssetModelDescription(reqSystem.getCapitalAssetModelDescription());
+	    this.setCapitalAssetNoteText(reqSystem.getCapitalAssetNoteText());
+	    this.setItemCapitalAssets(reqSystem.getItemCapitalAssets());
+	    this.setCapitalAssetLocations(reqSystem.getCapitalAssetLocations());
+	    this.setCapitalAssetCountAssetNumber(reqSystem.getCapitalAssetCountAssetNumber());
 	}
 
 	public String getDocumentNumber() {

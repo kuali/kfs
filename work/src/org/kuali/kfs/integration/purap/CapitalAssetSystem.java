@@ -65,5 +65,9 @@ public interface CapitalAssetSystem {
     public CapitalAssetLocation getNewPurchasingCapitalAssetLocationLine();
 
     public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine();
+    
+    public Integer getCapitalAssetCountAssetNumber();
+    
+    public void setCapitalAssetCountAssetNumber(Integer capitalAssetCountAssetNumber);
 
 }

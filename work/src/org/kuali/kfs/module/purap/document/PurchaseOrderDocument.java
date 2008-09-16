@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
@@ -451,9 +452,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setItems(items);
         
         //These are the steps to create the cams items for the po from the cams items for the req.
-        List<PurchaseOrderItemCapitalAsset> poCamsItems = new ArrayList<PurchaseOrderItemCapitalAsset>();
+        this.setCapitalAssetSystemTypeCode(requisitionDocument.getCapitalAssetSystemTypeCode());
+        this.setCapitalAssetSystemStateCode(requisitionDocument.getCapitalAssetSystemStateCode());
         for (PurchasingCapitalAssetItem camsItem : requisitionDocument.getPurchasingCapitalAssetItems()) {
             this.getPurchasingCapitalAssetItems().add(new PurchaseOrderCapitalAssetItem(camsItem));
+        }
+        for (CapitalAssetSystem capitalAssetSystem : requisitionDocument.getPurchasingCapitalAssetSystems()) {
+            this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem(capitalAssetSystem));
         }
     }
 

@@ -106,6 +106,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
+        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
     
@@ -115,6 +116,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //against CAMS data (for example, asset # exist in CAMS) 
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType);
+        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
 
@@ -373,6 +375,27 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         return true;
+    }
+    
+    /**
+     * Validates that if the non quantity drive allowed indicator on the
+     * capital asset transaction type is false and the quantity on any of the
+     * line items is either null or 0 then return false.
+     * 
+     * @param capitalAssetItems The List of PurchasingCapitalAssetItem to be validated.
+     * @return false if the indicator is false and there is at least one non quantity 
+     *         items on the list.
+     */
+    private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+        boolean valid = true;        
+        for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
+            if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
+                if (capitalAssetItem.getPurchasingItem().getItemQuantity() == null || capitalAssetItem.getPurchasingItem().getItemQuantity().equals(new KualiDecimal(0))) {
+                    valid &= false;
+                }
+            }
+        }
+        return valid;
     }
     
     //-------- KULPURAP 2795 methods start here.

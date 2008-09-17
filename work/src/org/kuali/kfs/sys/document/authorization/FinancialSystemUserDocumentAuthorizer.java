@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.service.AuthenticationService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.authorization.UniversalUserAuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
@@ -156,7 +156,7 @@ public class FinancialSystemUserDocumentAuthorizer extends FinancialSystemMainte
             financialSystemUsersMaintainedByKuali = configService.getPropertyAsBoolean( KFSConstants.MAINTAIN_KFS_USERS_LOCALLY_KEY );
             // check whether local CAS is in use
             //passwordEditingEnabled = KNSServiceLocator.getAuthenticationService().validatePassword();
-            passwordEditingEnabled = ((AuthenticationService) GlobalResourceLoader.getService(new QName("KIM", "webAuthenticationService"))).validatePassword();
+            passwordEditingEnabled = ((IdentityManagementService) GlobalResourceLoader.getService(new QName("KIM", "kimIdentityManagementService"))).authenticationServiceValidatesPassword();
             // get the group name that we need here
             universalUserEditWorkgroupName = configService.getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.UNIVERSAL_USER_DETAIL_TYPE, KFSConstants.CoreApcParms.UNIVERSAL_USER_EDIT_WORKGROUP_PARM);
             financialSystemUserEditWorkgroupName = parameterService.getParameterValue(FinancialSystemUser.class, KFSConstants.CoreApcParms.FINANCIAL_SYSTEM_USER_EDIT_WORKGROUP_PARM);

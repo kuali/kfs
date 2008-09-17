@@ -206,6 +206,7 @@
     <property name="summary" value="Sub-Unit" />
     <property name="description" value="Sub-Unit" />
     <property name="required" value="true" />
+    <property name="maxLength" value="4" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="4" />
@@ -220,6 +221,7 @@
     <property name="summary" value="Default Chart" />
     <property name="description" value="Default Chart" />
     <property name="required" value="true" />
+    <property name="maxLength" value="2" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="2" />
@@ -234,6 +236,7 @@
     <property name="summary" value="Default Account" />
     <property name="description" value="Default Account" />
     <property name="required" value="true" />
+    <property name="maxLength" value="7" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="7" />
@@ -248,6 +251,7 @@
     <property name="summary" value="Default Sub Account" />
     <property name="description" value="Default Sub Account" />
     <property name="required" value="true" />
+    <property name="maxLength" value="5" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="5" />
@@ -262,6 +266,7 @@
     <property name="summary" value="Default Object Code" />
     <property name="description" value="Default Object Code" />
     <property name="required" value="true" />
+    <property name="maxLength" value="4" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="4" />
@@ -276,6 +281,7 @@
     <property name="summary" value="Default Sub Object Code" />
     <property name="description" value="Default Sub Object Code" />
     <property name="required" value="true" />
+    <property name="maxLength" value="3" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="3" />
@@ -290,6 +296,7 @@
     <property name="summary" value="Address Line 1" />
     <property name="description" value="Address Line 1" />
     <property name="required" value="true" />
+    <property name="maxLength" value="55" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="50" />
@@ -304,6 +311,7 @@
     <property name="summary" value="Address Line 2" />
     <property name="description" value="Address Line 2" />
     <property name="required" value="false" />
+    <property name="maxLength" value="55" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="50" />
@@ -318,6 +326,7 @@
     <property name="summary" value="Address Line 3" />
     <property name="description" value="Address Line 3" />
     <property name="required" value="false" />
+    <property name="maxLength" value="55" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="50" />
@@ -332,6 +341,7 @@
     <property name="summary" value="Address Line 4" />
     <property name="description" value="Address Line 4" />
     <property name="required" value="false" />
+    <property name="maxLength" value="55" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="50" />
@@ -361,6 +371,7 @@
     <property name="summary" value="State" />
     <property name="description" value="State" />
     <property name="required" value="true" />
+    <property name="maxLength" value="30" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="30" />
@@ -408,6 +419,7 @@
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="required" value="true" />
+    <property name="maxLength" value="14" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="14" />
@@ -443,6 +455,7 @@
       <bean parent="FloatingPointValidationPattern" />
     </property>
     <property name="required" value="true" />
+    <property name="maxLength" value="14" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="14" />
@@ -658,6 +671,7 @@
     <property name="summary" value="Accounting Edit Required" />
     <property name="description" value="Accounting Edit Required" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -673,6 +687,7 @@
     <property name="summary" value="Payee ID Required" />
     <property name="description" value="Payee ID Required" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -688,6 +703,7 @@
     <property name="summary" value="Ownership Codes Required" />
     <property name="description" value="Ownership Codes Required" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -703,6 +719,7 @@
     <property name="summary" value="ACH Advice Flag" />
     <property name="description" value="ACH Advice Flag" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -718,6 +735,7 @@
     <property name="summary" value="Employee Check Indicator" />
     <property name="description" value="Employee Check Indicator" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -733,6 +751,7 @@
     <property name="summary" value="NRA Check Indicator" />
     <property name="description" value="NRA Check Indicator" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -748,6 +767,7 @@
     <property name="summary" value="Relieve Liabilities" />
     <property name="description" value="Relieve Liabilities" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
@@ -763,6 +783,7 @@
     <property name="summary" value="Profile Active Indicator" />
     <property name="description" value="Profile Active Indicator" />
     <property name="required" value="false" />
+    <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"

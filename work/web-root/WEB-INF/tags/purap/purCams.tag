@@ -66,7 +66,7 @@
 				<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
 			</c:when>
 			<c:otherwise>
-			<html:image property="methodToCall.changeSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
+			<html:image property="methodToCall.changeSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="select system" styleClass="tinybutton"/>
 			<html:image property="methodToCall.updateCamsView" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" alt="Update Cams View" styleClass="tinybutton"/>
 			</c:otherwise>
 			</c:choose>

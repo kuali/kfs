@@ -67,7 +67,7 @@
 		<c:set var="markedAsDelete" value="${!fundingLine.persistedDeleteIndicator && fundingLine.appointmentFundingDeleteIndicator}" />
 		<c:set var="hidePercentAdjustment" value="${fundingLine.appointmentFundingDeleteIndicator || KualiForm.hideAdjustmentMeasurement || readOnly || empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		
-		<c:set var="canPurge" value="${editable && !fundingLine.purged && !hasBeenDeleted && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
+		<c:set var="canPurge" value="${editable && !fundingLine.purged && empty fundingLine.bcnCalculatedSalaryFoundationTracker}" />
 		<c:set var="canUnpurge" value="${editable && fundingLine.purged}" />
 		
 		<c:set var="canDelete" value="${editable && !hasBeenDeleted && not isVacant && not isNewLine}" />

@@ -147,12 +147,17 @@ BudgetObjectInfoUpdator.prototype.loadReasonCodeInfo = function(reasonAmountFiel
  * retrieve the intended incumbent and administrative post according to the given information
  */
 BudgetObjectInfoUpdator.prototype.loadIntendedIncumbentInfo = function(positionNumberFieldName, iuClassificationLevelFieldName, administrativePostFieldName, emplidFieldName, personNameFieldName) {	
-	var emplid = DWRUtil.getValue( emplidFieldName ).trim();
+	var emplid = DWRUtil.getValue( emplidFieldName ).trim().toUpperCase();
 
 	if (emplid == emptyString) {
 		setRecipientValue(personNameFieldName, emptyString);
 		setRecipientValue(iuClassificationLevelFieldName, emptyString);
-	} else {
+	}
+	else if(emplid == 'VACANT'){
+		setRecipientValue(personNameFieldName, emplid);
+		setRecipientValue(iuClassificationLevelFieldName, emptyString);
+	}
+	else {
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {

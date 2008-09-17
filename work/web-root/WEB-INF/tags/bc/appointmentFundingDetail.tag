@@ -84,7 +84,7 @@
                 field="csfTimePercent"
                 fieldAlign="right"
                 readOnly="${readOnly}"
-                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}"/>
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfTimePercent}">&nbsp;</bc:pbglLineDataCell>
         
         <fmt:formatNumber var="formattedCsfFteQuantity" value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
         		type="number" groupingUsed="true" minFractionDigits="4" maxFractionDigits="4"/>         
@@ -94,7 +94,7 @@
                 attributes="${bcsfAttributes}"
                 field="csfFullTimeEmploymentQuantity"
                 fieldAlign="right" readOnly="true"
-                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfFteQuantity}"/>
+                rowSpan="1" dataFieldCssClass="amount" formattedNumberValue="${formattedCsfFteQuantity}">&nbsp;</bc:pbglLineDataCell>
 		
 		<td class="datacell">&nbsp;</td>
 		<td class="datacell">&nbsp;</td>

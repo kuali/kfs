@@ -151,14 +151,19 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, requestParm[0]);
         }
 
-        if (requestParameters.containsKey(KFSPropertyConstants.OBJECT_CODE)) {
-            String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.OBJECT_CODE);
-            parameters.put(KFSPropertyConstants.OBJECT_CODE, requestParm[0]);
+        if (requestParameters.containsKey(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)) {
+            String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+            parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, requestParm[0]);
         }
 
-        if (requestParameters.containsKey(KFSPropertyConstants.SUB_OBJECT_CODE)) {
-            String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.SUB_OBJECT_CODE);
-            parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, requestParm[0]);
+        if (requestParameters.containsKey(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)) {
+            String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, requestParm[0]);
+        }
+        
+        if (requestParameters.containsKey(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE)) {
+            String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE);
+            parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, requestParm[0]);
         }
 
         if (requestParameters.containsKey(BCPropertyConstants.SINGLE_ACCOUNT_MODE)) {

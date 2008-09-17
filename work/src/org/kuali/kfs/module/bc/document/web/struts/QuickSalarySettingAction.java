@@ -85,10 +85,11 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
-        parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
-        parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
+        parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
+        parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
         parameters.put(BCConstants.SHOW_SALARY_BY_INCUMBENT_ACTION, Boolean.TRUE.toString());
+        parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
         
         // anchor, if it exists
@@ -114,10 +115,11 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, salarySettingForm.getChartOfAccountsCode());
         parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, salarySettingForm.getAccountNumber());
         parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, salarySettingForm.getSubAccountNumber());
-        parameters.put(KFSPropertyConstants.OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
-        parameters.put(KFSPropertyConstants.SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
+        parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, salarySettingForm.getFinancialObjectCode());
+        parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, salarySettingForm.getFinancialSubObjectCode());
 
         parameters.put(BCConstants.SHOW_SALARY_BY_POSITION_ACTION, Boolean.toString(salarySettingForm.isBudgetByAccountMode()));
+        parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, Boolean.TRUE.toString());
         parameters.put(BCPropertyConstants.ADD_LINE, Boolean.TRUE.toString());
         
         // anchor, if it exists

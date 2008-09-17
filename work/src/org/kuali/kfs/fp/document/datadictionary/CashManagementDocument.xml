@@ -18,6 +18,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules" />
     <property name="documentTypeCode" value="CMD" />
     <property name="workflowProperties" >
       <ref bean="CashManagementDocument-workflowProperties" />

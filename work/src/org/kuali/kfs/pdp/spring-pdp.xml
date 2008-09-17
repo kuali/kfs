@@ -380,6 +380,7 @@
 		<property name="subObjectCodeService" ref="subObjectCodeService"/>
 		<property name="projectCodeService" ref="projectCodeService" />
 		<property name="kualiCodeService" ref="kualiCodeService" />
+		<property name="bankService" ref="bankService" />
 	</bean>
 	
 	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
@@ -418,6 +419,7 @@
 		<property name="mailService" ref="mailService"/>
 		<property name="parameterService" ref="parameterService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
+		<property name="bankService" ref="bankService"/>
 	</bean>
 
 	<bean id="pdpPdpSecurityService" class="org.kuali.kfs.pdp.service.impl.PdpSecurityServiceImpl">
@@ -521,6 +523,9 @@
         </property>
         <property name="universalUserService">
             <ref bean="universalUserService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
         </property>
 	</bean>
 

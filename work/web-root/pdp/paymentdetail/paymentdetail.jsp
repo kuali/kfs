@@ -161,7 +161,7 @@
                     <c:if test="${btnPressed != 'btnAchInfoTab'}" >
                        <a href="<%= request.getContextPath().toString() %>/pdp/paymentdetail.do?btnAchInfoTab=param" class="HdrScrLnk">
                     </c:if>
-                    ACH Info
+                    Bank Info
                     <c:if test="${btnPressed != 'btnAchInfoTab'}" >
                        </a>
                     </c:if>

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -151,11 +152,12 @@ public class FormatServiceImpl implements FormatService {
             LOG.error("performFormat() Invalid proc ID " + procId);
             throw new ConfigurationError("Invalid proc ID");
         }
+        
         Map disbursementTypes = referenceService.getallMap("DisbursementType");
         Map paymentStatusCodes = referenceService.getallMap("PaymentStatus");
 
-        DisbursementType checkDisbursementType = (DisbursementType) disbursementTypes.get("CHCK");
-        DisbursementType achDisbursementType = (DisbursementType) disbursementTypes.get("ACH");
+        DisbursementType checkDisbursementType = (DisbursementType) disbursementTypes.get(PdpConstants.DisbursementTypeCodes.CHECK);
+        DisbursementType achDisbursementType = (DisbursementType) disbursementTypes.get(PdpConstants.DisbursementTypeCodes.ACH);
 
         int maxNoteLines = getMaxNoteLines();
 
@@ -163,30 +165,15 @@ public class FormatServiceImpl implements FormatService {
         Iterator groups = paymentGroupDao.getByProcess(proc);
 
         PostFormatProcessSummary fps = new PostFormatProcessSummary();
-        CustomerProfile customer = null;
-        Bank checkBank = null;
-        Bank achBank = null;
-
         while (groups.hasNext()) {
             PaymentGroup pg = (PaymentGroup) groups.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + pg.getId());
+            
+            CustomerProfile customer = pg.getBatch().getCustomerProfile();
 
             // Set the sort field to be saved in the database
             pg.setSortValue(pg.getFormatSortField());
-
-            if ((customer == null) || (!customer.equals(pg.getBatch().getCustomerProfile()))) {
-                customer = pg.getBatch().getCustomerProfile();
-                CustomerBank cb = customer.getCustomerBankByDisbursementType("CHCK");
-                if (cb != null) {
-                    checkBank = cb.getBank();
-                }
-
-                cb = customer.getCustomerBankByDisbursementType("ACH");
-                if (cb != null) {
-                    achBank = cb.getBank();
-                }
-            }
-
+            
             pg.setDisbursementDate(proc.getProcessTimestamp());
             pg.setPhysCampusProcessCd(proc.getCampus());
             pg.setProcess(proc);
@@ -212,7 +199,6 @@ public class FormatServiceImpl implements FormatService {
             // If the payment ID is X, it's always a check
             // If any one of the payment details in the group are negative, we always force a check
             if ((!PdpConstants.PayeeTypeCode.OTHER.getTypeCode().equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
-                // Check ACH service
                 LOG.debug("performFormat() Checking ACH");
                 ai = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
                 check = (ai == null);
@@ -223,22 +209,38 @@ public class FormatServiceImpl implements FormatService {
                 LOG.debug("performFormat() Check: " + ps);
                 pg.setDisbursementType(checkDisbursementType);
                 pg.setPaymentStatus(ps);
-                if (checkBank == null) {
+
+                // set bank, use group bank unless not given or not valid for checks
+                if (pg.getBank() == null || !pg.getBank().isBankCheckIndicator()) {
+                    CustomerBank cb = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.CHECK);
+                    if (cb != null) {
+                        pg.setBank(cb.getBank());
+                    }
+                }
+
+                if (pg.getBank() == null) {
                     LOG.error("performFormat() A bank is needed for CHCK for customer: " + customer);
                     throw new NoBankForCustomerException("A bank is needed for CHCK for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
                 }
-                pg.setBank(checkBank);
             }
             else {
                 PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get(PdpConstants.PaymentStatusCodes.PENDING_ACH);
                 LOG.debug("performFormat() ACH: " + ps);
                 pg.setDisbursementType(achDisbursementType);
                 pg.setPaymentStatus(ps);
-                if (achBank == null) {
+
+                // set bank, use group bank unless not given or not valid for ACH
+                if (pg.getBank() == null || !pg.getBank().isBankAchIndicator()) {
+                    CustomerBank cb = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.ACH);
+                    if (cb != null) {
+                        pg.setBank(cb.getBank());
+                    }
+                }
+
+                if (pg.getBank() == null) {
                     LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                     throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
                 }
-                pg.setBank(achBank);
 
                 pg.setAchBankRoutingNbr(ai.getAchBankRoutingNbr());
                 pg.setAdviceEmailAddress(ai.getAdviceEmailAddress());
@@ -282,6 +284,7 @@ public class FormatServiceImpl implements FormatService {
                     pi.noteLines = pg.getNoteLines();
                     pi.payeeId = pg.getPayeeId();
                     pi.payeeIdType = pg.getPayeeIdTypeCd();
+                    pi.bankCode = pg.getBankCode();
                     LOG.debug("performFormat() This payment might combine " + pi);
 
                     boolean combine = false;
@@ -566,6 +569,7 @@ public class FormatServiceImpl implements FormatService {
         public int noteLines;
         public String payeeId;
         public String payeeIdType;
+        public String bankCode;
 
         public int hashCode() {
             return new HashCodeBuilder(3, 5).append(customer).append(payeeName).append(line1Address).toHashCode();
@@ -576,11 +580,11 @@ public class FormatServiceImpl implements FormatService {
                 return false;
             }
             PaymentInfo o = (PaymentInfo) obj;
-            return new EqualsBuilder().append(customer, o.customer).append(payeeName, o.payeeName).append(line1Address, o.line1Address).append(payeeId, o.payeeId).append(payeeIdType, o.payeeIdType).isEquals();
+            return new EqualsBuilder().append(customer, o.customer).append(payeeName, o.payeeName).append(line1Address, o.line1Address).append(payeeId, o.payeeId).append(payeeIdType, o.payeeIdType).append(bankCode, o.bankCode).isEquals();
         }
 
         public String toString() {
-            return new ToStringBuilder(this).append("customer", this.customer).append("payeeName", this.payeeName).append("line1Address", this.line1Address).append("noteLines", this.noteLines).append("payeeId", this.payeeId).append("payeeIdType", this.payeeIdType).toString();
+            return new ToStringBuilder(this).append("customer", this.customer).append("payeeName", this.payeeName).append("line1Address", this.line1Address).append("noteLines", this.noteLines).append("payeeId", this.payeeId).append("payeeIdType", this.payeeIdType).append("bankCode", this.bankCode).toString();
         }
     }
 

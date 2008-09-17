@@ -26,16 +26,21 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -102,7 +107,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_GROUP_BATCH_ID);
 
         if ((StringUtils.isEmpty(custPaymentDocNbrValue)) && (StringUtils.isEmpty(invoiceNbrValue)) && (StringUtils.isEmpty(purchaseOrderNbrValue)) && (StringUtils.isEmpty(processIdValue)) && (StringUtils.isEmpty(paymentIdValue)) && (StringUtils.isEmpty(payeeNameValue)) && (StringUtils.isEmpty(payeeIdValue)) && (StringUtils.isEmpty(payeeIdTypeCdValue)) && (StringUtils.isEmpty(disbursementTypeCodeValue)) && (StringUtils.isEmpty(paymentStatusCodeValue)) && (StringUtils.isEmpty(netPaymentAmountValue)) && (StringUtils.isEmpty(disbursementDateValue)) && (StringUtils.isEmpty(paymentDateValue)) && (StringUtils.isEmpty(disbursementNbrValue)) && (StringUtils.isEmpty(chartCodeValue)) && (StringUtils.isEmpty(orgCodeValue)) && (StringUtils.isEmpty(subUnitCodeValue)) && (StringUtils.isEmpty(requisitionNbrValue)) && (StringUtils.isEmpty(customerInstitutionNumberValue)) && (StringUtils.isEmpty(pymtAttachmentValue)) && (StringUtils.isEmpty(processImmediateValue))
-                && (StringUtils.isEmpty(pymtSpecialHandlingValue)) && (StringUtils.isEmpty(batchIdValue)) ) {
+                && (StringUtils.isEmpty(pymtSpecialHandlingValue)) && (StringUtils.isEmpty(batchIdValue))) {
 
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED);
         }
@@ -143,7 +148,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 }
             }
         }
-        
+
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             throw new ValidationException("errors in search criteria");
         }
@@ -151,7 +156,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -159,25 +165,29 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        HtmlData inquiryUrl = super.getInquiryUrl(bo, propertyName);
+        HtmlData.AnchorHtmlData inquiryUrl = (HtmlData.AnchorHtmlData) super.getInquiryUrl(bo, propertyName);
 
-//        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
-//            PaymentDetail paymentDetail = (PaymentDetail) bo;
-//            Properties params = new Properties();
-//            params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
-//            String url = UrlFactory.parameterizeUrl(PdpConstants.Actions.PAYMENT_DETAIL_ACTION, params);
-//            inquiryUrl.setHref(url);
-//        }
+        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
+            PaymentDetail paymentDetail = (PaymentDetail) bo;
+            Properties params = new Properties();
+            params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
+
+            String href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
+            String url = UrlFactory.parameterizeUrl(href, params);
+            inquiryUrl.setHref(url);
+        }
 
         return inquiryUrl;
     }
 
     /**
      * This method builds the search fields for PaymentGroupHistory.
+     * 
      * @param fieldValues entry fields from PaymentDetail
      * @return the fields map
      */
@@ -271,6 +281,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method searches for PaymentGroupHistory
+     * 
      * @param fieldValues search field values
      * @return the list of PaymentGroupHistory
      */
@@ -283,6 +294,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method gets the PaymentDetails for the given list og PaymentGroupHistory
+     * 
      * @param resultsForPaymentGroupHistory the list of PaymentGoupHistory objects
      * @return the list of PaymentDetails
      */
@@ -297,6 +309,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method sorts the given list by payee name
+     * 
      * @param searchResults the list to be sorted
      */
     private void sortResultListByPayeeName(List searchResults) {
@@ -305,6 +318,15 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 return (((org.kuali.kfs.pdp.businessobject.PaymentDetail) o1).getPaymentGroup().getPayeeName()).compareTo(((org.kuali.kfs.pdp.businessobject.PaymentDetail) o2).getPaymentGroup().getPayeeName());
             }
         });
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * 
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }

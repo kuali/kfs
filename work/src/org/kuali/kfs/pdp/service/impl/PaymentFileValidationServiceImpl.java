@@ -49,7 +49,10 @@ import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -57,6 +60,7 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService
@@ -73,6 +77,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private SubObjectCodeService subObjectCodeService;
     private ProjectCodeService projectCodeService;
     private KualiCodeService kualiCodeService;
+    private BankService bankService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -170,6 +175,18 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_DETAIL_TOTAL_MISMATCH, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getAccountTotal().toString(), paymentDetail.getNetPaymentAmount().toString());
                 }
 
+                // validate bank
+                String bankCode = paymentGroup.getBankCode();
+                if (StringUtils.isNotBlank(bankCode)) {
+                    Bank bank = bankService.getByPrimaryId(bankCode);
+                    if (bank == null) {
+                        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_BANK_CODE, Integer.toString(groupCount), bankCode);
+                    }
+                    else if (!bank.isActive()) {
+                        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_BANK_CODE, Integer.toString(groupCount), bankCode);
+                    }
+                }
+
                 groupTotal = groupTotal.add(paymentDetail.getNetPaymentAmount());
             }
 
@@ -198,7 +215,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD, paymentFile.getPaymentTotalAmount().toString(), customer.getFileThresholdAmount().toString());
             paymentFile.setFileThreshold(true);
         }
-        
+
         processGroupSoftEdits(paymentFile, customer, warnings);
 
         return warnings;
@@ -660,6 +677,15 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Sets the bankService attribute value.
+     * 
+     * @param bankService The bankService to set.
+     */
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
     }
 
 }

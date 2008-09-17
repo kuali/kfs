@@ -41,6 +41,7 @@ import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -69,6 +70,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private MailService mailService;
     private ParameterService parameterService;
     private KualiCodeService kualiCodeService;
+    private BankService bankService;
     
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
@@ -379,7 +381,11 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         pg.setAchAccountNumber(null);
                     }
 
-                    pg.setBank(null);
+                    // if bank functionality is not enabled or the group bank is inactive clear bank code
+                    if (!bankService.isBankSpecificationEnabled() || !pg.getBank().isActive()) {
+                        pg.setBank(null);
+                    }
+                    
                     pg.setDisbursementDate(null);
                     pg.setAchBankRoutingNbr(null);
                     pg.setAchAccountType(null);
@@ -586,5 +592,14 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
+    }
+
+    /**
+     * Sets the bankService attribute value.
+     * 
+     * @param bankService The bankService to set.
+     */
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
     }
 }

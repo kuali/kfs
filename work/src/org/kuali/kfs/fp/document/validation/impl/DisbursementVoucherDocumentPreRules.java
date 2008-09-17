@@ -43,8 +43,6 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  * Checks warnings and prompt conditions for dv document.
  */
 public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherRuleConstants {
-    private KualiConfigurationService kualiConfiguration;
-
 
     /**
      * Executes pre-rules for Disbursement Voucher Document

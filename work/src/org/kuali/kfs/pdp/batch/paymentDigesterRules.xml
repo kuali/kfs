@@ -56,10 +56,11 @@
             <call-method-rule pattern="payment_date" methodname="setPaymentDate" paramcount="0" />
             <call-method-rule pattern="attachment_ind" methodname="setPymtAttachment" paramcount="0" paramtypes="java.lang.Boolean" />
             <call-method-rule pattern="special_handling_ind" methodname="setPymtSpecialHandling" paramcount="0" paramtypes="java.lang.Boolean" />
-            <call-method-rule pattern="taxable_ind" methodname="setTaxablePayment" paramcount="0" paramtypes="java.lang.Boolean"/>
-            <call-method-rule pattern="nra_ind" methodname="setNraPayment" paramcount="0" paramtypes="java.lang.Boolean"/>
-            <call-method-rule pattern="combine_group_ind" methodname="setCombineGroups" paramcount="0" paramtypes="java.lang.Boolean"/>
-
+            <call-method-rule pattern="taxable_ind" methodname="setTaxablePayment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="nra_ind" methodname="setNraPayment" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="combine_group_ind" methodname="setCombineGroups" paramcount="0" paramtypes="java.lang.Boolean" />
+            <call-method-rule pattern="bank_code" methodname="setBankCode" paramcount="0" />
+            
             <pattern value="detail">  
                 <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentDetail" />
                 

@@ -280,6 +280,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setPymtAttachment(document.isDisbVchrAttachmentCode());
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
+        
+        pg.setBankCode(document.getDisbVchrBankCode());
 
         // PaymentStatus open = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         // pg.setPaymentStatus(open);

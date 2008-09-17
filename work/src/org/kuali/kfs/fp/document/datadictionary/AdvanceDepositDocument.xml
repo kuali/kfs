@@ -18,6 +18,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.AdvanceDepositDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
+    <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
     <property name="documentTypeCode" value="AD" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >

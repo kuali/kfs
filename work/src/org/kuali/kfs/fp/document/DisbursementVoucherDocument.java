@@ -1359,6 +1359,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             return success;
         }
+        
+        this.refreshReferenceObject(KFSPropertyConstants.BANK);
 
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
 

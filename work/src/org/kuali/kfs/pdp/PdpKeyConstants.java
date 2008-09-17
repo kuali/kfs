@@ -30,6 +30,8 @@ public class PdpKeyConstants {
     public static final String ERROR_PAYMENT_LOAD_NEGATIVE_GROUP_TOTAL = "error.pdp.paymentLoad.negativeGroupTotal";          
     public static final String ERROR_PAYMENT_LOAD_MAX_NOTE_LINES = "error.pdp.paymentLoad.maxNoteLines";            
     public static final String ERROR_PAYMENT_LOAD_DETAIL_TOTAL_MISMATCH = "error.pdp.paymentLoad.detailTotalMismatch";
+    public static final String ERROR_PAYMENT_LOAD_INVALID_BANK_CODE = "error.pdp.paymentLoad.invalidBankCode";
+    public static final String ERROR_PAYMENT_LOAD_INACTIVE_BANK_CODE = "error.pdp.paymentLoad.inactiveBankCode";
     
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PAYMENT = "message.batchUpload.title.payment";
     public static final String MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD = "message.pdp.paymentLoad.fileThreshold";

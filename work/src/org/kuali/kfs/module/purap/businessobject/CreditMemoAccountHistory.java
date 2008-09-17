@@ -33,8 +33,6 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
 
     protected Integer accountHistoryIdentifier;
     private Timestamp accountHistoryTimestamp;
-    private Integer postingYear;
-    private String postingPeriodCode;
 
     private CreditMemoAccount creditMemoAccount;
     private AccountingPeriod accountingPeriod;
@@ -45,22 +43,6 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
 
 	public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
 		this.accountingPeriod = accountingPeriod;
-	}
-
-	public String getPostingPeriodCode() {
-		return postingPeriodCode;
-	}
-
-	public void setPostingPeriodCode(String postingPeriodCode) {
-		this.postingPeriodCode = postingPeriodCode;
-	}
-
-	public Integer getPostingYear() {
-		return postingYear;
-	}
-
-	public void setPostingYear(Integer postingYear) {
-		this.postingYear = postingYear;
 	}
 
 	/**
@@ -74,10 +56,12 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
      * 
      * @param account - credit memo account
      */
-    public CreditMemoAccountHistory(CreditMemoAccount cma) {
+    public CreditMemoAccountHistory(CreditMemoAccount cma, Integer postingYear, String postingPeriodCode) {
         // copy base attributes
         PurApObjectUtils.populateFromBaseWithSuper(cma, this, new HashMap<String, Class<?>>(), new HashSet<Class>());
         this.setAccountHistoryTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        this.setPostingYear(postingYear);
+        this.setPostingPeriodCode(postingPeriodCode);
     }
 
     public Integer getAccountHistoryIdentifier() {

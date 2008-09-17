@@ -85,4 +85,8 @@ public interface PurApAccountingLine extends AccountingLine {
     
     public String getString();
 
+    public String getPostingPeriodCode();
+
+    public void setPostingPeriodCode(String postingPeriodCode);
+    
 }

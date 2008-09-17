@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.util.PurApOjbCollectionHelper;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -105,6 +106,29 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         items = new TypedArrayList(getItemClass());
     }
 
+    private GeneralLedgerPendingEntry getFirstPendingGLEntry() {
+        if (ObjectUtils.isNotNull(getGeneralLedgerPendingEntries()) && !getGeneralLedgerPendingEntries().isEmpty()) {
+            return (GeneralLedgerPendingEntry)getGeneralLedgerPendingEntries().get(0);
+        }
+        return null;
+    }
+    
+    public Integer getPostingYearFromPendingGLEntries() {
+        GeneralLedgerPendingEntry glpe = getFirstPendingGLEntry();
+        if (ObjectUtils.isNotNull(glpe)) {
+            return glpe.getUniversityFiscalYear();
+        }
+        return null;
+    }
+    
+    public String getPostingPeriodCodeFromPendingGLEntries() {
+        GeneralLedgerPendingEntry glpe = getFirstPendingGLEntry();
+        if (ObjectUtils.isNotNull(glpe)) {
+            return glpe.getUniversityFiscalPeriodCode();
+        }
+        return null;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isPostingYearNext()
      */

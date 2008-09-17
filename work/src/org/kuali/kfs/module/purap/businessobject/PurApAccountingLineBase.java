@@ -32,6 +32,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     protected Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
+    private String postingPeriodCode;  //stored in DB only for PREQ and CM Account History
     private KualiDecimal alternateAmountForGLEntryCreation; // not stored in DB; needed for disencumbrances and such
     
     private PurApItem purapItem;
@@ -237,6 +238,14 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      */
     public void setPurapItem(PurApItem item) {
         purapItem = item;
+    }
+
+    public String getPostingPeriodCode() {
+        return postingPeriodCode;
+    }
+
+    public void setPostingPeriodCode(String postingPeriodCode) {
+        this.postingPeriodCode = postingPeriodCode;
     }
 
 //    @Override

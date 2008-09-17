@@ -32,8 +32,6 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
 
     protected Integer accountHistoryIdentifier;
     private Timestamp accountHistoryTimestamp;
-    private Integer postingYear;
-    private String postingPeriodCode;
 
     private PaymentRequestAccount paymentRequestAccount;
     private AccountingPeriod accountingPeriod;
@@ -44,22 +42,6 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
 
 	public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
 		this.accountingPeriod = accountingPeriod;
-	}
-
-	public String getPostingPeriodCode() {
-		return postingPeriodCode;
-	}
-
-	public void setPostingPeriodCode(String postingPeriodCode) {
-		this.postingPeriodCode = postingPeriodCode;
-	}
-
-	public Integer getPostingYear() {
-		return postingYear;
-	}
-
-	public void setPostingYear(Integer postingYear) {
-		this.postingYear = postingYear;
 	}
 
 	/**
@@ -74,10 +56,12 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
      * 
      * @param account - payment request account
      */
-    public PaymentRequestAccountHistory(PaymentRequestAccount pra) {
+    public PaymentRequestAccountHistory(PaymentRequestAccount pra, Integer postingYear, String postingPeriodCode) {
         // copy base attributes
         PurApObjectUtils.populateFromBaseWithSuper(pra, this, new HashMap<String, Class<?>>(), new HashSet<Class>());
         this.setAccountHistoryTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+        this.setPostingYear(postingYear);
+        this.setPostingPeriodCode(postingPeriodCode);
     }
 
     public Integer getAccountHistoryIdentifier() {

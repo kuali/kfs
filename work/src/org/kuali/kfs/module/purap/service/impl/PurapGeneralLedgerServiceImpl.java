@@ -425,7 +425,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
             
             // Manually save preq account history (CAMS needs this)
-            savePaymentRequestAccountHistories(preq.getItems());
+            savePaymentRequestAccountHistories(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
         }
 
         // Manually save GL entries for Payment Request and encumbrances
@@ -503,7 +503,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             // Manually save cm account history (CAMS needs this)
-            saveCreditMemoAccountHistories(cm.getItems());
+            saveCreditMemoAccountHistories(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
         }
 
         saveGLEntries(cm.getGeneralLedgerPendingEntries());
@@ -1362,12 +1362,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param paymentRequestAccounts Accounts to be saved
      */
-    private void savePaymentRequestAccountHistories(List<PaymentRequestItem> paymentRequestItems) {
+    private void savePaymentRequestAccountHistories(List<PaymentRequestItem> paymentRequestItems, Integer postingYear, String postingPeriodCode) {
         LOG.debug("savePaymentRequestAccountHistories() started");
         List<PaymentRequestAccountHistory> accountHistories = new ArrayList();
         for (PaymentRequestItem item : paymentRequestItems) {
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                accountHistories.add(new PaymentRequestAccountHistory((PaymentRequestAccount)account));
+                accountHistories.add(new PaymentRequestAccountHistory((PaymentRequestAccount)account, postingYear, postingPeriodCode));
             }
         }
         businessObjectService.save(accountHistories);
@@ -1378,12 +1378,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      * 
      * @param creditMemoAccounts Accounts to be saved
      */
-    private void saveCreditMemoAccountHistories(List<CreditMemoItem> creditMemoItems) {
+    private void saveCreditMemoAccountHistories(List<CreditMemoItem> creditMemoItems, Integer postingYear, String postingPeriodCode) {
         LOG.debug("saveCreditMemoAccountHistories() started");
         List<CreditMemoAccountHistory> accountHistories = new ArrayList();
         for (CreditMemoItem item : creditMemoItems) {
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
-                accountHistories.add(new CreditMemoAccountHistory((CreditMemoAccount)account));
+                accountHistories.add(new CreditMemoAccountHistory((CreditMemoAccount)account, postingYear, postingPeriodCode));
             }
         }
         businessObjectService.save(accountHistories);

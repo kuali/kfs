@@ -282,7 +282,25 @@
         </property>  
 	</bean>
 			
-	<bean id="faxService" class="org.kuali.kfs.module.purap.document.service.impl.MockFaxServiceImpl">
+	<bean id="faxService" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="countryService">
+			<ref bean="countryService" />
+		</property>
+        <property name="imageDao">
+            <ref bean="imageDao" />
+        </property>
 	</bean>
 			
 	<bean id="purchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl">

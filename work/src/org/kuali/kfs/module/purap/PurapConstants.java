@@ -767,8 +767,8 @@ public class PurapConstants extends JSTLConstants {
          */
         public static String CXML_DATE_FORMAT = "0000-00-00";
         public static String CXML_SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
-        public static String KUALI_DATE_FORMAT = "0000/00/00";
-        public static String KUALI_SIMPLE_DATE_FORMAT = "yyyy/MM/dd";
+        public static String KUALI_DATE_FORMAT = "00/00/0000";
+        public static String KUALI_SIMPLE_DATE_FORMAT = "MM/dd/yyyy";
 
         // ELECTRONIC INVOICE CXML DEPLOYMENT MODE CODE FOR PRODUCTION
         public static String CXML_DEPLOYMENT_MODE_PRODUCTION = "production";

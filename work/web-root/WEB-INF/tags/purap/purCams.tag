@@ -32,7 +32,7 @@
 	<c:set var="isPurchaseOrder" value="false"/>
 </c:if>
 
-<kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+<kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 		
     <table cellpadding="0" cellspacing="0" class="datatable" summary="System Selection">

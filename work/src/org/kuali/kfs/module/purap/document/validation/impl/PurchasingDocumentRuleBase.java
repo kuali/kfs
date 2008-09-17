@@ -106,11 +106,17 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         //We only need to do capital asset validations if the capital asset system type
         //code is not blank.
         if (StringUtils.isNotBlank(purchasingDocument.getCapitalAssetSystemTypeCode())) {
+            String systemState = purchasingDocument.getCapitalAssetSystemStateCode();
+            String chartCode = purchasingDocument.getChartOfAccountsCode();
+            String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
             if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                String systemState = purchasingDocument.getCapitalAssetSystemStateCode();
-                String chartCode = purchasingDocument.getChartOfAccountsCode();
-                String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
                 valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
+            }
+            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
+                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateOneSystemCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
+            }
+            else if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.MULTIPLE)) {
+                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateMultipleSystemsCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetSystems(), purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
             }
         }
         return valid;

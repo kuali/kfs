@@ -85,15 +85,28 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             </list>
           </property>
         </bean>
+        <dd:relationship objectAttribute="borrowerPostalZipCode">
+        	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="borrowerZipCode" target="postalZipCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="borrowerState">
+        	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="borrowerStateCode" target="postalStateCode" />            
+        </dd:relationship>
+        <dd:relationship objectAttribute="borrowerCountry">
+            <dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
+        </dd:relationship>
         <dd:relationship objectAttribute="borrowerStoragePostalZipCode">
+        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageState">
+        	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="borrowerStorageStateCode" target="postalStateCode" />            
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageCountry">
             <dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
-        </dd:relationship>
+        </dd:relationship>        
       </list>
     </property>
   </bean>

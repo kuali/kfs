@@ -35,9 +35,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="postalZipCode">
+        	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="assetLocationZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationState">
+        	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="assetLocationStateCode" target="postalStateCode" />            
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationCountry">

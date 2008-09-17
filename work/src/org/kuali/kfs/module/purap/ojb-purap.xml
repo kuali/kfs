@@ -3036,12 +3036,12 @@
     <field-descriptor name="invoiceCustomerNumber" column="INV_CUST_NBR" jdbc-type="VARCHAR"/>
     
     <field-descriptor name="invoiceProcessDate" column="INV_PROC_DT" jdbc-type="DATE"/>
-    <field-descriptor name="invoiceShipDate" column="INV_SHP_DT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceShipDate" column="INV_SHP_DT_TXT" jdbc-type="VARCHAR"/>
     <!--
     <field-descriptor name="invoiceRejectExtractDate" column="INV_RJT_EXTRT_DT" jdbc-type="DATE"/>
     -->
       
-    <field-descriptor name="invoiceFileDate" column="INV_FL_DT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceFileDate" column="INV_FL_DT_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFileName" column="INV_FL_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFileNumber" column="INV_FL_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceFilePurposeIdentifier" column="INV_FL_PRPS_ID" jdbc-type="VARCHAR"/>
@@ -3058,11 +3058,11 @@
     <field-descriptor name="invoiceOrderReferenceDocumentReferencePayloadIdentifier" column="INV_ORD_REF_DOC_REF_PYLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderReferenceDocumentReferenceText" column="INV_ORD_REF_DOC_REF_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderMasterAgreementReferenceIdentifier" column="INV_ORD_MSTR_AGRMN_REF_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceOrderMasterAgreementReferenceDate" column="INV_ORD_MSTR_AGRMN_REF_DT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceOrderMasterAgreementReferenceDate" column="INV_ORD_MSTR_AGRMN_REF_DT_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderMasterAgreementInformationIdentifier" column="INV_ORD_MSTR_AGRMN_INFO_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceOrderMasterAgreementInformationDate" column="INV_ORD_MSTR_AGRMN_INFO_DT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceOrderMasterAgreementInformationDate" column="INV_ORD_MSTR_AGRMN_INFO_DT_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderPurchaseOrderIdentifier" column="INV_ORD_PO_ORD_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="invoiceOrderPurchaseOrderDate" column="INV_ORD_PO_ORD_DT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="invoiceOrderPurchaseOrderDate" column="INV_ORD_PO_ORD_DT_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceOrderSupplierOrderInformationIdentifier" column="INV_ORD_SUPP_ORD_INFO_ID" jdbc-type="VARCHAR"/>
 
     <field-descriptor name="invoiceItemDiscountAmount" column="INV_ITM_DSCT_AMT" jdbc-type="DECIMAL" />

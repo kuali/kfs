@@ -97,9 +97,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    //TODO: I'm thinking of using this method as the hook to the methods in
-    //CapitalAssetBuilderModuleServiceImpl. This is probably the solution for
-    //KULPURAP-2883
     public boolean processCapitalAssetValidation(PurchasingDocument purchasingDocument) {
         GlobalVariables.getErrorMap().clearErrorPath();
         boolean valid = true;

@@ -124,6 +124,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.MULTIPLE);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
+        String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
+        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType);
+        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
     
@@ -318,12 +321,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean validateQuantityOnLocationsEqualsQuantityOnItem(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
         for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-            KualiDecimal total = new KualiDecimal(0);
-            for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
-                total = total.add(location.getItemQuantity());
-            }
-            if (!item.getPurchasingItem().getItemQuantity().equals(total)) {
-                valid = false;
+            if (!item.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+                KualiDecimal total = new KualiDecimal(0);
+                for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
+                    total = total.add(location.getItemQuantity());
+                }
+                if (!item.getPurchasingItem().getItemQuantity().equals(total)) {
+                    valid = false;
+                }
             }
         }
         
@@ -390,7 +395,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;        
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
             if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
-                if (capitalAssetItem.getPurchasingItem().getItemQuantity() == null || capitalAssetItem.getPurchasingItem().getItemQuantity().equals(new KualiDecimal(0))) {
+                if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
                     valid &= false;
                 }
             }

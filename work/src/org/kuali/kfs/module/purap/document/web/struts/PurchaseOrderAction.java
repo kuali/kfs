@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -846,7 +847,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             // call fax service
             FaxService faxService = SpringContext.getBean(FaxService.class);
-            if (faxService.faxPO(po)) {
+            Collection errors = faxService.faxPurchaseOrderPdf(po, false);
+            if (errors.size() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                 SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
             }

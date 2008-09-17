@@ -31,6 +31,9 @@ import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountyService;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -135,7 +138,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionState(TaxRegionState taxRegionState) {
         boolean success = true;
 
-        State state = taxRegionState.getState();
+        State state = SpringContext.getBean(StateService.class).getByPrimaryId(taxRegionState.getStateCode());
         if (ObjectUtils.isNull(state) || !state.isActive()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
             success = false;
@@ -153,7 +156,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
         boolean success = true;
 
-        County county = taxRegionCounty.getCounty();
+        County county = SpringContext.getBean(CountyService.class).getByPrimaryId(taxRegionCounty.getStateCode(), taxRegionCounty.getCountyCode());
         if (ObjectUtils.isNull(county) || !county.isActive()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
             success = false;
@@ -171,7 +174,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean isValidTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
         boolean success = true;
 
-        PostalCode postalZipCode = taxRegionPostalCode.getPostalZip();
+        PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(taxRegionPostalCode.getPostalCode());
         if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
             success = false;

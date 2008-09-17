@@ -211,9 +211,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     //types to work fine.
                     int count = 0;
                     for (CapitalAssetSystem system : capitalAssetSystems) {
-                        count++;
                         StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetSystems[" + new Integer(count) + "].");
                         valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, null);
+                        count++;
                     }
                 }
             }
@@ -295,6 +295,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             int count = 0;
             for (Iterator iter = ((Collection)value).iterator(); iter.hasNext();) {
                 errorKey.append(mappedNames[0] + "[" + count + "].");
+                count++;
                 valid &= validateFieldRequirementByChartHelper(iter.next(), ArrayUtils.subarray(mappedNames, 1, mappedNames.length), errorKey, itemNumber);
             }
             return valid;
@@ -414,14 +415,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;        
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
-            //This next if condition is needed because in the real document (as opposed to in unit test), the capitalAssetTransactionType
-            //object is null on the capitalAssetItem, so we need to refresh it to obtain the entire capitalAssetTransactionType.
-            if (capitalAssetItem.getCapitalAssetTransactionType() == null) {
-                ((PurchasingCapitalAssetItemBase)capitalAssetItem).refreshReferenceObject("capitalAssetTransactionType");
-            }
-            if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
-                if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
-                    valid &= false;
+            if (StringUtils.isNotBlank(capitalAssetItem.getCapitalAssetTransactionTypeCode())) {
+                // This next if condition is needed because in the real document (as opposed to in unit test), the
+                // capitalAssetTransactionType
+                // object is null on the capitalAssetItem, so we need to refresh it to obtain the entire
+                // capitalAssetTransactionType.
+                if (capitalAssetItem.getCapitalAssetTransactionType() == null) {
+                    ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject("capitalAssetTransactionType");
+                }
+                if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
+                    if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+                        valid &= false;
+                    }
                 }
             }
         }

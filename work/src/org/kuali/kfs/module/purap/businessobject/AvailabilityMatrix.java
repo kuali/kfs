@@ -18,12 +18,12 @@ package org.kuali.kfs.module.purap.businessobject;
 import org.kuali.kfs.module.purap.PurapConstants;
 
 public enum AvailabilityMatrix {
-    TRAN_TYPE_ONE_NEW ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
-    TRAN_TYPE_ONE_MOD ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
-    TRAN_TYPE_IND_NEW ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
-    TRAN_TYPE_IND_MOD ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
-    TRAN_TYPE_MULT_NEW ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.MULTIPLE, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
-    TRAN_TYPE_MULT_MOD ("capitalAssetTransactionType", PurapConstants.CapitalAssetSystemTypes.MULTIPLE, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_ONE_NEW ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_ONE_MOD ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_IND_NEW ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_IND_MOD ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_MULT_NEW ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.MULTIPLE, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.EACH),
+    TRAN_TYPE_MULT_MOD ("capitalAssetTransactionTypeCode", PurapConstants.CapitalAssetSystemTypes.MULTIPLE, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.EACH),
     
     ASSET_NUMBER_ONE_NEW ("itemCapitalAssets.capitalAssetNumber", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.NEW, PurapConstants.CapitalAssetAvailability.NONE),
     ASSET_NUMBER_ONE_MOD ("itemCapitalAssets.capitalAssetNumber", PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM, PurapConstants.CapitalAssetSystemStates.MODIFY, PurapConstants.CapitalAssetAvailability.ONCE),

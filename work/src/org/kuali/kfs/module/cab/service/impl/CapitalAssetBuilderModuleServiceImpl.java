@@ -51,6 +51,7 @@ import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -187,10 +188,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 
                 //capitalAssetTransactionType field is off the item
-                if (mappedName.equals("capitalAssetTransactionType")) {
+                if (mappedName.equals("capitalAssetTransactionTypeCode")) {
                     String[] mappedNames = {"purchasingCapitalAssetItems", mappedName};
+                    
                     for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-                        valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
+                        StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetItems[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
+                        valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                     }
                 }
                 //all the other fields are off the system.
@@ -204,10 +207,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                         mappedNamesList.addAll(mappedNameSplitter(mappedName));
                     }
                     //For One system type, we would only have 1 CapitalAssetSystem, however, for multiple we may have more than
-                    //one systems (ask Chris). Either way, this for loop should allow both the one system and multiple system
+                    //one systems in the future. Either way, this for loop should allow both the one system and multiple system
                     //types to work fine.
+                    int count = 0;
                     for (CapitalAssetSystem system : capitalAssetSystems) {
-                        valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()));
+                        count++;
+                        StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetSystems[" + new Integer(count) + "].");
+                        valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, null);
                     }
                 }
             }
@@ -231,7 +237,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 //capitalAssetTransactionType field is off the item
                 List<String> mappedNamesList = new ArrayList<String>();
                 
-                if (mappedName.equals("capitalAssetTransactionType")) {
+                if (mappedName.equals("capitalAssetTransactionTypeCode")) {
                     mappedNamesList.add("purchasingCapitalAssetItems");
                     mappedNamesList.add(mappedName);
      
@@ -250,7 +256,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 //For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get it through
                 //the purchasingCapitalAssetSystem of the item.
                 for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-                    valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()));
+                    StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetItems[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
+                    valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                 }
             }
         }
@@ -266,28 +273,41 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return result;
     }
     
-    private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames) {
+    private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames, StringBuffer errorKey, Integer itemNumber) {
         boolean valid = true;
         Object value = ObjectUtils.getPropertyValue(bean, (String)mappedNames[0]);
         if (ObjectUtils.isNull(value)) {
+            errorKey.append(mappedNames[0]);
+            String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(bean.getClass(), (String)mappedNames[0]);
+            if (itemNumber != null) {
+                fieldName = fieldName + " in Item " + itemNumber;
+            }
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
             return false;
         }
         else if (value instanceof Collection) {
             if (((Collection)value).isEmpty()) {
                 //if this collection doesn't contain anything, when it's supposed to contain some strings with values, return false.
+                errorKey.append(mappedNames[0]);
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String)mappedNames[0]);
                 return false;
             }
+            int count = 0;
             for (Iterator iter = ((Collection)value).iterator(); iter.hasNext();) {
-                valid &= validateFieldRequirementByChartHelper(iter.next(), ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
+                errorKey.append(mappedNames[0] + "[" + count + "].");
+                valid &= validateFieldRequirementByChartHelper(iter.next(), ArrayUtils.subarray(mappedNames, 1, mappedNames.length), errorKey, itemNumber);
             }
             return valid;
         }
         else if (StringUtils.isBlank(value.toString())) {
+            errorKey.append(mappedNames[0]);
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String)mappedNames[0]);
             return false;
         }
         else if (mappedNames.length > 1) {
             //this means we have not reached the end of a single field to be traversed yet, so continue with the recursion.
-            valid &= validateFieldRequirementByChartHelper(value, ArrayUtils.subarray(mappedNames, 1, mappedNames.length));
+            errorKey.append(mappedNames[0]).append(".");
+            valid &= validateFieldRequirementByChartHelper(value, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), errorKey, itemNumber);
             return valid;
         }
         else {
@@ -394,6 +414,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;        
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
+            //This next if condition is needed because in the real document (as opposed to in unit test), the capitalAssetTransactionType
+            //object is null on the capitalAssetItem, so we need to refresh it to obtain the entire capitalAssetTransactionType.
+            if (capitalAssetItem.getCapitalAssetTransactionType() == null) {
+                ((PurchasingCapitalAssetItemBase)capitalAssetItem).refreshReferenceObject("capitalAssetTransactionType");
+            }
             if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                 if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
                     valid &= false;

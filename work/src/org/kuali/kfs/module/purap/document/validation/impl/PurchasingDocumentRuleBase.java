@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -91,10 +92,30 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = super.processValidation(purapDocument);
         valid &= processPaymentInfoValidation((PurchasingDocument) purapDocument);
         valid &= processDeliveryValidation((PurchasingDocument) purapDocument);
+        valid &= processCapitalAssetValidation((PurchasingDocument) purapDocument);
 
         return valid;
     }
 
+    //TODO: I'm thinking of using this method as the hook to the methods in
+    //CapitalAssetBuilderModuleServiceImpl. This is probably the solution for
+    //KULPURAP-2883
+    public boolean processCapitalAssetValidation(PurchasingDocument purchasingDocument) {
+        GlobalVariables.getErrorMap().clearErrorPath();
+        boolean valid = true;
+        //We only need to do capital asset validations if the capital asset system type
+        //code is not blank.
+        if (StringUtils.isNotBlank(purchasingDocument.getCapitalAssetSystemTypeCode())) {
+            if (purchasingDocument.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                String systemState = purchasingDocument.getCapitalAssetSystemStateCode();
+                String chartCode = purchasingDocument.getChartOfAccountsCode();
+                String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
+                valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateIndividualCapitalAssetSystemFromPurchasing(systemState, purchasingDocument.getPurchasingCapitalAssetItems(), chartCode, documentType);
+            }
+        }
+        return valid;
+    }
+    
     /**
      * Overrides the method in PurchasingAccountsPayableDocumentRuleBase to add the validations for the unit price, unit of measure,
      * item quantity (for above the line items), the validateBelowTheLineItemNoUnitcost, validateTotalCost and

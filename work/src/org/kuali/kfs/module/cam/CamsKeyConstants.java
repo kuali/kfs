@@ -143,6 +143,10 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.asset.location.invalid.room.code";
         public static final String ERROR_DUPLICATE_TAG_NUMBER_FOUND = "error.asset.location.duplicate.tag.number";
         public static final String ERROR_ASSET_LOCATION_GLOBAL_NO_ASSET_DETAIL = "error.asset.location.no.asset.location.detail.line";
+        public static final String ERROR_CAMPUS_CODE_REQUIRED = "error.asset.location.campus.code.required";
+        public static final String ERROR_BUILDING_CODE_REQUIRED = "error.asset.location.building.code.required";
+        public static final String ERROR_ROOM_NUMBER_REQUIRED = "error.asset.location.room.number.required";
+        public static final String ERROR_TAG_NUMBER_REQUIRED = "error.asset.location.tag.number.required";
     }
 
     public static class BarcodeInventory {

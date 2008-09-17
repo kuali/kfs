@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -46,7 +47,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     public AssetLocationGlobalRule() {
         // LOG.info("AssetLocationGlobalRule constructor");
     }
-
+    
     /**
      * Processes rules when routing this global.
      * 
@@ -57,13 +58,13 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         AssetLocationGlobal assetLocationGlobal = (AssetLocationGlobal) documentCopy.getNewMaintainableObject().getBusinessObject();
-        List<AssetLocationGlobalDetail> assetLocationGlobalDetails = assetLocationGlobal.getAssetLocationGlobalDetails();
+        List<AssetLocationGlobalDetail> oldAssetLocationGlobalDetail = assetLocationGlobal.getAssetLocationGlobalDetails();
 
         // validate multi add w/red highlight (collection)
         int index = 0;
         String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetLocationGlobal.ASSET_LOCATION_GLOBAL_DETAILS + "[" + index + "]";
 
-        if (hasAssetLocationGlobalDetails(assetLocationGlobalDetails)) {
+        if (hasAssetLocationGlobalDetails(oldAssetLocationGlobalDetail)) {
             for (AssetLocationGlobalDetail detail : assetLocationGlobal.getAssetLocationGlobalDetails()) {
                 GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 success &= validateActiveCapitalAsset(detail);
@@ -71,6 +72,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success &= validateBuildingCode(detail);
                 success &= validateBuildingRoomNumber(detail);
                 success &= validateTagNumber(detail);
+                success &= checkRequiredFieldsAfterAdd(detail);
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 index++;
             }
@@ -78,7 +80,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success & super.processCustomRouteDocumentBusinessRules(documentCopy);
     }
-
+    
     /**
      * Process rules for any new {@link AssetLocationGlobalDetail} that is added to this global.
      * 
@@ -159,6 +161,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success = false;
             }
         }
+        
         return success;
     }
 
@@ -179,6 +182,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success = false;
             }
         }
+
         return success;
     }
 
@@ -215,7 +219,6 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
             List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(assetLocationGlobalDetail.getCampusTagNumber());
-
             for (Asset asset : activeAssetsMatchingTagNumber) {
                 // compair asset numbers 
                 if (!asset.getCapitalAssetNumber().equals(assetLocationGlobalDetail.getCapitalAssetNumber())) {
@@ -226,6 +229,33 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        return success;
+    }
+
+    /**
+     * Check required fields after a new asset location has been added.
+     * 
+     * @param assetLocationGlobalDetail
+     * @return boolean
+     */
+    protected boolean checkRequiredFieldsAfterAdd(AssetLocationGlobalDetail assetLocationGlobalDetail) {
+        boolean success = true;
+        
+        if (StringUtils.isBlank(assetLocationGlobalDetail.getCampusCode())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_CAMPUS_CODE_REQUIRED);
+            success = false;
+        }
+        
+        if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingCode())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_BUILDING_CODE_REQUIRED);
+            success = false;
+        }
+        
+        if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingRoomNumber())) {
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ROOM_NUMBER_REQUIRED);
+            success = false;
+        }
+        
         return success;
     }
 }

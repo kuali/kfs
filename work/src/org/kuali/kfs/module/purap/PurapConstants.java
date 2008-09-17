@@ -956,9 +956,9 @@ public class PurapConstants extends JSTLConstants {
             result.add(AvailabilityMatrix.ASSET_TYPE_ONE_NEW);
             result.add(AvailabilityMatrix.ASSET_TYPE_ONE_MOD);
             result.add(AvailabilityMatrix.ASSET_TYPE_IND_NEW);
-            result.add(AvailabilityMatrix.ASSET_NUMBER_IND_MOD);
+            result.add(AvailabilityMatrix.ASSET_TYPE_IND_MOD);
             result.add(AvailabilityMatrix.ASSET_TYPE_MULT_NEW);
-            result.add(AvailabilityMatrix.ASSET_NUMBER_MULT_MOD);
+            result.add(AvailabilityMatrix.ASSET_TYPE_MULT_MOD);
             
             result.add(AvailabilityMatrix.MANUFACTURER_ONE_NEW);
             result.add(AvailabilityMatrix.MANUFACTURER_ONE_MOD);

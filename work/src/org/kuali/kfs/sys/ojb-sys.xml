@@ -673,8 +673,7 @@
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="taxRegionName" column="TAX_REGION_NM" jdbc-type="VARCHAR" />
 	    <field-descriptor name="taxRegionTypeCode" column="TAX_REGION_TYP_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="taxRegionUseTaxIndicator" column="TAX_REGION_USE_TAX_IND" jdbc-type="VARCHAR" />
-	    
+		<field-descriptor name="taxRegionUseTaxIndicator" column="TAX_REGION_USE_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />	    
 	    <field-descriptor name="chartOfAccountsCode" column="LIAB_ACCT_FIN_COA_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="accountNumber" column="LIAB_ACCT_ACCT_NBR" jdbc-type="VARCHAR" />
 	    <field-descriptor name="financialObjectCode" column="LIAB_ACCT_FIN_OBJECT_CD" jdbc-type="VARCHAR" />

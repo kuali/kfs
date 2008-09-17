@@ -21,7 +21,20 @@ import org.kuali.kfs.sys.businessobject.TaxRegion;
 
 public interface TaxRegionService {
     
+    /**
+     * This method returns a list of tax regions based on postal code.
+     * 
+     * @param postalCode
+     * @return
+     */
     List<TaxRegion> getSalesTaxRegions( String postalCode );
     
+    /**
+     * This method returns a list of tax regions based on postal code.  This only includes tax regions where
+     * the tax indicator is set to true.
+     * 
+     * @param postalCode
+     * @return
+     */
     List<TaxRegion> getUseTaxRegions( String postalCode );    
 }

@@ -30,11 +30,11 @@ public class TaxRegion extends PersistableBusinessObjectBase {
     private String taxRegionCode; // (e.g., state code or district code)
     private String taxRegionName; // (e.g., state name or tax district name)
     private String taxRegionTypeCode;
-    private String taxRegionUseTaxIndicator;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
     private boolean active;
+    private boolean taxRegionUseTaxIndicator;
 
     private Chart chartOfAccounts;
     private Account account;
@@ -172,11 +172,11 @@ public class TaxRegion extends PersistableBusinessObjectBase {
         this.taxRegionTypeCode = taxRegionTypeCode;
     }
 
-    public String getTaxRegionUseTaxIndicator() {
+    public boolean isTaxRegionUseTaxIndicator() {
         return taxRegionUseTaxIndicator;
     }
 
-    public void setTaxRegionUseTaxIndicator(String taxRegionUseTaxIndicator) {
+    public void setTaxRegionUseTaxIndicator(boolean taxRegionUseTaxIndicator) {
         this.taxRegionUseTaxIndicator = taxRegionUseTaxIndicator;
     }
 

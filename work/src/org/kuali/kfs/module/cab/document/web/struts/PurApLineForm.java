@@ -22,14 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabKeyConstants;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -42,24 +35,22 @@ public class PurApLineForm extends KualiForm {
     private String purApContactPhoneNumber;
 
     private List<PurchasingAccountsPayableDocument> purApDocs;
-    private List<PurchasingAccountsPayableActionHistory> actionsTakenHistory;
     private int actionPurApDocIndex;
     private int actionItemAssetIndex;
 
     private KualiDecimal mergeQty;
     private String mergeDesc;
-    
+
     private Integer requisitionIdentifier;
-    
+
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
-        this.actionsTakenHistory = new TypedArrayList(PurchasingAccountsPayableActionHistory.class);
     }
 
-    
 
     /**
-     * Gets the requisitionIdentifier attribute. 
+     * Gets the requisitionIdentifier attribute.
+     * 
      * @return Returns the requisitionIdentifier.
      */
     public Integer getRequisitionIdentifier() {
@@ -67,36 +58,14 @@ public class PurApLineForm extends KualiForm {
     }
 
 
-
     /**
      * Sets the requisitionIdentifier attribute value.
+     * 
      * @param requisitionIdentifier The requisitionIdentifier to set.
      */
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
     }
-
-
-
-    /**
-     * Gets the actionsTaken attribute.
-     * 
-     * @return Returns the actionsTaken.
-     */
-    public List<PurchasingAccountsPayableActionHistory> getActionsTakenHistory() {
-        return actionsTakenHistory;
-    }
-
-
-    /**
-     * Sets the actionsTaken attribute value.
-     * 
-     * @param actionsTaken The actionsTaken to set.
-     */
-    public void setActionsTakenHistory(List<PurchasingAccountsPayableActionHistory> actionsTaken) {
-        this.actionsTakenHistory = actionsTaken;
-    }
-
 
     /**
      * Gets the mergeQty attribute.
@@ -219,7 +188,8 @@ public class PurApLineForm extends KualiForm {
 
 
     /**
-     * Gets the purchaseOrderIdentifier attribute. 
+     * Gets the purchaseOrderIdentifier attribute.
+     * 
      * @return Returns the purchaseOrderIdentifier.
      */
     public String getPurchaseOrderIdentifier() {
@@ -229,6 +199,7 @@ public class PurApLineForm extends KualiForm {
 
     /**
      * Sets the purchaseOrderIdentifier attribute value.
+     * 
      * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
      */
     public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
@@ -237,7 +208,8 @@ public class PurApLineForm extends KualiForm {
 
 
     /**
-     * Gets the purApDocs attribute. 
+     * Gets the purApDocs attribute.
+     * 
      * @return Returns the purApDocs.
      */
     public List<PurchasingAccountsPayableDocument> getPurApDocs() {
@@ -247,6 +219,7 @@ public class PurApLineForm extends KualiForm {
 
     /**
      * Sets the purApDocs attribute value.
+     * 
      * @param purApDocs The purApDocs to set.
      */
     public void setPurApDocs(List<PurchasingAccountsPayableDocument> purApDocs) {

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cab.document.web.struts;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,9 +33,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
+import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -65,9 +66,14 @@ public class PurApLineAction extends KualiAction {
 
             if (!purApLineForm.getPurApDocs().isEmpty()) {
                 purApLineService.buildPurApItemAssetsList(purApLineForm);
+                createPurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
             }
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    private void createPurApLineSession(String purchaseOrderIdentifier) {
+        GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier), new PurApLineSession());
     }
 
     /**
@@ -103,7 +109,9 @@ public class PurApLineAction extends KualiAction {
         PurApLineForm purApLineForm = (PurApLineForm) form;
 
         GlobalVariables.getMessageList().add(CabKeyConstants.MESSAGE_CAB_CHANGES_SAVED_SUCCESS);
-        purApLineService.processSaveBusinessObjects(purApLineForm);
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
+
+        purApLineService.processSaveBusinessObjects(purApLineForm, purApLineSession);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -123,13 +131,24 @@ public class PurApLineAction extends KualiAction {
         }
         else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
             if ((KNSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                purApLineService.processSaveBusinessObjects(purApLineForm);
+                purApLineService.processSaveBusinessObjects(purApLineForm, purApLineSession);
             }
             // else go to close logic below
+            removePurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
         }
 
         return returnToSender(mapping, purApLineForm);
+    }
+
+    /**
+     * Remove PurApLineSession object from user session.
+     * 
+     * @param purApLineForm
+     */
+    private void removePurApLineSession(String purchaseOrderIdentifier) {
+        GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier));
     }
 
 
@@ -163,7 +182,8 @@ public class PurApLineAction extends KualiAction {
         GlobalVariables.getErrorMap().addToErrorPath(errorPath);
         checkSplitQty(selectedLineItem, errorPath);
         if (GlobalVariables.getErrorMap().isEmpty() && selectedLineItem != null) {
-            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineForm.getActionsTakenHistory());
+            PurApLineSession purApLineSession = retrievePurApLineSession(purApLineForm);
+            PurchasingAccountsPayableItemAsset newItemAsset = purApLineService.processSplit(selectedLineItem, purApLineSession.getActionsTakenHistory());
             if (newItemAsset != null) {
                 purApDoc.getPurchasingAccountsPayableItemAssets().add(newItemAsset);
                 Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());
@@ -171,6 +191,21 @@ public class PurApLineAction extends KualiAction {
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Get PurApLineSession object from user session.
+     * 
+     * @param purApLineForm
+     * @return
+     */
+    private PurApLineSession retrievePurApLineSession(PurApLineForm purApForm) {
+        PurApLineSession purApLineSession = (PurApLineSession) GlobalVariables.getUserSession().retrieveObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier()));
+        if (purApLineSession == null) {
+            purApLineSession = new PurApLineSession();
+            GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier()), purApLineSession);
+        }
+        return purApLineSession;
     }
 
     /**
@@ -207,11 +242,12 @@ public class PurApLineAction extends KualiAction {
         List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         // logic for trade-in allowance question
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                purApLineService.processMerge(mergeLines, purApForm);
+                purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -221,7 +257,7 @@ public class PurApLineAction extends KualiAction {
 
         // Check if the selected merge lines violate the business constraints.
         if (purApLineService.isMergeAllAction(purApForm)) {
-            checkMergeAllValid(mergeLines,purApForm);
+            checkMergeAllValid(mergeLines, purApForm);
         }
         else {
             checkMergeLinesValid(mergeLines, purApForm);
@@ -234,7 +270,7 @@ public class PurApLineAction extends KualiAction {
             }
 
             // handle merging lines including merge all situation.
-            purApLineService.processMerge(mergeLines, purApForm);
+            purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -294,11 +330,12 @@ public class PurApLineAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward percentPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurApLineForm purApform = (PurApLineForm)form;
+        PurApLineForm purApform = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset itemAsset = getSelectedLineItem(purApform);
 
         if (itemAsset != null) {
-            purApLineService.processPercentPayment(itemAsset,purApform.getActionsTakenHistory());
+            PurApLineSession purApLineSession = retrievePurApLineSession(purApform);
+            purApLineService.processPercentPayment(itemAsset, purApLineSession.getActionsTakenHistory());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -320,11 +357,12 @@ public class PurApLineAction extends KualiAction {
         List<PurchasingAccountsPayableItemAsset> allocateTargetLines = purApLineService.getAllocateTargetLines(selectedLine, purApForm);
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         // logic for trade-in allowance question
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm)) {
+                if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm, purApLineSession)) {
                     GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
                 }
             }
@@ -339,7 +377,7 @@ public class PurApLineAction extends KualiAction {
                 // to confirm this action.
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
             }
-            if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm)) {
+            if (!purApLineService.processAllocate(selectedLine, allocateTargetLines, purApForm, purApLineSession)) {
                 GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ALLOCATE_NO_TARGET_ACCOUNT);
             }
         }

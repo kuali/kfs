@@ -39,18 +39,6 @@ public class PurchasingAccountsPayableActionHistory extends PersistableBusinessO
         this.active = true;
     }
 
-    public PurchasingAccountsPayableActionHistory(PurchasingAccountsPayableLineAssetAccount sourceAccount, PurchasingAccountsPayableLineAssetAccount newAccount, String actionType) {
-        this.actionTypeCode = actionType;
-        this.fromDocumentNumber = sourceAccount.getDocumentNumber();
-        this.fromPurApLineItemIdentifier = sourceAccount.getAccountsPayableLineItemIdentifier();
-        this.fromCabLineNumber = sourceAccount.getCapitalAssetBuilderLineNumber();
-        this.toDocumentNumber = newAccount.getDocumentNumber();
-        this.toPurApLineItemIdentifier = newAccount.getAccountsPayableLineItemIdentifier();
-        this.toCabLineNumber = newAccount.getCapitalAssetBuilderLineNumber();
-        this.generalLedgerAccountIdentifier = sourceAccount.getGeneralLedgerAccountIdentifier();
-        this.active = true;
-    }
-
     
     /**
      * Gets the actionIdentifier attribute.

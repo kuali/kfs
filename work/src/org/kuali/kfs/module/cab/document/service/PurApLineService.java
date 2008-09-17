@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 
 
@@ -49,7 +50,7 @@ public interface PurApLineService {
      * 
      * @param purApLineForm form
      */
-    void processSaveBusinessObjects(PurApLineForm purApLineForm);
+    void processSaveBusinessObjects(PurApLineForm purApLineForm, PurApLineSession purApLineSession);
 
     /**
      * Set Purchasing order email address and contact phone from PurAp.
@@ -70,7 +71,7 @@ public interface PurApLineService {
      * 
      * @param purLineForm
      */
-    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm);
+    boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
 
     /**
      * Get the target lines based on allocation line type
@@ -101,7 +102,7 @@ public interface PurApLineService {
      * 
      * @param mergeLines
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
 
     /**
      * Check if the merge action is merge all.

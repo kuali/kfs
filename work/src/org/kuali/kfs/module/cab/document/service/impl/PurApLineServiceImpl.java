@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
+import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -45,6 +46,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.web.struts.pojo.ArrayUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -72,7 +74,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAdditionalChargeAllocate(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm) {
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
         boolean allocatedIndicator = true;
         // Maintain this account List for update. So accounts already allocated won't take effect for account not allocated yet.
         List<PurchasingAccountsPayableLineAssetAccount> newAccountList = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
@@ -92,7 +94,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         if (allocatedIndicator) {
-            postAllocateProcess(selectedLineItem, allocateTargetLines, purApForm, newAccountList, actionsTakeHistory);
+            postAllocateProcess(selectedLineItem, allocateTargetLines, purApForm, newAccountList);
+            // add to the action history
+            purApLineSession.getActionsTakenHistory().addAll(actionsTakeHistory);
         }
 
         return allocatedIndicator;
@@ -107,7 +111,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param newAccountList
      * @param actionsTake
      */
-    private void postAllocateProcess(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, List<PurchasingAccountsPayableLineAssetAccount> newAccountList, List<PurchasingAccountsPayableActionHistory> actionsTake) {
+    private void postAllocateProcess(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableItemAsset> allocateTargetLines, PurApLineForm purApForm, List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
         // add new account into each line
         addNewAccountToItemList(newAccountList);
 
@@ -121,9 +125,6 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         // uncheck select check box
         resetSelectedValue(purApForm);
-
-        // add to the action history
-        purApForm.getActionsTakenHistory().addAll(actionsTake);
     }
 
     /**
@@ -170,7 +171,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param sourceAccount Account line to be allocated.
      * @param targetAccounts Account lines which accept amount.
      */
-    private void allocateByItemAccountAmount(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, List<PurchasingAccountsPayableLineAssetAccount> newAccountList, List<PurchasingAccountsPayableActionHistory> actionsTake, KualiDecimal sourceQty) {
+    private void allocateByItemAccountAmount(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableLineAssetAccount> targetAccounts, List<PurchasingAccountsPayableLineAssetAccount> newAccountList, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, KualiDecimal sourceQty) {
         KualiDecimal targetAccountsTotalAmount = KualiDecimal.ZERO;
         KualiDecimal sourceAccountTotalAmount = sourceAccount.getItemAccountTotalAmount();
         KualiDecimal amountAllocated = KualiDecimal.ZERO;
@@ -181,7 +182,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             targetAccountsTotalAmount = targetAccountsTotalAmount.add(targetAccount.getItemAccountTotalAmount());
         }
 
-        for (Iterator iterator = targetAccounts.iterator(); iterator.hasNext();) {
+        for (Iterator<PurchasingAccountsPayableLineAssetAccount> iterator = targetAccounts.iterator(); iterator.hasNext();) {
             PurchasingAccountsPayableLineAssetAccount targetAccount = (PurchasingAccountsPayableLineAssetAccount) iterator.next();
             if (iterator.hasNext()) {
                 // Not working on the last node. Calculate additional charge amount by percentage
@@ -216,10 +217,22 @@ public class PurApLineServiceImpl implements PurApLineService {
             }
 
             // add to action history
-            PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(sourceAccount, newAccount, CabConstants.Actions.ALLOCATE);
-            newAction.setItemAccountTotalAmount(additionalAmount);
-            newAction.setAccountsPayableItemQuantity(sourceQty);
+            addAllocateHistory(sourceAccount, actionsTakeHistory, additionalAmount, newAccount);
         }
+    }
+
+    private void addAllocateHistory(PurchasingAccountsPayableLineAssetAccount sourceAccount, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, KualiDecimal additionalAmount, PurchasingAccountsPayableLineAssetAccount newAccount) {
+        if (ObjectUtils.isNull(sourceAccount.getPurchasingAccountsPayableItemAsset())) {
+            sourceAccount.refreshReferenceObject("purchasingAccountsPayableItemAsset");
+        }
+        if (ObjectUtils.isNull(newAccount.getPurchasingAccountsPayableItemAsset())) {
+            newAccount.refreshReferenceObject("purchasingAccountsPayableItemAsset");
+        }
+        PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(sourceAccount.getPurchasingAccountsPayableItemAsset(), newAccount.getPurchasingAccountsPayableItemAsset(), CabConstants.Actions.ALLOCATE);
+        newAction.setGeneralLedgerAccountIdentifier(sourceAccount.getGeneralLedgerAccountIdentifier());
+        newAction.setItemAccountTotalAmount(additionalAmount);
+        newAction.setAccountsPayableItemQuantity(sourceAccount.getPurchasingAccountsPayableItemAsset().getAccountsPayableItemQuantity());
+        actionsTakeHistory.add(newAction);
     }
 
 
@@ -468,7 +481,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
         PurchasingAccountsPayableItemAsset item = null;
@@ -495,7 +508,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // update action history, remove lines before merge and clean up the user input
-        postMergeProcess(mergeLines, purApForm);
+        postMergeProcess(mergeLines, purApForm, purApLineSession);
     }
 
     /**
@@ -516,8 +529,8 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param mergeLines
      * @param purApForm
      */
-    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
-        List<PurchasingAccountsPayableActionHistory> actionsTakenHistory = purApForm.getActionsTakenHistory();
+    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
+        boolean isMergeAllAction = isMergeAllAction(purApForm);
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         setLineItemCost(firstItem);
         firstItem.setItemAssignedToTradeInIndicator(false);
@@ -525,11 +538,11 @@ public class PurApLineServiceImpl implements PurApLineService {
             PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
             // Add into action history.
             for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
-                PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(item, firstItem, CabConstants.Actions.MERGE);
+                PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(item, firstItem, isMergeAllAction ? CabConstants.Actions.MERGE_ALL : CabConstants.Actions.MERGE);
                 newAction.setAccountsPayableItemQuantity(item.getAccountsPayableItemQuantity());
                 newAction.setItemAccountTotalAmount(account.getItemAccountTotalAmount());
                 newAction.setGeneralLedgerAccountIdentifier(account.getGeneralLedgerAccountIdentifier());
-                actionsTakenHistory.add(newAction);
+                purApLineSession.getActionsTakenHistory().add(newAction);
             }
             // remove mergeLines except the first one.
             item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
@@ -631,12 +644,14 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#saveBusinessObject(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
-    public void processSaveBusinessObjects(PurApLineForm purApLineForm) {
+    public void processSaveBusinessObjects(PurApLineForm purApLineForm, PurApLineSession purApLineSession) {
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             businessObjectService.save(purApDoc);
         }
         // save for action history.
-        businessObjectService.save(purApLineForm.getActionsTakenHistory());
+        List<PurchasingAccountsPayableActionHistory> historyList = purApLineSession.getActionsTakenHistory();
+        businessObjectService.save(historyList);
+        historyList.removeAll(historyList);
     }
 
 

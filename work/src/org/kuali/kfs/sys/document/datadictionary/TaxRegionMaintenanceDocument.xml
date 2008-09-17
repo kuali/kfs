@@ -131,14 +131,13 @@
         	p:id="TaxRegionStatesSection"
         	p:name="taxRegionStates"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionState"
-			p:alwaysAllowCollectionDeletion="true"
-        	p:includeMultipleLookupLine="false"
         	p:summaryTitle="States" 
         	p:attributeToHighlightOnDuplicateKey="stateCode"
         	>
         	<property name="duplicateIdentificationFields">
         		<list>
         			<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode"/>
         		</list>
         	</property>        	
         	<property name="summaryFields">
@@ -149,6 +148,8 @@
         	<property name="maintainableFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
+					<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
         		</list>
         	</property>
         </bean>
@@ -168,12 +169,12 @@
         	p:name="taxRegionCounties"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionCounty"
 			p:attributeToHighlightOnDuplicateKey="countyCode"
-        	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Counties">
         	<property name="duplicateIdentificationFields">
         		<list>
         			<bean parent="MaintainableFieldDefinition" p:name="stateCode" />
         			<bean parent="MaintainableFieldDefinition" p:name="countyCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode"/>
         		</list>
         	</property>         	
         	<property name="summaryFields">
@@ -184,8 +185,11 @@
         	</property>
         	<property name="maintainableFields">
         		<list>
-	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
+	        		
 	        		<bean parent="MaintainableFieldDefinition" p:name="countyCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
         		</list>
         	</property>
         </bean>
@@ -205,11 +209,11 @@
         	p:name="taxRegionPostalCodes"
         	p:businessObjectClass="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"
 			p:attributeToHighlightOnDuplicateKey="postalCode"
-        	p:includeMultipleLookupLine="false"
         	p:summaryTitle="Postal Codes">
         	<property name="duplicateIdentificationFields">
         		<list>
         			<bean parent="MaintainableFieldDefinition" p:name="postalCode" />
+        			<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" />
         		</list>
         	</property>        	
         	<property name="summaryFields">
@@ -220,6 +224,8 @@
         	<property name="maintainableFields">
         		<list>
 	        		<bean parent="MaintainableFieldDefinition" p:name="postalCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="postalCountryCode" p:required="true" />
+	        		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
         		</list>
         	</property>
         </bean>

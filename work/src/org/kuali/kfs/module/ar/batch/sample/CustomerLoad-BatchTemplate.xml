@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arCustomerLoad xsi:schemaLocation="http://www.kuali.org/modules/ar/customerLoad-1.0.xsd ">
+	<customers>
+		<customer>
+			<customerName />
+			<customerParentCompanyNumber />
+			<customerTypeCode />
+			<customerLastActivityDate />
+			<customerTaxTypeCode />
+			<customerTaxNbr />
+			<customerActiveIndicator />
+			<customerPhoneNumber />
+			<customer800PhoneNumber />
+			<customerContactName />
+			<customerContactPhoneNumber />
+			<customerFaxNumber />
+			<customerBirthDate />
+			<customerTaxExemptIndicator />
+			<customerCreditLimitAmount />
+			<customerCreditApprovedByName />
+			<customerEmailAddress />
+			<addresses>
+				<address>
+					<customerAddressName />
+					<customerLine1StreetAddress />
+					<customerLine2StreetAddress />
+					<customerCityName />
+					<customerStateCode />
+					<customerZipCode />
+					<customerCountryCode />
+					<customerAddressInternationalProvinceName />
+					<customerInternationalMailCode />
+					<customerEmailAddress />
+					<customerAddressTypeCode />
+					<customerAddressEndDate />
+				</address>
+			</addresses>
+		</customer>
+	</customers>
+</arCustomerLoad>

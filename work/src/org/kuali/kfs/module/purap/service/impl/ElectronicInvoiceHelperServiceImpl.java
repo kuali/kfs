@@ -41,6 +41,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
@@ -353,7 +354,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
             try {
                 FileUtils.copyFile(invoiceFile, moveHere);
-                FileUtils.forceDelete(invoiceFile);
+//                FileUtils.forceDelete(invoiceFile);
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
@@ -406,12 +407,12 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return false;
         }
         
-        try {
-            FileUtils.forceDelete(invoiceFile);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            FileUtils.forceDelete(invoiceFile);
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Successfully added the namespace");
@@ -501,6 +502,12 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 PaymentRequestDocument preqDoc  = createPaymentRequest(orderHolder);
                 
                 if (orderHolder.isInvoiceRejected()){
+                    /**
+                     * This is required. If there is anything in the error map, then it's not possible to route the doc since the rice
+                     * is checking for error map before routing the doc. 
+                     */
+                    GlobalVariables.getErrorMap().clear();
+                    
                     ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoice, order);
                     
                     ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
@@ -1042,7 +1049,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         if (LOG.isDebugEnabled()){
             if (orderHolder.isInvoiceRejected()){
-                LOG.debug("Not possible to convert reject document into payment request");
+                LOG.debug("Not possible to convert einvoice details into payment request");
             }else{
                 LOG.debug("Payment request document creation validation succeeded");
             }
@@ -1102,7 +1109,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         populateItemDetails(preqDoc,orderHolder);
         
+        /**
+         * Validate totals,paydate
+         */
         SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(preqDoc));
+        
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc,true);
         
         processItemsForDiscount(preqDoc,orderHolder);
@@ -1112,27 +1123,28 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc,false);
-        
+        /**
+         * PaymentRequestReview 
+         */
         SpringContext.getBean(KualiRuleService.class).applyRules(new PaymentRequestForEInvoiceEvent(preqDoc));
         
         if(GlobalVariables.getErrorMap().size() > 0){
-//            StringBuffer errors = new StringBuffer(); 
-//            for (int i = 0; i < GlobalVariables.getErrorMap().size(); i++) {
-//                errors.append(GlobalVariables.getErrorMap().getPropertiesWithErrors().get(i));
-//            }
+            if (LOG.isDebugEnabled()){
+                LOG.debug("***************Error in rules processing - " + GlobalVariables.getErrorMap());
+            }
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, GlobalVariables.getErrorMap().toString(), orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }
         
         /**
-         * Is it ok to proceed with the warnings????
+         * FIXME: Is it ok to proceed with warnings????
          */
         if(GlobalVariables.getMessageList().size() > 0){
             if (LOG.isDebugEnabled()){
                 LOG.debug("Payment request contains " + GlobalVariables.getMessageList().size() + " warning message(s)");
                 for (int i = 0; i < GlobalVariables.getMessageList().size(); i++) {
-                    LOG.debug("Warning " + i + "  - " +GlobalVariables.getMessageList().get(i));
+                    LOG.debug("******Warning " + i + "  - " +GlobalVariables.getMessageList().get(i));
                 }
             }
         }
@@ -1140,7 +1152,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         boolean isFakeElectronicInvoicing = false; // USE PARAM 
         
         if (LOG.isDebugEnabled()){
-            LOG.debug("Fake electronic invoicing flag is set to " + isFakeElectronicInvoicing);
+            LOG.debug("Fake electronic invoice flag is set to " + isFakeElectronicInvoicing);
         }
         
         if (isFakeElectronicInvoicing){
@@ -1164,13 +1176,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }catch(ValidationException e){
+            e.printStackTrace();
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, e.getMessage(), orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
-            try {
-                KNSServiceLocator.getDocumentService().cancelDocument(preqDoc, "Cancelled by electronic invoice batch job because of the validation error " + e.getMessage());
-            }
-            catch (WorkflowException e1) {
-            }
             return null;
         }
         
@@ -1322,8 +1330,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             PaymentRequestItem preqItem = (PaymentRequestItem)preqItems.get(i);
             
             if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE,orderHolder)){
-//                hasShippingItem = true;
-//                processShippingItem(preqItem, orderHolder);
+                hasShippingItem = true;
+                processShippingItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE,orderHolder)){
                 processSpecialHandlingItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,orderHolder)){
@@ -1331,14 +1339,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-//        if (!hasShippingItem && orderHolder.isItemTypeAvailableInItemMapping(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE)){
-//            LOG.debug("Creating new Shipping item since it's not available in the existing items");
-//            PaymentRequestItem newItem = new PaymentRequestItem();
-//            newItem.setProcessedOnElectronicInvoice(true);
-//            newItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE);
-//            processShippingItem(newItem, orderHolder);
-//            preqDocument.addItem(newItem);
-//        }
+        if (!hasShippingItem && orderHolder.isItemTypeAvailableInItemMapping(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE)){
+            LOG.debug("Creating new Shipping item since it's not available in the existing items");
+            PaymentRequestItem newItem = new PaymentRequestItem();
+            newItem.setProcessedOnElectronicInvoice(true);
+            newItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE);
+            processShippingItem(newItem, orderHolder);
+            preqDocument.addItem(newItem);
+        }
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Successfully populated the invoice order items");
@@ -1416,7 +1424,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private void processShippingItem(PaymentRequestItem preqItem,
                                      ElectronicInvoiceOrderHolder orderHolder){
         
-        LOG.info("Processing Shipping Item");
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Processing Shipping Item");
+        }
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceShippingAmount());
         preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceShippingAmount()));

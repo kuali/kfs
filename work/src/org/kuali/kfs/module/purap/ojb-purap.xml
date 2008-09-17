@@ -3036,7 +3036,7 @@
     <field-descriptor name="invoiceCustomerNumber" column="INV_CUST_NBR" jdbc-type="VARCHAR"/>
     
     <field-descriptor name="invoiceProcessDate" column="INV_PROC_DT" jdbc-type="DATE"/>
-    <field-descriptor name="invoiceShipDate" column="INV_SHP_DT" jdbc-type="DATE"/>
+    <field-descriptor name="invoiceShipDate" column="INV_SHP_DT" jdbc-type="VARCHAR"/>
     <!--
     <field-descriptor name="invoiceRejectExtractDate" column="INV_RJT_EXTRT_DT" jdbc-type="DATE"/>
     -->

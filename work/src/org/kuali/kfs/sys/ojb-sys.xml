@@ -260,7 +260,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="countyName" column="COUNTY_NM" jdbc-type="VARCHAR" />
-	<field-descriptor name="active" column="ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	
 	<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="postalCountryCode" />

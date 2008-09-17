@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -42,8 +43,8 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
 
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear);
-        m.put("seriesId", this.financialIcrSeriesIdentifier);
+        m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear);
+        m.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, this.financialIcrSeriesIdentifier);
 
         return m;
     }

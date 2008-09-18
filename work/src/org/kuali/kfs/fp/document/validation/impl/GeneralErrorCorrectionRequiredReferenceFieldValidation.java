@@ -81,7 +81,7 @@ public class GeneralErrorCorrectionRequiredReferenceFieldValidation extends Gene
      * @param boe
      * @param propertyName
      */
-    private void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
+    protected void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
 
         String label = boe.getAttributeDefinition(propertyName).getShortLabel();
         GlobalVariables.getErrorMap().putError(propertyName, KFSKeyConstants.ERROR_REQUIRED, label);

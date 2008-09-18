@@ -73,7 +73,7 @@ public class ProcurementCardAccountAccessibilityValidation extends GenericValida
      *                      lines used to check for in balance.
      * @return True if the amounts are equal and the transaction is in balance, false otherwise.
      */
-    private boolean isTransactionBalanceValid(ProcurementCardTransactionDetail pcTransactionDetail) {
+    protected boolean isTransactionBalanceValid(ProcurementCardTransactionDetail pcTransactionDetail) {
         boolean inBalance = true;
         KualiDecimal transAmount = pcTransactionDetail.getTransactionTotalAmount();
         List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransactionDetail.getTargetAccountingLines();

@@ -52,13 +52,10 @@ public class GeneralErrorCorrectionObjectTypeValidation extends GenericValidatio
                 code.getFinancialObjectTypeCode(), 
                 code.getFinancialObjectSubTypeCode());
         
-            System.out.println(parameterEvaluator.getClass());
-        
         boolean retVal = parameterEvaluator.evaluateAndAddError(
                 SourceAccountingLine.class,
                 "objectCode.financialObjectSubTypeCode",
                 KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        System.out.println(retVal);
         return retVal;
     }
 

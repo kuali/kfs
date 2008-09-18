@@ -47,9 +47,6 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        System.out.println(event.getName());
-        System.out.println(event.getDescription());
-        System.out.println(event.getClass());
         AccountingDocument financialDocument = (AccountingDocument)event.getDocument();
         AccountingLine accountingLine = getAccountingLineForValidation();
         // Duplicate code from accountIsAccessible() to avoid unnecessary calls to SB control and Workgroup services.
@@ -70,7 +67,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @param user The user for whom to check accessibility.
      * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
-    private boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine,AttributedDocumentEvent event, UniversalUser user) {
+    protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine,AttributedDocumentEvent event, UniversalUser user) {
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
@@ -106,7 +103,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * 
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
-    private static String noServiceBillingControlErrorKey(AttributedDocumentEvent event) {
+    protected static String noServiceBillingControlErrorKey(AttributedDocumentEvent event) {
         if (event instanceof AttributedAddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NO_SB_CTRL;
         } else  if (event instanceof AttributedUpdateAccountingLineEvent) {
@@ -126,7 +123,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * 
      * @see AccountingDocumentRuleBase.AccountingLineAction
      */
-    private static String notControlGroupMemberErrorKey(AttributedDocumentEvent event) {
+    protected static String notControlGroupMemberErrorKey(AttributedDocumentEvent event) {
         if (event instanceof AttributedAddAccountingLineEvent) {
             return KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD_NOT_IN_SB_CTRL_GRP;
         } else  if (event instanceof AttributedUpdateAccountingLineEvent) {

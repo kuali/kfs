@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customers>
+	<customer>
+		<customerName>Sample Customer One</customerName>
+		<customerParentCompanyNumber></customerParentCompanyNumber>
+		
+		<!--  customerTypeCode 05 = 'Private Business' -->
+		<customerTypeCode>05</customerTypeCode>
+		<customerLastActivityDate>2008-06-01</customerLastActivityDate>
+		
+		<!--  allowable:  SSN or FEIN -->
+		<customerTaxTypeCode>FEIN</customerTaxTypeCode>
+		<customerTaxNbr>121231234</customerTaxNbr>
+		<customerActiveIndicator>Y</customerActiveIndicator>
+		<customerPhoneNumber>5205551212</customerPhoneNumber>
+		<customer800PhoneNumber>8005551212</customer800PhoneNumber>
+		<customerContactName>John Doe</customerContactName>
+		<customerContactPhoneNumber>5205551212</customerContactPhoneNumber>
+		<customerFaxNumber>5205551213</customerFaxNumber>
+		<customerBirthDate></customerBirthDate>
+		<customerTaxExemptIndicator>Y</customerTaxExemptIndicator>
+		<customerCreditLimitAmount></customerCreditLimitAmount>
+		<customerCreditApprovedByName></customerCreditApprovedByName>
+		<customerEmailAddress>johndoe@samplecustomerone.com</customerEmailAddress>
+		<addresses>
+			<address>
+				<customerAddressName>Headquarters</customerAddressName>
+				<customerLine1StreetAddress>1234 N Any St</customerLine1StreetAddress>
+				<customerLine2StreetAddress>Suite 440</customerLine2StreetAddress>
+				<customerCityName>Phoenix</customerCityName>
+				<customerStateCode>AZ</customerStateCode>
+				<customerZipCode>85828</customerZipCode>
+				<customerCountryCode>US</customerCountryCode>
+				<customerAddressInternationalProvinceName />
+				<customerInternationalMailCode />
+				<customerEmailAddress>support@samplecustomerone.com</customerEmailAddress>
+				<!--  P = Primary, A = Alternate, T = Temporary -->
+				<customerAddressTypeCode>P</customerAddressTypeCode>
+				<customerAddressEndDate>2099-01-01</customerAddressEndDate>
+			</address>
+			<address>
+				<customerAddressName>Sales Office</customerAddressName>
+				<customerLine1StreetAddress>4983 N Another St</customerLine1StreetAddress>
+				<customerLine2StreetAddress></customerLine2StreetAddress>
+				<customerCityName>New York</customerCityName>
+				<customerStateCode>NY</customerStateCode>
+				<customerZipCode>01298</customerZipCode>
+				<customerCountryCode>US</customerCountryCode>
+				<customerAddressInternationalProvinceName />
+				<customerInternationalMailCode />
+				<customerEmailAddress>sales@samplecustomerone.com</customerEmailAddress>
+				<!--  P = Primary, A = Alternate, T = Temporary -->
+				<customerAddressTypeCode>A</customerAddressTypeCode>
+				<customerAddressEndDate>2099-01-01</customerAddressEndDate>
+			</address>
+		</addresses>
+	</customer>
+	<customer>
+		<customerName>Jack Brown</customerName>
+		<customerParentCompanyNumber></customerParentCompanyNumber>
+		
+		<!--  customerTypeCode 08 = 'Individual' -->
+		<customerTypeCode>08</customerTypeCode>
+		<customerLastActivityDate>2008-09-16</customerLastActivityDate>
+		
+		<!--  allowable:  SSN or FEIN -->
+		<customerTaxTypeCode>SSN</customerTaxTypeCode>
+		<customerTaxNbr>111223333</customerTaxNbr>
+		<customerActiveIndicator>Y</customerActiveIndicator>
+		<customerPhoneNumber>5205551212</customerPhoneNumber>
+		<customer800PhoneNumber></customer800PhoneNumber>
+		<customerContactName>Jack Brown</customerContactName>
+		<customerContactPhoneNumber>5205551212</customerContactPhoneNumber>
+		<customerFaxNumber></customerFaxNumber>
+		<customerBirthDate>1974-08-23</customerBirthDate>
+		<customerTaxExemptIndicator>N</customerTaxExemptIndicator>
+		<customerCreditLimitAmount></customerCreditLimitAmount>
+		<customerCreditApprovedByName></customerCreditApprovedByName>
+		<customerEmailAddress>jackbrown@aol.com</customerEmailAddress>
+		<addresses>
+			<address>
+				<customerAddressName>Home</customerAddressName>
+				<customerLine1StreetAddress>1234 N Any St</customerLine1StreetAddress>
+				<customerLine2StreetAddress></customerLine2StreetAddress>
+				<customerCityName>Phoenix</customerCityName>
+				<customerStateCode>AZ</customerStateCode>
+				<customerZipCode>85828</customerZipCode>
+				<customerCountryCode>US</customerCountryCode>
+				<customerAddressInternationalProvinceName />
+				<customerInternationalMailCode />
+				<customerEmailAddress>jackbrown@aol.com</customerEmailAddress>
+				<!--  P = Primary, A = Alternate, T = Temporary -->
+				<customerAddressTypeCode>P</customerAddressTypeCode>
+				<customerAddressEndDate>2099-01-01</customerAddressEndDate>
+			</address>
+		</addresses>
+	</customer>
+</customers>

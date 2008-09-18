@@ -25,6 +25,14 @@
 	htmlFormAction="budgetOrganizationSelectionTree" renderMultipart="true"
 	docTitle="Organization Selection"
     transactionalDocument="false" showTabButtons="true">
+    
+    <!--[if IE]> 
+      <style>
+        #workarea div.tab-container {
+          width:100%;
+        }
+      </style> 
+    <![endif]-->
     	    
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="returnFormKey" />

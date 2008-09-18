@@ -54,7 +54,9 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
+        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         anchorHtmlDataList.add(anchorHtmlData);
+        
         return anchorHtmlDataList;
     }
 

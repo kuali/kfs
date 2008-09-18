@@ -132,6 +132,10 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             String[] requestParm = (String[]) requestParameters.get(KNSConstants.DOC_FORM_KEY);
             parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
         }
+        else  if (requestParameters.containsKey(KFSConstants.FORM_KEY)) {
+            String[] requestParm = (String[]) requestParameters.get(KFSConstants.FORM_KEY);
+            parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
+        }
 
         if (requestParameters.containsKey(KFSConstants.BACK_LOCATION)) {
             String[] requestParm = (String[]) requestParameters.get(KFSConstants.BACK_LOCATION);
@@ -187,13 +191,14 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
      */
     public List<HtmlData> getSalarySettingByPositionUrls(BusinessObject businessObject) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+        
         Properties parameters = getSalarySettingByPositionParameters(businessObject);
         String href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
-        //TODO:Revisit title. I guess we will want to change this.
         AnchorHtmlData urlData1 =
             new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset");
-            //new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset", "Posn Salset");
+        
         Map requestParameters = super.getParameters();
+        
         boolean linkToNewWindow = true;
         if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
@@ -203,8 +208,10 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             }
         }
         if (linkToNewWindow) {
-            urlData1.setTarget("blank");
+            urlData1.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         }
+        
+        anchorHtmlDataList.add(urlData1);
 
         // now add refresh url if feed from payroll is on
         boolean payrollPositionFeed = BudgetParameterFinder.getPayrollPositionFeedIndicator();
@@ -214,11 +221,11 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
             AnchorHtmlData urlData2 =
                 new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset w/sync");
-                //new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset w/sync", "Posn Salset w/sync");
 
             if (linkToNewWindow) {
-                urlData2.setTarget("blank");
+                urlData2.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
             }
+            
             anchorHtmlDataList.add(urlData2);
         }
 

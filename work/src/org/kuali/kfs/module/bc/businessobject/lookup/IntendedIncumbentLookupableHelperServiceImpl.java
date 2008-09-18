@@ -186,13 +186,14 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
      */
     public List<HtmlData> getSalarySettingByIncumbentUrls(BusinessObject businessObject) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+        
         Properties parameters = getSalarySettingByIncumbentParameters(businessObject);
         String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-        //TODO:Revisit title. I guess we will want to change this.
         AnchorHtmlData urlData1 =
             new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
-            //new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset", "Incmbnt Salset");
+        
         Map requestParameters = super.getParameters();
+        
         boolean linkToNewWindow = true;
         if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
@@ -202,8 +203,9 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             }
         }
         if (linkToNewWindow) {
-            urlData1.setTarget("blank");
+            urlData1.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
         }
+        
         anchorHtmlDataList.add(urlData1);
 
         // now add refresh url if feed from payroll is on
@@ -211,16 +213,15 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
         if (payrollIncumbentFeed) {
             parameters.put(BCConstants.REFRESH_INCUMBENT_BEFORE_SALARY_SETTING, "true");
             href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
-            //TODO:Revisit title. I guess we will want to change this.
             AnchorHtmlData urlData2 =
                 new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset w/sync");
-                //new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset w/sync", "Incmbnt Salset w/sync");
 
             if (linkToNewWindow) {
-                urlData2.setTarget("blank");
+                urlData2.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
             }
             anchorHtmlDataList.add(urlData2);
         }
+        
         return anchorHtmlDataList;
     }
 

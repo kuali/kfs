@@ -167,12 +167,12 @@
 						    src="${ConfigProperties.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
 						    alt="get new position" title="get new position" border="0"/>
 					  </c:if>	
-					  <c:if test="${addLine}">
+					  <c:if test="${KualiForm.addLine}">
 					  	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
 	                    <html-el:hidden name="KualiForm" property="accountNumber" />
 	                    <html-el:hidden name="KualiForm" property="subAccountNumber" />
-	                    <html-el:hidden name="KualiForm" property="objectCode" />
-	                    <html-el:hidden name="KualiForm" property="subObjectCode" />
+	                    <html-el:hidden name="KualiForm" property="financialObjectCode" />
+	                    <html-el:hidden name="KualiForm" property="financialSubObjectCode" />
 					  </c:if>
 					</c:if>
 					
@@ -183,12 +183,12 @@
 						    src="${ConfigProperties.externalizable.images.url}buttonsmall_getnew.gif" styleClass="tinybutton"
 						    alt="get new incumbent" title="get new incumbent" border="0"/>
 					  </c:if>
-					  <c:if test="${addLine}">
+					  <c:if test="${KualiForm.addLine}">
 					  	<html-el:hidden name="KualiForm" property="chartOfAccountsCode" />
 	                    <html-el:hidden name="KualiForm" property="accountNumber" />
 	                    <html-el:hidden name="KualiForm" property="subAccountNumber" />
-	                    <html-el:hidden name="KualiForm" property="objectCode" />
-	                    <html-el:hidden name="KualiForm" property="subObjectCode" />
+	                    <html-el:hidden name="KualiForm" property="financialObjectCode" />
+	                    <html-el:hidden name="KualiForm" property="financialSubObjectCode" />
 					  </c:if>
 					</c:if>
 				

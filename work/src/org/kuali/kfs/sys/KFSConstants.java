@@ -143,6 +143,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String DISENCUMBRANCE = "Disencumbrance";
     public static final String DISPATCH_REQUEST_PARAMETER = "methodToCall";
     public static final String DOC_FORM_KEY = "docFormKey";
+    public static final String FORM_KEY = "formKey";
     public static final String BALANCE_INQUIRY_REPORT_MENU_CALLER_DOC_FORM_KEY = "balanceInquiryReportMenuCallerDocFormKey";
     public static final String DOCUMENT_CANCEL_QUESTION = "DocCancel";
     public static final String DOCUMENT_DELETE_QUESTION = "DocDelete";
@@ -218,6 +219,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String PERCENTAGE_SIGN = "%";
     public static final String RICE_PATH_PREFIX = "kr/";
     public static final String USE_CONTINUATION_BANK_QUESTION = "UseContinuationBankQuestion";
+    public static final String NEW_WINDOW_URL_TARGET = "blank";
 
     /**
      * This value denotes that a max length has not been defined for a given lookup results field

@@ -121,7 +121,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + totalAmountBigDecimal);
             }
             BigDecimal pct = accountingLine.getAmount().bigDecimalValue().divide(totalAmountBigDecimal, percentScale, BIG_DECIMAL_ROUNDING_MODE);
-            pct = pct.multiply(ONE_HUNDRED).stripTrailingZeros();
+            pct = pct.stripTrailingZeros().multiply(ONE_HUNDRED);
 
             if ( LOG.isDebugEnabled() ) {
                 LOG.debug(methodName + " pct = " + pct + "  (trailing zeros removed)");

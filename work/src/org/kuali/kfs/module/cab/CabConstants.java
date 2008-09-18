@@ -32,6 +32,7 @@ public class CabConstants extends JSTLConstants {
         public static final String BALANCE_TYPES = "BALANCE_TYPES";
         public static final String NAMESPACE = "KFS-CAB";
         public static final String DETAIL_TYPE_BATCH = "Batch";
+        public static final String LAST_EXTRACT_DATE = "LAST_EXTRACT_DATE";
     }
 
     public static final String PREQ = "PREQ";

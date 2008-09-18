@@ -93,7 +93,19 @@ public interface BatchExtractService {
     Collection<PurApAccountingLineBase> findPurapAccountHistory();
 
 
+    /**
+     * Implementation will retrieve all eligible Purchase Order account lines from a Purchase order that matches criteria required
+     * by pre-asset tagging, using these account lines, batch process can identify the elgible purchase order line items to be saved
+     * for pre-tagging screen
+     * 
+     * @return
+     */
     Collection<PurchaseOrderAccount> findPreTaggablePOAccounts();
 
+    /**
+     * Implementation will identify eligible purchase oder line items eligible for pre-tagging screen
+     * 
+     * @param preTaggablePOAccounts List of pre-taggable account lines
+     */
     void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts);
 }

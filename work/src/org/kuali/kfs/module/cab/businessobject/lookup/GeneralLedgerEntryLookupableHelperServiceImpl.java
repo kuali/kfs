@@ -17,31 +17,70 @@ package org.kuali.kfs.module.cab.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * This class overrids the base getActionUrls method
+ * This class overrides the base getActionUrls method
  */
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
 
-    /***
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+    /*******************************************************************************************************************************
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
-        String href = "../cabGlLine.do?methodToCall=start&generalLedgerAccountIdentifier=" + entry.getGeneralLedgerAccountIdentifier();
+        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&generalLedgerAccountIdentifier=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Create Asset");
+        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&generalLedgerAccountIdentifier=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Create Payment");
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KNSConstants.START_METHOD, "Assets");
-        anchorHtmlDataList.add(anchorHtmlData);
+        anchorHtmlDataList.add(createAssetHref);
+        anchorHtmlDataList.add(createPaymentHref);
         return anchorHtmlDataList;
+    }
+
+    /**
+     * This method will remove all PO related transactions from display on GL results
+     * 
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        if (searchResults == null || searchResults.isEmpty()) {
+            return searchResults;
+        }
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
+        Long matchingResultsCount = null;
+        List<GeneralLedgerEntry> newList = new ArrayList<GeneralLedgerEntry>();
+        for (BusinessObject businessObject : searchResults) {
+            GeneralLedgerEntry entry = (GeneralLedgerEntry) businessObject;
+            if (!entry.getFinancialDocumentTypeCode().equals(CabConstants.PREQ)) {
+                if (!entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
+                    newList.add(entry);
+                }
+                else if (entry.getFinancialDocumentTypeCode().equals(CabConstants.CM) && StringUtils.isBlank(entry.getReferenceFinancialDocumentNumber())) {
+                    newList.add(entry);
+                }
+            }
+        }
+        matchingResultsCount = Long.valueOf(newList.size());
+        if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
+            matchingResultsCount = new Long(0);
+        }
+        return new CollectionIncomplete(newList, matchingResultsCount);
     }
 
 }

@@ -48,6 +48,9 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPreTaggablePOAccounts(org.kuali.kfs.module.cab.businessobject.BatchParameters)
+     */
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters) {
         Criteria statusCodeCond1 = new Criteria();
         statusCodeCond1.addEqualTo(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE, CabConstants.CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW);

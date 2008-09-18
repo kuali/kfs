@@ -62,7 +62,7 @@ public interface ExtractDao {
      * This method implementation should retrieve all eligible pretaggable PO account lines from Purchasing module
      * 
      * @param batchParameters Batch Parameters
-     * @return List of pretaggable purchase order account lines
+     * @return List of pre-taggable purchase order account lines
      */
     Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters);
 

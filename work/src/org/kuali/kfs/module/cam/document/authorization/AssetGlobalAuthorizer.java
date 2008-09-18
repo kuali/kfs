@@ -35,14 +35,15 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
-    
+
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalAuthorizer.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
 
     /**
      * Hide or set specific fields as non-editable.
-     *
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.bo.user.UniversalUser)
+     * 
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      org.kuali.rice.kns.bo.user.UniversalUser)
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
@@ -53,14 +54,15 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(auths, user, false);
-        } else {
+        }
+        else {
             setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(auths, user, true);
         }
 
         return auths;
     }
-    
+
     /**
      * Sets Asset Global Details fields to read only
      * 
@@ -80,7 +82,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.MANUFACTURER_NAME);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER);
         auths.addReadonlyAuthField(CamsPropertyConstants.AssetGlobal.ORGANIZATION_TEXT);
-        auths.addReadonlyAuthField (CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
+        auths.addReadonlyAuthField(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.LAST_INVENTORY_DATE);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CREATE_DATE);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE);
@@ -89,13 +91,13 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.LAND_ACREAGE_SIZE);
         auths.addReadonlyAuthField(CamsPropertyConstants.Asset.LAND_PARCEL_NUMBER);
     }
-    
+
     /**
      * Hides specific Asset Location fields in relation to the document type.
      * 
      * @param auths
      * @param user
-     */ 
+     */
     protected void setAssetGlobalLocationFieldsHidden(AssetGlobal assetGlobal, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
         // hide it for the add line
         int i = 0;
@@ -106,8 +108,9 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_NAME); // manufacturerName
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
-            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount (Long)
-            
+            auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
+                                                                                                                                                                                                                                                                                        // (Long)
+
             // hide it for the existing lines
             int j = 0;
             for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
@@ -115,16 +118,17 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE); // capitalAssetTypeCode
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_DESCRIPTION); // capitalAssetDescription
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_NAME); // manufacturerName
-                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT);  // organizationText
+                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
-                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount (Long)
+                auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
+                                                                                                                                                                                                                                                                    // (Long)
                 j++;
             }
-            
+
             i++;
         }
     }
-    
+
     /**
      * Sets Asset Payment Details fields in relation to the document type.
      * 

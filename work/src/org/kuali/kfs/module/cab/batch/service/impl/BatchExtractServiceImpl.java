@@ -34,6 +34,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
+import org.kuali.kfs.module.cab.batch.PreAssetTaggingStep;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.batch.dataaccess.PurchasingAccountsPayableItemAssetDao;
 import org.kuali.kfs.module.cab.batch.service.BatchExtractService;
@@ -108,10 +109,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @return BatchParameters
      */
     protected BatchParameters createPreTagBatchParameters() {
-        // TODO - change the parameter names
         BatchParameters parameters = new BatchParameters();
         parameters.setLastRunDate(getPreTagLastRunDate());
-        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
+        parameters.setIncludedFinancialObjectSubTypeCodes(parameterService.getParameterValues(PreAssetTaggingStep.class, CabConstants.Parameters.OBJECT_SUB_TYPES));
         parameters.setExcludedChartCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.CHARTS));
         parameters.setExcludedSubFundCodes(parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.SUB_FUND_GROUPS));
         parameters.setCapitalizationLimitAmount(new BigDecimal(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT)));
@@ -144,6 +144,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return getExtractDao().findMatchingGLEntries(parameters);
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPreTaggablePOAccounts()
+     */
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
         BatchParameters parameters = createPreTagBatchParameters();
         return getExtractDao().findPreTaggablePOAccounts(parameters);
@@ -195,12 +198,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     protected java.sql.Date getPreTagLastRunDate() {
-        // TODO -change parameter name and format
         java.sql.Date lastRunDt;
-        String lastRunTS = parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+        String lastRunTS = parameterService.getParameterValue(PreAssetTaggingStep.class, CabConstants.Parameters.LAST_EXTRACT_DATE);
         Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
-            lastRunDt = lastRunTS == null ? new java.sql.Date(yesterday.getTime()) : new java.sql.Date(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_TS }).getTime());
+            lastRunDt = lastRunTS == null ? new java.sql.Date(yesterday.getTime()) : new java.sql.Date(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DATE_FORMAT_DT }).getTime());
         }
         catch (ParseException e) {
             throw new RuntimeException(e);

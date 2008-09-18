@@ -72,37 +72,38 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * Get Asset from AssetGlobal
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
-        
+
         // set "asset number" and "type code" from URL
         setSeparateSourceCapitalAssetNumber(assetGlobal, parameters);
         setFinancialDocumentTypeCode(assetGlobal, parameters);
-        
+
         // populate required fields for "Asset Separate" doc
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
-            
+
             populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
         }
-        
+
         super.processAfterNew(document, parameters);
-    }   
-    
+    }
+
     /**
      * Get Asset from AssetGlobal
      * 
      * @param assetGlobal
      * @return Asset
      */
-    private Asset getAsset(AssetGlobal assetGlobal){
+    private Asset getAsset(AssetGlobal assetGlobal) {
         HashMap map = new HashMap();
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
         Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
@@ -115,13 +116,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      * @param assetGlobal
      * @return AssetOrganization
      */
-    private AssetOrganization getAssetOrganization(AssetGlobal assetGlobal){
+    private AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
         HashMap map = new HashMap();
         map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
         AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
         return assetOrganization;
     }
-    
+
     /**
      * Populate Asset Information for Asset Separate document
      * 
@@ -129,10 +130,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      * @param asset
      */
     private void populateAssetInformation(AssetGlobal assetGlobal, Asset asset) {
-        //for asset number see setSeparateSourceCapitalAssetNumber()
+        // for asset number see setSeparateSourceCapitalAssetNumber()
         assetGlobal.setTotalCostAmount(asset.getTotalCostAmount());
-    }  
-    
+    }
+
     /**
      * Populate Asset Details for Asset Separate document
      * 
@@ -156,7 +157,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setCapitalAssetInServiceDate(asset.getCapitalAssetInServiceDate());
         assetGlobal.setLandCountyName(asset.getLandCountyName());
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
-        assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());   
+        assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
     }
 
     /**
@@ -164,7 +165,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      * 
      * @param assetGlobal
      */
-    private void populateAssetSeparatePaymentDetails(AssetGlobal assetGlobal, Asset asset) {        
+    private void populateAssetSeparatePaymentDetails(AssetGlobal assetGlobal, Asset asset) {
         // clear and create temp AssetPaymentDetail list
         assetGlobal.getAssetPaymentDetails().clear();
         List<AssetPaymentDetail> newAssetPaymentDetailList = assetGlobal.getAssetPaymentDetails();
@@ -172,7 +173,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         for (AssetPayment assetPayment : asset.getAssetPayments()) {
             // create new AssetPaymentDetail
             AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
-            
+
             // populate AssetPaymentDetail with AssetPayment data
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             assetPaymentDetail.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
@@ -188,7 +189,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             assetPaymentDetail.setPostingYear(assetPayment.getFinancialDocumentPostingYear());
             assetPaymentDetail.setPostingPeriodCode(assetPayment.getFinancialDocumentPostingPeriodCode());
             assetPaymentDetail.setAmount(assetPayment.getAccountChargeAmount());
-            
+
             // add assetPaymentDetail to AssetPaymentDetail list
             newAssetPaymentDetailList.add(assetPaymentDetail);
         }
@@ -196,12 +197,12 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // set AssetGlobal payment details with new payment details
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
     }
-    
-    
+
+
     /**
      * Set capital asset number from URL.
-     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * 
+     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @param assetGlobal
      * @param parameters
      */
@@ -211,11 +212,11 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             assetGlobal.setSeparateSourceCapitalAssetNumber(Long.parseLong(separateSourceCapitalAssetNumber[0].toString()));
         }
     }
-    
+
     /**
      * Set document type code from URL.
-     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * 
+     * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @param assetGlobal
      * @param parameters
      */
@@ -224,8 +225,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         if (financialDocumentTypeCode != null) {
             assetGlobal.setFinancialDocumentTypeCode(financialDocumentTypeCode[0].toString());
         }
-    }   
-    
+    }
+
     /**
      * Hide specific document sections.
      * 
@@ -235,7 +236,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     public List<Section> getCoreSections(Maintainable oldMaintainable) {
         List<Section> sections = super.getCoreSections(oldMaintainable);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        
+
         // hide "Asset Information" tab from "Asset Separate" doc
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
@@ -246,8 +247,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
 
         return sections;
-    }  
-    
+    }
+
     /**
      * Hook for quantity and setting asset numbers.
      * 
@@ -256,7 +257,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     @Override
     public void addNewLineToCollection(String collectionName) {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        
+
         if (CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS.equalsIgnoreCase(collectionName)) {
             handAssetPaymentsCollection(collectionName, assetGlobal);
         }
@@ -281,19 +282,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         if (ObjectUtils.isNotNull(assetGlobalDetail)) {
             assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
 
-            // if not set, populate unique asset fields using original asset data.  "Asset Separate" doc (location tab)
+            // if not set, populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-                    if (assetGlobalDetail.getCapitalAssetTypeCode()== null) {
+                    if (assetGlobalDetail.getCapitalAssetTypeCode() == null) {
                         assetGlobalDetail.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                     }
-                    if (assetGlobalDetail.getCapitalAssetDescription()== null) {
+                    if (assetGlobalDetail.getCapitalAssetDescription() == null) {
                         assetGlobalDetail.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
                     }
-                    if (assetGlobalDetail.getManufacturerName()== null) {
+                    if (assetGlobalDetail.getManufacturerName() == null) {
                         assetGlobalDetail.setManufacturerName(assetGlobal.getManufacturerName());
                     }
-                    if (assetGlobalDetail.getSeparateSourceAmount()== null) {
+                    if (assetGlobalDetail.getSeparateSourceAmount() == null) {
                         assetGlobalDetail.setSeparateSourceAmount(KualiDecimal.ZERO);
                     }
                 }
@@ -313,8 +314,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         while (locationQuantity != null && locationQuantity > 0) {
             AssetGlobalDetail newAssetUnique = new AssetGlobalDetail();
             newAssetUnique.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-            
-            // populate unique asset fields using original asset data.  "Asset Separate" doc (location tab)
+
+            // populate unique asset fields using original asset data. "Asset Separate" doc (location tab)
             if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
                 newAssetUnique.setCapitalAssetTypeCode(assetGlobal.getCapitalAssetTypeCode());
                 newAssetUnique.setCapitalAssetDescription(assetGlobal.getCapitalAssetDescription());
@@ -331,7 +332,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) newCollectionLines.get(collectionName);
         if (assetPaymentDetail != null) {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
-            // Set for document number and  document type code
+            // Set for document number and document type code
             if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
@@ -393,18 +394,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                     detail.setOffCampusZipCode(locationDetail.getOffCampusZipCode());
                     newDetails.add(detail);
                 }
-                
+
             }
         }
-        
-        computeDepreciationDate(assetGlobal);
+
+        if (assetGlobal.getCapitalAssetTypeCode() != null) {
+            computeDepreciationDate(assetGlobal);
+        }
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAssetGlobalDetails(newDetails);
         assetGlobal.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal));
     }
 
-        
 
     private void computeDepreciationDate(AssetGlobal assetGlobal) {
         Date inServiceDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
@@ -506,29 +508,28 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
     public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-        
+
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        
-        //Asset information
+
+        // Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(),assetGlobal.getOrganizationOwnerAccountNumber()));
-                            
-        //Storing data
+        accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber()));
+
+        // Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-                
+
         RoutingData accountRoutingData = new RoutingData();
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
-    }    
+    }
 }

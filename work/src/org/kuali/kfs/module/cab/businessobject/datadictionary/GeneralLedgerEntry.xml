@@ -42,6 +42,7 @@
         <ref bean="GeneralLedgerEntry-transactionPostingDate" />
         <ref bean="GeneralLedgerEntry-transactionDate" />
         <ref bean="GeneralLedgerEntry-transactionDateTimeStamp" />
+        <ref bean="GeneralLedgerEntry-active" />
       </list>
     </property>
   </bean>
@@ -243,7 +244,8 @@
 
   <bean id="GeneralLedgerEntry-transactionPostingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="transactionPostingDate" />
-    <property name="shortLabel" value="Financial Post Date" />
+    <property name="shortLabel" value="Post Date" />
+    <property name="label" value="Financial Post Date" />
   </bean>
   
   <bean id="GeneralLedgerEntry-transactionDate" parent="GeneralLedgerEntry-transactionDate-parentBean" />
@@ -256,6 +258,16 @@
 
   <bean id="GeneralLedgerEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="transactionDateTimeStamp" />
+  </bean>
+  
+   <bean id="GeneralLedgerEntry-active" parent="GeneralLedgerEntry-active-parentBean" />
+
+  <bean id="GeneralLedgerEntry-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
+    <property name="label" value="Active" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
   </bean>
 <!-- Business Object Inquiry Definition -->
 
@@ -377,7 +389,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="referenceFinancialSystemOriginationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="referenceFinancialDocumentNumber" />       
+              p:attributeName="referenceFinancialDocumentNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionPostingDate" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" p:defaultValue="Y" />       
       </list>
     </property>
     <property name="resultFields" >

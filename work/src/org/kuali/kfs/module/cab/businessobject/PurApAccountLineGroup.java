@@ -50,6 +50,7 @@ public class PurApAccountLineGroup extends AccountLineGroup {
         }
         setUniversityFiscalYear(entry.getPostingYear());
         // TODO - this needs to be updated later when decision is final
+        // setUniversityFiscalPeriodCode(entry.getPostingPeriodCode());
         if (PaymentRequestAccountHistory.class.isAssignableFrom(entry.getClass())) {
             setUniversityFiscalPeriodCode(((PaymentRequestAccountHistory) entry).getPostingPeriodCode());
         }

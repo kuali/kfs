@@ -21,10 +21,13 @@
 <c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
 <c:set var="orgVals" value="${KualiForm.document.account.organization}" />
 <c:set var="orgPropString" value="document.account.organization" />
+
+<c:if test="${KualiForm.accountReportsExist}">
 <c:set var="accountRptsAttributes" value="${DataDictionary.BudgetConstructionAccountReports.attributes}" />
 <c:set var="orgRptsAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="orgRptsVals" value="${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports}" />
 <c:set var="orgRptsPropString" value="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
+</c:if>
 
 <kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -199,6 +202,7 @@
 	      	<kul:htmlControlAttribute property="${orgPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
 	      </td>
 		</tr>
+
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">Next Year Data</span>
@@ -216,6 +220,18 @@
 	      </td>
 	      <td>&nbsp;</td>
         </tr>
+	    <tr>
+        <c:if test="${!KualiForm.accountReportsExist}">
+	      <kul:htmlAttributeHeaderCell
+	          labelFor="document.budgetConstructionAccountReports.reportsToChartOfAccountsCode"
+	          literalLabel="Chart/Org:"
+	          horizontal="true"
+	          />
+	      <td  colspan="3" align="center" valign="middle">No Account Reports To mapping found!
+	      </td>
+        </tr>
+        </c:if>
+        <c:if test="${KualiForm.accountReportsExist}">
 		<tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.budgetConstructionAccountReports.reportsToChartOfAccountsCode"
@@ -292,6 +308,7 @@
 	      	<kul:htmlControlAttribute property="${orgRptsPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
 	      </td>
 		</tr>
+        </c:if>
 
 
     	<tr>
@@ -336,6 +353,7 @@
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
+          <c:if test="${KualiForm.accountReportsExist}">
 	      	<kul:htmlControlAttribute
 	      		property="document.organizationLevelOrganizationCode"
 	      		attributeEntry="${documentAttributes.organizationLevelOrganizationCode}"
@@ -348,6 +366,7 @@
 			    	<html:hidden write="true" property="document.organizationLevelOrganizationCode" />
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
+          </c:if>&nbsp;
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.organizationLevelOrganization.organizationName" attributeEntry="${orgAttributes.organizationName}" readOnly="${true}"/>

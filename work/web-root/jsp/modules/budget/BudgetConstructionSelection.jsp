@@ -28,10 +28,13 @@
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
 <c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
 <c:set var="orgPropString" value="budgetConstructionHeader.account.organization" />
+
+<c:if test="${KualiForm.accountReportsExist}">
 <c:set var="accountRptsAttributes" value="${DataDictionary.BudgetConstructionAccountReports.attributes}" />
 <c:set var="accountRptsPropString" value="budgetConstructionHeader.budgetConstructionAccountReports" />
 <c:set var="orgRptsAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="orgRptsPropString" value="budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
+</c:if>
 
 <%-- hack to get around ojb retrieve problems when account key is bad, don't show the info fields --%>
 <c:catch var="e">
@@ -260,6 +263,20 @@
             </c:if>&nbsp;
             </td>
 	    </tr>
+
+        <c:if test="${!KualiForm.accountReportsExist}">
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Next Year Org:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="5">
+              <c:if test="${!empty KualiForm.budgetConstructionHeader.chartOfAccountsCode && !empty KualiForm.budgetConstructionHeader.accountNumber}">
+                    No Account Reports To mapping found!
+              </c:if>&nbsp;
+            </td>
+	    </tr>
+        </c:if>
+        <c:if test="${KualiForm.accountReportsExist}">
 	    <tr>
 		    <th class="grid" align="right" colspan="2">
 		        Next Year Org:
@@ -350,6 +367,8 @@
             </td>
             </c:if>&nbsp;
 		</tr>
+        </c:if>
+
     	<tr>
             <th class="grid" colspan="7" align="left">
                 <br>

@@ -15,8 +15,21 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Struts Action for Credit Memo document.
@@ -24,4 +37,30 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectAction.class);
 
+    public ActionForward startResearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ElectronicInvoiceRejectForm electronicInvoiceRejectForm = (ElectronicInvoiceRejectForm) form;
+        ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
+        eirDocument.setInvoiceResearchIndicator(true);
+
+//        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
+//        SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj);
+//        SpringContext.getBean(NoteService.class).save(noteObj);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward completeResearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ElectronicInvoiceRejectForm electronicInvoiceRejectForm = (ElectronicInvoiceRejectForm) form;
+        ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
+        eirDocument.setInvoiceResearchIndicator(false);
+
+//        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
+//        SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj);
+//        SpringContext.getBean(NoteService.class).save(noteObj);
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        
+    }
 }

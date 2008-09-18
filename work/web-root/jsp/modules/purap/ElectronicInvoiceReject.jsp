@@ -37,6 +37,10 @@
 
 	<kfs:hiddenDocumentFields excludePostingYear="true" isFinancialDocument="false" isTransactionalDocument="true" />
 
+	<c:if test="${KualiForm.document.invoiceResearchIndicator}">
+		NOTE: This reject document is currently being researched. See the notes below for more detail. The document will not be allowed to be routed until the research is complete.<br /><br />
+	</c:if>
+			
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="false" >
     </kfs:documentOverview>
@@ -45,7 +49,7 @@
     <html:hidden property="document.vendorDetailAssignedIdentifier" />
 
 	<kul:tab tabTitle="Caomparison Data" defaultOpen="TRUE" tabErrorKey="">
-	    <div class="tab-container" align="center">
+	    <div class="tab-container">
 
 			<div class="error" align="left">Reject Reasons:</div>
 			<ul>
@@ -53,11 +57,7 @@
 				<li class="error"><html:hidden write="true" property="document.invoiceRejectReasons[${ctr}].invoiceRejectReasonDescription" /></li>
 			</logic:iterate>
 			</ul>
-			
-    		<c:if test="${document.researchIndicator}">
-				This reject document is currently being researched. See the notes below for more detail.<br />
-			</c:if>
-			
+
  	        <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
 	            <tr>
 	                <td colspan="4" class="subhead">Electronic Invoice Data</td>
@@ -666,6 +666,6 @@
 
 	<kul:panelFooter />
 
-	<kfs:documentControls transactionalDocument="true" />
+	<kfs:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}"/>
 
 </kul:documentPage>

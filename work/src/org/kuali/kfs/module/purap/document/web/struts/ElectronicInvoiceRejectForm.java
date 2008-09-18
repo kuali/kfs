@@ -62,48 +62,11 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
-//      if (eirDoc.isResearchIndicator()) {
-          addExtraButton("methodToCall.startResearch", appExternalImageURL + "buttonsmall_research.gif", "Research");
-//      } else {
+      if (eirDoc.isInvoiceResearchIndicator()) {
           addExtraButton("methodToCall.completeResearch", appExternalImageURL + "buttonsmall_complresearch.gif", "Complete Research");
-//      }
-          
-        //
-//        if (this.getEditingMode().containsKey(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB)) {
-//            if (this.getEditingMode().get(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
-//                addExtraButton("methodToCall.continuePREQ", externalImageURL + "buttonsmall_continue.gif", "Continue");
-//                addExtraButton("methodToCall.clearInitFields", externalImageURL + "buttonsmall_clear.gif", "Clear");
-//
-//            }
-//            else {
-//                PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preqDoc);
-//
-//                // if preq holdable and user can put on hold, show button
-//                if (preqDocAuth.canHold()) {
-//                    addExtraButton("methodToCall.addHoldOnPayment", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
-//                }
-//
-//                // if person can remove hold
-//                if (preqDocAuth.canRemoveHold()) {
-//                    addExtraButton("methodToCall.removeHoldFromPayment", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
-//                }
-//
-//                // if preq can have a cancel request and user can submit request cancel, show button
-//                if (preqDocAuth.canRequestCancel()) {
-//                    addExtraButton("methodToCall.requestCancelOnPayment", appExternalImageURL + "buttonsmall_requestcancel.gif", "Cancel");
-//                }
-//
-//                // if person can remove request cancel
-//                if (preqDocAuth.canRemoveRequestCancel()) {
-//                    addExtraButton("methodToCall.removeCancelRequestFromPayment", appExternalImageURL + "buttonsmall_remreqcanc.gif", "Remove");
-//                }
-//
-//                // add the calculate button
-//                if (preqDocAuth.canCalculate()) {
-//                    addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
-//                }
-//            }
-//        }
+      } else {
+          addExtraButton("methodToCall.startResearch", appExternalImageURL + "buttonsmall_research.gif", "Research");
+      }
 
         return extraButtons;
     }
@@ -125,4 +88,5 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
 
         extraButtons.add(newButton);
     }
+    
 }

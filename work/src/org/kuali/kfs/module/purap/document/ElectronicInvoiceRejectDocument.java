@@ -123,7 +123,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     private BigDecimal invoiceItemNetAmount;
 
     private boolean invoiceNumberAcceptIndicator = false;
-
+    private boolean invoiceResearchIndicator = false;
+    
     private transient PurApRelatedViews relatedViews;
     private PurchaseOrderDocument currentPurchaseOrderDocument;
 
@@ -944,6 +945,18 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     public void setInvoiceNumberAcceptIndicator(boolean invoiceNumberAcceptIndicator) {
         this.invoiceNumberAcceptIndicator = invoiceNumberAcceptIndicator;
+    }
+
+    public boolean isInvoiceResearchIndicator() {
+        return invoiceResearchIndicator;
+    }
+
+    public boolean getInvoiceResearchIndicator() {
+        return invoiceResearchIndicator;
+    }
+
+    public void setInvoiceResearchIndicator(boolean invoiceResearchIndicator) {
+        this.invoiceResearchIndicator = invoiceResearchIndicator;
     }
 
     /**

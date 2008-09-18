@@ -17,30 +17,21 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Business rule(s) applicable to Payment Request documents.
  */
-public class ElectronicInvoiceRejectDocumentRule extends AccountsPayableDocumentRuleBase {
+public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
 
     private static KualiDecimal zero = KualiDecimal.ZERO;
     private static BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
-
-    /**
-     * Tabs included on Payment Request Documents are: Invoice
-     * 
-     * @see org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
-     */
-    @Override
-    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = true; //super.processValidation(purapDocument);
-        return valid;
-    }
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -48,47 +39,16 @@ public class ElectronicInvoiceRejectDocumentRule extends AccountsPayableDocument
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
+        
+        ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) document;
+
+        // check to see if the document is being researched
+        if (eirDocument.isInvoiceResearchIndicator()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapConstants.REJECT_DOCUMENT_RESEARCH_INCOMPETE);
+            isValid = false;
+        }
         return isValid;
     }
 
 
-    /**
-     * Performs item validations for the rules that are only applicable to Payment Request Document. In EPIC, we are
-     * also doing similar steps as in this method within the validateFormatter, which is called upon Save. Therefore now we're also
-     * calling the same validations upon Save.
-     * 
-     * @param purapDocument - purchasing accounts payable document
-     * @return
-     */
-    @Override
-    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = true;
-//        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) purapDocument;
-//        for (PurApItem item : purapDocument.getItems()) {
-//            PaymentRequestItem preqItem = (PaymentRequestItem) item;
-//            valid &= validateEachItem(paymentRequestDocument, preqItem);
-//        }
-        return valid;
-    }    
-
-    public boolean processContinuePurapBusinessRules(TransactionalDocument document) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean processPreCalculateAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 }

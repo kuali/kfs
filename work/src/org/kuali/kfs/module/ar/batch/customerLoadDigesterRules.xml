@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="customers">
+        <object-create-rule classname="java.util.ArrayList" />
+
+        <pattern value="customer">
+            <object-create-rule classname="org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO" />
+
+            <call-method-rule pattern="customerNumber" methodname="setCustomerNumber" paramcount="0" />
+            <call-method-rule pattern="customerName" methodname="setCustomerName" paramcount="0" />
+            <call-method-rule pattern="customerParentCompanyNumber" methodname="setCustomerParentCompanyNumber" paramcount="0" />
+            <call-method-rule pattern="customerTypeCode" methodname="setCustomerTypeCode" paramcount="0" />
+            <call-method-rule pattern="customerLastActivityDate" methodname="setCustomerLastActivityDate" paramcount="0" />
+            <call-method-rule pattern="customerTaxTypeCode" methodname="setCustomerTaxTypeCode" paramcount="0" />
+            <call-method-rule pattern="customerTaxNbr" methodname="setCustomerTaxNbr" paramcount="0" />
+            <call-method-rule pattern="customerActiveIndicator" methodname="setCustomerActiveIndicator" paramcount="0" />
+            <call-method-rule pattern="customerPhoneNumber" methodname="setCustomerPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="customer800PhoneNumber" methodname="setCustomer800PhoneNumber" paramcount="0" />
+            <call-method-rule pattern="customerContactName" methodname="setCustomerContactName" paramcount="0" />
+            <call-method-rule pattern="customerContactPhoneNumber" methodname="setCustomerContactPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="customerContactPhoneNumber" methodname="setCustomerContactPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="customerBirthDate" methodname="setCustomerBirthDate" paramcount="0" />
+            <call-method-rule pattern="customerTaxExemptIndicator" methodname="setCustomerTaxExemptIndicator" paramcount="0" />
+            <call-method-rule pattern="customerCreditLimitAmount" methodname="setCustomerCreditLimitAmount" paramcount="0" />
+            <call-method-rule pattern="customerCreditApprovedByName" methodname="setCustomerCreditApprovedByName" paramcount="0" />
+            <call-method-rule pattern="customerEmailAddress" methodname="setCustomerEmailAddress" paramcount="0" />
+            
+			<pattern value="addresses/address">
+				<object-create-rule classname="org.kuali.kfs.module.ar.batch.vo.CustomerAddressDigesterVO" />
+				
+	            <call-method-rule pattern="customerAddressName" methodname="setCustomerAddressName" paramcount="0" />
+	            <call-method-rule pattern="customerLine1StreetAddress" methodname="setCustomerLine1StreetAddress" paramcount="0" />
+	            <call-method-rule pattern="customerLine2StreetAddress" methodname="setCustomerLine2StreetAddress" paramcount="0" />
+	            <call-method-rule pattern="customerCityName" methodname="setCustomerCityName" paramcount="0" />
+	            <call-method-rule pattern="customerStateCode" methodname="setCustomerStateCode" paramcount="0" />
+	            <call-method-rule pattern="customerZipCode" methodname="setCustomerZipCode" paramcount="0" />
+	            <call-method-rule pattern="customerCountryCode" methodname="setCustomerCountryCode" paramcount="0" />
+	            <call-method-rule pattern="customerAddressInternationalProvinceName" methodname="setCustomerAddressInternationalProvinceName" paramcount="0" />
+	            <call-method-rule pattern="customerInternationalMailCode" methodname="setCustomerInternationalMailCode" paramcount="0" />
+	            <call-method-rule pattern="customerEmailAddress" methodname="setCustomerEmailAddress" paramcount="0" />
+	            <call-method-rule pattern="customerAddressTypeCode" methodname="setCustomerAddressTypeCode" paramcount="0" />
+	            <call-method-rule pattern="customerAddressEndDate" methodname="setCustomerAddressEndDate" paramcount="0" />
+	
+				<set-next-rule methodname="addCustomerAddress" />
+			</pattern>
+			
+            <set-next-rule methodname="add" />
+        </pattern>
+
+    </pattern>
+</digester-rules>

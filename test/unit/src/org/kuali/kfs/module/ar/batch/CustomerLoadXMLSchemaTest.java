@@ -31,20 +31,17 @@ import javax.xml.validation.Validator;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.IOUtils;
-import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.xml.sax.SAXException;
 
-public class CustomerLoadSampleTest extends TestCase {
+public class CustomerLoadXMLSchemaTest extends TestCase {
 
-    private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/module/ar/batch/sample/";
-    private static final String TEST_BATCH_XML_SAMPLE_FILE = "CustomerLoad-Sample.xml";
-    private static final String TEST_BATCH_SCHEMA_DIRECTORY = "work/web-root/static/xml/fs/";
-    private static final String TEST_BATCH_SCHEMA_FILE = "arCustomerLoad.xsd";
+    private static final String XML_SAMPLE_DIRECTORY = "org/kuali/kfs/module/ar/batch/sample/";
+    private static final String XML_SAMPLE_FILE = "CustomerLoad-Sample.xml";
+    private static final String SCHEMA_DIRECTORY = "work/web-root/static/xml/fs/";
+    private static final String SCHEMA_FILE = "arCustomerLoad.xsd";
     
-    private BatchInputFileType pcdoBatchInputFileType;
-
     /**
      * @see junit.framework.TestCase#setUp()
      */
@@ -68,12 +65,12 @@ public class CustomerLoadSampleTest extends TestCase {
         byte[] byteArray;
         
         //  XML file stream creation
-        inputStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + TEST_BATCH_XML_SAMPLE_FILE);
+        inputStream = ClassLoader.getSystemResourceAsStream(XML_SAMPLE_DIRECTORY + XML_SAMPLE_FILE);
         byteArray = IOUtils.toByteArray(inputStream);
         ByteArrayInputStream sampleXmlFile = new ByteArrayInputStream(byteArray);
         
         //  Schema file stream creation
-        inputStream = new FileInputStream(TEST_BATCH_SCHEMA_DIRECTORY + TEST_BATCH_SCHEMA_FILE);
+        inputStream = new FileInputStream(SCHEMA_DIRECTORY + SCHEMA_FILE);
         byteArray = IOUtils.toByteArray(inputStream);
         ByteArrayInputStream schemaLocation = new ByteArrayInputStream(byteArray);
 

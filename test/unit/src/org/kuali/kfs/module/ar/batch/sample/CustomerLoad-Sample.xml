@@ -3,11 +3,9 @@
 	<customer>
 		<customerName>Sample Customer One</customerName>
 		<customerParentCompanyNumber></customerParentCompanyNumber>
-		
 		<!--  customerTypeCode 05 = 'Private Business' -->
 		<customerTypeCode>05</customerTypeCode>
 		<customerLastActivityDate>2008-06-01</customerLastActivityDate>
-		
 		<!--  allowable:  SSN or FEIN -->
 		<customerTaxTypeCode>FEIN</customerTaxTypeCode>
 		<customerTaxNbr>121231234</customerTaxNbr>

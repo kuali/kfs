@@ -22,6 +22,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -35,6 +36,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
 
     private BudgetConstructionHeader budgetConstructionHeader;
     private boolean hideDetails = false;
+    private boolean accountReportsExist;
 
     public BudgetConstructionSelectionForm() {
         super();
@@ -88,6 +90,31 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      */
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
+    }
+
+    /**
+     * Gets the accountReportsExist attribute.
+     * 
+     * @return Returns the accountReportsExist.
+     */
+    public boolean isAccountReportsExist() {
+        accountReportsExist = false;
+
+        if (this.budgetConstructionHeader.getAccountNumber() != null && this.budgetConstructionHeader.getChartOfAccountsCode() != null) {
+            if (SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(this.budgetConstructionHeader.getChartOfAccountsCode(), this.budgetConstructionHeader.getAccountNumber())){
+                accountReportsExist = true;
+            }
+        }
+        return accountReportsExist;
+    }
+
+    /**
+     * Sets the accountReportsExist attribute value.
+     * 
+     * @param accountReportsExist The accountReportsExist to set.
+     */
+    public void setAccountReportsExist(boolean accountReportsExist) {
+        this.accountReportsExist = accountReportsExist;
     }
 
     /**

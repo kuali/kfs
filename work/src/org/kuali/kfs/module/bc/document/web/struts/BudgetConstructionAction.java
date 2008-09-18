@@ -42,6 +42,7 @@ import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
@@ -53,6 +54,7 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -93,7 +95,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PULLUP_METHOD) || budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_PUSHDOWN_METHOD)) {
 
             // init the account org hier state on initial load only - this is stored as hiddens
-            if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)){
+            if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
                 budgetConstructionForm.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getUniversalUser()));
             }
 
@@ -113,7 +115,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                     // tell the user if the document is in not budgetable mode
                     budgetConstructionForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(budgetConstructionForm.getBudgetConstructionDocument()));
-                    if (!budgetConstructionForm.isBudgetableDocument()){
+                    if (!budgetConstructionForm.isBudgetableDocument()) {
                         GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE);
                     }
 
@@ -128,7 +130,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
                     if (budgetConstructionHeader != null) {
-//                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                        // BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader,
+                        // GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
                         BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
                         // TODO: make this a switch
@@ -184,7 +187,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), true);
             }
         }
-        
+
         return forward;
     }
 
@@ -219,8 +222,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
     /**
-     * Initially load the document from the DB
-     * Coded this to look like KualiDocumentActionBase.loadDocument()
+     * Initially load the document from the DB Coded this to look like KualiDocumentActionBase.loadDocument()
      * 
      * @param budgetConstructionForm
      * @throws WorkflowException
@@ -285,9 +287,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String accountNumber = bcDoc.getAccountNumber();
         String subAccountNumber = bcDoc.getSubAccountNumber();
         Integer universityFiscalYear = bcDoc.getUniversityFiscalYear();
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
 
         Map editModeMap = new HashMap();
-        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, GlobalVariables.getUserSession().getUniversalUser());
+        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, universalUser);
         editModeMap.put(editMode, "TRUE");
 
         // adding the case where system is in view only mode in case we need this fact for functionality
@@ -296,6 +299,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(universityFiscalYear)) {
             editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
         }
+
+        // check for special case where account reports mapping is missing for the document
+        // and the user is a root approver having ability to cancel the document
+        if (!budgetDocumentService.isAccountReportsExist(chartOfAccountsCode, accountNumber)) {
+            if (SpringContext.getBean(PermissionService.class).isRootApprover(universalUser)) {
+                editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.DOCUMENT_CANCEL_ONLY, "TRUE");
+            }
+        }
+
 
         GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
         GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
@@ -473,6 +485,32 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *      Cancels a Budget Construction Document. This action is only available when there is no associated account reports to
+     *      mapping
+     */
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // TODO not sure this is needed since a work around is to add the mapping and then
+        // manually do cleanup operations so the document doesn't load
+        // remove the setCanCancel code in BudgetConstructionDocumentAuthorizer if this is removed
+
+        // TODO if implemented, this needs to delete or purge BCAF lines
+        // this should also cancel in workflow if not already canceled
+        // this implies cancel can be issued multiple times to allow purging BCAF lines if CSF is removed
+        // Canceling should not be a one way trip, once canceled, reactivating should be possible
+        // Once the account reports to mapping is installed, canceling is no longer an option 
+
+        // TODO need to lift some code from super and see if doc service cancel will work
+        // or add a cancel method to BudgetDocumentService
+        // super.cancel(mapping, form, request, response);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
     public ActionForward performBalanceInquiryForRevenueLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return performBalanceInquiry(true, mapping, form, request, response);
     }
@@ -599,18 +637,18 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
         if (budgetConstructionForm.getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY) && !budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
-            
+
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-            
+
             // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
             // The act of attempting to remove a 2plg (delete) forces a complete RI check.
             // The document is assumed inconsistent as long as a 2plg exists.
-            if (!isRevenue && bcDocument.isContainsTwoPlug()){
+            if (!isRevenue && bcDocument.isContainsTwoPlug()) {
                 budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
             }
             else {
                 budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-                
+
             }
             budgetConstructionForm.initializePersistedRequestAmounts();
             budgetDocumentService.calculateBenefitsIfNeeded(bcDocument);
@@ -684,7 +722,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
             // The act of attempting to remove a 2plg (delete) forces a complete RI check.
             // The document is assumed inconsistent as long as a 2plg exists.
-            if (bcDocument.isContainsTwoPlug()){
+            if (bcDocument.isContainsTwoPlug()) {
                 budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
             }
             else {
@@ -889,8 +927,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Deletes an existing PendingBudgetConstructionGeneralLedger expenditure line if rules passed Any associated monthly budget
-     * (BudgetConstructionMonthly) is also deleted. Check for the special case where the line is a 2PLG line, in which case the document
-     * is validated and RI checks are forced even if there are no current differences between persisted and request amounts.
+     * (BudgetConstructionMonthly) is also deleted. Check for the special case where the line is a 2PLG line, in which case the
+     * document is validated and RI checks are forced even if there are no current differences between persisted and request
+     * amounts.
      * 
      * @param mapping
      * @param form
@@ -919,9 +958,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         if (rulePassed) {
-            
+
             // if the line is a 2PLG line do document validation, which forces RI checks in no current change situation
-            if (expLine.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)){
+            if (expLine.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
                 SpringContext.getBean(BudgetDocumentService.class).validateDocument(tDoc);
             }
             // gets here if line is not 2PLG or doc is valid from 2plg perspective
@@ -966,7 +1005,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().remove(deleteIndex);
         }
         else {
-            if (line.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)){
+            if (line.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
                 bcDoc.setContainsTwoPlug(true);
             }
             bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().remove(deleteIndex);
@@ -1002,7 +1041,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
 
             // monthly process applies any changes to the DB and the form session object
-            // including any override to the request amount which also changes the request total 
+            // including any override to the request amount which also changes the request total
             // it also sets up calc monthly benefits if the line is involved in benefits
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
             budgetDocumentService.calculateBenefitsIfNeeded(budgetConstructionForm.getBudgetConstructionDocument());
@@ -1027,7 +1066,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 List<PendingBudgetConstructionGeneralLedger> dbSalarySettingRows = budgetDocumentService.getPBGLSalarySettingRows(currentBCDoc);
                 for (PendingBudgetConstructionGeneralLedger dbSalarySettingRow : dbSalarySettingRows) {
                     if (budgetConstructionForm.getPreSalarySettingRows().containsKey(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode())) {
-                        
+
                         // update the existing row if a difference is found
                         KualiInteger dbReqAmount = dbSalarySettingRow.getAccountLineAnnualBalanceAmount();
                         KualiInteger preReqAmount = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getAccountLineAnnualBalanceAmount();
@@ -1035,16 +1074,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         Long preReqVersionNumber = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getVersionNumber();
                         if ((dbVersionNumber.compareTo(preReqVersionNumber) != 0) || (dbReqAmount.compareTo(preReqAmount) != 0)) {
                             budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
-                            
+
                             // only flag for existing line diff when the request amount changes
                             // changes in versionNumber implies offsetting updates of some sort
-                            if (dbReqAmount.compareTo(preReqAmount) != 0){
+                            if (dbReqAmount.compareTo(preReqAmount) != 0) {
                                 diffFound = true;
                             }
                         }
                     }
                     else {
-                        
+
                         // insert the new DB row to the set in memory
                         budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
                         diffFound = true;

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.authorization.BudgetConstructionDocumentAuthorizer;
@@ -35,6 +37,7 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -42,6 +45,7 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -87,6 +91,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     private String accountNumber;
     private String subAccountNumber;
     private boolean pickListMode;
+    private boolean accountReportsExist;
 
     public BudgetConstructionForm() {
         super();
@@ -239,7 +244,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                     pushdownLevelKeyLabels.clear();
 
                     // start at current doc level and add all that are below current level
-                    for (int i = (bcDoc.getOrganizationLevelCode()-1); i >= 0; i--) {
+                    for (int i = (bcDoc.getOrganizationLevelCode() - 1); i >= 0; i--) {
                         BudgetConstructionAccountOrganizationHierarchy level = levels.get(i);
                         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(level, "organization");
                         if (level.getOrganizationLevelCode() == 0) {
@@ -310,7 +315,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         if (expenditureLine.getFinancialObjectCode().contentEquals(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
             // 2plg record exists
             bcDoc.setContainsTwoPlug(true);
-//            bcDoc.setOld2PLGAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
+            // bcDoc.setOld2PLGAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
 
         }
     }
@@ -467,7 +472,8 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     }
 
     /**
-     * Gets the budgetableDocument attribute. 
+     * Gets the budgetableDocument attribute.
+     * 
      * @return Returns the budgetableDocument.
      */
     public boolean isBudgetableDocument() {
@@ -476,6 +482,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
 
     /**
      * Sets the budgetableDocument attribute value.
+     * 
      * @param budgetableDocument The budgetableDocument to set.
      */
     public void setBudgetableDocument(boolean budgetableDocument) {
@@ -668,6 +675,31 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      */
     public void setPickListMode(boolean pickListMode) {
         this.pickListMode = pickListMode;
+    }
+
+    /**
+     * Gets the accountReportsExist attribute.
+     * 
+     * @return Returns the accountReportsExist.
+     */
+    public boolean isAccountReportsExist() {
+        accountReportsExist = false;
+
+        if (this.getBudgetConstructionDocument().getDocumentNumber() != null) {
+            if (SpringContext.getBean(BudgetDocumentService.class).isAccountReportsExist(this.getChartOfAccountsCode(), this.getAccountNumber())){
+                accountReportsExist = true;
+            }
+        }
+        return accountReportsExist;
+    }
+
+    /**
+     * Sets the accountReportsExist attribute value.
+     * 
+     * @param accountReportsExist The accountReportsExist to set.
+     */
+    public void setAccountReportsExist(boolean accountReportsExist) {
+        this.accountReportsExist = accountReportsExist;
     }
 
     /**

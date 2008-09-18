@@ -3,9 +3,8 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
   <bean id="AssetType" parent="AssetType-parentBean" />
-
+  
   <bean id="AssetType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetType" />
     <property name="inquiryDefinition" >
@@ -29,9 +28,7 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="AssetType-capitalAssetTypeCode" parent="AssetType-capitalAssetTypeCode-parentBean" />
-
   <bean id="AssetType-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTypeCode" />
     <property name="forceUppercase" value="true" />
@@ -39,7 +36,7 @@
     <property name="shortLabel" value="Asset Type" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
@@ -48,8 +45,8 @@
     <property name="summary" value="capitalAssetTypeCode" />
     <property name="description" value="Capital Asset type" />
   </bean>
+  
   <bean id="AssetType-capitalAssetTypeDescription" parent="AssetType-capitalAssetTypeDescription-parentBean" />
-
   <bean id="AssetType-capitalAssetTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetTypeDescription" />
     <property name="forceUppercase" value="false" />
@@ -67,8 +64,8 @@
     <property name="summary" value="capitalAssetTypeDescription" />
     <property name="description" value="Capital Asset type description." />
   </bean>
+  
   <bean id="AssetType-depreciableLifeLimit" parent="AssetType-depreciableLifeLimit-parentBean" />
-
   <bean id="AssetType-depreciableLifeLimit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="depreciableLifeLimit" />
     <property name="forceUppercase" value="true" />
@@ -85,8 +82,8 @@
     <property name="summary" value="depreciableLifeLimit" />
     <property name="description" value="Depreciable life limit description." />
   </bean>
+  
   <bean id="AssetType-movingIndicator" parent="AssetType-movingIndicator-parentBean" />
-
   <bean id="AssetType-movingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="movingIndicator" />
     <property name="forceUppercase" value="true" />
@@ -99,8 +96,8 @@
     <property name="summary" value="movingIndicator" />
     <property name="description" value="Moving indicator description." />
   </bean>
+  
   <bean id="AssetType-requiredBuildingIndicator" parent="AssetType-requiredBuildingIndicator-parentBean" />
-
   <bean id="AssetType-requiredBuildingIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="requiredBuildingIndicator" />
     <property name="forceUppercase" value="true" />
@@ -113,17 +110,15 @@
     <property name="summary" value="requiredBuildingIndicator" />
     <property name="description" value="Required building indicator description." />
   </bean>
+  
   <bean id="AssetType-active" parent="AssetType-active-parentBean" />
-
   <bean id="AssetType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="AssetType-inquiryDefinition" parent="AssetType-inquiryDefinition-parentBean" />
-
   <bean id="AssetType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Asset Type Inquiry" />
     <property name="inquirySections" >
@@ -154,9 +149,7 @@
 
 <!-- Business Object Lookup Definition -->
 
-
   <bean id="AssetType-lookupDefinition" parent="AssetType-lookupDefinition-parentBean" />
-
   <bean id="AssetType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Asset Type Lookup" />
     <property name="instructions" value="Look up an Asset Type" />

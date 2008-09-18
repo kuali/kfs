@@ -71,6 +71,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
         this.setPurchaseOrder(po);
 
+        //FIXME (from hjs)  generate sequence id 
+//        this.setItemIdentifier(retrieveing the new sequence)
         this.setItemLineNumber(ri.getItemLineNumber());
         this.setItemUnitOfMeasureCode(ri.getItemUnitOfMeasureCode());
         this.setItemQuantity(ri.getItemQuantity());

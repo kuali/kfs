@@ -34,6 +34,7 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
     }
     
+    //FIXME (from hjs) change parameter to be RequisitionCapitalAssetItem
     public PurchaseOrderCapitalAssetItem (PurchasingCapitalAssetItem reqAssetItem) {
         //this.setCapitalAssetItemIdentifier(reqAssetItem.getCapitalAssetItemIdentifier());
         //this.setItemIdentifier(reqAssetItem.getItemIdentifier());
@@ -41,6 +42,8 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         //this.setCapitalAssetSystemIdentifier(reqAssetItem.getCapitalAssetSystemIdentifier());
         this.setCapitalAssetTransactionType(reqAssetItem.getCapitalAssetTransactionType());
         //this.setPurchasingCapitalAssetSystem(reqAssetItem.getPurchasingCapitalAssetSystem());
+        
+        //FIXME (from hjs) copy the system
     }
     
     public String getDocumentNumber() {

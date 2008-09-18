@@ -24,6 +24,7 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
        super();
 	}
 	
+	//FIXME (from hjs) change the parameter to be RequisitionCapitalAssetSystem
 	public PurchaseOrderCapitalAssetSystem(CapitalAssetSystem reqSystem) {
 	    super();
 	    this.setCapitalAssetSystemDescription(reqSystem.getCapitalAssetSystemDescription());

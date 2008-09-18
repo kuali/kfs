@@ -93,7 +93,7 @@ public class FormatServiceImpl implements FormatService {
     private BusinessObjectService businessObjectService;
     private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
-
+    
     public FormatServiceImpl() {
         super();
     }
@@ -174,8 +174,7 @@ public class FormatServiceImpl implements FormatService {
             CustomerProfile customer = pg.getBatch().getCustomerProfile();
 
             // Set the sort field to be saved in the database
-            //pg.setSortValue(this.paymentGroupService.getSortGroupId(pg));
-            pg.setSortValue(pg.getFormatSortField());
+            pg.setSortValue(this.paymentGroupService.getSortGroupId(pg));
             
             pg.setDisbursementDate(proc.getProcessTimestamp());
             pg.setPhysCampusProcessCd(proc.getCampus());

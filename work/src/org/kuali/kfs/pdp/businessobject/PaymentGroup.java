@@ -107,21 +107,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return !pymtSpecialHandling && !processImmediate && pymtAttachment;
     }
 
-    public String getDailyReportSortOrder() {
-        if (processImmediate) {
-            return "Immediate       ";
-        }
-        else if (pymtSpecialHandling) {
-            return "Special Handling";
-        }
-        else if (pymtAttachment) {
-            return "Attachment      ";
-        }
-        else {
-            return "Other           ";
-        }
-    }
-
     public String getPaymentStatusCode() {
         return paymentStatusCode;
     }
@@ -137,21 +122,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return (val + "                                        ").substring(0, width - 1);
     }
 
-    public String getSortGroupId() {
-        if (getProcessImmediate().booleanValue()) {
-            return "B";
-        }
-        else if (getPymtSpecialHandling().booleanValue()) {
-            return "C";
-        }
-        else if (getPymtAttachment().booleanValue()) {
-            return "D";
-        }
-        else {
-            return "E";
-        }
-    }
-
     private boolean booleanValue(Boolean b) {
         boolean bv = false;
         if (b != null) {
@@ -159,34 +129,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         }
         return bv;
     }
-
-    /**
-     * This field determines the sort order for the format. It packs all the relevant data into one field to make a field that order
-     * by can use
-     * 
-     * @return sort order string
-     */
-    public String getFormatSortField() {
-        StringBuffer sb = new StringBuffer();
-
-        sb.append(getSortGroupId());
-
-        CustomerProfile cp = this.getBatch().getCustomerProfile();
-        sb.append(cp.getChartCode());
-        sb.append(getWidthString(4, cp.getOrgCode()));
-        sb.append(getWidthString(4, cp.getSubUnitCode()));
-
-        if ("E".equals(getSortGroupId())) {
-            sb.append(this.getPayeeId());
-            sb.append(this.getPayeeIdTypeCd());
-        }
-        else {
-            sb.append(this.getPayeeName());
-        }
-
-        return sb.toString();
-    }
-
+    
     public int getNoteLines() {
         int count = 0;
         for (Iterator iter = this.getPaymentDetails().iterator(); iter.hasNext();) {
@@ -280,7 +223,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return sortValue;
     }
 
-    /*public void setSortValue(int sortGroupId) {
+    public void setSortValue(int sortGroupId) {
         String defaultSortOrderParameterName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
         String defaultSortOrderParameterValue = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentGroup.class, defaultSortOrderParameterName);
         
@@ -301,10 +244,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
             sb.append(this.getPayeeName());
         }
         this.sortValue = sb.toString();
-    }*/
-
-    public void setSortValue(String sortValue) {
-        this.sortValue = sortValue;
     }
     
     /**
@@ -359,14 +298,6 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setState(String state) {
         this.state = state;
     }
-
-    /**
-     * @return
-     * @hibernate.property column="LST_UPDT_TS" length="7"
-     */
-    /*
-     * public Timestamp getLastUpdate() { return lastUpdate; }
-     */
 
     /**
      * @return

@@ -26,6 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 
@@ -61,7 +63,7 @@ public class PreFormatProcessSummary extends TransientBusinessObjectBase{
             ps.setProcess(pg.getProcess());
             ps.setProcessTotalAmount(new BigDecimal(0));
             ps.setProcessTotalCount(new Integer(0));
-            ps.setSortGroupId(pg.getSortGroupId());
+            ps.setSortGroupId(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
             processSummary.add(ps);
         }
 
@@ -88,7 +90,7 @@ public class PreFormatProcessSummary extends TransientBusinessObjectBase{
         for (Iterator iter = processSummary.iterator(); iter.hasNext();) {
             ProcessSummary ps = (ProcessSummary) iter.next();
 
-            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getSortGroupId().equals(pg.getSortGroupId()) && ps.getProcess().equals(pg.getProcess())) {
+            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getSortGroupId().equals(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg))) && ps.getProcess().equals(pg.getProcess())) {
                 return ps;
             }
         }

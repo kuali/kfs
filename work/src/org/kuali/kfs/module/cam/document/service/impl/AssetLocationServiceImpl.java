@@ -21,16 +21,23 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.PostalCode;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
 
 
     /**
@@ -181,7 +188,6 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     private boolean validateOffCampusLocation(Map<LocationField, String> fieldMap, String contactName, String streetAddress, String cityName, String stateCode, String zipCode, String countryCode) {
         boolean valid = true;
         boolean isCountryUS = false;
-
         if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
             putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
             valid &= false;
@@ -203,6 +209,32 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             valid &= false;
         }
         
+LOG.info("=====================>Off Campus -->STATE");
+        if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
+            State assetLocationState = SpringContext.getBean(AssetLocation.class).getAssetLocationState();
+            if (ObjectUtils.isNull(assetLocationState)) {
+                putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE);
+                valid &= false;
+            }
+        }
+
+        if (!isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
+            PostalCode assetLocationZipCode = SpringContext.getBean(AssetLocation.class).getPostalZipCode();
+            if (ObjectUtils.isNull(assetLocationZipCode)) {
+                putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_ZIP_CODE);
+                valid &= false;
+            } else {
+
+            // validate  postal zip code against state code
+                if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
+                    if (!stateCode.equals(assetLocationZipCode.getPostalStateCode())) {
+                        putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_STATE_ZIP_CODE, stateCode, zipCode);
+                        valid &= false;
+                    }
+                }
+            }
+        }
+
         if (isCountryUS) {
             if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                 putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);

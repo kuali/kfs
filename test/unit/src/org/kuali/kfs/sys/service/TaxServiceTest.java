@@ -95,6 +95,7 @@ public class TaxServiceTest extends KualiTestBase {
             assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
             assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
             assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
+            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
             assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
             assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));
             
@@ -129,6 +130,7 @@ public class TaxServiceTest extends KualiTestBase {
             assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
             assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
             assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
+            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
             assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
             assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));            
             
@@ -166,7 +168,7 @@ public class TaxServiceTest extends KualiTestBase {
     private enum TaxRegionFixture {
 
         TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BL", "1031400", "1500", false, true),
-        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "POST", "BA", "1031400", "5387", true, true), ;
+        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", "1031400", "5387", true, true), ;
 
         public String taxRegionCode;
         public String taxRegionName;

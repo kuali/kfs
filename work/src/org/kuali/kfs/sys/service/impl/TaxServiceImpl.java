@@ -89,6 +89,7 @@ public class TaxServiceImpl implements TaxService {
         taxDetail.setFinancialObjectCode(taxRegion.getFinancialObjectCode());
         taxDetail.setRateCode(taxRegion.getTaxRegionCode());
         taxDetail.setRateName(taxRegion.getTaxRegionName());
+        taxDetail.setTypeCode(taxRegion.getTaxRegionTypeCode());
         if (ObjectUtils.isNotNull((taxRegion.getEffectiveTaxRegionRate(dateOfTransaction)))) {
             taxDetail.setTaxRate(taxRegion.getEffectiveTaxRegionRate(dateOfTransaction).getTaxRate());
             taxDetail.setTaxAmount(amount.multiply(new KualiDecimal(taxDetail.getTaxRate())));

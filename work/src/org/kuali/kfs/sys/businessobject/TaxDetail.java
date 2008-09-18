@@ -26,6 +26,7 @@ public class TaxDetail extends TransientBusinessObjectBase {
     private String rateCode; //(e.g., state code or district code)
     private String rateName; //(e.g., state name or tax district name)
     private BigDecimal taxRate; //(a rate between 0 and 1)
+    private String typeCode; //type code based on tax region type code (POST, ST, CNTY)
     private KualiDecimal taxAmount;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -86,6 +87,14 @@ public class TaxDetail extends TransientBusinessObjectBase {
     public void setTaxAmount(KualiDecimal taxAmount) {
         this.taxAmount = taxAmount;
     }
+    
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }    
 
     @Override
     protected LinkedHashMap toStringMapper() {

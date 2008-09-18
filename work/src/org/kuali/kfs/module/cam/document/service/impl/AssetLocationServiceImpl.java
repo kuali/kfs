@@ -21,23 +21,20 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
-import org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationService.class);
 
 
     /**
@@ -75,8 +72,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#validateLocation(java.lang.Object, org.kuali.kfs.module.cam.businessobject.Asset,
-     *      java.util.Map)
+     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#validateLocation(java.lang.Object,
+     *      org.kuali.kfs.module.cam.businessobject.Asset, java.util.Map)
      */
     public boolean validateLocation(Map<LocationField, String> fieldMap, BusinessObject businessObject, boolean isCapital, AssetType assetType) {
         String campusCode = readPropertyValue(businessObject, fieldMap, LocationField.CAMPUS_CODE);
@@ -191,10 +188,11 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         if (isBlank(fieldMap, LocationField.COUNTRY_CODE, countryCode)) {
             putError(fieldMap, LocationField.COUNTRY_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_COUNTRY_REQUIRED);
             valid &= false;
-        } else {
+        }
+        else {
             isCountryUS = countryCode.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES);
         }
-        
+
         if (isBlank(fieldMap, LocationField.CONTACT_NAME, contactName)) {
             putError(fieldMap, LocationField.CONTACT_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CONTACT_REQUIRED);
             valid &= false;
@@ -208,8 +206,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             putError(fieldMap, LocationField.CITY_NAME, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_CITY_REQUIRED);
             valid &= false;
         }
-        
-LOG.info("=====================>Off Campus -->STATE");
+
+        LOG.info("=====================>Off Campus -->STATE");
         if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
             State assetLocationState = SpringContext.getBean(AssetLocation.class).getAssetLocationState();
             if (ObjectUtils.isNull(assetLocationState)) {
@@ -223,9 +221,10 @@ LOG.info("=====================>Off Campus -->STATE");
             if (ObjectUtils.isNull(assetLocationZipCode)) {
                 putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_ZIP_CODE);
                 valid &= false;
-            } else {
+            }
+            else {
 
-            // validate  postal zip code against state code
+                // validate postal zip code against state code
                 if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                     if (!stateCode.equals(assetLocationZipCode.getPostalStateCode())) {
                         putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_STATE_ZIP_CODE, stateCode, zipCode);

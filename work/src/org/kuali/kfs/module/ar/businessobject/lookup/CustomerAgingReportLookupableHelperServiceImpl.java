@@ -92,14 +92,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-        Collection<CustomerInvoiceDetail> invoiceDetails = null;
+        Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
+        
+        Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
         Collection<CustomerInvoiceDocument> invoices = null;
+        CustomerInvoiceDetail invoicedetail = null;
 
         if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
             invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
-            int invoisessize = invoices.size();
             for (CustomerInvoiceDocument ci : invoices) {
-                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));
+                invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));                             
                 LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString());
             }
         }
@@ -220,44 +222,8 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
         LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
      } 
-        
-        
-        
-        // create some fake entries to test with
-        CustomerAgingReportDetail matt = new CustomerAgingReportDetail();
-        matt.setCustomerName("Matt");
-        matt.setCustomerNumber("DEV12345");
-        matt.setUnpaidBalance0to30(KualiDecimal.ZERO);
-        matt.setUnpaidBalance31to60(KualiDecimal.ZERO);
-        matt.setUnpaidBalance61to90(KualiDecimal.ZERO);
-        matt.setUnpaidBalance91toSYSPR(KualiDecimal.ZERO);
-        matt.setUnpaidBalanceSYSPRplus1orMore(KualiDecimal.ZERO);
 
-        CustomerAgingReportDetail justin = new CustomerAgingReportDetail();
-        justin.setCustomerName("Justin");
-        justin.setCustomerNumber("LED12346");
-        justin.setUnpaidBalance0to30(KualiDecimal.ZERO);
-        justin.setUnpaidBalance31to60(KualiDecimal.ZERO);
-        justin.setUnpaidBalance61to90(KualiDecimal.ZERO);
-        justin.setUnpaidBalance91toSYSPR(KualiDecimal.ZERO);
-        justin.setUnpaidBalanceSYSPRplus1orMore(KualiDecimal.ZERO);
-
-        CustomerAgingReportDetail patty = new CustomerAgingReportDetail();
-        patty.setCustomerName("Patty");
-        patty.setCustomerNumber("MGR12347");
-        patty.setUnpaidBalance0to30(KualiDecimal.ZERO);
-        patty.setUnpaidBalance31to60(KualiDecimal.ZERO);
-        patty.setUnpaidBalance61to90(KualiDecimal.ZERO);
-        patty.setUnpaidBalance91toSYSPR(KualiDecimal.ZERO);
-        patty.setUnpaidBalanceSYSPRplus1orMore(KualiDecimal.ZERO);
-
-        // List results = accountBalanceService.findAccountBalanceByConsolidation(universityFiscalYear, chartOfAccountsCode,
-        // accountNumber, subAccountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
-        // List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>(3);
         List results = new ArrayList();
-        results.add(matt);
-        results.add(justin);
-        results.add(patty);
         for (Object detail : knownCustomers.values()) {
             results.add(detail);
         }

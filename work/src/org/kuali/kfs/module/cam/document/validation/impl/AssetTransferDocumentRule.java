@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -225,8 +226,8 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             }
         }
         if (StringUtils.isNotBlank(assetTransferDocument.getOffCampusStateCode())) {
-            assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE);
-            if (ObjectUtils.isNull(assetTransferDocument.getOffCampusState())) {
+            State stateCode = assetTransferDocument.getOffCampusState();
+            if (ObjectUtils.isNull(stateCode)) {
                 putError(CamsPropertyConstants.AssetTransferDocument.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, assetTransferDocument.getOffCampusStateCode());
                 valid &= false;
             }

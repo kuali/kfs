@@ -511,32 +511,24 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      */
     public void populateRoutingInfo() {
         routingInfo = new HashSet<RoutingData>();
-        
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-    
-        Asset asset = (Asset) getBusinessObject();
-    
+        
+        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        
         //Asset information
-        organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
+        organizationRoutingSet.add(new OrgReviewRoutingData(assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(assetGlobal.getOrganizationOwnerChartOfAccountsCode(),assetGlobal.getOrganizationOwnerAccountNumber()));
                             
         //Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-    
-        List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiCGAttribute.class.getSimpleName());
-        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-        routingTypes.add(KualiPDAttribute.class.getSimpleName());
-            
+                
         RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }    
-
-
 }

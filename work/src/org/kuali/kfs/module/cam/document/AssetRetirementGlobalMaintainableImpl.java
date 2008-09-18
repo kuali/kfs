@@ -32,14 +32,11 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
@@ -284,16 +281,30 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
      * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
-    public void populateRoutingInfo() {
+    public void populateRoutingInfo() {        
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-
+        
+        String chartOfAccountsCode;
+        String accountNumber;
+        String organizationcode;
+        
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+//
+        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {               
+            chartOfAccountsCode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerChartOfAccountsCode();
+            accountNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccountNumber();
+            organizationcode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccount().getOrganizationCode();
+            
+            organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
+            accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
+        }
+        
         for (AssetRetirementGlobalDetail detailLine : assetRetirementGlobal.getAssetRetirementGlobalDetails()) {
-            String chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
-            String accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
-            String organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
+            chartOfAccountsCode = detailLine.getAsset().getOrganizationOwnerChartOfAccountsCode();
+            accountNumber = detailLine.getAsset().getOrganizationOwnerAccountNumber();
+            organizationcode = detailLine.getAsset().getOrganizationOwnerAccount().getOrganizationCode();
 
             organizationRoutingSet.add(new OrgReviewRoutingData(chartOfAccountsCode, organizationcode));
             accountRoutingSet.add(new RoutingAccount(chartOfAccountsCode, accountNumber));
@@ -304,14 +315,9 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
-
-        List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiCGAttribute.class.getSimpleName());
-        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-        routingTypes.add(KualiPDAttribute.class.getSimpleName());
         
         RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }

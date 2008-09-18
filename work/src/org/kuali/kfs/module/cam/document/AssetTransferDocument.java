@@ -29,7 +29,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -921,12 +920,6 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
 
-//        LOG.info("**** ASSET **********************");
-//        LOG.info("**** COA     :"+this.asset.getOrganizationOwnerChartOfAccountsCode());
-//        LOG.info("**** Org Code:"+this.asset.getOrganizationOwnerAccount().getOrganizationCode());
-//        LOG.info("**** Account :"+this.asset.getOrganizationOwnerAccountNumber());
-//        LOG.info("*********************************");
-                
         //Asset information
         organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
@@ -935,27 +928,14 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         organizationRoutingSet.add(new OrgReviewRoutingData(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccount().getOrganizationCode()));
         accountRoutingSet.add(new RoutingAccount(this.getOrganizationOwnerChartOfAccountsCode(), this.getOrganizationOwnerAccountNumber()));
 
-        
-//        LOG.info("**** TRANSFER **********************");
-//        LOG.info("**** COA     :"+this.getOrganizationOwnerChartOfAccountsCode());
-//        LOG.info("**** Org Code:"+this.getOrganizationOwnerAccount().getOrganizationCode());
-//        LOG.info("**** Account :"+this.getOrganizationOwnerAccountNumber());
-//        LOG.info("********************************* "+organizationRoutingSet.size());
-        
-        
         //Storing data
         RoutingData organizationRoutingData = new RoutingData();
         organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
 
-        List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiCGAttribute.class.getSimpleName());
-        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-        routingTypes.add(KualiPDAttribute.class.getSimpleName());
-        
         RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }

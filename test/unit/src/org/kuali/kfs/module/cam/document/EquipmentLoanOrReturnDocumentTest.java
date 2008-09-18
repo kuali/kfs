@@ -36,48 +36,36 @@ import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
-public class AssetTransferDocumentTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocumentTest.class);
+public class EquipmentLoanOrReturnDocumentTest extends KualiTestBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentTest.class);
 
-    AssetTransferService assetTransferService;
-    
-    public AssetTransferDocumentTest() {
+    public EquipmentLoanOrReturnDocumentTest() {
         super();
     }
 
-    private AssetTransferDocument buildTransferDocument(Asset asset) {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        AssetTransferDocument document = AssetTransferFixture.ASSET_TRANSFER.newAssetTransferDocument();
-//        asset.setCapitalAssetNumber(null);
-//        asset.setCapitalAssetTypeCode("665");
-        
-        boService.save(asset);
-
-        document.setAsset(asset);
-        document.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+    private EquipmentLoanOrReturnDocument buildDocument() {
+        EquipmentLoanOrReturnDocument document = new EquipmentLoanOrReturnDocument();        
+        document.setCapitalAssetNumber(new Long(1920));
+        document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
         return document;
     }
 
-    public void testSaveApprovedChanges() throws Exception {
+    public void testRouteInformation() throws Exception {
         RoutingData routingData = new RoutingData();
         RoutingData organizationRoutingData_a = new RoutingData();
         RoutingData accountRoutingData_a = new RoutingData();
+
         Set organizationRoutingSet_a  = new HashSet();        
         Set accountRoutingSet_a       = new HashSet();
         
-        //Creating document using fixture data
-        AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset());
-        assetTransferService = SpringContext.getBean(AssetTransferService.class);        
-        this.assetTransferService.saveApprovedChanges(document);
-
+        EquipmentLoanOrReturnDocument document =this.buildDocument();
         document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
-        document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
         document.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
         
         //Populating routing info.
         document.populateRoutingInfo();
         Set<RoutingData> routingInfo_a = document.getRoutingInfo();
-        
+                
         //Comparing document data with populated data. 
         for(Iterator i = routingInfo_a.iterator();i.hasNext();) {
             routingData = (RoutingData)i.next();        
@@ -87,19 +75,31 @@ public class AssetTransferDocumentTest extends KualiTestBase {
                 accountRoutingSet_a = routingData.getRoutingSet();
             }
         }
+                
+//      for (Iterator o = organizationRoutingSet_a.iterator(); o.hasNext();) {
+//      Object obj = o.next();
+//      LOG.info("***Org***"+obj.toString());          
+//      if (obj instanceof OrgReviewRoutingData) {
+//          OrgReviewRoutingData orgReviewRoutingData = (OrgReviewRoutingData)obj;
+//          LOG.info("***Org Data:"+orgReviewRoutingData.toString());
+//      }
+//  }
+//  
+//  for (Iterator a = accountRoutingSet_a.iterator(); a.hasNext();) {
+//      Object obj = a.next();
+//      LOG.info("***Actn***"+obj.toString());          
+//      if (obj instanceof RoutingAccount) {
+//          RoutingAccount routingAccount = (RoutingAccount)obj;
+//          LOG.info("***Acnt Data:"+routingAccount.toString());
+//      }
+//  }
+        
         
         //Asset information
         OrgReviewRoutingData orgReviewRoutingData_b = new OrgReviewRoutingData(document.getAsset().getOrganizationOwnerChartOfAccountsCode(), document.getAsset().getOrganizationOwnerAccount().getOrganizationCode());        
         assertTrue(organizationRoutingSet_a.contains(orgReviewRoutingData_b));
         
         RoutingAccount routingAccount_b = new RoutingAccount(document.getAsset().getOrganizationOwnerChartOfAccountsCode(), document.getAsset().getOrganizationOwnerAccountNumber());
-        assertTrue(accountRoutingSet_a.contains(routingAccount_b));
-               
-        //Asset tranfer information
-        orgReviewRoutingData_b = new OrgReviewRoutingData(document.getOrganizationOwnerChartOfAccountsCode(), document.getOrganizationOwnerAccount().getOrganizationCode());        
-        assertTrue(organizationRoutingSet_a.contains(orgReviewRoutingData_b));
-        
-        routingAccount_b = new RoutingAccount(document.getOrganizationOwnerChartOfAccountsCode(), document.getOrganizationOwnerAccountNumber());
-        assertTrue(accountRoutingSet_a.contains(routingAccount_b));        
+        assertTrue(accountRoutingSet_a.contains(routingAccount_b));               
     }    
 }

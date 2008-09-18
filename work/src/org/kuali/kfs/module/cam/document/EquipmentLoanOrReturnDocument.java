@@ -54,6 +54,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase implements GenericRoutingInfo {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocument.class);
 
     private String documentNumber;
     private String campusTagNumber;
@@ -793,10 +794,10 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         routingInfo = new HashSet<RoutingData>();
         Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
         Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
-
+                
         //Asset information
-        organizationRoutingSet.add(new OrgReviewRoutingData(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccount().getOrganizationCode()));
-        accountRoutingSet.add(new RoutingAccount(this.asset.getOrganizationOwnerChartOfAccountsCode(), this.asset.getOrganizationOwnerAccountNumber()));
+        organizationRoutingSet.add(new OrgReviewRoutingData(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccount().getOrganizationCode()));
+        accountRoutingSet.add(new RoutingAccount(this.getAsset().getOrganizationOwnerChartOfAccountsCode(), this.getAsset().getOrganizationOwnerAccountNumber()));
                         
         //Storing data
         RoutingData organizationRoutingData = new RoutingData();
@@ -804,13 +805,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         organizationRoutingData.setRoutingSet(organizationRoutingSet);
         routingInfo.add(organizationRoutingData);
 
-        List<String> routingTypes = new ArrayList<String>();
-        routingTypes.add(KualiCGAttribute.class.getSimpleName());
-        routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-        routingTypes.add(KualiPDAttribute.class.getSimpleName());
-        
         RoutingData accountRoutingData = new RoutingData();
-        accountRoutingData.setRoutingTypes(routingTypes);
+        accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }

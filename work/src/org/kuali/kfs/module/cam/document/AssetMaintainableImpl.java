@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
@@ -213,32 +214,27 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
      * 
      * @see org.kuali.kfs.sys.document.workflow.GenericRoutingInfo#populateRoutingInfo()
      */
-    public void populateRoutingInfo() {
-        routingInfo = new HashSet<RoutingData>();
-        
+    public void populateRoutingInfo() {        
         if (this.isAssetFabrication()) {
+            routingInfo = new HashSet<RoutingData>();
+            
             Set<OrgReviewRoutingData> organizationRoutingSet = new HashSet<OrgReviewRoutingData>();
             Set<RoutingAccount> accountRoutingSet = new HashSet<RoutingAccount>();
     
             Asset asset = (Asset) getBusinessObject();
-    
+
             //Asset information
             organizationRoutingSet.add(new OrgReviewRoutingData(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccount().getOrganizationCode()));
-            accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(), asset.getOrganizationOwnerAccountNumber()));
-                            
+            accountRoutingSet.add(new RoutingAccount(asset.getOrganizationOwnerChartOfAccountsCode(),asset.getOrganizationOwnerAccountNumber()));
+                                
             //Storing data
             RoutingData organizationRoutingData = new RoutingData();
             organizationRoutingData.setRoutingType(KualiOrgReviewAttribute.class.getSimpleName());
             organizationRoutingData.setRoutingSet(organizationRoutingSet);
             routingInfo.add(organizationRoutingData);
-    
-            List<String> routingTypes = new ArrayList<String>();
-            routingTypes.add(KualiCGAttribute.class.getSimpleName());
-            routingTypes.add(KualiAccountAttribute.class.getSimpleName());
-            routingTypes.add(KualiPDAttribute.class.getSimpleName());
-            
+                    
             RoutingData accountRoutingData = new RoutingData();
-            accountRoutingData.setRoutingTypes(routingTypes);
+            accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
             accountRoutingData.setRoutingSet(accountRoutingSet);
             routingInfo.add(accountRoutingData);
         }

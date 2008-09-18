@@ -86,7 +86,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             
             //If not routed, anyone can edit cams data
             editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-            editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
         }
 
         if (workflowDocument.stateIsEnroute()) {
@@ -103,7 +102,6 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                 //if enroute, only content approvers can edit
                 if(workflowDocument.isApprovalRequested()){
                     editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
                 }
 
             }

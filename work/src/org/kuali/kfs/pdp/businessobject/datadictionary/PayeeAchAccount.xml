@@ -57,6 +57,16 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="user" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="personUniversalIdentifier"
+                    p:targetName="personUniversalIdentifier" />
+            </list>
+          </property>
+        </bean>  
       </list>
     </property>
   </bean>
@@ -289,8 +299,9 @@
   <bean id="PayeeAchAccount-personUniversalIdentifier" parent="PayeeAchAccount-personUniversalIdentifier-parentBean" />
 
   <bean id="PayeeAchAccount-personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
-    <property name="label" value="Payee User ID" />
-    <property name="shortLabel" value="Payee User ID" />
+    <property name="label" value="Payee Universal ID" />
+    <property name="shortLabel" value="Payee Univ ID" />
+    <property name="required" value="false" />
   </bean>
   <bean id="PayeeAchAccount-active" parent="PayeeAchAccount-active-parentBean" />
 

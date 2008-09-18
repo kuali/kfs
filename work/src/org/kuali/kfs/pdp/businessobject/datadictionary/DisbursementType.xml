@@ -33,14 +33,14 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Disbursement Type Code" />
     <property name="shortLabel" value="Disbursement Type" />
-    <property name="maxLength" value="2" />
+    <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="2" />
+            p:size="4" />
     </property>
   </bean>
   <bean id="DisbursementType-name" parent="DisbursementType-name-parentBean" />
@@ -50,11 +50,11 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Disbursement Type Name" />
     <property name="shortLabel" value="Name" />
-    <property name="maxLength" value="40" />
+    <property name="maxLength" value="25" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="40" />
+            p:size="25" />
     </property>
   </bean>
  

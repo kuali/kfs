@@ -176,7 +176,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         public boolean processImmediate;
         public String customerShortName;
         public PaymentGroup paymentGroup;
-        
+
         public Key(PaymentDetail d) {
             this(d.getPaymentGroup().getPymtAttachment().booleanValue(),d.getPaymentGroup().getPymtSpecialHandling().booleanValue(),
                     d.getPaymentGroup().getProcessImmediate().booleanValue(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName(), d.getPaymentGroup());
@@ -239,7 +239,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addEqualTo("id", id);
 
         PaymentDetail cp = (PaymentDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
-        
+
         return cp;
     }
 
@@ -312,7 +312,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addEqualTo("physCampusProcCode", campus);
 
         QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class, criteria);
-        qbc.addOrderBy("bankId", true);
+        qbc.addOrderBy("bankCode", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         //updateDnr(l);

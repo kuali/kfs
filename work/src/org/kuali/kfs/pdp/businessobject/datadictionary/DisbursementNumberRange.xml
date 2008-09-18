@@ -25,6 +25,7 @@
         <ref bean="DisbursementNumberRange-disbNbrEffectiveDt" />
         <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
         <ref bean="DisbursementNumberRange-bankCode" />
+        <ref bean="DisbursementNumberRange-disbursementTypeCode" />
       </list>
     </property>
   </bean>
@@ -148,6 +149,11 @@
   
   <bean id="DisbursementNumberRange-bankCode" parent="DisbursementNumberRange-bankCode-parentBean" />
   <bean id="DisbursementNumberRange-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
+  
+  <bean id="DisbursementNumberRange-disbursementTypeCode" parent="DisbursementNumberRange-disbursementTypeCode-parentBean" />
+  <bean id="DisbursementNumberRange-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
+	<property name="name" value="disbursementTypeCode" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -166,6 +172,10 @@
                     p:attributeName="id" />
               <bean parent="FieldDefinition"
                     p:attributeName="physCampusProcCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankCode" />                   
+              <bean parent="FieldDefinition"
+                    p:attributeName="disbursementTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="beginDisbursementNbr" />
               <bean parent="FieldDefinition"
@@ -211,6 +221,10 @@
               p:attributeName="id" />
         <bean parent="FieldDefinition"
               p:attributeName="physCampusProcCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankCode" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="disbursementTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="beginDisbursementNbr" />
         <bean parent="FieldDefinition"

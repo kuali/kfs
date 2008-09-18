@@ -41,6 +41,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:relationship objectAttribute="bankState">
             <dd:primitiveAttribute source="bankStateCode" target="postalStateCode" />
         </dd:relationship> 
+        <dd:relationship objectAttribute="postalCode">
+            <dd:primitiveAttribute source="bankZipCode" target="postalZipCode" />
+        </dd:relationship> 
       </list>
     </property>    
   </bean>

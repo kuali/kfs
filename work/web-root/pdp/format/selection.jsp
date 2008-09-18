@@ -75,13 +75,15 @@
           <tbody>
             <tr>
               <th width="25%">Campus</th>
-              <th width="50%">Bank</th>
+              <th width="25%">Bank</th>
+              <th width="25%">Disbursement Type</th>
               <th width="25%">Next Disbursement Number</th>
             </tr>
             <logic:iterate name="ranges" id="range">
             <tr>
               <th><c:out value="${range.physCampusProcCode}"/></th>
               <td><c:out value="${range.bank.bankName}"/></td>
+              <td><c:out value="${range.disbursementTypeCode}"/></td>
               <td align="right"><c:out value="${range.lastAssignedDisbNbr}"/></td>
             </tr>
             </logic:iterate>

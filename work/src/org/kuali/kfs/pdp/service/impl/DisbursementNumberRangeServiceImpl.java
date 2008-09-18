@@ -28,10 +28,6 @@ import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.service.DisbursementNumberRangeService;
 import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * @author delyea
- */
 @Transactional
 public class DisbursementNumberRangeServiceImpl implements DisbursementNumberRangeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeServiceImpl.class);

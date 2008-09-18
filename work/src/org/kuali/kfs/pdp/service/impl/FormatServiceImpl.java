@@ -93,7 +93,7 @@ public class FormatServiceImpl implements FormatService {
     private BusinessObjectService businessObjectService;
     private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
-    
+
     public FormatServiceImpl() {
         super();
     }
@@ -472,7 +472,7 @@ public class FormatServiceImpl implements FormatService {
             PaymentGroup pg = (PaymentGroup) payGroupIterator.next();
             LOG.debug("performFormat() Payment Group ID " + pg.getId());
 
-            DisbursementNumberRange range = getRange(disbursementRanges, pg.getBank(), now);
+            DisbursementNumberRange range = getRange(disbursementRanges, pg.getBank(), pg.getDisbursementType().getCode(), now);
 
             if (range == null) {
                 String err = "No disbursement range for bank code=" + pg.getBank().getBankCode() + ", campus Id=" + campus;
@@ -539,14 +539,14 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("pass2() " + rc + " ranges saved");
     }
 
-    private DisbursementNumberRange getRange(List ranges, Bank bank, Date today) {
+    private DisbursementNumberRange getRange(List ranges, Bank bank, String disbursementTypeCode, Date today) {
         LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " for " + today);
         for (Iterator iter = ranges.iterator(); iter.hasNext();) {
             DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
             Date eff = element.getDisbNbrEffectiveDt();
             Date exp = element.getDisbNbrExpirationDt();
 
-            if (element.getBank().getBankCode().equals(bank.getBankCode()) && (today.getTime() >= eff.getTime()) && (today.getTime() <= exp.getTime())) {
+            if (element.getBank().getBankCode().equals(bank.getBankCode()) && element.getDisbursementTypeCode().equals(disbursementTypeCode) && (today.getTime() >= eff.getTime()) && (today.getTime() <= exp.getTime())) {
                 LOG.debug("getRange() Found match");
                 return element;
             }

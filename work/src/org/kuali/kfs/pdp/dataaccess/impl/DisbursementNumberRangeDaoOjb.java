@@ -68,7 +68,7 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
 
         QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class);
         qbc.addOrderBy("physCampusProcCode", true);
-        qbc.addOrderBy("bank.disbursementType.code", true);
+        qbc.addOrderBy("disbursementTypeCode", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         //updateUser(l);

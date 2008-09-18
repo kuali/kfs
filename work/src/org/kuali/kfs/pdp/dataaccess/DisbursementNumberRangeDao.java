@@ -24,9 +24,6 @@ import java.util.List;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 
 
-/**
- * @author jsissom
- */
 public interface DisbursementNumberRangeDao {
 
     public List getAll();

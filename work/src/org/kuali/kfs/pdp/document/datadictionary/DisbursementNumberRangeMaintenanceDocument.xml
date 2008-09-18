@@ -18,7 +18,11 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="bank"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="disbursementType"
+              p:attributeToHighlightOnFail="disbursementTypeCode" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -63,6 +67,12 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="physCampusProcCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="disbursementTypeCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="beginDisbursementNbr"

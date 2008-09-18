@@ -17,8 +17,12 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kns.service.UniversalUserService;
 
 public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
@@ -40,6 +44,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
     private AchBank bankRouting;
     private VendorDetail vendorDetail;
+    private UniversalUser user;
 
     /**
      * Default constructor.
@@ -348,6 +353,25 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      */
     public void setBankRouting(AchBank bankRouting) {
         this.bankRouting = bankRouting;
+    }
+    
+    /**
+     * Gets the user attribute.
+     * 
+     * @return Returns the user.
+     */
+    public UniversalUser getUser() {
+        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+        return user;
+    }
+
+    /**
+     * Sets the user attribute value.
+     * 
+     * @param user The user to set.
+     */
+    public void setUser(UniversalUser user) {
+        this.user = user;
     }
 
     /**

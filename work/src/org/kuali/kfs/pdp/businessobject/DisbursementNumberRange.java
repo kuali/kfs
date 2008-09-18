@@ -27,9 +27,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
-/**
- * 
- */
 public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     private Integer id; // DISB_NBR_RANGE_ID
@@ -43,9 +40,13 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     private String bankCode;
     private Bank bank;
 
+    private String disbursementTypeCode;
+    private DisbursementType disbursementType;
+
     public DisbursementNumberRange() {
         super();
     }
+
     /**
      * @hibernate.id column="DISB_NBR_RANGE_ID" generator-class="sequence"
      * @hibernate.generator-param name="sequence" value="PDP.PDP_DISB_NBR_RANGE_ID_SEQ"
@@ -64,12 +65,11 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
 
     /**
      * @return
-     * 
      */
     public Bank getBank() {
         return bank;
     }
-    
+
     /**
      * Gets the bankCode attribute.
      * 
@@ -184,6 +184,42 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
      */
     public void setPhysCampusProcCode(String string) {
         physCampusProcCode = string;
+    }
+
+    /**
+     * Gets the disbursementTypeCode attribute.
+     * 
+     * @return Returns the disbursementTypeCode.
+     */
+    public String getDisbursementTypeCode() {
+        return disbursementTypeCode;
+    }
+
+    /**
+     * Sets the disbursementTypeCode attribute value.
+     * 
+     * @param disbursementTypeCode The disbursementTypeCode to set.
+     */
+    public void setDisbursementTypeCode(String disbursementTypeCode) {
+        this.disbursementTypeCode = disbursementTypeCode;
+    }
+
+    /**
+     * Gets the disbursementType attribute.
+     * 
+     * @return Returns the disbursementType.
+     */
+    public DisbursementType getDisbursementType() {
+        return disbursementType;
+    }
+
+    /**
+     * Sets the disbursementType attribute value.
+     * 
+     * @param disbursementType The disbursementType to set.
+     */
+    public void setDisbursementType(DisbursementType disbursementType) {
+        this.disbursementType = disbursementType;
     }
 
     public boolean equals(Object obj) {

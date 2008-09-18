@@ -143,9 +143,14 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
     
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="bankCode"/>
+    </reference-descriptor>
+    
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+      <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
  </class-descriptor>
 

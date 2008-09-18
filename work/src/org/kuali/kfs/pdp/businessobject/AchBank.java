@@ -17,8 +17,10 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -41,6 +43,7 @@ public class AchBank extends PersistableBusinessObjectBase {
     private String bankDataViewCode;
 
     private State bankState;
+    private PostalCode postalCode;
 
     /**
      * Default constructor.
@@ -394,13 +397,13 @@ public class AchBank extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the bankState attribute value.
+     * Gets the postalCode attribute.
      * 
-     * @param bankState The bankState to set.
-     * @deprecated
+     * @return Returns the postalCode.
      */
-    public void setBankState(State bankState) {
-        this.bankState = bankState;
+    public PostalCode getPostalCode() {
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(bankZipCode, postalCode);
+        return postalCode;
     }
 
     /**

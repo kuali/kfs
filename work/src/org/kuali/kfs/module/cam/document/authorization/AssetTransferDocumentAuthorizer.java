@@ -29,11 +29,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
-    @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        super.canInitiate(documentTypeName, user);
-    }
-
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following

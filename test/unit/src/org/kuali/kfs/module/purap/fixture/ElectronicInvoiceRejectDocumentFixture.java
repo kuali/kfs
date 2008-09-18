@@ -38,7 +38,7 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             Boolean.FALSE, // fileDiscountInLineIndicator
             "nullfile.xml", // invoiceFileName
             "123456789", // vendorDunsNumber
-            3005, // vendorHeaderID
+            1000, // vendorHeaderID
             0, // vendorDetailID
             "2008-07-11", // invoiceFileDate
             "35106833", // invoiceFileNumber
@@ -101,8 +101,8 @@ public enum ElectronicInvoiceRejectDocumentFixture {
             "USD", // invoiceDiscountAmountCurrency
             "USD", // invoiceNetAmountCurrency
             new BigDecimal("1821.00"), // invoiceSubTotalAmount
-            null, // invoiceSpecialHandlingAmount
-            null, // invoiceShippingAmount
+            new BigDecimal("1"), // invoiceSpecialHandlingAmount
+            new BigDecimal("2"), // invoiceShippingAmount
             new BigDecimal("0"), // invoiceTaxAmount
             new BigDecimal("1821.00"), // invoiceGrossAmount
             null, // invoiceDiscountAmount

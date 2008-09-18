@@ -48,7 +48,7 @@ public enum ElectronicInvoiceRejectItemFixture {
             new BigDecimal(1.00), // invoiceItemDiscountAmount;
             new BigDecimal(1.00), // invoiceItemNetAmount;
             
-            null, // invoiceReferenceItemLineNumber;
+            1, // invoiceReferenceItemLineNumber;
             null, // invoiceReferenceItemSerialNumber;
             null, // invoiceReferenceItemSupplierPartIdentifier;
             null, // invoiceReferenceItemSupplierPartAuxiliaryIdentifier;

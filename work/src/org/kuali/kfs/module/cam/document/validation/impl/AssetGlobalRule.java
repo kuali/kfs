@@ -195,7 +195,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         // if country is US, the state and zip code are required
-        if (assetGlobalDetail.getOffCampusCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+        if (StringUtils.isNotBlank(assetGlobalDetail.getOffCampusCountryCode()) && assetGlobalDetail.getOffCampusCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
             if (StringUtils.isBlank(assetGlobalDetail.getOffCampusStateCode())) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);
                 valid &= false;

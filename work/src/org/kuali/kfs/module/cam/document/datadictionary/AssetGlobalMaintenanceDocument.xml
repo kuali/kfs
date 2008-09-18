@@ -141,13 +141,6 @@
               p:name="manufacturerModelNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationText" />
-       	<bean parent="MaintainableFieldDefinition"
-              p:name="representativeUniversalIdentifier" /> 
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.personUserIdentifier" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.personName"
-              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="lastInventoryDate"
               p:required="false"

@@ -2839,8 +2839,8 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalPeriodCode" />
+        <foreignkey field-ref="postingYear" />
+        <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -3614,8 +3614,8 @@
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="universityFiscalYear" />
-        <foreignkey field-ref="universityFiscalPeriodCode" />
+        <foreignkey field-ref="postingYear" />
+        <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
 </class-descriptor>
 

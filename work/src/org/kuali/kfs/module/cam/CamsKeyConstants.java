@@ -97,6 +97,8 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_CAMPUS_CODE = "error.invalid.campus.code";
         public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.code";
         public static final String ERROR_INVALID_OFF_CAMPUS_STATE = "error.invalid.state.code";
+        public static final String ERROR_INVALID_STATE_ZIP_CODE = "error.invalid.state.zip.code";
+        public static final String ERROR_INVALID_ZIP_CODE = "error.invalid.zip.code";
         public static final String ERROR_LOCATION_INFO_REQUIRED = "error.location.info.required";
         public static final String ERROR_ONCAMPUS_CAMPUS_CODE_REQUIRED = "error.oncampus.campus.code.required";
         public static final String ERROR_ONCAMPUS_BUILDING_CODE_REQUIRED = "error.oncampus.building.value.required";

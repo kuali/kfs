@@ -36,7 +36,7 @@
     <property name="name" value="capitalAssetTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Type" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Asset Type" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />

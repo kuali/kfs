@@ -196,7 +196,7 @@
     <property name="name" value="acquisitionTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Acquisition Type Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Acquisition Type" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -214,7 +214,7 @@
     <property name="name" value="agencyNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Owner" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Agency" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -232,7 +232,7 @@
     <property name="name" value="buildingSubRoomNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Sub Room" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -250,7 +250,7 @@
     <property name="name" value="campusPoliceDepartmentCaseNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Police Case Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Case Number" />
     <property name="maxLength" value="14" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -268,7 +268,7 @@
     <property name="name" value="campusTagNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Tag Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Tag Number" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -286,7 +286,7 @@
     <property name="name" value="capitalAssetDescription" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Asset Description" />
-    <property name="shortLabel" value="Description" />
+    <property name="shortLabel" value="Asset Description" />
     <property name="maxLength" value="2000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -574,7 +574,7 @@
     <property name="name" value="manufacturerModelNumber" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Model Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Model" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -593,7 +593,7 @@
     <property name="name" value="manufacturerName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Manufacturer" />
-    <property name="shortLabel" value="Name" />
+    <property name="shortLabel" value="Manufacturer" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -612,7 +612,7 @@
     <property name="name" value="oldTagNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Old Tag Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Old Tag" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -825,7 +825,7 @@
     <property name="name" value="serialNumber" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Serial Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Serial Number" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

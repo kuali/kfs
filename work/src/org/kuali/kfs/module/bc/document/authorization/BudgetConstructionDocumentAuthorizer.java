@@ -196,6 +196,10 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
             flags.setCanSave(true);
         }
 
+        if (editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.DOCUMENT_CANCEL_ONLY) && !editModeMap.containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)){
+            flags.setCanCancel(true);
+        }
+
         // TODO is this needed for BC??
         setAnnotateFlag(flags);
 

@@ -77,6 +77,8 @@
               p:name="postalStateCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="countyCode" />              
+        <bean parent="MaintainableFieldDefinition"
               p:name="postalCityName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"

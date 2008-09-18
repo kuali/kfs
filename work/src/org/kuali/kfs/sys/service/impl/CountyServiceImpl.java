@@ -58,7 +58,7 @@ public class CountyServiceImpl implements CountyService {
         Map<String, String> countyMap = new HashMap<String, String>();
         countyMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
         countyMap.put(KFSPropertyConstants.STATE_CODE, postalStateCode);
-        countyMap.put(KFSPropertyConstants.COUNTRY_CODE, countyCode);
+        countyMap.put(KFSPropertyConstants.COUNTY_CODE, countyCode);
 
         return (County) businessObjectService.findByPrimaryKey(County.class, countyMap);
     }

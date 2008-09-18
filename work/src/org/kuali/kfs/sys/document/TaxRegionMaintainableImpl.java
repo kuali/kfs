@@ -38,6 +38,7 @@ public class TaxRegionMaintainableImpl extends KualiMaintainableImpl {
 
         TaxRegion taxRegion = (TaxRegion) getBusinessObject();
 
+        //have to check if type code is empty, because on the oldMaintainable on a NEW action, none of the old Maintainable BO's values are set
         if( StringUtils.isNotEmpty( taxRegion.getTaxRegionTypeCode() ) ) {
             String sectionIdToDisplay = getSectionIdToDisplay(taxRegion.getTaxRegionTypeCode());
             for (Section section : sections) {
@@ -78,6 +79,6 @@ public class TaxRegionMaintainableImpl extends KualiMaintainableImpl {
      * @return
      */
     protected boolean isMainOrRateSection(String sectionId) {
-        return "TaxRegionRates".equals(sectionId) || "CreateTaxRegion".equals(sectionId);
+        return KFSConstants.TaxRegionConstants.TAX_REGION_RATES_SECTION_ID.equals(sectionId) || KFSConstants.TaxRegionConstants.TAX_REGION_CREATE_SECTION_ID.equals(sectionId);
     }
 }

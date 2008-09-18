@@ -337,7 +337,7 @@ public class KFSPropertyConstants {
     public static final String COST_SHARE_SOURCE_ACCOUNT_NUMBER = "costShareSourceAccountNumber";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT = "costShareSourceSubAccount";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER = "costShareSourceSubAccountNumber";
-    public static final String COUNTRY_CODE = "countryCode";
+    public static final String COUNTY_CODE = "countyCode";
     public static final String CREATE_DATE = KNSPropertyConstants.CREATE_DATE;
     public static final String CREATE_SEQUENCE = "createSequence";
     public static final String CREDIT = "credit";

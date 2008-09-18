@@ -25,6 +25,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="county">
         	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="stateCode" target="stateCode" />
             <dd:primitiveAttribute source="countyCode" target="countyCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="country">

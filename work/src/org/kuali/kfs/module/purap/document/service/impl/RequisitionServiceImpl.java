@@ -210,6 +210,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         //These are needed for commodity codes. They are put in here so that
         //we don't have to loop through items too many times.
         String purchaseOrderRequiresCommodityCode = parameterService.getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        boolean commodityCodeRequired = purchaseOrderRequiresCommodityCode.equals("Y");
         
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
@@ -220,20 +221,18 @@ public class RequisitionServiceImpl implements RequisitionService {
             //We only need to check the commodity codes if this is an above the line item.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 String commodityCodesReason = "";
-                if (purchaseOrderRequiresCommodityCode.equals("Y")) {
-                    List<VendorCommodityCode> vendorCommodityCodes = requisition.getVendorDetail().getVendorCommodities();
-                    commodityCodesReason = checkAPORulesPerItemForCommodityCodes(item, vendorCommodityCodes);
-                }
+                List<VendorCommodityCode> vendorCommodityCodes = commodityCodeRequired ? requisition.getVendorDetail().getVendorCommodities() : null;
+                commodityCodesReason = checkAPORulesPerItemForCommodityCodes(item, vendorCommodityCodes, commodityCodeRequired);
                 if (StringUtils.isNotBlank(commodityCodesReason)) {
                     return commodityCodesReason;
                 }
             }
-          if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
-              if ((item.getItemUnitPrice() != null) && ((KualiDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
-                  // discount or trade-in item has unit price that is not empty or zero
-                  return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
-              }
-          }
+            if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
+                if ((item.getItemUnitPrice() != null) && ((KualiDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
+                    // discount or trade-in item has unit price that is not empty or zero
+                    return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
+                }
+            }
 //TODO RELEASE 3 - Capital Asset Codes
 //          if (!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) {
 //              for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
@@ -283,7 +282,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     
     /**
      * Checks the APO rules for Commodity Codes. 
-     * The rules are as follow :
+     * The rules are as follow:
      * 1. If an institution does not require a commodity code on a requisition but 
      *    does require a commodity code on a purchase order:
      *    a. If the requisition qualifies for an APO and the commodity code is blank
@@ -296,26 +295,28 @@ public class RequisitionServiceImpl implements RequisitionService {
      * 3. If the commodity code is Inactive when the requisition is finally approved 
      *    do not allow the requisition to become an APO.
      *    
-     * @param requisition
+     * @param purItem
+     * @param vendorCommodityCodes
+     * @param commodityCodeRequired
      * @return
      */
-    private String checkAPORulesPerItemForCommodityCodes(RequisitionItem purItem, List<VendorCommodityCode>vendorCommodityCodes) {
-        // If the commodity code is blank on any line item, then the system should use
-        // the default commodity code for the vendor
-        if (purItem.getCommodityCode() == null) {
+    private String checkAPORulesPerItemForCommodityCodes(RequisitionItem purItem, List<VendorCommodityCode>vendorCommodityCodes, boolean commodityCodeRequired) {
+        // If the commodity code is blank on any line item and a commodity code is required,
+        // then the system should use the default commodity code for the vendor
+        if (purItem.getCommodityCode() == null && commodityCodeRequired) {
             for (VendorCommodityCode vcc : vendorCommodityCodes) {
                 if (vcc.isCommodityDefaultIndicator()) {
                     purItem.setCommodityCode(vcc.getCommodityCode());
                     purItem.setPurchasingCommodityCode(vcc.getPurchasingCommodityCode());
                 }
             }
-            // If there is not a default commodity code for the vendor then the requisition
-            // is not eligible to become an APO.
-            if (purItem.getCommodityCode() == null) {
-                return "there are missing commodity code(s).";
-            }
         }
-        if (!purItem.getCommodityCode().isActive()) {
+        if (purItem.getCommodityCode() == null) {
+            // If there is not a default commodity code for the vendor then the requisition is not eligible to become an APO.
+            if (commodityCodeRequired)
+                return "There are missing commodity code(s).";
+        }
+        else if (!purItem.getCommodityCode().isActive()) {
             return "Requisition contains inactive commodity codes.";
         }
         else if (purItem.getCommodityCode().isRestrictedItemsIndicator()) {

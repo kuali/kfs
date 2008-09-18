@@ -88,4 +88,12 @@ public interface PermissionService {
      * @return true if the specified user is an account delegate of the given account; otherwise, false
      */
     public boolean isAccountDelegate(Account account, UniversalUser universalUser);
+    
+    /**
+     * determine whether the specified user is a budget construction document root approver 
+     * 
+     * @param universalUser
+     * @return
+     */
+    public boolean isRootApprover(UniversalUser universalUser);
 }

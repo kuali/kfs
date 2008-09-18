@@ -268,6 +268,15 @@ public interface BudgetDocumentService {
     public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber);
 
     /**
+     * Determine if account reports exists for the key passed in.
+     * 
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
+    public boolean isAccountReportsExist(String chartOfAccountsCode, String accountNumber);
+
+    /**
      * retrieve all pending budget construction GL records associated with the given budget contruction header
      * 
      * @param budgetConstructionHeader the budget construction header associated with the pending budget construction GL records to

@@ -155,6 +155,25 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isRootApprover(org.kuali.rice.kns.bo.user.UniversalUser)
+     */
+    public boolean isRootApprover(UniversalUser universalUser) {
+
+        String[] rootNode = organizationService.getRootOrganizationCode();
+        String rootChart = rootNode[0];
+        String rootOrganization = rootNode[1];
+        boolean isRootOrgApprover;
+        try {
+            isRootOrgApprover = this.isOrgReviewApprover(rootChart, rootOrganization, universalUser);
+
+        }
+        catch (Exception e) {
+            isRootOrgApprover = false;
+        }
+        return isRootOrgApprover;
+    }
+
+    /**
      * collect the list of organizations where the user is a BC document approver
      * 
      * @param personUserIdentifier the specified person user identifier

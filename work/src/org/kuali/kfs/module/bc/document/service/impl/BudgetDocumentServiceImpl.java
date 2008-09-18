@@ -41,6 +41,7 @@ import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -174,8 +175,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     @Transactional
-    public void saveMonthlyBudget(MonthlyBudgetForm monthlyBudgetForm, BudgetConstructionMonthly budgetConstructionMonthly){
-        
+    public void saveMonthlyBudget(MonthlyBudgetForm monthlyBudgetForm, BudgetConstructionMonthly budgetConstructionMonthly) {
+
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) GlobalVariables.getUserSession().retrieveObject(monthlyBudgetForm.getReturnFormKey());
         BudgetConstructionDocument bcDoc = budgetConstructionForm.getBudgetConstructionDocument();
 
@@ -184,8 +185,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         KualiInteger changeAmount = KualiInteger.ZERO;
         KualiInteger monthTotalAmount = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
         KualiInteger pbglRequestAmount = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
-        if (!monthTotalAmount.equals(pbglRequestAmount)){
-            
+        if (!monthTotalAmount.equals(pbglRequestAmount)) {
+
             changeAmount = monthTotalAmount.subtract(pbglRequestAmount);
 
             // change the pbgl request amount store it and sync the object in session
@@ -203,19 +204,19 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         businessObjectService.save(budgetConstructionMonthly);
         this.callForBenefitsCalcIfNeeded(bcDoc, budgetConstructionMonthly, changeAmount);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#callForBenefitsCalcIfNeeded(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
      *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly, org.kuali.rice.kns.util.KualiInteger)
      */
     @Transactional
-    public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount){
-        
-        if (!benefitsCalculationService.isBenefitsCalculationDisabled()){
-            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()){
+    public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount) {
+
+        if (!benefitsCalculationService.isBenefitsCalculationDisabled()) {
+            if (budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit() != null && !budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getPositionObjectBenefit().isEmpty()) {
 
                 bcDoc.setMonthlyBenefitsCalcNeeded(true);
-                if (pbglChangeAmount.isNonZero()){
+                if (pbglChangeAmount.isNonZero()) {
                     bcDoc.setBenefitsCalcNeeded(true);
                 }
             }
@@ -536,6 +537,16 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
+        // Check for missing Account Reports mapping
+        // Root users will have a special cancel button on the document
+        // Otherwise just drop through and do normal access mode checks
+        // This implies view access for all in this case, but no request is set so security is not an issue
+        if (!this.isAccountReportsExist(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber())) {
+            editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
+            return editMode;
+        }
+
+        // continue normal access mode checks
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
         bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
@@ -544,12 +555,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
             if (isFiscalOfcOrDelegate) {
-                if (fiscalYearFunctionControlService.isBudgetUpdateAllowed(bcHeader.getUniversityFiscalYear())) {
-                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
-                }
-                else {
-                    editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.VIEW_ONLY;
-                }
+                editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY;
                 return editMode;
             }
         }
@@ -558,8 +564,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         editMode = this.getOrgApproverAcessMode(bcHeader, universalUser);
         if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
 
-            // user is a fo or delegate and not an org approver or not in account's hier, means the doc is really above the user
-            // level
+            // user is a FO or delegate and not an Organization approver or not in account's hierarchy,
+            // means the doc is really above the user level
             editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL;
 
         }
@@ -600,7 +606,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         return false;
     }
-    
+
     @NonTransactional
     public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionHeader bcHeader) {
         if (bcHeader == null) {
@@ -620,7 +626,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         return false;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isBudgetableDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
@@ -703,7 +709,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // this check is needed for salary setting
-        if (isWagesCheck){
+        if (isWagesCheck) {
 
             // account must be flagged as wages allowed
             SubFundGroup subFundGroup = account.getSubFundGroup();
@@ -737,6 +743,24 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#isAccountReportsExist(java.lang.String, java.lang.String)
+     */
+    @Transactional
+    public boolean isAccountReportsExist(String chartOfAccountsCode, String accountNumber) {
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        BudgetConstructionAccountReports accountReports = (BudgetConstructionAccountReports) businessObjectService.findByPrimaryKey(BudgetConstructionAccountReports.class, fieldValues);
+        if (accountReports == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -824,33 +848,33 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (insertNeeded) {
 
             // do insert in the middle or at end of list
-                    String objectCode = KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG;
-                    String subObjectCode = KFSConstants.getDashFinancialSubObjectCode();
-                    String objectTypeCode = optionsService.getOptions(bcDoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd();
+            String objectCode = KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG;
+            String subObjectCode = KFSConstants.getDashFinancialSubObjectCode();
+            String objectTypeCode = optionsService.getOptions(bcDoc.getUniversityFiscalYear()).getFinObjTypeExpenditureexpCd();
 
-                    PendingBudgetConstructionGeneralLedger pendingRecord = new PendingBudgetConstructionGeneralLedger();
+            PendingBudgetConstructionGeneralLedger pendingRecord = new PendingBudgetConstructionGeneralLedger();
 
-                    pendingRecord.setDocumentNumber(bcDoc.getDocumentNumber());
-                    pendingRecord.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
-                    pendingRecord.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
-                    pendingRecord.setAccountNumber(bcDoc.getAccountNumber());
-                    pendingRecord.setSubAccountNumber(bcDoc.getSubAccountNumber());
+            pendingRecord.setDocumentNumber(bcDoc.getDocumentNumber());
+            pendingRecord.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
+            pendingRecord.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
+            pendingRecord.setAccountNumber(bcDoc.getAccountNumber());
+            pendingRecord.setSubAccountNumber(bcDoc.getSubAccountNumber());
 
-                    pendingRecord.setFinancialObjectCode(objectCode);
-                    pendingRecord.setFinancialSubObjectCode(subObjectCode);
-                    pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-                    pendingRecord.setFinancialObjectTypeCode(objectTypeCode);
+            pendingRecord.setFinancialObjectCode(objectCode);
+            pendingRecord.setFinancialSubObjectCode(subObjectCode);
+            pendingRecord.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+            pendingRecord.setFinancialObjectTypeCode(objectTypeCode);
 
-                    pendingRecord.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
-                    pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
+            pendingRecord.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
+            pendingRecord.setAccountLineAnnualBalanceAmount(updateAmount);
 
-                    // store and add to memory set
-                    pendingRecord.setPersistedAccountLineAnnualBalanceAmount(pendingRecord.getAccountLineAnnualBalanceAmount());
-                    businessObjectService.save(pendingRecord);
-                    expenditureRows.add(index, pendingRecord);
-                    twoPlugRow = pendingRecord;
-                    bcDoc.setContainsTwoPlug(true);
-                }
+            // store and add to memory set
+            pendingRecord.setPersistedAccountLineAnnualBalanceAmount(pendingRecord.getAccountLineAnnualBalanceAmount());
+            businessObjectService.save(pendingRecord);
+            expenditureRows.add(index, pendingRecord);
+            twoPlugRow = pendingRecord;
+            bcDoc.setContainsTwoPlug(true);
+        }
 
         bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(updateAmount.negated()));
         return twoPlugRow;
@@ -883,7 +907,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         Collection<BudgetConstructionDocument> documents = businessObjectService.findMatching(BudgetConstructionDocument.class, fieldValues);
         for (BudgetConstructionDocument document : documents) {
             try {
-                return (BudgetConstructionDocument)documentService.getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
+                return (BudgetConstructionDocument) documentService.getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("Fail to retrieve the document for applointment fundinf" + appointmentFunding, e);
@@ -953,9 +977,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             KualiInteger newAnnaulBalanceAmount = pendingRecord.getAccountLineAnnualBalanceAmount().add(updateAmount);
             pendingRecord.setAccountLineAnnualBalanceAmount(newAnnaulBalanceAmount);
         }
-        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) { 
+        else if (!is2PLG || (is2PLG && updateAmount.isNonZero())) {
             // initialize a new pending record if not plug line or plug line not zero
-            
+
             Integer budgetYear = appointmentFunding.getUniversityFiscalYear();
             String objectCode = is2PLG ? KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG : appointmentFunding.getFinancialObjectCode();
             String subObjectCode = is2PLG ? KFSConstants.getDashFinancialSubObjectCode() : appointmentFunding.getFinancialSubObjectCode();
@@ -1041,6 +1065,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // default the edit mode is just unviewable
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
 
+        // TODO move this to a method that tries to build the hierarchy if it doesn't exist
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcHeader.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcHeader.getChartOfAccountsCode());
@@ -1104,13 +1129,15 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             }
             catch (Exception e) {
 
-                // TODO should this reraise workflow exception? or should the method say it throws an exception
+                // returning unviewable will cause an authorization exception
+                // write a log message with the specific problem
                 LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + universalUser.getPersonUserIdentifier(), e);
             }
         }
         else {
 
-            // TODO should this raise an exception? no hierarchy for account?
+            // returning unviewable will cause an authorization exception
+            // write a log message with the specific problem
             LOG.error("Budget Construction Document's Account Organization Hierarchy not found for: " + bcHeader.getUniversityFiscalYear().toString() + "," + bcHeader.getChartOfAccountsCode() + "," + bcHeader.getAccountNumber());
 
         }

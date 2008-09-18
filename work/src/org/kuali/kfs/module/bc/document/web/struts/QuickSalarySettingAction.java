@@ -37,7 +37,7 @@ import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
-import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
+import org.kuali.kfs.module.bc.document.validation.event.QuickSaveSalarySettingEvent;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -205,9 +205,11 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
                 GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
+            
+            salarySettingService.recalculateDerivedInformation(savableFunding);
                        
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent("", errorKeyPrefix, document, savableFunding));
+            boolean isValid = this.invokeRules(new QuickSaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));
             if(!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }

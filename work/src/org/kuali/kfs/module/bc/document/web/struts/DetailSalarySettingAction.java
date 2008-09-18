@@ -92,7 +92,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         ActionForward closeActionForward = super.close(mapping, salarySettingForm, request, response);
         
         // release all locks before closing the current expansion screen
-        if (isClose && !salarySettingForm.isViewOnlyEntry() && !salarySettingForm.isSalarySettingClosed()) {
+        if (isClose && !salarySettingForm.isViewOnlyEntry() && salarySettingForm.isSalarySettingClosed()) {
             salarySettingForm.releasePositionAndFundingLocks();
         }
   
@@ -147,6 +147,8 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             if(savableFunding.isPurged()) {
                 continue;
             }
+            
+            salarySettingService.recalculateDerivedInformation(savableFunding);
 
             // validate the savable appointment funding lines
             boolean isValid = this.invokeRules(new SaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));
@@ -221,6 +223,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
+        salarySettingService.recalculateDerivedInformation(workingAppointmentFunding);
         appointmentFundings.add(workingAppointmentFunding);
         salarySettingForm.setNewBCAFLine(salarySettingForm.createNewAppointmentFundingLine());
 

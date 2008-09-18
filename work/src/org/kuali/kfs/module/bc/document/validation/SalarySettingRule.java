@@ -24,7 +24,7 @@ import org.kuali.rice.kns.rule.BusinessRule;
  * Rule classes wishing to respond to that event should implement this interface.
  */
 public interface SalarySettingRule extends BusinessRule {
-
+    
     /**
      * process the rules before the given appointment funding is saved
      * 
@@ -32,6 +32,14 @@ public interface SalarySettingRule extends BusinessRule {
      * @return true if the appointment funding can pass all rule before saved, otherwise, false
      */
     public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+
+    /**
+     * process the rules before the given appointment funding is saved
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the appointment funding can pass all rule before saved, otherwise, false
+     */
+    public boolean processQuickSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * process the rules before the given appointment funding is created

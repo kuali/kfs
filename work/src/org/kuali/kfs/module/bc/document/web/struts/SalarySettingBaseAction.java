@@ -130,9 +130,6 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
             return this.performQuestionWithoutInput(mapping, salarySettingForm, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
 
-        // indicate the salary setting has been closed
-        salarySettingForm.setSalarySettingClosed(true);
-
         // save the salary setting if the user answers to the question with "Yes" (save and close)
         String buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
         if (StringUtils.equals(KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, question) && StringUtils.equals(ConfirmationQuestion.YES, buttonClicked)) {
@@ -145,6 +142,9 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
 
             return saveAction;
         }
+        
+        // indicate the salary setting has been closed
+        salarySettingForm.setSalarySettingClosed(true);
 
         return this.returnAfterClose(salarySettingForm, mapping, request, response);
     }

@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -38,6 +39,23 @@ public interface SalarySettingService {
      * @return
      */
     public boolean isSalarySettingDisabled();
+
+    /**
+     * determine whehter the given pending budget construction general ledger is paid at a biweekly or hourly rate
+     * 
+     * @param pendingBudgetConstructionGeneralLedger the given pending budget construction general ledger
+     * @return true if the given given pending budget construction general ledger is paid at a biweekly or hourly rate; otherwise,
+     *         false
+     */
+    public boolean isHourlyPaid(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger);
+
+    /**
+     * determine whehter the given appointment funding is paid at a biweekly or hourly rate
+     * 
+     * @param appointmentFunding the given appointment funding
+     * @return true if the given appointment funding is paid at a biweekly or hourly rate; otherwise, false
+     */
+    public boolean isHourlyPaid(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 
     /**
      * determine whehter the given object code is of a biweekly or hourly pay type
@@ -133,23 +151,27 @@ public interface SalarySettingService {
     public void purgeAppointmentFundings(List<PendingBudgetConstructionAppointmentFunding> purgedAppointmentFundings);
 
     /**
-     * find the appointment funding from the given appointment funding collection, which has the same key information as the specified vacant appointment funding
+     * find the appointment funding from the given appointment funding collection, which has the same key information as the
+     * specified vacant appointment funding
      * 
      * @param appointmentFundings the given appointment funding collection
      * @param vacantAppointmentFunding the given vacant apporintment funding
-     * @return the appointment funding from the given appointment funding collection, which has the same key information as the specified vacant appointment funding
+     * @return the appointment funding from the given appointment funding collection, which has the same key information as the
+     *         specified vacant appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding findVacantAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding vacantAppointmentFunding);
-    
+
     /**
-     * find the appointment funding from the given appointment funding collection, which has the same key information as the specified appointment funding
+     * find the appointment funding from the given appointment funding collection, which has the same key information as the
+     * specified appointment funding
      * 
      * @param appointmentFundings the given appointment funding collection
      * @param vacantAppointmentFunding the given apporintment funding
-     * @return the appointment funding from the given appointment funding collection, which has the same key information as the specified appointment funding
+     * @return the appointment funding from the given appointment funding collection, which has the same key information as the
+     *         specified appointment funding
      */
     public PendingBudgetConstructionAppointmentFunding findAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * adjust the requested salary amount of the given appointment funding by amount
      * 
@@ -170,9 +192,9 @@ public interface SalarySettingService {
      * @param salarySettingExpansion the given salary setting expansion, a pending budget construction GL object
      */
     public void saveSalarySetting(SalarySettingExpansion salarySettingExpansion);
-    
+
     /**
-     * save the given appointment fundings and associated salary setting expansion 
+     * save the given appointment fundings and associated salary setting expansion
      * 
      * @param appointmentFunding the given appointment funding
      */
@@ -234,4 +256,18 @@ public interface SalarySettingService {
      * @return true if the access flags are updated successfully; otherwsie, false
      */
     public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+
+    /**
+     * update the fields before saving the given appointment fundings
+     * 
+     * @param appointmentFundings the given collection of appointment fundings
+     */
+    public void updateAppointmentFundingsBeforeSaving(List<PendingBudgetConstructionAppointmentFunding> appointmentFundings);
+
+    /**
+     * update the fields with the values that can be derived from the existing information, for example, hourly rate and FTE
+     * 
+     * @param appointmentFundings the given appointment funding
+     */
+    public void recalculateDerivedInformation(PendingBudgetConstructionAppointmentFunding appointmentFunding);
 }

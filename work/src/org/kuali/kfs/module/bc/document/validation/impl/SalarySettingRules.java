@@ -35,6 +35,24 @@ public class SalarySettingRules implements SalarySettingRule {
     private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
     private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
     private ErrorMap errorMap = GlobalVariables.getErrorMap();
+    
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processQuickSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
+     */
+    public boolean processQuickSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+        LOG.info("processQuickSaveAppointmentFunding() start");
+        
+        boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
+        if (!hasValidFormat) {
+            return hasValidFormat;
+        }
+        
+        boolean hasValidAmounts = this.hasValidAmounts(appointmentFunding, errorMap);
+        if (!hasValidAmounts) {
+            return hasValidAmounts;
+        }
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processSaveAppointmentFunding(java.util.List,

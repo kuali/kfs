@@ -189,7 +189,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Fte Quantity" />
     <property name="shortLabel" value="Requested Csf FTE" />
-    <property name="maxLength" value="9" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -207,7 +207,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Csf Time Percent" />
     <property name="shortLabel" value="Requested Csf Time Percent" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -225,7 +225,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Fte Quantity" />
     <property name="shortLabel" value="Requested FTE" />
-    <property name="maxLength" value="9" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -243,7 +243,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Pay Rate" />
     <property name="shortLabel" value="Pay Rate" />
-    <property name="maxLength" value="9" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -261,7 +261,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Requested Time Percent" />
     <property name="shortLabel" value="Requested Time Percent" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>
@@ -297,7 +297,7 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Appointment Total Intended FTE Quantity" />
     <property name="shortLabel" value="Total Intended FTE" />
-    <property name="maxLength" value="9" />
+    <property name="maxLength" value="11" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
     </property>

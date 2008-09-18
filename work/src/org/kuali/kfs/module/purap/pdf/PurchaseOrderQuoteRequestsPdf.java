@@ -24,8 +24,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -279,15 +281,17 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         cell.setBorderWidth(0);
         headerTable.addCell(cell);
 
+        // Date format pattern: MM-dd-yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        cell = new PdfPCell(new Paragraph("Printed: " + today, cellTextFont));
+        cell = new PdfPCell(new Paragraph("Printed: " + sdf.format(today), cellTextFont));
         cell.setBorderWidth(0);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         headerTable.addCell(cell);
 
         if (po.getPurchaseOrderQuoteDueDate() != null) {
-            String dueDate = po.getPurchaseOrderQuoteDueDate().toString();
-            cell = new PdfPCell(new Paragraph("Due: " + dueDate + "\n\n", cellTextFont));
+            Date dueDate = po.getPurchaseOrderQuoteDueDate();
+            cell = new PdfPCell(new Paragraph("Due: " + sdf.format(dueDate) + "\n\n", cellTextFont));
         }
         else {
             cell = new PdfPCell(new Paragraph("Due: N/A\n\n", cellTextFont));

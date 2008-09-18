@@ -532,7 +532,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("  Vendor Stipulations and Information\n", ver_5_normal));
         if ((po.getPurchaseOrderBeginDate() != null) && (po.getPurchaseOrderEndDate() != null)) {
-            p.add(new Chunk("     Order in effect from " + po.getPurchaseOrderBeginDate() + " to " + po.getPurchaseOrderEndDate() + ".\n", cour_10_normal));
+            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_10_normal));
 
         }
         Collection<PurchaseOrderVendorStipulation> vendorStipulationsList = po.getPurchaseOrderVendorStipulations();

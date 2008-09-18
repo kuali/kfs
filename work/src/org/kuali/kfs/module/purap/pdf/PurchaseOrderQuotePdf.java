@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.Date;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -214,6 +215,8 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         this.environment = environment;
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        // Date format pattern: MM-dd-yyyy
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
 
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);
@@ -290,16 +293,16 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
         p.add(new Chunk(po.getPurapDocumentIdentifier() + "\n", cour_10_normal));
-        String requestDate = getDateTimeService().getCurrentSqlDate().toString();
+        Date requestDate = getDateTimeService().getCurrentSqlDate();
         if (poqv.getPurchaseOrderQuoteTransmitDate() != null) {
-            requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitDate().getTime())).toString();
+            requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitDate().getTime()));
         }
         p.add(new Chunk("     R.Q. Date: ", ver_8_bold));
-        p.add(new Chunk(requestDate + "\n", cour_10_normal));
+        p.add(new Chunk(sdf.format(requestDate) + "\n", cour_10_normal));
         p.add(new Chunk("     RESPONSE MUST BE RECEIVED BY: ", ver_8_bold));
         if (po.getPurchaseOrderQuoteDueDate() != null) {
-            String dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime())).toString();
-            p.add(new Chunk(dueDate + "\n\n", cour_10_normal));
+            Date dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime()));
+            p.add(new Chunk(sdf.format(dueDate) + "\n\n", cour_10_normal));
         }
         else {
             p.add(new Chunk("N/A\n\n", cour_10_normal));
@@ -327,7 +330,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("  Vendor Stipulations and Information\n\n", ver_6_normal));
         if ((po.getPurchaseOrderBeginDate() != null) && (po.getPurchaseOrderEndDate() != null)) {
-            p.add(new Chunk("     Order in effect from " + po.getPurchaseOrderBeginDate() + " to " + po.getPurchaseOrderEndDate() + ".\n", cour_10_normal));
+            p.add(new Chunk("     Order in effect from " + sdf.format(po.getPurchaseOrderBeginDate()) + " to " + sdf.format(po.getPurchaseOrderEndDate()) + ".\n", cour_10_normal));
         }
         Collection<PurchaseOrderVendorStipulation> vendorStipulationsList = po.getPurchaseOrderVendorStipulations();
         if (vendorStipulationsList.size() > 0) {
@@ -618,11 +621,12 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         addressBuffer.append(indent + campusParameter.getPurchasingInstitutionName() + "\n");
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentName() + "\n");
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentLine1Address() + "\n");
-        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentLine2Address() + "\n");
+        if (ObjectUtils.isNotNull(campusParameter.getPurchasingDepartmentLine2Address()))
+            addressBuffer.append(indent + campusParameter.getPurchasingDepartmentLine2Address() + "\n");
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentCityName() + ", ");
-        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentStateCode() + " ");
-        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentZipCode() + " ");
-        addressBuffer.append(indent + (ObjectUtils.isNotNull(campusParameter.getPurchasingDepartmentCountryCode()) ? campusParameter.getPurchasingDepartmentCountryCode() : ""));
+        addressBuffer.append(campusParameter.getPurchasingDepartmentStateCode() + " ");
+        addressBuffer.append(campusParameter.getPurchasingDepartmentZipCode() + " ");
+        addressBuffer.append((ObjectUtils.isNotNull(campusParameter.getPurchasingDepartmentCountryCode()) ? campusParameter.getPurchasingDepartmentCountryCode() : ""));
 
         return addressBuffer.toString();
     }

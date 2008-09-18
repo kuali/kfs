@@ -35,10 +35,14 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal splitQty;
     private boolean selectedValue;
     private String itemTypeCode;
+    private boolean createAssetIndicator;
+    private boolean applyPaymentIndicator;
 
     public PurchasingAccountsPayableItemAsset() {
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
+        this.createAssetIndicator = false;
+        this.applyPaymentIndicator = false;
     }
 
     public PurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset initialItemAsset) {
@@ -49,8 +53,44 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.firstFincialObjectCode = initialItemAsset.getFirstFincialObjectCode();
         this.active = true;
         this.tradeInAllowance = initialItemAsset.isTradeInAllowance();
+        this.itemAssignedToTradeInIndicator = initialItemAsset.isItemAssignedToTradeInIndicator();
         this.purchasingAccountsPayableLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
         this.selectedValue = false;
+        this.createAssetIndicator = initialItemAsset.isCreateAssetIndicator();
+        this.applyPaymentIndicator = initialItemAsset.isApplyPaymentIndicator();
+    }
+
+    
+    /**
+     * Gets the createAssetIndicator attribute. 
+     * @return Returns the createAssetIndicator.
+     */
+    public boolean isCreateAssetIndicator() {
+        return createAssetIndicator;
+    }
+
+    /**
+     * Sets the createAssetIndicator attribute value.
+     * @param createAssetIndicator The createAssetIndicator to set.
+     */
+    public void setCreateAssetIndicator(boolean createAssetIndicator) {
+        this.createAssetIndicator = createAssetIndicator;
+    }
+
+    /**
+     * Gets the applyPaymentIndicator attribute. 
+     * @return Returns the applyPaymentIndicator.
+     */
+    public boolean isApplyPaymentIndicator() {
+        return applyPaymentIndicator;
+    }
+
+    /**
+     * Sets the applyPaymentIndicator attribute value.
+     * @param applyPaymentIndicator The applyPaymentIndicator to set.
+     */
+    public void setApplyPaymentIndicator(boolean applyPaymentIndicator) {
+        this.applyPaymentIndicator = applyPaymentIndicator;
     }
 
     /**

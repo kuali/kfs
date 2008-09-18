@@ -46,7 +46,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.struts.pojo.ArrayUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -123,6 +122,11 @@ public class PurApLineServiceImpl implements PurApLineService {
             selectedLineItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(selectedLineItem);
         }
 
+        // Set create asset and apply payment indicator.
+        if (selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance()) {
+            setAssetIndicator(purApForm);
+        }
+        
         // uncheck select check box
         resetSelectedValue(purApForm);
     }
@@ -531,26 +535,47 @@ public class PurApLineServiceImpl implements PurApLineService {
      */
     private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
         boolean isMergeAllAction = isMergeAllAction(purApForm);
+        boolean existCreateAsset = false;
+        boolean existApplyPayment = false;
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         setLineItemCost(firstItem);
         firstItem.setItemAssignedToTradeInIndicator(false);
         for (int i = 1; i < mergeLines.size(); i++) {
             PurchasingAccountsPayableItemAsset item = mergeLines.get(i);
+            existCreateAsset |= item.isCreateAssetIndicator();
+            existApplyPayment |= item.isApplyPaymentIndicator();
             // Add into action history.
-            for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
-                PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(item, firstItem, isMergeAllAction ? CabConstants.Actions.MERGE_ALL : CabConstants.Actions.MERGE);
-                newAction.setAccountsPayableItemQuantity(item.getAccountsPayableItemQuantity());
-                newAction.setItemAccountTotalAmount(account.getItemAccountTotalAmount());
-                newAction.setGeneralLedgerAccountIdentifier(account.getGeneralLedgerAccountIdentifier());
-                purApLineSession.getActionsTakenHistory().add(newAction);
-            }
+            addMergeHistory(purApLineSession, isMergeAllAction, firstItem, item);
             // remove mergeLines except the first one.
             item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
         }
+
+        // set create asset/ apply payment indicator if any of the merged lines has the indicator set.
+        firstItem.setCreateAssetIndicator(firstItem.isCreateAssetIndicator() | existCreateAsset);
+        firstItem.setApplyPaymentIndicator(firstItem.isApplyPaymentIndicator() | existApplyPayment);
+
         // reset user input values.
         resetSelectedValue(purApForm);
         purApForm.setMergeQty(null);
         purApForm.setMergeDesc(null);
+    }
+
+    /**
+     * Add merge action to the action history.
+     * 
+     * @param purApLineSession
+     * @param isMergeAllAction
+     * @param firstItem
+     * @param item
+     */
+    private void addMergeHistory(PurApLineSession purApLineSession, boolean isMergeAllAction, PurchasingAccountsPayableItemAsset firstItem, PurchasingAccountsPayableItemAsset item) {
+        for (PurchasingAccountsPayableLineAssetAccount account : item.getPurchasingAccountsPayableLineAssetAccounts()) {
+            PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(item, firstItem, isMergeAllAction ? CabConstants.Actions.MERGE_ALL : CabConstants.Actions.MERGE);
+            newAction.setAccountsPayableItemQuantity(item.getAccountsPayableItemQuantity());
+            newAction.setItemAccountTotalAmount(account.getItemAccountTotalAmount());
+            newAction.setGeneralLedgerAccountIdentifier(account.getGeneralLedgerAccountIdentifier());
+            purApLineSession.getActionsTakenHistory().add(newAction);
+        }
     }
 
     /**
@@ -583,7 +608,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             itemAsset.setUnitCost(itemAsset.getTotalCost());
         }
         // add to action history
-        addPercentPaymentAction(actionsTakenHistory, itemAsset, oldQty);
+        addPercentPaymentHistory(actionsTakenHistory, itemAsset, oldQty);
     }
 
     /**
@@ -593,7 +618,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param item
      * @param oldQty
      */
-    private void addPercentPaymentAction(List<PurchasingAccountsPayableActionHistory> actionsTakenHistory, PurchasingAccountsPayableItemAsset item, KualiDecimal oldQty) {
+    private void addPercentPaymentHistory(List<PurchasingAccountsPayableActionHistory> actionsTakenHistory, PurchasingAccountsPayableItemAsset item, KualiDecimal oldQty) {
         PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(item, item, CabConstants.Actions.PERCENT_PAYMENT);
         newAction.setAccountsPayableItemQuantity(oldQty);
         actionsTakenHistory.add(newAction);
@@ -620,7 +645,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         setLineItemCost(currentItemAsset);
         currentItemAsset.setSplitQty(null);
         // Add to action history
-        addSplitAction(currentItemAsset, newItemAsset, actionsTakeHistory);
+        addSplitHistory(currentItemAsset, newItemAsset, actionsTakeHistory);
         return newItemAsset;
     }
 
@@ -631,7 +656,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param newItemAsset
      * @param actionsTaken
      */
-    private void addSplitAction(PurchasingAccountsPayableItemAsset currentItemAsset, PurchasingAccountsPayableItemAsset newItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakenHistory) {
+    private void addSplitHistory(PurchasingAccountsPayableItemAsset currentItemAsset, PurchasingAccountsPayableItemAsset newItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakenHistory) {
         for (PurchasingAccountsPayableLineAssetAccount account : newItemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
             PurchasingAccountsPayableActionHistory newAction = new PurchasingAccountsPayableActionHistory(currentItemAsset, newItemAsset, CabConstants.Actions.SPLIT);
             newAction.setGeneralLedgerAccountIdentifier(account.getGeneralLedgerAccountIdentifier());
@@ -751,6 +776,44 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         // set CAMS Transaction type from PurAp
         setCamsTransaction(purApLineForm);
+
+        // set create asset/apply payment indicator
+        setAssetIndicator(purApLineForm);
+
+    }
+
+    /**
+     * Set create asset and apply payment indicator.
+     * 
+     * @param purApLineForm
+     */
+    private void setAssetIndicator(PurApLineForm purApLineForm) {
+        boolean existTradeInAllowance = isTradeInAllowanceExist(purApLineForm);
+        boolean existTradeInIndicator = isTradeInIndicatorExist(purApLineForm);
+        for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
+            boolean existAdditionalCharge = false;
+            boolean existItemAsset = false;
+            // check if within the same document, exist both additional charge lines and normal line items.
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                existAdditionalCharge |= item.isAdditionalChargeNonTradeInIndicator();
+                existItemAsset |= !item.isAdditionalChargeNonTradeInIndicator() & !item.isTradeInAllowance();
+            }
+
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (!item.isCreateAssetIndicator() | !item.isApplyPaymentIndicator()) {
+                    if ((item.isAdditionalChargeNonTradeInIndicator() & !existItemAsset) || (item.isTradeInAllowance() & !existTradeInIndicator)) {
+                        // If the only line item on the purchase order is the additional charge, or trade-in allowance then we can add a payment, or create an asset.
+                        item.setCreateAssetIndicator(true);
+                        item.setApplyPaymentIndicator(true);
+                    }
+                    else if (!existAdditionalCharge & (!item.isAdditionalChargeNonTradeInIndicator() & !item.isTradeInAllowance() & !item.isItemAssignedToTradeInIndicator() | !existTradeInAllowance)) {
+                        // for normal line item without trade-in indicator or with trade-in indicator but no trade-in allowance.
+                        item.setCreateAssetIndicator(true);
+                        item.setApplyPaymentIndicator(true);
+                    }
+                }
+            }
+        }
 
     }
 

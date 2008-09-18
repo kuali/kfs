@@ -429,4 +429,46 @@ public class PurApLineAction extends KualiAction {
     private PurchasingAccountsPayableDocument getSelectedPurApDoc(PurApLineForm purApLineForm) {
         return purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
     }
+    
+    public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurApLineForm purApForm = (PurApLineForm) form;
+        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
+        
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (question != null) {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                // create CAMS asset global document.
+            }
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        if (selectedLine.isItemAssignedToTradeInIndicator() ) {
+            // TI indicator exists, bring up a warning message to confirm this action.
+            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+        }
+        // create CAMS asset global document.
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurApLineForm purApForm = (PurApLineForm) form;
+        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
+        
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (question != null) {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                // create CAMS asset payment global document.
+            }
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        if (selectedLine.isItemAssignedToTradeInIndicator() ) {
+            // TI indicator exists, bring up a warning message to confirm this action.
+            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+        }
+        // create CAMS asset payment global document.
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

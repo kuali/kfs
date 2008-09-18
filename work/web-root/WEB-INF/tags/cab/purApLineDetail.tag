@@ -54,6 +54,8 @@
 <html:hidden property="${assetItemStr}.tradeInAllowance" />
 <html:hidden property="${assetItemStr}.additionalChargeNonTradeInIndicator" />
 <html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
+<html:hidden property="${assetItemStr}.createAssetIndicator" />
+<html:hidden property="${assetItemStr}.applyPaymentIndicator" />
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
@@ -91,13 +93,21 @@
 	<td class="infoline" align="center">
 		<c:if test="${!itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-split.gif" styleClass="tinybutton" property="methodToCall.split.doc${docPos-1}.line${linePos-1}" title="Split" alt="Split" />
+			<br></br>
 			<c:if test="${itemLine.accountsPayableItemQuantity < 1 }">
 			<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-percentpayment.gif" styleClass="tinybutton" property="methodToCall.percentPayment.doc${docPos-1}.line${linePos-1}" title="Percent Payment" alt="Percent Payment" />
+			<br></br>
 			</c:if>
 		</c:if>
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate.doc${docPos-1}.line${linePos-1}" title="allocate" alt="allocate"/>
-		<html:button property="methodToCall.createnewassets.doc${docPos-1}.line${linePos-1}"  style="color:purple" styleClass="tinybutton" title="create new assets" value="create new assets" />
-		<html:button property="methodToCall.addpayments.doc${docPos-1}.line${linePos-1}"  style="color:purple" styleClass="tinybutton" title="add payments" value="add payments" />
+		<br></br>
+		<c:if test="${itemLine.createAssetIndicator}">
+		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" styleClass="tinybutton" property="methodToCall.createAsset.doc${docPos-1}.line${linePos-1}" title="createAsset" alt="createAsset"/>
+		<br></br>
+		</c:if>
+		<c:if test="${itemLine.applyPaymentIndicator}">
+		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
+		</c:if>
 	</td>
 </tr>
 <tr>

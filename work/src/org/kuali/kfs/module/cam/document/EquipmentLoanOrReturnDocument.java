@@ -475,6 +475,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerPostalZipCode
      */
     public PostalCode getBorrowerPostalZipCode() {
+        borrowerPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerZipCode, borrowerPostalZipCode);
         return borrowerPostalZipCode;
     }
 
@@ -493,7 +494,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
     public PostalCode getBorrowerStoragePostalZipCode() {
-    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerZipCode, borrowerStoragePostalZipCode);
+    	borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageZipCode, borrowerStoragePostalZipCode);
         return borrowerStoragePostalZipCode;
     }
 

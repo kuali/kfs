@@ -29,10 +29,45 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CapitalAssetBuilderModuleService {
 
+    /**
+     * Validates the capital asset field requirements based on system parameter and chart for individual system type.
+     * This also calls validations for quantity on locations equal quantity on line items, validates that the
+     * transaction type allows asset number and validates the non quantity driven allowed indicator.
+     * 
+     * @param systemState
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param documentType
+     * @return
+     */
     public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
     
+    /**
+     * Validates the capital asset field requirements based on system parameter and chart for one system type. 
+     * This also calls validations that the transaction type allows asset number and validates the non quantity
+     * driven allowed indicator.
+     * 
+     * @param systemState
+     * @param capitalAssetSystems
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param documentType
+     * @return
+     */
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
     
+    /**
+     * Validates the capital asset field requirements based on system parameter and chart for multiple system type.
+     * This also calls validations that the transaction type allows asset number and validates the non quantity
+     * driven allowed indicator.
+     * 
+     * @param systemState
+     * @param capitalAssetSystems
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param documentType
+     * @return
+     */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
     
     /**

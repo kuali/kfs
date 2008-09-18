@@ -99,6 +99,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         this.assetService = assetService;
     }
     
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateIndividualCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.lang.String, java.lang.String)
+     */
     public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         //For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for validateAllFieldRequirementsByChart
         //should be null. So we'll pass in a null here.
@@ -111,6 +114,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
     
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateOneSystemCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.util.List, java.lang.String, java.lang.String)
+     */
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
@@ -121,6 +127,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateMultipleSystemsCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.util.List, java.lang.String, java.lang.String)
+     */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.MULTIPLE);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
@@ -150,6 +159,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return false;
     }
 
+    /**
+     * Validates all the field requirements by chart. It obtains a List of parameters where the
+     * parameter names are like "CHARTS_REQUIRING%" then loop through these parameters. If
+     * the system type is individual then invoke the validateFieldRequirementByChartForIndividualSystemType
+     * for further validation, otherwise invoke the validateFieldRequirementByChartForOneOrMultipleSystemType
+     * for further validation.
+     * 
+     * @param systemState
+     * @param capitalAssetSystems
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param documentType
+     * @param systemType
+     * @return
+     */
     private boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -172,6 +196,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    /**
+     * Validates field requirement by chart for one or multiple system types.
+     * 
+     * @param systemType
+     * @param systemState
+     * @param capitalAssetSystems
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param parameterName
+     * @param parameterValueString
+     * @return
+     */
     private boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;        
         boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
@@ -221,6 +257,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
     
+    /**
+     * Validates the field requirement by chart for individual system type.
+     * 
+     * @param systemState
+     * @param capitalAssetItems
+     * @param chartCode
+     * @param parameterName
+     * @param parameterValueString
+     * @return
+     */
     private boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;        
         boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
@@ -264,6 +310,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
     
+    /**
+     * Utility method to split a long String using the "." as
+     * the delimiter then add each of the array element into
+     * a List of String and return the List of String.
+     *  
+     * @param mappedName The String to be splitted.
+     * @return The List of String after being splitted, with the "." as delimiter.
+     */
     private List<String> mappedNameSplitter(String mappedName) {
         List<String> result = new ArrayList<String>();    
         String[] mappedNamesArray = mappedName.split("\\.");
@@ -272,7 +326,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return result;
     }
-    
+
+    /**
+     * Validates the field requirement by chart recursively and give error messages
+     * when it returns false.
+     * 
+     * @param bean         The object to be used to obtain the property value
+     * @param mappedNames  The array of Strings which when combined together, they form the field property
+     * @param errorKey     The error key to be used for adding error messages to the error map. 
+     * @param itemNumber   The Integer that represents the item number that we're currently iterating.
+     * @return true if it passes the validation.
+     */
     private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames, StringBuffer errorKey, Integer itemNumber) {
         boolean valid = true;
         Object value = ObjectUtils.getPropertyValue(bean, (String)mappedNames[0]);
@@ -316,12 +380,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     }
     
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
+     */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
         List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
         tranTypes = (List<CapitalAssetBuilderAssetTransactionType>)businessObjectService.findAll(AssetTransactionType.class);
         return tranTypes;
     }
     
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getValueFromAvailabilityMatrix(java.lang.String, java.lang.String, java.lang.String)
+     */
     public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState) {
         for (AvailabilityMatrix am : PurapConstants.CAMS_AVAILABILITY_MATRIX.MATRIX_LIST) {   
             if (am.fieldName.equals(fieldName) && am.systemState.equals(systemState) && am.systemType.equals(systemType)) {
@@ -441,9 +511,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
      * all object codes are valid (real) object codes.
      * 
-     * @param item                      A PurchasingItemBase object
      * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param itemIdentifier            The item number (String)
+     * @param item                      A PurchasingItemBase object
      * @param apoCheck                  True if this check is for APO purposes
      * @return True if the item passes all Capital Asset validations
      */
@@ -458,9 +527,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
      * all object codes are valid (real) object codes.
      * 
-     * @param item                      A PurchasingItemBase object
      * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param itemIdentifier            The item number (String)
+     * @param item                      A PurchasingItemBase object
      * @return True if the item passes all Capital Asset validations
      */
     public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
@@ -473,11 +541,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * internally consistent, by marshaling and calling the methods marked as Capital Asset validations.
      * This implementation assumes that all object codes are valid (real) object codes.
      * 
-     * @param item                      A PurchasingItemBase object
      * @param recurringPaymentType      The item's document's RecurringPaymentType
+     * @param item                      A PurchasingItemBase object
      * @param warn                      A boolean which should be set to true if warnings are to be set on the calling document 
-     *                                      for most of the validations, rather than errors.
-     * @param itemIdentifier            The item number (String)
+     *                                  for most of the validations, rather than errors.
      * @return  True if the item passes all Capital Asset validations
      */
     protected boolean validateItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItemBase item, boolean warn) {

@@ -63,21 +63,6 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.sortGroupId = sortGroupId;
     }
 
-    /*public String getSortGroupName() {
-        if ("B".equals(sortGroupId)) {
-            return "Immediate";
-        }
-        else if ("C".equals(sortGroupId)) {
-            return "Special Handling";
-        }
-        else if ("D".equals(sortGroupId)) {
-            return "Attachment";
-        }
-        else {
-            return "Other";
-        }
-    }*/
-
     public Integer getBeginDisbursementNbr() {
         return beginDisbursementNbr;
     }

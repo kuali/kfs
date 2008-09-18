@@ -190,21 +190,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             this.paymentGroup = paymentGroup;
         }
 
-        private String getGroupOrder() {
-            if (processImmediate) {
-                return "B";
-            } else if (pymtSpecialHandling) {
-                return "C";
-            } else if (pymtAttachment) {
-                return "D";
-            } else {
-                return "E";
-            }
-        }
-
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(getGroupOrder()).append(customerShortName).toHashCode();
+            return new HashCodeBuilder(3, 5).append(customerShortName).toHashCode();
         }
         
         @Override
@@ -213,7 +201,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
                 return false;
             }
             Key thisobj = (Key) obj;
-            return new EqualsBuilder().append(getGroupOrder(), thisobj.getGroupOrder()).append(customerShortName, thisobj.customerShortName).isEquals();
+            return new EqualsBuilder().append(customerShortName, thisobj.customerShortName).isEquals();
         }
 
         @Override

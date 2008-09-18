@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public interface PaymentGroupService {
     /**
@@ -80,4 +82,34 @@ public interface PaymentGroupService {
      * @param processDate
      */
     public void processCancelledGroup(PaymentGroup group, Date processDate);
+    
+    /**
+     * Gets the sort group id
+     * 
+     * @param paymentGroup
+     * @return
+     */
+    public int getSortGroupId(PaymentGroup paymentGroup);
+    
+    /**
+     * Gets the sort group name
+     * 
+     * @param sortGroupId
+     * @return
+     */
+    public String getSortGroupName(int sortGroupId);
+    
+    /**
+     * Sets the parameter service
+     * 
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService);
+    
+    /**
+     * Sets DataDictionaryService
+     * 
+     * @param dataDictionaryService
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService);
 }

@@ -27,6 +27,7 @@ import org.kuali.kfs.gl.report.TransactionReport.PageHelper;
 import org.kuali.kfs.pdp.batch.service.DailyReportService;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +50,8 @@ public class DailyReportServiceImpl implements DailyReportService {
     private PaymentDetailDao paymentDetailDao;
     private DateTimeService dateTimeService;
     private String directoryName;
-
+    private PaymentGroupService paymentGroupService;
+    
     private Font headerFont;
     private Font textFont;
 
@@ -91,12 +93,12 @@ public class DailyReportServiceImpl implements DailyReportService {
                     rows = true;
                     sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
-                    addRow(dataTable, dr, false,dr.getSortGroupName());
-                } else if (!sortTotal.getSortGroupId().equals(dr.getSortGroupId())) {
-                    addRow(dataTable, sortTotal, true,"Total for " + sortTotal.getSortGroupName());
+                    addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
+                } else if (this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup()) != (this.paymentGroupService.getSortGroupId(dr.getPaymentGroup()))) {
+                    addRow(dataTable, sortTotal, true,"Total for " + this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())));
                     sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
-                    addRow(dataTable, dr, false,dr.getSortGroupName());
+                    addRow(dataTable, dr, false, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
                 } else {
                     sortTotal.addRow(dr);
                     addRow(dataTable, dr, false,"");
@@ -106,7 +108,7 @@ public class DailyReportServiceImpl implements DailyReportService {
             }
 
             if (rows) {
-                addRow(dataTable, sortTotal, true,"Total for " + sortTotal.getSortGroupName());
+                addRow(dataTable, sortTotal, true,"Total for " + this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(sortTotal.getPaymentGroup())));
             }
             addRow(dataTable, total, true,"Total");
 
@@ -139,7 +141,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
     private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold) {
-        addRow(dataTable,dr,bold,dr.getSortGroupName());
+        addRow(dataTable,dr,bold, this.paymentGroupService.getSortGroupName(this.paymentGroupService.getSortGroupId(dr.getPaymentGroup())));
     }
 
     private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold,String name) {
@@ -237,5 +239,13 @@ public class DailyReportServiceImpl implements DailyReportService {
 
     public void setPaymentDetailDao(PaymentDetailDao pdd) {
         paymentDetailDao = pdd;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.pdp.batch.service.DailyReportService#setPaymentGroupService(org.kuali.kfs.pdp.service.PaymentGroupService)
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
     }
 }

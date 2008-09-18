@@ -108,4 +108,8 @@ public class PdpKeyConstants {
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS = "paymentDetailLookup.payeeName.lessThan2Chars";
         }
     }
+    
+    public static final String SORT_GROUP_SELECTION_PARAMETER_PREFIX = "pdp.sortGroupSelectionParameterPrefix";            
+    public static final String DEFAULT_SORT_GROUP_ID_PARAMETER = "pdp.defaultSortGroupIdParameter";  
+    public static final String DEFAULT_GROUP_NAME_OTHER = "pdp.defaultGroupNameOther";  
 }

@@ -57,14 +57,15 @@ import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.pdp.service.FormatService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
@@ -91,7 +92,8 @@ public class FormatServiceImpl implements FormatService {
     private SchedulerService schedulerService;
     private BusinessObjectService businessObjectService;
     private KualiCodeService kualiCodeService;
-
+    private PaymentGroupService paymentGroupService;
+    
     public FormatServiceImpl() {
         super();
     }
@@ -172,6 +174,7 @@ public class FormatServiceImpl implements FormatService {
             CustomerProfile customer = pg.getBatch().getCustomerProfile();
 
             // Set the sort field to be saved in the database
+            //pg.setSortValue(this.paymentGroupService.getSortGroupId(pg));
             pg.setSortValue(pg.getFormatSortField());
             
             pg.setDisbursementDate(proc.getProcessTimestamp());
@@ -666,6 +669,14 @@ public class FormatServiceImpl implements FormatService {
 
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.pdp.service.FormatService#setPaymentGroupService(org.kuali.kfs.pdp.service.PaymentGroupService)
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
     }
     
 }

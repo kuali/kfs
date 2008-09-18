@@ -26,10 +26,13 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 public class PaymentGroup extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
@@ -277,10 +280,33 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return sortValue;
     }
 
+    /*public void setSortValue(int sortGroupId) {
+        String defaultSortOrderParameterName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
+        String defaultSortOrderParameterValue = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentGroup.class, defaultSortOrderParameterName);
+        
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(sortGroupId);
+
+        CustomerProfile cp = this.getBatch().getCustomerProfile();
+        sb.append(cp.getChartCode());
+        sb.append(getWidthString(4, cp.getOrgCode()));
+        sb.append(getWidthString(4, cp.getSubUnitCode()));
+
+        if ( defaultSortOrderParameterValue.equals(String.valueOf(sortGroupId)) ) {
+            sb.append(this.getPayeeId());
+            sb.append(this.getPayeeIdTypeCd());
+        }
+        else {
+            sb.append(this.getPayeeName());
+        }
+        this.sortValue = sb.toString();
+    }*/
+
     public void setSortValue(String sortValue) {
         this.sortValue = sortValue;
     }
-
+    
     /**
      * @hibernate.property column="PMT_CTY_NM" length="30"
      * @return Returns the city.

@@ -57,4 +57,11 @@ public interface FormatService {
 
     // Gets the most current Processes for Format Summary Viewing
     public List getMostCurrentProcesses();
+    
+    /**
+     * Sets the PaymentGroupService
+     * 
+     * @param paymentGroupService
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService);
 }

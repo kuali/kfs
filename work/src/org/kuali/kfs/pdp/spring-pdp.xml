@@ -260,6 +260,7 @@
 		<property name="directoryName" value="${reports.directory}/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
 
 	<bean id="pdpExtractPaymentService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractPaymentServiceImpl">
@@ -331,6 +332,7 @@
 		<property name="schedulerService" ref="schedulerService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
 
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
@@ -406,6 +408,8 @@
 
 	<bean id="pdpPaymentGroupService" class="org.kuali.kfs.pdp.service.impl.PaymentGroupServiceImpl">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
 	</bean>
 
 	<bean id="pdpPaymentMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.PaymentMaintenanceServiceImpl">
@@ -534,6 +538,11 @@
 			<ref bean="paymentDetailLookupableHelperService" />
 		</property>
 	</bean>	
-
+	
+	<bean id="dailyReportComparator" class="org.kuali.kfs.pdp.businessobject.options.DailyReportComparator" singleton="false">
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService" />
+		</property>
+	</bean>	
 	
 </beans>

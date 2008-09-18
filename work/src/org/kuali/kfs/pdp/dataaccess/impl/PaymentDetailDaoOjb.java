@@ -37,8 +37,11 @@ import org.kuali.kfs.pdp.PdpConstants.PurapParameterConstants;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.options.DailyReportComparator;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -159,10 +162,11 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         for (Iterator iter = summary.keySet().iterator(); iter.hasNext();) {
             Key e = (Key)iter.next();
             Numbers n = summary.get(e);
-            DailyReport r = new DailyReport(e.pymtAttachment,e.pymtSpecialHandling,e.processImmediate, e.customerShortName, n.amount, n.payments, n.payees);
+            DailyReport r = new DailyReport(e.customerShortName, n.amount, n.payments, n.payees, e.paymentGroup);
             data.add(r);
         }
-        Collections.sort(data);
+        Collections.sort(data, SpringContext.getBean(DailyReportComparator.class));
+        
         return data;
     }
 
@@ -171,17 +175,19 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         public boolean pymtSpecialHandling;
         public boolean processImmediate;
         public String customerShortName;
-
+        public PaymentGroup paymentGroup;
+        
         public Key(PaymentDetail d) {
             this(d.getPaymentGroup().getPymtAttachment().booleanValue(),d.getPaymentGroup().getPymtSpecialHandling().booleanValue(),
-                    d.getPaymentGroup().getProcessImmediate().booleanValue(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName());
+                    d.getPaymentGroup().getProcessImmediate().booleanValue(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName(), d.getPaymentGroup());
         }
 
-        public Key(boolean att,boolean spec,boolean immed, String c) {
+        public Key(boolean att,boolean spec,boolean immed, String c, PaymentGroup paymentGroup) {
             pymtAttachment = att;
             pymtSpecialHandling = spec;
             processImmediate = immed;
             customerShortName = c;
+            this.paymentGroup = paymentGroup;
         }
 
         private String getGroupOrder() {
@@ -233,16 +239,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addEqualTo("id", id);
 
         PaymentDetail cp = (PaymentDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
-
-        if (cp.getPaymentGroup().getBatch() != null) {
-            //updateBatchUser(cp.getPaymentGroup().getBatch());
-        }
-        if (cp.getPaymentGroup().getProcess() != null) {
-            //updateProcessUser(cp.getPaymentGroup().getProcess());
-        }
-        if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
-            //updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
-        }
+        
         return cp;
     }
 
@@ -364,58 +361,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
-
-    /*private void updateChangeUser(List l) {
-        for (Iterator iter = l.iterator(); iter.hasNext();) {
-            //updateChangeUser((PaymentGroupHistory) iter.next());
-        }
-    }*/
-
-    /*private void updateChangeUser(PaymentGroupHistory b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setChangeUser(null);
-        }
-    }*/
-
-    /*private void updateBatchUser(Batch b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setSubmiterUser(null);
-        }
-    }*/
-
-    /*private void updateProcessUser(PaymentProcess b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setProcessUser(null);
-        }
-    }*/
-
-    /*private void updateDnr(List l) {
-        for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateDnr((DisbursementNumberRange) iter.next());
-        }
-    }*/
-
-    /*private void updateDnr(DisbursementNumberRange b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            //b.setLastUpdateUser(null);
-        }
-    }*/
 
     public void setUniversalUserService(UniversalUserService us) {
         userService = us;

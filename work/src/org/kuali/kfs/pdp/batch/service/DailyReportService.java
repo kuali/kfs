@@ -15,6 +15,15 @@
  */
 package org.kuali.kfs.pdp.batch.service;
 
+import org.kuali.kfs.pdp.service.PaymentGroupService;
+
 public interface DailyReportService {
     public void runReport();
+    
+    /**
+     * Sets the PaymentGroupService
+     * 
+     * @param paymentGroupService
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService);
 }

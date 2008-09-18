@@ -99,6 +99,7 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT = "purchaseOrder.route.message.reopen.text";
     public static final String PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT = "purchaseOrder.route.message.amend.text";
     public static final String PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT = "purchaseOrder.route.message.split.text";
+    public static final String PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE = "purchaseOrder.amend.message.change.systemType";
     public static final String PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE = "purchaseOrder.question.manual.status.change";
     public static final String PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX = "purchaseOrder.manual.status.change.note.prefix";
     public static final String ERROR_USER_NONPURCHASING = "errors.user.nonPurchasing";

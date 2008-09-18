@@ -46,10 +46,10 @@
 <logic:iterate indexId="ctr" name="KualiForm" property="document.purchasingCapitalAssetItems" id="itemLine">
 
 	<c:if test="${isRequisition}">
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purapDocumentIdentifier" />
+		<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purapDocumentIdentifier" />
 	</c:if>
 	<c:if test="${isPurchaseOrder}">
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].documentNumber" />
+		<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].documentNumber" />
 	</c:if>
 	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetItemIdentifier" />
 	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetSystemIdentifier" />

@@ -122,12 +122,18 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
             if (user.isMember(purchasingGroup)) {
                 editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
             }
         }
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
+            if (PurapConstants.PurchaseOrderStatuses.AMENDMENT.equals(poDocument.getStatusCode())) {
+                String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+                if (user.isMember(purchasingGroup)) {
+                    editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
+                }
+            }
+            
             /**
              * INTERNAL PURCHASING ROUTE LEVEL - Approvers can edit full detail on Purchase Order except they cannot change the
              * CHART/ORG.
@@ -141,7 +147,6 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
                 if (user.isMember(purchasingGroup)) {
                     editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
-                    editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "FALSE");
                 }
             }
 

@@ -32,6 +32,8 @@
 	<c:set var="isPurchaseOrder" value="false"/>
 </c:if>
 
+<c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" />
+
 <kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 		
@@ -45,7 +47,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemTypeCode}" property="document.capitalAssetSystemTypeCode" readOnly="${lockCamsEntry}" extraReadOnlyProperty="document.capitalAssetSystemType.capitalAssetSystemTypeDescription" />
 		</td>
 	</tr>
 	<tr>
@@ -53,7 +55,7 @@
 			<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" /></div>
 		</th>
         <td align=left valign=middle class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
+			<kul:htmlControlAttribute attributeEntry="${documentAttributes.capitalAssetSystemStateCode}" property="document.capitalAssetSystemStateCode" readOnly="${lockCamsEntry}" extraReadOnlyProperty="document.capitalAssetSystemState.capitalAssetSystemStateDescription" />
 		</td>
 	</tr>
 	<tr>
@@ -61,15 +63,17 @@
 			Action:
        </th>
 	   <td align=left valign=middle class="datacell">
-			<c:choose>
-			<c:when test="${empty KualiForm.document.purchasingCapitalAssetItems}">
-				<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
-			</c:when>
-			<c:otherwise>
-			<html:image property="methodToCall.changeSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="select system" styleClass="tinybutton"/>
-			<html:image property="methodToCall.updateCamsView" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" alt="Update Cams View" styleClass="tinybutton"/>
-			</c:otherwise>
-			</c:choose>
+	   		<c:if test="${not lockCamsEntry}">
+				<c:choose>
+					<c:when test="${empty KualiForm.document.purchasingCapitalAssetItems}">
+						<html:image property="methodToCall.selectSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" alt="select system" styleClass="tinybutton"/>
+					</c:when>
+					<c:otherwise>
+						<html:image property="methodToCall.changeSystem" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="select system" styleClass="tinybutton"/>
+						<html:image property="methodToCall.updateCamsView" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" alt="Update Cams View" styleClass="tinybutton"/>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
 		</td>
 	</tr>
 

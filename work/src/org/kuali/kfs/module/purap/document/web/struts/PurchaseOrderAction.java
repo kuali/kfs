@@ -34,6 +34,34 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.codehaus.xfire.plexus.config.ConfigurationService;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
+import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
+import org.kuali.kfs.module.purap.document.service.FaxService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
+import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -52,33 +80,6 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
-import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
-import org.kuali.kfs.module.purap.document.service.FaxService;
-import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
-import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.kfs.vnd.document.service.VendorService;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Struts Action for Purchase Order document.
@@ -1665,7 +1666,37 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         //create forward
         ActionForward forward = new ActionForward(receivingUrl, true);
         
-        return forward;
+        return forward;      
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingActionBase#changeSystem(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
+        ActionForward forward = super.changeSystem(mapping, form, request, response);
+        
+        // Add a note if system change occurs when the document is a PO that is being amended.
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument)purchasingForm.getDocument();
+        if (PurapConstants.PurchaseOrderStatuses.AMENDMENT.equals(document.getStatusCode())) {
+            Integer poId = document.getPurapDocumentIdentifier();
+            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
+            if (currentPO != null) {
+                CapitalAssetSystemType oldSystemType = currentPO.getCapitalAssetSystemType();
+                String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
+                StringUtils.replace(noteText, "{0}", oldSystemType.getCapitalAssetSystemTypeDescription());
+                try {
+                    Note systemTypeChangeNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+                    document.addNote(systemTypeChangeNote);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        
+        return forward;
     }
 }

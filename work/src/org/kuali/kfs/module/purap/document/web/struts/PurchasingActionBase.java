@@ -47,7 +47,6 @@ import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingItemCapitalAssetEvent;
-import org.kuali.kfs.module.purap.document.validation.event.ChangeSystemPurapEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
@@ -841,7 +840,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
             
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
-        }
+        }        
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

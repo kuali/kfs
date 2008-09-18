@@ -17,7 +17,9 @@
 </c:if>
 <c:if test="${isPurchaseOrder}">
 	<html:hidden property="${camsAssetSystemProperty}.documentNumber" />
-</c:if> 
+</c:if>
+
+<c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" /> 
 	
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
@@ -38,7 +40,7 @@
 	    <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right" width="250px" />    
 	      <td class="datacell" align="left" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="newPurchasingItemCapitalAssetLine.capitalAssetNumber" />		
+			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${lockCamsEntry}"/>		
 	      	&nbsp;
 			<html:image property="${addItemAssetUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
 		  </td>
@@ -59,7 +61,7 @@
 		<tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" align="right" width="250px" />    
 	      <td class="datacell" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${false}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${lockCamsEntry}"/>
 		  </td>		
 		</tr>
 	    </c:if>
@@ -68,7 +70,7 @@
         <tr>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" align="right" width="250px"/>
           <td align="right" colspan="3" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${false}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${lockCamsEntry}"/>
 		  </td>
         </tr>
 		</c:if>
@@ -77,11 +79,11 @@
         <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" align="right" />
           <td align="right" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="${false}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="${lockCamsEntry}"/>
 		  </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${false}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${lockCamsEntry}"/>
           </td>
         </tr>
         <tr>
@@ -89,7 +91,7 @@
           <td align="right" valign="middle" class="datacell">&nbsp;</td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" align="right" width="250px"/>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${false}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${lockCamsEntry}"/>
 		  </td>
         </tr>
 

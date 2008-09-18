@@ -8,7 +8,7 @@
 
   <bean id="TaxRegionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegion" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.sys.document.TaxRegionMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="TaxRegionMaintenanceDocument-CreateTaxRegionFields" />
@@ -80,7 +80,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionName" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:readOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
@@ -232,5 +232,4 @@
 	  </list>
     </property>
   </bean>   
-
 </beans>

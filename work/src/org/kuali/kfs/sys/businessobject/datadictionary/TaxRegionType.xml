@@ -101,6 +101,7 @@
   <bean id="TaxRegionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Tax Region Type Lookup" />
     <property name="instructions" value="Lookup a Tax Region Type" />
+    <property name="lookupableID" value="taxRegionTypeLookupable" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

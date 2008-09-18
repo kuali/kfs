@@ -1183,6 +1183,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String TAX_REGION_POSTAL_CODE = "postalCode";
         public static final String TAX_REGION_TAX_RATE = "taxRate";
         public static final String TAX_REGION_EFFECTIVE_DATE = "effectiveDate";
+        public static final String TAX_REGION_TYPE_CODE = "taxRegionTypeCode";
+        public static final String TAX_REGION_COUNTIES_SECTION_ID = "TaxRegionCounties";
+        public static final String TAX_REGION_STATES_SECTION_ID = "TaxRegionStates";
+        public static final String TAX_REGION_POSTAL_CODES_SECTION_ID = "TaxRegionPostalCodes";
+        public static final String TAX_REGION_TYPE_CODE_COUNTY = "CNTY";
+        public static final String TAX_REGION_TYPE_CODE_POSTAL_CODE = "POST";
+        public static final String TAX_REGION_TYPE_CODE_STATE = "ST";
     }
     
     public static final class SubAccountType {

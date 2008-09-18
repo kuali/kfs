@@ -325,7 +325,21 @@
 		<property name="postalCodeService">
 			<ref bean="postalCodeService" />
 		</property>		
-	</bean>		
+	</bean>	
+	
+	<bean id="taxRegionTypeLookupableHelperService" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionTypeLookupableServiceImpl" parent="lookupableHelperService" />
+	
+    <bean id="taxRegionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+        <property name="lookupableHelperService">
+    		<ref bean="taxRegionTypeLookupableHelperService" /> 
+        </property>
+    </bean>		
+    
+    <bean id="taxRegionLookupable" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionLookupableImpl">
+        <property name="lookupableHelperService">
+            <ref bean="lookupableHelperService" />
+        </property>
+    </bean>	    
 
 	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">
 		<property name="businessObjectService">

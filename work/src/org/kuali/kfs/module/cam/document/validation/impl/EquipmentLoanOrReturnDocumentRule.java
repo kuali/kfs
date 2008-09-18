@@ -26,6 +26,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
@@ -158,16 +159,16 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
     private boolean validStateCode(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
         // validate borrower state code
-        equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE);
-        if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerState())) {
+        State borrowStateCode = equipmentLoanOrReturnDocument.getBorrowerState();
+        if (ObjectUtils.isNull(borrowStateCode)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE, equipmentLoanOrReturnDocument.getBorrowerStateCode());
-            valid = false;
+            valid &= false;
         }
 
         // validate borrower storage state code
         if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
-            equipmentLoanOrReturnDocument.refreshReferenceObject(CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE);
-            if (ObjectUtils.isNull(equipmentLoanOrReturnDocument.getBorrowerStorageState())) {
+            State borrowStorageStateCode = equipmentLoanOrReturnDocument.getBorrowerStorageState();
+            if (ObjectUtils.isNull(borrowStorageStateCode)) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
                 valid = false;
             }

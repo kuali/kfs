@@ -39,8 +39,10 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -63,7 +65,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
 
-    
+
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE);
@@ -168,10 +170,40 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getOffCampusStateCode())) {
-           State stateCode = assetGlobalDetail.getOffCampusState();
+            State stateCode = assetGlobalDetail.getOffCampusState();
             if (ObjectUtils.isNull(stateCode)) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, assetGlobalDetail.getOffCampusStateCode());
                 valid &= false;
+            }
+        }
+
+        if (StringUtils.isNotBlank(assetGlobalDetail.getOffCampusZipCode())) {
+            PostalCode zipCode = assetGlobalDetail.getPostalZipCode();
+            if (ObjectUtils.isNull(zipCode)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_ZIP_CODE, assetGlobalDetail.getOffCampusZipCode());
+                valid &= false;
+            } else {
+
+            // validate  postal zip code against state code
+                if (StringUtils.isNotBlank(assetGlobalDetail.getOffCampusStateCode())) {
+                    if (!assetGlobalDetail.getOffCampusStateCode().equals(zipCode.getPostalStateCode())) {
+                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_STATE_ZIP_CODE, assetGlobalDetail.getOffCampusStateCode(), assetGlobalDetail.getOffCampusZipCode());
+                        valid &= false;
+                    }
+                }
+            }
+        }
+
+        // if country is US, the state and zip code are required
+        if (assetGlobalDetail.getOffCampusCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+            if (StringUtils.isBlank(assetGlobalDetail.getOffCampusStateCode())) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);
+                valid &= false;
+            } 
+                
+            if (StringUtils.isBlank(assetGlobalDetail.getOffCampusZipCode())) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.OFF_CAMPUS_ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_ZIP_REQUIRED);
+                 valid &= false;
             }
         }
 
@@ -362,8 +394,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * Validates the posted date
+     * 
      * @param assetPaymentDetail
      * @return boolean
      */
@@ -425,7 +457,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
-        
+
         // need at least one asset location
         if (assetSharedDetails.isEmpty() || assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
             putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetGlobal.MIN_ONE_ASSET_REQUIRED);
@@ -466,13 +498,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         // only for "Asset Separate" document
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
 
-            // TODO is this needed? 
+            // TODO is this needed?
             // cannot create more than 9 assets at a time
             if (assetPaymentService.getAssetPaymentDetailQuantity(assetGlobal) >= 10) {
                 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_ASSET_SPLIT_MAX_LIMIT);
                 success &= false;
             }
-            
+
             // new source payments must be greater than the capital asset cost amount
             KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
             if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
@@ -623,7 +655,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePaymentCollection(assetGlobal);
         }
 
-        // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode is for capital assets
+        // System shall only GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode is for
+        // capital assets
         if ((success & super.processCustomSaveDocumentBusinessRules(document)) && assetAcquisitionTypeService.hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
 
             // create poster
@@ -705,7 +738,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (success) {
             boolean isCapitalAsset = isCapitalStatus(assetGlobal);
             success = SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetGlobalDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
-        } else {
+        }
+        else {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.VERSION_NUM, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
         }
         return success;

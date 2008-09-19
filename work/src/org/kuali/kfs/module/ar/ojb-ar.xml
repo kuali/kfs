@@ -36,6 +36,7 @@
 	<field-descriptor name="organizationFaxNumber" column="ORG_FAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityName" column="UNIV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationPostalZipCode" column="ORG_POSTAL_ZIP_CD" jdbs-type="VARCHAR" />
 
 	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

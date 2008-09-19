@@ -32,6 +32,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationFaxNumber;
 	private String universityName;
 	private String organizationCheckPayableToName;
+    private String organizationPostalZipCode;
 
     private Org organization;
 	private Chart chartOfAccounts;
@@ -557,6 +558,14 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      */
     public String getOrganizationOptionsViewer() {
         return "View Organization Options";
+    }
+
+    public String getOrganizationPostalZipCode() {
+        return organizationPostalZipCode;
+    }
+
+    public void setOrganizationPostalZipCode(String organizationPostalZipCode) {
+        this.organizationPostalZipCode = organizationPostalZipCode;
     }
 
 }

@@ -257,6 +257,7 @@ public class CamsConstants extends JSTLConstants {
 
     public static class EquipmentLoanOrReturnEditMode extends EditMode {
         public static final String DISPLAY_NEW_LOAN_TAB = "displayNewLoanTab";
+        public static final String DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY = "displayReturnLoanFieldsReadOnly";
     }
 
     public static final String ASSET_TRANSFER_DOCTYPE_CD = "AT";

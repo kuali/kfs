@@ -25,7 +25,7 @@
 	<c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 	<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 	<c:set var="displayNewLoanTab" value="${KualiForm.editingMode['displayNewLoanTab']}" scope="request"/>
-	
+	<c:set var="displayReturnLoanFieldsReadOnly" value="${KualiForm.editingMode['displayReturnLoanFieldsReadOnly']}" scope="request"/>
 	<kfs:hiddenDocumentFields isTransactionalDocument="true" isFinancialDocument="false"/>
 	<html:hidden property="document.capitalAssetNumber" />
 	<html:hidden property="document.documentNumber" />
@@ -58,7 +58,6 @@
 						  fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
 						  hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
-
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.loanDate}" readOnly="true"/></th>
 			   	<c:choose>
 		            <c:when test="${readOnly or !displayNewLoanTab}">
@@ -72,14 +71,13 @@
 		    <tr>
 		      	<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${eqipAttributes.expectedReturnDate}" /></th>
 			   	<c:choose>
-		            <c:when test="${readOnly}">
+		            <c:when test="${readOnly or displayReturnLoanFieldsReadOnly}">
 		                <td class="grid" width="25%"><kul:htmlControlAttribute attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" readOnly="true" />
 		            </c:when>
 		            <c:otherwise>
 		                <td class="grid" width="25%"><kul:dateInput attributeEntry="${eqipAttributes.expectedReturnDate}" property="document.expectedReturnDate" /> </td>
 		            </c:otherwise>
  		       </c:choose>
-
 			   	<c:choose>
 	                <c:when test="${displayNewLoanTab or (empty KualiForm.document.loanReturnDate)}">
 						<th class="grid" width="25%" align="right" colspan="2"></th>
@@ -96,7 +94,6 @@
 					    </c:choose>
 				    </c:otherwise>
 			    </c:choose>
-
        		</tr>		    
 		</table>
 		</div>

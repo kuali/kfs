@@ -103,7 +103,11 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
             String capitalAssetNumber = request.getParameter(CAPITAL_ASSET_NUMBER);
             keys.put(CAPITAL_ASSET_NUMBER, capitalAssetNumber);
             newAsset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, keys);
+            
+            // set document status
             equipmentLoanOrReturnDocument.setNewLoan(true);
+            equipmentLoanOrReturnDocument.setReturnLoan(false);
+            
             if (newAsset != null) {
                 // populate equipmentLoanOrReturn info when loan type is renew or return loan
                 if (!request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN)) {
@@ -113,6 +117,7 @@ public class EquipmentLoanOrReturnAction extends KualiTransactionalDocumentActio
                 // populate loan return date when loan type is return loan
                 if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RETURN)) {
                     equipmentLoanOrReturnDocument.setLoanReturnDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+                    equipmentLoanOrReturnDocument.setReturnLoan(true);
                 }
                 // reset loan date and expect return date for renew loan
                 if (request.getParameter(CamsConstants.AssetActions.LOAN_TYPE).equals(CamsConstants.AssetActions.LOAN_RENEW)) {

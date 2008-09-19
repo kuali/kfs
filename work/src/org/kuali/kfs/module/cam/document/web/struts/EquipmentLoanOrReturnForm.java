@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.web.struts;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -46,9 +49,8 @@ public class EquipmentLoanOrReturnForm extends FinancialSystemTransactionalDocum
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
-    public void populate(HttpServletRequest request) {        
+    public void populate(HttpServletRequest request) {
         super.populate(request);
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getEquipmentLoanOrReturnDocument());
     }
-
 }

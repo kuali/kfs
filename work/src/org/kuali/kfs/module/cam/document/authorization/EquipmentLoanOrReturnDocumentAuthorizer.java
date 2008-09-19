@@ -38,13 +38,23 @@ public class EquipmentLoanOrReturnDocumentAuthorizer extends FinancialSystemTran
     public Map getEditMode(Document document, UniversalUser user) {
         Map<String, String> editModeMap = super.getEditMode(document, user);
         EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument = (EquipmentLoanOrReturnDocument) document;
+        
+        // setup new loan document
         if (equipmentLoanOrReturnDocument.isNewLoan()) {
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "TRUE");
         }
         else {
             editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_NEW_LOAN_TAB, "FALSE");
         }
-
+        
+        // setup return loan document
+        if (equipmentLoanOrReturnDocument.isReturnLoan()) {
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY, "TRUE");
+        }
+        else {
+            editModeMap.put(CamsConstants.EquipmentLoanOrReturnEditMode.DISPLAY_RETURN_LOAN_FIELDS_READ_ONLY, "FALSE");
+        }
+        
         return editModeMap;
     }
 }

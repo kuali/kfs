@@ -91,11 +91,12 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private PostalCode borrowerPostalZipCode;
     private PostalCode borrowerStoragePostalZipCode;
     
+    // sets document status (i.e. new loan, return, or renew)
     private boolean newLoan;
+    private boolean returnLoan;
 
     private Set<RoutingData> routingInfo;
 
-    
     /**
      * Default constructor.
      */
@@ -768,6 +769,13 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         this.newLoan = newLoan;
     }
 
+    public boolean isReturnLoan() {
+        return returnLoan;
+    }
+
+    public void setReturnLoan(boolean returnLoan) {
+        this.returnLoan = returnLoan;
+    }
     
     /**
      * Gets the routingInfo attribute.
@@ -811,4 +819,5 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
     }
+
 }

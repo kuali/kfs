@@ -59,39 +59,8 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     }
 
     public String getSortGroupId() {
-        if (sortGroup == null) {
-            if (isProcessImmediate()) {
-                return "B";
-            }
-            else if (isPymtSpecialHandling()) {
-                return "C";
-            }
-            else if (isPymtAttachment()) {
-                return "D";
-            }
-            else {
-                return "E";
-            }
-        }
-        else {
-            return sortGroup;
-        }
-    }
-
-    public String getSortGroupName() {
-        String sortGroup = getSortGroupId();
-        if ("B".equals(sortGroup)) {
-            return "Immediate";
-        }
-        else if ("C".equals(sortGroup)) {
-            return "Special Handling";
-        }
-        else if ("D".equals(sortGroup)) {
-            return "Attachment";
-        }
-        else {
-            return "Other";
-        }
+        
+        return sortGroup;
     }
 
     public String getSortGroupOverride() {

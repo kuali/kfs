@@ -1515,6 +1515,10 @@
             <list>
               <bean parent="WorkflowProperty"
                     p:path="documentHeader" />
+              <bean parent="WorkflowProperty"
+                    p:path="invoiceRejectReasons" />
+              <bean parent="WorkflowProperty"
+                    p:path="invoiceRejectReasons.invoiceRejectReasonDescription" />
             </list>
           </property>
         </bean>

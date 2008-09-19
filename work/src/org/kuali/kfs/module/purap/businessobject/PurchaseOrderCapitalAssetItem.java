@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
@@ -34,16 +36,11 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
     }
     
-    //FIXME (from hjs) change parameter to be RequisitionCapitalAssetItem
-    public PurchaseOrderCapitalAssetItem (PurchasingCapitalAssetItem reqAssetItem) {
-        //this.setCapitalAssetItemIdentifier(reqAssetItem.getCapitalAssetItemIdentifier());
-        //this.setItemIdentifier(reqAssetItem.getItemIdentifier());
+    public PurchaseOrderCapitalAssetItem(RequisitionCapitalAssetItem reqAssetItem, Integer itemIdentifier) {
+        this.setItemIdentifier(itemIdentifier);
         this.setCapitalAssetTransactionTypeCode(reqAssetItem.getCapitalAssetTransactionTypeCode());
-        //this.setCapitalAssetSystemIdentifier(reqAssetItem.getCapitalAssetSystemIdentifier());
         this.setCapitalAssetTransactionType(reqAssetItem.getCapitalAssetTransactionType());
-        //this.setPurchasingCapitalAssetSystem(reqAssetItem.getPurchasingCapitalAssetSystem());
-        
-        //FIXME (from hjs) copy the system
+        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)reqAssetItem.getPurchasingCapitalAssetSystem()));
     }
     
     public String getDocumentNumber() {

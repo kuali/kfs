@@ -46,12 +46,11 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
@@ -444,21 +443,18 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
 
-        // copy items from req to pending (which will copy the item's accounts and assets)
+        // Copy items from requisition (which will copy the item's accounts and capital assets)
         List<PurchaseOrderItem> items = new ArrayList();
-        for (PurApItem reqItem : ((PurchasingAccountsPayableDocument) requisitionDocument).getItems()) {
-            items.add(new PurchaseOrderItem((RequisitionItem) reqItem, this));
+        for (PurApItem reqItem : ((PurchasingAccountsPayableDocument)requisitionDocument).getItems()) {
+            items.add(new PurchaseOrderItem((RequisitionItem)reqItem, this));
         }
         this.setItems(items);
         
-        //These are the steps to create the cams items for the po from the cams items for the req.
+        // Copy capital asset information that is directly off the document.
         this.setCapitalAssetSystemTypeCode(requisitionDocument.getCapitalAssetSystemTypeCode());
         this.setCapitalAssetSystemStateCode(requisitionDocument.getCapitalAssetSystemStateCode());
-        for (PurchasingCapitalAssetItem camsItem : requisitionDocument.getPurchasingCapitalAssetItems()) {
-            this.getPurchasingCapitalAssetItems().add(new PurchaseOrderCapitalAssetItem(camsItem));
-        }
         for (CapitalAssetSystem capitalAssetSystem : requisitionDocument.getPurchasingCapitalAssetSystems()) {
-            this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem(capitalAssetSystem));
+            this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)capitalAssetSystem));
         }
     }
 

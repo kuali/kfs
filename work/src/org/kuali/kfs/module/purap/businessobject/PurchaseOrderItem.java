@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -71,8 +72,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
         this.setPurchaseOrder(po);
 
-        //FIXME (from hjs)  generate sequence id 
-//        this.setItemIdentifier(retrieveing the new sequence)
+        Integer itemIdentifier = new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ITM_ID").toString());
+        this.setItemIdentifier(itemIdentifier);        
         this.setItemLineNumber(ri.getItemLineNumber());
         this.setItemUnitOfMeasureCode(ri.getItemUnitOfMeasureCode());
         this.setItemQuantity(ri.getItemQuantity());
@@ -107,6 +108,13 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         
         this.setPurchasingCommodityCode(ri.getPurchasingCommodityCode());
         this.setCommodityCode(getCommodityCode());
+        
+        // If the RequisitionItem has a CapitalAssetItem, create a new PurchasingCapitalAssetItem and add it to the PO.
+        if( ri.getCapitalAssetItem() != null ) {
+            PurchaseOrderCapitalAssetItem newPOCapitalAssetItem = new PurchaseOrderCapitalAssetItem((RequisitionCapitalAssetItem)ri.getCapitalAssetItem(), itemIdentifier);
+            this.setCapitalAssetItem(newPOCapitalAssetItem);
+            po.getPurchasingCapitalAssetItems().add(newPOCapitalAssetItem);
+        }
     }
 
     public boolean isItemActiveIndicator() {

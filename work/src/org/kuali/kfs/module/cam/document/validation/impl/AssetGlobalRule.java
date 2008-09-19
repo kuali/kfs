@@ -229,7 +229,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             if (success &= checkReferenceExists(assetGlobal, assetPaymentDetail)) {
                 success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
             }
-
         }
         return success;
     }
@@ -321,8 +320,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
 
         success &= validateObjectCode(assetPaymentDetail.getObjectCode(), assetGlobal);
-
-        success &= validateObjectSubTypeCode(assetGlobal, assetPaymentDetail);
 
         return success;
     }
@@ -544,39 +541,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return success;
     }
-
-
-    /**
-     * Validate all object sub type codes are from the same group.
-     * 
-     * @param assetGlobal
-     * @param newLine
-     * @return
-     */
-    private boolean validateObjectSubTypeCode(AssetGlobal assetGlobal, AssetPaymentDetail newLine) {
-        boolean valid = true;
-        List<String> objectSubTypeList = new ArrayList<String>();
-
-        // build object sub type list
-        if (ObjectUtils.isNotNull(newLine.getObjectCode())) {
-            objectSubTypeList.add(newLine.getObjectCode().getFinancialObjectSubTypeCode());
-        }
-
-        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-            if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode())) {
-                objectSubTypeList.add(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
-            }
-        }
-
-        if (!assetService.isObjectSubTypeCompatible(objectSubTypeList)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_INVALID_FIN_OBJECT_SUB_TYPE_CODE, dataDictionaryService.getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE), CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
-
-            valid = false;
-        }
-        return valid;
-    }
-
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {

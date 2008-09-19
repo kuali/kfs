@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -44,6 +45,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentDocumentPreRules.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
     
     public boolean doRules(Document document) {        
@@ -129,10 +131,12 @@ public class AssetPaymentDocumentPreRules extends PreRulesContinuationBase {
         return false;
     }
 
-
     private boolean isOkHavingDifferentObjectSubTypes() {
+        String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";        
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES);
+        
+        String continueQuestion = kualiConfiguration.getPropertyString(CamsKeyConstants.CONTINUE_QUESTION);
+        String warningMessage = kualiConfiguration.getPropertyString(CamsKeyConstants.Payment.WARNING_NOT_SAME_OBJECT_SUB_TYPES)+ " "+CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS + " " + parameterDetail+". "+continueQuestion;
         return super.askOrAnalyzeYesNoQuestion(CamsConstants.ASSET_PAYMENT_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION, warningMessage);
     }
 }

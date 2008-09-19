@@ -50,7 +50,7 @@ public class AssetPaymentObjectCodeValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
-
+        
         List<String> validSubtypeCodes = parameterService.getParameterValues(AssetGlobal.class, CamsConstants.Parameters.CAPITAL_OBJECT_SUB_TYPES);
         String parameterDetail = "(module:"+parameterService.getNamespace(AssetGlobal.class)+"/component:"+parameterService.getDetailType(AssetGlobal.class)+")";
         

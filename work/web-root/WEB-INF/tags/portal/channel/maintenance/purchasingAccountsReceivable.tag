@@ -34,6 +34,7 @@
 	
 	<ul class="chan">	
    		<li><portal:portalLink displayTitle="true" title="Billing Statement" url="arCustomerStatement.do?methodToCall=start" /></li>
+   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report" url="$arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li> 		
    		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoice.do?methodToCall=start" /></li>
     </ul>
 </div>

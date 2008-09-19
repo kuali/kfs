@@ -25,4 +25,9 @@ public interface CapitalAssetEditable {
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation();
+    
+    /**
+     * Sets the capitalAssetInformation attribute.
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation);
 }

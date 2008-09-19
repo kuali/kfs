@@ -1199,4 +1199,5 @@ public class KFSPropertyConstants {
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";
     public static final String CASH_CONTROL_DETAILS = "cashControlDetails";
     public static final String BANK_CODE = "bankCode";
+    public static final String CAPITAL_ASSET_MANAGEMENT_ASSET = "capitalAssetManagementAsset";
 }

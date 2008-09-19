@@ -28,6 +28,8 @@
 		editableAccounts="${KualiForm.editableAccounts}"
 		extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
 		extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription" />
+	
+	<fin:capitalAssetEditTab/>	
 
 	<gl:generalLedgerPendingEntries />
 

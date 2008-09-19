@@ -160,8 +160,12 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      * perform salary setting by incumbent with the specified funding line
      */
     public ActionForward performIncumbentSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean isSaved = this.save(form);
+        if(!isSaved) {
+            mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.INCUMBENT_SALARY_SETTING_ACTION);
-
         return new ActionForward(salarySettingURL, true);
     }
 
@@ -169,8 +173,12 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      * perform salary setting by position with the specified funding line
      */
     public ActionForward performPositionSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean isSaved = this.save(form);
+        if(!isSaved) {
+            mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         String salarySettingURL = this.buildDetailSalarySettingURL(mapping, form, request, BCConstants.POSITION_SALARY_SETTING_ACTION);
-
         return new ActionForward(salarySettingURL, true);
     }
 
@@ -191,19 +199,29 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {                     
+        boolean isSaved = this.save(form);
+        if(isSaved) {
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    // save the savable appointment funding lines
+    private boolean save(ActionForm form) {
         QuickSalarySettingForm salarySettingForm = (QuickSalarySettingForm) form;
         SalarySettingExpansion salarySettingExpansion = salarySettingForm.getSalarySettingExpansion();
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = salarySettingForm.getAppointmentFundings();
-        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();        
-     
+        List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();  
+        
         for(PendingBudgetConstructionAppointmentFunding savableFunding : savableAppointmentFundings) {
             String errorKeyPrefix = this.getErrorKeyPrefixOfAppointmentFundingLine(appointmentFundings, savableFunding);
             
             BudgetConstructionDocument document = budgetDocumentService.getBudgetConstructionDocument(savableFunding);        
             if(document == null) {
                 GlobalVariables.getErrorMap().putError(errorKeyPrefix, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_FOUND, savableFunding.getAppointmentFundingString());
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                return false;
             }
             
             salarySettingService.recalculateDerivedInformation(savableFunding);
@@ -211,15 +229,14 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
             // validate the savable appointment funding lines
             boolean isValid = this.invokeRules(new QuickSaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));
             if(!isValid) {
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                return false;
             }
         }
 
         salarySettingService.saveSalarySetting(salarySettingExpansion);
         salarySettingExpansion.refresh();
-
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        
+        return true;        
     }
 
     // build the URL for the specified salary setting method

@@ -38,9 +38,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineDecorator;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
@@ -990,11 +995,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.route(mapping, form, request, response);
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
+        this.hasValidCapitalAssetInformation(tmpForm.getFinancialDocument(), tmpForm);
+        ActionForward forward = super.route(mapping, form, request, response);
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
-
+        
         return forward;
     }
 
@@ -1278,5 +1284,38 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, KFSConstants.GL_MODIFIED_INQUIRY_ACTION);
 
         return new ActionForward(path, true);
+    }
+    
+    // determine whehter the given document has valid capital asset information if any
+    private boolean hasValidCapitalAssetInformation(AccountingDocument financialDocument, KualiDocumentFormBase kualiDocumentFormBase) {
+        LOG.debug("hasValidCapitalAssetInformation(Document) - start");
+    
+        if(financialDocument instanceof CapitalAssetEditable == false) {
+            return true;
+        }
+        
+        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();           
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable)financialDocument;
+        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
+        
+        if(capitalAssetInformation != null) {
+            return true;
+        }
+        
+        if(kualiDocumentFormBase instanceof CapitalAssetEditable == false) {
+            return true;
+        }
+        
+        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable)kualiDocumentFormBase; 
+        CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();  
+        
+        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
+        boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);  
+        if(isValidFinancialProcessingData) {
+            newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
+            capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
+        }
+        
+        return isValidFinancialProcessingData;
     }
 }

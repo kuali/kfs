@@ -15,14 +15,18 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
  */
-public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase {
+public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
     private static final long serialVersionUID = 1L;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a GeneralErrorCorrectionForm.java.
@@ -30,6 +34,7 @@ public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase 
     public GeneralErrorCorrectionForm() {
         super();
         setDocument(new GeneralErrorCorrectionDocument());
+        this.capitalAssetInformation = new CapitalAssetInformation();
     }
 
     /**
@@ -44,5 +49,19 @@ public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase 
      */
     public void setGeneralErrorCorrectionDocument(GeneralErrorCorrectionDocument generalErrorCorrectionDocument) {
         setDocument(generalErrorCorrectionDocument);
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 }

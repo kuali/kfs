@@ -20,8 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.businessobject.Check;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
@@ -40,7 +42,7 @@ import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 /**
  * This class is the action form for Cash Receipts.
  */
-public class CashReceiptForm extends KualiAccountingDocumentFormBase {
+public class CashReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
     private static final long serialVersionUID = 1L;
     private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
 
@@ -52,6 +54,8 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
     private List checkEntryModes;
 
     private List baselineChecks;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Constructs a CashReceiptForm.java.
@@ -70,6 +74,8 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
         setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
 
         baselineChecks = new ArrayList();
+        
+        this.capitalAssetInformation = new CapitalAssetInformation();
     }
 
     /**
@@ -251,4 +257,17 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
         return SpringContext.getBean(CashReceiptCoverSheetService.class).isCoverSheetPrintingAllowed(getCashReceiptDocument());
     }
 
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
+    }
 }

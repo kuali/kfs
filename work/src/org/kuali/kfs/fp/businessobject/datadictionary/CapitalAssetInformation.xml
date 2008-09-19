@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CapitalAssetInformation" parent="CapitalAssetInformation-parentBean" />
 
@@ -15,7 +17,7 @@
         <ref bean="CapitalAssetInformation-campusCode" />
  	    <ref bean="CapitalAssetInformation-buildingCode" />
     	<ref bean="CapitalAssetInformation-buildingRoomNumber" />
-    	<ref bean="CapitalAssetInformation-buildingSubroomNumber" />
+    	<ref bean="CapitalAssetInformation-buildingSubRoomNumber" />
     	<ref bean="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" />
     	<ref bean="CapitalAssetInformation-vendorDetailAssignedIdentifier" />
     	<ref bean="CapitalAssetInformation-capitalAssetNumber" />
@@ -28,6 +30,16 @@
     	<ref bean="CapitalAssetInformation-capitalAssetSerialNumber" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="capitalAssetManagementAsset">
+            <dd:primitiveAttribute source="capitalAssetNumber" target="capitalAssetNumber" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="capitalAssetManagementAssetType">
+            <dd:primitiveAttribute source="capitalAssetTypeCode" target="capitalAssetTypeCode" />
+        </dd:relationship>        
+      </list>
+    </property>
   </bean>
   
   <!-- Attributes -->
@@ -38,14 +50,14 @@
   
   <bean id="CapitalAssetInformation-campusCode" parent="CapitalAssetInformation-campusCode-parentBean" />
   
-  <bean id="CapitalAssetInformation-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="CapitalAssetInformation-campusCode-parentBean" abstract="true" parent="Room-campusCode">
   	<property name="name" value="campusCode"/>
   	<property name="required" value="false" />
   </bean>
   
   <bean id="CapitalAssetInformation-buildingCode" parent="CapitalAssetInformation-buildingCode-parentBean" />
   
-  <bean id="CapitalAssetInformation-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  <bean id="CapitalAssetInformation-buildingCode-parentBean" abstract="true" parent="Room-buildingCode">
    	<property name="name" value="buildingCode"/>
   	<property name="required" value="false" />
   </bean>
@@ -57,32 +69,33 @@
 	<property name="required" value="false" />
   </bean>
   
-  <bean id="CapitalAssetInformation-buildingSubroomNumber" parent="CapitalAssetInformation-buildingSubroomNumber-parentBean" />
+  <bean id="CapitalAssetInformation-buildingSubRoomNumber" parent="CapitalAssetInformation-buildingSubRoomNumber-parentBean" />
   
-  <bean id="CapitalAssetInformation-buildingSubroomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingSubroomNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Sub Room Number" />
-    <property name="shortLabel" value="Number" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
-    </property>
-    <property name="summary" value="building subroom number" />
-    <property name="description" value="building subroom number description..." />
-  </bean>
+  <bean id="CapitalAssetInformation-buildingSubRoomNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+	p:sourceAttributeName="buildingSubRoomNumber">
+	<property name="name" value="buildingSubRoomNumber"/>
+  </bean> 
   
   <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" parent="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" />
   
-  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier" />
+  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
+  	<property name="name" value="vendorHeaderGeneratedIdentifier"/>
+  	<property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
   
-  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier" parent="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" />
+  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier" parent="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean"/>
   
-  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier" />
+  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
+  	<property name="name" value="vendorDetailAssignedIdentifier"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+  </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean" />
   

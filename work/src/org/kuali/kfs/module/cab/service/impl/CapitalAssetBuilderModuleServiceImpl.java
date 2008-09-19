@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
@@ -854,6 +855,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
                 CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
         return ( StringUtils.containsIgnoreCase( capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode() ) ? true : false );
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List, org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation) {
+        // TODO Auto-generated method stub
+        return true;
     }
 
     /**

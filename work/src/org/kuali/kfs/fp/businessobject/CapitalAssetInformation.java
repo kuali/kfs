@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -18,10 +19,10 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private String campusCode;
     private String buildingCode;
     private String buildingRoomNumber;
-    private String buildingSubroomNumber;
+    private String buildingSubRoomNumber;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
-    private Integer capitalAssetNumber;
+    private Long capitalAssetNumber;
     private String capitalAssetTagNumber;
     private Integer capitalAssetQuantity;
     private String capitalAssetTypeCode;
@@ -62,12 +63,12 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         this.buildingRoomNumber = buildingRoomNumber;
     }
 
-    public String getBuildingSubroomNumber() {
-        return buildingSubroomNumber;
+    public String getBuildingSubRoomNumber() {
+        return buildingSubRoomNumber;
     }
 
-    public void setBuildingSubroomNumber(String buildingSubroomNumber) {
-        this.buildingSubroomNumber = buildingSubroomNumber;
+    public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
+        this.buildingSubRoomNumber = buildingSubRoomNumber;
     }
 
     public String getCampusCode() {
@@ -75,7 +76,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     }
 
     public void setCampusCode(String campusCode) {
-        campusCode = campusCode;
+        this.campusCode = campusCode;
     }
 
     public String getCapitalAssetDescription() {
@@ -102,11 +103,11 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         this.capitalAssetManufacturerName = capitalAssetManufacturerName;
     }
 
-    public Integer getCapitalAssetNumber() {
+    public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
 
-    public void setCapitalAssetNumber(Integer capitalAssetNumber) {
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
@@ -172,7 +173,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the capitalAssetManagementAsset.
      */
     public CapitalAssetManagementAsset getCapitalAssetManagementAsset() {
-        capitalAssetManagementAsset = (CapitalAssetManagementAsset) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAsset.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAsset, "capitalAssetNumber");
+        capitalAssetManagementAsset = (CapitalAssetManagementAsset) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAsset.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAsset, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET);
         return capitalAssetManagementAsset;
     }
 

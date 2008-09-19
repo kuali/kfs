@@ -50,7 +50,7 @@
     <property name="name" value="buildingRoomNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Room Number" />
-    <property name="shortLabel" value="Bldg. Room Number" />
+    <property name="shortLabel" value="Room Number" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

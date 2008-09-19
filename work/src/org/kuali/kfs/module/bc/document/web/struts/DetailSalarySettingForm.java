@@ -260,11 +260,16 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         Set<BudgetConstructionPosition> lockedPositionSet = new HashSet<BudgetConstructionPosition>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : releasableAppointmentFundings) {
             lockedPositionSet.add(fundingLine.getBudgetConstructionPosition());
+            LOG.info("fundingLine: " + fundingLine);
         }
-
+        
+        LOG.info("releasePositionAndFundingLocks()" + lockedPositionSet);
         List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
         lockedPositions.addAll(lockedPositionSet);
         lockService.unlockPostion(lockedPositions, this.getUniversalUser());
+        for(BudgetConstructionPosition position : lockedPositionSet) {
+            LOG.info("fundingLine: " + position.getPositionLockUserIdentifier());
+        }
     }
 
     /**
@@ -389,8 +394,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         comparableFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         comparableFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         comparableFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        comparableFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        comparableFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
         return comparableFields;
     }

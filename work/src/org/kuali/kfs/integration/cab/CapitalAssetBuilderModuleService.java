@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -100,6 +101,8 @@ public interface CapitalAssetBuilderModuleService {
      * @return validation succeeded or errors present
      */
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset);
+    
+    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation);
     
     //Methods moved from PurchasingDocumentRuleBase
     

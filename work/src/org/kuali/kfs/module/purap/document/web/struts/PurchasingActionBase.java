@@ -194,29 +194,43 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (document.isDeliveryBuildingOther()) {
                 document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
                 document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-                document.setDeliveryBuildingLine1Address(null);
-                document.setDeliveryBuildingLine2Address(null);
-                document.setDeliveryBuildingRoomNumber(null);
-                document.setDeliveryCityName(null);
-                document.setDeliveryStateCode(null);
-                document.setDeliveryCountryCode(null);
-                document.setDeliveryPostalCode(null);
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {
                 document.setDeliveryBuildingName(null);
                 document.setDeliveryBuildingCode(null);
-                document.setDeliveryBuildingLine1Address(null);
-                document.setDeliveryBuildingLine2Address(null);
-                document.setDeliveryBuildingRoomNumber(null);
-                document.setDeliveryCityName(null);
-                document.setDeliveryStateCode(null);
-                document.setDeliveryCountryCode(null);
-                document.setDeliveryPostalCode(null);
                 baseForm.setNotOtherDeliveryBuilding(true);
             }
+            document.setDeliveryBuildingLine1Address(null);
+            document.setDeliveryBuildingLine2Address(null);
+            document.setDeliveryBuildingRoomNumber(null);
+            document.setDeliveryCityName(null);
+            document.setDeliveryStateCode(null);
+            document.setDeliveryCountryCode(null);
+            document.setDeliveryPostalCode(null);
         }
 
+        return refresh(mapping, form, request, response);
+    }
+    
+    public ActionForward refreshAssetLocationBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
+        List<CapitalAssetSystem> systems = document.getPurchasingCapitalAssetSystems();
+        //TODO: This is rather naive code at this point.
+        if( document.getCapitalAssetSystemType().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
+            CapitalAssetSystem system = systems.get(0);
+            CapitalAssetLocation location = system.getNewPurchasingCapitalAssetLocationLine();
+            if( location.isOffCampusIndicator() ) {
+                location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+            }
+            else {
+                location.setBuildingCode(null);
+            }
+            //Null out every other location field here.
+        }
+        //TODO: Handle other System Type cases.
+        
         return refresh(mapping, form, request, response);
     }
 
@@ -831,7 +845,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         if (question == null) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM);
-
+        
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
         else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
@@ -840,7 +854,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
             
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
-        }        
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

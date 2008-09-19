@@ -87,21 +87,28 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
 
-            // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
+            // The PO must be in OPEN or PENDING_CLOSE status.
+            if (ObjectUtils.isNull(currentPO)){
+                throw new ValidationException("Current Purchase Order document cannot be found.");
+            }
+            else if (StringUtils.isEmpty(currentPO.getStatusCode())) {
+                throw new ValidationException("Current Purchase Order document has no status.");
+            }
+            else if (!(StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) || 
+                      (StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)))) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN);
             }
             else {
                 valid &= processPaymentRequestRules(document);
-            }
+            } 
         }
         return valid;
     }
 
     /**
      * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
-     * validates that at least one payment request exists, and makes furthur checks about the status of such payment requests.
+     * validates that at least one payment request exists, and makes further checks about the status of such payment requests.
      * 
      * @param document A PurchaseOrderDocument
      * @return True if the document passes all the validations.

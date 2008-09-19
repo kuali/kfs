@@ -55,13 +55,11 @@
 	<td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.itemQuantity}" property="${camsAssetLocationProperty}.itemQuantity" readOnly="${(not isEditable) or lockCamsEntry}"/>
 	</td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />
-    <td class="datacell">
-		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" property="${camsAssetLocationProperty}.capitalAssetLine1Address" readOnly="${(not isEditable) or lockCamsEntry}"/>
-	</td>
-    </tr>
-    <tr>
-    	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingCode}" align="right" />
+	<th>&nbsp;</th>
+	<td class="datacell">&nbsp;</td>
+</tr>
+<tr>
+    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.buildingCode}" align="right" />
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="${camsAssetLocationProperty}.buildingCode" readOnly="${(not isEditable) or lockCamsEntry}"/>
 		<c:if test="${isEditable and (not lockCamsEntry)}">
@@ -70,6 +68,20 @@
         	fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode,buildingStreetAddress:${camsAssetLocationProperty}.capitalAssetLine1Address,buildingAddressCityName:${camsAssetLocationProperty}.capitalAssetCityName,buildingAddressStateCode:${camsAssetLocationProperty}.capitalAssetStateCode,buildingAddressZipCode:${camsAssetLocationProperty}.capitalAssetPostalCode" />
 		</c:if>
 	</td>
+	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />
+    <td class="datacell">
+		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" property="${camsAssetLocationProperty}.capitalAssetLine1Address" readOnly="${(not isEditable) or lockCamsEntry}"/>
+	</td>
+</tr>
+<tr>
+	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.offCampusIndicator}" align="right"/>
+	<td align=left valign=middle class="datacell">
+    	<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.offCampusIndicator}" 
+        	property="${camsAssetLocationProperty}.offCampusIndicator" readOnly="${(not isEditable) or lockCamsEntry}"/>&nbsp;
+        <c:if test="${(fullEntryMode or amendmentEntry) && not(deliveryReadOnly)}">
+        	<html:image property="methodToCall.refreshAssetLocationBuilding" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+        </c:if>
+    </td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetCityName}" align="right" />
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetCityName}" property="${camsAssetLocationProperty}.capitalAssetCityName" readOnly="${(not isEditable) or lockCamsEntry}"/>
@@ -80,7 +92,7 @@
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.campusCode}" property="${camsAssetLocationProperty}.campusCode" readOnly="${(not isEditable) or lockCamsEntry}"/>
 	</td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" align="right" />
+	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" align="right" />
 	<td class="datacell">
     	<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetStateCode}" property="${camsAssetLocationProperty}.capitalAssetStateCode" readOnly="${(not isEditable) or lockCamsEntry}"/>
 	</td>
@@ -90,7 +102,7 @@
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingRoomNumber}" property="${camsAssetLocationProperty}.buildingRoomNumber" readOnly="${(not isEditable) or lockCamsEntry}"/>
 	</td>
-    <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" align="right" />
+	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" align="right" />
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.capitalAssetPostalCode}" property="${camsAssetLocationProperty}.capitalAssetPostalCode" readOnly="${(not isEditable) or lockCamsEntry}"/>
 	</td>

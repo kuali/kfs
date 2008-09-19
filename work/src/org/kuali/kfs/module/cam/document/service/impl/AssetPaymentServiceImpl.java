@@ -52,7 +52,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-// @Transactional
+@Transactional
 public class AssetPaymentServiceImpl implements AssetPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentServiceImpl.class);
 

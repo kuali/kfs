@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
@@ -43,8 +44,8 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
-        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&generalLedgerAccountIdentifier=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Create Asset");
-        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&generalLedgerAccountIdentifier=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Create Payment");
+        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Create Asset");
+        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Create Payment");
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         anchorHtmlDataList.add(createAssetHref);
         anchorHtmlDataList.add(createPaymentHref);

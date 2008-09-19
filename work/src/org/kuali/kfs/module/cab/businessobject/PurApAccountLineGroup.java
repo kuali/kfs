@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -49,14 +48,7 @@ public class PurApAccountLineGroup extends AccountLineGroup {
             LOG.error("Could not load PurAP document details for " + entry.toString());
         }
         setUniversityFiscalYear(entry.getPostingYear());
-        // TODO - this needs to be updated later when decision is final
-        // setUniversityFiscalPeriodCode(entry.getPostingPeriodCode());
-        if (PaymentRequestAccountHistory.class.isAssignableFrom(entry.getClass())) {
-            setUniversityFiscalPeriodCode(((PaymentRequestAccountHistory) entry).getPostingPeriodCode());
-        }
-        else if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
-            setUniversityFiscalPeriodCode(((CreditMemoAccountHistory) entry).getPostingPeriodCode());
-        }
+        setUniversityFiscalPeriodCode(entry.getPostingPeriodCode());
         setChartOfAccountsCode(entry.getChartOfAccountsCode());
         setAccountNumber(entry.getAccountNumber());
         setSubAccountNumber(entry.getSubAccountNumber());

@@ -208,4 +208,10 @@
 		<property name="purApLineDao" ref="purApLineDao" />
 	</bean>  
 <!-- **** End of PurAp service beans **** -->
+
+<!-- Start Gl Line Processing beans -->
+<bean id="glLineService" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean> 
+<!-- End GL Line Processing beans -->
 </beans>

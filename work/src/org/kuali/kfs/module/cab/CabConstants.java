@@ -20,6 +20,8 @@ import org.kuali.rice.core.util.JSTLConstants;
 public class CabConstants extends JSTLConstants {
     public static final String DATE_FORMAT_TS = "MM/dd/yyyy HH:mm:ss";
     public static final String DATE_FORMAT_DT = "MM/dd/yyyy";
+    public static final String ASSET_PAYMENT_DOCUMENT = "AssetPaymentDocument";
+    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
 
     public static class Parameters {
         public static final String FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES = "FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES ";
@@ -66,6 +68,6 @@ public class CabConstants extends JSTLConstants {
     public static final String TRADE_IN_INDICATOR_QUESTION = "TradeInIndicatorConfirmation";
     public static final String CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW = "NEW";
     public static final String PO_STATUS_CODE_OPEN = "OPEN";
-    
+
     public static final String CAB_PURAP_SESSION = "CABPurAp";
 }

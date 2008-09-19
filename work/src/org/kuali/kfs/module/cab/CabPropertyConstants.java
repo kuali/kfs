@@ -31,6 +31,7 @@ public class CabPropertyConstants {
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+        public static final String GENERAL_LEDGER_ACCOUNT_IDENTIFIER = "generalLedgerAccountIdentifier";
     }
 
     public static class Parameter {
@@ -125,7 +126,7 @@ public class CabPropertyConstants {
         public static final String PO_INITIAL_OPEN_DATE = "purapItem.purapDocument.purchaseOrderInitialOpenDate";
         public static final String PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE = "purapItem.purapDocument.capitalAssetSystemStateCode";
     }
-    
+
     public static class purApRequisitionItem {
         public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     }

@@ -24,77 +24,72 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
-import org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.rice.kew.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class GlLineAction extends KualiAction {
+    /**
+     * Action method that will create an AssetGlobal document and send to Cams module for asset creation
+     * 
+     * @param mapping ActionMapping
+     * @param form ActionForm
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ActionForward
+     * @throws Exception
+     * @see KualiAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String glAcctId = request.getParameter("generalLedgerAccountIdentifier");
-        Long cabGlEntryId = Long.valueOf(glAcctId);
-        BusinessObjectService bosService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, Long> pkeys = new HashMap<String, Long>();
-        pkeys.put("generalLedgerAccountIdentifier", cabGlEntryId);
-        GeneralLedgerEntry entry = (GeneralLedgerEntry) bosService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        MaintenanceDocument maintDoc = (MaintenanceDocument) documentService.getNewDocument("AssetGlobalMaintenanceDocument");
-        maintDoc.getNewMaintainableObject().setMaintenanceAction("New");
-        maintDoc.getOldMaintainableObject().setMaintenanceAction("New");
-        maintDoc.getDocumentHeader().setDocumentDescription("CAB Submitted transaction for GL Id " + glAcctId);
-        AssetGlobal assetGlobal = new AssetGlobal();
-        assetGlobal.setOrganizationOwnerChartOfAccountsCode(entry.getChartOfAccountsCode());
-        assetGlobal.setOrganizationOwnerAccountNumber(entry.getAccountNumber());
-        assetGlobal.setDocumentNumber(maintDoc.getDocumentNumber());
-        AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
-        // populate AssetPaymentDetail with AssetPayment data
-        assetPaymentDetail.setSequenceNumber(1);
-        assetPaymentDetail.setChartOfAccountsCode(entry.getChartOfAccountsCode());
-        assetPaymentDetail.setAccountNumber(entry.getAccountNumber());
-        assetPaymentDetail.setSubAccountNumber(entry.getSubAccountNumber());
-        assetPaymentDetail.setFinancialObjectCode(entry.getFinancialObjectCode());
-        assetPaymentDetail.setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
-        assetPaymentDetail.setProjectCode(entry.getProjectCode());
-        assetPaymentDetail.setOrganizationReferenceId(entry.getOrganizationReferenceId());
-        assetPaymentDetail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
-        assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionPostingDate());
-        assetPaymentDetail.setPostingYear(entry.getUniversityFiscalYear());
-        assetPaymentDetail.setPostingPeriodCode(entry.getUniversityFiscalPeriodCode());
-        assetPaymentDetail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? entry.getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)) : entry.getTransactionLedgerEntryAmount());
-        assetGlobal.getAssetPaymentDetails().add(assetPaymentDetail);
-        maintDoc.getOldMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(assetGlobal));
-        maintDoc.getOldMaintainableObject().setBoClass(assetGlobal.getClass());
-        maintDoc.getNewMaintainableObject().setBusinessObject(assetGlobal);
-        maintDoc.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
-        documentService.saveDocument(maintDoc);
 
+        // Find out the GL Entry
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request, boService);
+        Document maintDoc = glLineService.createAssetGlobalDocument(entry);
+        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+    }
+
+    private GeneralLedgerEntry findGeneralLedgerEntry(HttpServletRequest request, BusinessObjectService boService) {
+        String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
+        Long cabGlEntryId = Long.valueOf(glAcctId);
+        Map<String, Long> pkeys = new HashMap<String, Long>();
+        pkeys.put(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, cabGlEntryId);
+        GeneralLedgerEntry entry = (GeneralLedgerEntry) boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
+        return entry;
+    }
+
+    private String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
         DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
-        DocumentType documentType = documentTypeService.findByName("AssetGlobalMaintenanceDocument");
+        DocumentType documentType = documentTypeService.findByName(docTypeName);
         String docHandler = documentType.getDocHandlerUrl();
         if (docHandler.indexOf("?") == -1) {
             docHandler += "?";
         }
-
-        docHandler += "&docId=" + maintDoc.getDocumentNumber() + "&command=displayDocSearchView";
-        return new ActionForward(docHandler, true);
+        else {
+            docHandler += "&";
+        }
+        docHandler += "docId=" + maintDoc.getDocumentNumber() + "&command=displayDocSearchView";
+        return docHandler;
     }
 
+
     public ActionForward createPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward("portal");
+        // Find out the GL Entry
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request, boService);
+        // initiate a new document
+        Document document = glLineService.createAssetPaymentDocument(entry);
+        return new ActionForward(prepareDocHandlerUrl(document, "AssetPaymentDocument"), true);
     }
 }

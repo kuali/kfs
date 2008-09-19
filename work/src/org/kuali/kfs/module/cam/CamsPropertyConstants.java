@@ -245,6 +245,8 @@ public class CamsPropertyConstants {
         public static final String BORROWER_STATE_CODE = "borrowerStateCode";
         public static final String BORROWER_STAORAGE_STATE = "borrowerStorageState";
         public static final String BORROWER_STAORAGE_STATE_CODE = "borrowerStorageStateCode";
+        public static final String BORROWER_POSTAL_ZIP_CODE = "borrowerPostalZipCode";
+        public static final String BORROWER_STORAGE_POSTAL_ZIP_CODE = "borrowerStoragePostalZipCode";
         public static final String BORROWER_COUNTRY_CODE = "borrowerCountryCode";
         public static final String BORROWER_STAORAGE_COUNTRY_CODE = "borrowerStorageCountryCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";

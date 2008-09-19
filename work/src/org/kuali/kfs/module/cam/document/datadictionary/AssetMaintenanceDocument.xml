@@ -71,7 +71,7 @@
     <property name="documentTypeName" value="AssetMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
-    <property name="documentTypeCode" value="AA" />
+    <property name="documentTypeCode" value="CASM" />
     <property name="workflowProperties" >
       <ref bean="AssetMaintenanceDocument-workflowProperties" />
     </property>

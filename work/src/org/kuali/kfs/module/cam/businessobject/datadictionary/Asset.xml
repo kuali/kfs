@@ -144,6 +144,8 @@
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" />
         <ref bean="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
         <ref bean="Asset-quantity" />
+        <ref bean="Asset-assetPayments.paymentSequenceNumber" />
+        <ref bean="Asset-assetPayments.purchaseOrderNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -166,6 +168,27 @@
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="assetRepresentative.personName"
                     p:targetName="personName" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="assetPayments" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="capitalAssetNumber"
+                    p:targetName="capitalAssetNumber" />
+            </list>
+          </property>
+          <property name="supportAttributes" >
+            <list>
+              <bean parent="SupportAttributeDefinition"
+                    p:identifier="true"
+                    p:sourceName="assetPayments.paymentSequenceNumber"
+                    p:targetName="paymentSequenceNumber" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="assetPayments.purchaseOrderNumber"
+                    p:targetName="purchaseOrderNumber" />
             </list>
           </property>
         </bean>
@@ -1475,6 +1498,19 @@
     <property name="name" value="loanOrReturnInfo.borrowerStorageCountry.postalCountryName" />
   </bean>
 
+  <bean id="Asset-assetPayments.paymentSequenceNumber" parent="Asset-assetPayments.paymentSequenceNumber-parentBean" />
+
+  <bean id="Asset-assetPayments.paymentSequenceNumber-parentBean" abstract="true" parent="AssetPayment-paymentSequenceNumber">
+    <property name="name" value="assetPayments.paymentSequenceNumber" />
+  </bean>
+
+  <bean id="Asset-assetPayments.purchaseOrderNumber" parent="Asset-assetPayments.purchaseOrderNumber-parentBean" />
+
+  <bean id="Asset-assetPayments.purchaseOrderNumber-parentBean" abstract="true" parent="AssetPayment-purchaseOrderNumber">
+    <property name="name" value="assetPayments.purchaseOrderNumber" />
+    <property name="label" value="Payment Purchase Order Number" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -2108,6 +2144,10 @@
               p:attributeName="governmentTagNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="totalCostAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetPayments.paymentSequenceNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetPayments.purchaseOrderNumber" />
       </list>
     </property>
     <property name="resultFields" >

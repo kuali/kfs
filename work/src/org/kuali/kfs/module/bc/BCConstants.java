@@ -30,6 +30,9 @@ import org.kuali.rice.core.util.JSTLConstants;
 
 public class BCConstants extends JSTLConstants {
 
+    // max depth to check runaway account organization hierarchy builds
+    public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
+
     // formkey prefix to use for all screens we will store in session
     public static final String FORMKEY_PREFIX = "BcDoc";
     public static final String BC_DOC_EDIT_MODE_SESSIONKEY = FORMKEY_PREFIX + "EditMode";

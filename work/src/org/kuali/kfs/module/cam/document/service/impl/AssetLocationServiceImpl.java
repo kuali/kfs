@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +27,12 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -207,25 +210,27 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             valid &= false;
         }
 
-        LOG.info("=====================>Off Campus -->STATE");
         if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
-            State assetLocationState = SpringContext.getBean(AssetLocation.class).getAssetLocationState();
-            if (ObjectUtils.isNull(assetLocationState)) {
+            Map assetLocationMap = new HashMap();
+            assetLocationMap.put(KFSPropertyConstants.POSTAL_STATE_CODE, stateCode);
+            State locationState = (State) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(State.class, assetLocationMap);
+            if (ObjectUtils.isNull(locationState)) {
                 putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE);
                 valid &= false;
             }
         }
 
         if (!isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
-            PostalCode assetLocationZipCode = SpringContext.getBean(AssetLocation.class).getPostalZipCode();
+            Map assetLocationMap = new HashMap();
+            assetLocationMap.put(KFSPropertyConstants.POSTAL_ZIP_CODE, zipCode);
+            PostalCode assetLocationZipCode = (PostalCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PostalCode.class, assetLocationMap);
             if (ObjectUtils.isNull(assetLocationZipCode)) {
                 putError(fieldMap, LocationField.ZIP_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_ZIP_CODE);
                 valid &= false;
             }
             else {
-
                 // validate postal zip code against state code
-                if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
+                if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                     if (!stateCode.equals(assetLocationZipCode.getPostalStateCode())) {
                         putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_STATE_ZIP_CODE, stateCode, zipCode);
                         valid &= false;
@@ -244,6 +249,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid &= false;
             }
         }
+
         return valid;
     }
 

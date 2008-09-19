@@ -1738,6 +1738,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setRelatedViews(PurApRelatedViews relatedViews) {
         this.relatedViews = relatedViews;
     }
+    
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
 
 }
 /*

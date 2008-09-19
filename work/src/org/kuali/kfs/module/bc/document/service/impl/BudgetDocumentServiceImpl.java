@@ -32,9 +32,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
-import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
@@ -57,11 +57,9 @@ import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUt
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
 import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -101,6 +99,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private FiscalYearFunctionControlService fiscalYearFunctionControlService;
     private OptionsService optionsService;
     private PersistenceService persistenceService;
+    private OrganizationService organizationService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,
@@ -751,10 +750,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @Transactional
     public boolean isAccountReportsExist(String chartOfAccountsCode, String accountNumber) {
 
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        BudgetConstructionAccountReports accountReports = (BudgetConstructionAccountReports) businessObjectService.findByPrimaryKey(BudgetConstructionAccountReports.class, fieldValues);
+        BudgetConstructionAccountReports accountReports = (BudgetConstructionAccountReports) budgetConstructionDao.getAccountReports(chartOfAccountsCode, accountNumber);
         if (accountReports == null) {
             return false;
         }
@@ -1065,12 +1061,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         // default the edit mode is just unviewable
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
 
-        // TODO move this to a method that tries to build the hierarchy if it doesn't exist
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcHeader.getUniversityFiscalYear());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcHeader.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, bcHeader.getAccountNumber());
-        List<BudgetConstructionAccountOrganizationHierarchy> rvwHierList = (List<BudgetConstructionAccountOrganizationHierarchy>) businessObjectService.findMatchingOrderBy(BudgetConstructionAccountOrganizationHierarchy.class, fieldValues, "organizationLevelCode", true);
+        // get the hierarchy or attempt to build
+        List<BudgetConstructionAccountOrganizationHierarchy> rvwHierList = this.retrieveOrBuildAccountOrganizationHierarchy(bcHeader.getUniversityFiscalYear(), bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber());
 
         if (rvwHierList != null && !rvwHierList.isEmpty()) {
 
@@ -1138,11 +1130,41 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
             // returning unviewable will cause an authorization exception
             // write a log message with the specific problem
-            LOG.error("Budget Construction Document's Account Organization Hierarchy not found for: " + bcHeader.getUniversityFiscalYear().toString() + "," + bcHeader.getChartOfAccountsCode() + "," + bcHeader.getAccountNumber());
+            // TODO probably should add another EditMode constant and
+            // raise BCDocumentAuthorization Exception in BudgetConstructionForm.populateAuthorizationFields()
+            LOG.error("Budget Construction Document's Account Organization Hierarchy not built due to overflow: " + bcHeader.getUniversityFiscalYear().toString() + "," + bcHeader.getChartOfAccountsCode() + "," + bcHeader.getAccountNumber());
 
         }
 
         return editMode;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrieveOrBuildAccountOrganizationHierarchy(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @Transactional
+    public List<BudgetConstructionAccountOrganizationHierarchy> retrieveOrBuildAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber){
+        
+        List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHier = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>(); 
+        BudgetConstructionAccountReports accountReports = (BudgetConstructionAccountReports) budgetConstructionDao.getAccountReports(chartOfAccountsCode, accountNumber);
+        if (accountReports != null){
+            accountOrgHier = budgetConstructionDao.getAccountOrgHierForAccount(chartOfAccountsCode, accountNumber, universityFiscalYear);
+            if (accountOrgHier == null || accountOrgHier.isEmpty()){
+                
+                // attempt to build it
+                String[] rootNode = organizationService.getRootOrganizationCode();
+                String rootChart = rootNode[0];
+                String rootOrganization = rootNode[1];
+                Integer currentLevel = new Integer(1);
+                String organizationChartOfAccountsCode = accountReports.getReportsToChartOfAccountsCode(); 
+                String organizationCode = accountReports.getReportsToOrganizationCode();
+                boolean overFlow = budgetConstructionDao.insertAccountIntoAccountOrganizationHierarchy(rootChart, rootOrganization, universityFiscalYear, chartOfAccountsCode, accountNumber, currentLevel, organizationChartOfAccountsCode, organizationCode);
+                if (!overFlow){
+                    accountOrgHier = budgetConstructionDao.getAccountOrgHierForAccount(chartOfAccountsCode, accountNumber, universityFiscalYear);                    
+                }
+            }
+        }
+        return accountOrgHier;
     }
 
     /**
@@ -1315,5 +1337,14 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @NonTransactional
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
+    }
+
+    /**
+     * Sets the organizationService attribute value.
+     * @param organizationService The organizationService to set.
+     */
+    @NonTransactional
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 }

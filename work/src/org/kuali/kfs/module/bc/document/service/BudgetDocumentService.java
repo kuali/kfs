@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -89,7 +90,7 @@ public interface BudgetDocumentService {
      * @param budgetConstructionMonthly
      */
     public void saveMonthlyBudget(MonthlyBudgetForm monthlyBudgetForm, BudgetConstructionMonthly budgetConstructionMonthly);
-    
+
     /**
      * Sets benefits calculation flags in Budget Construction Document associated with the monthly screen
      * 
@@ -98,7 +99,7 @@ public interface BudgetDocumentService {
      * @param pbglChangeAmount
      */
     public void callForBenefitsCalcIfNeeded(BudgetConstructionDocument bcDoc, BudgetConstructionMonthly budgetConstructionMonthly, KualiInteger pbglChangeAmount);
-    
+
     /**
      * Checks if annual and/or monthly benefits need calculated and calls the associated calculation method
      * 
@@ -113,19 +114,20 @@ public interface BudgetDocumentService {
      */
     public void calculateBenefits(BudgetConstructionDocument bcDoc);
 
-//    /**
-//     * Calculates annual benefits for a budget construction document using the persisted data currently stored in the database.
-//     * 
-//     * @param bcDoc
-//     */
-//    public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
-//
-//    /**
-//     * Calculates the monthly benefits for a budget construction document using the persisted data currently stored in the database.
-//     * 
-//     * @param bcDoc
-//     */
-//    public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
+    // /**
+    // * Calculates annual benefits for a budget construction document using the persisted data currently stored in the database.
+    // *
+    // * @param bcDoc
+    // */
+    // public void calculateAnnualBenefits(BudgetConstructionDocument bcDoc);
+    //
+    // /**
+    // * Calculates the monthly benefits for a budget construction document using the persisted data currently stored in the
+    // database.
+    // *
+    // * @param bcDoc
+    // */
+    // public void calculateMonthlyBenefits(BudgetConstructionDocument bcDoc);
 
     /**
      * Gets the salary detail lines request sum for a budget document expenditure accounting line
@@ -196,7 +198,7 @@ public interface BudgetDocumentService {
      * @return the budget document with the information provided by the given appointment funding
      */
     public BudgetConstructionHeader getBudgetConstructionHeader(PendingBudgetConstructionAppointmentFunding appointmentFunding);
-    
+
     /**
      * get the budget document with the information provided by the given appointment funding
      * 
@@ -212,16 +214,15 @@ public interface BudgetDocumentService {
      * @return true if the given document is budgetable; otherwise, false
      */
     public boolean isBudgetableDocument(BudgetConstructionHeader bcHeader);
-    
+
     /**
-     * determine whether the given document is budgetable skipping the
-     * wages allowed check
+     * determine whether the given document is budgetable skipping the wages allowed check
      * 
      * @param bcHeader the given budget document
      * @return true if the given document is budgetable; otherwise, false
      */
     public boolean isBudgetableDocumentNoWagesCheck(BudgetConstructionHeader bcHeader);
-    
+
     /**
      * determine whether the given document is budgetable
      * 
@@ -231,8 +232,7 @@ public interface BudgetDocumentService {
     public boolean isBudgetableDocument(BudgetConstructionDocument document);
 
     /**
-     * determine whether the given document is budgetable skipping the
-     * wages allowed check
+     * determine whether the given document is budgetable skipping the wages allowed check
      * 
      * @param document the given budget document
      * @return true if the given document is budgetable; otherwise, false
@@ -328,4 +328,16 @@ public interface BudgetDocumentService {
      * @param line
      */
     public void populatePBGLLine(PendingBudgetConstructionGeneralLedger line);
+
+    /**
+     * Retrieves the Account Organization Hierarchy for the primary key passed in. If not found, it attempts to build the hierarchy
+     * and return that. Unsuccessful builds are caused by either overflows (cycles in the reports to structure) or a missing account
+     * reports to mapping. In these cases an empty hierarchy list is returned.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
+    public List<BudgetConstructionAccountOrganizationHierarchy> retrieveOrBuildAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 }

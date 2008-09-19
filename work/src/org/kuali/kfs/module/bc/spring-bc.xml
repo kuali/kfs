@@ -102,6 +102,9 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>		
+			<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
 	</bean>
 
 	<bean id="budgetOrganizationTreeService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetOrganizationTreeServiceImpl">

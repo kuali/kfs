@@ -33,8 +33,10 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -364,6 +366,67 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
 
         return accountOrgHier;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getAccountReports(java.lang.String, java.lang.String)
+     */
+    public BudgetConstructionAccountReports getAccountReports(String chartOfAccountsCode, String accountNumber) {
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountNumber", accountNumber);
+
+        return (BudgetConstructionAccountReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionAccountReports.class, criteria));
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getOrganizationReports(java.lang.String, java.lang.String)
+     */
+    public BudgetConstructionOrganizationReports getOrganizationReports(String chartOfAccountsCode, String organizationCode) {
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("organizationCode", organizationCode);
+
+        return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#insertAccountIntoAccountOrganizationHierarchy(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public boolean insertAccountIntoAccountOrganizationHierarchy(String rootChart, String rootOrganization, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Integer currentLevelCode, String organizationChartOfAccountsCode, String organizationCode) {
+
+        boolean overFlow = false;
+
+        // insert the level
+        BudgetConstructionAccountOrganizationHierarchy accountOrganizationHierarchy = new BudgetConstructionAccountOrganizationHierarchy();
+        accountOrganizationHierarchy.setUniversityFiscalYear(universityFiscalYear);
+        accountOrganizationHierarchy.setChartOfAccountsCode(chartOfAccountsCode);
+        accountOrganizationHierarchy.setAccountNumber(accountNumber);
+        accountOrganizationHierarchy.setOrganizationLevelCode(currentLevelCode);
+        accountOrganizationHierarchy.setOrganizationChartOfAccountsCode(organizationChartOfAccountsCode);
+        accountOrganizationHierarchy.setOrganizationCode(organizationCode);
+        getPersistenceBrokerTemplate().store(accountOrganizationHierarchy);
+
+        // if not currently the root, get the next reports to org, if not overflow call this to insert the next level
+        if (!(rootChart.equalsIgnoreCase(organizationChartOfAccountsCode) && rootOrganization.equalsIgnoreCase(organizationCode))) {
+            if (currentLevelCode < BCConstants.MAXIMUM_ORGANIZATION_TREE_DEPTH) {
+                BudgetConstructionOrganizationReports organizationReports = this.getOrganizationReports(organizationChartOfAccountsCode, organizationCode);
+                if (organizationReports != null) {
+                    currentLevelCode++;
+                    overFlow = this.insertAccountIntoAccountOrganizationHierarchy(rootChart, rootOrganization, universityFiscalYear, chartOfAccountsCode, accountNumber, currentLevelCode, organizationReports.getReportsToChartOfAccountsCode(), organizationReports.getReportsToOrganizationCode());
+                }
+                else {
+                    // not the root but doesn't exist - done
+                }
+            }
+            else {
+                // overflow
+                overFlow = true;
+            }
+        }
+        return overFlow;
     }
 
     /**

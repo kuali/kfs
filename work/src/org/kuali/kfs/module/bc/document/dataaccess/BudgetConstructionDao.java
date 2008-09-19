@@ -19,8 +19,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
@@ -204,4 +206,39 @@ public interface BudgetConstructionDao {
      * @return List of PendingBudgetConstructionAppointmentFunding objects
      */
     public List<PendingBudgetConstructionAppointmentFunding> getAllFundingForPosition(Integer universityFiscalYear, String positionNumber);
+
+    /**
+     * Returns a <code>BudgetConstructionAccountReports</code> object for the given key.
+     * 
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
+    public BudgetConstructionAccountReports getAccountReports(String chartOfAccountsCode, String accountNumber);
+
+    /**
+     * Returns a <code>BudgetConstructionOrganizationReports</code> object for the given key.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public BudgetConstructionOrganizationReports getOrganizationReports(String chartOfAccountsCode, String organizationCode);
+
+    /**
+     * Builds an Account Organization Hierarchy by recursively calling itself inserting each Hierarchy row (<code>BudgetConstructionAccountOrganizationHierarchy</code>)
+     * while walking the organization reports to structure (<code>BudgetConstructionOrganizationReports</code>) stopping at the
+     * root of the organization tree or overflow value, whatever comes first.
+     * 
+     * @param rootChart
+     * @param rootOrganization
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param currentLevel
+     * @param organizationChartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public boolean insertAccountIntoAccountOrganizationHierarchy(String rootChart, String rootOrganization, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Integer currentLevel, String organizationChartOfAccountsCode, String organizationCode);
 }

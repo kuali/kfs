@@ -17,6 +17,9 @@
 <%@ attribute name="isTransactionalDocument" required="false" %>
 <%@ attribute name="isFinancialDocument" required="false" %>
 <%@ attribute name="excludePostingYear" required="false" %>
+<c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
+<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
+<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
 
 <%-- set default values --%>
 <c:if test="${empty isFinancialDocument}">
@@ -27,6 +30,11 @@
 </c:if>
 
 <kul:hiddenDocumentFields includeDocumentHeaderFields="${isTransactionalDocument}" includeEditMode="${isTransactionalDocument}"/>
+	
+<c:choose>
+	 <c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
+	 </c:when>
+<c:otherwise>
 
 <c:if test="${isTransactionalDocument && isFinancialDocument}">
     <c:if test="${!excludePostingYear}">
@@ -40,3 +48,5 @@
     <html:hidden property="document.documentHeader.financialDocumentInErrorNumber" />
     <html:hidden property="document.documentHeader.correctedByDocumentId" />
 </c:if>
+</c:otherwise>
+ </c:choose>

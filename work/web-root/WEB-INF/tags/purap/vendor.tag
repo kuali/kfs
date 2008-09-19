@@ -55,23 +55,6 @@
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
-        <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-        <html:hidden property="document.vendorDetailAssignedIdentifier" />
-
-		<c:if test="${displayPurchaseOrderFields or displayPaymentRequestFields}">
-        <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
-        <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
-		</c:if>
-		
-		<c:if test="${displayPurchaseOrderFields}">
-		<html:hidden property="document.alternateVendorName" />
-		<html:hidden property="document.alternateVendorNumber" />
-		</c:if>
-		
-		<c:if test="${displayPaymentRequestFields}">
-		<html:hidden property="document.originalVendorHeaderGeneratedIdentifier" />
-        <html:hidden property="document.originalVendorDetailAssignedIdentifier" />
-		</c:if>
 		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>

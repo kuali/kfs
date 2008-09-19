@@ -18,6 +18,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentPreRules" />
     <property name="documentTypeCode" value="PREQ" />
+    <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="PaymentRequestDocument-workflowProperties" />
     </property>

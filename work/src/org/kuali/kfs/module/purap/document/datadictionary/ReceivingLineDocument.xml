@@ -18,6 +18,7 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.ReceivingLineDocumentPreRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingLineDocumentAuthorizer" />
     <property name="documentTypeCode" value="RCVL" />
+     <property name="sessionDocument" value="true" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">

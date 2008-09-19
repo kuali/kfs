@@ -98,17 +98,7 @@
 
 		<tr>
 			<td class="infoline" nowrap="nowrap">
-			    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
-			    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" /> 
-			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-			    <html:hidden property="document.item[${ctr}].itemTypeCode" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
-			    <html:hidden property="document.item[${ctr}].itemType.active" />
-			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
-			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
-	
-			    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b> 
+               &nbsp;<b><bean:write name="KualiForm" property="document.item[${ctr}].itemLineNumber"/></b> 
 			</td>
 			
 	    	<c:if test="${usePO}" >
@@ -230,7 +220,7 @@
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
 			optionalFields="accountLinePercent"
-			extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+			extraHiddenFields=""
 			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 

@@ -45,18 +45,6 @@
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.purchasingCapitalAssetItems" id="itemLine">
 
-	<c:if test="${isRequisition}">
-		<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].purapDocumentIdentifier" />
-	</c:if>
-	<c:if test="${isPurchaseOrder}">
-		<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].documentNumber" />
-	</c:if>
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetItemIdentifier" />
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetSystemIdentifier" />
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].itemIdentifier" />
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].versionNumber" />
-	<html:hidden property="document.purchasingCapitalAssetItems[${ctr}].objectId" />
-
 	<tr>
         <td class="infoline" rowspan="2" valign="middle" align="middle">
         	<b>${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemLineNumber}</b>

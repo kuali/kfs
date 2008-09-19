@@ -112,8 +112,7 @@
 		                <td align=left valign=middle class="datacell">		   
 		                		 <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.postingYear" attributeEntry="${requisitionAttributes.postingYear}" readOnly="true" />            
 										</td>
-		                <html:hidden property="document.contractManagerAssignmentDetail[${ctr}].requisitionIdentifier" />
-		                <html:hidden property="document.contractManagerAssignmentDetail[${ctr}].createDate" />
+		                
 		            </tr>
 		        </logic:iterate>
 			</c:if>

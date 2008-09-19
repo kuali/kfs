@@ -49,43 +49,46 @@
 					<tr>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.chartOfAccountsCode" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.chartOfAccountsCode"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.accountNumber" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.accountNumber"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubAccount" keyValues="chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&accountNumber=${summaryAccount.account.accountNumber}&subAccountNumber=${summaryAccount.account.subAccountNumber}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.subAccountNumber" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.subAccountNumber"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.financialObjectCode" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialObjectCode"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.SubObjCd" keyValues="financialSubObjectCode=${summaryAccount.account.financialSubObjectCode}&financialObjectCode=${summaryAccount.account.financialObjectCode}&chartOfAccountsCode=${summaryAccount.account.chartOfAccountsCode}&postingYear=${summaryAccount.account.postingYear}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.financialSubObjectCode" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.financialSubObjectCode"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
 						<td class="datacell center">
 							<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ProjectCode" keyValues="projectCode=${summaryAccount.account.projectCode}" render="true">
-								<html:hidden property="summaryAccounts[${ctr}].account.projectCode" write="true"/>
+								<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.projectCode"/>
 							</kul:inquiry>
 							&nbsp;
 						</td>
-					    <td class="datacell center"><html:hidden property="summaryAccounts[${ctr}].account.organizationReferenceId" write="true"/>&nbsp;</td>
-					    <td class="datacell center"><html:hidden property="document.documentHeader.organizationDocumentNumber" write="true"/>&nbsp;</td>
-						<td class="datacell center"><div align="right"><html:hidden property="summaryAccounts[${ctr}].account.amount" write="true"/>&nbsp;</div></td> 
+					    <td class="datacell center">
+						<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.organizationReferenceId"/>&nbsp;</td>
+					    <td class="datacell center">
+						<bean:write name="KualiForm" property="document.documentHeader.organizationDocumentNumber"/>&nbsp;</td>
+						<td class="datacell center"><div align="right">
+						<bean:write name="KualiForm" property="summaryAccounts[${ctr}].account.amount"/>&nbsp;</div></td> 
 					</tr>
 					
                     <tr>

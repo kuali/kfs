@@ -27,32 +27,6 @@
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
     
     <kfs:hiddenDocumentFields excludePostingYear="true" />
-	
-	<!-- purap:hiddenPurapFields / -->
-	<!--  I could not use hiddenPurapFields, because I was not sure if PREQ needs to have a requisitionSourceCode --> 
-	<html:hidden property="document.purapDocumentIdentifier" />
-	<html:hidden property="document.statusCode" />
-	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-	<html:hidden property="document.vendorDetailAssignedIdentifier" />
-	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-	<html:hidden property="document.paymentRequestedCancelIndicator" />
-	<html:hidden property="document.holdIndicator" />
-	<html:hidden property="document.continuationAccountIndicator" />
-	<html:hidden property="document.lastActionPerformedByUniversalUserId" />
-   
-    <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
-    <html:hidden property="document.paymentRequestCostSourceCode" />
-    <html:hidden property="document.accountsPayableProcessorIdentifier" />
-    <c:if test="${not KualiForm.editingMode['displayInitTab'] }">
-	    <html:hidden property="document.vendorInvoiceAmount" />
-	</c:if>
-    <!-- html:hidden property="document.paymentRequestInitiated" /-->
-	<html:hidden property="document.processingCampusCode" />
-	<html:hidden property="calculated" />
-	<html:hidden property="document.unmatchedOverride" />
-	    
-    <!-- TODO move this to where? -->
-    <!-- html:hidden property="document.requisitionIdentifier" / -->
 
 	<!--  Display hold message if payment is on hold -->
 	<c:if test="${KualiForm.paymentRequestDocument.holdIndicator}">	

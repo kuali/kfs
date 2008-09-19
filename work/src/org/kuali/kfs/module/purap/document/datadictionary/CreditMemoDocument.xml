@@ -18,6 +18,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.CreditMemoDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.CreditMemoDocumentPreRules" />
     <property name="documentTypeCode" value="CM" />
+     <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="CreditMemoDocument-workflowProperties" />
     </property>

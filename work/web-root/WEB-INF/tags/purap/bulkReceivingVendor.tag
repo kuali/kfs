@@ -23,27 +23,13 @@
 <kul:tab tabTitle="Vendor" defaultOpen="${true}" tabErrorKey="${PurapConstants.BULK_RECEIVING_VENDOR_TAB_ERRORS}">
     <div class="tab-container" align=center>
         
-        <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-        <html:hidden property="document.vendorDetailAssignedIdentifier" />
-        <html:hidden property="document.vendorNumber" />
-        <html:hidden property="document.carrierCode"/>
-        
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
                 <td colspan="4" class="subhead">Vendor</td>
             </tr>
 		
 			<%-- If PO available, display the available vendor and alternate vendor details --%>
-			<c:if test="${isPOAvailable}" > 
-			
-		        <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
-		        <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
-		        <html:hidden property="document.goodsDeliveredVendorHeaderGeneratedIdentifier" />
-		        <html:hidden property="document.goodsDeliveredVendorDetailAssignedIdentifier" />
-		        <html:hidden property="document.goodsDeliveredVendorName" />
-		        <html:hidden property="document.alternateVendorNumber" />
-		        <html:hidden property="document.vendorNoteText" />
-        
+	        <c:if test="${isPOAvailable}" > 
         		<tr>
 	        		<th align=right valign=middle  class="bord-l-b">
 	                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>

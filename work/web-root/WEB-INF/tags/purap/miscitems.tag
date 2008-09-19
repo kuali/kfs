@@ -150,27 +150,6 @@
 		</tr>
 		<tr>
 			<td class="infoline" colspan="${typeColSpan}">
-			    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
-			    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
-			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-			    <html:hidden property="document.item[${ctr}].itemTypeCode" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.active" /> 
-			    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
- 			    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
-                <c:if test="${isATypeOfPODoc}">
-                    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
-                    <html:hidden property="document.item[${ctr}].itemInvoicedTotalQuantity" />
-                    <html:hidden property="document.item[${ctr}].itemInvoicedTotalAmount" />
-                    <html:hidden property="document.item[${ctr}].itemReceivedTotalQuantity" />
-                    <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedQuantity" />
-                    <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedAmount" />
-                </c:if> 
- 				<c:forTokens var="hiddenField" items="${extraHiddenItemFields}" delims=",">
- 					<html:hidden property="document.item[${ctr}].${hiddenField}" />
- 				</c:forTokens>		    
-				
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;
 			    </div>

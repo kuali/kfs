@@ -19,6 +19,7 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.RequisitionDocumentPreRules" />
     <property name="documentTypeCode" value="REQS" />
     <property name="allowsCopy" value="true" />
+     <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="RequisitionDocument-workflowProperties" />
     </property>

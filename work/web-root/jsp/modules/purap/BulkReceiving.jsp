@@ -19,7 +19,7 @@
     documentTypeName="BulkReceivingDocument"
     htmlFormAction="purapBulkReceiving" renderMultipart="true"
     showTabButtons="true">
-    
+
     <kfs:hiddenDocumentFields isFinancialDocument="false" />
     		     		
     <c:choose>
@@ -44,12 +44,7 @@
     </c:otherwise>
     </c:choose>
     
-    <html:hidden property="document.shipmentReceivedDate" /> 
-    
    <c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-	<html:hidden property="document.purchaseOrderIdentifier" />
-	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-    
 	    <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	
 		 <purap:bulkReceivingVendor

@@ -17,6 +17,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ContractManagerAssignmentDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ContractManagerAssignmentDocumentAuthorizer" />
     <property name="documentTypeCode" value="ACM" />
+    <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="ContractManagerAssignmentDocument-workflowProperties" />
     </property>

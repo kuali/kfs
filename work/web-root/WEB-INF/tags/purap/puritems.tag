@@ -166,7 +166,6 @@
 				    </div>
 				</td>
 				
-				<html:hidden property="newPurchasingItemLine.documentNumber" value="${KualiForm.document.documentNumber}" />
 			</tr>
 		</c:if>
 		<!-- End of if (fullEntryMode or amendmentEntry), then display the addLine -->
@@ -272,30 +271,8 @@
 				<!-- table class="datatable" style="width: 100%;" -->
 
 				<tr>
-					<td class="infoline" nowrap="nowrap" rowspan="2">
-					    <html:hidden property="document.item[${ctr}].itemIdentifier" /> 
-					    <html:hidden property="document.item[${ctr}].purapDocumentIdentifier" />
-					    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-						<%-- make sure itemTypeCode changes are populated in case refresh behind the scenes doesn't occur --%>					    
-					    <html:hidden property="document.item[${ctr}].itemType.itemTypeCode" /> 
-					    <html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
-
-					    <c:if test="${isATypeOfPODoc}">
-						    <html:hidden property="document.item[${ctr}].itemActiveIndicator" />
-                            <html:hidden property="document.item[${ctr}].itemInvoicedTotalQuantity" />
-                            <html:hidden property="document.item[${ctr}].itemInvoicedTotalAmount" />
-                            <html:hidden property="document.item[${ctr}].itemReceivedTotalQuantity" />
-                            <html:hidden property="document.item[${ctr}].itemDamagedTotalQuantity" />
-                            <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedQuantity" />
-                            <html:hidden property="document.item[${ctr}].itemOutstandingEncumberedAmount" />
-  					    </c:if> 
-					    <html:hidden property="document.item[${ctr}].itemType.active" />
-					    <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
-					    <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
-						<c:forTokens var="hiddenField" items="${extraHiddenItemFields}" delims=",">
- 							<html:hidden property="document.item[${ctr}].${hiddenField}" />
- 						</c:forTokens>		    
-					    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp; 
+					<td class="infoline" nowrap="nowrap" rowspan="2">	    
+					    &nbsp;<b><bean:write name="KualiForm" property="document.item[${ctr}].itemLineNumber"/></b>&nbsp; 
 					    <c:if test="${fullEntryMode}">
 						    <html:image property="methodToCall.upItem.line${ctr}"
 							    src="${ConfigProperties.externalizable.images.url}purap-up.gif"
@@ -454,7 +431,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount"
+						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -467,7 +444,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields="${acctExtraHiddenFields}"
+						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -483,7 +460,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount"
+						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -498,7 +475,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-			    		extraHiddenFields="${acctExtraHiddenFields}"
+			    		extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -517,7 +494,7 @@
 			<th height=30 colspan="12">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="${extraHiddenItemFields}" descriptionFirst="${isATypeofPurDoc}"/>
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="" descriptionFirst="${isATypeofPurDoc}"/>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

@@ -32,14 +32,6 @@
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Delivery Section">
         <%-- If PO available, display the delivery information from the PO --%>
         	<c:if test="${isPOAvailable}">
-	        	<html:hidden property="document.preparerPersonName" />
-	        	<html:hidden property="document.deliveryCampusCode" />
-	        	<html:hidden property="document.institutionContactName" />
-	        	<html:hidden property="document.institutionContactPhoneNumber" />
-	        	<html:hidden property="document.institutionContactEmailAddress" />
-	        	<html:hidden property="document.deliveryToName" />
-	        	<html:hidden property="document.requestorPersonEmailAddress" />
-	        	
 	        	<tr>
 	        		<th align=right valign=middle  class="bord-l-b">
 	                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}" /></div>

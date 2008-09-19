@@ -22,9 +22,7 @@
 
 <kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
-        <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-        <html:hidden property="document.vendorDetailAssignedIdentifier" />
-		
+        
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
                 <td colspan="4" class="subhead">Vendor Address${KualiForm.editingMode['lockVendorEntry']}</td>

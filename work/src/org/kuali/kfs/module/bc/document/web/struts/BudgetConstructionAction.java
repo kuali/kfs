@@ -771,6 +771,26 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
     /**
+     * controls calling the display of benefits resulting from the request amount for the selected line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performShowBenefits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Show Benefits");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
      * This adds a revenue line to the BC document
      * 
      * @param mapping

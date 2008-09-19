@@ -17,6 +17,9 @@
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentDocumentPreRules" />    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetPaymentDocumentAuthorizer" />
     <property name="documentTypeCode" value="MPAY" />
+    <property name="workflowProperties" >
+      <ref bean="AssetPaymentDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -88,4 +91,22 @@
     	</map>
     </property>
   </bean>
+  
+  <bean id="AssetPaymentDocument-workflowProperties" parent="AssetPaymentDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetPaymentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
 </beans>

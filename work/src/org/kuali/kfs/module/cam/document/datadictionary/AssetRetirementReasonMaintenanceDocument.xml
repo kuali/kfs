@@ -29,6 +29,9 @@
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="RRSN" />
+    <property name="workflowProperties" >
+      <ref bean="AssetRetirementReasonMaintenanceDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -63,6 +66,25 @@
               p:name="retirementReasonRestrictionIndicator" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetRetirementReasonMaintenanceDocument-workflowProperties" parent="AssetRetirementReasonMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetRetirementReasonMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="oldMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>

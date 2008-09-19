@@ -72,6 +72,9 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetAuthorizer" />
     <property name="documentTypeCode" value="AA" />
+    <property name="workflowProperties" >
+      <ref bean="AssetMaintenanceDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -816,6 +819,25 @@
                   </list>
                 </property>
               </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetMaintenanceDocument-workflowProperties" parent="AssetMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="oldMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
             </list>
           </property>
         </bean>

@@ -27,6 +27,9 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ALOC" />
+    <property name="workflowProperties" >
+      <ref bean="AssetLocationGlobalMaintenanceDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -97,6 +100,23 @@
                     p:template="campusTagNumber" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetLocationGlobalMaintenanceDocument-workflowProperties" parent="AssetLocationGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetLocationGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
             </list>
           </property>
         </bean>

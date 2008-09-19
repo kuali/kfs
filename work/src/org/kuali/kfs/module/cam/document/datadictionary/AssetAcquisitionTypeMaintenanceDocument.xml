@@ -27,6 +27,9 @@
     <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="ACQT" />
+    <property name="workflowProperties" >
+      <ref bean="AssetAcquisitionTypeMaintenanceDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -61,6 +64,25 @@
               p:name="incomeAssetObjectCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetAcquisitionTypeMaintenanceDocument-workflowProperties" parent="AssetAcquisitionTypeMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetAcquisitionTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="oldMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>

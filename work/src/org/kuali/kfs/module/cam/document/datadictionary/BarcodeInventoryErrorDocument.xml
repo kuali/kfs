@@ -18,6 +18,9 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
     
     <property name="documentTypeCode" value="BCIE" />
+    <property name="workflowProperties" >
+      <ref bean="BarcodeInventoryErrorDocument-workflowProperties" />
+    </property>
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -81,5 +84,22 @@
   
   <bean id="BarcodeInventoryErrorDocument-versionNumber" parent="BarcodeInventoryErrorDocument-versionNumber-parentBean" />
   <bean id="BarcodeInventoryErrorDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+
+  <bean id="BarcodeInventoryErrorDocument-workflowProperties" parent="BarcodeInventoryErrorDocument-workflowProperties-parentBean" />
+
+  <bean id="BarcodeInventoryErrorDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="documentHeader" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
   </bean>
 </beans>

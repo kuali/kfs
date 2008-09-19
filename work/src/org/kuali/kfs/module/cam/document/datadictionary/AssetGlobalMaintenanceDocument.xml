@@ -55,6 +55,9 @@
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetGlobalRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.AssetGlobalAuthorizer" />
     <property name="documentTypeCode" value="GAA" />
+    <property name="workflowProperties" >
+      <ref bean="AssetGlobalMaintenanceDocument-workflowProperties" />
+    </property>
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/AccountService.js</value>
@@ -420,6 +423,23 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+    <property name="workflowPropertyGroups" >
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties" >
+            <list>
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject" />
             </list>
           </property>
         </bean>

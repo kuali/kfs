@@ -100,7 +100,7 @@
 
   <bean id="Pretag-personUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
     <property name="name" value="personUniversal.personUserIdentifier" />
-    <property name="label" value="Representative Universal Identifier" />
+    <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="Identifier" />
     <property name="required" value="false" />
     <property name="control" >

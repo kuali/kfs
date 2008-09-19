@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
 
 
@@ -195,6 +196,11 @@ public class ElectronicInvoiceItem {
   public String getCatalogNumber() {
     return catalogNumber;
   }
+  
+  public String getCatalogNumberStripped() {
+     return ElectronicInvoiceUtils.stripSplChars(catalogNumber);
+  }
+  
   /**
    * @param catalogNumber The catalogNumber to set.
    */
@@ -665,6 +671,7 @@ public class ElectronicInvoiceItem {
         toString.append("invoiceLineNumber",getInvoiceLineNumber());
         toString.append("quantity",getQuantity());
         toString.append("catalogNumber",getCatalogNumber());
+        toString.append("catalogNumberStripped",getCatalogNumberStripped());
         toString.append("unitOfMeasure",getUnitOfMeasure());
         toString.append("unitPrice",getUnitPrice());
         toString.append("unitPriceCurrency",getUnitPriceCurrency());

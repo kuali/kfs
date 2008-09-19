@@ -47,6 +47,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
@@ -504,7 +505,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 if (orderHolder.isInvoiceRejected()){
                     /**
                      * This is required. If there is anything in the error map, then it's not possible to route the doc since the rice
-                     * is checking for error map before routing the doc. 
+                     * is throwing error if errormap is not empty before routing the doc. 
                      */
                     GlobalVariables.getErrorMap().clear();
                     
@@ -513,6 +514,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                     ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                     loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
                     eInvoiceLoad.insertInvoiceLoadSummary(loadSummary);
+                    
                 }else{
                     ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                     loadSummary.addSuccessfulInvoiceOrder(preqDoc.getTotalDollarAmount(),eInvoice);
@@ -1074,6 +1076,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
         PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
+        if (poDoc == null){
+            throw new RuntimeException("Purchase Order document (POId=" + poDoc.getPurapDocumentIdentifier() + ") does not exists in the system");
+        }
         
         preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));
         
@@ -1198,7 +1203,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(preqDoc, billToAddress);
             preqDoc.addNote(noteObj);
         }catch (Exception e) {
-             LOG.error("Error creating shipTo/BillTo notes - " + e.getMessage());
+             LOG.error("Error creating ShipTo/BillTo notes - " + e.getMessage());
         }
     }
     
@@ -1293,7 +1298,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if (hasKualiPaymentTermsDiscountItem || 
                 !orderHolder.isItemTypeAvailableInItemMapping(ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT)) {
-                //E-Invoice Matching Succeeded but PREQ creation failed due to E-Invoice discount processing on incorrect item (contact development team)
                 ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_DISCOUNT_ERROR, null, orderHolder.getFileName());
                 orderHolder.addInvoiceOrderRejectReason(rejectReason);
                 return;
@@ -1324,7 +1328,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         List<PurApItem> preqItems = preqDocument.getItems();
         
         boolean hasShippingItem = false;
-        
         for (int i = 0; i < preqItems.size(); i++) {
             
             PaymentRequestItem preqItem = (PaymentRequestItem)preqItems.get(i);
@@ -1336,16 +1339,19 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 processSpecialHandlingItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,orderHolder)){
                 processAboveTheLineItem(preqItem, orderHolder);
+//            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT,orderHolder)){
+//                processDepositItem(preqItem, orderHolder);
+//            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.INVOICE_AMOUNT_TYPE_CODE_DUE,orderHolder)){
+//                processDueItem(preqItem, orderHolder);
             }
         }
         
         if (!hasShippingItem && orderHolder.isItemTypeAvailableInItemMapping(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE)){
             LOG.debug("Creating new Shipping item since it's not available in the existing items");
-            PaymentRequestItem newItem = new PaymentRequestItem();
-            newItem.setProcessedOnElectronicInvoice(true);
-            newItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE);
-            processShippingItem(newItem, orderHolder);
-            preqDocument.addItem(newItem);
+            PaymentRequestItem newItem = processShippingItem(null, orderHolder);
+            if (newItem != null){
+                preqDocument.addItem(newItem);
+            }
         }
         
         if (LOG.isDebugEnabled()){
@@ -1421,11 +1427,23 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    private void processShippingItem(PaymentRequestItem preqItem,
-                                     ElectronicInvoiceOrderHolder orderHolder){
+    private PaymentRequestItem processShippingItem(PaymentRequestItem preqItem,
+                                                   ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Processing Shipping Item");
+        }
+        
+        if (orderHolder.getInvoiceShippingAmount() == null ||
+            orderHolder.getInvoiceShippingAmount().compareTo(BigDecimal.ZERO) == 0){
+            LOG.debug("Skipping shipping item since shipping amount not available");
+            return null;
+        }
+        
+        if (preqItem == null){
+            preqItem = new PaymentRequestItem();
+            preqItem.setProcessedOnElectronicInvoice(true);
+            preqItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE);
         }
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceShippingAmount());
@@ -1438,9 +1456,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getInvoiceShippingDescription());
             }
         }
+        
+        LOG.debug("Shipping1......"+preqItem.getItemUnitPrice());
+        LOG.debug("Shipping2......"+preqItem.getExtendedPrice());
+        
+        return preqItem;
     }
     
-    /*private void processDepositItem(PaymentRequestItem preqItem,
+    private void processDepositItem(PaymentRequestItem preqItem,
                                     ElectronicInvoiceOrderHolder orderHolder){
 
         LOG.info("Processing Deposit Item");
@@ -1461,7 +1484,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private void processDueItem(PaymentRequestItem preqItem,
                                 ElectronicInvoiceOrderHolder orderHolder){
 
-    }*/
+    }
     
     private void setItemDefaultDescription(PaymentRequestItem preqItem,
                                            String itemTypeCode){
@@ -1505,7 +1528,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     public void validateInvoiceOrderValidForPREQCreation(ElectronicInvoiceOrderHolder orderHolder){
         
         if (LOG.isDebugEnabled()){
-            LOG.debug("Validiting ElectronicInvocie Order to make sure that it can be turned into a Payment Request document");
+            LOG.debug("Validiting ElectronicInvoice Order to make sure that it can be turned into a Payment Request document");
         }
         
         PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
@@ -1528,17 +1551,19 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                                                                              orderHolder.getInvoiceNumber());
             
             if (preqs != null && preqs.size() > 0){
-                orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_ORDER_DUPLICATE,null,orderHolder.getFileName()));
+                ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_ORDER_DUPLICATE,null,orderHolder.getFileName());
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_FILE_NUMBER,PurapKeyConstants.ERROR_REJECT_INVOICE_DUPLICATE);
                 return;
             }
         }
         
         if (orderHolder.getInvoiceDate() == null){
-            orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null,orderHolder.getFileName()));
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_INVALID,null,orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_FILE_DATE,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_INVALID);
             return;
         }else if (orderHolder.getInvoiceDate().after(new java.util.Date())) {
             ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_DATE_GREATER,null,orderHolder.getFileName()); 
-            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_FILE_DATE,PurapKeyConstants.ERROR_REJECT_INVOICE_DATE_GREATER);
             return;
         }
         

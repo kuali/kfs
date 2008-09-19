@@ -215,10 +215,6 @@ public class ElectronicInvoiceDetailRequestHeader {
     return invoiceId;
   }
   
-  public String getInvoiceIdStripped(){
-      return ElectronicInvoiceUtils.stripSplChars(getInvoiceId());
-    }
-  
   /**
    * @param invoiceId The invoiceId to set.
    */

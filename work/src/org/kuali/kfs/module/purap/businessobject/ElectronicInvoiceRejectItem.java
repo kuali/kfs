@@ -87,7 +87,7 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
         catch (NumberFormatException n) {
             this.invoiceItemLineNumber = null;
         }
-        this.invoiceItemCatalogNumber = eii.getCatalogNumber();
+        this.invoiceItemCatalogNumber = eii.getCatalogNumberStripped();
         this.invoiceItemQuantity = eii.getInvoiceLineQuantityBigDecimal();
         this.invoiceItemUnitOfMeasureCode = eii.getUnitOfMeasure();
         this.invoiceReferenceItemLineNumber = eii.getReferenceLineNumberInteger();

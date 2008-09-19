@@ -294,5 +294,28 @@ public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.ne
     public static final String ERROR_REJECT_INVOICE_NUMBER_EMPTY = "errors.reject.invoicenumber.empty";
     public static final String ERROR_REJECT_INVOICE_DATE_INVALID = "errors.reject.invoicedate.invalid";
     public static final String ERROR_REJECT_INVOICE_DATE_GREATER = "errors.reject.invoicedate.greater";
+    public static final String ERROR_REJECT_INVOICE_POID_EMPTY = "errors.reject.poid.empty";
+    public static final String ERROR_REJECT_INVOICE_POID_INVALID = "errors.reject.poid.invalid";
+    public static final String ERROR_REJECT_INVOICE__PO_NOT_EXISTS = "errors.reject.po.notexists";
+    public static final String ERROR_REJECT_INVOICE__ITEM_NOMATCH = "errors.reject.invoice.item.nomatch";
+    public static final String ERROR_REJECT_PO_ITEM_DUPLICATE = "errors.reject.po.item.dupliate";
+    public static final String ERROR_REJECT_PO_ITEM_INACTIVE = "errors.reject.po.item.inactive";
+    public static final String ERROR_REJECT_CATALOG_MISMATCH = "errors.reject.catalog.mismatch";
+    public static final String ERROR_REJECT_UOM_MISMATCH = "errors.reject.uom.mismatch";
+    public static final String ERROR_REJECT_UNITPRICE_LOWERVARIANCE = "errors.reject.unitprice.lowervariance";
+    public static final String ERROR_REJECT_UNITPRICE_UPPERVARIANCE = "errors.reject.unitprice.uppervariance";
+    public static final String ERROR_REJECT_POITEM_OUTSTANDING_QTY = "errors.reject.poitem.outstanding.qty";
+    public static final String ERROR_REJECT_POITEM_INVOICE_QTY_EMPTY = "errors.reject.poitem.invoice.qty.empty";
+    public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_QTY = "errors.reject.poitem.less.outstanding.qty";
+    public static final String ERROR_REJECT_POITEM_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.outstanding.amt";
+    public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.less.outstanding.amt";
+    public static final String ERROR_REJECT_INVOICE_DUPLICATE = "errors.reject.invoice.duplicate";
+    
+    
+    
+    
+    
+    
+    
     
 }

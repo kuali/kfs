@@ -154,7 +154,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         this.vendorHeaderGeneratedIdentifier = ei.getVendorHeaderID();
         this.vendorDetailAssignedIdentifier = ei.getVendorDetailID();
         this.invoiceFileDate = ei.getInvoiceDateDisplayText();
-        this.invoiceFileNumber = ei.getInvoiceDetailRequestHeader().getInvoiceIdStripped();
+        this.invoiceFileNumber = ei.getInvoiceDetailRequestHeader().getInvoiceId();
         this.invoiceFilePurposeIdentifier = ei.getInvoiceDetailRequestHeader().getPurpose();
         this.invoiceFileOperationIdentifier = ei.getInvoiceDetailRequestHeader().getOperation();
         this.invoiceFileDeploymentModeValue = ei.getDeploymentMode();

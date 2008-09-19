@@ -177,7 +177,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         if (orderHolder.isRejectDocumentHolder()){
             /**
              * If there is any rejects related to this summary available in the reject doc, we're retaining it since 
-             * it's not possible to get the item amount totals for the reject doc
+             * it's not possible to get the summary amount totals from the reject doc
              */
             return;
         }
@@ -277,13 +277,13 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if (StringUtils.isEmpty(poID)){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ID_EMPTY,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName,PurapKeyConstants.ERROR_REJECT_INVOICE_POID_EMPTY);
             return;
         }
         
         if (!NumberUtils.isDigits(poID)){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ID_INVALID_FORMAT,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName,PurapKeyConstants.ERROR_REJECT_INVOICE_POID_INVALID);
             return;
         }
         
@@ -291,7 +291,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if (poDoc == null){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_EXISTS,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,poIDFieldName,PurapKeyConstants.ERROR_REJECT_INVOICE__PO_NOT_EXISTS);
             return;
         }
         
@@ -325,15 +325,16 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
         
         if (poItem == null){
-            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.NO_MATCHING_PO_ITEM,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER);
+            String extraDescription = "Invoice Item Line Number=" + itemHolder.getInvoiceItemLineNumber();
+            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.NO_MATCHING_PO_ITEM,extraDescription,orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_INVOICE__ITEM_NOMATCH);
             return;
         }
         
         if (poLineNumbers.contains(itemHolder.getInvoiceItemLineNumber())){
             String extraDescription = "Invoice Item Line Number=" + itemHolder.getInvoiceItemLineNumber();
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.DUPLIATE_INVOICE_LINE_ITEM,extraDescription,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_PO_ITEM_DUPLICATE);
             return;
         }else{
             poLineNumbers.add(itemHolder.getInvoiceItemLineNumber());
@@ -342,18 +343,16 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         if (!poItem.isItemActiveIndicator()){
             String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INACTIVE_LINE_ITEM,extraDescription,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_PO_ITEM_INACTIVE);
             return; 
         }
 
-        /**
-         * TODO: Have to find an api which escapes all the spl chars. (Not found in StringEscapeUtils)
-         */
         if (!itemHolder.isCatalogNumberAcceptIndicatorEnabled()){
             if (StringUtils.isNotEmpty(poItem.getItemCatalogNumber())){
                 if (!StringUtils.equals(poItem.getItemCatalogNumber(), itemHolder.getCatalogNumber())){
-                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,null,orderHolder.getFileName());
-                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER);
+                    String extraDescription = "Invoice CatalogNo=" + itemHolder.getCatalogNumber() + ", PO CatalogNo=" + poItem.getItemCatalogNumber();
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
+                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
                     return; 
                 }
             }
@@ -361,8 +360,9 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if (!itemHolder.isUnitOfMeasureAcceptIndicatorEnabled()){
             if (!StringUtils.equals(poItem.getItemUnitOfMeasureCode(), itemHolder.getInvoiceItemUnitOfMeasureCode())){
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.UNIT_OF_MEASURE_MISMATCH,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UOM);
+                String extraDescription = "Invoice UOM=" + itemHolder.getInvoiceItemUnitOfMeasureCode() + ", PO UOM=" + poItem.getItemUnitOfMeasureCode();
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.UNIT_OF_MEASURE_MISMATCH,extraDescription,orderHolder.getFileName());
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UOM,PurapKeyConstants.ERROR_REJECT_UOM_MISMATCH);
                 return; 
             }
         }
@@ -396,22 +396,25 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if (KualiDecimal.ZERO.compareTo(poItem.getItemOutstandingEncumberedQuantity()) >= 0) {
             //we have no quantity left encumbered on the po item
+            String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.OUTSTANDING_ENCUMBERED_QTY_AVAILABLE,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY,PurapKeyConstants.ERROR_REJECT_POITEM_OUTSTANDING_QTY);
             return;
         }
         
         if (itemHolder.getInvoiceItemQuantity() == null){
             //we have quantity entered on the PO Item but the Invoice has no quantity
+            String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_QTY_EMPTY,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY,PurapKeyConstants.ERROR_REJECT_POITEM_INVOICE_QTY_EMPTY);
             return;
         }else{
             
             if ((itemHolder.getInvoiceItemQuantity().compareTo(poItem.getItemOutstandingEncumberedQuantity().bigDecimalValue())) > 0) {
                 //we have more quantity on the e-invoice than left outstanding encumbered on the PO item
+                String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY);
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_QUANTITY,PurapKeyConstants.ERROR_REJECT_POITEM_LESS_OUTSTANDING_QTY);
                 return;
             }
         }
@@ -427,14 +430,16 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if ((KualiDecimal.ZERO.compareTo(poItem.getItemOutstandingEncumberedAmount())) >= 0) {
             //we have no dollars left encumbered on the po item
+            String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.OUTSTANDING_ENCUMBERED_AMT_AVAILABLE,null,orderHolder.getFileName());
-            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_POITEM_OUTSTANDING_EMCUMBERED_AMOUNT);
             return;
         }else{
             //we have encumbered dollars left on PO
             if ((itemHolder.getInvoiceItemSubTotalAmount().compareTo(poItem.getItemOutstandingEncumberedAmount().bigDecimalValue())) > 0) {
+                String extraDescription = "PO Item Line Number=" + poItem.getItemLineNumber();
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_ITEM_AMT_LESSTHAN_INVOICE_ITEM_AMT,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason);
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_LINE_NUMBER,PurapKeyConstants.ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT);
                 return;
             }
             
@@ -458,12 +463,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return;
         }
         
-//        if (costSource.getItemUnitPriceLowerVariancePercent() != null && costSource.getItemUnitPriceUpperVariancePercent() != null){
-//            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_COST_SOURCE_INVALID,null,orderHolder.getFileName());
-//            orderHolder.addInvoiceOrderRejectReason(rejectReason);
-//            return;
-//        }
-        
         BigDecimal actualVariance = itemHolder.getInvoiceItemUnitPrice().subtract(poItem.getItemUnitPrice());
         
         if (costSource.getItemUnitPriceLowerVariancePercent() != null){
@@ -473,7 +472,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             
             if (lowerAcceptableVariance.compareTo(actualVariance) > 0){
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE);
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE,PurapKeyConstants.ERROR_REJECT_UNITPRICE_LOWERVARIANCE);
             }
         }
         
@@ -484,7 +483,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
             if (upperAcceptableVariance.compareTo(actualVariance) < 0){
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.INVOICE_AMT_GREATER_THAN_UPPER_VARIANCE,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE);
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_UNIT_PRICE,PurapKeyConstants.ERROR_REJECT_UNITPRICE_UPPERVARIANCE);
             }
         }
         

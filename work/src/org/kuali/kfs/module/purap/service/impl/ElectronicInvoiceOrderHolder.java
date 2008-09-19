@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
@@ -54,6 +55,8 @@ public class ElectronicInvoiceOrderHolder {
     private PurchaseOrderDocument poDocument;
     private Map<String,ElectronicInvoiceItemMapping> itemTypeMappings;
     private Map<String,ItemType> kualiItemTypes;
+    
+    private Map<String, FieldErrorHelper> errorFieldDetails = new HashMap<String, FieldErrorHelper>(); 
     
     private List<ElectronicInvoiceItemHolder> items = new ArrayList<ElectronicInvoiceItemHolder>();
     
@@ -92,7 +95,7 @@ public class ElectronicInvoiceOrderHolder {
                     poItem = poDocument.getItemByLineNumber(invoiceRejectItem.getInvoiceReferenceItemLineNumber());
                 }catch(NullPointerException e){
                     /**
-                     * Not needed to hadle this invalid item here, this will be handled in the matching process 
+                     * Not needed to handle this invalid item here, this will be handled in the matching process 
                      */
                 }
             }
@@ -244,7 +247,7 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             return rejectDocument.getInvoiceFileNumber();
         }else{
-            return eInvoice.getInvoiceDetailRequestHeader().getInvoiceIdStripped();
+            return eInvoice.getInvoiceDetailRequestHeader().getInvoiceId();
         }
     }
     
@@ -416,6 +419,14 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
             if (fieldName != null && applnResourceKey != null){
+                /**
+                 * FIXME : Create a helper method to get the fieldname and key name in the resource bundle
+                 * for a specific reject reason type code instead of getting it from the 
+                 * calling method. Matching service should not do these things. It should 
+                 * not know whether it's doing the matching process for a reject doc or for einvoice. It should
+                 * be independent of the incoming data
+                 * 
+                 */
 //                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);    
             }
         }else{
@@ -438,6 +449,15 @@ public class ElectronicInvoiceOrderHolder {
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
             if (fieldName != null && applnResourceKey != null){
+                /**
+                 * FIXME : Create a helper method to get the fieldname and key name in the resource bundle
+                 * for a specific reject reason type code instead of getting it from the 
+                 * calling method. Matching service should not do these things. It should 
+                 * not know whether it's doing the matching process for a reject doc or for einvoice. It should
+                 * be independent of the incoming data
+                 * 
+                 * Also, needs to analyze the way of handling errors in specific line item
+                 */
 //                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);
             }
         }else{
@@ -669,4 +689,56 @@ public class ElectronicInvoiceOrderHolder {
         
         return noteBuffer.toString();
     }
+    
+    private class FieldErrorHelper {
+        
+        private String fieldName;
+        private String applicationResourceKeyName;
+        private String rejectReasonTypeCode;
+        
+        FieldErrorHelper(String fieldName,
+                         String applicationResourceKeyName,
+                         String rejectReasonTypeCode){
+            
+            if (StringUtils.isEmpty(fieldName) ||
+                StringUtils.isEmpty(applicationResourceKeyName) ||
+                StringUtils.isEmpty(rejectReasonTypeCode)){
+                throw new NullPointerException("Invalid field Values [fieldName=" + fieldName + ",applicationResourceKeyName=" + applicationResourceKeyName + ",rejectReasonTypeCode=" + rejectReasonTypeCode + "]");
+            }
+            
+            this.fieldName = fieldName;
+            this.applicationResourceKeyName = applicationResourceKeyName;
+            this.rejectReasonTypeCode = rejectReasonTypeCode;
+        }
+        
+        public String getApplicationResourceKeyName() {
+            return applicationResourceKeyName;
+        }
+        public void setApplicationResourceKeyName(String applicationResourceKeyName) {
+            this.applicationResourceKeyName = applicationResourceKeyName;
+        }
+        public String getFieldName() {
+            return fieldName;
+        }
+        public void setFieldName(String fieldName) {
+            this.fieldName = fieldName;
+        }
+        public String getRejectReasonTypeCode() {
+            return rejectReasonTypeCode;
+        }
+        public void setRejectReasonTypeCode(String rejectReasonTypeCode) {
+            this.rejectReasonTypeCode = rejectReasonTypeCode;
+        }
+        
+        public String toString(){
+            ToStringBuilder toString = new ToStringBuilder(this);
+            toString.append("fieldName",fieldName);
+            toString.append("applicationResourceKeyName",applicationResourceKeyName);
+            toString.append("rejectReasonTypeCode",rejectReasonTypeCode);
+            return toString.toString();
+        }
+        
+    }
+    
+    
 }

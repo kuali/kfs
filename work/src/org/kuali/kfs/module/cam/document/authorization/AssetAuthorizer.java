@@ -177,11 +177,6 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         // If asset is retired then deny "Save", "Submit" and "Approve"
         Asset asset = (Asset) document.getDocumentBusinessObject();
         if (assetService.isAssetRetired(asset)) {
- //mem           actionFlags.setCanAdHocRoute(false);
- //mem           actionFlags.setCanApprove(false);
- //mem           actionFlags.setCanBlanketApprove(false);
- //mem           actionFlags.setCanRoute(false);
- //mem           actionFlags.setCanSave(false);
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NOEDIT, new String[] {});
         }
         return actionFlags;

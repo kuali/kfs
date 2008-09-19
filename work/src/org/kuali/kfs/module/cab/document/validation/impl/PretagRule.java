@@ -37,6 +37,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -201,17 +202,16 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      */
     public boolean checkTotalDetailCount(Pretag pretag, boolean addLine) {
         boolean success = true;
-
         if (pretag.getQuantityInvoiced() != null) {
             int totalActiveDetails = getActiveDetailsCount(pretag, addLine);
-            BigDecimal totalNumerOfDetails = new BigDecimal(totalActiveDetails);
+            KualiDecimal totalNumerOfDetails = new KualiDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" });
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString()});
                 success &= false;
             }
             else {
-                if ((pretag.getQuantityInvoiced().compareTo(new BigDecimal(0)) > 0) && (totalActiveDetails == 0)) {
+                if ((pretag.getQuantityInvoiced().compareTo(new KualiDecimal(0)) > 0) && (totalActiveDetails == 0)) {
                     putFieldError(CabPropertyConstants.Pretag.PRETAG_DETAIL_CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
                     success &= false;
                 }

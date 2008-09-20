@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -285,6 +286,24 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.templateReceivingAddress(address);
     }
     
+    /**
+     * Iterates through the purchasingCapitalAssetItems of the document and returns the purchasingCapitalAssetItem with the item id equal to the number given, or null if a
+     * match is not found.
+     * 
+     * @param itemIdentifier item id to match on.
+     * @return the PurchasingCapitalAssetItem if a match is found, else null.
+     */
+    public PurchasingCapitalAssetItem getPurchasingCapitalAssetItemByItemIdentifier(int itemIdentifier) {
+        for (Iterator iter = purchasingCapitalAssetItems.iterator(); iter.hasNext();) {
+            PurchasingCapitalAssetItem camsItem = (PurchasingCapitalAssetItem) iter.next();
+            if (camsItem.getItemIdentifier().intValue() == itemIdentifier) {
+                return camsItem;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#addItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */

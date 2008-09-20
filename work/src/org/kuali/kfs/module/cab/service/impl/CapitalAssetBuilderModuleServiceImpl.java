@@ -107,7 +107,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for validateAllFieldRequirementsByChart
         //should be null. So we'll pass in a null here.
         boolean valid = validateAllFieldRequirementsByChart(systemState, null, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
-        valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems);
+        //FIXME (from hjs) this didn't work for my REQ (possibly because it shouldn't have became an APO)
+//        valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
@@ -556,10 +557,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         
         String capitalAssetTransactionTypeCode = "";
         AssetTransactionType capitalAssetTransactionType = null;
-        if( item.getCapitalAssetItem() != null ) {
-            capitalAssetTransactionTypeCode = item.getCapitalAssetItem().getCapitalAssetTransactionTypeCode();
-            capitalAssetTransactionType = (AssetTransactionType)item.getCapitalAssetItem().getCapitalAssetTransactionType();
-        }       
+        //FIXME (from hjs) the reference is never retrieved so this code would never be invoked
+//        if( item.getCapitalAssetItem() != null ) {
+//            capitalAssetTransactionTypeCode = item.getCapitalAssetItem().getCapitalAssetTransactionTypeCode();
+//            capitalAssetTransactionType = (AssetTransactionType)item.getCapitalAssetItem().getCapitalAssetTransactionType();
+//        }       
 
         // Do the checks that depend on Accounting Line information.
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {

@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
 
@@ -30,17 +31,21 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         super();
     }
     
-    public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
-        super(pd);
-        setDocumentNumber(documentNumber);
-        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
-    }
+//    public PurchaseOrderCapitalAssetItem(PurchasingDocument pd){
+//        super(pd);
+//        //FIXME (from hjs) what is the purpose of the next line?
+//        setDocumentNumber(documentNumber);
+//        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem());
+//    }
     
     public PurchaseOrderCapitalAssetItem(RequisitionCapitalAssetItem reqAssetItem, Integer itemIdentifier) {
         this.setItemIdentifier(itemIdentifier);
         this.setCapitalAssetTransactionTypeCode(reqAssetItem.getCapitalAssetTransactionTypeCode());
+        //FIXME (from hjs) why are we setting this reference?
         this.setCapitalAssetTransactionType(reqAssetItem.getCapitalAssetTransactionType());
-        this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)reqAssetItem.getPurchasingCapitalAssetSystem()));
+        if (ObjectUtils.isNotNull(reqAssetItem.getPurchasingCapitalAssetSystem())) {
+            this.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)reqAssetItem.getPurchasingCapitalAssetSystem()));
+        }
     }
     
     public String getDocumentNumber() {

@@ -67,7 +67,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * @param ri - Requisition Item
      * @param po - Purchase Order Document
      */
-    public PurchaseOrderItem(RequisitionItem ri, PurchaseOrderDocument po) {
+    public PurchaseOrderItem(RequisitionItem ri, PurchaseOrderDocument po, RequisitionCapitalAssetItem reqCamsItem) {
         super();
 
         this.setPurchaseOrder(po);
@@ -110,9 +110,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setCommodityCode(getCommodityCode());
         
         // If the RequisitionItem has a CapitalAssetItem, create a new PurchasingCapitalAssetItem and add it to the PO.
-        if( ri.getCapitalAssetItem() != null ) {
-            PurchaseOrderCapitalAssetItem newPOCapitalAssetItem = new PurchaseOrderCapitalAssetItem((RequisitionCapitalAssetItem)ri.getCapitalAssetItem(), itemIdentifier);
-            this.setCapitalAssetItem(newPOCapitalAssetItem);
+        if( ObjectUtils.isNotNull(reqCamsItem) ) {
+            PurchaseOrderCapitalAssetItem newPOCapitalAssetItem = new PurchaseOrderCapitalAssetItem(reqCamsItem, itemIdentifier);
             po.getPurchasingCapitalAssetItems().add(newPOCapitalAssetItem);
         }
     }

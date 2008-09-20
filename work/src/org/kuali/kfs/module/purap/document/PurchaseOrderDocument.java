@@ -50,6 +50,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
+import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -446,7 +447,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         // Copy items from requisition (which will copy the item's accounts and capital assets)
         List<PurchaseOrderItem> items = new ArrayList();
         for (PurApItem reqItem : ((PurchasingAccountsPayableDocument)requisitionDocument).getItems()) {
-            items.add(new PurchaseOrderItem((RequisitionItem)reqItem, this));
+            RequisitionCapitalAssetItem reqCamsItem = (RequisitionCapitalAssetItem)requisitionDocument.getPurchasingCapitalAssetItemByItemIdentifier(reqItem.getItemIdentifier().intValue());
+            items.add(new PurchaseOrderItem((RequisitionItem)reqItem, this, reqCamsItem));
         }
         this.setItems(items);
         

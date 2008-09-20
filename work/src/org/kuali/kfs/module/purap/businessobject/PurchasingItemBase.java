@@ -29,7 +29,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
     
     private String purchasingCommodityCode;
-    private PurchasingCapitalAssetItem capitalAssetItem; // not persisted in db
     
     private CommodityCode commodityCode;
     
@@ -94,14 +93,6 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
         this.purchasingCommodityCode = purchasingCommodityCode;
     }
-    
-    public PurchasingCapitalAssetItem getCapitalAssetItem() {
-        return capitalAssetItem;
-    }
-
-    public void setCapitalAssetItem(PurchasingCapitalAssetItem capitalAssetItem) {
-        this.capitalAssetItem = capitalAssetItem;
-    }    
     
     public PurchasingCapitalAssetItem getPurchasingCapitalAssetItem(){
         PurchasingDocument pd = (PurchasingDocument)this.getPurapDocument();

@@ -42,10 +42,11 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
         eirDocument.setInvoiceResearchIndicator(true);
 
-//        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
-//        SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj);
-//        SpringContext.getBean(NoteService.class).save(noteObj);
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
+         Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
+         if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
+             SpringContext.getBean(NoteService.class).save(noteObj);
+             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
+         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -55,12 +56,12 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         ElectronicInvoiceRejectDocument eirDocument = (ElectronicInvoiceRejectDocument) electronicInvoiceRejectForm.getDocument();
         eirDocument.setInvoiceResearchIndicator(false);
 
-//        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
-//        SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj);
-//        SpringContext.getBean(NoteService.class).save(noteObj);
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
-        
+        Note noteObj = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName());
+        if (SpringContext.getBean(DocumentService.class).addNoteToDocument(eirDocument, noteObj)) {
+            SpringContext.getBean(NoteService.class).save(noteObj);
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(eirDocument);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        
+
     }
 }

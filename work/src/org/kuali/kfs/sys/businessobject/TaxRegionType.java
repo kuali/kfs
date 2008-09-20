@@ -10,8 +10,6 @@ public class TaxRegionType extends PersistableBusinessObjectBase {
 	private String taxRegionTypeName;
 	private boolean active;
 	
-	
-
 	public boolean isActive() {
 		return active;
 	}
@@ -41,5 +39,4 @@ public class TaxRegionType extends PersistableBusinessObjectBase {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

@@ -17,17 +17,19 @@ package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 
 public class TaxRegionLookupableImpl extends KualiLookupableImpl {
-    
+
     /**
-     * Make create new action go to Tax Region Type lookup first
+     * Make create new action go to Tax Region Type lookup first. Adding the tax region from lookup indicator
+     * (CREATE_TAX_REGION_FROM_LOOKUP_INDICATOR) to the conversion fields to control when you should do a regular tax region type
+     * code lookup vs. one that actually creates a tax region.  This indicator is then used in
+     * TaxRegionTypeLookupableImpl.
      * 
      * @see org.kuali.core.lookup.KualiLookupableImpl#getCreateNewUrl()
      */
@@ -40,16 +42,16 @@ public class TaxRegionLookupableImpl extends KualiLookupableImpl {
             Properties parameters = new Properties();
             parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegionType.class.getName());
-            parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+            parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KNSConstants.MAPPING_PORTAL);
             parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            parameters.put(KNSConstants.HIDE_LOOKUP_RETURN_LINK, Boolean.toString(true));
             parameters.put(KNSConstants.CONVERSION_FIELDS_PARAMETER, "taxRegionTypeCode:taxRegionTypeCode");
             url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters);
             url = "<a href=\"" + url + "\"><img src=\"images/tinybutton-createnew.gif\" alt=\"create new\" width=\"70\" height=\"15\"/></a>";
         }
 
-        return url;        
+        return url;
     }
-    
-    
+
 
 }

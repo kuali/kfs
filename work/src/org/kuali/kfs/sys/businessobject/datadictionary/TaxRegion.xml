@@ -138,6 +138,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="taxRegionName" />
         <bean parent="FieldDefinition"
+              p:attributeName="taxRegionTypeCode" />           
+        <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>
@@ -145,9 +147,12 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="taxRegionCode"
-              p:forceInquiry="true" />
+              p:forceInquiry="true" />              
         <bean parent="FieldDefinition"
               p:attributeName="taxRegionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="taxRegionTypeCode"
+              p:forceInquiry="true" />              
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"

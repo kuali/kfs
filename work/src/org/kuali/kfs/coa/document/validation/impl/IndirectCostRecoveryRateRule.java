@@ -322,7 +322,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                     );
             success = false;
         }
-        /*if (!accountNumber.equals(item.getFinancialSubObjectCode())) {
+        if (!accountNumber.equals(item.getFinancialSubObjectCode())) {
             GlobalVariables.getErrorMap().putError(
                     KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
                     KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH,
@@ -330,7 +330,7 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                     SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
                     );
             success = false;
-        }*/
+        }
         return success;
     }
     
@@ -376,26 +376,13 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                                 KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
                                 KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH_OBJCD_SUBACCT,
                                 SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE),
-                                GeneralLedgerConstants.PosterService.SYMBOL_USE_EXPENDITURE_ENTRY,
                                 SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER),
-                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE),
-                                KFSConstants.getDashFinancialSubObjectCode()
+                                SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)
                                 );
                         success = false;
                     }
                 }
             }
-        }
-        return success;
-    }
-    
-    protected boolean checkObjectCodeNotWildcardRules(IndirectCostRecoveryRateDetail item) {
-        boolean success = true;
-        if (propertyIsWildcard(item.getFinancialSubObjectCode())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD,
-                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SubObjCd.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE),
-                    SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(ObjectCode.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE));
-            success = false;
         }
         return success;
     }
@@ -407,7 +394,6 @@ public class IndirectCostRecoveryRateRule extends MaintenanceDocumentRuleBase {
                 success &= checkObjectCodeWildcardRules(item);
             }
             else {
-                success &= checkObjectCodeNotWildcardRules(item);
             }
             if (propertyIsWildcard(item.getAccountNumber())) {
                 success &= checkAccountNumberWildcardRules(item);

@@ -13,6 +13,7 @@
       <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" p:parameterName="PURCHASE_ORDER" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderDocument" />
+    <property name="sessionDocument" value="true" />
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizer" />

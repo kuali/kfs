@@ -16,6 +16,7 @@
             p:parameterDetailType="PurchaseOrder" />
     </property>
     <property name="documentTypeName" value="PurchaseOrderAmendmentDocument" />
+    <property name="sessionDocument" value="true" />    
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentRule" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderAmendmentDocumentPreRules" />

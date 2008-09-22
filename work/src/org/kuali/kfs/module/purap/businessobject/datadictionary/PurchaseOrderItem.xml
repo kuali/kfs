@@ -241,7 +241,7 @@
 
   <bean id="PurchaseOrderItem-commodityCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="commodityCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Commodity Code" />
     <property name="shortLabel" value="Commodity Code" />
     <property name="maxLength" value="45" />

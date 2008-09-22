@@ -271,7 +271,7 @@ public class CamsConstants extends JSTLConstants {
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";
         public static final String NON_NEW_ACQUISITION_CODE_GROUP = "G;T;S;F";
-        public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "AA";
+        public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "CASM";
         public static final String NEW_ACQUISITION_TYPE_CODE = "N";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";

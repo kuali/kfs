@@ -32,6 +32,10 @@
 		</sys:accountingLines>
 	</kul:tab>
 	<fin:items editingMode="${KualiForm.editingMode}" />
+	
+	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
+	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
+	
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

@@ -56,6 +56,9 @@
 	<fin:procurementCardAccountingLines
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" />
+	
+	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
+	<fin:capitalAssetEditTab readOnly="${readOnly}"/>	
 
 	<gl:generalLedgerPendingEntries />
 

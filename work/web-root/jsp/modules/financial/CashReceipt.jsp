@@ -132,6 +132,7 @@
       <fin:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="false" editingMode="${KualiForm.editingMode}" />
     </div>
   </kul:tab>
+	
 	<cr:checkLines checkDetailMode="${checkDetailMode}"
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
@@ -140,6 +141,10 @@
 		editableAccounts="${KualiForm.editableAccounts}"
 		sourceAccountingLinesOnly="true"
 		extraSourceRowFields="financialDocumentLineDescription" />
+		 
+  	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
+	<fin:capitalAssetEditTab readOnly="${readOnly}"/>
+			
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

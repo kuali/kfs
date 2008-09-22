@@ -38,6 +38,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -92,7 +93,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
                 postable.setCapitalizationOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetRetirementGlobal.LINE_DESCRIPTION_GAIN_LOSS_DISPOSITION);
-                postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
+                
+                KualiDecimal accumlatedDepreciationAmount = ( assetPayment.getAccumulatedPrimaryDepreciationAmount() == null ? new KualiDecimal(0) : assetPayment.getAccumulatedPrimaryDepreciationAmount());
+                
+                postable.setAmount(assetPayment.getAccountChargeAmount().subtract(accumlatedDepreciationAmount));
                 postable.setFinancialObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE).trim());
                 postable.setObjectCode(getOffsetFinancialObject(assetPayment.getAsset()));
             };
@@ -316,17 +320,18 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
         if (ObjectUtils.isNotNull(plantAccount)) {
             KualiDecimal accountChargeAmount = assetPayment.getAccountChargeAmount();
-            KualiDecimal accumlatedDepreciationAmount = assetPayment.getAccumulatedPrimaryDepreciationAmount();
+            KualiDecimal accumlatedDepreciationAmount = ( assetPayment.getAccumulatedPrimaryDepreciationAmount() == null ? new KualiDecimal(0) : assetPayment.getAccumulatedPrimaryDepreciationAmount());
 
             if (accountChargeAmount != null && !accountChargeAmount.isZero()) {
                 success = createNewPostable(AmountCategory.CAPITALIZATION, asset, assetPayment, documentNumber, plantAccount, postables);
             }
 
-            if (accumlatedDepreciationAmount != null && !accumlatedDepreciationAmount.isZero()) {
+            if (!accumlatedDepreciationAmount.isZero()) {
                 success = createNewPostable(AmountCategory.ACCUMMULATE_DEPRECIATION, asset, assetPayment, documentNumber, plantAccount, postables);
             }
 
-            if (accountChargeAmount != null && accumlatedDepreciationAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
+            //if (accountChargeAmount != null && accumlatedDepreciationAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
+            if (accountChargeAmount != null && !accountChargeAmount.subtract(accumlatedDepreciationAmount).isZero()) {
                 success = createNewPostable(AmountCategory.OFFSET_AMOUNT, asset, assetPayment, documentNumber, plantAccount, postables);
             }
         }
@@ -390,9 +395,11 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
-        pkMap.put("universityFiscalYear", universityDateService.getCurrentFiscalYear());
-        pkMap.put("chartOfAccountsCode", asset.getOrganizationOwnerChartOfAccountsCode());
-        pkMap.put("financialObjectCode", gainDispositionObjectCode);
+        
+        pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityDateService.getCurrentFiscalYear());
+        pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, asset.getOrganizationOwnerChartOfAccountsCode());
+        pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, gainDispositionObjectCode);
+        
         ObjectCode offsetFinancialObject = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
 
         if (ObjectUtils.isNull(offsetFinancialObject)) {

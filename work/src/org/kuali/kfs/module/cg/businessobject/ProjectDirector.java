@@ -18,12 +18,14 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -160,7 +162,10 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      */
     public void setPersonUserIdentifier(String personUserIdentifier) {
         this.personUserIdentifier = personUserIdentifier;
-        if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
+        if (personUserIdentifier == null) {
+            universalUser = null;
+        }
+        else if (ObjectUtils.isNull(universalUser) || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
             try {
                 universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(personUserIdentifier);
             }

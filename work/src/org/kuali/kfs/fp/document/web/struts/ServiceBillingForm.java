@@ -15,12 +15,13 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
 
 /**
  * This class is the action form for Service Billing.
  */
-public class ServiceBillingForm extends InternalBillingForm {
+public class ServiceBillingForm extends InternalBillingForm implements CapitalAssetEditable{
     public ServiceBillingForm() {
         super();
         setDocument(new ServiceBillingDocument());

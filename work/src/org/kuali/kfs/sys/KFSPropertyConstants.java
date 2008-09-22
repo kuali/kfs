@@ -278,6 +278,8 @@ public class KFSPropertyConstants {
     public static final String CAMPUS_SHORT_NAME = KNSPropertyConstants.CAMPUS_SHORT_NAME;
     public static final String CAMPUS_TYPE_CODE = KNSPropertyConstants.CAMPUS_TYPE_CODE;
     public static final String CAMS_ADMIN_USER = "camsAdminUser";
+    public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
     public static final String CASH_OFFSET_ACCOUNT = "cashOffsetAccount";
     public static final String CASH_OFFSET_ACCOUNT_NUMBER = "cashOffsetAccountNumber";
     public static final String CASH_OFFSET_FINANCIAL_CHART_OF_ACCOUNT = "cashOffsetFinancialChartOfAccount";
@@ -1200,4 +1202,5 @@ public class KFSPropertyConstants {
     public static final String CASH_CONTROL_DETAILS = "cashControlDetails";
     public static final String BANK_CODE = "bankCode";
     public static final String CAPITAL_ASSET_MANAGEMENT_ASSET = "capitalAssetManagementAsset";
+    public static final String CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE = "capitalAssetManagementAssetType";
 }

@@ -75,7 +75,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
 
         baselineChecks = new ArrayList();
         
-        this.capitalAssetInformation = new CapitalAssetInformation();
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**

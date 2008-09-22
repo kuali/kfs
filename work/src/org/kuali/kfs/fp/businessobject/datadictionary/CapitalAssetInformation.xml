@@ -20,6 +20,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     	<ref bean="CapitalAssetInformation-buildingSubRoomNumber" />
     	<ref bean="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" />
     	<ref bean="CapitalAssetInformation-vendorDetailAssignedIdentifier" />
+    	<ref bean="CapitalAssetInformation-vendorNumber" />
     	<ref bean="CapitalAssetInformation-capitalAssetNumber" />
     	<ref bean="CapitalAssetInformation-capitalAssetTagNumber" />
     	<ref bean="CapitalAssetInformation-capitalAssetQuantity" />
@@ -79,23 +80,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" parent="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" />
   
-  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
-  	<property name="name" value="vendorHeaderGeneratedIdentifier"/>
-  	<property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
-  </bean>
+  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier"/>
   
   <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier" parent="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean"/>
   
-  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier">
-  	<property name="name" value="vendorDetailAssignedIdentifier"/>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="11" />
-    </property>
-  </bean>
+  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier"/>
+  
+  <bean id="CapitalAssetInformation-vendorNumber" parent="CapitalAssetInformation-vendorNumber-parentBean"/>
+  
+  <bean id="CapitalAssetInformation-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber"/>  
   
   <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean" />
   

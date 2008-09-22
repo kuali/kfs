@@ -863,7 +863,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List, org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation) {
-        // TODO Auto-generated method stub
+        CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
+        
+        if(capitalAssetManagementAsset != null) {
+            // TODO: to enable the following statement if ready
+            // return this.validateFinancialProcessingData(accountingLines, capitalAssetManagementAsset);           
+        }
         return true;
     }
 

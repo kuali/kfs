@@ -15,21 +15,26 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the action form for Internal Billing.
  */
-public class InternalBillingForm extends KualiAccountingDocumentFormBase {
+public class InternalBillingForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
     private static final long serialVersionUID = 1L;
     private InternalBillingItem newItem;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     public InternalBillingForm() {
         super();
         setDocument(new InternalBillingDocument());
         this.newItem = new InternalBillingItem();
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**
@@ -58,5 +63,19 @@ public class InternalBillingForm extends KualiAccountingDocumentFormBase {
      */
     public void setNewItem(InternalBillingItem newItem) {
         this.newItem = newItem;
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 }

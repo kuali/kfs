@@ -17,6 +17,8 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ tag description="render the capital edit tag that contains the given capital asset info"%>
 
+<%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>
+
 <c:set var="capitalAssetInfo" value="${KualiForm.document.capitalAssetInformation}" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
 
@@ -24,16 +26,16 @@
 <c:set var="newCapitalAssetInfoName" value="capitalAssetInformation" />
 
 <kul:tab tabTitle="Capital Edit" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
-     <div class="tab-container" align="center">     
-	 <h3>Capital Asset Information</h3>
+     <div class="tab-container" align="center">
+     <h3>Capital Asset Information</h3>
 	 
 	 <c:choose>
 	 	<c:when test="${not empty capitalAssetInfo}">
-	 		<fin:capitalAssetInfo capitalAssetInfo="${capitalAssetInfo}" capitalAssetInfoName="${capitalAssetInfoName}"/>
+	 		<fin:capitalAssetInfo capitalAssetInfo="${capitalAssetInfo}" capitalAssetInfoName="${capitalAssetInfoName}" readOnly="${readOnly}"/>
 	 	</c:when>
-	 	<c:otherwise>
+	 	<c:when test="${not readOnly}">
 	 		<fin:capitalAssetInfo capitalAssetInfo="${newCapitalAssetInfo}" capitalAssetInfoName="${newCapitalAssetInfoName}"/>
-	 	</c:otherwise>
+	 	</c:when>
 	 </c:choose>
     </div>	
 </kul:tab>	 

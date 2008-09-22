@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
@@ -24,7 +25,7 @@ import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
  * @see org.kuali.kfs.fp.document.web.struts.DistributionOfIncomeAndExpenseForm
  */
 
-public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfIncomeAndExpenseForm {
+public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfIncomeAndExpenseForm implements CapitalAssetEditable{
 
 
     /**

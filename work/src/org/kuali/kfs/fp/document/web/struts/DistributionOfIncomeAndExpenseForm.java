@@ -15,19 +15,25 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * This class is the action form for Distribution of Income and Expense.
  */
-public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentFormBase {
+public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
+    
+    private CapitalAssetInformation capitalAssetInformation;
+    
     /**
      * Constructs a DistributionOfIncomeAndExpenseForm.java.
      */
     public DistributionOfIncomeAndExpenseForm() {
         super();
         setDocument(new DistributionOfIncomeAndExpenseDocument());
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**
@@ -42,5 +48,19 @@ public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentF
      */
     public void setDistributionOfIncomeAndExpenseDocument(DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument) {
         setDocument(distributionOfIncomeAndExpenseDocument);
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;
     }
 }

@@ -34,7 +34,7 @@ public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase 
     public GeneralErrorCorrectionForm() {
         super();
         setDocument(new GeneralErrorCorrectionDocument());
-        this.capitalAssetInformation = new CapitalAssetInformation();
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**

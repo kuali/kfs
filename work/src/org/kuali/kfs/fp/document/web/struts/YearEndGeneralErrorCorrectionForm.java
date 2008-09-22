@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.YearEndGeneralErrorCorrectionDocument;
 
 /**
  * Struts form for <code>{@link YearEndGeneralErrorCorrectionDocument}</code>. This class is mostly empty because it inherits
  * everything it needs from its parent non-year end version. This is necessary to adhere to the transactional document framework.
  */
-public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionForm {
+public class YearEndGeneralErrorCorrectionForm extends GeneralErrorCorrectionForm  implements CapitalAssetEditable{
     /**
      * Constructs a YearEndGeneralErrorCorrectionForm instance.
      */

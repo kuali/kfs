@@ -980,12 +980,15 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
+        this.applyCapitalAssetInformation(tmpForm);
+        
         ActionForward forward = super.save(mapping, form, request, response);
 
         // KULEDOCS-1443: For the revert button, set the new baseline accounting lines as the most recently saved lines
-        KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
         tmpForm.setBaselineSourceAccountingLines(tmpForm.getFinancialDocument().getSourceAccountingLines());
         tmpForm.setBaselineTargetAccountingLines(tmpForm.getFinancialDocument().getTargetAccountingLines());
+        
         // need to check on sales tax for all the accounting lines
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
@@ -996,8 +999,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
-        this.hasValidCapitalAssetInformation(tmpForm.getFinancialDocument(), tmpForm);
+        this.applyCapitalAssetInformation(tmpForm);
+        
         ActionForward forward = super.route(mapping, form, request, response);
+        
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
         
@@ -1286,36 +1291,33 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         return new ActionForward(path, true);
     }
     
-    // determine whehter the given document has valid capital asset information if any
-    private boolean hasValidCapitalAssetInformation(AccountingDocument financialDocument, KualiDocumentFormBase kualiDocumentFormBase) {
-        LOG.debug("hasValidCapitalAssetInformation(Document) - start");
-    
-        if(financialDocument instanceof CapitalAssetEditable == false) {
-            return true;
-        }
+    // assoicate the new capital asset information with the current document if any
+    protected void applyCapitalAssetInformation(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
+        LOG.info("applyCapitalAssetInformation() - start1");
         
-        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();           
+        AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
+        if(!(financialDocument instanceof CapitalAssetEditable)) {
+            LOG.info("applyCapitalAssetInformation() - start2");
+            return;
+        }
+                   
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable)financialDocument;
-        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
-        
-        if(capitalAssetInformation != null) {
-            return true;
+        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();        
+        if(capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
+            LOG.info("applyCapitalAssetInformation() - start3");
+            return;
         }
         
-        if(kualiDocumentFormBase instanceof CapitalAssetEditable == false) {
-            return true;
-        }
+        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable)kualiAccountingDocumentFormBase; 
+        CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();          
+        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();        
+        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class); 
         
-        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable)kualiDocumentFormBase; 
-        CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();  
-        
-        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
         boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);  
         if(isValidFinancialProcessingData) {
+            LOG.info("applyCapitalAssetInformation() - start4");
             newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
         }
-        
-        return isValidFinancialProcessingData;
     }
 }

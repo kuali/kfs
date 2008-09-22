@@ -1,6 +1,8 @@
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
@@ -22,6 +24,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private String buildingSubRoomNumber;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
+    private String vendorNumber;
     private Long capitalAssetNumber;
     private String capitalAssetTagNumber;
     private Integer capitalAssetQuantity;
@@ -166,6 +169,22 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
+    
+    /**
+     * Gets the vendorNumber attribute. 
+     * @return Returns the vendorNumber.
+     */
+    public String getVendorNumber() {
+        return vendorNumber;
+    }
+
+    /**
+     * Sets the vendorNumber attribute value.
+     * @param vendorNumber The vendorNumber to set.
+     */
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+    }
 
     /**
      * Gets the capitalAssetManagementAsset attribute.
@@ -192,7 +211,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the capitalAssetManagementAssetType.
      */
     public CapitalAssetManagementAssetType getCapitalAssetManagementAssetType() {
-        capitalAssetManagementAssetType = (CapitalAssetManagementAssetType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAssetType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAssetType, "capitalAssetTypeCode");
+        capitalAssetManagementAssetType = (CapitalAssetManagementAssetType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAssetType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAssetType, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE);
         return capitalAssetManagementAssetType;
     }
 
@@ -280,5 +299,26 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     @Deprecated
     public void setCampus(Campus campus) {
         this.campus = campus;
+    }
+    
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map a map with the primitive field names as the key and the primitive values as the map value.
+     */
+    public Map<String, Object> getValuesMap() {
+        Map<String, Object> simpleValues = new HashMap<String, Object>();
+
+        simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        simpleValues.put(KFSPropertyConstants.CAMPUS_CODE, this.getCampusCode());
+        simpleValues.put(KFSPropertyConstants.BUILDING_CODE, this.getBuildingCode());
+        simpleValues.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, this.getBuildingRoomNumber());
+        
+        simpleValues.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.getVendorHeaderGeneratedIdentifier());
+        simpleValues.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber());
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, this.getCapitalAssetTypeCode());        
+
+        return simpleValues;
     }
 }

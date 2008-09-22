@@ -29,7 +29,8 @@
 		extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
 		extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription" />
 	
-	<fin:capitalAssetEditTab/>	
+	<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
+	<fin:capitalAssetEditTab readOnly="${not empty KualiForm.editingMode['viewOnly']}"/>	
 
 	<gl:generalLedgerPendingEntries />
 

@@ -23,7 +23,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -36,9 +38,11 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  */
-public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
+public class ProcurementCardForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
     private static final long serialVersionUID = 1L;
     private List newTargetLines;
+    
+    private CapitalAssetInformation capitalAssetInformation;
 
     /**
      * Override to accomodate multiple target lines.
@@ -85,6 +89,7 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
         super();
         setDocument(new ProcurementCardDocument());
         this.newTargetLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
+        this.setCapitalAssetInformation(new CapitalAssetInformation());
     }
 
     /**
@@ -120,5 +125,19 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
             getBaselineTargetAccountingLines().add(new ProcurementCardTargetAccountingLine());
         }
         return (ProcurementCardTargetAccountingLine) getBaselineTargetAccountingLines().get(index);
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
+     */
+    public CapitalAssetInformation getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
+    }
+
+    /**
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     */
+    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 }

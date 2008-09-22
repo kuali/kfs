@@ -98,6 +98,10 @@ public class CustomerProfile extends PersistableBusinessObjectBase {
     public String getCustomerShortName() {
         return chartCode + "-" + orgCode + "-" + subUnitCode;
     }
+    
+    public void setCustomerShortName(String customerShortName) {
+        
+    }
 
     public String getSortName() {
         return (this.chartCode + this.orgCode + this.subUnitCode);
@@ -872,4 +876,5 @@ public class CustomerProfile extends PersistableBusinessObjectBase {
         m.put("id", this.id);
         return m;
     }
+    
 }

@@ -176,6 +176,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             PaymentDetail paymentDetail = (PaymentDetail) bo;
             Properties params = new Properties();
             params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
+            params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpParameterConstants.PaymentDetail.SHOW_PAYMENT_DETAIL);
 
             String href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
             String url = UrlFactory.parameterizeUrl(href, params);

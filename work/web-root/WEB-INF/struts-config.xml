@@ -212,6 +212,9 @@
 			type="org.kuali.kfs.pdp.web.struts.FormatProcessForm" />
 		<form-bean name="PdpFormatSummaryForm"
 			type="org.kuali.kfs.pdp.web.struts.FormatSummaryForm" />
+			
+	    <form-bean name="PdpPaymentDetailForm"
+			type="org.kuali.kfs.pdp.document.web.struts.PaymentDetailForm" />	
 
 		<!-- CAMs Module Bean Definitions -->
 		<form-bean name="AssetPaymentForm"
@@ -797,6 +800,17 @@
 			type="org.kuali.kfs.pdp.web.struts.EpicPaymentDetailListAction">
 			<forward name="display"
 				path="/pdp/paymentdetail/epic/paymentlist.jsp" />
+		</action>
+		
+		<action path="/pdp/paymentdetailrice"
+            name="PdpPaymentDetailForm"
+			type="org.kuali.kfs.pdp.document.web.struts.PaymentDetailAction"
+			scope="request" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<forward name="display"
+				path="/jsp/modules/pdp/paymentdetail/paymentdetail.jsp" />
+			<forward name="displayList"
+				path="/jsp/modules/pdp/paymentdetail/paymentlist.jsp" />
 		</action>
 
 		<!-- ********** Payment Maintenance ********** -->

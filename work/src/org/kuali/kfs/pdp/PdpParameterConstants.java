@@ -33,5 +33,6 @@ public class PdpParameterConstants {
     
     public static class PaymentDetail {
         public static final String DETAIL_ID_PARAM = "DetailId";
+        public static final String SHOW_PAYMENT_DETAIL = "showPaymentDetail";
     }
 }

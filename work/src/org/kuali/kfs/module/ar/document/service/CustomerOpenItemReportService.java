@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerOpenItemReportService {
     
@@ -24,5 +25,10 @@ public interface CustomerOpenItemReportService {
      * @param customerNumber
      */
     public List getPopulatedReportDetails(String customerNumber);
-
+    
+    /**
+     * This method populates CustomerOpenItemReportDetails (Customer Open Item Report)
+     * @param urlParameters
+     */
+    public List getPopulatedReportDetails(Map urlParameters);
 }

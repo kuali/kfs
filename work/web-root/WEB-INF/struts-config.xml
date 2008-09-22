@@ -812,6 +812,11 @@
 			<forward name="displayList"
 				path="/jsp/modules/pdp/paymentdetail/paymentlist.jsp" />
 		</action>
+		
+		<action attribute="KualiForm" path="/batchsearchDetail" name="KualiForm"
+			scope="request" parameter="methodToCall" 
+			type="org.kuali.kfs.pdp.document.web.struts.BatchAction">
+		</action>
 
 		<!-- ********** Payment Maintenance ********** -->
 		<action path="/pdp/paymentupdate"

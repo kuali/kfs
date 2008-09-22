@@ -41,6 +41,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     private ChartService chartService;
     private AccountService accountService;
     private Threshold newThreshold;
+    private Threshold oldThreshold;
     
     public ThresholdRule(){
         chartService = SpringContext.getBean(ChartService.class);
@@ -50,31 +51,45 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
         if (document.isNew() || document.isEdit() || document.isNewWithExisting()) {
-            newThreshold = (Threshold) document.getNewMaintainableObject().getBusinessObject();
-            return isValidDocument(newThreshold);
+            newThreshold = (Threshold) document.getNewMaintainableObject().getBusinessObject();            
+            oldThreshold = document.getOldMaintainableObject() != null ? (Threshold)document.getOldMaintainableObject().getBusinessObject() : null;
+
+            //boolean checkDuplicate = newThreshold.isActive(); // we only need to check duplicate if newThreshold is active
+            // compare oldThreshold and newThreshold, check if there's any update on the various code fields
+            // if yes, then we need to check duplicate of the new threshold among other thresholds; otherwise no need to check            
+            boolean checkDuplicate = oldThreshold == null;
+            checkDuplicate |= !StringUtils.equals(newThreshold.getChartOfAccountsCode(), oldThreshold.getChartOfAccountsCode());
+            checkDuplicate |= !StringUtils.equals(newThreshold.getAccountTypeCode(), oldThreshold.getAccountTypeCode());
+            checkDuplicate |= !StringUtils.equals(newThreshold.getSubFundGroupCode(), oldThreshold.getSubFundGroupCode());
+            checkDuplicate |= !StringUtils.equals(newThreshold.getPurchasingCommodityCode(), oldThreshold.getPurchasingCommodityCode());
+            checkDuplicate |= !StringUtils.equals(newThreshold.getFinancialObjectCode(), oldThreshold.getFinancialObjectCode());
+            checkDuplicate |= !StringUtils.equals(newThreshold.getOrganizationCode(), oldThreshold.getOrganizationCode()); 
+            checkDuplicate |= !StringUtils.equals(newThreshold.getVendorNumber(), oldThreshold.getVendorNumber());
+            return isValidDocument(newThreshold, checkDuplicate);
         }
         return  true;
     }
     
-    private boolean isValidDocument(Threshold threshold){
+    private boolean isValidDocument(Threshold newThreshold, boolean checkDuplicate){
         
-        boolean valid = isValidThresholdCriteria(threshold);
+        boolean valid = isValidThresholdCriteria(newThreshold);
         if (!valid){
-            constructFieldError(threshold);
+            constructFieldError(newThreshold);
             return false;
         }
         
-        valid = isValidChartCode(threshold);
+        valid = isValidChartCode(newThreshold);
         if (valid){
-            valid = isValidSubFund(threshold) &&
-                    isValidCommodityCode(threshold) &&
-                    isValidObjectCode(threshold) &&
-                    isValidOrgCode(threshold) &&
-                    isValidVendorNumber(threshold);
+            valid = isValidSubFund(newThreshold) &&
+                    isValidCommodityCode(newThreshold) &&
+                    isValidObjectCode(newThreshold) &&
+                    isValidOrgCode(newThreshold) &&
+                    isValidVendorNumber(newThreshold);
         }
         
-        if (valid){
-            valid = !isDuplicateEntry(threshold);
+        // check duplication if needed
+        if (valid && checkDuplicate){
+            valid = !isDuplicateEntry(newThreshold);
         }
         return valid;
     }
@@ -252,6 +267,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
         
         Map fieldValues = new HashMap();
         fieldValues.put(ThresholdField.CHART_OF_ACCOUNTS_CODE.getName(), newThreshold.getChartOfAccountsCode());
+        //fieldValues.put("active", "Y"); // check duplicates only among active thresholds
         
         if (StringUtils.isNotBlank(newThreshold.getAccountTypeCode())){
             fieldValues.put(ThresholdField.ACCOUNT_TYPE_CODE.getName(), newThreshold.getAccountTypeCode());

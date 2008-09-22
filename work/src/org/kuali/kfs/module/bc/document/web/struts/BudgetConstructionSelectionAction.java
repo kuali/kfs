@@ -32,6 +32,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
@@ -140,23 +141,49 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null) {
-            // error ERROR_EXISTENCE
-            GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+            // TODO do rules checks for create new BC document event
+            // not system view only and budgetable account and sub-account
+            boolean rulePassed = true;
+            if (rulePassed){
+                List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
+                if (newAccountOrganizationHierarchy == null || newAccountOrganizationHierarchy.isEmpty()){
+                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode+"-"+accountNumber);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                
+                // hierarchy created - attempt to create BC document
+                SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
+                tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+                if (tHeader == null){
+
+                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
+                else {
+                    // drop to open the newly created document
+                }
+            }
+            else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+//
+//            GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        else {
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
-            parameters.put("universityFiscalYear", tHeader.getUniversityFiscalYear().toString());
-            parameters.put("chartOfAccountsCode", tHeader.getChartOfAccountsCode());
-            parameters.put("accountNumber", tHeader.getAccountNumber());
-            parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
-            parameters.put("pickListMode", "false");
-            
-            String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.BC_DOCUMENT_ACTION, parameters);
-            
-            return new ActionForward(lookupUrl, true);
-        }
+
+        // open the existing or newly created BC document
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
+        parameters.put("universityFiscalYear", tHeader.getUniversityFiscalYear().toString());
+        parameters.put("chartOfAccountsCode", tHeader.getChartOfAccountsCode());
+        parameters.put("accountNumber", tHeader.getAccountNumber());
+        parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
+        parameters.put("pickListMode", "false");
+        
+        String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.BC_DOCUMENT_ACTION, parameters);
+        
+        return new ActionForward(lookupUrl, true);
     }
 
 

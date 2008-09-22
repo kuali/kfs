@@ -26,6 +26,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationRepo
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -51,6 +52,14 @@ public interface BudgetConstructionDao {
      * @param bcHeader
      */
     public void saveBudgetConstructionHeader(BudgetConstructionHeader bcHeader);
+    
+    /**
+     * Save a BudgetConstructionDocument object to the database
+     * 
+     * @param bcDocument
+     */
+    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument);
+
 
     /**
      * This gets a BudgetConstructionFundingLock using the primary key chart, account, subaccount, fiscalyear, pUId
@@ -241,4 +250,13 @@ public interface BudgetConstructionDao {
      * @return
      */
     public boolean insertAccountIntoAccountOrganizationHierarchy(String rootChart, String rootOrganization, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Integer currentLevel, String organizationChartOfAccountsCode, String organizationCode);
+    
+    /**
+     * deletes an existing set of Account Organization Hierarchy objects from the DB for the account key passed in
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     */
+    public void deleteExistingAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 }

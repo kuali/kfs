@@ -86,6 +86,13 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#saveBudgetConstructionDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
+     */
+    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument){
+        getPersistenceBrokerTemplate().store(bcDocument);
+    }
+
+    /**
      * This gets a BudgetConstructionFundingLock using the primary key chart, account, subaccount, fiscalyear, pUId
      * 
      * @param chartOfAccountsCode
@@ -427,6 +434,18 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
             }
         }
         return overFlow;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#deleteExistingAccountOrganizationHierarchy(java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    public void deleteExistingAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber){
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountNumber", accountNumber);
+        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(BudgetConstructionAccountOrganizationHierarchy.class, criteria));
     }
 
     /**

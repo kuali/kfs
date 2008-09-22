@@ -1216,8 +1216,30 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final class CustomerOpenItemReport {
         public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String REPORT_NAME = "reportName";
+        public static final String CHART_CODE = "chartCode";
+        public static final String ORGANIZATION_CODE = "orgCode";
+        public static final String REPORT_OPTION = "reportOption";
+        public static final String COLUMN_TITLE = "columnTitle";
+        public static final String REPORT_RUN_DATE = "reportRunDate";
+        public static final String REPORT_BEGIN_DATE = "startDate";
+        public static final String REPORT_END_DATE = "endDate";
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String ALL_DAYS = "All days";
         public static final String HISTORY_REPORT_NAME = "Customer History Report";
-        public static final String OPEN_ITEM_REPORT_NAME = "Customer Open Item Report";
+        public static final String OPEN_ITEM_REPORT_NAME = "Customer Open Item Report"; 
+        
+        public static final String PROCESSING_COA_CODE = "processingChartOfAccountCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
+    }
+    
+    public static final class CustomerAgingReport {
+        public static final String CUSTOMER_NAME = "customerName";
+        public static final String UNPAID_BALANCE_0_TO_30 = "unpaidBalance0to30";
+        public static final String UNPAID_BALANCE_31_TO_60 = "unpaidBalance31to60";
+        public static final String UNPAID_BALANCE_61_TO_90 = "unpaidBalance61to90";
+        public static final String UNPAID_BALANCE_91_TO_SYSPR = "unpaidBalance91toSYSPR";
+        public static final String UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE = "unpaidBalanceSYSPRplus1orMore";
     }
 
 }

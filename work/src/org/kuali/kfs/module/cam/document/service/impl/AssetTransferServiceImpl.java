@@ -108,17 +108,19 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         String organizationOwnerChartOfAccountsCode = null;
         if (isSource) {
             organizationOwnerChartOfAccountsCode = document.getAsset().getOrganizationOwnerChartOfAccountsCode();
+            postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
         }
         else {
             organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
+            postable.setSubAccountNumber(null);
         }
         postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
-        postable.setProjectCode(assetPayment.getProjectCode());
-        postable.setSubAccountNumber(assetPayment.getSubAccountNumber());
+        postable.setProjectCode(assetPayment.getProjectCode());        
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
+        
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.ASSET_TRANSFER_DOCTYPE_CD, CamsConstants.GL_BALANCE_TYPE_CDE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);

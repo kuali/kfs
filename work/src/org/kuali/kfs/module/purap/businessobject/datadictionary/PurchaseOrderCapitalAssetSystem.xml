@@ -76,8 +76,13 @@
     <property name="label" value="Capital Asset Not Received Current Fiscal Year Indicator" />
     <property name="shortLabel" value="Not Expected to Recieve in Current FY" />
     <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
     <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="capitalAssetNotReceivedCurrentFiscalYearIndicator" />
     <property name="description" value="capitalAssetNotReceivedCurrentFiscalYearIndicator description..." />

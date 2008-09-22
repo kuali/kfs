@@ -60,6 +60,10 @@
         <orderby name="itemSequenceId" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.InternalBillingItem" table="FP_INT_BILL_ITM_T">
@@ -121,6 +125,10 @@
         <orderby name="itemSequenceId" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <!-- AUXILIARY VOUCHER DOCUMENT -->
@@ -246,6 +254,10 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <!-- YEAR END DIST OF INCOME AND EXPENSE MAPPINGS -->
@@ -286,6 +298,10 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <!-- GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->
@@ -581,6 +597,10 @@
         <foreignkey field-ref="postingYear" />
         <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <!--  TRANSFER OF FUNDS DOCUMENT MAPPINGS -->
@@ -788,6 +808,10 @@
         <orderby name="sequenceId" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CheckBase" table="FP_CHECK_DTL_T">
@@ -1533,6 +1557,10 @@
         <orderby name="transactionReferenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" table="FP_PRCRMNT_VNDR_T">

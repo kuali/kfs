@@ -14,7 +14,7 @@
     <property name="lookupDefinition" >
       <ref bean="NegativePaymentRequestApprovalLimit-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="accountNumber" />
+    <property name="titleAttribute" value="negativePaymentRequestApprovalLimitAmount" />
     <property name="objectLabel" value="Negative Payment Request Approval Limit" />
     <property name="attributes" >
       <list>

@@ -14,22 +14,22 @@
     <property name="lookupDefinition" >
       <ref bean="Threshold-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="thresholdIdentifier" />
+    <property name="titleAttribute" value="thresholdAmount" />
     <property name="objectLabel" value="Threshold" />
     <property name="attributes" >
       <list>
         <ref bean="Threshold-thresholdIdentifier" />
-        <ref bean="Threshold-accountTypeCode" />
         <ref bean="Threshold-chartOfAccountsCode" />
-		<ref bean="Threshold-financialObjectCode" />
+        <ref bean="Threshold-accountTypeCode" />
         <ref bean="Threshold-subFundGroupCode" />
-        <ref bean="Threshold-organizationCode" />
         <ref bean="Threshold-purchasingCommodityCode" />
-        <ref bean="Threshold-active" />                                
+		<ref bean="Threshold-financialObjectCode" />
+        <ref bean="Threshold-organizationCode" />
         <ref bean="Threshold-vendorHeaderGeneratedIdentifier" />        
 	    <ref bean="Threshold-vendorDetailAssignedIdentifier" />        
-	    <ref bean="Threshold-thresholdAmount" />    
   	    <ref bean="Threshold-vendorNumber" />  
+	    <ref bean="Threshold-thresholdAmount" />    
+        <ref bean="Threshold-active" />                                
       </list>
     </property>
     
@@ -159,31 +159,29 @@
       <list>
         <bean parent="InquirySectionDefinition">
           <property name="title" value="" />
-          <property name="numberOfColumns" value="11" />
+          <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="thresholdIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="accountTypeCode" />
-              <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="financialObjectCode" />
-    		  <!-- <bean parent="FieldDefinition"
-                    p:attributeName="universityFiscalYear" />-->
+                    p:attributeName="accountTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="subFundGroupCode" />
               <bean parent="FieldDefinition"
+                    p:attributeName="purchasingCommodityCode" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialObjectCode" />
+              <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="purchasingCommodityCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="active" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorHeaderGeneratedIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorDetailAssignedIdentifier" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -220,8 +218,6 @@
                 p:attributeName="financialObjectCode" />
          <bean parent="FieldDefinition"
                 p:attributeName="organizationCode" />
-		 <!-- <bean parent="FieldDefinition"
-                p:attributeName="universityFiscalYear" />-->
          <bean parent="FieldDefinition"
                 p:attributeName="vendorNumber" />
          <bean parent="FieldDefinition"

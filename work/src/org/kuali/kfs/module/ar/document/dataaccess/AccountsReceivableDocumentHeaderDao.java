@@ -22,8 +22,13 @@ public interface AccountsReceivableDocumentHeaderDao {
     
     /**
      * This method retrieves all AccountReceivableDocumentHeader objects for the customerNumber
-     * 
      * @return AccountReceivableDocumentHeader objects
      */
     public Collection getARDocumentHeadersByCustomerNumber(String customerNumber);
+    
+    /**
+     * This method retrieves all AccountsReceivableDocumentHeader objects for the customerNumber, processingChartOfAccountCode, and processingOrganizationCode
+     * @return AccountReceivableDocumentHeader objects
+     */
+    public Collection getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(String customerNumber, String processingChartOfAccountCode, String processingOrganizationCode);
 }

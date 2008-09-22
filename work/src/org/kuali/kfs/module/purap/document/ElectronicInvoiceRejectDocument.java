@@ -125,6 +125,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     private boolean invoiceNumberAcceptIndicator = false;
     private boolean invoiceResearchIndicator = false;
     
+    private Date accountsPayableApprovalDate;
+    
     private transient PurApRelatedViews relatedViews;
     private PurchaseOrderDocument currentPurchaseOrderDocument;
 
@@ -957,6 +959,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     public void setInvoiceResearchIndicator(boolean invoiceResearchIndicator) {
         this.invoiceResearchIndicator = invoiceResearchIndicator;
+    }
+
+    public Date getAccountsPayableApprovalDate() {
+        return accountsPayableApprovalDate;
+    }
+
+    public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate) {
+        this.accountsPayableApprovalDate = accountsPayableApprovalDate;
     }
 
     /**

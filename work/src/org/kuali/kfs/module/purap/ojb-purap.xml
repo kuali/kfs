@@ -3116,6 +3116,7 @@
     <field-descriptor name="invoiceRemitToAddressCountryName" column="INV_RMT_TO_CNTRY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceNumberAcceptIndicator" column="INV_NUM_ACPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="invoiceResearchIndicator" column="INV_RJT_RSRCH_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
 
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />

@@ -60,10 +60,16 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.actions.CompleteAction;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
@@ -74,6 +80,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -1165,6 +1172,52 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             }
         }
         return accountOrgHier;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#instantiateNewBudgetConstructionDocument(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Transactional
+    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) throws WorkflowException{
+
+        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+        budgetConstructionDocument.setUniversityFiscalYear(universityFiscalYear);
+        budgetConstructionDocument.setChartOfAccountsCode(chartOfAccountsCode);
+        budgetConstructionDocument.setAccountNumber(accountNumber);
+        budgetConstructionDocument.setSubAccountNumber(subAccountNumber);
+
+        budgetConstructionDocument.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+        budgetConstructionDocument.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+        budgetConstructionDocument.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+        budgetConstructionDocument.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        budgetConstructionDocument.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+//        budgetConstructionDocument.setVersionNumber(DEFAULT_VERSION_NUMBER);
+        FinancialSystemDocumentHeader kualiDocumentHeader = budgetConstructionDocument.getDocumentHeader();
+        budgetConstructionDocument.setDocumentNumber(budgetConstructionDocument.getDocumentHeader().getDocumentNumber());
+        kualiDocumentHeader.setOrganizationDocumentNumber(budgetConstructionDocument.getUniversityFiscalYear().toString());
+        kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+        kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
+        kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
+        kualiDocumentHeader.setExplanation(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+//        getPersistenceBrokerTemplate().store(newBCHdr);
+        budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
+        documentService.prepareWorkflowDocument(budgetConstructionDocument);
+        
+        RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
+
+        DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+
+        CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorUser(), "created by application UI");
+        action.recordAction();
+
+        // there was no need to queue.  we want to mark the document final and save it 
+        ourWorkflowDoc.markDocumentEnroute();
+        ourWorkflowDoc.markDocumentApproved();
+        ourWorkflowDoc.markDocumentProcessed();
+        ourWorkflowDoc.markDocumentFinalized();
+        routeHeaderService.saveRouteHeader(ourWorkflowDoc);
+
+        return budgetConstructionDocument;
     }
 
     /**

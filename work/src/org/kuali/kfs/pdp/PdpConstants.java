@@ -160,4 +160,29 @@ public class PdpConstants {
         public static final String INVALID_PROJECT = "PROJ";
     }
     
+    public enum PaymentType {
+        ALL("all", "All Payment Types"),
+        DISBURSEMENTS_WITH_ATTACHMENTS("pymtAttachment", "Only Disbursements with Attachments"),
+        DISBURSEMENTS_NO_ATTACHMENTS("pymtAttachmentFalse", "Only Disbursements with No Attachments"),
+        DISBURSEMENTS_WITH_SPECIAL_HANDLING("pymtSpecialHandling", "Only Disbursements with Special Handling"),
+        DISBURSEMENTS_NO_SPECIAL_HANDLING("pymtSpecialHandlingFalse", "Only Disbursements with No Special Handling"),
+        PROCESS_IMMEDIATE("immediate", "Only Disbursements Flagged as Immediate");
+
+        private String paymentType;
+        private String description;
+
+        private PaymentType(String paymentType, String description) {
+            this.paymentType = paymentType;
+            this.description = description;
+        }
+
+        public String getPaymentType() {
+            return this.paymentType;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+    }
+    
 }

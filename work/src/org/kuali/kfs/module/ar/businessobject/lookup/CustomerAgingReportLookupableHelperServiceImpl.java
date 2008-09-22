@@ -75,6 +75,20 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);   
     private BusinessObjectService businessObjectService;
+    
+    private String customerNameLabel;
+    private String customerNumberLabel;
+    private String cutoffdate30Label;
+    private String cutoffdate60Label;
+    private String cutoffdate90Label;
+    private String cutoffdate120Label;
+    private String cutoffdate365Label;
+
+    private Date reportRunDate;
+    private String reportOption;
+    private String accountNumber;
+    private String chartCode;
+    private String orgCode;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -88,10 +102,17 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         
+        /* 
         String reportOption = (String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_OPTION);
         String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        */
+        reportOption = (String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_OPTION);
+        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+        chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        
         Collection<CustomerInvoiceDetail> invoiceDetails = new ArrayList<CustomerInvoiceDetail>(); // default max is 10?
         
         Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
@@ -118,7 +139,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
       
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-        Date reportRunDate;
+        //Date reportRunDate;
         try {
             reportRunDate = dateFormat.parse((String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
@@ -371,6 +392,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             String actionUrls = "www.someACTIONurl";
 
             List<Column> columns = getColumns();
+            populateCutoffdateLabels();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
                 Column col = (Column) iterator.next();
@@ -429,9 +451,16 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                 }
                 col.setPropertyValue(propValue);
 
-
+                /*
                 if (StringUtils.isNotBlank(propValue)) {
                     col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
+                }*/
+                if (StringUtils.isNotBlank(propValue)) {
+                    // do not add link to the values in column "Customer Name"
+                    if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
+                        col.setPropertyURL("");
+                    else
+                        col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
                 }
             }
 
@@ -451,6 +480,55 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         lookupForm.setHasReturnableRow(hasReturnableRow);
 
         return displayList;
+    }
+    
+    private void populateCutoffdateLabels() {
+        customerNameLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.CUSTOMER_NAME).getLabel();
+        customerNumberLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER).getLabel();
+        cutoffdate30Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_0_TO_30).getLabel();
+        cutoffdate60Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_31_TO_60).getLabel();
+        cutoffdate90Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_61_TO_90).getLabel();
+        cutoffdate120Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_91_TO_SYSPR).getLabel();
+        cutoffdate365Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE).getLabel();
+    }
+
+    private String getCustomerOpenItemReportUrl(BusinessObject bo, String columnTitle) {
+
+        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
+        String href = "arCustomerOpenItemReportLookup.do" + "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" + "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" + "&methodToCall=search&reportName=" + KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME + "&docFormKey=88888888&customerNumber=" +
+        // Customer Name, Customer Number
+                detail.getCustomerNumber() + "&customerName=" + detail.getCustomerName();
+        // Report Option
+        href += "&reportOption=" + reportOption;
+        if (reportOption.equals(ArConstants.CustomerAgingReportFields.ACCT))
+            // Account Number
+            href += "&accountNumber=" + accountNumber;
+        else
+            // Chart Code, Organization Code
+            href += "&chartCode=" + chartCode + "&orgCode=" + orgCode;
+
+        // Report Run Date
+        DateFormatter dateFormatter = new DateFormatter();
+        href += "&reportRunDate=" + dateFormatter.format(reportRunDate).toString();
+
+        if (StringUtils.equals(columnTitle, customerNumberLabel)) {
+            href += "&columnTitle=" + KFSConstants.CustomerOpenItemReport.ALL_DAYS;
+        }
+        else {
+            href += "&columnTitle=" + columnTitle;
+            if (StringUtils.equals(columnTitle, cutoffdate30Label))
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString() + "&endDate=" + dateFormatter.format(reportRunDate).toString();
+            else if (StringUtils.equals(columnTitle, cutoffdate60Label))
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString();
+            else if (StringUtils.equals(columnTitle, cutoffdate90Label))
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -61)).toString();
+            else if (StringUtils.equals(columnTitle, cutoffdate120Label))
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString();
+            else if (StringUtils.equals(columnTitle, cutoffdate365Label))
+                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -365)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
+        }
+
+        return href;
     }
 
     /**

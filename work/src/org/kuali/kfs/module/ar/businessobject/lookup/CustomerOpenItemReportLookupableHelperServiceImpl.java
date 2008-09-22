@@ -57,14 +57,23 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
      */
     @Override
     public List getSearchResults(Map fieldValues) {
+        List results;
         LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
+        /*
         String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
         List results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
-
+        */
+        String reportName =((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.REPORT_NAME))[0];
+        if  (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME)) {
+            String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
+            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
+        } else {
+            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(getParameters());
+        }
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }

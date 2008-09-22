@@ -39,4 +39,13 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
  
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria));
     }
+    
+    public Collection getARDocumentHeadersByCustomerNumberByProcessingOrgCodeAndChartCode(String customerNumber, String processingChartOfAccountCode, String processingOrganizationCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER,customerNumber);
+        criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.PROCESSING_COA_CODE,processingChartOfAccountCode);
+        criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.PROCESSING_ORGANIZATION_CODE,processingOrganizationCode);
+        
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria));
+    }
 }

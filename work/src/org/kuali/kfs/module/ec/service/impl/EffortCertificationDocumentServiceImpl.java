@@ -329,11 +329,11 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param accountingLine the accounting line needed to be populated
      */
     private void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
-        if(detailLine.isAccountExpiredOverride()) {
-            AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);      
+        if (detailLine.isAccountExpiredOverride()) {
+            AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);
             accountingLine.setOverrideCode(override.getCode());
         }
-        
+
         accountingLine.setChartOfAccountsCode(detailLine.getChartOfAccountsCode());
         accountingLine.setAccountNumber(detailLine.getAccountNumber());
         accountingLine.setSubAccountNumber(detailLine.getSubAccountNumber());

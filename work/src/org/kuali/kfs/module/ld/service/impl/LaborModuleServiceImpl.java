@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.ld.LaborFringeBenefitInformation;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
@@ -40,7 +39,6 @@ import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 import org.kuali.kfs.module.ld.businessobject.BenefitsType;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.FringeBenefitInformation;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -84,7 +82,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String,
+     *      java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
         return getLaborBenefitsCalculationService().calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
@@ -258,30 +257,31 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerObject(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerObject(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
 
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
-        
+
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-        return (LaborLedgerObject) getBusinessObjectService().findByPrimaryKey(getLaborLedgerObjectClass(),searchCriteria);
+        return (LaborLedgerObject) getBusinessObjectService().findByPrimaryKey(getLaborLedgerObjectClass(), searchCriteria);
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborLedgerObject(org.kuali.kfs.coa.businessobject.ObjectCode)
      */
     public LaborLedgerObject retrieveLaborLedgerObject(ObjectCode financialObject) {
-        if(financialObject == null) {
+        if (financialObject == null) {
             throw new IllegalArgumentException("The given financial object cannot be null.");
         }
-        
+
         Integer fiscalYear = financialObject.getUniversityFiscalYear();
         String chartOfAccountsCode = financialObject.getChartOfAccountsCode();
         String financialObjectCode = financialObject.getFinancialObjectCode();
-        
+
         return this.retrieveLaborLedgerObject(fiscalYear, chartOfAccountsCode, financialObjectCode);
     }
 
@@ -310,20 +310,20 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
-    public List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
-        List<LaborFringeBenefitInformation> fringeBenefitInformationRecords = new ArrayList<LaborFringeBenefitInformation>();
+    public List<LaborLedgerPositionObjectBenefit> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
+        List<LaborLedgerPositionObjectBenefit> fringeBenefitInformationRecords = new ArrayList<LaborLedgerPositionObjectBenefit>();
 
         Collection<PositionObjectBenefit> objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
-        for (PositionObjectBenefit positionObjectBenefit : objectBenefits) {
-            fringeBenefitInformationRecords.add(new FringeBenefitInformation(positionObjectBenefit));
-        }
+        fringeBenefitInformationRecords.addAll(objectBenefits);
+
         return fringeBenefitInformationRecords;
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
      */
-    public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode){
+    public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
 
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
@@ -332,7 +332,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
         return getBusinessObjectService().findMatching(PositionObjectBenefit.class, searchCriteria);
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#hasFringeBenefitProducingObjectCodes(java.lang.Integer,
      *      java.util.List)

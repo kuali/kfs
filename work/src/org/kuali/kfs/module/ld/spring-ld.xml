@@ -59,7 +59,13 @@
 		
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerBalance" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsType" value="org.kuali.kfs.module.ld.businessobject.BenefitsType" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerEntry" value="org.kuali.kfs.module.ld.businessobject.LedgerEntry" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerObject" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit" value="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
             </map>
         </property> 
 	</bean>

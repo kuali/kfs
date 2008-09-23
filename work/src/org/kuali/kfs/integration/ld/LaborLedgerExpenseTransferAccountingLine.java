@@ -18,11 +18,12 @@ package org.kuali.kfs.integration.ld;
 import java.math.BigDecimal;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 /**
  * Labor contract methods to accounting line implementations for Expense Transfer Documents.
  */
-public interface LaborLedgerExpenseTransferAccountingLine extends AccountingLine {
+public interface LaborLedgerExpenseTransferAccountingLine extends AccountingLine, ExternalizableBusinessObject {
 
     /**
      * Gets the emplid

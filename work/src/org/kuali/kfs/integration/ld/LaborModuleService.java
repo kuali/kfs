@@ -222,7 +222,7 @@ public interface LaborModuleService {
      * @param objectCode the object code to find LaborFringeBenefitInformation records for
      * @return a List of fringe benefit information records
      */
-    public abstract List<LaborFringeBenefitInformation> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+    public List<LaborLedgerPositionObjectBenefit> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * Determines whether the given set of accounting lines have object codes that receieve fringe benefits

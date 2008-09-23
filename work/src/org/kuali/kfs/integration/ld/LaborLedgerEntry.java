@@ -31,10 +31,11 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.rice.kns.bo.DocumentType;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public interface LaborLedgerEntry extends PersistableBusinessObject{
+public interface LaborLedgerEntry extends PersistableBusinessObject, ExternalizableBusinessObject{
 
     /**
      * Gets the universityFiscalYear

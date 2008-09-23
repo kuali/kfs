@@ -26,11 +26,12 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public interface LaborLedgerBalance extends PersistableBusinessObject {
+public interface LaborLedgerBalance extends PersistableBusinessObject, ExternalizableBusinessObject{
 
     /**
      * Gets the account attribute.

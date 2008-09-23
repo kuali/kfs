@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.integration.ld;
 
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-public interface LaborLedgerBenefitsType {
+
+public interface LaborLedgerBenefitsType extends ExternalizableBusinessObject{
 
     /**
      * Gets the positionBenefitTypeCode attribute.

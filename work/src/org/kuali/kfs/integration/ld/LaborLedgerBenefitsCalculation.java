@@ -18,10 +18,11 @@ package org.kuali.kfs.integration.ld;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiPercent;
 
-public interface LaborLedgerBenefitsCalculation extends PersistableBusinessObject {
+public interface LaborLedgerBenefitsCalculation extends PersistableBusinessObject, ExternalizableBusinessObject {
 
     /**
      * Gets the universityFiscalYear attribute.

@@ -106,6 +106,7 @@ public class ReportRunnerAction extends BudgetExpansionAction {
                 
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
+                break;
             }
 
             
@@ -121,6 +122,7 @@ public class ReportRunnerAction extends BudgetExpansionAction {
                 
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
+                break;
             }
             
             
@@ -136,6 +138,7 @@ public class ReportRunnerAction extends BudgetExpansionAction {
                 
                 SpringContext.getBean(ReportGenerationService.class).generateReportToOutputStream(reportData, reportSet, BCConstants.Report.REPORT_TEMPLATE_CLASSPATH + jasperFileName, baos);
                 WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, jasperFileName + ReportGeneration.PDF_FILE_EXTENSION);
+                break;
             }
             case 3:{
                 return new ActionForward(buildReportExportForwardURL(reportRunnerForm, mapping, BudgetConstructionReportMode.ACCOUNT_EXPORT.reportModeName), true);

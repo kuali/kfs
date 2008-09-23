@@ -44,6 +44,7 @@ public class BCConstants extends JSTLConstants {
     public static final String BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS = "budgetConstructionMonthly*";
     public static final String BUDGET_CONSTRUCTION_REPORTDUMP_TAB_ERRORS = "document.budgetConstructionDocumentReportModes*";
     public static final String BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS = "accountOrgHierLevels*";
+    public static final String BUDGET_CONSTRUCTION_SELECTION_ERRORS = "budgetConstructionHeader*";
 
     public static final String NEW_EXPENDITURE_LINE_PROPERTY_NAME = "newExpenditureLine";
     public static final String NEW_REVENUE_LINE_PROPERTY_NAME = "newRevenueLine";

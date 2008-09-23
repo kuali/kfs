@@ -1175,23 +1175,17 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#instantiateNewBudgetConstructionDocument(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#instantiateNewBudgetConstructionDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) throws WorkflowException{
-
-        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-        budgetConstructionDocument.setUniversityFiscalYear(universityFiscalYear);
-        budgetConstructionDocument.setChartOfAccountsCode(chartOfAccountsCode);
-        budgetConstructionDocument.setAccountNumber(accountNumber);
-        budgetConstructionDocument.setSubAccountNumber(subAccountNumber);
+    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException{
 
         budgetConstructionDocument.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
         budgetConstructionDocument.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
         budgetConstructionDocument.setOrganizationLevelCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
         budgetConstructionDocument.setBudgetTransactionLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         budgetConstructionDocument.setBudgetLockUserIdentifier(BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-//        budgetConstructionDocument.setVersionNumber(DEFAULT_VERSION_NUMBER);
+
         FinancialSystemDocumentHeader kualiDocumentHeader = budgetConstructionDocument.getDocumentHeader();
         budgetConstructionDocument.setDocumentNumber(budgetConstructionDocument.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(budgetConstructionDocument.getUniversityFiscalYear().toString());
@@ -1199,7 +1193,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
         kualiDocumentHeader.setExplanation(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
-//        getPersistenceBrokerTemplate().store(newBCHdr);
+
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
         documentService.prepareWorkflowDocument(budgetConstructionDocument);
         

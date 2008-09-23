@@ -342,14 +342,12 @@ public interface BudgetDocumentService {
     public List<BudgetConstructionAccountOrganizationHierarchy> retrieveOrBuildAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
     /**
-     * Creates and persists a new Budget Construction Document.
+     * Persists a brand new (blank) Budget Construction Document and prepares it to accept revenue/expenditure lines.
      * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
+     * @param budgetConstructionDocument
      * @return
      * @throws WorkflowException
      */
-    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) throws WorkflowException;
+    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException;
+
 }

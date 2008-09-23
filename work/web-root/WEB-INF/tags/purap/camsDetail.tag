@@ -22,13 +22,12 @@
 <c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" /> 
 	
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
+<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.(((${ctr})))" />
+<c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByItem.line${ctr}" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByDocument.line${ctr}" />
-</c:if>
-
-<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.(((${ctr})))" />
-<c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByDocument.(((${ctr})))" />
+	<c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByDocument.line${ctr}" />	
 </c:if>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -84,6 +83,9 @@
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
           <td align="right" class="datacell">
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${lockCamsEntry}"/>
+            <c:if test="${not lockCamsEntry}">
+            	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
+            </c:if>
           </td>
         </tr>
         <tr>

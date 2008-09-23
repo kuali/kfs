@@ -867,6 +867,34 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    public ActionForward setManufacturerFromVendorByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        String vendorName = document.getVendorName();
+        CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
+        if(system != null) {
+            system.setCapitalAssetManufacturerName(vendorName);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward setManufacturerFromVendorByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
+        
+        String vendorName = document.getVendorName();
+        PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
+        CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+        if(system != null) {
+            system.setCapitalAssetManufacturerName(vendorName);
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 
     @Override
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

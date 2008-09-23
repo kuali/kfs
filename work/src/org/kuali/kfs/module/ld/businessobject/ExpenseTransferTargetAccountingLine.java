@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -26,7 +27,7 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
  * Labor business object for special case <code>{@link TargetAccountingLine}</code> type for
  * <code>{@link org.kuali.module.labor.document.ExpenseTransferDocument}</code>
  */
-public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine implements ExpenseTransferAccountingLine, Comparable<ExpenseTransferTargetAccountingLine> {
+public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine implements ExpenseTransferAccountingLine, LaborLedgerExpenseTransferTargetAccountingLine, Comparable<ExpenseTransferTargetAccountingLine> {
     private String positionNumber;
     private BigDecimal payrollTotalHours;
     private Integer payrollEndDateFiscalYear;

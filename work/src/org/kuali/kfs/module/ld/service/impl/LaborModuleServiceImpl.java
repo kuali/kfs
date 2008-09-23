@@ -30,6 +30,8 @@ import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
@@ -295,14 +297,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferSourceAccountingLineClass()
      */
-    public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferSourceAccountingLineClass() {
+    public Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> getExpenseTransferSourceAccountingLineClass() {
         return ExpenseTransferSourceAccountingLine.class;
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferTargetAccountingLineClass()
      */
-    public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferTargetAccountingLineClass() {
+    public Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> getExpenseTransferTargetAccountingLineClass() {
         return ExpenseTransferTargetAccountingLine.class;
     }
 

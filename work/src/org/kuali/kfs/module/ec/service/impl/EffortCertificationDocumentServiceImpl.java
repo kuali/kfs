@@ -27,6 +27,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
+import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine;
+import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
@@ -249,7 +251,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-        Class<? extends LaborLedgerExpenseTransferAccountingLine> sourceLineclass = laborModuleService.getExpenseTransferSourceAccountingLineClass();
+        Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> sourceLineclass = laborModuleService.getExpenseTransferSourceAccountingLineClass();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
@@ -269,7 +271,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildTargetAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-        Class<? extends LaborLedgerExpenseTransferAccountingLine> targetLineclass = laborModuleService.getExpenseTransferTargetAccountingLineClass();
+        Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> targetLineclass = laborModuleService.getExpenseTransferTargetAccountingLineClass();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {

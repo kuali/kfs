@@ -66,6 +66,8 @@
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerObject" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit" value="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit" />
 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
+				<entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
             </map>
         </property> 
 	</bean>

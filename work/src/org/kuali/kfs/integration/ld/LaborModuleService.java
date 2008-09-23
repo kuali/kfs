@@ -162,14 +162,14 @@ public interface LaborModuleService {
      * 
      * @return Returns the expenseTransferSourceAccoutingLineClass.
      */
-    public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferSourceAccountingLineClass();
+    public Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> getExpenseTransferSourceAccountingLineClass();
 
     /**
      * Gets the expenseTransferTargetAccoutingLineClass attribute.
      * 
      * @return Returns the expenseTransferTargetAccoutingLineClass.
      */
-    public Class<? extends LaborLedgerExpenseTransferAccountingLine> getExpenseTransferTargetAccountingLineClass();
+    public Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> getExpenseTransferTargetAccountingLineClass();
 
     /**
      * Gets the laborLedgerBalanceForEffortCertificationClass attribute. The class is typically used by effort balance lookup

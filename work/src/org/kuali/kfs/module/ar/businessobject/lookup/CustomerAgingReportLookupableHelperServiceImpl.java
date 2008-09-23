@@ -90,7 +90,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String accountNumber;
     private String chartCode;
     private String orgCode;
-    private int nbrDaysLastBucket = KFSConstants.CustomerAgingReport.NBR_DAYS_IN_LAST_BUCKET;
+   // private int nbrDaysLastBucket = KFSConstants.CustomerAgingReport.NBR_DAYS_IN_LAST_BUCKET;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -104,12 +104,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         
-        /* 
-        String reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-        String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-        String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
-        */
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
@@ -162,13 +156,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
         LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
 
-        // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
-        //JUSTIN SAYS NOT WORKING SO DON'T USE: Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
-        CustomerAgingReportDetail testcustomer1 = new CustomerAgingReportDetail();
-
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
-        // EXAMPLE: fieldNamesValuesForParameter.put("parameterNamespaceCode",CustomerInvoiceDocumentBatchStep.
-        // RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
 
         KualiDecimal totalbalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
@@ -177,9 +165,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
 
-            
-          // THIS METHOD DOESN'T WORK
-            //CustomerInvoiceDocument custdocobj = cid.getCustomerInvoiceDocument();
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;

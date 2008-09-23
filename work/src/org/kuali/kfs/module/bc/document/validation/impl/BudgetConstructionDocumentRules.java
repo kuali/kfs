@@ -21,14 +21,18 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -41,6 +45,7 @@ import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
+import org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
 import org.kuali.kfs.module.bc.document.validation.DeletePendingBudgetGeneralLedgerLineRule;
@@ -55,6 +60,7 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.ErrorMap;
@@ -64,7 +70,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypeUtils;
 
-public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
+public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddBudgetConstructionDocumentRule<BudgetConstructionDocument>, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
 
     // some services used here - other service refs are from parent classes
@@ -73,6 +79,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     private static AccountingLineRuleHelperService accountingLineRuleHelper = SpringContext.getBean(AccountingLineRuleHelperService.class);
     private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     private static SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private static FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
     private List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
     private List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
@@ -86,6 +94,33 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     public BudgetConstructionDocumentRules() {
         super();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule#processAddBudgetConstructionDocumentRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
+     */
+    public boolean processAddBudgetConstructionDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
+        LOG.debug("processAddBudgetConstructionDocumentRules(Document) - start");
+
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        boolean isValid = true;
+
+        // can't create BC documents when in system view only mode
+        if (!fiscalYearFunctionControlService.isBudgetUpdateAllowed(budgetConstructionDocument.getUniversityFiscalYear())) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, BCKeyConstants.MESSAGE_BUDGET_SYSTEM_VIEW_ONLY);
+            isValid &= false;
+        }
+        
+        // check for rules preventing BC document creation
+        isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.ACCOUNT_NUMBER, errors, true, true);
+        if (!isValid){
+
+            // tell the user we can't create a new BC document along with the error reasons
+            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
+        }
+
+        LOG.debug("processAddBudgetConstructionDocumentRules(Document) - end");
+        return isValid;
     }
 
     /**
@@ -298,7 +333,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule#processSaveMonthlyBudgetRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument, org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly)
+     * @see org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule#processSaveMonthlyBudgetRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
+     *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly)
      */
     public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly) {
         LOG.debug("processSaveMonthlyBudgetRules() start");
@@ -309,29 +345,29 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         boolean isValid = true;
 
         int originalErrorCount = errors.getErrorCount();
-        
+
         // validate primitives for required field and formatting checks
         getDictionaryValidationService().validateBusinessObject(budgetConstructionMonthly);
 
         // check to see if any errors were reported
         int currentErrorCount = errors.getErrorCount();
         isValid &= (currentErrorCount == originalErrorCount);
-        
-        if (isValid){
+
+        if (isValid) {
             KualiInteger monthlyTotal = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
-            if (!salarySettingService.isSalarySettingDisabled()){
-                if (pbgl.getLaborObject() != null && pbgl.getLaborObject().isDetailPositionRequiredIndicator()){
-                    
+            if (!salarySettingService.isSalarySettingDisabled()) {
+                if (pbgl.getLaborObject() != null && pbgl.getLaborObject().isDetailPositionRequiredIndicator()) {
+
                     // no request amount overrides allowed for salary setting detail lines
-                    if (!monthlyTotal.equals(pbgl.getAccountLineAnnualBalanceAmount())){
+                    if (!monthlyTotal.equals(pbgl.getAccountLineAnnualBalanceAmount())) {
                         isValid &= false;
                         errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_DETAIL_SALARY_OVERIDE, budgetConstructionMonthly.getFinancialObjectCode(), monthlyTotal.toString(), pbgl.getAccountLineAnnualBalanceAmount().toString());
                     }
                 }
             }
-            
-            //TODO check for monthly total adding to zero (makes no sense)
-            if (monthlyTotal.isZero()){
+
+            // TODO check for monthly total adding to zero (makes no sense)
+            if (monthlyTotal.isZero()) {
                 boolean nonZeroMonthlyExists = false;
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth1LineAmount().isNonZero();
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth2LineAmount().isNonZero();
@@ -345,7 +381,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth10LineAmount().isNonZero();
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth11LineAmount().isNonZero();
                 nonZeroMonthlyExists |= budgetConstructionMonthly.getFinancialDocumentMonth12LineAmount().isNonZero();
-                if (nonZeroMonthlyExists){
+                if (nonZeroMonthlyExists) {
                     isValid &= false;
                     errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_MONTHLY_TOTAL_ZERO);
                 }
@@ -422,7 +458,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             }
 
             // do RI type checks for request amount against monthly and salary setting detail if persisted amount changes
-            // or a 2plg exists and the line is a salary setting detail line 
+            // or a 2plg exists and the line is a salary setting detail line
             // Also tests if the line is has benefits associate and flags that a benefits calc needs done.
             // Benefits calc is then called in the form action after successful rules check and save
             boolean forceTwoPlugRICheck = (budgetConstructionDocument.isContainsTwoPlug() && (element.getLaborObject() != null && element.getLaborObject().isDetailPositionRequiredIndicator()));
@@ -482,11 +518,12 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                         }
                     }
                 }
-                
-                // only do benefits calc needed test if the user changed something - not if forcing the RI check
-                if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())){
 
-                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after save
+                // only do benefits calc needed test if the user changed something - not if forcing the RI check
+                if (isReqAmountValid && !element.getAccountLineAnnualBalanceAmount().equals(element.getPersistedAccountLineAnnualBalanceAmount())) {
+
+                    // if benefits calculation is turned on, check if the line is benefits related and call for calculation after
+                    // save
                     if (!SpringContext.getBean(BenefitsCalculationService.class).isBenefitsCalculationDisabled()) {
 
                         // retest for added errors since testing this line started - if none, test if benefits calc required
@@ -530,7 +567,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             isValid &= isBudgetAggregationAllowed(budgetAggregationCodesParamValues, pendingBudgetConstructionGeneralLedger, errors, isAdd);
 
             // TODO add other generic restriction checks
-            isValid &= this.isBudgetAllowed(budgetConstructionDocument, errors, isAdd);
+            isValid &= this.isBudgetAllowed(budgetConstructionDocument, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, errors, isAdd, false);
 
             // revenue specific checks
             if (isRevenue) {
@@ -847,33 +884,34 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * runs rule checks that don't allow a budget
      * 
      * @param budgetConstructionDocument
+     * @param propertyName
      * @param errors
-     * @param isRevenue
      * @param isAdd
+     * @param isDocumentAdd
      * @return
      */
-    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, ErrorMap errors, boolean isAdd) {
+    private boolean isBudgetAllowed(BudgetConstructionDocument budgetConstructionDocument, String propertyName, ErrorMap errors, boolean isAdd, boolean isDocumentAdd) {
         boolean isAllowed = true;
         SimpleDateFormat tdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
         // is account closed?
         if (!budgetConstructionDocument.getAccount().isActive()) {
             isAllowed = false;
-            this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_CLOSED, isAdd, "account: " + budgetConstructionDocument.getAccountNumber());
+            this.putError(errors, propertyName, KFSKeyConstants.ERROR_CLOSED, isAdd, "account: " + budgetConstructionDocument.getAccountNumber());
         }
 
         // is account expiration no budget allowed, currently < 1/1/(byfy-2)?
         Calendar expDate = BudgetConstructionRuleUtil.getNoBudgetAllowedExpireDate(budgetConstructionDocument.getUniversityFiscalYear());
         if (budgetConstructionDocument.getAccount().isExpired(expDate)) {
             isAllowed = false;
-            this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_NO_BUDGET_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), tdf.format(budgetConstructionDocument.getAccount().getAccountExpirationDate()));
+            this.putError(errors, propertyName, BCKeyConstants.ERROR_NO_BUDGET_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), tdf.format(budgetConstructionDocument.getAccount().getAccountExpirationDate()));
 
         }
 
         // is account a cash control account
         if (budgetConstructionDocument.getAccount().getBudgetRecordingLevelCode().equalsIgnoreCase(BCConstants.BUDGET_RECORDING_LEVEL_N)) {
             isAllowed = false;
-            this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_BUDGET_RECORDING_LEVEL_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), BCConstants.BUDGET_RECORDING_LEVEL_N);
+            this.putError(errors, propertyName, BCKeyConstants.ERROR_BUDGET_RECORDING_LEVEL_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), BCConstants.BUDGET_RECORDING_LEVEL_N);
         }
 
         // grab the service instance that will be needed by all the validate methods
@@ -883,22 +921,33 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             SubAccount subAccount = budgetConstructionDocument.getSubAccount();
 
             // is subacct inactive or not exist?
-            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubAccount to add the bad value to the error
-            // message
+            // this code calls a local version (not AccountingLineRuleHelper) of isValidSubAccount
+            // to add the bad value to the error message
             if (isAdd) {
-                isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
+                if (isDocumentAdd) {
+                    isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+                }
+                else {
+                    isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, propertyName);
+                }
             }
             else {
                 isAllowed &= this.isValidSubAccount(subAccount, budgetConstructionDocument.getSubAccountNumber(), dd, TARGET_ERROR_PROPERTY_NAME);
             }
 
             // is subacct type cost share?
-            // TODO this expects a a21_sub_account, kuldev doesn't have one to one instances
-            budgetConstructionDocument.getSubAccount().refreshReferenceObject(KFSPropertyConstants.A21_SUB_ACCOUNT);
-            if (budgetConstructionDocument.getSubAccount().getA21SubAccount() != null) {
-                if (budgetConstructionDocument.getSubAccount().getA21SubAccount().getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
+            // this hack is here since kuldev is missing one to one instances
+            // and the RI ojb mapping produces an error when attempting to test if the
+            // A21SubAccount attached to the document's SubAccount is null
+            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionDocument.getChartOfAccountsCode());
+            searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionDocument.getAccountNumber());
+            searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionDocument.getSubAccountNumber());
+            A21SubAccount a21SubAccount = (A21SubAccount) businessObjectService.findByPrimaryKey(A21SubAccount.class, searchCriteria);
+            if (a21SubAccount != null) {
+                if (a21SubAccount.getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;
-                    this.putError(errors, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
+                    this.putError(errors, propertyName, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
                 }
             }
         }

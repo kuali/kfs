@@ -24,6 +24,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
+import org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule;
 import org.kuali.kfs.module.bc.document.validation.AddPendingBudgetGeneralLedgerLineRule;
 import org.kuali.kfs.module.bc.document.validation.BudgetExpansionRule;
 import org.kuali.kfs.module.bc.document.validation.DeleteMonthlySpreadRule;
@@ -38,7 +39,7 @@ import org.kuali.rice.kns.rule.SaveDocumentRule;
 /**
  * Base rule class for Budget Construction. Handles calling other expansion rule classes and the core budget document rules.
  */
-public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
+public class BudgetConstructionRules implements BudgetExpansionRule, SalarySettingRule, SaveDocumentRule, AddBudgetConstructionDocumentRule<BudgetConstructionDocument>, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     private Collection<BusinessRule> expansionRules;
     private BudgetConstructionDocumentRules budgetConstructionDocumentRules;
     private SalarySettingRule salarySettingRules;
@@ -85,6 +86,13 @@ public class BudgetConstructionRules implements BudgetExpansionRule, SalarySetti
      */
     public boolean processSaveDocument(Document document) {
         return ((SaveDocumentRule) budgetConstructionDocumentRules).processSaveDocument(document);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule#processAddBudgetConstructionDocumentRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
+     */
+    public boolean processAddBudgetConstructionDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
+        return ((AddBudgetConstructionDocumentRule<BudgetConstructionDocument>) budgetConstructionDocumentRules).processAddBudgetConstructionDocumentRules(budgetConstructionDocument);
     }
 
     /**

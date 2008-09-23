@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
@@ -37,9 +38,9 @@ public class KualiDocumentTotalAmountXMLSearchAttributeImpl extends KualiXmlSear
      * method and either add or translate
      */
     @Override
-    public List getSearchStorageValues(String docContent) {
+    public List getSearchStorageValues(DocumentSearchContext documentSearchContext) {
         List<SearchableAttributeValue> newSearchAttributeValues = new ArrayList();
-        List<SearchableAttributeValue> superList = super.getSearchStorageValues(docContent);
+        List<SearchableAttributeValue> superList = super.getSearchStorageValues(documentSearchContext);
         if (superList.isEmpty()) {
             SearchableAttributeFloatValue attValue = generateZeroDollarSearchableAttributeValue();
             newSearchAttributeValues.add(attValue);

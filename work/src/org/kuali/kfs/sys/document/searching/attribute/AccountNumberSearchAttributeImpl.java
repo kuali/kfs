@@ -26,6 +26,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.workflow.AccountingLineClassDeterminer;
@@ -53,7 +54,7 @@ public class AccountNumberSearchAttributeImpl extends KualiXmlSearchableAttribut
      * @see org.kuali.rice.kew.docsearch.SearchableAttribute#validateUserSearchInputs(java.util.Map)
      */
     @Override
-    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map params) {
+    public List<WorkflowAttributeValidationError> validateUserSearchInputs(Map params, DocumentSearchContext documentSearchContext) {
         String accountNumber = (String)params.get(KFSPropertyConstants.ACCOUNT_NUMBER);
         List<WorkflowAttributeValidationError> errors = new ArrayList<WorkflowAttributeValidationError>();
         if (StringUtils.isNotBlank(accountNumber)) { // only validate if the account number isn't empty
@@ -72,18 +73,18 @@ public class AccountNumberSearchAttributeImpl extends KualiXmlSearchableAttribut
      * @see org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute#getSearchStorageValues(java.lang.String)
      */
     @Override
-    public List<SearchableAttributeValue> getSearchStorageValues(String docContent) {
-        List<SearchableAttributeValue> storageValues =  super.getSearchStorageValues(docContent);
+    public List<SearchableAttributeValue> getSearchStorageValues(DocumentSearchContext documentSearchContext) {
+        List<SearchableAttributeValue> storageValues =  super.getSearchStorageValues(documentSearchContext);
         Document document;
-        if (StringUtils.isBlank(docContent)) {
-            LOG.warn("Empty Document Content found '" + docContent + "'");
+        if (StringUtils.isBlank(documentSearchContext.getDocumentContent())) {
+            LOG.warn("Empty Document Content found '" + documentSearchContext.getDocumentContent() + "'");
             return storageValues;
         }
         try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new BufferedReader(new StringReader(docContent))));
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new BufferedReader(new StringReader(documentSearchContext.getDocumentContent()))));
         } catch (Exception e){
-            LOG.error("error parsing docContent: "+docContent, e);
-            throw new RuntimeException("Error trying to parse docContent: "+docContent, e);
+            LOG.error("error parsing docContent: "+documentSearchContext.getDocumentContent(), e);
+            throw new RuntimeException("Error trying to parse docContent: "+documentSearchContext.getDocumentContent(), e);
         }
         AccountingLineClassDeterminer accountingLineClassDeterminer = new AccountingLineClassDeterminer(document);
         XPath xpath = XPathHelper.newXPath(document);

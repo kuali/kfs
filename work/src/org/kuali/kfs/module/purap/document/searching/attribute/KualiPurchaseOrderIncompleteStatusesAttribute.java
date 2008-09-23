@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.searching.attribute;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.rice.kew.docsearch.SearchableAttributeStringValue;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
@@ -38,9 +39,9 @@ public class KualiPurchaseOrderIncompleteStatusesAttribute extends KualiXmlSearc
      * This method will use the given value which should be the document's status code and translate that into
      */
     @Override
-    public List getSearchStorageValues(String docContent) {
+    public List getSearchStorageValues(DocumentSearchContext documentSearchContext) {
         List<SearchableAttributeValue> newSearchAttributeValues = new ArrayList();
-        List<SearchableAttributeValue> superList = super.getSearchStorageValues(docContent);
+        List<SearchableAttributeValue> superList = super.getSearchStorageValues(documentSearchContext);
         if (superList.size() != 1) {
             String errorMessage = "Exactly one field with an xpath expression that finds one status code should be defined for this attribute (found " + superList.size() + ").";
             LOG.error(errorMessage);

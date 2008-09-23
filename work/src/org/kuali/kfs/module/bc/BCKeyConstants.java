@@ -22,6 +22,9 @@ public class BCKeyConstants {
     public static final String QUESTION_DELETE = "document.question.delete.text";
 
     public static final String MESSAGE_BUDGET_DOCUMENT_NOT_BUDGETABLE = "message.budget.documentNotBudgetable";
+    public static final String MESSAGE_BUDGET_NOCREATE_DOCUMENT = "message.budget.nocreate.document";
+    public static final String MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE = "message.budget.system.not.active";
+    public static final String MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE = "message.budget.system.multiple.active";
     public static final String MESSAGE_BUDGET_SYSTEM_VIEW_ONLY = "message.budget.systemViewOnly";
     public static final String MESSAGE_BUDGET_VIEW_ONLY = "message.budget.viewOnly";
     public static final String MESSAGE_BUDGET_EDIT_ACCESS = "message.budget.editAccess";

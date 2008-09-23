@@ -86,6 +86,12 @@ public class PurapPropertyConstants {
     public static final String COMMODITY_CODE = "commodityCode";
     public static final String RECEIVING_DOCUMENT_REQUIRED_ID = "receivingDocumentRequiredIndicator";
     public static final String CAPITAL_ASSET_SYSTEM_TYPE = "capitalAssetManagementSystemType";
+    public static final String CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
+    public static final String CAPITAL_ASSET_TRANSACTION_TYPE_CODE = "capitalAssetTransactionTypeCode";
+    public static final String PURCHASING_CAPITAL_ASSET_ITEMS = "purchasingCapitalAssetItems";
+    public static final String PURCHASING_CAPITAL_ASSET_SYSTEMS = "purchasingCapitalAssetSystems";
+    public static final String PURCHASING_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
+    public static final String CAPITAL_ASSET_LOCATIONS = "capitalAssetLocations";
     
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";

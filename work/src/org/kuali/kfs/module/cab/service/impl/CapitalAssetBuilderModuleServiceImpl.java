@@ -46,6 +46,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
@@ -107,8 +108,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for validateAllFieldRequirementsByChart
         //should be null. So we'll pass in a null here.
         boolean valid = validateAllFieldRequirementsByChart(systemState, null, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
-        //FIXME (from hjs) this didn't work for my REQ (possibly because it shouldn't have became an APO)
-//        valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems);
+        valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, systemState);
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
@@ -124,7 +124,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
-        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType);
+        String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
+        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
         valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
@@ -137,7 +138,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
         //against CAMS data (for example, asset # exist in CAMS) 
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
-        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType);
+        String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
+        valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
         valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
@@ -179,8 +181,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, "KFS-CAB");
-        fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, "Document");
+        fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         String name = "CHARTS_REQUIRING%" + documentType;
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAME, name);
         //TODO: KULPURAP-2837, Find a more permanent home for the codes for handling "LIKE" criterias. This works fine for now
@@ -226,18 +228,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 
                 //capitalAssetTransactionType field is off the item
-                if (mappedName.equals("capitalAssetTransactionTypeCode")) {
-                    String[] mappedNames = {"purchasingCapitalAssetItems", mappedName};
+                if (mappedName.equals(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE)) {
+                    String[] mappedNames = {PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS, mappedName};
                     
                     for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-                        StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetItems[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
+                        StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
                         valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                     }
                 }
                 //all the other fields are off the system.
                 else {
                     List<String> mappedNamesList = new ArrayList<String>();
-                    mappedNamesList.add("purchasingCapitalAssetSystems");
+                    mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS);
                     if (mappedName.indexOf(".") < 0) {
                         mappedNamesList.add(mappedName);     
                     }
@@ -249,7 +251,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     //types to work fine.
                     int count = 0;
                     for (CapitalAssetSystem system : capitalAssetSystems) {
-                        StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetSystems[" + new Integer(count) + "].");
+                        StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[" + new Integer(count) + "].");
                         valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, null);
                         count++;
                     }
@@ -282,18 +284,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
                     return true;
                 }
+                
                 //capitalAssetTransactionType field is off the item
                 List<String> mappedNamesList = new ArrayList<String>();
                 
-                if (mappedName.equals("capitalAssetTransactionTypeCode")) {
-                    mappedNamesList.add("purchasingCapitalAssetItems");
+                if (mappedName.equals(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE)) {
+                    mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS);
                     mappedNamesList.add(mappedName);
      
                 }
                 //all the other fields are off the system which is off the item
                 else {
-                    mappedNamesList.add("purchasingCapitalAssetItems");
-                    mappedNamesList.add("purchasingCapitalAssetSystem");
+                    mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS);
+                    mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEM);
                     if (mappedName.indexOf(".") < 0) {
                         mappedNamesList.add(mappedName);     
                     }
@@ -304,7 +307,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 //For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get it through
                 //the purchasingCapitalAssetSystem of the item.
                 for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-                    StringBuffer keyBuffer = new StringBuffer("document.purchasingCapitalAssetItems[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
+                    StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
                     valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                 }
             }
@@ -411,18 +414,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetItems
      * @return true if the total quantity on all locations equals to the quantity on the line item.
      */
-    private boolean validateQuantityOnLocationsEqualsQuantityOnItem(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+    private boolean validateQuantityOnLocationsEqualsQuantityOnItem(List<PurchasingCapitalAssetItem> capitalAssetItems, String systemType, String systemState) {
         boolean valid = true;
+        String availableValue = getValueFromAvailabilityMatrix(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS + "." + PurapPropertyConstants.QUANTITY, systemType, systemState);
+        if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
+            //If the location quantity isn't available on the document given the system type and system state, we don't need to validate this, just return true.
+            return true;
+        }
+        int count = 0;
         for (PurchasingCapitalAssetItem item : capitalAssetItems) {
-            if (!item.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+            if (item.getPurchasingItem() != null && !item.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
                 KualiDecimal total = new KualiDecimal(0);
                 for (CapitalAssetLocation location : item.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
                     total = total.add(location.getItemQuantity());
                 }
                 if (!item.getPurchasingItem().getItemQuantity().equals(total)) {
                     valid = false;
+                    String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_LOCATIONS_QUANTITY_MUST_EQUAL_ITEM_QUANTITY;
+                    String propertyName = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "]." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEM + ".newPurchasingCapitalAssetLocationLine." + PurapPropertyConstants.QUANTITY;
+                    GlobalVariables.getErrorMap().putError(propertyName, errorKey, Integer.toString(count + 1));
                 }
             }
+            count++;
         }
         
         return valid;
@@ -440,8 +453,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
+        int count = 0;
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
-            valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItem.getPurchasingCapitalAssetSystem(), capitalAssetItem.getCapitalAssetTransactionTypeCode());
+            String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";
+            valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItem.getPurchasingCapitalAssetSystem(), capitalAssetItem.getCapitalAssetTransactionTypeCode(), prefix);
+            count++;
         }
         return valid;
     }
@@ -458,7 +474,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers
      *         but the itemCapitalAsset contains at least one asset numbers. 
      */
-    private boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType) {
+    private boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
         String parameterName = CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS;
         boolean allowedAssetNumbers = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
@@ -468,6 +484,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else {
             for (ItemCapitalAsset asset : capitalAssetSystem.getItemCapitalAssets()) {
                 if (asset.getCapitalAssetNumber() != null) {
+                    String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
+                    GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE, capitalAssetTransactionType);
                     return false;
                 }
             }
@@ -493,7 +511,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // object is null on the capitalAssetItem, so we need to refresh it to obtain the entire
                 // capitalAssetTransactionType.
                 if (capitalAssetItem.getCapitalAssetTransactionType() == null) {
-                    ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject("capitalAssetTransactionType");
+                    ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
                 }
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
@@ -562,7 +580,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 //            capitalAssetTransactionTypeCode = item.getCapitalAssetItem().getCapitalAssetTransactionTypeCode();
 //            capitalAssetTransactionType = (AssetTransactionType)item.getCapitalAssetItem().getCapitalAssetTransactionType();
 //        }       
-
+        //This is the response to FIXME (from hjs), would this work ?
+        if (item.getPurchasingCapitalAssetItem() != null) {
+            capitalAssetTransactionTypeCode = item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionTypeCode();
+            ((PurchasingCapitalAssetItemBase)item.getPurchasingCapitalAssetItem()).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
+            capitalAssetTransactionType = (AssetTransactionType)item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionType();
+        }
+        
         // Do the checks that depend on Accounting Line information.
         for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
             // Because of ObjectCodeCurrent, we had to refresh this.

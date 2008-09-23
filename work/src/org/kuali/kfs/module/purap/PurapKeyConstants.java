@@ -70,6 +70,10 @@ public class PurapKeyConstants {
     public static final String PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM = "purchasing.question.change.system";
     public static final String PURCHASING_MESSAGE_SYSTEM_CHANGED = "purchasing.message.system.changed";
     
+    public static final String ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE = "error.capitalAsset.asset.numbers.not.allowed.trans.type";
+    public static final String ERROR_CAPITAL_ASSET_LOCATIONS_QUANTITY_MUST_EQUAL_ITEM_QUANTITY = "error.capitalAsset.locations.quantity.must.equal.item.quantity";
+    
+    
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
     public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";

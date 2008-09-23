@@ -40,7 +40,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
     private ReferenceService referenceService;
     private KualiCodeService kualiCodeService;
     
-    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, boolean immediate, String paymentTypes) {
+    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes) {
         LOG.debug("markPaymentsForFormat() started");
 
         Timestamp now = new Timestamp((new Date()).getTime());
@@ -70,24 +70,24 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         criteria.addIn("batch.customerId", customerIds);
         criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
 
-        if ("SY".equals(paymentTypes)) {
+        if (PdpConstants.PaymentType.DISBURSEMENTS_WITH_SPECIAL_HANDLING.getPaymentType().equals(paymentTypes)) {
             // special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.TRUE);
         }
-        else if ("SN".equals(paymentTypes)) {
+        else if (PdpConstants.PaymentType.DISBURSEMENTS_NO_SPECIAL_HANDLING.getPaymentType().equals(paymentTypes)) {
             // no special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.FALSE);
         }
-        else if ("AY".equals(paymentTypes)) {
+        else if (PdpConstants.PaymentType.DISBURSEMENTS_WITH_ATTACHMENTS.getPaymentType().equals(paymentTypes)) {
             // attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.TRUE);
         }
-        else if ("AN".equals(paymentTypes)) {
+        else if (PdpConstants.PaymentType.DISBURSEMENTS_NO_ATTACHMENTS.getPaymentType().equals(paymentTypes)) {
             // no attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.FALSE);
         }
 
-        if (immediate) {
+        if (PdpConstants.PaymentType.PROCESS_IMMEDIATE.getPaymentType().equals(paymentTypes)) {
             criteria.addEqualTo("processImmediate", Boolean.TRUE);
         }
         else {

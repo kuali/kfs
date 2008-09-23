@@ -396,7 +396,7 @@ public class FormatServiceImpl implements FormatService {
 
     // Mark the process log so a format only happens once per campus. Mark all the
     // payments that will be formatted and return a summary
-    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes) {
+    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, String paymentTypes) {
         LOG.debug("startFormatProcess() started");
 
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
@@ -413,7 +413,7 @@ public class FormatServiceImpl implements FormatService {
         PaymentProcess p = processDao.createProcess(campus, user);
 
         // Mark all of them ready for format
-        formatPaymentDao.markPaymentsForFormat(p, customers, paydate, immediate, paymentTypes);
+        formatPaymentDao.markPaymentsForFormat(p, customers, paydate, paymentTypes);
 
         // summarize them
         PreFormatProcessSummary fps = new PreFormatProcessSummary();

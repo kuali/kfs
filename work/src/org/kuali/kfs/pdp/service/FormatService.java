@@ -33,7 +33,7 @@ public interface FormatService {
 
     // Mark the process log so a format only happens once per campus. Mark all the
     // payments that will be formatted and return a summary. attachments will be Y, N or null for both.
-    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes);
+    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, String paymentTypes);
 
     // Mark the process as ended.
     public void endFormatProcess(String campus);

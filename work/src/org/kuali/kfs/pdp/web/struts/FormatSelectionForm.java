@@ -33,7 +33,7 @@ import org.kuali.kfs.pdp.DateHandler;
 public class FormatSelectionForm extends ActionForm {
     private String[] customerProfileId;
     private String paymentDate;
-    private String immediate;
+    //private String immediate;
     private String paymentTypes;
 
     public FormatSelectionForm() {
@@ -45,7 +45,7 @@ public class FormatSelectionForm extends ActionForm {
             for (int i = 0; i < customerProfileId.length; i++) {
                 customerProfileId[i] = "";
             }
-            immediate = "N";
+            //immediate = "N";
         }
     }
 
@@ -80,13 +80,13 @@ public class FormatSelectionForm extends ActionForm {
         customerProfileId[index] = value;
     }
 
-    public String getImmediate() {
+    /*public String getImmediate() {
         return immediate;
     }
 
     public void setImmediate(String immediate) {
         this.immediate = immediate;
-    }
+    }*/
 
     public String getPaymentDate() {
         return paymentDate;

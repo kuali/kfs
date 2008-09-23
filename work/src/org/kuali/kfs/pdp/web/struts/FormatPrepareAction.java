@@ -101,7 +101,7 @@ public class FormatPrepareAction extends BaseAction {
         session.removeAttribute("ranges");
         session.removeAttribute("FormatSelectionForm");
 
-        List results = formatService.startFormatProcess(getUser(request), campus, selectedCustomers, paymentDate, "Y".equals(fsf.getImmediate()), fsf.getPaymentTypes());
+        List results = formatService.startFormatProcess(getUser(request), campus, selectedCustomers, paymentDate, fsf.getPaymentTypes());
         if (results.size() == 0) {
             return mapping.findForward("no_payments");
         }

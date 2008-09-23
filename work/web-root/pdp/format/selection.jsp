@@ -136,27 +136,27 @@
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">Only Disbursements Flagged as Immediate:</th>
-            <td class="datacell" align="left"><html:checkbox property="immediate" value="Y"/></td>
+            <td class="datacell" align="left"><html:checkbox property="paymentTypes" value="immediate"/></td>
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">All Payment Types:</th>
-            <td class="datacell" align="left"><html:radio property="paymentTypes" value="A"/></td>
+            <td class="datacell" align="left"><html:radio property="paymentTypes" value="all"/></td>
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">Only Disbursements with Attachments:</th>
-            <td class="datacell" align="left"><html:radio property="paymentTypes" value="AY"/></td>
+            <td class="datacell" align="left"><html:radio property="paymentTypes" value="pymtAttachment"/></td>
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">Only Disbursements with No Attachments:</th>
-            <td class="datacell" align="left"><html:radio property="paymentTypes" value="AN"/></td>
+            <td class="datacell" align="left"><html:radio property="paymentTypes" value="pymtAttachmentFalse"/></td>
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">Only Disbursements with Special Handling:</th>
-            <td class="datacell" align="left"><html:radio property="paymentTypes" value="SY"/></td>
+            <td class="datacell" align="left"><html:radio property="paymentTypes" value="pymtSpecialHandling"/></td>
           </tr>
           <tr>
             <th align="right" nowrap="nowrap">Only Disbursements with No Special Handling:</th>
-            <td class="datacell" align="left"><html:radio property="paymentTypes" value="SN"/></td>
+            <td class="datacell" align="left"><html:radio property="paymentTypes" value="pymtSpecialHandlingFalse"/></td>
           </tr>
         </tbody>
       </table>

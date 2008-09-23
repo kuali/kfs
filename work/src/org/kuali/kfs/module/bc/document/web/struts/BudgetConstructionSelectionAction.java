@@ -29,26 +29,35 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
+import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
+import org.kuali.kfs.module.bc.document.validation.event.AddBudgetConstructionDocumentEvent;
+import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.report.ReportControlListBuildHelper;
 import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ModuleAuthorizationException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -68,7 +77,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        
+
         // set force rebuild on report build helper so each time we go out of report screen and come back the list will be rebuilt
         ReportControlListBuildHelper buildHelper = (ReportControlListBuildHelper) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.CONTROL_BUILD_HELPER_SESSION_NAME);
         if (buildHelper == null) {
@@ -93,7 +102,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     }
 
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm,
+     *      java.lang.String)
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -105,12 +115,36 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         }
     }
 
+    /**
+     * Performs the initial load of the selection screen. Checks for the active BC fiscal year and initializes the fiscal year to be
+     * budgeted and used for all other operations throughout the system
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
-        // TODO this needs to call the bc fiscal year function service
-        budgetConstructionSelectionForm.setUniversityFiscalYear(new Integer(2008));
+        // get active BC year and complain when anything other than one year active for now
+        List<Integer> activeBCYears = fiscalYearFunctionControlService.getActiveBudgetYear();
+        if (activeBCYears.size() != 1) {
+            budgetConstructionSelectionForm.setUniversityFiscalYear(null);
+            if (activeBCYears.size() < 1) {
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_NOT_ACTIVE);
+            }
+            else {
+                GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_SYSTEM_MULTIPLE_ACTIVE);
+            }
+        }
+        else {
+            budgetConstructionSelectionForm.setUniversityFiscalYear(activeBCYears.get(0));
+        }
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
@@ -121,10 +155,20 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Opens a Budget Construction document. Creates a new (blank) BC document, if one does not exist. The new BC document is
+     * created at level zero and the associated account organization hierarchy is built.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performBCDocumentOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // TODO do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
-        // TODO for now just return an error if the doc does not exist
+        // do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         BudgetConstructionHeader bcHeader = budgetConstructionSelectionForm.getBudgetConstructionHeader();
 
@@ -142,20 +186,33 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null) {
 
-            // TODO do rules checks for create new BC document event
-            // not system view only and budgetable account and sub-account
-            boolean rulePassed = true;
-            if (rulePassed){
+            // get a bare bones BC document to run the rule engine against
+            // if rulesPassed, use the document to instantiate to the DB
+            BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringContext.getBean(DocumentService.class).getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            budgetConstructionDocument.setUniversityFiscalYear(universityFiscalYear);
+            budgetConstructionDocument.setChartOfAccountsCode(chartOfAccountsCode);
+            budgetConstructionDocument.setAccountNumber(accountNumber);
+            budgetConstructionDocument.setSubAccountNumber(subAccountNumber);
+            List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
+            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
+
+
+            // TODO check is system view only
+            // check if not system view only and budgetable account and sub-account
+            boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddBudgetConstructionDocumentEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_HEADER, budgetConstructionDocument));
+            if (rulePassed) {
                 List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
-                if (newAccountOrganizationHierarchy == null || newAccountOrganizationHierarchy.isEmpty()){
-                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode+"-"+accountNumber);
+                if (newAccountOrganizationHierarchy == null || newAccountOrganizationHierarchy.isEmpty()) {
+                    GlobalVariables.getErrorMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode + "-" + accountNumber);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
-                
+
                 // hierarchy created - attempt to create BC document
-                SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
+                // SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(universityFiscalYear,
+                // chartOfAccountsCode, accountNumber, subAccountNumber);
+                SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(budgetConstructionDocument);
                 tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-                if (tHeader == null){
+                if (tHeader == null) {
 
                     GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -167,9 +224,9 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             else {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-//
-//            GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
-//            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            //
+            // GlobalVariables.getErrorMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+            // return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // open the existing or newly created BC document
@@ -180,9 +237,9 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         parameters.put("accountNumber", tHeader.getAccountNumber());
         parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
         parameters.put("pickListMode", "false");
-        
+
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.BC_DOCUMENT_ACTION, parameters);
-        
+
         return new ActionForward(lookupUrl, true);
     }
 
@@ -243,12 +300,22 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.ORG_SEL_TREE_METHOD);
         parameters.put("operatingMode", opMode.toString());
         parameters.put("universityFiscalYear", budgetConstructionSelectionForm.getUniversityFiscalYear().toString());
-        
+
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.ORG_SEL_TREE_ACTION, parameters);
-        
+
         return new ActionForward(lookupUrl, true);
     }
 
+    /**
+     * Passes control to the Organization Selection to run the organization reports subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         ActionForward forward = performOrgSelectionTree(OrgSelOpMode.REPORTS, mapping, form, request, response);
@@ -256,23 +323,43 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return forward;
     }
 
+    /**
+     * Passes control to the request import subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.REQUEST_IMPORT_ACTION, null);
-        
+
         return new ActionForward(lookupUrl, true);
     }
-    
+
+    /**
+     * Passes control to the Pay Rate import/export subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performPayrateImportExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         String lookupUrl = BudgetUrlUtil.buildBudgetUrl(mapping, budgetConstructionSelectionForm, BCConstants.PAYRATE_IMPORT_EXPORT_ACTION, null);
-    
+
         return new ActionForward(lookupUrl, true);
     }
-    
+
     /**
-     * Builds forward URL to lock monitor page, following expansion screen pattern. Also checks if the user has permission for the unlock action and sets the
-     * show action column property accordingly.
+     * Builds forward URL to lock monitor page, following expansion screen pattern. Also checks if the user has permission for the
+     * unlock action and sets the show action column property accordingly.
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -293,7 +380,17 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         return new ActionForward(url, true);
     }
-    
+
+    /**
+     * Passes control to the Organization Selection to run the organization pullup subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performOrgPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         ActionForward forward = performOrgSelectionTree(OrgSelOpMode.PULLUP, mapping, form, request, response);
@@ -301,6 +398,16 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return forward;
     }
 
+    /**
+     * Passes control to the Organization Selection to run the organization pushdown subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performOrgPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         ActionForward forward = performOrgSelectionTree(OrgSelOpMode.PUSHDOWN, mapping, form, request, response);
@@ -309,7 +416,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     }
 
     /**
-     * Calls service to build the account list for which the user is a manager and delegate. Then forwards to temp list action to display the results.
+     * Calls service to build the account list for which the user is a manager and delegate. Then forwards to temp list action to
+     * display the results.
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -321,16 +429,26 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), budgetConstructionSelectionForm.getUniversityFiscalYear());
         if (rowCount == 0) {
             GlobalVariables.getMessageList().add(BCKeyConstants.ERROR_NO_RECORDS_MY_ACCOUNTS);
-            
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         // forward to temp list action for displaying results
         String url = BudgetUrlUtil.buildTempListLookupUrl(mapping, budgetConstructionSelectionForm, BCConstants.TempListLookupMode.ACCOUNT_SELECT_MANAGER_DELEGATE, BudgetConstructionAccountSelect.class.getName(), null);
 
         return new ActionForward(url, true);
     }
 
+    /**
+     * Passes control to the Organization Selection to run the organization budgeted account list subsystem
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performMyOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
         ActionForward forward = performOrgSelectionTree(OrgSelOpMode.ACCOUNT, mapping, form, request, response);

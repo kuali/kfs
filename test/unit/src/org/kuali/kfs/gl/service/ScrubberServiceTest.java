@@ -709,7 +709,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P1"
      * @throws Exception thrown if any exception is encountered for any reason
      */
-    @RelatesTo(JiraIssue.KFSMI1353)
     public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
 
         String[] input = new String[] { "2007BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                       ", "2007BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                       " };
@@ -1544,7 +1543,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
-    @RelatesTo(JiraIssue.KFSMI1353)
     public void testInvalidObjectCode() throws Exception {
         String[] inputTransactions = { "2007BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                               ", "2007BL2231423-----8000---ACAS  CR  PLINVALOBJ      00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                               " };
 

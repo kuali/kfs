@@ -507,13 +507,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         int count = 0;
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
             if (StringUtils.isNotBlank(capitalAssetItem.getCapitalAssetTransactionTypeCode())) {
-                // This next if condition is needed because in the real document (as opposed to in unit test), the
-                // capitalAssetTransactionType
-                // object is null on the capitalAssetItem, so we need to refresh it to obtain the entire
-                // capitalAssetTransactionType.
-                if (capitalAssetItem.getCapitalAssetTransactionType() == null) {
-                    ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
-                }
+
+                ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
+                
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
                         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";

@@ -227,7 +227,16 @@ public abstract class AccountLineGroup {
     }
 
     private String replaceFiller(String val) {
-        return val == null ? "" : val.trim().replaceAll("-", "");
+        if (val == null) {
+            return "";
+        }
+        char[] charArray = val.trim().toCharArray();
+        for (char c : charArray) {
+            if (c != '-') {
+                return val;
+            }
+        }
+        return "";
     }
 
     private boolean equalsIgnoreFiller(String val, String test) {

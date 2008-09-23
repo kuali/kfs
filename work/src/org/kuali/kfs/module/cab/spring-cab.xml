@@ -191,6 +191,7 @@
         </property>
     </bean>
 	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
+		<property name="glLineService" ref="glLineService" />
     </bean>
 
     <bean id="cabGlEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">

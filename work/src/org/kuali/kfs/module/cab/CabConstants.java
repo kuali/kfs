@@ -36,6 +36,7 @@ public class CabConstants extends JSTLConstants {
         public static final String DETAIL_TYPE_BATCH = "Batch";
         public static final String DETAIL_TYPE_DOCUMENT = "Document";
         public static final String LAST_EXTRACT_DATE = "LAST_EXTRACT_DATE";
+        public static final String DETAIL_TYPE_PRE_ASSET_TAGGING_STEP = "PreAssetTaggingStep";
     }
 
     public static final String PREQ = "PREQ";

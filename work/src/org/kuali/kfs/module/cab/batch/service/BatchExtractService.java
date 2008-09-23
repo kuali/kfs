@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.batch.service;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -108,4 +109,6 @@ public interface BatchExtractService {
      * @param preTaggablePOAccounts List of pre-taggable account lines
      */
     void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts);
+    
+    void updateLastExtractDate(Date time);
 }

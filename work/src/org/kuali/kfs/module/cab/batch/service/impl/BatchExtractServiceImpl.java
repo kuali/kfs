@@ -77,6 +77,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BatchExtractServiceImpl implements BatchExtractService {
+
     protected static final Logger LOG = Logger.getLogger(BatchExtractServiceImpl.class);
     protected static final String NEW_LINE = System.getProperty("line.separator");
     protected BusinessObjectService businessObjectService;
@@ -565,8 +566,8 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 Integer itemLineNumber = purapItem.getItemLineNumber();
                 if (poId != null && itemLineNumber != null) {
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put("purchaseOrderNumber", poId);
-                    primaryKeys.put("lineItemNumber", itemLineNumber);
+                    primaryKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, poId);
+                    primaryKeys.put(CabPropertyConstants.Pretag.LINE_ITEM_NUMBER, itemLineNumber);
                     // check if already in pre-tag table
                     Pretag pretag = (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, primaryKeys);
                     if (ObjectUtils.isNull(pretag) && savedLines.add("" + poId + "-" + itemLineNumber)) {
@@ -694,5 +695,18 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     public void setPurchasingAccountsPayableItemAssetDao(PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao) {
         this.purchasingAccountsPayableItemAssetDao = purchasingAccountsPayableItemAssetDao;
+    }
+
+    public void updateLastExtractDate(java.sql.Date dt) {
+        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
+        if (parameter != null) {
+            SimpleDateFormat format = new SimpleDateFormat(CabConstants.DATE_FORMAT_DT);
+            parameter.setParameterValue(format.format(dt));
+            businessObjectService.save(parameter);
+        }
     }
 }

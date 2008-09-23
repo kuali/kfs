@@ -29,7 +29,7 @@ public class CamsConstants extends JSTLConstants {
     // public static final String SYSTEM_NAME = "Capital Assets Management System";
 
     public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
-    
+
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";
     public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE = "SL";
     public static final String TRANSFER_PAYMENT_CODE_N = "N";
@@ -49,7 +49,8 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class PaymentDocumentTypeCodes {
-        // These are the document type codes that payments are saved under when they are modified by assets. Note that not necessarily
+        // These are the document type codes that payments are saved under when they are modified by assets. Note that not
+        // necessarily
         // the documents themselves use these document type codes.
         public static final String ASSET_GLOBAL_SEPARATE = "ASEP";
         public static final String ASSET_RETIREMENT_MERGE = "AMRG";
@@ -84,8 +85,8 @@ public class CamsConstants extends JSTLConstants {
         public static final String MERGE_SEPARATE_RETIREMENT_REASONS = "MERGE_SEPARATE_RETIREMENT_REASONS";
         public static final String RAZE_RETIREMENT_REASONS = "RAZE_RETIREMENT_REASONS";
         public static final String CAPITAL_OBJECT_SUB_TYPES = "CAPITAL_OBJECT_SUB_TYPES";
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS="IGNORES_LOCKS_IND";
-        public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT="MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS = "IGNORES_LOCKS_IND";
+        public static final String MAX_NUMBER_OF_RECORDS_PER_DOCUMENT = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     }
 
     public static class Report {
@@ -94,7 +95,7 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class Depreciation {
-       // public static final String DEPRECIATION_ORIGINATION_CODE = "01"; // 01 -> Transaction Processing
+        // public static final String DEPRECIATION_ORIGINATION_CODE = "01"; // 01 -> Transaction Processing
         public static final String TRANSACTION_DESCRIPTION = "Batch Depreciation Asset ";
         public static final String DOCUMENT_DESCRIPTION = "Batch Depreciation Entry";
         public static final String REPORT_FILE_NAME = "DEPRECIATION_REPORT";
@@ -118,28 +119,27 @@ public class CamsConstants extends JSTLConstants {
 
     public static class BarcodeInventoryError {
         public static final String DETAIL_ERRORS = "document.inventoryUploadErrorDetail*";
-        
-        //barcode inventory error document status codes
-        public static final String STATUS_CODE_ERROR="E";
-        public static final String STATUS_CODE_CORRECTED="C";
-        public static final String STATUS_CODE_DELETED="D";
-        
-        public static final String STATUS_CODE_ERROR_DESCRIPTION="Error";
-        public static final String STATUS_CODE_CORRECTED_DESCRIPTION="Corrected";
-        public static final String STATUS_CODE_DELETED_DESCRIPTION="Deleted";
-        
-        //public static final String STATUS_CODE_VALIDATED="V";
-        
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO="N";
-        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES="Y";
-        
-        
-        
-        public static final Map<String, String> statusDescription = new HashMap<String, String>(); 
+
+        // barcode inventory error document status codes
+        public static final String STATUS_CODE_ERROR = "E";
+        public static final String STATUS_CODE_CORRECTED = "C";
+        public static final String STATUS_CODE_DELETED = "D";
+
+        public static final String STATUS_CODE_ERROR_DESCRIPTION = "Error";
+        public static final String STATUS_CODE_CORRECTED_DESCRIPTION = "Corrected";
+        public static final String STATUS_CODE_DELETED_DESCRIPTION = "Deleted";
+
+        // public static final String STATUS_CODE_VALIDATED="V";
+
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_NO = "N";
+        public static final String BAR_CODE_ERROR_DOCUMENT_IGNORES_LOCKS_YES = "Y";
+
+
+        public static final Map<String, String> statusDescription = new HashMap<String, String>();
         static {
-            statusDescription.put(STATUS_CODE_CORRECTED,STATUS_CODE_CORRECTED_DESCRIPTION);
-            statusDescription.put(STATUS_CODE_DELETED,STATUS_CODE_DELETED_DESCRIPTION);
-            statusDescription.put(STATUS_CODE_ERROR,STATUS_CODE_ERROR_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_CORRECTED, STATUS_CODE_CORRECTED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_DELETED, STATUS_CODE_DELETED_DESCRIPTION);
+            statusDescription.put(STATUS_CODE_ERROR, STATUS_CODE_ERROR_DESCRIPTION);
         }
     }
 
@@ -212,7 +212,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_LAND_INFORMATION = "landInformation";
         public static final String SECTION_ID_PAYMENT_INFORMATION = "paymentInformation";
         public static final String SECTION_ID_DEPRECIATION_INFORMATION = "depreciationInformation";
-        public static final String SECTION_ID_MERGE_HISTORY = "mergeHistory";        
+        public static final String SECTION_ID_MERGE_HISTORY = "mergeHistory";
         public static final String SECTION_ID_HISTORY = "history";
         public static final String SECTION_ID_RETIREMENT_INFORMATION = "retirementInformation";
         public static final String SECTION_ID_EQUIPMENT_LOAN_INFORMATION = "equipmentLoanInformation";
@@ -249,9 +249,9 @@ public class CamsConstants extends JSTLConstants {
         public static final String DATA_FILE_TYPE = "csv";
         public static final String DATA_FILE_EXTENSION = ".csv";
         public static final String DONE_FILE_EXTENSION = ".done";
-        
-        public static final String BCI_MANUALLY_KEYED_CODE="0";
-        public static final String BCI_SCANED_INTO_DEVICE="1";        
+
+        public static final String BCI_MANUALLY_KEYED_CODE = "0";
+        public static final String BCI_SCANED_INTO_DEVICE = "1";
     }
 
 
@@ -267,6 +267,8 @@ public class CamsConstants extends JSTLConstants {
     public static final String DOCUMENT_PATH = "document";
     public static final String DOC_HEADER_PATH = DOCUMENT_PATH + "." + DOCUMENT_NUMBER_PATH;
     public static final String ASSET_LOAN_CONFIRM_QN_ID = "AssetTransferLoanConfirmation";
+
+    public static final String ACQUISITION_TYPE_CODE_N = "N";
 
     public static class AssetGlobal {
         public static final String CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP = "C;F;G;N;P;S;T";

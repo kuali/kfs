@@ -20,9 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -30,12 +32,14 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the base getActionUrls method
  */
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
+    private GlLineService glLineService;
 
     /*******************************************************************************************************************************
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
@@ -44,11 +48,26 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
-        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Create Asset");
-        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Create Payment");
+        CapitalAssetInformation capitalAssetInformation = this.glLineService.findCapitalAssetInformation(entry);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        anchorHtmlDataList.add(createAssetHref);
-        anchorHtmlDataList.add(createPaymentHref);
+        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Assets");
+        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Payments");
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            // if asset is known, create payment
+            if (capitalAssetInformation.getCapitalAssetNumber() != null && capitalAssetInformation.getCapitalAssetNumber().longValue() > 0) {
+                anchorHtmlDataList.add(createPaymentHref);
+            }
+            else {
+                // else create new asset
+                anchorHtmlDataList.add(createAssetHref);
+            }
+        }
+        else {
+            // provide both
+            anchorHtmlDataList.add(createAssetHref);
+            anchorHtmlDataList.add(createPaymentHref);
+
+        }
         return anchorHtmlDataList;
     }
 
@@ -82,6 +101,24 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
             matchingResultsCount = new Long(0);
         }
         return new CollectionIncomplete(newList, matchingResultsCount);
+    }
+
+    /**
+     * Gets the glLineService attribute.
+     * 
+     * @return Returns the glLineService.
+     */
+    public GlLineService getGlLineService() {
+        return glLineService;
+    }
+
+    /**
+     * Sets the glLineService attribute value.
+     * 
+     * @param glLineService The glLineService to set.
+     */
+    public void setGlLineService(GlLineService glLineService) {
+        this.glLineService = glLineService;
     }
 
 }

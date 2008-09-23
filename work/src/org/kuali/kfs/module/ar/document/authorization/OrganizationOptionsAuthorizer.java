@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.ar.document.authorization;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -45,17 +47,17 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
         
         String nameEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_NAME_EDITABLE_IND");
         if (nameEditable.equalsIgnoreCase("N")) {
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
         
         String addressEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_ADDRESS_EDITABLE_IND");
         if (addressEditable.equalsIgnoreCase("N")) {
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_CITY_NAME);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
-            auths.addReadonlyAuthField(ArConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE2_STREET_ADDRESS);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_CITY_NAME);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_STATE_CODE);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ZIP_CODE);
         }
     }
 }

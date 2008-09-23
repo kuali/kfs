@@ -31,7 +31,9 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArConstants.CustomerAgingReportFields;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerAgingReportFields;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -75,7 +77,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);   
     private BusinessObjectService businessObjectService;
-    
     private String customerNameLabel;
     private String customerNumberLabel;
     private String cutoffdate30Label;
@@ -103,12 +104,12 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         
         /* 
-        String reportOption = (String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_OPTION);
+        String reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         String accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         String chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         String orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
         */
-        reportOption = (String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_OPTION);
+        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
         orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
@@ -141,7 +142,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         //Date reportRunDate;
         try {
-            reportRunDate = dateFormat.parse((String) fieldValues.get(ArConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate=today;

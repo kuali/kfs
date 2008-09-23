@@ -22,6 +22,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.dataaccess.CustomerAddressDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -32,7 +34,7 @@ public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
     public CustomerAddress getPrimaryAddress(String customerNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("customerNumber", customerNumber);
-        criteria.addEqualTo("customerAddressTypeCode", ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+        criteria.addEqualTo("customerAddressTypeCode", ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
 
         return (CustomerAddress) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CustomerAddress.class, criteria));
     }
@@ -40,9 +42,9 @@ public class CustomerAddressDaoOjb extends PlatformAwareDaoBaseOjb implements Cu
     public Integer getMaxSquenceNumber(String customerNumber) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo(ArConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
+        criteria.addEqualTo(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CustomerAddress.class, criteria);
-        query.setAttributes(new String[] { "max(" + ArConstants.CustomerFields.CUSTOMER_ADDRESS_IDENTIFIER + ")" });
+        query.setAttributes(new String[] { "max(" + ArPropertyConstants.CustomerFields.CUSTOMER_ADDRESS_IDENTIFIER + ")" });
         Iterator<?> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Integer maxSequenceNumber = Integer.valueOf(0);
 

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -80,7 +82,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
         PersistableBusinessObject businessObject = super.initNewCollectionLine(collectionName);
         Customer customer = (Customer) this.businessObject;
 
-        if (collectionName.equalsIgnoreCase(ArConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
+        if (collectionName.equalsIgnoreCase(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
 
             CustomerAddress customerAddress = (CustomerAddress) businessObject;
             
@@ -92,7 +94,7 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
                 boolean hasPrimaryAddress = false;
 
                 for (CustomerAddress tempAddress : customer.getCustomerAddresses()) {
-                    if (ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equalsIgnoreCase(tempAddress.getCustomerAddressTypeCode())) {
+                    if (ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equalsIgnoreCase(tempAddress.getCustomerAddressTypeCode())) {
                         hasPrimaryAddress = true;
                         break;
                     }
@@ -100,17 +102,17 @@ public class CustomerMaintenableImpl extends KualiMaintainableImpl {
                 // if maintenance action is NEW and customer already has a primary address set default value for address type code
                 // to "Alternate"
                 if (hasPrimaryAddress) {
-                    customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+                    customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
                 }
                 // otherwise set default value for address type code to "Primary"
                 else {
-                    customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+                    customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
                 }
             }
 
             // if maintenance action is EDIT or COPY set default value for address type code to "Alternate"
             if (KNSConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
-                customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+                customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
             }
 
         }

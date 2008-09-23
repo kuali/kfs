@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -52,7 +54,7 @@ public class CustomerInvoiceDetailSystemInformationDiscountValidation extends Ge
 
         SystemInformation systemInformation = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
         if (ObjectUtils.isNull(systemInformation) || StringUtils.isEmpty(systemInformation.getDiscountObjectCode())){
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_SYSTEM_INFORMATION_DISCOUNT_DOES_NOT_EXIST, new String[]{processingChartOfAccountsCode, processingOrganizationCode,universityFiscalYear.toString()});
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_INVOICE_DETAILS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_SYSTEM_INFORMATION_DISCOUNT_DOES_NOT_EXIST, new String[]{processingChartOfAccountsCode, processingOrganizationCode,universityFiscalYear.toString()});
             return false;
         }
         return true;

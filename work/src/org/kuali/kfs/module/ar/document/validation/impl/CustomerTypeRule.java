@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,7 +73,7 @@ public class CustomerTypeRule extends MaintenanceDocumentRuleBase {
 
         for (CustomerType record : dataToValidateList) {
             if (customerType.getCustomerTypeDescription() != null && customerType.getCustomerTypeDescription().equalsIgnoreCase(record.getCustomerTypeDescription())) {
-                putFieldError(ArConstants.CustomerTypeFields.CUSTOMER_TYPE_DESC, ArConstants.CustomerTypeConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
+                putFieldError(ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_DESC, ArKeyConstants.CustomerTypeConstants.ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE);
                 success = false;
                 break;
             }

@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -50,8 +52,8 @@ public class CustomerPreRules extends PreRulesContinuationBase {
         boolean shouldAskQuestion = maintenanceDocument.isNew() && checkIfOtherCustomerSameName(newCostomer);
 
         if (shouldAskQuestion) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
-            boolean confirm = super.askOrAnalyzeYesNoQuestion(ArConstants.CustomerConstants.GENERATE_CUSTOMER_QUESTION_ID, questionText);
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            boolean confirm = super.askOrAnalyzeYesNoQuestion(ArKeyConstants.CustomerConstants.GENERATE_CUSTOMER_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();
             }
@@ -70,7 +72,7 @@ public class CustomerPreRules extends PreRulesContinuationBase {
         Customer customer = SpringContext.getBean(CustomerService.class).getCustomerByName(newCustomer.getCustomerName());
         if (ObjectUtils.isNotNull(customer)) {
             exists = true;
-            GlobalVariables.getMessageList().add(ArConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            GlobalVariables.getMessageList().add(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
         }
         return exists;
     }

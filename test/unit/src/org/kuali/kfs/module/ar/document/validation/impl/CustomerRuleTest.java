@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -138,7 +140,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
      */
     public void testCheckAddresses_True()
     {
-        customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
         customer.getCustomerAddresses().add(customerAddress);
 
 
@@ -152,7 +154,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
      */
     public void testCheckAddresses_HasMore_False()
     {
-        customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
         customer.getCustomerAddresses().add(customerAddress);
         customer.getCustomerAddresses().add(customerAddress);
 
@@ -166,7 +168,7 @@ public class CustomerRuleTest extends MaintenanceRuleTestBase {
      */
     public void testCheckAddresses_HasNone_False()
     {
-        customerAddress.setCustomerAddressTypeCode(ArConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+        customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
         customer.getCustomerAddresses().add(customerAddress);
 
         CustomerRule rule = (CustomerRule) setupMaintDocRule(newMaintDoc(customer), CustomerRule.class);

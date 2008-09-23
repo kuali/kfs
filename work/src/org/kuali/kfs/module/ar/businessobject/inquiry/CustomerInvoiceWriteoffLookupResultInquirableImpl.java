@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.businessobject.inquiry;
 import java.util.Properties;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -44,15 +46,15 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
         AnchorHtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
-        if (ArConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
+        if (ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
             String baseUrl = KFSConstants.INQUIRY_ACTION;
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
-            parameters.put(ArConstants.CustomerFields.CUSTOMER_NUMBER, ObjectUtils.getPropertyValue((CustomerInvoiceWriteoffLookupResult) businessObject, attributeName));
+            parameters.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, ObjectUtils.getPropertyValue((CustomerInvoiceWriteoffLookupResult) businessObject, attributeName));
 
             inquiryHref.setHref(UrlFactory.parameterizeUrl(baseUrl, parameters));
-        } else if (ArConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(attributeName) ){
+        } else if (ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(attributeName) ){
             
             String documentNumber = ObjectUtils.getPropertyValue((CustomerInvoiceDocument)businessObject, attributeName).toString();
             inquiryHref.setHref(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView");

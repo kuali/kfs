@@ -22,6 +22,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -151,7 +153,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
 
             // add cash control detail
-            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(kualiConfiguration.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDocument, newCashControlDetail);
 
             // set a new blank cash control detail
             cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
@@ -181,7 +183,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         DocumentService documentService = KNSServiceLocator.getDocumentService();
 
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-        documentService.cancelDocument(applicationDocument, ArConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
+        documentService.cancelDocument(applicationDocument, ArKeyConstants.DOCUMENT_DELETED_FROM_CASH_CTRL_DOC);
         cashControlDocument.deleteCashControlDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -216,7 +218,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         boolean success = generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(cashControlDocument);
 
         if (!success) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_GLPES_NOT_CREATED);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
         // approve the GLPEs
         cashControlDocument.changeGeneralLedgerPendingEntriesApprovedStatusCode();

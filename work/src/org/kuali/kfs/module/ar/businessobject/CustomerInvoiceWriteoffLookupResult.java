@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -106,11 +108,11 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     }
     public List<String> getCustomerInvoiceDocumentAttributesForDisplay(){
         List<String> customerInvoiceDocumentAttributesForDisplay = new ArrayList<String>();
-        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);
-        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.AGE);
-        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
-        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.SOURCE_TOTAL);
-        customerInvoiceDocumentAttributesForDisplay.add(ArConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
+        customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER);
+        customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.AGE);
+        customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE);
+        customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.SOURCE_TOTAL);
+        customerInvoiceDocumentAttributesForDisplay.add(ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_AMOUNT);
         
         return customerInvoiceDocumentAttributesForDisplay;
     }

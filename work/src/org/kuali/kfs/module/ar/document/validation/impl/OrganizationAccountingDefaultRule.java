@@ -20,6 +20,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -86,7 +88,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     private boolean doesWriteoffAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffAccountNumber())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.WRITEOFF_ACCOUNT_NUMBER, ArConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_ACCOUNT_NUMBER_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_ACCOUNT_NUMBER, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_ACCOUNT_NUMBER_REQUIRED);
             return false;
         }
 
@@ -102,7 +104,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     private boolean doesWriteoffChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffChartOfAccountsCode())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.WRITEOFF_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_CHART_OF_ACCOUNTS_CODE_REQUIRED);
             return false;
         }
 
@@ -117,7 +119,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      */
     private boolean doesWriteoffFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
         if (StringUtils.isEmpty(organizationAccountingDefault.getWriteoffFinancialObjectCode())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.WRITEOFF_FINANCIAL_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_OBJECT_CODE_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_FINANCIAL_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_WRITEOFF_OBJECT_CODE_REQUIRED);
             return false;
         }
 
@@ -165,7 +167,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
             success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(writeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError(ArConstants.OrganizationAccountingDefaultFields.WRITEOFF_FINANCIAL_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.WRITE_OFF_OBJECT_CODE_INVALID, writeObject.getCode());
+                putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.WRITEOFF_FINANCIAL_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.WRITE_OFF_OBJECT_CODE_INVALID, writeObject.getCode());
             }
         }
 
@@ -192,7 +194,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
             success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(lateChargeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError(ArConstants.OrganizationAccountingDefaultFields.LATE_CHARGE_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObject.getCode());
+                putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.LATE_CHARGE_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObject.getCode());
             }
         }
 
@@ -216,7 +218,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
         if (StringUtils.isNotEmpty(organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode()) &&
                 StringUtils.isEmpty(organizationAccountingDefault.getDefaultInvoiceChartOfAccountsCode())) {
             
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS );
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS );
             success = false;
             
         } else {
@@ -229,7 +231,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
                 success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceFinancialObject.getFinancialObjectTypeCode());
 
                 if (!success) {
-                    putFieldError(ArConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObject.getCode());
+                    putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.INVOICE_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObject.getCode());
                 }
             }
         }
@@ -246,7 +248,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     private boolean doesPaymentAccountNumberExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentAccountNumber())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_ACCOUNT_NUMBER, ArConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_ACCOUNT_NUMBER, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_ACCOUNT_NUMBER_REQUIRED);
             return false;
         }
 
@@ -262,7 +264,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     private boolean doesPaymentChartOfAccountsCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
 
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentChartOfAccountsCode())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_CHART_OF_ACCOUNTS_CODE_REQUIRED);
             return false;
         }
 
@@ -277,7 +279,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      */
     private boolean doesPaymentFinancialObjectCodeExist(OrganizationAccountingDefault organizationAccountingDefault) {
         if (StringUtils.isEmpty(organizationAccountingDefault.getDefaultPaymentFinancialObjectCode())) {
-            putFieldError(ArConstants.OrganizationAccountingDefaultFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
+            putFieldError(ArPropertyConstants.OrganizationAccountingDefaultFields.PAYMENT_FINANCIAL_OBJECT_CODE, ArKeyConstants.OrganizationAccountingDefaultErrors.ERROR_PAYMENT_OBJECT_CODE_REQUIRED);
             return false;
         }
 

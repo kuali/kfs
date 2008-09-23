@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.KFSConstants;
@@ -59,6 +61,6 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
                 "&reportName=" + KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME +
                 "&customerName=" +customer.getCustomerName()+
                 "&reportName=Customer History Report&docFormKey=88888888";
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArConstants.CustomerConstants.ACTIONS_REPORT);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.CustomerConstants.ACTIONS_REPORT);
     }
 }

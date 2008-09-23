@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -131,12 +133,12 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         // line amount cannot be zero
         if (detail.getFinancialDocumentLineAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_ZERO);
             isValid = false;
         }
         // line amount cannot be negative
         if (detail.getFinancialDocumentLineAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.FINANCIAL_DOCUMENT_LINE_AMOUNT, ArKeyConstants.ERROR_LINE_AMOUNT_CANNOT_BE_NEGATIVE);
             isValid = false;
         }
         return isValid;
@@ -155,7 +157,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         if (cashControlDocument.getCashControlDetails().isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArConstants.ERROR_NO_LINES_TO_PROCESS);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CASH_CONTROL_DETAILS, ArKeyConstants.ERROR_NO_LINES_TO_PROCESS);
         }
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -182,7 +184,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         PaymentMedium paymentMedium = (PaymentMedium) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
 
         if (paymentMedium == null) {
-            GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
             isValid = false;
         }
 
@@ -207,19 +209,19 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             try {
                 Long.parseLong(refDocNumber);
                 if (StringUtils.isBlank(refDocNumber)) {
-                    GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+                    GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
                     isValid = false;
                 }
                 else {
                     boolean docExists = SpringContext.getBean(DocumentService.class).documentExists(refDocNumber);
                     if (!docExists) {
-                        GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                        GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                         isValid = false;
                     }
                 }
             }
             catch (NumberFormatException nfe) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.REFERENCE_FINANCIAL_DOC_NBR, ArKeyConstants.ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH);
                 isValid = false;
             }
 
@@ -244,7 +246,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         // Receipt Document must be created prior to creating the Cash Control document and it's number should be set in Reference
         // Document number
         if (!ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode()) && (glpes == null || glpes.isEmpty())) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_GLPES_NOT_CREATED);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
             isValid = false;
         }
 
@@ -273,7 +275,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         OrganizationOptions organizationOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNull(organizationOptions)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
             isValid = false;
         }
 
@@ -375,7 +377,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
             if (customer == null) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
                 isValid = false;
             }
         }
@@ -401,7 +403,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
             if (customer != null && !customer.isCustomerActiveIndicator()) {
 
-                GlobalVariables.getErrorMap().putError(ArConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_IS_INACTIVE);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_IS_INACTIVE);
                 isValid = false;
             }
         }
@@ -422,7 +424,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         if (glpes != null && !glpes.isEmpty()) {
             success = false;
-            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
         }
         return success;
 
@@ -450,7 +452,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
                 GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
                 GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-                GlobalVariables.getErrorMap().put(ArConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
+                GlobalVariables.getErrorMap().put(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
                 GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
                 GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 

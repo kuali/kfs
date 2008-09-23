@@ -19,6 +19,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -63,7 +65,7 @@ public class CashControlDocumentServiceTest extends KualiTestBase {
 
         CashControlDocument cashControlDocument = new CashControlDocument();
         CashControlDetail cashControlDetail = new CashControlDetail();
-        PaymentApplicationDocument applicationDocument = service.createAndSavePaymentApplicationDocument(ArConstants.CREATED_BY_CASH_CTRL_DOC, cashControlDocument, cashControlDetail);
+        PaymentApplicationDocument applicationDocument = service.createAndSavePaymentApplicationDocument(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC, cashControlDocument, cashControlDetail);
 
         assertNotNull(applicationDocument);
 

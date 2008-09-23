@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -74,7 +76,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         criteria.put("invoiceNumber", newInvoiceRecurrence.getInvoiceNumber());
         InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceRecurrence.class, criteria);
         if (ObjectUtils.isNotNull(invoiceRecurrence) && !(oldInvoiceRecurrence.equals(invoiceRecurrence))) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
             success = false;
         }
         return success;
@@ -103,12 +105,12 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
             KualiWorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
             if (!(workflowDocument.stateIsApproved())) {
-                putFieldError(ArConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArConstants.ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED);
+                putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_RECURRING_INVOICE_NUMBER_MUST_BE_APPROVED);
                 success = false;
             }
         }
         else {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArConstants.ERROR_INVOICE_DOES_NOT_EXIST);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_INVOICE_DOES_NOT_EXIST);
             success = false;
         }
         return success;
@@ -124,7 +126,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         Timestamp currentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         Timestamp beginDateTimestamp = new Timestamp(newInvoiceRecurrence.getDocumentRecurrenceBeginDate().getTime());
         if (beginDateTimestamp.before(currentDate) || beginDateTimestamp.equals(currentDate)) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_BEGIN_DATE, ArConstants.ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_BEGIN_DATE, ArKeyConstants.ERROR_INVOICE_RECURRENCE_BEGIN_DATE_EARLIER_THAN_TODAY);
             return false;
         }
         return success;
@@ -142,7 +144,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         Timestamp endDateTimestamp = new Timestamp(newInvoiceRecurrence.getDocumentRecurrenceEndDate().getTime());
         if ((ObjectUtils.isNotNull(endDateTimestamp)) &&
             (endDateTimestamp.before(beginDateTimestamp) || endDateTimestamp.equals(beginDateTimestamp))) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArConstants.ERROR_END_DATE_EARLIER_THAN_BEGIN_DATE);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArKeyConstants.ERROR_END_DATE_EARLIER_THAN_BEGIN_DATE);
             return false;
         }
         return success;
@@ -197,7 +199,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
             }
         }
         if (totalRecurrences != newInvoiceRecurrence.getDocumentTotalRecurrenceNumber().intValue()) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArConstants.ERROR_END_DATE_AND_TOTAL_NUMBER_OF_RECURRENCES_NOT_VALID);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArKeyConstants.ERROR_END_DATE_AND_TOTAL_NUMBER_OF_RECURRENCES_NOT_VALID);
             return false;
         }
         
@@ -209,7 +211,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
     private boolean validateEndDateOrTotalNumberofRecurrences(InvoiceRecurrence newInvoiceRecurrence) {
         boolean success = true;
         if (ObjectUtils.isNull(newInvoiceRecurrence.getDocumentRecurrenceEndDate()) && ObjectUtils.isNull(newInvoiceRecurrence.getDocumentTotalRecurrenceNumber())) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArConstants.ERROR_END_DATE_OR_TOTAL_NUMBER_OF_RECURRENCES);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_END_DATE, ArKeyConstants.ERROR_END_DATE_OR_TOTAL_NUMBER_OF_RECURRENCES);
             return false;
         }
         return success;
@@ -231,7 +233,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (newInvoiceRecurrence.getDocumentTotalRecurrenceNumber() > maximumRecurrencesByInterval) {
-                    putFieldError(ArConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER, ArConstants.ERROR_TOTAL_NUMBER_OF_RECURRENCES_GREATER_THAN_ALLOWED, maximumRecurrences.get(0));
+                    putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER, ArKeyConstants.ERROR_TOTAL_NUMBER_OF_RECURRENCES_GREATER_THAN_ALLOWED, maximumRecurrences.get(0));
                     return false;
                 }
             }
@@ -253,7 +255,7 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         criteria.put("documentNumber", newInvoiceRecurrence.getInvoiceNumber());
         InvoiceRecurrence invoiceRecurrence = (InvoiceRecurrence) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceRecurrence.class, criteria);
         if (ObjectUtils.isNull(invoiceRecurrence)) {
-            putFieldError(ArConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
+            putFieldError(ArPropertyConstants.InvoiceRecurrenceFields.RECURRING_INVOICE_NUMBER, ArKeyConstants.ERROR_MAINTENANCE_DOCUMENT_ALREADY_EXISTS);
             success = false;
         }
         return success;

@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -90,7 +92,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param document the cash control document
      */
     private void addDescriptionToDocument(CashControlDocument document) {
-        document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArConstants.ELECTRONIC_PAYMENT_CLAIM));
+        document.getDocumentHeader().setDocumentDescription(kualiConfigurationService.getPropertyString(ArKeyConstants.ELECTRONIC_PAYMENT_CLAIM));
     }
 
     /**
@@ -125,7 +127,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
             newCashControlDetail.setCashControlDocument(document);
             newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
             newCashControlDetail.setFinancialDocumentLineAmount(electronicPaymentClaim.getGeneratingAdvanceDepositDetail().getFinancialDocumentAdvanceDepositAmount());
-            cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyString(ArConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(kualiConfigurationService.getPropertyString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), document, newCashControlDetail);
         }
 
     }

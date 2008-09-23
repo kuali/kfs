@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,7 +42,7 @@ public class CustomerInvoiceDetailUnitOfMeasureValidation extends GenericValidat
             Map<String,String> criteria = new HashMap<String,String>();
             criteria.put("itemUnitOfMeasureCode", customerInvoiceDetail.getInvoiceItemUnitOfMeasureCode());
             if (ObjectUtils.isNull(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UnitOfMeasure.class, criteria))) {
-                GlobalVariables.getErrorMap().putError(ArConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.UNIT_OF_MEASURE_CODE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_UNIT_OF_MEASURE_CD);
                 return false;
             }
         }

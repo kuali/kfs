@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -77,7 +79,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
         
         if( ObjectUtils.isNull(systemInformation) ){
-            putFieldError(ArConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[]{ processingChartOfAccountCode, processingOrganizationCode } );
+            putFieldError(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[]{ processingChartOfAccountCode, processingOrganizationCode } );
             success = false;
         }
         return success;

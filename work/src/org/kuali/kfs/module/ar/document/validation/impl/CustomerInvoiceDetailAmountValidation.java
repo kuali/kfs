@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,7 +36,7 @@ public class CustomerInvoiceDetailAmountValidation extends GenericValidation {
         KualiDecimal amount = customerInvoiceDetail.getAmount();
         
         if (KualiDecimal.ZERO.equals(amount)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }
         else {
@@ -42,21 +44,21 @@ public class CustomerInvoiceDetailAmountValidation extends GenericValidation {
 
             if (customerInvoiceDocument.isInvoiceReversal()) {
                 if (customerInvoiceDetail.isDiscountLine() && amount.isNegative()) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
                 else if (!customerInvoiceDetail.isDiscountLine() && amount.isPositive()) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }
             else {
                 if (customerInvoiceDetail.isDiscountLine() && amount.isPositive()) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
                 else if (!customerInvoiceDetail.isDiscountLine() && amount.isNegative()) {
-                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+                    GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                     return false;
                 }
             }

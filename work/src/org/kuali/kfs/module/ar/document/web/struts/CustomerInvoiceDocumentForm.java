@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -103,8 +105,8 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public Map getForcedLookupOptionalFields() {
         Map forcedLookupOptionalFields = super.getForcedLookupOptionalFields();
 
-        forcedLookupOptionalFields.put(ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY, ArConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY + ";" + CustomerInvoiceItemCode.class.getName());
-        forcedLookupOptionalFields.put(ArConstants.CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY, ArConstants.UNIT_OF_MEASURE_PROPERTY + ";" + UnitOfMeasure.class.getName());
+        forcedLookupOptionalFields.put(ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY, ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_INVOICE_ITEM_CODE_PROPERTY + ";" + CustomerInvoiceItemCode.class.getName());
+        forcedLookupOptionalFields.put(ArPropertyConstants.CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY, ArPropertyConstants.UNIT_OF_MEASURE_PROPERTY + ";" + UnitOfMeasure.class.getName());
 
         return forcedLookupOptionalFields;
     }

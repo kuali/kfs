@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -31,10 +33,10 @@ public class CustomerInvoiceCustomerNumberValidation extends GenericValidation {
 
     public boolean validate(AttributedDocumentEvent event) {
         
-        customerInvoiceDocument.getAccountsReceivableDocumentHeader().refreshReferenceObject(ArConstants.CustomerInvoiceDocumentFields.CUSTOMER);
+        customerInvoiceDocument.getAccountsReceivableDocumentHeader().refreshReferenceObject(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER);
         Customer customer = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomer();
         if (ObjectUtils.isNull(customer) || !customer.isCustomerActiveIndicator()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, ArConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_CUSTOMER_NUMBER);
             return false;
         }
 

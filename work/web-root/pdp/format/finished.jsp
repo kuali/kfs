@@ -57,7 +57,7 @@
          </tr>
          <c:forEach var="item" items="${formatResultList}">
          <tr>
-            <td><c:out value="${item.sortGroupName}"/></td>
+            <!--td><c:out value="${item.sortGroupName}"/></td-->
             <td><c:out value="${item.cust.chartCode}/${item.cust.orgCode}/${item.cust.subUnitCode} ${item.cust.customerDescription}"/></td>
             <td><c:out value="${item.disbursementType.name}"/></td>
             <td align="right"><c:out value="${item.beginDisbursementNbr}"/></td>

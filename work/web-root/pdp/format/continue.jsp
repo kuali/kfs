@@ -105,7 +105,7 @@
         <tbody>
          <c:forEach var="item" items="${results}">
          <tr>
-            <td width="15%"><c:out value="${item.sortGroupName}"/></td>
+            <!--td width="15%"><c:out value="${item.sortGroupName}"/></td-->
             <td width="45%"><c:out value="${item.cust.chartCode}/${item.cust.orgCode}/${item.cust.subUnitCode} ${item.cust.customerDescription}"/></td>
             <td width="20%" align="right"><fmt:formatNumber value="${item.payments}"/></td>
             <td width="20%" align="right"><fmt:formatNumber value="${item.amount}" type="currency"/></td>

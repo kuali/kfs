@@ -162,11 +162,11 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     public int getSortGroupId(PaymentGroup paymentGroup) {      
         String DEFAULT_SORT_GROUP_ID_PARAMETER = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
 
-        for (Integer sortGroupId : sortGroupSelectionParameters.keySet()) {         
-            List<String> parameterValues = Arrays.asList(StringUtils.substringAfter(sortGroupSelectionParameters.get(sortGroupId).getValue(), "=").split(";"));         
-            String constrainedValue = (String)ObjectUtils.getPropertyValue(paymentGroup, StringUtils.substringBefore(sortGroupSelectionParameters.get(sortGroupId).getValue(), "="));           
-            if ((sortGroupSelectionParameters.get(sortGroupId).constraintIsAllow() && parameterValues.contains(constrainedValue))           
-                || (!sortGroupSelectionParameters.get(sortGroupId).constraintIsAllow() && !parameterValues.contains(constrainedValue))) {           
+        for (Integer sortGroupId : getSortGroupSelectionParameters().keySet()) {         
+            List<String> parameterValues = Arrays.asList(StringUtils.substringAfter(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "=").split(";"));         
+            String constrainedValue = String.valueOf(ObjectUtils.getPropertyValue(paymentGroup, StringUtils.substringBefore(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "=")));           
+            if ((getSortGroupSelectionParameters().get(sortGroupId).constraintIsAllow() && parameterValues.contains(constrainedValue))           
+                || (!getSortGroupSelectionParameters().get(sortGroupId).constraintIsAllow() && !parameterValues.contains(constrainedValue))) {           
                     return sortGroupId;         
             }           
         }
@@ -185,7 +185,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
             return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_GROUP_NAME_OTHER);         
         }       
         
-        return dataDictionaryService.getAttributeLabel(PaymentGroup.class, StringUtils.substringBefore(sortGroupSelectionParameters.get(sortGroupId).getValue(), "="));         
+        return dataDictionaryService.getAttributeLabel(PaymentGroup.class, StringUtils.substringBefore(getSortGroupSelectionParameters().get(sortGroupId).getValue(), "="));         
     }   
     
     /**
@@ -215,7 +215,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        // TODO Auto-generated method stub
-        
+        this.dataDictionaryService = dataDictionaryService;
     }
 }

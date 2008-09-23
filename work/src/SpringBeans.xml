@@ -255,7 +255,6 @@
 	<bean id="universalUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">
 		<property name="universalUserDao" ref="universalUserDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="kualiGroupService" ref="kualiGroupService" />
 		<property name="lookupDao" ref="lookupDao" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
 		<property name="dateTimeService" ref="dateTimeService" />
@@ -324,7 +323,6 @@
 	<bean id="dataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="authorizationService" ref="authorizationService" />
-		<property name="kualiGroupService" ref="kualiGroupService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
         <property name="baselinePackages">
             <list>

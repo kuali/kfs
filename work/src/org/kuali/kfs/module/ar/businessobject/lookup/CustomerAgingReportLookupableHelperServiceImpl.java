@@ -90,6 +90,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String accountNumber;
     private String chartCode;
     private String orgCode;
+    private int nbrDaysLastBucket = KFSConstants.CustomerAgingReport.NBR_DAYS_IN_LAST_BUCKET;
 
     /**
      * Get the search results that meet the input search criteria.
@@ -160,7 +161,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
         LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
         LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
-        LOG.info("\t\t***********************  cutoffdate 365:\t\t"+cutoffdate365.toString());
 
         // List invoices = (List) customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
         //JUSTIN SAYS NOT WORKING SO DON'T USE: Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getAllCustomerInvoiceDocuments();
@@ -225,10 +225,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                 custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR()));   
                 LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
             }
-//            if (approvalDate.before(cutoffdate120) && approvalDate.after(cutoffdate365)) {
-//                custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);                
-//                custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30()));                
-//            }
             if (approvalDate.before(cutoffdate120)) {
                 custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
                 LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
@@ -264,29 +260,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
     }  
- 
-//    /**
-//     * @return a List of the CustomerInvoiceDetails associated with a given Processing Chart and Org
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentByProcessingChartOrg(String chartCode, String orgCode) {
-//        // MJM NOT WORKING YET
-//        Map args = new HashMap();
-//        args.put("chartOfAccountsCode", chartCode);
-//        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-//    }      
-//
-//    /**
-//     * @return a List of the CustomerInvoiceDetails associated with a given Billing Chart and Org
-//     */
-//    @SuppressWarnings("unchecked")
-//    public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByBillingChartOrg(String chartCode, String orgCode) {
-//        // MJM THIS NO WORKY YET
-//        Map args = new HashMap();
-//        args.put("chartOfAccountsCode", chartCode);
-//        return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-//    }   
-//    
+   
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.
      */

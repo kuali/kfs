@@ -51,11 +51,12 @@
 
 <%--	<kfs:hiddenDocumentFields /> --%>
 
-	<kul:errors keyMatch="budgetConstructionHeader" errorTitle="Errors found in Search Criteria:" />
+	<kul:errors keyMatch="${BCConstants.BUDGET_CONSTRUCTION_SELECTION_ERRORS}" errorTitle="Errors found in Search Criteria:" />
 	<c:forEach items="${KualiForm.messages}" var="message">
 	   ${message}
 	</c:forEach>
 
+    <c:if test="${!empty KualiForm.universityFiscalYear}">
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 	    <tr>
 <%--TODO probably should assign width in css --%>
@@ -398,6 +399,7 @@
 		    </td>
 		</tr>
 	</table>
+    </c:if>
 
     <div id="globalbuttons" class="globalbuttons">
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>

@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Asset" parent="Asset-parentBean" />
 
@@ -192,6 +194,17 @@
             </list>
           </property>
         </bean>
+        <dd:relationship objectAttribute="offCampusLocation.postalZipCode">
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalZipCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="offCampusLocation.assetLocationState">
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationStateCode" target="postalStateCode" />            
+        </dd:relationship>
+        <dd:relationship objectAttribute="offCampusLocation.assetLocationCountry">
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+        </dd:relationship>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -1429,7 +1442,7 @@
     <property name="shortLabel" value="Postal Code" />
     <property name="summary" value="Asset Off Campus Zip" />
     <property name="description" value="Asset Off Campus Zip description..." />
-  </bean>
+   </bean>
   <bean id="Asset-offCampusLocation.assetLocationCountryCode" parent="Asset-offCampusLocation.assetLocationCountryCode-parentBean" />
 
   <bean id="Asset-offCampusLocation.assetLocationCountryCode-parentBean" abstract="true" parent="AssetLocation-assetLocationCountryCode">

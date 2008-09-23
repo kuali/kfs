@@ -85,6 +85,7 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -119,6 +120,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -126,13 +128,22 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+/**
+ * This is a helper service for PO matching and creating payment request based on the 
+ * electronic invoice file.   
+ * 
+ * @author vpremcha
+ * @author delyea (code copied from EPIC)
+ */
+
 @Transactional
 public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelperService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
     private static final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
-
+    private static final String INVOICE_FILE_MIME_TYPE = "text/xml";  
+    
     private StringBuffer emailTextErrorList = new StringBuffer();
     
     private Map<String, Map> itemTypeMappingsCache = new WeakHashMap<String, Map>();  
@@ -149,33 +160,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     public boolean loadElectronicInvoices() {
 
-        /**
-         * TODO: HAVE TO REMOVE THIS TEMP CODE
-         */
-        try {
-            GlobalVariables.setUserSession(new UserSession("abolding"));
-        }
-        catch (UserNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        catch (WorkflowException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        
         LOG.debug("loadElectronicInvoices() started");
 
         /**
          * FIXME: Add parameters for each dir name In EPIC, accept and reject dir names are coming from sys param and invoice dir
          * are coming from cmd line args
          */
-        String baseDirName = getBaseDir();
-        String rejectDirName = getRejectDir();
-        String acceptDirName = getAcceptDir();
-        String sourceDirName = getSourceDir();
+        String baseDirName = getBaseDirName();
+        String rejectDirName = getRejectDirName();
+        String acceptDirName = getAcceptDirName();
+        String sourceDirName = getSourceDirName();
 
-        Boolean moveFiles = false;
+        Boolean moveFiles = true;
 
         if (LOG.isInfoEnabled()){
             LOG.info("Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
@@ -197,6 +193,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException("Source directory name should not be empty");
         }
 
+        /**
+         * TODO: I think the batch job should first process all the pending files from the source dir...
+         * The souce dir may not be empty if there was any unhandled error in the previous run
+         */
         File baseDir = new File(baseDirName);
         File[] filesToBeProcessed = baseDir.listFiles(new FileFilter() {
                                                             public boolean accept(File file) {
@@ -205,11 +205,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                                         });
 
         String emailFileName = "c:\\test.txt";
-        (new File(emailFileName)).delete();
+        try {
+            FileUtils.forceDelete(new File(emailFileName));
+        }
+        catch (IOException e1) {
+        }
         
-        if (!baseDir.exists() ||  
-             filesToBeProcessed == null || 
-             filesToBeProcessed.length == 0) {
+        if (!baseDir.exists()){
+            throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
+        }
+        
+        if (filesToBeProcessed == null || 
+            filesToBeProcessed.length == 0) {
 
             StringBuffer mailText = new StringBuffer();
             
@@ -222,20 +229,24 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
 
         try {
+            /**
+             * Clean up dirs
+             */
+            FileUtils.deleteDirectory(new File(acceptDirName));
+            FileUtils.deleteDirectory(new File(rejectDirName));
+            FileUtils.deleteDirectory(new File(sourceDirName));
+            
+            /**
+             * Create new if not there
+             */
             FileUtils.forceMkdir(new File(acceptDirName));
             FileUtils.forceMkdir(new File(rejectDirName));
             FileUtils.forceMkdir(new File(sourceDirName));
+            
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
         
-        /**
-         * TODO : Is it required to clean up the accept and reject dir here.  
-         */
-        
-        /**
-         * FIXME : Introduce param here
-         */
         boolean hasRejectedFile = false;
         ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
 
@@ -260,7 +271,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 continue;
             }
             
-            File fileInSourceDir = new File(getSourceDir() + filesToBeProcessed[i].getName());
+            File fileInSourceDir = new File(getSourceDirName() + filesToBeProcessed[i].getName());
             
             boolean isRejected = processElectronicInvoice(eInvoiceLoad, fileInSourceDir);
 
@@ -282,11 +293,21 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 }
                 if (moveFiles) {
                     if (!moveFile(filesToBeProcessed[i], acceptDirName)) {
-                        String errorMessage = filesToBeProcessed[i].getName() + " unable to move";
-                        LOG.error("loadElectronicInvoices() " + errorMessage);
-                        throw new PurError(errorMessage);
+                        String msg = filesToBeProcessed[i].getName() + " unable to move";
+                        LOG.error(msg);
+                        throw new PurError(msg);
                     }
                 }
+            }
+            
+            /**
+             * It's not needed to have the namespace added file after processing. Original file will be in base/accept/reject dir
+             * based on the processing result 
+             */
+            try {
+                FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
+            }catch (IOException e) {
+                throw new PurError(e);
             }
         }
 
@@ -309,7 +330,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         boolean result = true;
         
-        File moveHere = new File(getSourceDir() + invoiceFile.getName());
+        File moveHere = new File(getSourceDirName() + invoiceFile.getName());
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Adding namespace definition to " + invoiceFile.getName());
@@ -346,7 +367,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         String xmlnsXsiValue = element.getAttribute("xmlns:xsi");
         
         /**
-         * It's not needed to add the namespace if it's already there. 
+         * It's not needed to add the namespace if it's already there. This will
+         * save some time in processing
          */
         if (StringUtils.equals(xmlnsValue, "http://www.kuali.org/modules/purap/electronicInvoice") && 
             StringUtils.equals(xmlnsXsiValue, "http://www.w3.org/2001/XMLSchema-instance")){
@@ -392,7 +414,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         try {
             
-            outputStream = new FileOutputStream(new File(getSourceDir() + invoiceFile.getName()));
+            outputStream = new FileOutputStream(new File(getSourceDirName() + invoiceFile.getName()));
             XMLSerializer serializer = new XMLSerializer( outputStream,outputFormat );
             serializer.asDOMSerializer();
             serializer.serialize( xmlDoc.getDocumentElement() );
@@ -492,7 +514,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if (orderHolder.isInvoiceRejected()){
                 
-                ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoice, order);
+                ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoice, order,eInvoiceLoad);
                 
                 ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                 loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
@@ -508,8 +530,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                      * is throwing error if errormap is not empty before routing the doc. 
                      */
                     GlobalVariables.getErrorMap().clear();
+                    GlobalVariables.getMessageList().clear();
                     
-                    ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoice, order);
+                    ElectronicInvoiceRejectDocument rejectDocument = createAndSaveRejectDocument(eInvoice, order,eInvoiceLoad);
                     
                     ElectronicInvoiceLoadSummary loadSummary = getOrCreateLoadSummary(eInvoiceLoad, eInvoice.getDunsNumber());
                     loadSummary.addFailedInvoiceOrder(rejectDocument.getTotalAmount(),eInvoice);
@@ -730,12 +753,13 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             eInvoiceRejectDocument.setInvoiceRejectReasons(list);
             eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Complete failure");
             
-            String noteText = "Complete failure - " + rejectReason.getInvoiceRejectReasonDescription();
+            String noteText = "Invoice file";
             
-            Note attachmentNote = attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument,invoiceFile,noteText);
-            eInvoiceRejectDocument.addNote(attachmentNote);
+            attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument,invoiceFile,noteText);
             
-            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,null,null);
+            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
+//            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
+            
         }catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
@@ -748,7 +772,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
     }
     
-    private Note attachInvoiceXMLWithRejectDoc(ElectronicInvoiceRejectDocument eInvoiceRejectDocument,
+    private void attachInvoiceXMLWithRejectDoc(ElectronicInvoiceRejectDocument eInvoiceRejectDocument,
                                                File attachmentFile,
                                                String noteText){
         
@@ -769,20 +793,29 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         Attachment attachment = null;
         try {
-            attachment = KNSServiceLocator.getAttachmentService().createAttachment(eInvoiceRejectDocument, attachmentFile.getName(), "text/xml", (int)attachmentFile.length(), fileStream, attachmentType);
+            attachment = KNSServiceLocator.getAttachmentService().createAttachment(eInvoiceRejectDocument, attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
+        }finally{
+            if (fileStream != null){
+                try {
+                    fileStream.close();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         
         note.setAttachment(attachment);
         attachment.setNote(note);
         
-        return note;
+        eInvoiceRejectDocument.getDocumentHeader().addNote(note);
     }
     
     public ElectronicInvoiceRejectDocument createAndSaveRejectDocument(ElectronicInvoice eInvoice,
-                                                                       ElectronicInvoiceOrder electronicInvoiceOrder) {
+                                                                       ElectronicInvoiceOrder electronicInvoiceOrder,
+                                                                       ElectronicInvoiceLoad eInvoiceLoad) {
 
         if (LOG.isDebugEnabled()){
             LOG.debug("Creating reject document [DUNS=" + eInvoice.getDunsNumber() + ",POID=" + electronicInvoiceOrder.getInvoicePurchaseOrderID() + "]");
@@ -797,13 +830,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             eInvoiceRejectDocument.setFileLevelData(eInvoice);
             eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, electronicInvoiceOrder);
 
-            String noteText = "Partial failure";
-
-            Note note = attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument, getInvoiceFile(eInvoice.getFileName()), noteText);
+            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Partial failure");
             
-            eInvoiceRejectDocument.addNote(note);
-            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(noteText);
-
+            String noteText = "Invoice file";
+            attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument, getInvoiceFile(eInvoice.getFileName()), noteText);
             
             KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
 //            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
@@ -811,6 +841,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
+        
+        eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Reject document has been created (DocNo=" + eInvoiceRejectDocument.getDocumentNumber() + ")");
@@ -953,7 +985,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 //                List<AdHocRouteRecipient> adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
 //                AdHocRouteRecipient recipient = new AdHocRouteRecipient()
 //                GlobalVariables.setUserSession(new UserSession("abolding"));
-                SpringContext.getBean(DocumentService.class).routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
+                KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
+//                SpringContext.getBean(DocumentService.class).routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
 //                SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
             }
             catch (WorkflowException e) {
@@ -981,7 +1014,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             bw.flush();
         }
         catch (IOException ioe) {
-            LOG.error("writeToEmailFileEnd() Error writing to Email File", ioe);
+            LOG.error("Error writing to Email File", ioe);
         }
         finally {
             if (bw != null) {
@@ -1018,7 +1051,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
         matchingService.doMatchingProcess(rejectDocHolder);
         
-        return rejectDocHolder.isInvoiceRejected();
+        return !rejectDocHolder.isInvoiceRejected();
     }
     
     public boolean createPaymentRequest(ElectronicInvoiceRejectDocument rejectDocument){
@@ -1457,9 +1490,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-        LOG.debug("Shipping1......"+preqItem.getItemUnitPrice());
-        LOG.debug("Shipping2......"+preqItem.getExtendedPrice());
-        
         return preqItem;
     }
     
@@ -1569,26 +1599,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
-    public String getSourceDir(){
-        return electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "source" + File.separator;
-    }
-    
-    public String getBaseDir(){
-        return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
-    }
-    
-    public String getRejectDir(){
-        return electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator;
-    }
-    
-    public String getAcceptDir(){
-        return electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "accept" + File.separator;
-    }
-    
-    public File getInvoiceFile(String fileName){
-        return new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "source" + File.separator + fileName);
-    }
-    
     private void moveFileList(Map filesToMove) {
         for (Iterator iter = filesToMove.keySet().iterator(); iter.hasNext();) {
             File fileToMove = (File) iter.next();
@@ -1603,13 +1613,27 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     private boolean moveFile(File fileForMove, String location) {
         File moveDir = new File(location);
-        boolean success = fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
-        if (success) {
-            LOG.info("moveFile() Succeeded in moving file '" + fileForMove.getName() + "' to '" + moveDir.getAbsolutePath() + "'");
-        }else {
-            LOG.error("moveFile() Failed moving file '" + fileForMove.getName() + "' to '" + moveDir.getAbsolutePath() + "'");
-        }
-        return success;
+        return fileForMove.renameTo(new File(moveDir, fileForMove.getName()));
+    }
+
+    public String getBaseDirName(){
+        return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
+    }
+    
+    public String getSourceDirName(){
+        return getBaseDirName() + "source" + File.separator;
+    }
+    
+    public String getRejectDirName(){
+        return getBaseDirName() + "reject" + File.separator;
+    }
+    
+    public String getAcceptDirName(){
+        return getBaseDirName() + "accept" + File.separator;
+    }
+    
+    public File getInvoiceFile(String fileName){
+        return new File(getSourceDirName() + fileName);
     }
     
     public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
@@ -1617,14 +1641,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return eils;
     }
     
-//    public Map getItemMappingMap(Integer vendorHeaderId, Integer vendorDetailId) {
-//        return electronicInvoicingDao.getItemMappingMap(vendorHeaderId,vendorDetailId);
-//    }
-    
-//    public void setElectronicInvoiceMappingService(ElectronicInvoiceMappingService mappingService) {
-//        this.mappingService = mappingService;
-//    }
-
     public void setElectronicInvoiceInputFileType(ElectronicInvoiceInputFileType electronicInvoiceInputFileType) {
         this.electronicInvoiceInputFileType = electronicInvoiceInputFileType;
     }

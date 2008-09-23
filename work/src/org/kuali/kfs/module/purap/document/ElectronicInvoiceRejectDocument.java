@@ -165,7 +165,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         for (ElectronicInvoiceRejectReason eirr : ei.getFileRejectReasons()) {
             ElectronicInvoiceRejectReason newReason = new ElectronicInvoiceRejectReason();
             ObjectUtil.buildObject(newReason, eirr);
-            this.invoiceRejectReasons.add(eirr);
+            this.invoiceRejectReasons.add(newReason);
         }
     }
 

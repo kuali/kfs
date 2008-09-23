@@ -453,10 +453,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         String fileName = itemHolder.getInvoiceOrderHolder().getFileName();
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
         
-        /**
-         * FIXME: I dont think this check is needed here since we are already defined a rule in the PurchaseOrderCostSource maintenace doc
-         * to restrict only one of the variances 
-         */
         if (costSource.getItemUnitPriceLowerVariancePercent() == null && costSource.getItemUnitPriceUpperVariancePercent() == null){
             ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.PO_COST_SOURCE_EMPTY,null,orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);

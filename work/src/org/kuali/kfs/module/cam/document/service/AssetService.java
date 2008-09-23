@@ -151,4 +151,10 @@ public interface AssetService {
      * @return List of assets found matching tag number
      */
     public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber);
+    
+    /**
+     * For the given Asset sets the separateHistory.
+     * @param asset for which to set the separateHistory
+     */
+    public void setSeparateHistory(Asset asset);
 }

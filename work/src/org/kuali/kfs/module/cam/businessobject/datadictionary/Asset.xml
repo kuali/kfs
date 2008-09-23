@@ -100,8 +100,8 @@
         <ref bean="Asset-assetWarranty.warrantyBeginningDate" />
         <ref bean="Asset-assetWarranty.warrantyEndingDate" />
         <ref bean="Asset-assetWarranty.warrantyText" />
-        <ref bean="Asset-assetSeparateHistory.originalCapitalAssetNumber" />
-        <ref bean="Asset-assetSeparateHistory.dispositionDate" />
+        <ref bean="Asset-separateHistory.separateSourceCapitalAssetNumber" />
+        <ref bean="Asset-separateHistory.documentHeaderFinalDate" />
         <ref bean="Asset-retirementInfo.documentNumber" />
         <ref bean="Asset-retirementReason.retirementReasonName" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
@@ -1205,19 +1205,19 @@
     <property name="name" value="assetWarranty.warrantyText" />
     <property name="label" value="Description" />
   </bean>
-  <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber" parent="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" />
+  <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber" parent="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean" />
 
-  <bean id="Asset-assetSeparateHistory.originalCapitalAssetNumber-parentBean" abstract="true" parent="AssetDisposition-originalCapitalAssetNumber">
-    <property name="name" value="assetSeparateHistory.originalCapitalAssetNumber" />
+  <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
+    <property name="name" value="separateHistory.separateSourceCapitalAssetNumber" />
     <property name="label" value="Original Asset Number" />
     <property name="shortLabel" value="OrigAssetNbr" />
   </bean>
-  <bean id="Asset-assetSeparateHistory.dispositionDate" parent="Asset-assetSeparateHistory.dispositionDate-parentBean" />
+  <bean id="Asset-separateHistory.documentHeaderFinalDate" parent="Asset-separateHistory.documentHeaderFinalDate-parentBean" />
 
-  <bean id="Asset-assetSeparateHistory.dispositionDate-parentBean" abstract="true" parent="AssetDisposition-dispositionDate">
-    <property name="name" value="assetSeparateHistory.dispositionDate" />
+  <bean id="Asset-separateHistory.documentHeaderFinalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="separateHistory.documentHeaderFinalDate" />
     <property name="label" value="Separate Date" />
-    <property name="shortLabel" value="SeparateDate" />
+    <property name="shortLabel" value="Date" />
   </bean>
   <bean id="Asset-retirementInfo.documentNumber" parent="Asset-retirementInfo.documentNumber-parentBean" />
 
@@ -1726,9 +1726,9 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="assetSeparateHistory.originalCapitalAssetNumber" />
+                    p:attributeName="separateHistory.separateSourceCapitalAssetNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="assetSeparateHistory.dispositionDate" />
+                    p:attributeName="separateHistory.documentHeaderFinalDate" />
             </list>
           </property>
         </bean>

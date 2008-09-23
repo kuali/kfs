@@ -225,9 +225,7 @@
 	<collection-descriptor name="assetComponents" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetComponent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>	
-	<collection-descriptor name="assetDispositions" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetDisposition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<inverse-foreignkey field-ref="capitalAssetNumber" />
-	</collection-descriptor>
+
 	<collection-descriptor name="assetLocations" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 		<inverse-foreignkey field-ref="capitalAssetNumber" />
 	</collection-descriptor>
@@ -292,6 +290,9 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 	<reference-descriptor name="separateSourceCapitalAsset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="separateSourceCapitalAssetNumber" />
 	</reference-descriptor>
@@ -729,20 +730,6 @@
 	<field-descriptor name="repairDate" column="CPTLAST_RPR_DT" jdbc-type="DATE"/>
 	<field-descriptor name="repairAmount" column="CPTLAST_RPR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="repairSolutionDescription" column="AST_RPR_SOLN_DESC" jdbc-type="VARCHAR"/>
-
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="capitalAssetNumber" />
-	</reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetDisposition" table="CM_AST_DISP_T">
-	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
-	<field-descriptor name="dispositionCode" column="CPTLAST_DISP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="dispositionOriginationCode" column="AST_DISP_ORGN_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="originalCapitalAssetNumber" column="AST_ORIG_AST_NBR" jdbc-type="BIGINT"/>
-	<field-descriptor name="dispositionDate" column="CPTLAST_DISP_DT" jdbc-type="DATE"/>
 
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />

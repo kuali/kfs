@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +22,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
-import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
@@ -34,9 +30,7 @@ import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
@@ -76,9 +70,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
 
         // Identifies the merge history and separation history based on asset disposition records
-        AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-        assetDispService.setAssetDispositionHistory(copyAsset);
-        assetDispService.setAssetDispositionHistory(newAsset);
+        assetService.setSeparateHistory(copyAsset);
+        assetService.setSeparateHistory(newAsset);
 
         // Finds out the latest retirement info, is asset is currently retired.
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);

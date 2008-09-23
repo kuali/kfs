@@ -113,7 +113,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private List<AssetRepairHistory> assetRepairHistory;
     private AssetWarranty assetWarranty;
     private List<AssetComponent> assetComponents;
-    private List<AssetDisposition> assetDispositions;
     private List<AssetLocation> assetLocations;
     private List<AssetRetirementGlobalDetail> assetRetirementHistory;
     private AssetDepreciationMethod assetPrimaryDepreciationMethod;
@@ -125,7 +124,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
-    private AssetDisposition assetSeparateHistory;
+    private AssetGlobal separateHistory;
     private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
@@ -148,7 +147,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.assetPayments = new TypedArrayList(AssetPayment.class);
         this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
         this.assetComponents = new TypedArrayList(AssetComponent.class);
-        this.assetDispositions = new TypedArrayList(AssetDisposition.class);
         this.assetLocations = new TypedArrayList(AssetLocation.class);
         this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
         this.retirementGlobals = new TypedArrayList(AssetRetirementGlobal.class);
@@ -1734,42 +1732,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     /**
-     * Gets the assetDispositions attribute.
-     * 
-     * @return Returns the assetDispositions.
-     */
-    public List<AssetDisposition> getAssetDispositions() {
-        return assetDispositions;
-    }
-
-    /**
-     * Sets the assetDispositions attribute value.
-     * 
-     * @param assetDispositions The assetDispositions to set.
-     */
-    public void setAssetDispositions(List<AssetDisposition> assetDispositions) {
-        this.assetDispositions = assetDispositions;
-    }
-
-    /**
-     * Gets the assetSeparateHistory attribute.
-     * 
-     * @return Returns the assetSeparateHistory.
-     */
-    public AssetDisposition getAssetSeparateHistory() {
-        return assetSeparateHistory;
-    }
-
-    /**
-     * Sets the assetSeparateHistory attribute value.
-     * 
-     * @param assetSeparateHistory The assetSeparateHistory to set.
-     */
-    public void setAssetSeparateHistory(AssetDisposition assetSeparateHistory) {
-        this.assetSeparateHistory = assetSeparateHistory;
-    }
-
-    /**
      * Gets the federalContribution attribute.
      * 
      * @return Returns the federalContribution.
@@ -1860,6 +1822,14 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     public void setRetirementGlobals(List<AssetRetirementGlobal> retirementGlobals) {
         this.retirementGlobals = retirementGlobals;
+    }
+    
+    public AssetGlobal getSeparateHistory() {
+        return separateHistory;
+    }
+
+    public void setSeparateHistory(AssetGlobal separateHistory) {
+        this.separateHistory = separateHistory;
     }
 
     public List<AssetRetirementGlobalDetail> getMergeHistory() {

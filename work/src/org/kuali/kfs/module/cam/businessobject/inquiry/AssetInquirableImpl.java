@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
@@ -56,11 +56,11 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
             // Calculates payment summary and depreciation summary based on available payment records
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(asset);
-    
+            
             // Identifies the merge history and separation history based on asset disposition records
-            AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
-            assetDispService.setAssetDispositionHistory(asset);
-    
+            AssetService assetService = SpringContext.getBean(AssetService.class);
+            assetService.setSeparateHistory(asset);
+
             // Finds out the latest retirement info, is asset is currently retired.
             RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
             retirementInfoService.setRetirementInfo(asset);

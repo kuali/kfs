@@ -15,11 +15,13 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.module.cg.businessobject.Agency;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.CAPITAL_ASSETS_BATCH;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -83,6 +85,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Long separateSourceCapitalAssetNumber;
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
+    private FinancialSystemDocumentHeader documentHeader;
 
     /**
      * Default constructor.
@@ -1067,5 +1070,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     public void setSeparateSourcePaymentSequenceNumber(Integer separateSourcePaymentSequenceNumber) {
         this.separateSourcePaymentSequenceNumber = separateSourcePaymentSequenceNumber;
+    }
+
+    public FinancialSystemDocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+    
+    /**
+     * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date.
+     * @return
+     */
+    public Date getDocumentHeaderFinalDate() {
+        return documentHeader.getDocumentFinalDate();
     }
 }

@@ -36,7 +36,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetWarranty;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
-import org.kuali.kfs.module.cam.document.service.AssetDispositionService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
@@ -76,7 +75,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     private AssetService assetService = SpringContext.getBean(AssetService.class);
     private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-    private AssetDispositionService assetDispService = SpringContext.getBean(AssetDispositionService.class);
     private RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
     private EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
     private AssetDateService assetDateService = SpringContext.getBean(AssetDateService.class);
@@ -108,8 +106,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
 
-            assetDispService.setAssetDispositionHistory(oldAsset);
-            assetDispService.setAssetDispositionHistory(newAsset);
+            assetService.setSeparateHistory(oldAsset);
+            assetService.setSeparateHistory(newAsset);
 
             retirementInfoService.setRetirementInfo(oldAsset);
             retirementInfoService.setRetirementInfo(newAsset);

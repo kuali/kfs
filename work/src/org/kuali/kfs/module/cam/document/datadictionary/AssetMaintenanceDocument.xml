@@ -484,10 +484,10 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetSeparateHistory.originalCapitalAssetNumber"
+              p:name="separateHistory.separateSourceCapitalAssetNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetSeparateHistory.dispositionDate"
+              p:name="separateHistory.documentHeaderFinalDate"
               p:readOnly="true" />
       </list>
     </property>

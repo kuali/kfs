@@ -23,22 +23,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.document.MaintenanceLock;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AssetServiceImpl implements AssetService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetServiceImpl.class);
@@ -262,5 +264,31 @@ public class AssetServiceImpl implements AssetService {
         }
 
         return true;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#setSeparateHistory(org.kuali.kfs.module.cam.businessobject.Asset)
+     */
+    public void setSeparateHistory(Asset asset) {
+        // Find the asset this was separated from. It should only be one, error if more
+        Map<String, String> paramsAssetGlobalDetail = new HashMap<String, String>();
+        paramsAssetGlobalDetail.put(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        Collection<AssetGlobalDetail> assetGlobalDetails = SpringContext.getBean(BusinessObjectService.class).findMatching(AssetGlobalDetail.class, paramsAssetGlobalDetail);
+        
+        if (assetGlobalDetails.size() > 1) {
+            throw new IllegalStateException("Asset #" + asset.getCapitalAssetNumber().toString() + " was created from more then one asset document.");
+        } else if (assetGlobalDetails.size() == 1) {
+            // Fine the document associated to that
+            Map<String, String> paramsAssetGlobal = new HashMap<String, String>();
+            paramsAssetGlobal.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, assetGlobalDetails.iterator().next().getDocumentNumber());
+            AssetGlobal assetGlobal = (AssetGlobal) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetGlobal.class, paramsAssetGlobal);
+            
+            // Only set it if it is in status approved
+            if(DocumentStatusCodes.APPROVED.equals((assetGlobal.getDocumentHeader().getFinancialDocumentStatusCode()))) {
+                asset.setSeparateHistory(assetGlobal);
+            }
+        }
+        
+        // Else no history, just return
     }
 }

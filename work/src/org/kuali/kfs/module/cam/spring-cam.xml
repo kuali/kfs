@@ -199,8 +199,6 @@
     	<property name="assetComponentDao" ref="assetComponentDao"/>
     </bean>    
     
-    <bean id="assetDispositionService" class="org.kuali.kfs.module.cam.document.service.impl.AssetDispositionServiceImpl" />
-    
     <bean id="retirementInfoService" class="org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl" >
     	<property name="parameterService" ref="parameterService"/>
     	<property name="assetService" ref="assetService"/>

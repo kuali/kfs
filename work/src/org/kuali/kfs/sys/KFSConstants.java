@@ -1240,6 +1240,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNPAID_BALANCE_61_TO_90 = "unpaidBalance61to90";
         public static final String UNPAID_BALANCE_91_TO_SYSPR = "unpaidBalance91toSYSPR";
         public static final String UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE = "unpaidBalanceSYSPRplus1orMore";
+        public static final int  NBR_DAYS_IN_LAST_BUCKET = 120;
     }
 
 }

@@ -26,12 +26,12 @@
 	</div>
 	
 	<h3>
-		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" />
-		Customer Number:
-		&nbsp;
-		<c:out value="${param.customerNumber}" />
-		&nbsp;&nbsp;
-		<c:out value="${param.customerName}" />
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" /></td>
+				<td>Customer Number: &nbsp; <c:out value="${param.customerNumber}" />&nbsp;&nbsp;<c:out value="${param.customerName}" /></td>
+			</tr>
+		</table>
 	</h3>
 
 	<kul:enterKey methodToCall="search" />
@@ -47,12 +47,28 @@
 
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tr>
-			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" />
+			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" /></td>
 			<td>
 				<c:if test="${empty reqSearchResultsSize}">
 					There were no results found.
 				</c:if>
-				<c:if test="${!empty reqSearchResultsSize}">  
+				<c:if test="${!empty reqSearchResultsSize}">
+					<c:if test="${param.reportName == KFSConstants.CustomerOpenItemReport.OPEN_ITEM_REPORT_NAME}">
+						<table width="25%" cellspacing="0" cellpadding="0">
+							<tr><td>Report Option:</td><td><c:out value="${param.reportOption}" /></td>
+							 <c:choose>
+								<c:when test="${param.reportOption == ArConstants.CustomerAgingReportFields.ACCT}">
+									<tr><td>Account Number:</td><td><c:out value="${param.accountNumber}" /></td>
+								</c:when>
+								<c:otherwise>
+									<tr><td>Chart Code:</td><td><c:out value="${param.chartCode}" /></td>
+									<tr><td>Organization Code:</td><td><c:out value="${param.orgCode}" /></td>
+								</c:otherwise>
+							 </c:choose>
+							<tr><td>Report Run Date:</td><td><c:out value="${param.reportRunDate}" /> &nbsp;&nbsp; <c:out value="${param.columnTitle}" /> </td>
+						</table> <br><br>
+					</c:if>
+				  
 	      			<display:table class="datatable-100"
 	      			               cellspacing="0"
 								   cellpadding="0"

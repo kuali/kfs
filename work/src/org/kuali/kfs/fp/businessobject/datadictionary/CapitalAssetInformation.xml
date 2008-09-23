@@ -90,7 +90,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="CapitalAssetInformation-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber"/>  
   
-  <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean" />
+  <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean">
+     <property name="shortLabel" value="Vendor Number" />
+    <property name="label" value="Vendor Number" />
+    <property name="summary" value="Vendor Number" />
+    <property name="description" value="Vendor Number" />
+  </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"

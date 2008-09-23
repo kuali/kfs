@@ -504,6 +504,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;        
+        int count = 0;
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
             if (StringUtils.isNotBlank(capitalAssetItem.getCapitalAssetTransactionTypeCode())) {
                 // This next if condition is needed because in the real document (as opposed to in unit test), the
@@ -515,10 +516,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
+                        String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";
+                        String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
+                        GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS, capitalAssetItem.getCapitalAssetTransactionTypeCode());
                         valid &= false;
                     }
                 }
             }
+            count++;
         }
         return valid;
     }
@@ -538,7 +543,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck) {
         PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-        return validateItemCapitalAsset(recurringPaymentType, purchasingItem, false);
+        List<String> previousErrorPath = GlobalVariables.getErrorMap().getErrorPath();
+        GlobalVariables.getErrorMap().clearErrorPath();
+        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
+        boolean result = validateItemCapitalAsset(recurringPaymentType, purchasingItem, false);
+        
+        //Now that we're done with cams related validations, reset the error path to what it was previously.
+        GlobalVariables.getErrorMap().clearErrorPath();
+        for (String path : previousErrorPath) {
+            GlobalVariables.getErrorMap().addToErrorPath(path);
+        }
+        return result;
     }
 
     /**
@@ -575,12 +590,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         
         String capitalAssetTransactionTypeCode = "";
         AssetTransactionType capitalAssetTransactionType = null;
-        //FIXME (from hjs) the reference is never retrieved so this code would never be invoked
-//        if( item.getCapitalAssetItem() != null ) {
-//            capitalAssetTransactionTypeCode = item.getCapitalAssetItem().getCapitalAssetTransactionTypeCode();
-//            capitalAssetTransactionType = (AssetTransactionType)item.getCapitalAssetItem().getCapitalAssetTransactionType();
-//        }       
-        //This is the response to FIXME (from hjs), would this work ?
+
         if (item.getPurchasingCapitalAssetItem() != null) {
             capitalAssetTransactionTypeCode = item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionTypeCode();
             ((PurchasingCapitalAssetItemBase)item.getPurchasingCapitalAssetItem()).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);

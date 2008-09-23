@@ -477,6 +477,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        LOG.info("LEO - processAfterPost() called....");
         super.processAfterPost(document, parameters);
         // adjust the quantity
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
@@ -485,8 +486,17 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             for (AssetGlobalDetail assetGlobalDetail : assetSharedDetails) {
                 assetGlobalDetail.setLocationQuantity(assetGlobalDetail.getAssetGlobalUniqueDetails().size());
             }
-
         }
+        
+        // only on Asset Separate document
+        //if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            //when click on "calculateEqualSourceAmounts", put logic here.
+            if ("calculateEqualSourceAmounts".equals(parameters.get("customAction"))){
+                LOG.info("LEO - processAfterPost(): button is working...?");
+             }
+        //}
+        
+        LOG.info("LEO - processAfterPost() finished....");
     }
 
     /**

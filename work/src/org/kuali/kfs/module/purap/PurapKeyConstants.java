@@ -73,7 +73,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE = "error.capitalAsset.asset.numbers.not.allowed.trans.type";
     public static final String ERROR_CAPITAL_ASSET_LOCATIONS_QUANTITY_MUST_EQUAL_ITEM_QUANTITY = "error.capitalAsset.locations.quantity.must.equal.item.quantity";
     public static final String ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS = "error.capitalAsset.trans.type.not.allowing.non.quantity.items";
-    
+    public static final String ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL="errors.item.capitalAsset.assetNumber.must.be.longValue.notNull";
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
     public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";

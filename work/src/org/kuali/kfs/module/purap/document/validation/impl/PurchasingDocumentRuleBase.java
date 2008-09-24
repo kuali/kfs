@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -34,8 +35,8 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -70,6 +71,7 @@ import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -842,17 +844,29 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
+// TODO: tell Heather or Chris, I think these validations don't make sense to be invoked during a check for APO rules, so I'm replacing the content with something else below.
+//        boolean valid = true;
+//        List<PurApItem> itemList = purapDocument.getItems();
+//        for (PurApItem item : itemList) {
+//            RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType(); 
+//            valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentType, item, true);
+//        }
+//        // We don't actually need the error messages for the purposes of the APO.
+//        GlobalVariables.getErrorMap().clear();
+//        return valid;
         boolean valid = true;
         List<PurApItem> itemList = purapDocument.getItems();
         for (PurApItem item : itemList) {
-            //TODO: See if we really need this next line of refresh, if so then uncomment out the next line.
-            //purapDocument.refreshReferenceObject(PurapPropertyConstants.RECURRING_PAYMENT_TYPE);
-            RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType(); 
-            valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentType, item, true);
+            for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+                ObjectCode objectCode = accountingLine.getObjectCode();
+                boolean isCapitalAssetObjectCode = SpringContext.getBean(CapitalAssetBuilderModuleService.class).isCapitalAssetObjectCode(objectCode);
+                if (isCapitalAssetObjectCode) {
+                    return false;
+                }
+            }
         }
-        // We don't actually need the error messages for the purposes of the APO.
-        GlobalVariables.getErrorMap().clear();
-        return valid;
+        return true;
     }
 
     /**
@@ -880,8 +894,19 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, ItemCapitalAsset asset) {
-        // TODO Auto-generated method stub
-        return true;
+        boolean valid = true;
+        if (asset.getCapitalAssetNumber() == null) {
+            valid = false;
+        }
+        else {
+            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase)asset);
+        }
+        if (!valid) {
+            String propertyName = "newPurchasingItemCapitalAssetLine.capitalAssetNumber";
+            String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
+            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+        }
+        return valid;
     }
 
     public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, CapitalAssetLocation location) {

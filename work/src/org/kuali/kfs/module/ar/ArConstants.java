@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar;
 
-
 public class ArConstants {
 
     //System Parameters
@@ -28,6 +27,7 @@ public class ArConstants {
     public static final String GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND = "GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND";
     public static final String INVOICE_RECURRENCE_INTERVALS = "INVOICE_RECURRENCE_INTERVALS";
     public static final String MAXIMUM_RECURRENCES_BY_INTERVAL = "MAXIMUM_RECURRENCES_BY_INTERVAL";
+    public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
     public static final String CUSTOMER_INVOICE_AGE = "CUSTOMER_INVOICE_AGE";
 
     //Valid number of days the invoice due date can be more than invoice creation date.

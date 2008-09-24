@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.service.TaxRegionService;
@@ -40,8 +41,10 @@ public class TaxServiceImpl implements TaxService {
     public List<TaxDetail> getSalesTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
 
-        for (TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)) {
-            salesTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
+        if (StringUtils.isNotEmpty(postalCode)) {
+            for (TaxRegion taxRegion : taxRegionService.getSalesTaxRegions(postalCode)) {
+                salesTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
+            }
         }
 
         return salesTaxDetails;
@@ -54,8 +57,10 @@ public class TaxServiceImpl implements TaxService {
     public List<TaxDetail> getUseTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
 
-        for (TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)) {
-            useTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
+        if (StringUtils.isNotEmpty(postalCode)) {
+            for (TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)) {
+                useTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
+            }
         }
 
         return useTaxDetails;
@@ -68,8 +73,10 @@ public class TaxServiceImpl implements TaxService {
     public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
 
-        for (TaxDetail taxDetail : getSalesTaxDetails(dateOfTransaction, postalCode, amount)) {
-            totalSalesTaxAmount = totalSalesTaxAmount.add(taxDetail.getTaxAmount());
+        if (StringUtils.isNotEmpty(postalCode)) {
+            for (TaxDetail taxDetail : getSalesTaxDetails(dateOfTransaction, postalCode, amount)) {
+                totalSalesTaxAmount = totalSalesTaxAmount.add(taxDetail.getTaxAmount());
+            }
         }
 
         return totalSalesTaxAmount;

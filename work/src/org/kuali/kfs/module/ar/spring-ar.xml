@@ -101,6 +101,12 @@
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService"/>
 		</property>
+		<property name="taxService">
+			<ref bean="taxService"/>
+		</property>
+		<property name="accountsReceivableTaxService">
+			<ref bean="accountsReceivableTaxService"/>
+		</property>				
 	</bean>
 	
 	<bean id="nonAppliedHoldingService" class="org.kuali.kfs.module.ar.document.service.impl.NonAppliedHoldingServiceImpl">
@@ -557,7 +563,16 @@
 			<ref bean="dateTimeService" />
 		</property>	
 	</bean>
-		
+	
+	<bean id="accountsReceivableTaxService" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableTaxServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>	
+	
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>

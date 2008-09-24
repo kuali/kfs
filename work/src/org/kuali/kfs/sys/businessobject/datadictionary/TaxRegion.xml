@@ -108,8 +108,11 @@
 
   <bean id="TaxRegion-active" parent="TaxRegion-active-parentBean" />
 
-  <bean id="TaxRegion-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" >
-      <property name="name" value="active" />
+  <bean id="TaxRegion-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+    <property name="label" value="Active Indicator" />
+    <property name="shortLabel" value="Active" />
+    <property name="required" value="false" />
   </bean>
 
 <!-- Business Object Lookup Definition -->

@@ -85,7 +85,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionUseTaxIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
       </list>
     </property>
   </bean>

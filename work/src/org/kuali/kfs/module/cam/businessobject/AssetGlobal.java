@@ -1088,7 +1088,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return
      */
     public Date getDocumentHeaderFinalDate() {
-        return documentHeader.getDocumentFinalDate();
+        return ObjectUtils.isNull(documentHeader) ? null : documentHeader.getDocumentFinalDate();
     }
     
     public String getCalculateEqualSourceAmounts() {

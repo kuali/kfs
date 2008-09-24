@@ -49,7 +49,6 @@ import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
@@ -61,10 +60,12 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService
  */
+@Transactional
 public class PaymentFileValidationServiceImpl implements PaymentFileValidationService {
     private CustomerProfileService customerProfileService;
     private PaymentFileLoadDao paymentFileLoadDao;
@@ -105,7 +106,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
         }
         else {
-            if (!customer.getCustomerActive()) {
+            if (!customer.isActive()) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
             }
         }

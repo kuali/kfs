@@ -51,9 +51,6 @@
     <property name="shortLabel" value="Bank" />
     <property name="summary" value="Bank maintenance document" />
     <property name="description" value="Document used to create or update Bank objects" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterClass="org.kuali.kfs.sys.businessobject.Bank" p:parameterName="BANK" />
-    </property>
     <property name="documentTypeName" value="BankMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.BankRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

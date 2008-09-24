@@ -96,6 +96,9 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
+              p:name="organizationPostalZipCode"
+              p:required="true" />      
+        <bean parent="MaintainableFieldDefinition"
               p:name="organizationCheckPayableToName"
               p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder" />
         <bean parent="MaintainableFieldDefinition"

@@ -41,7 +41,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="OrganizationOptions-organizationRemitToZipCode" />
         <ref bean="OrganizationOptions-printInvoiceIndicator" />
         <ref bean="OrganizationOptions-universityName" />
-        <ref bean="OrganizationOpetions-organizationPostalZipCode" />
+        <ref bean="OrganizationOptions-organizationPostalZipCode" />
       </list>
     </property>
     <property name="relationships" >
@@ -354,12 +354,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="description" value="universityName description..." />
   </bean>
   
-  <bean id="OrganizationOpetions-organizationPostalZipCode" parent="OrganizationOpetions-organizationPostalZipCode-parentBean" />
+  <bean id="OrganizationOptions-organizationPostalZipCode" parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
   
-  <bean id="OrganizationOpetions-organizationPostalZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="OrganizationOptions-organizationPostalZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
     <property name="name" value="organizationPostalZipCode" />
     <property name="required" value="false" />
-    <property name="summary" value="organizationPostalZipCode" />
+    <property name="summary" value="Organization Postal Zip Code" />
+    <property name="label" value="Organization Postal Zip Code" />
     <property name="description" value="organizationPostalZipCode description..." />
   </bean>
 
@@ -391,6 +392,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
+							<bean parent="FieldDefinition" 
+								p:attributeName="organizationPostalZipCode" />						
 							<bean parent="FieldDefinition" 
 								p:attributeName="organizationCheckPayableToName" />
 							<bean parent="FieldDefinition" 

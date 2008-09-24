@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.suite.RelatesTo;
 
 @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
-@RelatesTo(RelatesTo.JiraIssue.KFSMI1197)
 public class ThresholdTest extends KualiTestBase {
     
     private static Logger LOG = Logger.getLogger(ThresholdTest.class);

@@ -22,12 +22,6 @@
     </property>
     <property name="label" value="Capital Asset Transaction Type Rule" />
     <property name="shortLabel" value="Capital Asset Transaction Type Rule" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition"
-            p:parameterNamespace="KFS-PURAP"
-            p:parameterName="CAPITAL_ASSET_TRANSACTION_TYPE"
-            p:parameterDetailType="CapitalAssetTransactionType" />
-    </property>
     <property name="documentTypeName" value="CapitalAssetTransactionTypeRuleMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="PMTR" />

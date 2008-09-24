@@ -171,7 +171,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         String acceptDirName = getAcceptDirName();
         String sourceDirName = getSourceDirName();
 
-        Boolean moveFiles = true;
+        Boolean moveFiles = false;
 
         if (LOG.isInfoEnabled()){
             LOG.info("Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
@@ -275,12 +275,15 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             boolean isRejected = processElectronicInvoice(eInvoiceLoad, fileInSourceDir);
 
+            /**
+             * INFO: If there is a single order has rejects and the remainings are accepted in a invoice file, 
+             * then the entire file has been moved to the reject dir. 
+             */
             if (isRejected) {
                 if (LOG.isInfoEnabled()){
                     LOG.info(filesToBeProcessed[i].getName() + " has been rejected");
                 }
                 if (moveFiles) {
-                    
                     if (LOG.isDebugEnabled()){
                         LOG.debug(filesToBeProcessed[i].getName() + " has been marked to move to " + rejectDirName);
                     }
@@ -330,7 +333,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         boolean result = true;
         
-        File moveHere = new File(getSourceDirName() + invoiceFile.getName());
+        File moveHere = getInvoiceFile(invoiceFile.getName());
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Adding namespace definition to " + invoiceFile.getName());
@@ -377,10 +380,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
             try {
                 FileUtils.copyFile(invoiceFile, moveHere);
-//                FileUtils.forceDelete(invoiceFile);
             }
             catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new PurError(e);
             }
             return true;
         }
@@ -430,13 +432,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return false;
         }
         
-//        try {
-//            FileUtils.forceDelete(invoiceFile);
-//        }
-//        catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-        
         if (LOG.isDebugEnabled()){
             LOG.debug("Successfully added the namespace");
         }
@@ -447,9 +442,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     /**
      * This method processes a single electronic invoice file
      * 
-     * @param eil the load summary to be modified
+     * @param eInvoiceLoad the load summary to be modified
      * @param invoiceFile the file to be loaded
-     * @param emailFilename the path and name of the e-mail file to be sent
      * @return boolean where true means there has been some type of reject
      */
     private boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad, 
@@ -465,6 +459,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             eInvoice = loadElectronicInvoice(invoiceFile);
         }catch (CxmlParseException e) {
             e.printStackTrace();
+            LOG.debug("Error loading file - " + e.getMessage());
             rejectElectronicInvoiceFile(eInvoiceLoad, UNKNOWN_DUNS_IDENTIFIER, invoiceFile, e.getMessage(),PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID);
             return true;
         }
@@ -590,6 +585,35 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 eInvoice.setVendorName(null);
             }
         }
+    }
+    
+    private void validateVendorDetails(ElectronicInvoiceRejectDocument rejectDocument){
+        
+        boolean vendorFound = false;
+        
+        if (StringUtils.isNotEmpty(rejectDocument.getVendorDunsNumber())){
+            
+            VendorDetail vendorDetail = vendorService.getVendorByDunsNumber(rejectDocument.getVendorDunsNumber());
+            
+            if (vendorDetail != null) {
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Vendor match found - " + vendorDetail.getVendorNumber());
+                }
+                rejectDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
+                rejectDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
+                rejectDocument.setVendorDetail(vendorDetail);
+                vendorFound = true;
+            }
+        }
+        
+        if (!vendorFound){
+            rejectDocument.setVendorHeaderGeneratedIdentifier(null);
+            rejectDocument.setVendorDetailAssignedIdentifier(null);
+            rejectDocument.setVendorDetail(null);
+        }
+        
+        String newDocumentDesc = generateRejectDocumentDescription(rejectDocument); 
+        rejectDocument.getDocumentHeader().setDocumentDescription(newDocumentDesc);
     }
     
     private Map getItemTypeMappings(Integer vendorHeaderId,
@@ -757,8 +781,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument,invoiceFile,noteText);
             
-            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
-//            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
+//            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
+            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
             
         }catch (WorkflowException e) {
             throw new RuntimeException(e);
@@ -830,13 +854,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             eInvoiceRejectDocument.setFileLevelData(eInvoice);
             eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, electronicInvoiceOrder);
 
-            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Partial failure");
+            String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);
+            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(rejectdocDesc);
             
             String noteText = "Invoice file";
             attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument, getInvoiceFile(eInvoice.getFileName()), noteText);
             
-            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
-//            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
+//            KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument,"Routed by electronic invoice batch job",null);
+            KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
             
         }catch (WorkflowException e) {
             throw new RuntimeException(e);
@@ -856,6 +881,49 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         emailTextErrorList.append("\n\n");
         
         return eInvoiceRejectDocument;
+    }
+    
+    private String generateRejectDocumentDescription(ElectronicInvoice eInvoice,
+                                                     ElectronicInvoiceOrder electronicInvoiceOrder){
+        
+        String poID = StringUtils.isEmpty(electronicInvoiceOrder.getInvoicePurchaseOrderID()) ?
+                      "UNKNOWN" :
+                      electronicInvoiceOrder.getInvoicePurchaseOrderID();
+        
+        String vendorName = StringUtils.isEmpty(eInvoice.getVendorName()) ? 
+                            "UNKNOWN" :
+                            eInvoice.getVendorName();
+        
+        String description = "PO: " + poID + " Vendor: " + vendorName;
+        
+        return checkDescriptionLengthAndStripIfNeeded(description);
+    }
+    
+    private String generateRejectDocumentDescription(ElectronicInvoiceRejectDocument rejectDoc) {
+
+        String poID = StringUtils.isEmpty(rejectDoc.getInvoicePurchaseOrderNumber()) ? 
+                      "UNKNOWN" : 
+                      rejectDoc.getInvoicePurchaseOrderNumber();
+
+        String vendorName = "UNKNOWN";
+        if (rejectDoc.getVendorDetail() != null){
+            vendorName = rejectDoc.getVendorDetail().getVendorName();
+        }
+
+        String description = "PO: " + poID + " Vendor: " + vendorName;
+
+        return checkDescriptionLengthAndStripIfNeeded(description);
+    }
+    
+    private String checkDescriptionLengthAndStripIfNeeded(String description){
+        
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+
+        if (noteTextMaxLength < description.length()) {
+            description = description.substring(0, noteTextMaxLength);
+        }
+        
+        return description;
     }
     
     public ElectronicInvoiceLoadSummary getOrCreateLoadSummary(ElectronicInvoiceLoad eInvoiceLoad,
@@ -885,7 +953,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     throws CxmlParseException {
       
       if (LOG.isDebugEnabled()){
-          LOG.debug("loadElectronicInvoice() started");
+          LOG.debug("Loading Invoice File");
       }
       
       BufferedInputStream fileStream = null;
@@ -918,7 +986,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
       }
       
       if (LOG.isDebugEnabled()){
-          LOG.debug("loadElectronicInvoice() ended");
+          LOG.debug("Successfully loaded the Invoice File");
       }
       
       return electronicInvoice;
@@ -942,9 +1010,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if ((!(UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber))) || 
                     ((UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber)) && 
-                    !(eInvoiceLoadSummary.getIsEmpty().booleanValue()))) {
+                    !(eInvoiceLoadSummary.isEmpty().booleanValue()))) {
                 
-                LOG.info("runLoadSave() Saving Load Summary for DUNS '" + dunsNumber + "'");
+                LOG.info("Saving Load Summary for DUNS '" + dunsNumber + "'");
                 
                 ElectronicInvoiceLoadSummary currentLoadSummary = saveElectronicInvoiceLoadSummary(eInvoiceLoadSummary);
                 
@@ -956,7 +1024,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 savedLoadSummariesMap.put(currentLoadSummary.getVendorDunsNumber(), eInvoiceLoadSummary);
                 
             } else {
-                LOG.info("runLoadSave() Not saving Load Summary for DUNS '" + dunsNumber + "' because empty indicator is '" + eInvoiceLoadSummary.getIsEmpty().booleanValue() + "'");
+                LOG.info("Not saving Load Summary for DUNS '" + dunsNumber + "' because empty indicator is '" + eInvoiceLoadSummary.isEmpty().booleanValue() + "'");
             }
         }
         
@@ -974,7 +1042,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
             }
             
-//            saveElectronicInvoiceReject(eInvoiceRejectDocument);
             try {
                 
                 /*AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
@@ -1047,9 +1114,22 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                                    rejectDocument.getVendorDetailAssignedIdentifier());
         
         Map kualiItemTypes = getKualiItemTypes();
+
+        /**
+         * This is needed here since if the user changes the DUNS number.
+         */
+        validateVendorDetails(rejectDocument);
         
         ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
         matchingService.doMatchingProcess(rejectDocHolder);
+        
+        /**
+         * Once we're through with the matching process, it's needed to check whether it's possible
+         * to create PREQ for the reject doc
+         */
+        if (!rejectDocHolder.isInvoiceRejected()){
+            validateInvoiceOrderValidForPREQCreation(rejectDocHolder);
+        }
         
         return !rejectDocHolder.isInvoiceRejected();
     }
@@ -1539,16 +1619,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
      
     
     private String generatePREQDocumentDescription(PurchaseOrderDocument poDocument) {
-        
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName() + " Electronic Invoice";
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
-        
-        if (noteTextMaxLength < description.length()) {
-            description = description.substring(0, noteTextMaxLength);
-        }
-        
-        return description;
-        
+        return checkDescriptionLengthAndStripIfNeeded(description);
     }
     
     /**
@@ -1572,9 +1644,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return;
         }
         
-        /**
-         * FIXME: Is it needed to move it to the matching process?
-         */
         if (!orderHolder.isInvoiceNumberAcceptIndicatorEnabled()){
             List preqs = paymentRequestService.getPaymentRequestsByVendorNumberInvoiceNumber(poDoc.getVendorHeaderGeneratedIdentifier(), 
                                                                                              poDoc.getVendorDetailAssignedIdentifier(), 

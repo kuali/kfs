@@ -427,7 +427,7 @@ public class ElectronicInvoiceOrderHolder {
                  * be independent of the incoming data
                  * 
                  */
-//                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);    
+                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);    
             }
         }else{
             eInvoice.addFileRejectReasonToList(rejectReason);
@@ -458,7 +458,7 @@ public class ElectronicInvoiceOrderHolder {
                  * 
                  * Also, needs to analyze the way of handling errors in specific line item
                  */
-//                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);
+                GlobalVariables.getErrorMap().putError(fieldName, applnResourceKey);
             }
         }else{
             invoiceOrder.addRejectReasonToList(rejectReason);

@@ -194,7 +194,7 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   /**
    * @return the isEmpty
    */
-  public Boolean getIsEmpty() {
+  public Boolean isEmpty() {
     return isEmpty;
   }
 

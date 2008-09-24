@@ -242,7 +242,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
             
             if ((!(UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber))) || 
                     ((UNKNOWN_DUNS_IDENTIFIER.equals(dunsNumber)) && 
-                    !(eInvoiceLoadSummary.getIsEmpty().booleanValue()))) {
+                    !(eInvoiceLoadSummary.isEmpty().booleanValue()))) {
                 
                 LOG.info("runLoadSave() Saving Load Summary for DUNS '" + dunsNumber + "'");
                 
@@ -257,7 +257,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                 savedLoadSummariesMap.put(currentLoadSummary.getVendorDunsNumber(), eInvoiceLoadSummary);
                 
             } else {
-                LOG.info("runLoadSave() Not saving Load Summary for DUNS '" + dunsNumber + "' because empty indicator is '" + eInvoiceLoadSummary.getIsEmpty().booleanValue() + "'");
+                LOG.info("runLoadSave() Not saving Load Summary for DUNS '" + dunsNumber + "' because empty indicator is '" + eInvoiceLoadSummary.isEmpty().booleanValue() + "'");
             }
         }
         

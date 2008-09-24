@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
@@ -400,7 +402,17 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
 
     public PurchaseOrderDocument getCurrentPurchaseOrderDocument() {
         if (currentPurchaseOrderDocument == null) {
-            currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier());
+            if (NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
+                currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
+            }
+        }else{
+            /**
+             * INFO: This is needed if the user changes the invoice PO id 
+             */
+            if (!StringUtils.equals(getInvoicePurchaseOrderNumber(), currentPurchaseOrderDocument.getPurapDocumentIdentifier().toString()) &&
+                 NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
+                currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
+            }
         }
         return currentPurchaseOrderDocument;
     }

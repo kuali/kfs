@@ -48,7 +48,7 @@
     <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
     <html:hidden property="document.vendorDetailAssignedIdentifier" />
 
-	<kul:tab tabTitle="Caomparison Data" defaultOpen="TRUE" tabErrorKey="">
+	<kul:tab tabTitle="Caomparison Data" defaultOpen="TRUE" tabErrorKey="${PurapConstants.REJECT_DOCUMENT_TAB_ERRORS}">
 	    <div class="tab-container">
 
 			<div class="error" align="left">Reject Reasons:</div>
@@ -91,10 +91,10 @@
 	
 	            <tr>
 	                <th align="right" valign="middle" class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceOrderPurchaseOrderIdentifier}" /></div>
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceOrderPurchaseOrderIdentifier}" property="document.invoiceOrderPurchaseOrderIdentifier" readOnly="${not fullEntryMode}" />
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoicePurchaseOrderNumber}" property="document.invoicePurchaseOrderNumber" readOnly="${not fullEntryMode}" />
 	                </td>
 	                <th align="right" valign="middle" class="bord-l-b">
 	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceFileDate}" /></div>
@@ -117,7 +117,7 @@
 				                <td colspan="${colCount}" class="subhead">Electronic Invoice Items:</td>
 				            </tr>
 							<tr>
-					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemLineNumber}"/>
+					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceReferenceItemLineNumber}"/>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemQuantity}"/>
 					            <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemUnitOfMeasureCode}"/>
 								<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.invoiceItemCatalogNumber}" />
@@ -136,8 +136,8 @@
 								<tr>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${itemAttributes.invoiceItemLineNumber}"
-										    property="document.invoiceRejectItems[${ctr}].invoiceItemLineNumber"
+										    attributeEntry="${itemAttributes.invoiceReferenceItemLineNumber}"
+										    property="document.invoiceRejectItems[${ctr}].invoiceReferenceItemLineNumber"
 										    readOnly="${not fullEntryMode}" />
 									</td>
 									<td class="datacell">

@@ -38,10 +38,12 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.core.service.EncryptionService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -84,13 +86,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String cutoffdate90Label;
     private String cutoffdate120Label;
     private String cutoffdate365Label;
-
+    
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
     private String chartCode;
     private String orgCode;
-   // private int nbrDaysLastBucket = KFSConstants.CustomerAgingReport.NBR_DAYS_IN_LAST_BUCKET;
+    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
+    private String cutoffdate91toSYSPRlabel = "91-"+nbrDaysForLastBucket+" days"; 
+    private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+"+ days";
+    
 
     /**
      * Get the search results that meet the input search criteria.
@@ -147,8 +152,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
         Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
         Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
-        Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
-        Date cutoffdate365 = DateUtils.addDays(reportRunDate, -365);
+        //Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
+        Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
 
         LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
         LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
@@ -411,10 +416,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                 }
                 col.setPropertyValue(propValue);
 
-                /*
-                if (StringUtils.isNotBlank(propValue)) {
-                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
-                }*/
                 if (StringUtils.isNotBlank(propValue)) {
                     // do not add link to the values in column "Customer Name"
                     if (StringUtils.equals(customerNameLabel, col.getColumnTitle()))
@@ -422,6 +423,14 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                     else
                         col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
                 }
+
+      
+                    // do not add link to the values in column "Customer Name"
+                    if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
+                        col.setColumnTitle(cutoffdate91toSYSPRlabel);
+                    if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
+                        col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
+                
             }
 
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);

@@ -64,7 +64,7 @@ public abstract class CamsGeneralLedgerPendingEntrySourceBase implements General
     }
 
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
-        return postable.getAmount();
+        return postable.getAmount().abs();
     }
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {

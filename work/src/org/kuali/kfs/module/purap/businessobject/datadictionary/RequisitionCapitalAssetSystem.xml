@@ -143,22 +143,12 @@
   </bean>  
   <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode" parent="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" />
 
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+        p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset"
+        p:sourceAttributeName="capitalAssetTypeCode">    
     <property name="name" value="capitalAssetTypeCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Capital Asset Type Code" />
-    <property name="shortLabel" value="Code" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="capitalAssetTypeCode" />
-    <property name="description" value="capitalAssetTypeCode description..." />
   </bean>
+  
   <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier" parent="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" />
 
   <bean id="RequisitionCapitalAssetSystem-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

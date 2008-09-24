@@ -12,12 +12,10 @@
     </property>
     <property name="properties" ref="properties" />
     <property name="rootResourceLoader" ref="kfsRootResourceLoader" />
-    <property name="modules">
-      <list>
+    <property name="knsConfigurer">
         <bean class="org.kuali.rice.kns.config.KNSConfigurer">
           <property name="suppressAutoModuleConfiguration" value="true"></property>
         </bean>
-      </list>
     </property>
   </bean>
 

@@ -15,17 +15,21 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
+import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.bo.BusinessObjectBase;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
-import org.kuali.kfs.module.cam.document.service.impl.AssetLocationServiceImpl;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.BusinessObjectBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 
+@ConfigureContext(session = KHUNTLEY)
 public class AssetLocationServiceTest extends KualiTestBase {
     private AssetLocationService assetLocationService;
     private static Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
@@ -162,7 +166,9 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
     @Override
     protected void setUp() throws Exception {
-        this.assetLocationService = new AssetLocationServiceImpl();
+        super.setUp();
+        
+        this.assetLocationService = SpringContext.getBean(AssetLocationService.class);
         onCampusObject = new MockBusinessObject();
         onCampusObject.setCampusCode("BL");
         onCampusObject.setBuildingCode("BL001");
@@ -173,8 +179,8 @@ public class AssetLocationServiceTest extends KualiTestBase {
         offcampusObject.setContactName("eddsdsd");
         offcampusObject.setStreetAddress("Addreed");
         offcampusObject.setCity("City");
-        offcampusObject.setStateCode("MI");
-        offcampusObject.setZipCode("343434");
+        offcampusObject.setStateCode("IN");
+        offcampusObject.setZipCode("47401");
         offcampusObject.setCountryCode("US");
 
     }

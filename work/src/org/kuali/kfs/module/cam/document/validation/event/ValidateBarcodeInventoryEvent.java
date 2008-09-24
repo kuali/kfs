@@ -25,9 +25,10 @@ import org.kuali.rice.kns.rule.BusinessRule;
 import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
 
 public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase {
-    
-    public ValidateBarcodeInventoryEvent(String errorPathPrefix, Document document) {
+    boolean updateStatus;
+    public ValidateBarcodeInventoryEvent(String errorPathPrefix, Document document, boolean updateStatus) {
         super("", errorPathPrefix, document);
+        this.updateStatus = updateStatus;
     }
 
     @SuppressWarnings("unchecked")
@@ -38,7 +39,7 @@ public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase 
     @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail = ((BarcodeInventoryErrorDocument)getDocument()).getBarcodeInventoryErrorDetail(); 
-        return ((BarcodeInventoryErrorDocumentRule) rule).validateBarcodeInventoryErrorDetail(barcodeInventoryErrorDetail);
+        return ((BarcodeInventoryErrorDocumentRule) rule).validateBarcodeInventoryErrorDetail(barcodeInventoryErrorDetail,this.updateStatus);
     }
     
 }

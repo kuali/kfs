@@ -1,5 +1,4 @@
 /*
- * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +80,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         BarcodeInventoryErrorForm bcieForm = (BarcodeInventoryErrorForm) form;
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();        
-        this.invokeRules(document);
+        
+        this.invokeRules(document,false);
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
@@ -100,7 +100,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = bcieForm.getBarcodeInventoryErrorDocument();
 
         //Validating records.
-        this.invokeRules(document);
+        this.invokeRules(document,false);
     }
 
 
@@ -131,39 +131,40 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         barcodeInventoryErrorForm.setDocument(document);
 
         //Validating.
-        this.invokeRules(document);
+        this.invokeRules(document,false);
 
         //Checking whether or not an BCIE row was actually corrected
-        barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
-        for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-
-            //if corrected set user id that corrected and  date. 
-            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-                detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
-                detail.setCorrectorUniversalIdentifier(currentUserID);
-
-                //Updating asset table 
-                assetBarcodeInventoryLoadService.updateAssetInformation(detail);
-            }
-        }
-
-
-        if (this.isFullyProcessed(document)) {                    
-            //If the same person that uploaded the bcie is the one processing it, then....
-            if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-                //Approving and storing data
-                this.blanketApprove(mapping, form, request, response);
-            }
-        }
-        else {
-            //Storing data.
-            businessObjectService.save(document.getBarcodeInventoryErrorDetail());
-        }
+//        barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
+//        for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
+//
+//            //if corrected set user id that corrected and  date. 
+//            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
+//                detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
+//                detail.setCorrectorUniversalIdentifier(currentUserID);
+//
+//                //Updating asset table 
+//                assetBarcodeInventoryLoadService.updateAssetInformation(detail);
+//            }
+//        }
+//
+//
+//        if (this.isFullyProcessed(document)) {                    
+//            //If the same person that uploaded the bcie is the one processing it, then....
+//            if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
+//                //Approving and storing data
+//                this.blanketApprove(mapping, form, request, response);
+//            }
+//        }
+//        else {
+//            //Storing data.
+//            businessObjectService.save(document.getBarcodeInventoryErrorDetail());
+//        }
+        
         //Search fields initialization.
         barcodeInventoryErrorForm.resetSearchFields();
 
         //Re-loading document with changes.
-        this.loadDocument((KualiDocumentFormBase) form);
+//        this.loadDocument((KualiDocumentFormBase) form);
 
 
         //Displaying JSP
@@ -194,7 +195,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         if (selectedCheckboxes != null) {
 
             //Validate
-            this.invokeRules(document);
+            this.invokeRules(document,true);
 
             barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
             for (int i = 0; i < selectedCheckboxes.length; i++) {
@@ -285,8 +286,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
      * 
      * @param document
      */
-    private void invokeRules(BarcodeInventoryErrorDocument document) {
-        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document));
+    private void invokeRules(BarcodeInventoryErrorDocument document, boolean updateStatus) {
+        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", document,updateStatus));
     }
 
 

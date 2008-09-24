@@ -93,7 +93,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
     }
     
@@ -137,7 +137,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentTagNumber(String currentTagNumber) {
-        this.currentTagNumber = currentTagNumber;
+        this.currentTagNumber = (currentTagNumber == null ? "" : currentTagNumber.toUpperCase());
     }
 
 
@@ -147,7 +147,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentScanCode(String currentScanCode) {
-        this.currentScanCode = currentScanCode;
+        this.currentScanCode = (currentScanCode == null ? "" : currentScanCode.toUpperCase());
     }
 
 
@@ -157,7 +157,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentCampusCode(String currentCampusCode) {
-        this.currentCampusCode = currentCampusCode;
+        this.currentCampusCode = (currentCampusCode == null ? "" : currentCampusCode.toUpperCase());
     }
 
 
@@ -167,7 +167,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentBuildingNumber(String currentBuildingNumber) {
-        this.currentBuildingNumber = currentBuildingNumber;
+        this.currentBuildingNumber = (currentBuildingNumber == null ? "" : currentBuildingNumber.toUpperCase());
     }
 
 
@@ -177,7 +177,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentRoom(String currentRoom) {
-        this.currentRoom = currentRoom;
+        this.currentRoom = (currentRoom==null ? "" : currentRoom.toUpperCase());
     }
 
 
@@ -187,7 +187,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentSubroom(String currentSubroom) {
-        this.currentSubroom = currentSubroom;
+        this.currentSubroom = (currentSubroom == null ? "" : currentSubroom.toUpperCase());
     }
 
 
@@ -197,7 +197,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setCurrentConditionCode(String currentConditionCode) {
-        this.currentConditionCode = currentConditionCode;
+        this.currentConditionCode = (currentConditionCode == null ? "" : currentConditionCode.toUpperCase());
     }
 
 
@@ -207,7 +207,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewTagNumber(String newTagNumber) {
-        this.newTagNumber = newTagNumber;
+        this.newTagNumber = (newTagNumber == null ? "" : newTagNumber.toUpperCase());
     }
 
 
@@ -217,7 +217,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewScanCode(String newScanCode) {
-        this.newScanCode = newScanCode;
+        this.newScanCode = (newScanCode == null ? "" : newScanCode.toUpperCase());
     }
 
 
@@ -227,7 +227,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewCampusCode(String newCampusCode) {
-        this.newCampusCode = newCampusCode;
+        this.newCampusCode = ( newCampusCode == null ? "" : newCampusCode.toUpperCase());
     }
 
 
@@ -237,7 +237,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewBuildingNumber(String newBuildingNumber) {
-        this.newBuildingNumber = newBuildingNumber;
+        this.newBuildingNumber = (newBuildingNumber == null ? "" : newBuildingNumber.toUpperCase());
     }
 
 
@@ -247,7 +247,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewRoom(String newRoom) {
-        this.newRoom = newRoom;
+        this.newRoom = (newRoom == null ? "" : newRoom.toUpperCase());
     }
 
 
@@ -257,7 +257,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewSubroom(String newSubroom) {
-        this.newSubroom = newSubroom;
+        this.newSubroom = ( newSubroom == null ? "" : newSubroom.toUpperCase());
     }
 
 
@@ -267,7 +267,7 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
 
 
     public void setNewConditionCode(String newConditionCode) {
-        this.newConditionCode = newConditionCode;
+        this.newConditionCode = (newConditionCode == null ? "" : newConditionCode.toUpperCase());
     }
 
     

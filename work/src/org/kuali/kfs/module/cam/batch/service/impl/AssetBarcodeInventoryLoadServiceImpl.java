@@ -339,7 +339,7 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         
         BarcodeInventoryErrorDocument barcodeInventoryErrorDocument = createInvalidBarcodeInventoryDocument(barcodeInventoryErrorDetails,form.getUploadDescription());
         // apply rules for the new cash control detail
-        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", barcodeInventoryErrorDocument));
+        kualiRuleService.applyRules(new ValidateBarcodeInventoryEvent("", barcodeInventoryErrorDocument,true));
 
         List<BarcodeInventoryErrorDetail> tmpBarcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 

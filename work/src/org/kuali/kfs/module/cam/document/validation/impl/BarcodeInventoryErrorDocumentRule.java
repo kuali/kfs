@@ -75,13 +75,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param barcodeInventoryErrorDetails
      * @return boolean
      */
-    public boolean validateBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails) {
+    public boolean validateBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, boolean updateStatus) {
         String errorPath = "";
         boolean valid = true;
         List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
-
-        // Deleting previous error messages
-        //GlobalVariables.getErrorMap().clear();
 
         Long lineNumber = new Long(0);
         for (BarcodeInventoryErrorDetail barcodeInventoryErrorDetail : barcodeInventoryErrorDetails) {
@@ -106,7 +103,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                     barcodeInventoryErrorDetail.setErrorDescription(getErrorMessages(errorPath));
                 }
                 else {
-                    barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
+                    if (updateStatus)
+                        barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED);
+                    
+                    barcodeInventoryErrorDetail.setErrorDescription("NONE");
                 }
                 GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             }

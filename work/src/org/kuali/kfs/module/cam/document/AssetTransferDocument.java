@@ -224,7 +224,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
-        return postable.getAmount();
+        return postable.getAmount().abs();
     }
 
     public List<AssetGlpeSourceDetail> getSourceAssetGlpeSourceDetails() {

@@ -92,7 +92,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String accountNumber;
     private String chartCode;
     private String orgCode;
-    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
+    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
     private String cutoffdate91toSYSPRlabel = "91-"+nbrDaysForLastBucket+" days"; 
     private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+"+ days";
     

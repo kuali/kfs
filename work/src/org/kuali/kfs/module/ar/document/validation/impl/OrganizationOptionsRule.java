@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -25,7 +26,9 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -33,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
-    
+
     private OrganizationOptions newOrganizationOptions;
     private OrganizationOptions oldOrganizationOptions;
 
@@ -48,6 +51,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         success &= doesSystemInformationExistForProcessingChartAngOrg(newOrganizationOptions);
+        success &= isOrganizationOptionsPostalZipCodeNotEmpty(newOrganizationOptions);
         return success;
     }
 
@@ -57,31 +61,48 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         processCustomRouteDocumentBusinessRules(document);
         return true;
 
-    }    
-    
+    }
+
     /**
      * This method this returns true if system information row exists for processing chart and org
      * 
      * @param organizationOptions
      * @return
      */
-    public boolean doesSystemInformationExistForProcessingChartAngOrg(OrganizationOptions organizationOptions){
+    public boolean doesSystemInformationExistForProcessingChartAngOrg(OrganizationOptions organizationOptions) {
         boolean success = true;
-        
+
         String processingChartOfAccountCode = organizationOptions.getProcessingChartOfAccountCode();
         String processingOrganizationCode = organizationOptions.getProcessingOrganizationCode();
-        
+
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        
-        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
-        
-        if( ObjectUtils.isNull(systemInformation) ){
-            putFieldError(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[]{ processingChartOfAccountCode, processingOrganizationCode } );
+
+        SystemInformation systemInformation = (SystemInformation) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+
+        if (ObjectUtils.isNull(systemInformation)) {
+            putFieldError(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, ArKeyConstants.OrganizationOptionsErrors.SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG, new String[] { processingChartOfAccountCode, processingOrganizationCode });
             success = false;
         }
+        return success;
+    }
+
+    /**
+     * This method returns false if org option postal code is empty and sales tax indicator is set to Y.  Else, returns true.
+     * @param organizationOptions
+     * @return
+     */
+    public boolean isOrganizationOptionsPostalZipCodeNotEmpty(OrganizationOptions organizationOptions) {
+        boolean success = true;
+
+        // check if sales tax is enabled && if org postal code is empty
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isEmpty(organizationOptions.getOrganizationPostalZipCode())) {
+            putFieldError(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE, ArKeyConstants.OrganizationOptionsErrors.ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED);
+            success = false;
+        }
+
         return success;
     }
 }

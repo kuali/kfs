@@ -153,6 +153,7 @@ public class ArKeyConstants {
     // Organization Options errors
     public static class OrganizationOptionsErrors {
         public static final String SYS_INFO_DOES_NOT_EXIST_FOR_PROCESSING_CHART_AND_ORG = "error.document.organizationOptions.sysInfoDoesNotExistForProcessingChartAndOrg";
+        public static final String ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED = "error.document.organizationOptions.orgOptionsZipCodeRequired";
     }    
 
     

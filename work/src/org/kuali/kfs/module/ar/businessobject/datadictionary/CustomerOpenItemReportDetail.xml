@@ -55,7 +55,7 @@
 <bean id="CustomerOpenItemReportDetail-documentPaymentAmount" parent="CustomerOpenItemReportDetail-documentPaymentAmount-parentBean" />
 <bean id="CustomerOpenItemReportDetail-documentPaymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="documentPaymentAmount" />
-    <property name="label" value="Document Payment Amount" />
+    <property name="label" value="Original Document Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
 </bean>
 

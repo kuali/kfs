@@ -127,7 +127,7 @@
 	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lastInventoryDate" column="CPTLAST_LSTINVN_DT" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="oldTagNumber" column="CPTLAST_OLDTAG_NBR" jdbc-type="VARCHAR"/>
@@ -136,7 +136,7 @@
 	<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_IUPD_CASE_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"  conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
@@ -577,7 +577,7 @@
 	<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR"/>
@@ -818,7 +818,7 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -924,7 +924,7 @@
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetNumber" />

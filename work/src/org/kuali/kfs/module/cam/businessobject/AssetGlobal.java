@@ -21,7 +21,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.CAPITAL_ASSETS_BATCH;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -86,7 +85,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // calculate equal totals button
     private String calculateEqualSourceAmounts;
-    
+
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private FinancialSystemDocumentHeader documentHeader;
 
@@ -732,11 +731,11 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
         }
-        
+
         // set new asset data
         for (Iterator iterator = assetGlobalDetails.iterator(); iterator.hasNext();) {
 
-            AssetGlobalDetail detail = (AssetGlobalDetail)iterator.next();
+            AssetGlobalDetail detail = (AssetGlobalDetail) iterator.next();
 
             /** @TODO check into a better way to do the below other then getting / setting a dozen fields -- deepCopy? */
 
@@ -774,16 +773,18 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setFinancialObjectSubTypeCode(financialObjectSubTypeCode);
             asset.setFinancialDocumentPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalYear());
             asset.setFinancialDocumentPostingPeriodCode(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+
+            asset.setSerialNumber(detail.getSerialNumber());
+            asset.setOrganizationInventoryName(detail.getOrganizationInventoryName());
+            asset.setGovernmentTagNumber(detail.getGovernmentTagNumber());
+            asset.setCampusTagNumber(detail.getCampusTagNumber());
+            asset.setNationalStockNumber(detail.getNationalStockNumber());
+
             // asset.setVersionNumber(1L);
-            
+
             // set specific values for new asset if document is Asset Separate
             // capitalAssetTypeCode is over written from above
             if (assetGlobalService.isAssetSeparateDocument(this)) {
-                asset.setSerialNumber(detail.getSerialNumber());
-                asset.setOrganizationInventoryName(detail.getOrganizationInventoryName());
-                asset.setGovernmentTagNumber(detail.getGovernmentTagNumber());
-                asset.setCampusTagNumber(detail.getCampusTagNumber());
-                asset.setNationalStockNumber(detail.getNationalStockNumber());
                 asset.setRepresentativeUniversalIdentifier(detail.getRepresentativeUniversalIdentifier());
                 asset.setCapitalAssetTypeCode(detail.getCapitalAssetTypeCode());
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
@@ -861,13 +862,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 persistables.add(assetPayment);
             }
         }
-        
+
         // reduce source total amount and asset payment if document is Asset Separate
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
             separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.totalSeparateSourceAmount(this)));
             persistables.add(separateSourceCapitalAsset);
-            
+
             // copy and set AssetPayment from source Asset into new AssetPayment object
             for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
                 AssetPayment offsetAssetPayment = new AssetPayment();
@@ -1082,15 +1083,16 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setDocumentHeader(FinancialSystemDocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
-    
+
     /**
      * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date.
+     * 
      * @return
      */
     public Date getDocumentHeaderFinalDate() {
         return ObjectUtils.isNull(documentHeader) ? null : documentHeader.getDocumentFinalDate();
     }
-    
+
     public String getCalculateEqualSourceAmounts() {
         return calculateEqualSourceAmounts;
     }

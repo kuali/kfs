@@ -51,7 +51,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class GlLineServiceImpl implements GlLineService {
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -81,7 +81,14 @@ public class GlLineServiceImpl implements GlLineService {
         return document;
     }
 
-    private void updatePreTagInformation(GeneralLedgerEntry entry, MaintenanceDocument document, AssetGlobal assetGlobal) {
+    /**
+     * This method reads the pre-tag information and creates objects for asset global document
+     * 
+     * @param entry GL Line
+     * @param document Asset Global Maintenance Document
+     * @param assetGlobal Asset Global Object
+     */
+    protected void updatePreTagInformation(GeneralLedgerEntry entry, MaintenanceDocument document, AssetGlobal assetGlobal) {
         CapitalAssetInformation assetInformation = findCapitalAssetInformation(entry);
         if (ObjectUtils.isNotNull(assetInformation) && assetInformation.getCapitalAssetNumber() == null) {
             AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
@@ -90,11 +97,14 @@ public class GlLineServiceImpl implements GlLineService {
             assetGlobalDetail.setBuildingCode(assetInformation.getBuildingCode());
             assetGlobalDetail.setBuildingRoomNumber(assetInformation.getBuildingRoomNumber());
             assetGlobalDetail.setBuildingSubRoomNumber(assetInformation.getBuildingSubRoomNumber());
-            assetGlobalDetail.setCampusTagNumber(assetInformation.getCapitalAssetTagNumber());
             assetGlobalDetail.setSerialNumber(assetInformation.getCapitalAssetSerialNumber());
-            // set global info
-            // add unique information
-            for (int i = 0; i < assetInformation.getCapitalAssetQuantity(); i++) {
+
+            Integer capitalAssetQuantity = assetInformation.getCapitalAssetQuantity() == null ? 1 : assetInformation.getCapitalAssetQuantity();
+            if (capitalAssetQuantity == 1) {
+                // set tag number when 1 asset is created, else duplicate tag error
+                assetGlobalDetail.setCampusTagNumber(assetInformation.getCapitalAssetTagNumber());
+            }
+            for (int i = 0; i < capitalAssetQuantity; i++) {
                 AssetGlobalDetail uniqueAsset = new AssetGlobalDetail();
                 ObjectValueUtils.copySimpleProperties(assetGlobalDetail, uniqueAsset);
                 uniqueAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
@@ -119,7 +129,7 @@ public class GlLineServiceImpl implements GlLineService {
         return assetInformation;
     }
 
-    private void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document maintDoc) {
+    protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document maintDoc) {
         // store the document number
         GeneralLedgerEntryAsset entryAsset = new GeneralLedgerEntryAsset();
         entryAsset.setGeneralLedgerAccountIdentifier(entry.getGeneralLedgerAccountIdentifier());
@@ -159,7 +169,7 @@ public class GlLineServiceImpl implements GlLineService {
         return document;
     }
 
-    private void updatePreTagInformation(GeneralLedgerEntry entry, AssetPaymentDocument document) {
+    protected void updatePreTagInformation(GeneralLedgerEntry entry, AssetPaymentDocument document) {
         CapitalAssetInformation assetInformation = findCapitalAssetInformation(entry);
         if (ObjectUtils.isNotNull(assetInformation) && assetInformation.getCapitalAssetNumber() != null) {
             AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();

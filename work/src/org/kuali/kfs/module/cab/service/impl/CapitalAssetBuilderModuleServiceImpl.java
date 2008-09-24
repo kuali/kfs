@@ -38,6 +38,11 @@ import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -84,45 +89,50 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private AssetService assetService;
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
     }
-    
+
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateIndividualCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateIndividualCapitalAssetSystemFromPurchasing(java.lang.String,
+     *      java.util.List, java.lang.String, java.lang.String)
      */
     public boolean validateIndividualCapitalAssetSystemFromPurchasing(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
-        //For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for validateAllFieldRequirementsByChart
-        //should be null. So we'll pass in a null here.
+        // For Individual Asset system type, the List of CapitalAssetSystems in the input parameter for
+        // validateAllFieldRequirementsByChart
+        // should be null. So we'll pass in a null here.
         boolean valid = validateAllFieldRequirementsByChart(systemState, null, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL);
         valid &= validateQuantityOnLocationsEqualsQuantityOnItem(capitalAssetItems, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, systemState);
-        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
-        //against CAMS data (for example, asset # exist in CAMS) 
+        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
+        // potential validation '
+        // against CAMS data (for example, asset # exist in CAMS)
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
         valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
-    
+
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateOneSystemCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.util.List, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateOneSystemCapitalAssetSystemFromPurchasing(java.lang.String,
+     *      java.util.List, java.util.List, java.lang.String, java.lang.String)
      */
     public boolean validateOneSystemCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM);
-        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
-        //against CAMS data (for example, asset # exist in CAMS) 
+        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
+        // potential validation '
+        // against CAMS data (for example, asset # exist in CAMS)
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
@@ -131,19 +141,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateMultipleSystemsCapitalAssetSystemFromPurchasing(java.lang.String, java.util.List, java.util.List, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateMultipleSystemsCapitalAssetSystemFromPurchasing(java.lang.String,
+     *      java.util.List, java.util.List, java.lang.String, java.lang.String)
      */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType) {
         boolean valid = validateAllFieldRequirementsByChart(systemState, capitalAssetSystems, capitalAssetItems, chartCode, documentType, PurapConstants.CapitalAssetSystemTypes.MULTIPLE);
-        //TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira : potential validation '
-        //against CAMS data (for example, asset # exist in CAMS) 
+        // TODO : add all the other cams validations according to the specs in here whenever applicable, or, according to the jira :
+        // potential validation '
+        // against CAMS data (for example, asset # exist in CAMS)
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
         valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.service.CapitalAssetBuilderModuleService#doesDocumentExceedThreshold(org.kuali.rice.kns.util.KualiDecimal)
      */
@@ -164,11 +176,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * Validates all the field requirements by chart. It obtains a List of parameters where the
-     * parameter names are like "CHARTS_REQUIRING%" then loop through these parameters. If
-     * the system type is individual then invoke the validateFieldRequirementByChartForIndividualSystemType
-     * for further validation, otherwise invoke the validateFieldRequirementByChartForOneOrMultipleSystemType
-     * for further validation.
+     * Validates all the field requirements by chart. It obtains a List of parameters where the parameter names are like
+     * "CHARTS_REQUIRING%" then loop through these parameters. If the system type is individual then invoke the
+     * validateFieldRequirementByChartForIndividualSystemType for further validation, otherwise invoke the
+     * validateFieldRequirementByChartForOneOrMultipleSystemType for further validation.
      * 
      * @param systemState
      * @param capitalAssetSystems
@@ -185,8 +196,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT);
         String name = "CHARTS_REQUIRING%" + documentType;
         fieldValues.put(CabPropertyConstants.Parameter.PARAMETER_NAME, name);
-        //TODO: KULPURAP-2837, Find a more permanent home for the codes for handling "LIKE" criterias. This works fine for now
-        //to serve its purpose, although this is probably not the permanent location (ask Chris).
+        // TODO: KULPURAP-2837, Find a more permanent home for the codes for handling "LIKE" criterias. This works fine for now
+        // to serve its purpose, although this is probably not the permanent location (ask Chris).
         List<Parameter> results = SpringContext.getBean(PurapService.class).getParametersGivenLikeCriteria(fieldValues);
 
         for (Parameter parameter : results) {
@@ -213,46 +224,46 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     private boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
-        boolean valid = true;        
+        boolean valid = true;
         boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
-        
+
         if (needValidation) {
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
-            
+
             if (mappedName != null) {
-                //Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
-                //to validate any further.
+                // Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
+                // to validate any further.
                 String availableValue = getValueFromAvailabilityMatrix(mappedName, systemType, systemState);
                 if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
                     return true;
                 }
-                
-                //capitalAssetTransactionType field is off the item
+
+                // capitalAssetTransactionType field is off the item
                 if (mappedName.equals(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE)) {
-                    String[] mappedNames = {PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS, mappedName};
-                    
+                    String[] mappedNames = { PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS, mappedName };
+
                     for (PurchasingCapitalAssetItem item : capitalAssetItems) {
                         StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
-                        valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), keyBuffer, item.getPurchasingItem().getItemLineNumber());
+                        valid &= validateFieldRequirementByChartHelper(item, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                     }
                 }
-                //all the other fields are off the system.
+                // all the other fields are off the system.
                 else {
                     List<String> mappedNamesList = new ArrayList<String>();
                     mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS);
                     if (mappedName.indexOf(".") < 0) {
-                        mappedNamesList.add(mappedName);     
+                        mappedNamesList.add(mappedName);
                     }
                     else {
                         mappedNamesList.addAll(mappedNameSplitter(mappedName));
                     }
-                    //For One system type, we would only have 1 CapitalAssetSystem, however, for multiple we may have more than
-                    //one systems in the future. Either way, this for loop should allow both the one system and multiple system
-                    //types to work fine.
+                    // For One system type, we would only have 1 CapitalAssetSystem, however, for multiple we may have more than
+                    // one systems in the future. Either way, this for loop should allow both the one system and multiple system
+                    // types to work fine.
                     int count = 0;
                     for (CapitalAssetSystem system : capitalAssetSystems) {
                         StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[" + new Integer(count) + "].");
-                        valid &= validateFieldRequirementByChartHelper (system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, null);
+                        valid &= validateFieldRequirementByChartHelper(system, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, null);
                         count++;
                     }
                 }
@@ -260,7 +271,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
-    
+
     /**
      * Validates the field requirement by chart for individual system type.
      * 
@@ -272,82 +283,81 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     private boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
-        boolean valid = true;        
+        boolean valid = true;
         boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
-        
+
         if (needValidation) {
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
             if (mappedName != null) {
-                //Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
-                //to validate any further.
+                // Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
+                // to validate any further.
                 String availableValue = getValueFromAvailabilityMatrix(mappedName, PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL, systemState);
                 if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
                     return true;
                 }
-                
-                //capitalAssetTransactionType field is off the item
+
+                // capitalAssetTransactionType field is off the item
                 List<String> mappedNamesList = new ArrayList<String>();
-                
+
                 if (mappedName.equals(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE)) {
                     mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS);
                     mappedNamesList.add(mappedName);
-     
+
                 }
-                //all the other fields are off the system which is off the item
+                // all the other fields are off the system which is off the item
                 else {
                     mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS);
                     mappedNamesList.add(PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEM);
                     if (mappedName.indexOf(".") < 0) {
-                        mappedNamesList.add(mappedName);     
+                        mappedNamesList.add(mappedName);
                     }
                     else {
                         mappedNamesList.addAll(mappedNameSplitter(mappedName));
                     }
                 }
-                //For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get it through
-                //the purchasingCapitalAssetSystem of the item.
+                // For Individual system type, we'll always iterate through the item, then if the field is off the system, we'll get
+                // it through
+                // the purchasingCapitalAssetSystem of the item.
                 for (PurchasingCapitalAssetItem item : capitalAssetItems) {
                     StringBuffer keyBuffer = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
-                    valid &= validateFieldRequirementByChartHelper (item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, item.getPurchasingItem().getItemLineNumber());
+                    valid &= validateFieldRequirementByChartHelper(item, ArrayUtils.subarray(mappedNamesList.toArray(), 1, mappedNamesList.size()), keyBuffer, item.getPurchasingItem().getItemLineNumber());
                 }
             }
         }
         return valid;
     }
-    
+
     /**
-     * Utility method to split a long String using the "." as
-     * the delimiter then add each of the array element into
-     * a List of String and return the List of String.
-     *  
+     * Utility method to split a long String using the "." as the delimiter then add each of the array element into a List of String
+     * and return the List of String.
+     * 
      * @param mappedName The String to be splitted.
      * @return The List of String after being splitted, with the "." as delimiter.
      */
     private List<String> mappedNameSplitter(String mappedName) {
-        List<String> result = new ArrayList<String>();    
+        List<String> result = new ArrayList<String>();
         String[] mappedNamesArray = mappedName.split("\\.");
-        for (int i=0; i<mappedNamesArray.length; i++) {
+        for (int i = 0; i < mappedNamesArray.length; i++) {
             result.add(mappedNamesArray[i]);
         }
         return result;
     }
 
     /**
-     * Validates the field requirement by chart recursively and give error messages
-     * when it returns false.
+     * Validates the field requirement by chart recursively and give error messages when it returns false.
      * 
-     * @param bean         The object to be used to obtain the property value
-     * @param mappedNames  The array of Strings which when combined together, they form the field property
-     * @param errorKey     The error key to be used for adding error messages to the error map. 
-     * @param itemNumber   The Integer that represents the item number that we're currently iterating.
+     * @param bean The object to be used to obtain the property value
+     * @param mappedNames The array of Strings which when combined together, they form the field property
+     * @param errorKey The error key to be used for adding error messages to the error map.
+     * @param itemNumber The Integer that represents the item number that we're currently iterating.
      * @return true if it passes the validation.
      */
     private boolean validateFieldRequirementByChartHelper(Object bean, Object[] mappedNames, StringBuffer errorKey, Integer itemNumber) {
         boolean valid = true;
-        Object value = ObjectUtils.getPropertyValue(bean, (String)mappedNames[0]);
+        Object value = ObjectUtils.getPropertyValue(bean, (String) mappedNames[0]);
         if (ObjectUtils.isNull(value)) {
             errorKey.append(mappedNames[0]);
-            String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(bean.getClass(), (String)mappedNames[0]);
+            String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(bean.getClass(), (String) mappedNames[0]);
             if (itemNumber != null) {
                 fieldName = fieldName + " in Item " + itemNumber;
             }
@@ -355,14 +365,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             return false;
         }
         else if (value instanceof Collection) {
-            if (((Collection)value).isEmpty()) {
-                //if this collection doesn't contain anything, when it's supposed to contain some strings with values, return false.
+            if (((Collection) value).isEmpty()) {
+                // if this collection doesn't contain anything, when it's supposed to contain some strings with values, return
+                // false.
                 errorKey.append(mappedNames[0]);
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String)mappedNames[0]);
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String) mappedNames[0]);
                 return false;
             }
             int count = 0;
-            for (Iterator iter = ((Collection)value).iterator(); iter.hasNext();) {
+            for (Iterator iter = ((Collection) value).iterator(); iter.hasNext();) {
                 errorKey.append(mappedNames[0] + "[" + count + "].");
                 count++;
                 valid &= validateFieldRequirementByChartHelper(iter.next(), ArrayUtils.subarray(mappedNames, 1, mappedNames.length), errorKey, itemNumber);
@@ -371,11 +382,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         else if (StringUtils.isBlank(value.toString())) {
             errorKey.append(mappedNames[0]);
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String)mappedNames[0]);
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, (String) mappedNames[0]);
             return false;
         }
         else if (mappedNames.length > 1) {
-            //this means we have not reached the end of a single field to be traversed yet, so continue with the recursion.
+            // this means we have not reached the end of a single field to be traversed yet, so continue with the recursion.
             errorKey.append(mappedNames[0]).append(".");
             valid &= validateFieldRequirementByChartHelper(value, ArrayUtils.subarray(mappedNames, 1, mappedNames.length), errorKey, itemNumber);
             return valid;
@@ -384,32 +395,33 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             return true;
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
      */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
         List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
-        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>)businessObjectService.findAll(AssetTransactionType.class);
+        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>) businessObjectService.findAll(AssetTransactionType.class);
         return tranTypes;
     }
-    
+
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getValueFromAvailabilityMatrix(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getValueFromAvailabilityMatrix(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public String getValueFromAvailabilityMatrix(String fieldName, String systemType, String systemState) {
-        for (AvailabilityMatrix am : PurapConstants.CAMS_AVAILABILITY_MATRIX.MATRIX_LIST) {   
+        for (AvailabilityMatrix am : PurapConstants.CAMS_AVAILABILITY_MATRIX.MATRIX_LIST) {
             if (am.fieldName.equals(fieldName) && am.systemState.equals(systemState) && am.systemType.equals(systemType)) {
-                return am.availableValue;        
+                return am.availableValue;
             }
         }
-        //if we can't find any matching from availability matrix, return null for now.
+        // if we can't find any matching from availability matrix, return null for now.
         return null;
     }
 
     /**
-     * Validates that the total quantity on all locations equals to the quantity on the line item.
-     * This is only used for IND system type.
+     * Validates that the total quantity on all locations equals to the quantity on the line item. This is only used for IND system
+     * type.
      * 
      * @param capitalAssetItems
      * @return true if the total quantity on all locations equals to the quantity on the line item.
@@ -418,7 +430,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         String availableValue = getValueFromAvailabilityMatrix(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS + "." + PurapPropertyConstants.QUANTITY, systemType, systemState);
         if (availableValue.equals(PurapConstants.CapitalAssetAvailability.NONE)) {
-            //If the location quantity isn't available on the document given the system type and system state, we don't need to validate this, just return true.
+            // If the location quantity isn't available on the document given the system type and system state, we don't need to
+            // validate this, just return true.
             return true;
         }
         int count = 0;
@@ -437,19 +450,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             count++;
         }
-        
+
         return valid;
     }
-    
+
     /**
-     * Validates for the individual system type that for each of the items, the capitalAssetTransactionTypeCode 
-     * matches the system parameter PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, the
-     * method will return true but if it doesn't match the system parameter, then loop through each of the itemCapitalAssets.
-     * If there is any non-null capitalAssetNumber then return false.
+     * Validates for the individual system type that for each of the items, the capitalAssetTransactionTypeCode matches the system
+     * parameter PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, the method will return true but if it doesn't match the
+     * system parameter, then loop through each of the itemCapitalAssets. If there is any non-null capitalAssetNumber then return
+     * false.
      * 
      * @param capitalAssetItems the List of PurchasingCapitalAssetItems on the document to be validated
-     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers
-     *         but the itemCapitalAsset contains at least one asset numbers.
+     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers but the
+     *         itemCapitalAsset contains at least one asset numbers.
      */
     private boolean validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
@@ -464,21 +477,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Generic validation that if the capitalAssetTransactionTypeCode does not match the system parameter
-     * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets
-     * contain a non-null capitalAssetNumber then return false.
-     * This method is used by one system and multiple system types as well as being used as a helper method
-     * for validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers method.
+     * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets contain a non-null
+     * capitalAssetNumber then return false. This method is used by one system and multiple system types as well as being used as a
+     * helper method for validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers method.
      * 
      * @param capitalAssetSystem the capitalAssetSystem containing a List of itemCapitalAssets to be validated.
      * @param capitalAssetTransactionType the capitalAssetTransactionTypeCode containing asset numbers to be validated.
-     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers
-     *         but the itemCapitalAsset contains at least one asset numbers. 
+     * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers but the
+     *         itemCapitalAsset contains at least one asset numbers.
      */
     private boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
         String parameterName = CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS;
         boolean allowedAssetNumbers = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
-            //If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
+            // If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
             return true;
         }
         else {
@@ -492,24 +504,22 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return true;
     }
-    
+
     /**
-     * Validates that if the non quantity drive allowed indicator on the
-     * capital asset transaction type is false and the quantity on any of the
-     * line items is either null or 0 then return false.
+     * Validates that if the non quantity drive allowed indicator on the capital asset transaction type is false and the quantity on
+     * any of the line items is either null or 0 then return false.
      * 
      * @param capitalAssetItems The List of PurchasingCapitalAssetItem to be validated.
-     * @return false if the indicator is false and there is at least one non quantity 
-     *         items on the list.
+     * @return false if the indicator is false and there is at least one non quantity items on the list.
      */
     private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
-        boolean valid = true;        
+        boolean valid = true;
         int count = 0;
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
             if (StringUtils.isNotBlank(capitalAssetItem.getCapitalAssetTransactionTypeCode())) {
 
                 ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
-                
+
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
                         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";
@@ -523,28 +533,27 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
-    
-    //-------- KULPURAP 2795 methods start here.
+
+    // -------- KULPURAP 2795 methods start here.
 
     /**
-     * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that 
-     * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
-     * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
-     * all object codes are valid (real) object codes.
+     * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that the given item's data
+     * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
+     * methods marked as Capital Asset validations. This implementation assumes that all object codes are valid (real) object codes.
      * 
-     * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param item                      A PurchasingItemBase object
-     * @param apoCheck                  True if this check is for APO purposes
+     * @param recurringPaymentType The item's document's RecurringPaymentType
+     * @param item A PurchasingItemBase object
+     * @param apoCheck True if this check is for APO purposes
      * @return True if the item passes all Capital Asset validations
      */
     public boolean validateItemCapitalAssetWithErrors(RecurringPaymentType recurringPaymentType, PurApItem item, boolean apoCheck) {
-        PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+        PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
         List<String> previousErrorPath = GlobalVariables.getErrorMap().getErrorPath();
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
         boolean result = validateItemCapitalAsset(recurringPaymentType, purchasingItem, false);
-        
-        //Now that we're done with cams related validations, reset the error path to what it was previously.
+
+        // Now that we're done with cams related validations, reset the error path to what it was previously.
         GlobalVariables.getErrorMap().clearErrorPath();
         for (String path : previousErrorPath) {
             GlobalVariables.getErrorMap().addToErrorPath(path);
@@ -553,62 +562,61 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that 
-     * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
-     * by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that 
-     * all object codes are valid (real) object codes.
+     * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that the given item's data
+     * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
+     * methods marked as Capital Asset validations. This implementation assumes that all object codes are valid (real) object codes.
      * 
-     * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param item                      A PurchasingItemBase object
+     * @param recurringPaymentType The item's document's RecurringPaymentType
+     * @param item A PurchasingItemBase object
      * @return True if the item passes all Capital Asset validations
      */
     public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
-        PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+        PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
         return validateItemCapitalAsset(recurringPaymentType, purchasingItem, true);
     }
-    
+
     /**
-     * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is 
-     * internally consistent, by marshaling and calling the methods marked as Capital Asset validations.
-     * This implementation assumes that all object codes are valid (real) object codes.
+     * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is internally
+     * consistent, by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that all
+     * object codes are valid (real) object codes.
      * 
-     * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param item                      A PurchasingItemBase object
-     * @param warn                      A boolean which should be set to true if warnings are to be set on the calling document 
-     *                                  for most of the validations, rather than errors.
-     * @return  True if the item passes all Capital Asset validations
+     * @param recurringPaymentType The item's document's RecurringPaymentType
+     * @param item A PurchasingItemBase object
+     * @param warn A boolean which should be set to true if warnings are to be set on the calling document for most of the
+     *        validations, rather than errors.
+     * @return True if the item passes all Capital Asset validations
      */
     protected boolean validateItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItemBase item, boolean warn) {
         boolean valid = true;
         String itemIdentifier = item.getItemIdentifierString();
-        KualiDecimal itemQuantity = item.getItemQuantity();       
+        KualiDecimal itemQuantity = item.getItemQuantity();
         HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
-        
+
         String capitalAssetTransactionTypeCode = "";
         AssetTransactionType capitalAssetTransactionType = null;
 
         if (item.getPurchasingCapitalAssetItem() != null) {
             capitalAssetTransactionTypeCode = item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionTypeCode();
-            ((PurchasingCapitalAssetItemBase)item.getPurchasingCapitalAssetItem()).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
-            capitalAssetTransactionType = (AssetTransactionType)item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionType();
+            ((PurchasingCapitalAssetItemBase) item.getPurchasingCapitalAssetItem()).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
+            capitalAssetTransactionType = (AssetTransactionType) item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionType();
         }
-        
+
         // Do the checks that depend on Accounting Line information.
-        for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
+        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
             // Because of ObjectCodeCurrent, we had to refresh this.
             accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             ObjectCode objectCode = accountingLine.getObjectCode();
             String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
             capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
-            
+
             valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, warn, itemIdentifier, objectCode);
             if (warn) {
                 valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
-            } 
+            }
             else {
                 validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
             }
-            
+
             // Do the checks involving capital asset transaction type.
             if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
@@ -616,91 +624,83 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         // These checks do not depend on Accounting Line information, but do depend on transaction type.
         if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
-            }
+            valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);
+        }
         return valid;
     }
 
     /**
-     * Capital Asset validation: An item cannot have among its associated accounting lines both object codes 
-     * that indicate it is a Capital Asset, and object codes that indicate that the item is not a Capital Asset.  
-     * Whether an object code indicates that the item is a Capital Asset is determined by whether its level is 
-     * among a specific set of levels that are deemed acceptable for such items.
+     * Capital Asset validation: An item cannot have among its associated accounting lines both object codes that indicate it is a
+     * Capital Asset, and object codes that indicate that the item is not a Capital Asset. Whether an object code indicates that the
+     * item is a Capital Asset is determined by whether its level is among a specific set of levels that are deemed acceptable for
+     * such items.
      * 
-     * @param capitalOrExpenseSet   A HashSet containing the distinct values of either "Capital" or "Expense"
-     *                              that have been added to it.
-     * @param warn                  A boolean which should be set to true if warnings are to be set on the calling document
-     * @param itemIdentifier        A String identifying the item for error display
-     * @param objectCode            An ObjectCode, for error display
-     * @return  True if the given HashSet contains at most one of either "Capital" or "Expense"
+     * @param capitalOrExpenseSet A HashSet containing the distinct values of either "Capital" or "Expense" that have been added to
+     *        it.
+     * @param warn A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier A String identifying the item for error display
+     * @param objectCode An ObjectCode, for error display
+     * @return True if the given HashSet contains at most one of either "Capital" or "Expense"
      */
     public boolean validateAccountingLinesNotCapitalAndExpense(HashSet<String> capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode) {
         boolean valid = true;
         // If the set contains more than one distinct string, fail.
-        if ( capitalOrExpenseSet.size() > 1 ) {
+        if (capitalOrExpenseSet.size() > 1) {
             if (warn) {
                 String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE);
-                warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                warning = StringUtils.replace(warning,"{1}",objectCode.getFinancialObjectCodeName());
+                warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                warning = StringUtils.replace(warning, "{1}", objectCode.getFinancialObjectCodeName());
                 GlobalVariables.getMessageList().add(warning);
-            } 
-            else { 
-                GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, 
-                        CabKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE,itemIdentifier,objectCode.getFinancialObjectCodeName());              
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, CabKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE, itemIdentifier, objectCode.getFinancialObjectCodeName());
             }
             valid &= false;
         }
         return valid;
     }
-    
+
     /**
      * Gets the distinct object code sub-types that exist in the AssetTransactionTypeRule table.
      * 
-     * @return  A HashSet containing the distinct Object Code Sub-types
+     * @return A HashSet containing the distinct Object Code Sub-types
      */
-    //TODO: - when tran type rules are moved into tran type maint. table 
+    // TODO: - when tran type rules are moved into tran type maint. table
     private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
         HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
-        HashMap<String,String> dummyMap = new HashMap<String,String>();
-        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
-        for ( CapitalAssetTransactionTypeRule relation : allRelations ) {
+        HashMap<String, String> dummyMap = new HashMap<String, String>();
+        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
+        for (CapitalAssetTransactionTypeRule relation : allRelations) {
             // Add sub-type codes if not already there.
             objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
         }
-        
+
         return objectCodeSubtypesInTable;
     }
-    
+
     /**
-     * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to 
-     * the threshold for becoming a Capital Asset, and the  object code has one of a list of levels related to capital
-     * assets, and indicating the possibility of the item being a capital asset, rather than an actual Capital Asset level, 
-     * a warning should be given that a Capital Asset level should be used. Failure of this validation gives a warning 
-     * both at the Requisition stage and at the Purchase Order stage.
-     *  
-     * @param itemQuantity          The quantity as a KualiDecimal
-     * @param extendedPrice         The extended price as a KualiDecimal
-     * @param objectCode            The ObjectCode
-     * @param itemIdentifier        A String identifying the item
-     * @return  False if the validation fails.
+     * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to the threshold for
+     * becoming a Capital Asset, and the object code has one of a list of levels related to capital assets, and indicating the
+     * possibility of the item being a capital asset, rather than an actual Capital Asset level, a warning should be given that a
+     * Capital Asset level should be used. Failure of this validation gives a warning both at the Requisition stage and at the
+     * Purchase Order stage.
+     * 
+     * @param itemQuantity The quantity as a KualiDecimal
+     * @param extendedPrice The extended price as a KualiDecimal
+     * @param objectCode The ObjectCode
+     * @param itemIdentifier A String identifying the item
+     * @return False if the validation fails.
      */
     public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier) {
         boolean valid = true;
-        if ((itemQuantity != null) && 
-            (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
-            String capitalAssetPriceThreshold = SpringContext.getBean(ParameterService.class).getParameterValue(
-                    AssetGlobal.class, 
-                    CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
-            if ((extendedPrice != null) &&
-                (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) &&
-                (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
-                
+        if ((itemQuantity != null) && (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
+            String capitalAssetPriceThreshold = SpringContext.getBean(ParameterService.class).getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
+            if ((extendedPrice != null) && (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) && (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
+
                 String possiblyCapitalAssetObjectCodeLevels = "";
                 try {
-                    possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(
-                            ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
-                            CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
-                    if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels,objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
+                    possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
+                    if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels, objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
                         valid &= false;
                     }
                 }
@@ -708,57 +708,52 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     valid &= false;
                 }
                 if (!valid) {
-                    String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                            CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
-                    warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                    warning = StringUtils.replace(warning,"{1}",capitalAssetPriceThreshold);                   
+                    String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
+                    warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                    warning = StringUtils.replace(warning, "{1}", capitalAssetPriceThreshold);
                     GlobalVariables.getMessageList().add(warning);
                 }
             }
         }
-        
+
         return valid;
     }
 
     /**
-     * Capital Asset validation: If the item has a transaction type, check that the transaction type is acceptable 
-     * for the object code sub-types of all the object codes on the associated accounting lines.
+     * Capital Asset validation: If the item has a transaction type, check that the transaction type is acceptable for the object
+     * code sub-types of all the object codes on the associated accounting lines.
      * 
      * @param objectCode
      * @param capitalAssetTransactionType
-     * @param warn                          A boolean which should be set to true if warnings are to be set on the calling document
+     * @param warn A boolean which should be set to true if warnings are to be set on the calling document
      * @param itemIdentifier
      * @return
      */
-// TODO: - rule lookup class . The CapitalAssetTransactionTypeRule will be moved/removed, will obtain the rule from CapitalAssetTransactionType in the future (Dave's other jira).    
+    // TODO: - rule lookup class . The CapitalAssetTransactionTypeRule will be moved/removed, will obtain the rule from
+    // CapitalAssetTransactionType in the future (Dave's other jira).
     public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier) {
         boolean valid = true;
-        HashMap<String,String> tranTypeMap = new HashMap<String,String>();
-        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
-        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
-        
+        HashMap<String, String> tranTypeMap = new HashMap<String, String>();
+        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
+
         boolean found = false;
-        for( CapitalAssetTransactionTypeRule relation : relevantRelations ) {
-            if( StringUtils.equals(relation.getFinancialObjectSubTypeCode(),objectCode.getFinancialObjectSubTypeCode())) {
+        for (CapitalAssetTransactionTypeRule relation : relevantRelations) {
+            if (StringUtils.equals(relation.getFinancialObjectSubTypeCode(), objectCode.getFinancialObjectSubTypeCode())) {
                 found = true;
                 break;
             }
         }
-        if(!found) {
+        if (!found) {
             if (warn) {
                 String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE);
-                warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
-                warning = StringUtils.replace(warning,"{2}",objectCode.getFinancialObjectCodeName());
+                warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                warning = StringUtils.replace(warning, "{1}", capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                warning = StringUtils.replace(warning, "{2}", objectCode.getFinancialObjectCodeName());
                 GlobalVariables.getMessageList().add(warning);
             }
             else {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
-                        CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE,
-                        itemIdentifier,
-                        capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
-                        objectCode.getFinancialObjectCodeName(),
-                        objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());              
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
             }
             valid &= false;
         }
@@ -766,144 +761,127 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * Capital Asset validation: If the item has a transaction type, check that if the document specifies that recurring 
-     * payments are to be made, that the transaction type is one that is appropriate for this situation, and that if the 
-     * document does not specify that recurring payments are to be made, that the transaction type is one that is 
-     * appropriate for that situation.
+     * Capital Asset validation: If the item has a transaction type, check that if the document specifies that recurring payments
+     * are to be made, that the transaction type is one that is appropriate for this situation, and that if the document does not
+     * specify that recurring payments are to be made, that the transaction type is one that is appropriate for that situation.
      * 
      * @param capitalAssetTransactionType
      * @param recurringPaymentType
-     * @param warn                          A boolean which should be set to true if warnings are to be set on the calling document
+     * @param warn A boolean which should be set to true if warnings are to be set on the calling document
      * @param itemIdentifier
      * @return
      */
     public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
-        boolean valid = true;      
-        
+        boolean valid = true;
+
         // If there is a tran type ...
-        if ((capitalAssetTransactionType != null) &&
-            (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
-            String recurringTransactionTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValue(
-                    ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
-                    CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
-            
-            
-            if (recurringPaymentType != null) { // If there is a recurring payment type ...                
-                if (!StringUtils.contains(recurringTransactionTypeCodes,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
+        if ((capitalAssetTransactionType != null) && (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
+            String recurringTransactionTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
+
+
+            if (recurringPaymentType != null) { // If there is a recurring payment type ...
+                if (!StringUtils.contains(recurringTransactionTypeCodes, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
                     // There should be a recurring tran type code.
                     if (warn) {
                         String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
-                        warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                        warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
-                        warning = StringUtils.replace(warning,"{2}",CabConstants.ValidationStrings.RECURRING);                    
+                        warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                        warning = StringUtils.replace(warning, "{1}", capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                        warning = StringUtils.replace(warning, "{2}", CabConstants.ValidationStrings.RECURRING);
                         GlobalVariables.getMessageList().add(warning);
                     }
                     else {
-                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
-                                CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE,
-                                itemIdentifier,
-                                capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
-                                CabConstants.ValidationStrings.RECURRING);
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.RECURRING);
                     }
                     valid &= false;
                 }
             }
-            else { //If the payment type is not recurring ...
+            else { // If the payment type is not recurring ...
                 // There should not be a recurring transaction type code.
-                if (StringUtils.contains(recurringTransactionTypeCodes,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
+                if (StringUtils.contains(recurringTransactionTypeCodes, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
                     if (warn) {
                         String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
-                        warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                        warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
-                        warning = StringUtils.replace(warning,"{2}",CabConstants.ValidationStrings.NON_RECURRING);                    
+                        warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                        warning = StringUtils.replace(warning, "{1}", capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                        warning = StringUtils.replace(warning, "{2}", CabConstants.ValidationStrings.NON_RECURRING);
                         GlobalVariables.getMessageList().add(warning);
                     }
                     else {
-                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
-                                CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE,
-                                itemIdentifier,
-                                capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
-                                CabConstants.ValidationStrings.NON_RECURRING);
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), CabConstants.ValidationStrings.NON_RECURRING);
                     }
                     valid &= false;
                 }
             }
         }
-        else {  // If there is no transaction type ...
+        else { // If there is no transaction type ...
             if (recurringPaymentType != null) { // If there is a recurring payment type ...
                 if (warn) {
                     String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
-                    warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                    warning = StringUtils.replace(warning,"{1}",CabConstants.ValidationStrings.RECURRING);                    
+                    warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                    warning = StringUtils.replace(warning, "{1}", CabConstants.ValidationStrings.RECURRING);
                     GlobalVariables.getMessageList().add(warning);
                 }
                 else {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
-                            CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
-                            itemIdentifier,
-                            CabConstants.ValidationStrings.RECURRING);                 
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.RECURRING);
                 }
                 valid &= false;
             }
-            else { //If the payment type is not recurring ...
+            else { // If the payment type is not recurring ...
                 if (warn) {
                     String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
-                    warning = StringUtils.replace(warning,"{0}",itemIdentifier);
-                    warning = StringUtils.replace(warning,"{1}",CabConstants.ValidationStrings.NON_RECURRING);                    
+                    warning = StringUtils.replace(warning, "{0}", itemIdentifier);
+                    warning = StringUtils.replace(warning, "{1}", CabConstants.ValidationStrings.NON_RECURRING);
                     GlobalVariables.getMessageList().add(warning);
                 }
                 else {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
-                            CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
-                            itemIdentifier,
-                            CabConstants.ValidationStrings.NON_RECURRING);                 
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_NO_TRAN_TYPE, itemIdentifier, CabConstants.ValidationStrings.NON_RECURRING);
                 }
                 valid &= false;
-            }   
+            }
         }
 
         return valid;
     }
-    
+
     /**
      * Utility wrapping isCapitalAssetObjectCode for the use of processItemCapitalAssetValidation.
      * 
-     * @param oc    An ObjectCode
-     * @return      A String indicating that the given object code is either Capital or Expense
+     * @param oc An ObjectCode
+     * @return A String indicating that the given object code is either Capital or Expense
      */
     private String objectCodeCapitalOrExpense(ObjectCode oc) {
         String capital = CabConstants.ValidationStrings.CAPITAL;
         String expense = CabConstants.ValidationStrings.EXPENSE;
-        return ( isCapitalAssetObjectCode(oc) ? capital : expense );
+        return (isCapitalAssetObjectCode(oc) ? capital : expense);
     }
-    
+
     /**
      * Predicate to determine whether the given object code is of a specifically capital asset level.
      * 
-     * @param oc    An ObjectCode
-     * @return      True if the ObjectCode's level is the one designated as specifically for capital assets.
+     * @param oc An ObjectCode
+     * @return True if the ObjectCode's level is the one designated as specifically for capital assets.
      */
     public boolean isCapitalAssetObjectCode(ObjectCode oc) {
-        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, 
-                CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
-        return ( StringUtils.containsIgnoreCase( capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode() ) ? true : false );
+        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
+        return (StringUtils.containsIgnoreCase(capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode()) ? true : false);
     }
-    
+
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List, org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List,
+     *      org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation) {
         CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
-        
-        if(capitalAssetManagementAsset != null) {
+
+        if (capitalAssetManagementAsset != null) {
             // TODO: to enable the following statement if ready
-            // return this.validateFinancialProcessingData(accountingLines, capitalAssetManagementAsset);           
+            // return this.validateFinancialProcessingData(accountingLines, capitalAssetManagementAsset);
         }
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List, org.kuali.kfs.integration.cam.CapitalAssetManagementAsset)
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List,
+     *      org.kuali.kfs.integration.cam.CapitalAssetManagementAsset)
      */
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset) {
         boolean valid = true;
@@ -919,41 +897,25 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
             }
         } // else leave dataEntryExpected on false
-        
+
         if (!dataEntryExpected) {
-            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
+            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
                 // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
-                    
+
                 return false;
-            } else {
+            }
+            else {
                 // No data to be collected and no data entered. Hence no error
                 return true;
             }
         }
-        
+
         if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber())) {
-            
+
             // New Asset
-            
-            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) ||
-                    ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
+
+            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
             }
@@ -961,69 +923,71 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             Map<String, String> params = new HashMap<String, String>();
             params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
             Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, params);
-            
+
             if (ObjectUtils.isNull(asset)) {
                 valid = false;
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-            } else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getCapitalAssetTypeCode()) ||
-                    CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) ||
-                    CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) ||
-                    CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
-                // TODO Put previous blurb in system parameter (doesn't just affect this code but also whoever else uses those constants)
+            }
+            else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
+                // TODO Put previous blurb in system parameter (doesn't just affect this code but also whoever else uses those
+                // constants)
                 valid = false;
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
             }
-        } else {
-            
+        }
+        else {
+
             // Update Asset
-            
+
             if (capitalAssetManagementAsset.getQuantity() == null || capitalAssetManagementAsset.getQuantity() <= 0) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getVendorName())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetTypeCode())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
-            } else {
+            }
+            else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
                 AssetType assetType = (AssetType) businessObjectService.findByPrimaryKey(AssetType.class, params);
 
-                if(ObjectUtils.isNull(assetType)) {
+                if (ObjectUtils.isNull(assetType)) {
                     valid = false;
                     String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getManufacturerName())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.MANUFACTURER_NAME);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetDescription())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCampusTagNumber())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
-            } else {
-                if(!assetService.findActiveAssetsMatchingTagNumber(capitalAssetManagementAsset.getCampusTagNumber()).isEmpty()) {
+            }
+            else {
+                if (!assetService.findActiveAssetsMatchingTagNumber(capitalAssetManagementAsset.getCampusTagNumber()).isEmpty()) {
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, capitalAssetManagementAsset.getCampusTagNumber());
                     valid = false;
                 }
@@ -1033,54 +997,121 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
-            } else {
+            }
+            else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
                 Campus campus = (Campus) businessObjectService.findByPrimaryKey(Campus.class, params);
 
-                if(ObjectUtils.isNull(campus)) {
+                if (ObjectUtils.isNull(campus)) {
                     valid = false;
                     String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingCode())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
-            } else {
+            }
+            else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
                 Building building = (Building) businessObjectService.findByPrimaryKey(Building.class, params);
 
-                if(ObjectUtils.isNull(building)) {
+                if (ObjectUtils.isNull(building)) {
                     valid = false;
                     String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
-            
+
             if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingRoomNumber())) {
                 String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
-            } else {
+            }
+            else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, capitalAssetManagementAsset.getBuildingRoomNumber());
                 Room room = (Room) businessObjectService.findByPrimaryKey(Room.class, params);
 
-                if(ObjectUtils.isNull(room)) {
+                if (ObjectUtils.isNull(room)) {
                     valid = false;
                     String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
         }
-    
+
         return valid;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,
+     *      java.lang.String)
+     */
+    public void notifyRouteStatusChange(String documentNumber, String financialStatusCode) {
+        if (KFSConstants.DocumentStatusCodes.DISAPPROVED.equals(financialStatusCode) || KFSConstants.DocumentStatusCodes.CANCELLED.equals(financialStatusCode)) {
+            // release CAB line items
+            activateCabGlLines(documentNumber);
+            activateCabPOLines(documentNumber);
+        }
+        if (KFSConstants.DocumentStatusCodes.APPROVED.equals(financialStatusCode)) {
+            // report asset numbers to PO
+            // TODO
+        }
+    }
+
+    /**
+     * Activates CAB GL Lines
+     * 
+     * @param documentNumber String
+     */
+    protected void activateCabGlLines(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
+                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+                generalLedgerEntry.setActive(true);
+                businessObjectService.save(generalLedgerEntry);
+                businessObjectService.delete(generalLedgerEntryAsset);
+            }
+        }
+    }
+
+    /**
+     * Activates PO Lines
+     * 
+     * @param documentNumber String
+     */
+    protected void activateCabPOLines(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+
+        if (matchingPoAssets != null && !matchingPoAssets.isEmpty()) {
+            for (PurchasingAccountsPayableItemAsset iemAsset : matchingPoAssets) {
+                PurchasingAccountsPayableDocument purapDocument = iemAsset.getPurchasingAccountsPayableDocument();
+                purapDocument.setActive(true);
+                businessObjectService.save(purapDocument);
+                iemAsset.setActive(true);
+                businessObjectService.save(iemAsset);
+                List<PurchasingAccountsPayableLineAssetAccount> lineAssetAccounts = iemAsset.getPurchasingAccountsPayableLineAssetAccounts();
+                for (PurchasingAccountsPayableLineAssetAccount assetAccount : lineAssetAccounts) {
+                    assetAccount.setActive(true);
+                    businessObjectService.save(assetAccount);
+                    GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
+                    generalLedgerEntry.setActive(true);
+                    businessObjectService.save(generalLedgerEntry);
+                }
+            }
+        }
     }
 }

@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -40,14 +40,14 @@ import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.routing.attribute.KualiAccountAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiCGAttribute;
 import org.kuali.kfs.sys.document.routing.attribute.KualiOrgReviewAttribute;
-import org.kuali.kfs.sys.document.routing.attribute.KualiPDAttribute;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
@@ -487,15 +487,15 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 assetGlobalDetail.setLocationQuantity(assetGlobalDetail.getAssetGlobalUniqueDetails().size());
             }
         }
-        
+
         // only on Asset Separate document
-        //if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-            //when click on "calculateEqualSourceAmounts", put logic here.
-            if ("calculateEqualSourceAmounts".equals(parameters.get("customAction"))){
-                LOG.info("LEO - processAfterPost(): button is working...?");
-             }
-        //}
-        
+        // if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+        // when click on "calculateEqualSourceAmounts", put logic here.
+        if ("calculateEqualSourceAmounts".equals(parameters.get("customAction"))) {
+            LOG.info("LEO - processAfterPost(): button is working...?");
+        }
+        // }
+
         LOG.info("LEO - processAfterPost() finished....");
     }
 
@@ -541,5 +541,11 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         accountRoutingData.setRoutingType(KualiAccountAttribute.class.getSimpleName());
         accountRoutingData.setRoutingSet(accountRoutingSet);
         routingInfo.add(accountRoutingData);
+    }
+
+    @Override
+    public void handleRouteStatusChange(DocumentHeader documentHeader) {
+        super.handleRouteStatusChange(documentHeader);
+        SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader.getDocumentNumber(), ((FinancialSystemDocumentHeader) documentHeader).getFinancialDocumentStatusCode());
     }
 }

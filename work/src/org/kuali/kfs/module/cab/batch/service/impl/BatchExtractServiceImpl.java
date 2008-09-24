@@ -69,6 +69,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -556,6 +557,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePreTagLines(java.util.Collection)
+     */
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
@@ -574,10 +578,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         pretag = new Pretag();
                         pretag.setPurchaseOrderNumber(poId.toString());
                         pretag.setLineItemNumber(Long.valueOf(itemLineNumber));
-                        pretag.setQuantityInvoiced(purapItem.getItemInvoicedTotalQuantity());
+                        KualiDecimal quantity = purapItem.getItemInvoicedTotalQuantity();
+                        pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());
                         pretag.setAssetTopsDescription(purapItem.getItemDescription());
-                        // TODO - How to get representativeUniversalIdentifier
                         pretag.setPretagCreateDate(dateTimeService.getCurrentSqlDate());
                         pretag.setChartOfAccountsCode(purchaseOrder.getChartOfAccountsCode());
                         pretag.setOrganizationCode(purchaseOrder.getOrganizationCode());

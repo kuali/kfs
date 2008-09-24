@@ -2406,5 +2406,9 @@
     	<foreignkey field-ref="buildingCode"/>
     	<foreignkey field-ref="buildingRoomNumber"/>
     </reference-descriptor>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="vendorHeaderGeneratedIdentifier"/>
+    	<foreignkey field-ref="vendorDetailAssignedIdentifier"/>
+    </reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

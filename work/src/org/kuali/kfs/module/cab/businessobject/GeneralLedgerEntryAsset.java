@@ -14,6 +14,7 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     private Long generalLedgerAccountIdentifier;
     private Integer capitalAssetBuilderLineNumber;
     private String capitalAssetManagementDocumentNumber;
+    private GeneralLedgerEntry generalLedgerEntry;
 
     /**
      * Gets the generalLedgerAccountIdentifier attribute.
@@ -78,5 +79,23 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
         m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier);
         return m;
+    }
+
+    /**
+     * Gets the generalLedgerEntry attribute.
+     * 
+     * @return Returns the generalLedgerEntry.
+     */
+    public GeneralLedgerEntry getGeneralLedgerEntry() {
+        return generalLedgerEntry;
+    }
+
+    /**
+     * Sets the generalLedgerEntry attribute value.
+     * 
+     * @param generalLedgerEntry The generalLedgerEntry to set.
+     */
+    public void setGeneralLedgerEntry(GeneralLedgerEntry generalLedgerEntry) {
+        this.generalLedgerEntry = generalLedgerEntry;
     }
 }

@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -52,21 +53,26 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Assets");
         AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Payments");
-        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            // if asset is known, create payment
-            if (capitalAssetInformation.getCapitalAssetNumber() != null && capitalAssetInformation.getCapitalAssetNumber().longValue() > 0) {
-                anchorHtmlDataList.add(createPaymentHref);
+        if (entry.isActive()) {
+            if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+                // if asset is known, create payment
+                if (capitalAssetInformation.getCapitalAssetNumber() != null && capitalAssetInformation.getCapitalAssetNumber().longValue() > 0) {
+                    anchorHtmlDataList.add(createPaymentHref);
+                }
+                else {
+                    // else create new asset
+                    anchorHtmlDataList.add(createAssetHref);
+                }
             }
             else {
-                // else create new asset
+                // provide both
                 anchorHtmlDataList.add(createAssetHref);
+                anchorHtmlDataList.add(createPaymentHref);
             }
         }
         else {
-            // provide both
-            anchorHtmlDataList.add(createAssetHref);
-            anchorHtmlDataList.add(createPaymentHref);
-
+            anchorHtmlDataList.add(new AnchorHtmlData("", "", "Assets"));
+            anchorHtmlDataList.add(new AnchorHtmlData("", "", "Payments"));
         }
         return anchorHtmlDataList;
     }

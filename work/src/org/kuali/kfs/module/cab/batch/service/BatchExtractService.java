@@ -109,6 +109,11 @@ public interface BatchExtractService {
      * @param preTaggablePOAccounts List of pre-taggable account lines
      */
     void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts);
-    
-    void updateLastExtractDate(Date time);
+
+    /**
+     * Updates the last extract date parameter for Pre Asset Tagging Step
+     * 
+     * @param date Date value
+     */
+    void updateLastExtractDate(Date date);
 }

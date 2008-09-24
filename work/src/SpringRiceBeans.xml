@@ -12,26 +12,30 @@
     </property>
     <property name="properties" ref="properties" />
     <property name="rootResourceLoader" ref="kfsRootResourceLoader" />
-    <property name="modules">
-      <list>
+	<property name="ksbConfigurer">
         <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-                    <property name="messageDataSource" ref="dataSource"/>
-                    <property name="registryDataSource" ref="registryDataSource"/>
-          <property name="serviceServletUrl" value="${workflow.url}/remote" />
-                    <property name="exceptionMessagingScheduler" ref="scheduler"/>
-                    <property name="authorizationService">
-                      <bean class="org.kuali.kfs.sys.service.impl.ServiceBusAuthorizationService"/>
-                    </property>
-        </bean>
+            <property name="messageDataSource" ref="dataSource"/>
+			<property name="registryDataSource" ref="registryDataSource"/>
+			<property name="serviceServletUrl" value="${workflow.url}/remote" />
+            <property name="exceptionMessagingScheduler" ref="scheduler"/>
+            <property name="authorizationService">
+          		<bean class="org.kuali.kfs.sys.service.impl.ServiceBusAuthorizationService"/>
+            </property>
+		</bean>
+	</property>
+	<property name="kewConfigurer">	
         <bean class="org.kuali.rice.kew.config.KEWConfigurer">
-          <property name="clientProtocol" value="local" />
-                    <property name="dataSource" ref="kewDataSource"/>
+			<property name="clientProtocol" value="local" />
+			<property name="dataSource" ref="kewDataSource"/>
         </bean>
+	</property>
+	<property name="knsConfigurer">
         <bean class="org.kuali.rice.kns.config.KNSConfigurer">
           <property name="suppressAutoModuleConfiguration" value="true"></property>
         </bean>
+	</property>
+	<property name="kimConfigurer">
         <bean class="org.kuali.rice.kim.config.KIMConfigurer" />
-      </list>
     </property>
   </bean>
 

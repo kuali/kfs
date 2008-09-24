@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,13 +34,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
+import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -49,11 +51,13 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
     PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
+    PurApLineDocumentService purApLineDocumentService = SpringContext.getBean(PurApLineDocumentService.class);
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
@@ -139,7 +143,7 @@ public class PurApLineAction extends KualiAction {
             removePurApLineSession(purApLineForm.getPurchaseOrderIdentifier());
         }
 
-        return returnToSender(mapping, purApLineForm);
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
 
     /**
@@ -151,17 +155,6 @@ public class PurApLineAction extends KualiAction {
         GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier));
     }
 
-
-    /**
-     * This method...
-     * 
-     * @param mapping
-     * @param purApLineForm
-     * @return
-     */
-    protected ActionForward returnToSender(ActionMapping mapping, PurApLineForm purApLineForm) {
-        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
-    }
 
     /**
      * This method handles split action
@@ -418,7 +411,12 @@ public class PurApLineAction extends KualiAction {
 
     }
 
-
+    /**
+     * Get the user selected line item and set the link reference to document
+     * 
+     * @param purApLineForm
+     * @return
+     */
     private PurchasingAccountsPayableItemAsset getSelectedLineItem(PurApLineForm purApLineForm) {
         PurchasingAccountsPayableDocument purApDoc = purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
         PurchasingAccountsPayableItemAsset selectedItem = purApDoc.getPurchasingAccountsPayableItemAssets().get(purApLineForm.getActionItemAssetIndex());
@@ -426,49 +424,113 @@ public class PurApLineAction extends KualiAction {
         return selectedItem;
     }
 
+
+    /**
+     * Get the user selected document.
+     * 
+     * @param purApLineForm
+     * @return
+     */
     private PurchasingAccountsPayableDocument getSelectedPurApDoc(PurApLineForm purApLineForm) {
         return purApLineForm.getPurApDocs().get(purApLineForm.getActionPurApDocIndex());
     }
-    
+
+    public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurApLineForm purApForm = (PurApLineForm) form;
+        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        if (question != null) {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                // TODO
+                // create CAMS asset payment global document.
+                purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession);
+                // inactivate the item lines and account lines.
+                // remove item line from doc.items list
+            }
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        if (selectedLine.isItemAssignedToTradeInIndicator()) {
+            // TI indicator exists, bring up a warning message to confirm this action.
+            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+        }
+        // TODO
+        // create CAMS asset payment global document.
+        // inactivate the item lines and account lines.
+        // remove item line from doc.items list
+
+        purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        
+        PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // create CAMS asset global document.
+                String documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession);
+
+                // forward link to asset global
+                String forwardUrl = getAssetGlobalForwardLink(request, documentNumber);
+                return new ActionForward(forwardUrl, true);
             }
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
         }
-        if (selectedLine.isItemAssignedToTradeInIndicator() ) {
-            // TI indicator exists, bring up a warning message to confirm this action.
-            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+
+        // validate selected line item
+        checkCreateAssetValid(selectedLine);
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            if (selectedLine.isItemAssignedToTradeInIndicator()) {
+                // TI indicator exists, bring up a warning message to confirm this action.
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+            }
+            // create CAMS asset global document.
+            String documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession);
+
+            // forward link to asset global
+            String forwardUrl = getAssetGlobalForwardLink(request, documentNumber);
+            return new ActionForward(forwardUrl, true);
         }
-        // create CAMS asset global document.
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    public ActionForward applyPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PurApLineForm purApForm = (PurApLineForm) form;
-        PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
-        
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        if (question != null) {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                // create CAMS asset payment global document.
-            }
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
+    /**
+     * Return Asset Global forwarding URL.
+     * 
+     * @param request
+     * @param documentNumber
+     * @return
+     */
+    private String getAssetGlobalForwardLink(HttpServletRequest request, String documentNumber) {
+        Properties parameters = new Properties();
+        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KNSConstants.PARAMETER_DOC_ID, documentNumber);
+        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
+        String forwardUrl = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KNSConstants.MAINTENANCE_ACTION, parameters);
+        return forwardUrl;
+    }
+
+    /**
+     * Validate selected line item for asset global creation.
+     * 
+     * @param selectedLine
+     */
+    private void checkCreateAssetValid(PurchasingAccountsPayableItemAsset selectedLine) {
+        KualiDecimal integerOne = new KualiDecimal(1);
+        KualiDecimal quantity = selectedLine.getAccountsPayableItemQuantity();
+        // check if item quantity is a fractional value greater than 1.
+        if (quantity.isGreaterThan(integerOne) && quantity.mod(integerOne).isNonZero()) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
         }
-        if (selectedLine.isItemAssignedToTradeInIndicator() ) {
-            // TI indicator exists, bring up a warning message to confirm this action.
-            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
-        }
-        // create CAMS asset payment global document.
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+
     }
 }

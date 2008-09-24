@@ -104,7 +104,10 @@
     <collection-descriptor name="generalLedgerEntryAssets" element-class-ref="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
 		<inverse-foreignkey field-ref="generalLedgerAccountIdentifier" />
 	</collection-descriptor>
-	    
+	 
+	<collection-descriptor name="purApLineAssetAccounts" element-class-ref="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="generalLedgerAccountIdentifier" />
+	</collection-descriptor>   
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" table="CB_PUR_DOC_T">

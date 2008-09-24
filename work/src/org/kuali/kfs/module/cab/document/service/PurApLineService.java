@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cab.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
@@ -144,4 +145,13 @@ public interface PurApLineService {
      * @return
      */
     boolean isAdditionalChargeExist(PurApLineForm purApForm);
+
+    /**
+     * Get preTag if exists for give line item.
+     * 
+     * @param purchaseOrderIdentifier
+     * @param lineItemNumber
+     * @return
+     */
+    Pretag getPreTagLineItem(String purchaseOrderIdentifier, Integer lineItemNumber);
 }

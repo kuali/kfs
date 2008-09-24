@@ -28,6 +28,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.Pretag;
+import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
@@ -36,13 +38,25 @@ import org.kuali.kfs.module.cab.dataaccess.PurApLineDao;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -57,7 +71,6 @@ public class PurApLineServiceImpl implements PurApLineService {
     private static final Logger LOG = Logger.getLogger(PurApLineServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private PurApLineDao purApLineDao;
-
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#resetSelectedValue(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
@@ -126,7 +139,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance()) {
             setAssetIndicator(purApForm);
         }
-        
+
         // uncheck select check box
         resetSelectedValue(purApForm);
     }
@@ -674,9 +687,11 @@ public class PurApLineServiceImpl implements PurApLineService {
             businessObjectService.save(purApDoc);
         }
         // save for action history.
-        List<PurchasingAccountsPayableActionHistory> historyList = purApLineSession.getActionsTakenHistory();
-        businessObjectService.save(historyList);
-        historyList.removeAll(historyList);
+        if (purApLineSession != null) {
+            List<PurchasingAccountsPayableActionHistory> historyList = purApLineSession.getActionsTakenHistory();
+            businessObjectService.save(historyList);
+            historyList.removeAll(historyList);
+        }
     }
 
 
@@ -764,6 +779,10 @@ public class PurApLineServiceImpl implements PurApLineService {
                 // set fields from PurAp tables
                 setCabItemFieldsFromPurAp(item, purApDoc.getDocumentTypeCode());
 
+                // if pre-asset tagging information exists for the line item, the description is populated from the pre-asset
+                // tagging.
+                populateDescriptionFromPreTag(item, purApLineForm);
+
                 // set line item unit cost and total cost
                 setLineItemCost(item);
 
@@ -780,6 +799,31 @@ public class PurApLineServiceImpl implements PurApLineService {
         // set create asset/apply payment indicator
         setAssetIndicator(purApLineForm);
 
+    }
+
+    /**
+     * Populate item description from pre-asset tagging table.
+     * 
+     * @param item
+     */
+    private void populateDescriptionFromPreTag(PurchasingAccountsPayableItemAsset item, PurApLineForm purApForm) {
+        Pretag preTag = getPreTagLineItem(purApForm.getPurchaseOrderIdentifier(), item.getItemLineNumber());
+        if (preTag != null && StringUtils.isNotBlank(preTag.getAssetTopsDescription())) {
+            item.setAccountsPayableLineItemDescription(preTag.getAssetTopsDescription());
+        }
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getPreTagLineItem(java.lang.String, java.lang.Integer)
+     */
+    public Pretag getPreTagLineItem(String purchaseOrderIdentifier, Integer lineItemNumber) {
+
+        Map<String, Object> pKeys = new HashMap<String, Object>();
+
+        pKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier);
+        pKeys.put(CabPropertyConstants.Pretag.LINE_ITEM_NUMBER, lineItemNumber);
+        return (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, pKeys);
     }
 
     /**
@@ -802,7 +846,8 @@ public class PurApLineServiceImpl implements PurApLineService {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 if (!item.isCreateAssetIndicator() | !item.isApplyPaymentIndicator()) {
                     if ((item.isAdditionalChargeNonTradeInIndicator() & !existItemAsset) || (item.isTradeInAllowance() & !existTradeInIndicator)) {
-                        // If the only line item on the purchase order is the additional charge, or trade-in allowance then we can add a payment, or create an asset.
+                        // If the only line item on the purchase order is the additional charge, or trade-in allowance then we can
+                        // add a payment, or create an asset.
                         item.setCreateAssetIndicator(true);
                         item.setApplyPaymentIndicator(true);
                     }
@@ -818,7 +863,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     }
 
     /**
-     * Set CAMS transaction type code which is the user input in PurAp
+     * Set CAMS transaction type code the user entered in PurAp
      * 
      * @param purApLineForm
      */
@@ -830,45 +875,21 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableDocument purApDoc : purApLineForm.getPurApDocs()) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 if (item.getItemLineNumber() != null) {
-                    // reference RequisitionItem to get requisitionItemIdentifier.
-                    Integer itemIdentifier = getRequisitionItemIdentifier(purApLineForm.getRequisitionIdentifier(), item.getItemLineNumber());
-                    // get capital asset transaction type code.
-                    if (itemIdentifier != null) {
-                        item.setCapitalAssetTransactionTypeCode(getCamsTranTypeCode(purApLineForm.getRequisitionIdentifier(), itemIdentifier));
-                    }
+                    item.setCapitalAssetTransactionTypeCode(getCapitalAssetTransTypeCode(purApLineForm.getRequisitionIdentifier(), item.getItemLineNumber()));
                 }
             }
         }
     }
 
+    // TODO: Diffrenciate between PREQ and CM?
     /**
-     * Get transaction type code by querying RequisitionCapitalAssetItem(PUR_REQS_CPTL_AST_ITM_T).
-     * 
-     * @param requisitionIdentifier
-     * @param itemIdentifier
-     * @return
-     */
-    private String getCamsTranTypeCode(Integer requisitionIdentifier, Integer itemIdentifier) {
-        Map<String, Object> cols = new HashMap<String, Object>();
-        cols.put(PurapPropertyConstants.PURAP_DOC_ID, requisitionIdentifier);
-        cols.put(PurapPropertyConstants.ITEM_IDENTIFIER, itemIdentifier);
-        Collection<RequisitionCapitalAssetItem> camsAssetItems = businessObjectService.findMatching(RequisitionCapitalAssetItem.class, cols);
-        for (RequisitionCapitalAssetItem assetItem : camsAssetItems) {
-            if (assetItem.getCapitalAssetTransactionTypeCode() != null) {
-                return assetItem.getCapitalAssetTransactionTypeCode();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get itemIdentifier(REQS_ITM_ID) by querying RequisitionItem(PUR_REQS_ITM_T).
+     * Get transaction type code if defined in PurAp.
      * 
      * @param requisitionIdentifier
      * @param itemLineNumber
      * @return
      */
-    private Integer getRequisitionItemIdentifier(Integer requisitionIdentifier, Integer itemLineNumber) {
+    private String getCapitalAssetTransTypeCode(Integer requisitionIdentifier, Integer itemLineNumber) {
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(PurapPropertyConstants.PURAP_DOC_ID, requisitionIdentifier);
         cols.put(CabPropertyConstants.purApRequisitionItem.ITEM_LINE_NUMBER, itemLineNumber);
@@ -876,7 +897,9 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         if (!reqItems.isEmpty()) {
             for (RequisitionItem reqItem : reqItems) {
-                return reqItem.getItemIdentifier();
+                if (ObjectUtils.isNotNull(reqItem.getPurchasingCapitalAssetItem())) {
+                    return reqItem.getPurchasingCapitalAssetItem().getCapitalAssetTransactionTypeCode();
+                }
             }
         }
 
@@ -950,18 +973,41 @@ public class PurApLineServiceImpl implements PurApLineService {
     }
 
 
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+
+    /**
+     * Gets the purApLineDao attribute.
+     * 
+     * @return Returns the purApLineDao.
+     */
     public PurApLineDao getPurApLineDao() {
         return purApLineDao;
     }
 
+
+    /**
+     * Sets the purApLineDao attribute value.
+     * 
+     * @param purApLineDao The purApLineDao to set.
+     */
     public void setPurApLineDao(PurApLineDao purApLineDao) {
         this.purApLineDao = purApLineDao;
     }

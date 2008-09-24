@@ -72,9 +72,11 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private DocumentType documentType;
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
+    private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
+        this.purApLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
     }
 
     /**
@@ -749,6 +751,22 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+        /**
+     * Gets the purApLineAssetAccounts attribute. 
+     * @return Returns the purApLineAssetAccounts.
+     */
+    public List<PurchasingAccountsPayableLineAssetAccount> getPurApLineAssetAccounts() {
+        return purApLineAssetAccounts;
+    }
+
+    /**
+     * Sets the purApLineAssetAccounts attribute value.
+     * @param purApLineAssetAccounts The purApLineAssetAccounts to set.
+     */
+    public void setPurApLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts) {
+        this.purApLineAssetAccounts = purApLineAssetAccounts;
     }
 
     public KualiDecimal computePayment() {

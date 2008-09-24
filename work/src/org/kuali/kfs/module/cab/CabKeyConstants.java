@@ -41,6 +41,7 @@ public class CabKeyConstants {
     public static final String ERROR_ADDL_CHARGE_PENDING = "error.addl.charge.pending";
     public static final String ERROR_TRADE_IN_PENDING = "error.trade.in.pending";
     public static final String QUESTION_TRADE_IN_INDICATOR_EXISTING = "question.trade.in.indicator.existing";
+    public static final String ERROR_FRACTIONAL_QUANTITY = "error.fractional.quanity";
     
     public static class CapitalAssetManagementAsset {
         public static final String ERROR_ASSET_DO_NOT_ENTER_ANY_DATA = "error.asset.do.not.enter.any.data";

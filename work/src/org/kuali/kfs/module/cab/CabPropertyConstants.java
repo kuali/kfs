@@ -77,9 +77,10 @@ public class CabPropertyConstants {
 
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
-        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
+        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";        
         public static final String LINE_ITEM_NUMBER = "lineItemNumber";
         public static final String PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
+        public static final String PRE_TAG_DETAIS = "pretagDetails";
     }
 
     public static final String DOCUMENT_NUMBER = "documentNumber";

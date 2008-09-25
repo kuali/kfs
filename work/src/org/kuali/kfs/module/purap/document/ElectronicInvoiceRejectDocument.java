@@ -136,6 +136,8 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     private ElectronicInvoiceLoadSummary invoiceLoadSummary;
     private List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
     private List<ElectronicInvoiceRejectReason> invoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
+    
+    private boolean isDocumentCreationInProgress = false;
 
     /**
    * 
@@ -401,19 +403,16 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrderDocument() {
-        if (currentPurchaseOrderDocument == null) {
-            if (NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
-                currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
-            }
-        }else{
-            /**
-             * INFO: This is needed if the user changes the invoice PO id 
-             */
-            if (!StringUtils.equals(getInvoicePurchaseOrderNumber(), currentPurchaseOrderDocument.getPurapDocumentIdentifier().toString()) &&
-                 NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
-                currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
-            }
+        
+        if (StringUtils.isEmpty(getInvoicePurchaseOrderNumber()) ||
+            !NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
+            currentPurchaseOrderDocument = null;
+        }else if (currentPurchaseOrderDocument == null) {
+            currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
+        }else if (!StringUtils.equals(getInvoicePurchaseOrderNumber(), currentPurchaseOrderDocument.getPurapDocumentIdentifier().toString())){
+            currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
         }
+        
         return currentPurchaseOrderDocument;
     }
 
@@ -1764,6 +1763,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     @Override
     public boolean isBoNotesSupport() {
         return true;
+    }
+
+    public boolean isDocumentCreationInProgress() {
+        return isDocumentCreationInProgress;
+    }
+
+    public void setDocumentCreationInProgress(boolean isDocumentCreationInProgress) {
+        this.isDocumentCreationInProgress = isDocumentCreationInProgress;
     }
 
 }

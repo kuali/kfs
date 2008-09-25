@@ -193,10 +193,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException("Source directory name should not be empty");
         }
 
-        /**
-         * TODO: I think the batch job should first process all the pending files from the source dir...
-         * The souce dir may not be empty if there was any unhandled error in the previous run
-         */
         File baseDir = new File(baseDirName);
         File[] filesToBeProcessed = baseDir.listFiles(new FileFilter() {
                                                             public boolean accept(File file) {
@@ -758,6 +754,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             eInvoiceRejectDocument.setInvoiceProcessDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             eInvoiceRejectDocument.setVendorDunsNumber(fileDunsNumber);
+            eInvoiceRejectDocument.setDocumentCreationInProgress(true);
             
             if (invoiceFile != null){
                 eInvoiceRejectDocument.setInvoiceFileName(invoiceFile.getName());
@@ -851,12 +848,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
             eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) KNSServiceLocator.getDocumentService().getNewDocument("ElectronicInvoiceRejectDocument");
 
+            eInvoiceRejectDocument.setInvoiceProcessDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);
+            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(rejectdocDesc);
+            eInvoiceRejectDocument.setDocumentCreationInProgress(true);
+            
             eInvoiceRejectDocument.setFileLevelData(eInvoice);
             eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, electronicInvoiceOrder);
 
-            String rejectdocDesc = generateRejectDocumentDescription(eInvoice,electronicInvoiceOrder);
-            eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription(rejectdocDesc);
-            
             String noteText = "Invoice file";
             attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument, getInvoiceFile(eInvoice.getFileName()), noteText);
             
@@ -1052,9 +1051,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 //                List<AdHocRouteRecipient> adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
 //                AdHocRouteRecipient recipient = new AdHocRouteRecipient()
 //                GlobalVariables.setUserSession(new UserSession("abolding"));
-                KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
+//                KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
+//                KNSServiceLocator.getDocumentService().acknowledgeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", new ArrayList());
 //                SpringContext.getBean(DocumentService.class).routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
-//                SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
+                SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
             }
             catch (WorkflowException e) {
                 e.printStackTrace();
@@ -1108,6 +1108,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
     }
     
+    /**
+     * This method is responsible for the matching process for a reject document
+     *    
+     * @return true if the matching process is succeed
+     */
     public boolean doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument){
         
         Map itemTypeMappings = getItemTypeMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),

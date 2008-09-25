@@ -52,7 +52,9 @@ public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
             isValid = false;
         }
         
-        isValid = isValid && !SpringContext.getBean(ElectronicInvoiceHelperService.class).doMatchingProcess(eirDocument);
+        if (!eirDocument.isDocumentCreationInProgress()){
+            isValid = isValid && SpringContext.getBean(ElectronicInvoiceHelperService.class).doMatchingProcess(eirDocument);
+        }
 
         return isValid;
     }

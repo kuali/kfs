@@ -21,6 +21,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,6 +33,8 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
@@ -149,5 +152,22 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
+    }
+    @RelatesTo(JiraIssue.KFSMI1545)
+    public void testAllKFSDocumentNamesAgreeWithDataDictionaryLabel() throws Exception {
+        String errorString = "";
+        int badNameCount = 0;
+        for (DocumentEntry documentEntry : dataDictionary.getDocumentEntries().values()) {
+            String label = documentEntry.getLabel();
+            String docType = documentEntry.getDocumentTypeCode();
+            HashMap docFields = new HashMap();
+            docFields.put("documentTypeCode", docType);
+            String docName =  ((DocumentType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentType.class, docFields)).getDocumentName();
+            if (!label.equals(docName)){
+                errorString = errorString+"Name for doc type "+docType+" of "+docName+" does not match label, "+label+".\n"; 
+                badNameCount = badNameCount + 1;
+            }
+        }
+        assertTrue(badNameCount+" Doc Types exist with bad names: \n"+errorString, badNameCount == 0);   
     }
 }

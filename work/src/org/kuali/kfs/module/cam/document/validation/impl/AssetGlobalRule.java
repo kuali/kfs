@@ -310,7 +310,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePostedDate(assetPaymentDetail);
         }
 
-
+        // TODO: Do we need this rule? This rule violates PurAP Credit memo payment lines. In that case, payment will be negative. 
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);

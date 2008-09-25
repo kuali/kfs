@@ -59,6 +59,7 @@
 			</c:if>
 		</c:forEach>
 	</c:forEach>
+	<c:if test="${activeItemExist }">
 	<tr>
 		<th class="grid" align="right" colspan="6">Merge Qty</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
@@ -70,6 +71,7 @@
 		<th class="grid" align="right" colspan="6">Merge Description</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeDesc" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/></td>
 	</tr>
+	</c:if>
 </table>
 </div>
 </kul:tab>

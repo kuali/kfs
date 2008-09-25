@@ -77,10 +77,23 @@
 		</c:otherwise>
 	</c:choose>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.accountsPayableItemQuantity" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>
+	<td class="infoline">
+		<c:if test="${itemLine.active }">
+			<kul:htmlControlAttribute property="${assetItemStr}.splitQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/>
+		</c:if>
+	</td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.unitCost" attributeEntry="${genericAttributes.genericAmount}" readOnly="true"/></td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.firstFincialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.accountsPayableLineItemDescription" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/></td>
+	<td class="infoline">
+		<c:choose>
+		<c:when test="${itemLine.active }">
+			<kul:htmlControlAttribute property="${assetItemStr}.accountsPayableLineItemDescription" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}"/>
+		</c:when>
+		<c:otherwise>
+			<kul:htmlControlAttribute property="${assetItemStr}.accountsPayableLineItemDescription" attributeEntry="${purApItemAssetAttributes.accountsPayableLineItemDescription}" readOnly="true"/>
+		</c:otherwise>
+		</c:choose>
+	</td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/></td>
 	<c:choose>
 	<c:when test="${itemLine.itemAssignedToTradeInIndicator}">

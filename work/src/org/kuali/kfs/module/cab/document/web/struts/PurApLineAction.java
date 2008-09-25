@@ -86,22 +86,28 @@ public class PurApLineAction extends KualiAction {
      * @param purApLineForm
      */
     protected void buildPurApDocList(PurApLineForm purApLineForm) {
+        boolean activeDocExist = false;
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
         Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
-
         if (purApDocs == null || purApDocs.isEmpty()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier());
+            purApLineForm.setActiveItemExist(false);
         }
         else {
             for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                // Select active purApDoc
-                if (ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
-                    purApLineForm.getPurApDocs().add(purApDoc);
+                // Select purApDoc
+                purApLineForm.getPurApDocs().add(purApDoc);
+                if (!activeDocExist && ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
+                    activeDocExist = true;
                 }
             }
-            if (purApLineForm.getPurApDocs().isEmpty()) {
+            if (purApLineForm.getPurApDocs().isEmpty() || !activeDocExist) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
+                purApLineForm.setActiveItemExist(false);
+            }
+            else {
+                purApLineForm.setActiveItemExist(true);
             }
         }
     }
@@ -286,15 +292,17 @@ public class PurApLineAction extends KualiAction {
         if (mergeLines.size() <= 1) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_LINE_SELECTED);
         }
-        // if merge for different document lines and that document has additional charge allocation pending, additional charges
-        // should be allocated first.
-        if (purApLineService.isAdditionalChargePending(mergeLines)) {
-            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
-        }
+        else {
+            // if merge for different document lines and that document has additional charge allocation pending, additional charges
+            // should be allocated first.
+            if (purApLineService.isAdditionalChargePending(mergeLines)) {
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_ADDL_CHARGE_PENDING);
+            }
 
-        // if merge lines has indicator exists and trade-in allowance is pending for allocation, we will block this action.
-        if (purApLineService.isTradeInIndicatorExist(mergeLines) & purApLineService.isTradeInAllowanceExist(purApForm)) {
-            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
+            // if merge lines has indicator exists and trade-in allowance is pending for allocation, we will block this action.
+            if (purApLineService.isTradeInIndicatorExist(mergeLines) & purApLineService.isTradeInAllowanceExist(purApForm)) {
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);
+            }
         }
     }
 

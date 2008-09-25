@@ -226,8 +226,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         // add it to the item
         item.getSourceAccountingLines().add(line);
+        
+        //deep copy because this is serialized into session and can't be the same object this could be changed to reflective
+        PurApAccountingLine baselineLine = (PurApAccountingLine)ObjectUtils.deepCopy(line); 
         // add it to the baseline on item
-        item.getBaselineSourceAccountingLines().add(line);
+        item.getBaselineSourceAccountingLines().add(baselineLine);
 
         // add it to the baseline, to prevent generation of spurious update events
         financialDocumentForm.getBaselineSourceAccountingLines().add(line);
@@ -264,9 +267,10 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         // add it to the item
         item.getSourceAccountingLines().add(line);
-
+        //deep copy because this is serialized into session and can't be the same object this could be changed to reflective
+        PurApAccountingLine baselineLine = (PurApAccountingLine)ObjectUtils.deepCopy(line); 
         // add it to the baseline, to prevent generation of spurious update events
-        item.getBaselineSourceAccountingLines().add(line);
+        item.getBaselineSourceAccountingLines().add(baselineLine);
 
         // add the decorator
         financialDocumentForm.getSourceLineDecorators().add(decorator);

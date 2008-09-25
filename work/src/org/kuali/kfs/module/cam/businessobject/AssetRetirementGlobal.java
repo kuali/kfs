@@ -117,7 +117,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         if (retirementService.isAssetRetiredByTheft(this) && StringUtils.isNotBlank(sharedRetirementInfo.getPaidCaseNumber())) {
             asset.setCampusPoliceDepartmentCaseNumber(sharedRetirementInfo.getPaidCaseNumber());
         }
-        else if (retirementService.isAssetRetiredBySoldOrAuction(this)) {
+        else if (retirementService.isAssetRetiredBySold(this) || retirementService.isAssetRetiredByAuction(this)) {
             asset.setRetirementChartOfAccountsCode(detail.getRetirementChartOfAccountsCode());
             asset.setRetirementAccountNumber(detail.getRetirementAccountNumber());
             asset.setCashReceiptFinancialDocumentNumber(detail.getCashReceiptFinancialDocumentNumber());

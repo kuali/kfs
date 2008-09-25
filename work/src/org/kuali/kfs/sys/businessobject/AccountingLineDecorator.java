@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
+import java.io.Serializable;
+
 
 /**
  * AccountingLineDecoration contains information needed by the user interface to display a given AccountingLine.
  */
-public class AccountingLineDecorator {
+public class AccountingLineDecorator implements Serializable {
     private boolean revertible;
 
     public AccountingLineDecorator() {

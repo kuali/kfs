@@ -167,9 +167,9 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.rice.kns.document.Document)
      */
     public void declaimElectronicPaymentClaimsForDocument(Document document) {
-        Map searchKeys = new HashMap();
+        Map<String, String> searchKeys = new HashMap<String,String>();
         searchKeys.put("referenceFinancialDocumentNumber", document.getDocumentNumber());
-        Collection claimsAsObjects = businessObjectService.findMatching(ElectronicPaymentClaim.class, searchKeys);
+        Collection<ElectronicPaymentClaim> claimsAsObjects = businessObjectService.findMatching(ElectronicPaymentClaim.class, searchKeys);
         for (Object claimAsObject: claimsAsObjects) {
             ElectronicPaymentClaim claim = (ElectronicPaymentClaim)claimAsObject;
             claim.setReferenceFinancialDocumentNumber(null);
@@ -209,11 +209,12 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         }
         return claimRecords;
     }
+    
     /**
      * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should cause an accounting line to create an ElectronicPaymentClaim record.
      * @return a List of Maps, where each Map represents an account that electronic funds are posted to.  Each Map has a chart of accounts code as a key and a List of account numbers as a value.
      */
-    private Map<String, List<String>> getElectronicFundAccounts() {
+    public Map<String, List<String>> getElectronicFundAccounts() {
         Map<String, List<String>> electronicFundAccounts = new HashMap<String, List<String>>();
         String electronicPaymentAccounts = SpringContext.getBean(ParameterService.class).getParameterValue(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER);
         

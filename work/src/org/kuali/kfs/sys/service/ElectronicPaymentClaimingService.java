@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
@@ -87,4 +88,11 @@ public interface ElectronicPaymentClaimingService {
      * @return a list of the generated electronic payment claim records
      */
     public abstract List<ElectronicPaymentClaim> generateElectronicPaymentClaimRecords(AdvanceDepositDocument doc);
+    
+    /**
+     * This method uses the ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER to find which accounts should 
+     * cause an accounting line to create an ElectronicPaymentClaim record.
+     * @return a List of Maps, where each Map represents an account that electronic funds are posted to. Each Map has a chart of accounts code as a key and a List of account numbers as a value.
+     */
+    public Map<String, List<String>> getElectronicFundAccounts();    
 }

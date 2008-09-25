@@ -157,4 +157,11 @@ public interface AssetService {
      * @param asset for which to set the separateHistory
      */
     public void setSeparateHistory(Asset asset);
+    
+    /**
+     * 
+     * Sets the fiscal year and month in the asset object based on the creation date of the asset
+     * @param asset
+     */
+    public void setFiscalPeriod(Asset asset);
 }

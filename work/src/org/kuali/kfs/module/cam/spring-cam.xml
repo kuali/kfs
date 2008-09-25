@@ -228,6 +228,7 @@
     	<property name="parameterService" ref="parameterService" />
     	<property name="documentLockingService" ref="documentLockingService" />
     	<property name="paymentSummaryService" ref="paymentSummaryService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id="assetTransferService" class="org.kuali.kfs.module.cam.document.service.impl.AssetTransferServiceImpl" >

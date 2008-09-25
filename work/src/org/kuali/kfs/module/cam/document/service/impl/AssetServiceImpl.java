@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.businessobject.UniversityDate;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -33,6 +34,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -48,6 +50,7 @@ public class AssetServiceImpl implements AssetService {
     private ParameterService parameterService;
     private DocumentLockingService documentLockingService;
     private PaymentSummaryService paymentSummaryService;
+    private BusinessObjectService businessObjectService;
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -291,4 +294,29 @@ public class AssetServiceImpl implements AssetService {
         
         // Else no history, just return
     }
+
+
+    /**
+     * 
+     * sets the posting year and posting month based on the asset creation date
+     * @param asset
+     * @return none
+     */
+    public void setFiscalPeriod(Asset asset) {
+        if (asset.getCreateDate() == null)
+            return;
+        
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, asset.getCreateDate());
+        UniversityDate universityDate = (UniversityDate)businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
+        if (universityDate != null) {
+            asset.setFinancialDocumentPostingYear(universityDate.getUniversityFiscalYear());
+            asset.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
+        }
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
 }

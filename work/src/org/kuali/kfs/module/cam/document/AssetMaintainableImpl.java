@@ -47,6 +47,7 @@ import org.kuali.rice.kns.web.ui.Section;
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+
     private Asset newAsset;
     private Asset copyAsset;
 
@@ -165,7 +166,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
         Asset asset = ((Asset) businessObject);
         if (asset.getCapitalAssetNumber() == null) {
             asset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-        }
+        }        
         super.saveBusinessObject();
     }
 
@@ -182,9 +183,11 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             newAsset.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
             newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            assetService.setFiscalPeriod(newAsset);
         }
     }
 
+        
     /**
      * Gets the routingInfo attribute.
      * 
@@ -232,4 +235,5 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
             routingInfo.add(accountRoutingData);
         }
     }    
+
 }

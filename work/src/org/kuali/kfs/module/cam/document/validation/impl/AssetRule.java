@@ -51,6 +51,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * AssetRule for Asset edit.
@@ -100,8 +101,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateLocation();
             valid &= validateFabricationDetails();
             valid &= validateAgencyNumber();
-        }
-        else {
+        } else {
             setAssetComponentNumbers(newAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
@@ -126,7 +126,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-
 
     private boolean validateFabricationDetails() {
         boolean valid = true;
@@ -171,8 +170,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
     private boolean validateAgencyNumber() {
-        boolean valid = true;
-        if (ObjectUtils.isNotNull(newAsset.getAgency())) {
+        boolean valid = true;        
+        if (ObjectUtils.isNull(newAsset.getAgency())) {
             // Agency number does not exist
             putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.AGENCY_NUMBER_NOT_EXIST);
             valid &= false;
@@ -410,4 +409,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
+    
+    /**
+     * Convenience method to append the path prefix
+     */
+    public TypedArrayList putError(String propertyName, String errorKey, String... errorParameters) {
+        return GlobalVariables.getErrorMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
+    }
+
 }

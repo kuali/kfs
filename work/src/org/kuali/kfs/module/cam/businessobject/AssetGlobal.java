@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
@@ -26,6 +27,7 @@ import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -36,6 +38,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
+
     private String documentNumber;
     private String acquisitionTypeCode;
     private String capitalAssetDescription;
@@ -798,7 +801,17 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetOrganization.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
                 asset.setAssetOrganization(assetOrganization);
             }
-            persistables.add(asset);
+
+            // create off campus location for each detail records
+            boolean offCampus = StringUtils.isNotBlank(detail.getOffCampusName()) || StringUtils.isNotBlank(detail.getOffCampusAddress()) || StringUtils.isNotBlank(detail.getOffCampusCityName()) || StringUtils.isNotBlank(detail.getOffCampusStateCode()) || StringUtils.isNotBlank(detail.getOffCampusZipCode()) || StringUtils.isNotBlank(detail.getOffCampusCountryCode());
+            if (offCampus) {
+                AssetLocation offCampusLocation = setOffCampusLocationObjectsForPersist(detail, asset);
+                persistables.add(asset);
+                persistables.add(offCampusLocation);
+            }
+            else {
+                persistables.add(asset);
+            }
         }
 
         // set new AssetPayment(s) from each AssetPaymentDetails
@@ -880,6 +893,38 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         }
         return persistables;
     }
+
+    /**
+     * This method set off campus location for persist
+     * 
+     * @param AssetGlobalDetail and Asset to populate AssetLocation
+     * @return Returns the AssetLocation.
+     */
+    private AssetLocation setOffCampusLocationObjectsForPersist(AssetGlobalDetail detail, Asset asset) {
+        AssetLocation offCampusLocation = new AssetLocation();
+        offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+        offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
+        offCampusLocation = (AssetLocation) SpringContext.getBean(BusinessObjectService.class).retrieve(offCampusLocation);
+        if (offCampusLocation == null) {
+            offCampusLocation = new AssetLocation();
+            offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+            offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
+            asset.getAssetLocations().add(offCampusLocation);
+        }
+
+        offCampusLocation.setAssetLocationContactName(detail.getAssetRepresentative().getPersonName());
+        offCampusLocation.setAssetLocationContactIdentifier(detail.getRepresentativeUniversalIdentifier());
+        offCampusLocation.setAssetLocationInstitutionName(detail.getAssetRepresentative().getPrimaryDepartmentCode());
+        offCampusLocation.setAssetLocationPhoneNumber(null);
+        offCampusLocation.setAssetLocationStreetAddress(detail.getOffCampusAddress());
+        offCampusLocation.setAssetLocationCityName(detail.getOffCampusCityName());
+        offCampusLocation.setAssetLocationStateCode(detail.getOffCampusStateCode());
+        offCampusLocation.setAssetLocationCountryCode(detail.getOffCampusCountryCode());
+        offCampusLocation.setAssetLocationZipCode(detail.getOffCampusZipCode());
+
+        return offCampusLocation;
+    }
+
 
     public boolean isPersistable() {
         return true;

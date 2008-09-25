@@ -844,16 +844,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
-// TODO: tell Heather or Chris, I think these validations don't make sense to be invoked during a check for APO rules, so I'm replacing the content with something else below.
-//        boolean valid = true;
-//        List<PurApItem> itemList = purapDocument.getItems();
-//        for (PurApItem item : itemList) {
-//            RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType(); 
-//            valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateItemCapitalAssetWithErrors(recurringPaymentType, item, true);
-//        }
-//        // We don't actually need the error messages for the purposes of the APO.
-//        GlobalVariables.getErrorMap().clear();
-//        return valid;
         boolean valid = true;
         List<PurApItem> itemList = purapDocument.getItems();
         for (PurApItem item : itemList) {

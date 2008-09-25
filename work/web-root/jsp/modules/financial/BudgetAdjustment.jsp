@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="BudgetAdjustmentDocument"
 	htmlFormAction="financialBudgetAdjustment" renderMultipart="true"

@@ -21,6 +21,7 @@
 	value="${DataDictionary['CashReceiptDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCashReceipt"
 	documentTypeName="CashReceiptDocument" renderMultipart="true"

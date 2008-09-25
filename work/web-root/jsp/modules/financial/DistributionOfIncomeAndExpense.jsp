@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialDistributionOfIncomeAndExpense"
 	documentTypeName="DistributionOfIncomeAndExpenseDocument"

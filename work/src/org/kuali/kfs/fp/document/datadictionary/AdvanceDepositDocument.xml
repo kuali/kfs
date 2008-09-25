@@ -132,7 +132,8 @@
 							<property name="fields">
 								<list>
 									<bean parent="AccountingLineView-field"
-										p:name="financialDocumentLineDescription" />
+										p:name="financialDocumentLineDescription"
+										p:overrideColSpan="3" />
 								</list>
 							</property>
 						</bean>

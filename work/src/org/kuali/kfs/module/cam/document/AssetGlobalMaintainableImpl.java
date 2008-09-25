@@ -54,6 +54,7 @@ import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -487,11 +488,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
                 assetGlobalDetail.setLocationQuantity(assetGlobalDetail.getAssetGlobalUniqueDetails().size());
             }
         }
-
+        
+        String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
         // only on Asset Separate document
         // if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
         // when click on "calculateEqualSourceAmounts", put logic here.
-        if ("calculateEqualSourceAmounts".equals(parameters.get("customAction"))) {
+        
+        if (customAction != null && "calculateEqualSourceAmounts".equals(customAction[0])) {
             LOG.info("LEO - processAfterPost(): button is working...?");
         }
         // }

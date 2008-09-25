@@ -13,7 +13,7 @@
       <list>
         <ref bean="AssetGlobal-separateSourceCapitalAssetNumber" />
         <ref bean="AssetGlobal-totalCostAmount" />
-        <ref bean="AssetGlobal-calculateEqualSourceAmounts" />
+        <ref bean="AssetGlobal-calculateEqualSourceAmountsButton" />
         <ref bean="AssetGlobal-organizationOwnerChartOfAccountsCode" />
         <ref bean="AssetGlobal-organizationOwnerAccountNumber" />
         <ref bean="AssetGlobal-organizationOwnerAccount.organizationCode" />
@@ -80,9 +80,9 @@
     <property name="name" value="totalCostAmount" />
   </bean>
   
-  <bean id="AssetGlobal-calculateEqualSourceAmounts" parent="AssetGlobal-calculateEqualSourceAmounts-parentBean" />
-  <bean id="AssetGlobal-calculateEqualSourceAmounts-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="calculateEqualSourceAmounts" />
+  <bean id="AssetGlobal-calculateEqualSourceAmountsButton" parent="AssetGlobal-calculateEqualSourceAmountsButton-parentBean" />
+  <bean id="AssetGlobal-calculateEqualSourceAmountsButton-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="calculateEqualSourceAmountsButton" />
     <property name="label" value="Calculate Equal Source Amounts" />
     <property name="shortLabel" value="Calculate Equal Source Amounts" />
     <property name="description" value="Calculate and split the current asset total amount equally between all new asset amounts. Use the &quot;calculate equal asset amounts&quot; button to calculate new asset amounts." />

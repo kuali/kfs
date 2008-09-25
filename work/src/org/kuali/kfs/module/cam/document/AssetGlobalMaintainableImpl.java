@@ -494,7 +494,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         // if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
         // when click on "calculateEqualSourceAmounts", put logic here.
         
-        if (customAction != null && "calculateEqualSourceAmounts".equals(customAction[0])) {
+        if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0])) {
             LOG.info("LEO - processAfterPost(): button is working...?");
         }
         // }

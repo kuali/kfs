@@ -84,7 +84,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Long separateSourceCapitalAssetNumber;
 
     // calculate equal totals button
-    private String calculateEqualSourceAmounts;
+    private String calculateEqualSourceAmountsButton;
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private FinancialSystemDocumentHeader documentHeader;
@@ -1093,11 +1093,22 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         return ObjectUtils.isNull(documentHeader) ? null : documentHeader.getDocumentFinalDate();
     }
 
-    public String getCalculateEqualSourceAmounts() {
-        return calculateEqualSourceAmounts;
+    /**
+     * Gets the calculate equal source amounts button
+     * 
+     * @return
+     */
+    public String getCalculateEqualSourceAmountsButton() {
+        return calculateEqualSourceAmountsButton;
     }
 
-    public void setCalculateEqualSourceAmounts(String calculateEqualSourceAmounts) {
-        this.calculateEqualSourceAmounts = calculateEqualSourceAmounts;
+    /**
+     * Gets the calculate equal source amounts button
+     * 
+     * @param calculateEqualSourceAmountsButton
+     */
+    public void setCalculateEqualSourceAmountsButton(String calculateEqualSourceAmountsButton) {
+        this.calculateEqualSourceAmountsButton = calculateEqualSourceAmountsButton;
     }
+
 }

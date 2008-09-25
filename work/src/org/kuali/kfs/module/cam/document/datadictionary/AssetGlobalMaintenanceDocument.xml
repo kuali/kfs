@@ -95,7 +95,7 @@
               p:name="totalCostAmount"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="calculateEqualSourceAmounts" />
+              p:name="calculateEqualSourceAmountsButton" />
       </list>
     </property>
   </bean>

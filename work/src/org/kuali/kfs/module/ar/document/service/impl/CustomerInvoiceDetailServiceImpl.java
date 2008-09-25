@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -33,6 +34,7 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -245,40 +247,26 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#recalculateCustomerInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
-    public void recalculateCustomerInvoiceDetail(CustomerInvoiceDocument document, CustomerInvoiceDetail customerInvoiceDetail) {
+    public void recalculateCustomerInvoiceDetail(CustomerInvoiceDocument customerInvoiceDocument, CustomerInvoiceDetail customerInvoiceDetail) {
 
         // make sure amounts are negative when they are supposed to be
-        if (!document.isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) {
+        if (!customerInvoiceDocument.isInvoiceReversal() && customerInvoiceDetail.isDiscountLine()) {
             customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
         }
-        else if (document.isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) {
+        else if (customerInvoiceDocument.isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine()) {
             customerInvoiceDetail.setInvoiceItemUnitPriceToNegative();
         }
         KualiDecimal pretaxAmount = customerInvoiceDetail.getInvoiceItemPreTaxAmount();
 
 
         KualiDecimal taxAmount = KualiDecimal.ZERO;
-        if (accountsReceivableTaxService.isCustomerInvoiceDetailTaxable(document, customerInvoiceDetail)) {
+        if (accountsReceivableTaxService.isCustomerInvoiceDetailTaxable(customerInvoiceDocument, customerInvoiceDetail)) {
             
-         // if ship to address is not provided, then get the postal code for org options.
-            String postalCode = "";
-            if (ObjectUtils.isNull(document.getCustomerShipToAddress())) {
-                postalCode = document.getCustomerShipToAddress().getCustomerZipCode();
-            }
-            else {
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
-                criteria.put("organizationCode", document.getBilledByOrganizationCode());
-                OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
-
-                if (ObjectUtils.isNotNull(organizationOptions)) {
-                    postalCode = organizationOptions.getOrganizationPostalZipCode();
-                }
-
-               taxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.getCurrentSqlDate(), postalCode, pretaxAmount);
-            }
+            String postalCode = accountsReceivableTaxService.getPostalCodeForTaxation(customerInvoiceDocument);
+            taxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.getCurrentSqlDate(), postalCode, pretaxAmount);
         }
 
+        customerInvoiceDetail.setInvoiceItemTaxAmount(taxAmount);
         customerInvoiceDetail.setAmount(taxAmount.add(pretaxAmount));
     }
 

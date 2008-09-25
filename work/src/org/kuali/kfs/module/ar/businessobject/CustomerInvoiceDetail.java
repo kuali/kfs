@@ -309,7 +309,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return Returns the invoiceItemTaxAmount.
      */
     public KualiDecimal getInvoiceItemTaxAmount() {
-        return KualiDecimal.ZERO;
+        return invoiceItemTaxAmount;
     }
 
     /**

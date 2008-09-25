@@ -20,11 +20,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.document.Document;
@@ -70,6 +74,39 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
         
         return true;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService#getPostalCodeForTaxation(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
+     */
+    public String getPostalCodeForTaxation(CustomerInvoiceDocument document) {
+        
+        String postalCode = null;
+        String customerNumber = document.getAccountsReceivableDocumentHeader().getCustomerNumber();
+        Integer shipToAddressIdentifier = document.getCustomerShipToAddressIdentifier();
+        
+        //if customer number or ship to address id isn't provided, go to org options
+        if (ObjectUtils.isNotNull(shipToAddressIdentifier) && StringUtils.isNotEmpty(customerNumber) ) {
+            
+            CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
+            CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerNumber, shipToAddressIdentifier);
+            if( ObjectUtils.isNotNull(customerShipToAddress) ){
+                postalCode = customerShipToAddress.getCustomerZipCode();
+            }
+        }
+        else {
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
+            criteria.put("organizationCode", document.getBilledByOrganizationCode());
+            OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+
+            if (ObjectUtils.isNotNull(organizationOptions)) {
+                postalCode = organizationOptions.getOrganizationPostalZipCode();
+            }
+
+           
+        }
+        return postalCode;
+    }    
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -86,5 +123,7 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+
 
 }

@@ -180,9 +180,13 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
      */
     public KualiDecimal getAssetsTotalHistoricalCost() {
         KualiDecimal total = new KualiDecimal(0);
-        for (AssetPaymentAssetDetail detail : this.getAssetPaymentAssetDetail())
-            total = total.add(detail.getPreviousTotalCostAmount());
-
+        if (this.getAssetPaymentAssetDetail().isEmpty())
+            return new KualiDecimal(0);
+        
+        for (AssetPaymentAssetDetail detail : this.getAssetPaymentAssetDetail()) {
+            KualiDecimal amount = (detail.getPreviousTotalCostAmount() == null ? new KualiDecimal(0) : detail.getPreviousTotalCostAmount());
+            total = total.add(amount);
+        }
         return total;
     }
 }

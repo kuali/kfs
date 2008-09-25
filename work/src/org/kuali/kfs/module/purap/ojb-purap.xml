@@ -297,7 +297,7 @@
     <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="addressToVendorIndicator" column="PUR_RCVNG_ADDR_TO_VNDR_IND" jdbc-type="VARCHAR"/>  
+    <field-descriptor name="addressToVendorIndicator" column="PUR_RCVNG_ADDR_TO_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>  
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -543,7 +543,7 @@
     <field-descriptor name="receivingStateCode" column="PUR_RCVNG_ST_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingPostalCode" column="PUR_RCVNG_PSTL_CD" jdbc-type="VARCHAR"/> 
     <field-descriptor name="receivingCountryCode" column="PUR_RCVNG_CNTRY_CD" jdbc-type="VARCHAR"/> 
-    <field-descriptor name="addressToVendorIndicator" column="PUR_RCVNG_ADDR_TO_VNDR_IND" jdbc-type="VARCHAR"/> 
+    <field-descriptor name="addressToVendorIndicator" column="PUR_RCVNG_ADDR_TO_VNDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/> 
 
     <!-- COMMON TO ALL DOCUMENTS -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

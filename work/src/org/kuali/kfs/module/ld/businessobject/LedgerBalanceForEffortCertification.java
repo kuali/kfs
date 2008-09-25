@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.ld.businessobject;
 
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
+
 /**
  * This class...
  */
-public class LedgerBalanceForEffortCertification extends LedgerBalance {
+public class LedgerBalanceForEffortCertification extends LedgerBalance implements LaborLedgerBalanceForEffortCertification{
 
     private String effortCertificationReportNumber;
 

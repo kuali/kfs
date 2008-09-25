@@ -116,13 +116,6 @@ public interface LaborModuleService {
     public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass();
 
     /**
-     * Gets the laborLedgerPositionObjectGroupClass attribute.
-     * 
-     * @return Returns the laborLedgerPositionObjectGroupClass.
-     */
-    public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass();
-
-    /**
      * Gets the laborLedgerBalanceClass attribute.
      * 
      * @return Returns the laborLedgerBalanceClass.
@@ -137,25 +130,11 @@ public interface LaborModuleService {
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass();
 
     /**
-     * Gets the laborLedgerPositionObjectBenefitClass attribute.
-     * 
-     * @return Returns the laborLedgerPositionObjectBenefitClass.
-     */
-    public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass();
-
-    /**
      * Gets the laborLedgerBenefitsCalculationClass attribute.
      * 
      * @return Returns the laborLedgerBenefitsCalculationClass.
      */
     public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass();
-
-    /**
-     * Gets the laborLedgerBenefitsTypeClass attribute.
-     * 
-     * @return Returns the laborLedgerBenefitsTypeClass.
-     */
-    public Class<? extends LaborLedgerBenefitsType> getLaborLedgerBenefitsTypeClass();
 
     /**
      * Gets the expenseTransferSourceAccoutingLineClass attribute.
@@ -176,7 +155,7 @@ public interface LaborModuleService {
      * 
      * @return Returns the laborLedgerBalanceForEffortCertificationClass.
      */
-    public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass();
+    public Class<? extends LaborLedgerBalanceForEffortCertification> getLaborLedgerBalanceForEffortCertificationClass();
 
     /**
      * retrieves a specific LaborLedgerObject from the database using primary key

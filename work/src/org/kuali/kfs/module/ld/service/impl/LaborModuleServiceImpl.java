@@ -26,8 +26,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
-import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine;
@@ -37,15 +37,10 @@ import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
-import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
-import org.kuali.kfs.module.ld.businessobject.BenefitsType;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
-import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.businessobject.PositionObjectGroup;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
@@ -63,6 +58,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -206,56 +202,42 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
-        return LedgerBalance.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerBalance.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalance.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerEntryClass()
      */
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass() {
-        return LedgerEntry.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerEntry.class).getExternalizableBusinessObjectImplementation(LaborLedgerEntry.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerObjectClass()
      */
     public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass() {
-        return LaborObject.class;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
-     */
-    public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
-        return PositionObjectBenefit.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerObject.class).getExternalizableBusinessObjectImplementation(LaborLedgerObject.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBenefitsCalculationClass()
      */
     public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass() {
-        return BenefitsCalculation.class;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBenefitsTypeClass()
-     */
-    public Class<? extends LaborLedgerBenefitsType> getLaborLedgerBenefitsTypeClass() {
-        return BenefitsType.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerBenefitsCalculation.class).getExternalizableBusinessObjectImplementation(LaborLedgerBenefitsCalculation.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
-        return PositionObjectGroup.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerPositionObjectGroup.class).getExternalizableBusinessObjectImplementation(LaborLedgerPositionObjectGroup.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerBalanceForEffortCertificationClass()
      */
-    public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceForEffortCertificationClass() {
-        return LedgerBalanceForEffortCertification.class;
+    public Class<? extends LaborLedgerBalanceForEffortCertification> getLaborLedgerBalanceForEffortCertificationClass() {
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalanceForEffortCertification.class);
     }
 
     /**
@@ -298,14 +280,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferSourceAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> getExpenseTransferSourceAccountingLineClass() {
-        return ExpenseTransferSourceAccountingLine.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerExpenseTransferSourceAccountingLine.class).getExternalizableBusinessObjectImplementation(LaborLedgerExpenseTransferSourceAccountingLine.class);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#getExpenseTransferTargetAccountingLineClass()
      */
     public Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> getExpenseTransferTargetAccountingLineClass() {
-        return ExpenseTransferTargetAccountingLine.class;
+        return this.getKualiModuleService().getResponsibleModuleService(LaborLedgerExpenseTransferTargetAccountingLine.class).getExternalizableBusinessObjectImplementation(LaborLedgerExpenseTransferTargetAccountingLine.class);
     }
 
     /**
@@ -448,5 +430,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public LaborOriginEntryService getLaborOriginEntryService() {
         return SpringContext.getBean(LaborOriginEntryService.class);
+    }
+
+    /**
+     * Gets the KualiModuleService attribute value.
+     * 
+     * @return an implementation of the KualiModuleService.
+     */
+    public KualiModuleService getKualiModuleService() {
+        return SpringContext.getBean(KualiModuleService.class);
     }
 }

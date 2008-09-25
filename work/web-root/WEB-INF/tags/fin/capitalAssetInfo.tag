@@ -39,22 +39,22 @@
    	</tr>
    	<tr>                        
 	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetNumber}" horizontal="true" width="50%"/>        
-	    <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+	    <fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetNumber" lookup="true" inquiry="true"
 			boClassSimpleName="CapitalAssetManagementAsset" boPackageName="org.kuali.kfs.integration.cam"
 			lookupUnkeyedFieldConversions="campusTagNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 			lookupOrInquiryKeys="capitalAssetNumber"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
    	</tr>
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" align="right"/>
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetTagNumber" conversionField="campusTagNumber" lookup="true" inquiry="false"
 			boClassSimpleName="CapitalAssetManagementAsset" boPackageName="org.kuali.kfs.integration.cam"
 			lookupOrInquiryKeys="capitalAssetNumber"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>			
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>			
    	</tr>   
    	<tr>
    		<td colspan="2" ><br/></td>
@@ -74,84 +74,84 @@
    </tr>
    
    <tr>
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="campusCode" lookup="true" inquiry="true"
 			boClassSimpleName="Campus" boPackageName="org.kuali.rice.kns.bo"
 			lookupOrInquiryKeys="campusCode"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>	
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
 		
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="buildingCode" lookup="true" inquiry="true"
 			boClassSimpleName="Building" boPackageName="org.kuali.kfs.sys.businessobject"
 			lookupOrInquiryKeys="campusCode,buildingCode"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
 		
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="buildingRoomNumber" lookup="true" inquiry="true"
 			boClassSimpleName="Room" boPackageName="org.kuali.kfs.sys.businessobject"
 			lookupOrInquiryKeys="campusCode,buildingCode,buildingRoomNumber"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>	
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
 		
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="buildingSubRoomNumber" lookup="false" inquiry="false"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>					
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>					
 
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
-			field="vendorNumber" lookup="true" inquiry="true"
+		<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			field="vendorNumber" lookup="true" inquiry="true" disabled="true"
 			boClassSimpleName="VendorDetail" boPackageName="org.kuali.kfs.vnd.businessobject"
 			lookupOrInquiryKeys="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier"
-			accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>																			 
+			businessObjectValuesMap="${capitalAssetInfo.valuesMap}" />																			 
    </tr>
    
    <tr><td colspan="5" class="infoline"><center><br/>
 	   	<table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">       
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTypeCode}" align="right" width="25%"/>		
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetTypeCode" lookup="true" inquiry="true"
 					boClassSimpleName="CapitalAssetManagementAssetType" boPackageName="org.kuali.kfs.integration.cam" 
 					lookupOrInquiryKeys="capitalAssetTypeCode"
-					accountingLineValuesMap="${capitalAssetInfo.valuesMap}"/>	
+					businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>	
 					
 			  	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetDescription}" align="right" rowspan="7" width="25%"/>
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetDescription" lookup="false" inquiry="false" rowSpan="6"/>					
 			</tr>				
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTagNumber}" align="right"/>
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetTagNumber" lookup="false" inquiry="false"/>			
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetQuantity}" align="right"/>
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetQuantity" lookup="false" inquiry="false"/>
 			</tr>        
 			<tr>
 			   	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerName}" align="right" />
-			    <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+			    <fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetManufacturerName" lookup="false" inquiry="false"/>
 			</tr>
 			<tr> 
 			   	<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetManufacturerModelNumber}" align="right" />      	
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
 		    </tr>
 		    <tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetSerialNumber}" align="right" />	     				
-				<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-					accountingLine="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
+				<fin:dataCell dataCellCssClass="${dataCellCssClass}"
+					businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 					field="capitalAssetSerialNumber" lookup="false" inquiry="false"/>
 		    </tr>		    
 	   	</table><br/><br/>

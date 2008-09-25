@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -175,6 +176,10 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the vendorNumber.
      */
     public String getVendorNumber() {
+        if(this.vendorHeaderGeneratedIdentifier != null && this.vendorDetailAssignedIdentifier != null) {
+            vendorNumber = this.vendorHeaderGeneratedIdentifier + "-" + this.vendorDetailAssignedIdentifier;
+        }
+            
         return vendorNumber;
     }
 

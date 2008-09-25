@@ -1293,18 +1293,16 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     
     // assoicate the new capital asset information with the current document if any
     protected void applyCapitalAssetInformation(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
-        LOG.info("applyCapitalAssetInformation() - start1");
+        LOG.debug("applyCapitalAssetInformation() - start");
         
         AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
         if(!(financialDocument instanceof CapitalAssetEditable)) {
-            LOG.info("applyCapitalAssetInformation() - start2");
             return;
         }
                    
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable)financialDocument;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();        
         if(capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
-            LOG.info("applyCapitalAssetInformation() - start3");
             return;
         }
         
@@ -1315,7 +1313,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         
         boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);  
         if(isValidFinancialProcessingData) {
-            LOG.info("applyCapitalAssetInformation() - start4");
             newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
         }

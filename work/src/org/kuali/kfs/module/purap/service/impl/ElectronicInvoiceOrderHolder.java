@@ -414,7 +414,9 @@ public class ElectronicInvoiceOrderHolder {
                                              String fieldName,
                                              String applnResourceKey){
         
-        LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
+        }
         
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);
@@ -444,7 +446,9 @@ public class ElectronicInvoiceOrderHolder {
                                             String fieldName,
                                             String applnResourceKey){
         
-        LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Adding reject reason - " + rejectReason.getInvoiceRejectReasonDescription());
+        }
         
         if (isRejectDocumentHolder()){
             rejectDocument.addRejectReason(rejectReason);

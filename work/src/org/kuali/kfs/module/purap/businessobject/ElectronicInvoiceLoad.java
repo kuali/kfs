@@ -23,12 +23,14 @@ public class ElectronicInvoiceLoad {
 
     private Map invoiceLoadSummaries;
     private Map rejectFilesToMove;
-    private List electronicInvoiceRejects;
+    private List partialFailureRejects;
+    private List completeFailureRejects;
 
     public ElectronicInvoiceLoad() {
         invoiceLoadSummaries = new HashMap();
         rejectFilesToMove = new HashMap();
-        electronicInvoiceRejects = new ArrayList();
+        partialFailureRejects = new ArrayList();
+        completeFailureRejects = new ArrayList();
     }
 
     public void insertInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
@@ -39,16 +41,21 @@ public class ElectronicInvoiceLoad {
         this.rejectFilesToMove.put(file, directory);
     }
 
-    public void addInvoiceReject(ElectronicInvoiceRejectDocument eir) {
-        this.electronicInvoiceRejects.add(eir);
+    public void addInvoiceReject(ElectronicInvoiceRejectDocument eir,
+                                 boolean isCompleteFailure) {
+        if (isCompleteFailure){
+            completeFailureRejects.add(eir);
+        }else{
+            partialFailureRejects.add(eir);
+        }
     }
 
-    public List getElectronicInvoiceRejects() {
-        return electronicInvoiceRejects;
+    public List getPartialFailureRejects() {
+        return partialFailureRejects;
     }
-
-    public void setElectronicInvoiceRejects(List electronicInvoiceRejects) {
-        this.electronicInvoiceRejects = electronicInvoiceRejects;
+    
+    public List getCompleteFailureRejects() {
+        return completeFailureRejects;
     }
 
     public Map getInvoiceLoadSummaries() {

@@ -386,6 +386,82 @@
     				<alias attr-name="shippingDate" prop-name="shippingDateString" />
     			</set-properties-rule>
     			
+    			<pattern value="InvoiceDetailLineShipping/InvoiceDetailShipping/Contact">
+	
+		      		<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceContact" />
+
+		      		<set-properties-rule>
+			      		<alias attr-name="role" prop-name="role" />
+			      		<alias attr-name="addressID" prop-name="addressID" />
+		      		</set-properties-rule>
+
+					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+					
+					<!-- INFO: NOT HANDLED IN EPIC PARSER -->
+		      		<!--<pattern value="Name">
+		      			<set-properties-rule>
+			      			<alias attr-name="xml:lang" prop-name="xxxx" />
+		      			</set-properties-rule>
+		      		</pattern>-->
+	      			
+	      			<pattern value="PostalAddress">
+	      			
+	      				<object-create-rule classname="org.kuali.kfs.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+	      				
+	      				<!-- EPIC parser is doing like this-->
+	      				<set-properties-rule>
+			      			<alias attr-name="name" prop-name="type" />
+		      			</set-properties-rule>
+		      		
+	      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
+	      				
+	      				<!-- Have to find a better way of handling this element -->
+	      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
+	      				
+	      				
+	      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+	      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+	      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+	      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+	      				
+	      				<pattern value="Country">
+	      					<set-properties-rule>
+				      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+			      			</set-properties-rule>
+	      				</pattern>
+	      				
+	      				<set-next-rule methodname="addPostalAddress" />
+	      				
+	      			</pattern> <!-- PostalAddress -->
+	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
+	      			<set-next-rule methodname="addInvoiceShippingContacts" />
+	      			
+	      		</pattern> <!-- InvoiceDetailLineShipping/InvoiceDetailShipping/Contact -->
+		      		
     			<call-method-rule pattern="GrossAmount/Money" methodname="setInvoiceLineGrossAmount" paramcount="0" />
     			<set-properties-rule pattern="GrossAmount/Money">
     				<alias attr-name="currency" prop-name="invoiceLineGrossAmountCurrency" />

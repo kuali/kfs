@@ -25,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,7 +40,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
@@ -51,8 +49,6 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItem;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
@@ -60,15 +56,12 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceOrder;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonType;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
@@ -77,16 +70,10 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.document.validation.event.PaymentRequestForEInvoiceEvent;
 import org.kuali.kfs.module.purap.exception.CxmlParseException;
-import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
-import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors.PREQCreationFailure;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceService;
+import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.XMLParseException;
@@ -97,14 +84,13 @@ import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.user.UserService;
 import org.kuali.rice.kew.user.WorkflowUser;
-import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Attachment;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -113,20 +99,14 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.UniversalUserService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  * This is a helper service for PO matching and creating payment request based on the 
@@ -141,8 +121,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
-    private static final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
-    private static final String INVOICE_FILE_MIME_TYPE = "text/xml";  
+    private final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
+    private final String INVOICE_FILE_MIME_TYPE = "text/xml";  
     
     private StringBuffer emailTextErrorList = new StringBuffer();
     
@@ -159,8 +139,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     private PaymentRequestService paymentRequestService;
     
     public boolean loadElectronicInvoices() {
-
-        LOG.debug("loadElectronicInvoices() started");
 
         /**
          * FIXME: Add parameters for each dir name In EPIC, accept and reject dir names are coming from sys param and invoice dir
@@ -332,7 +310,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         File moveHere = getInvoiceFile(invoiceFile.getName());
         
         if (LOG.isDebugEnabled()){
-            LOG.debug("Adding namespace definition to " + invoiceFile.getName());
+            LOG.debug("Adding namespace definition");
         }
         
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -353,7 +331,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             xmlDoc = builder.parse(invoiceFile);
         } catch(Exception e) {
             if (LOG.isDebugEnabled()){
-                LOG.debug("Error parsing the file " + e.getMessage());
+                LOG.debug("Error parsing the file - " + e.getMessage());
             }
             rejectElectronicInvoiceFile(eInvoiceLoad, UNKNOWN_DUNS_IDENTIFIER, invoiceFile, e.getMessage(),PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID);
             return false;
@@ -785,7 +763,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException(e);
         }
 
-        eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
+        eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument,true);
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Complete failure document has been created (DocNo:" + eInvoiceRejectDocument.getDocumentNumber() + ")");
@@ -866,7 +844,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             throw new RuntimeException(e);
         }
         
-        eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
+        eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument,false);
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Reject document has been created (DocNo=" + eInvoiceRejectDocument.getDocumentNumber() + ")");
@@ -1029,41 +1007,64 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         summaryMessage.append("\n\n");
         
-        for (Iterator rejectIter = eInvoiceLoad.getElectronicInvoiceRejects().iterator(); rejectIter.hasNext();) {
-            
-            ElectronicInvoiceRejectDocument eInvoiceRejectDocument = (ElectronicInvoiceRejectDocument) rejectIter.next();
-            LOG.info("runLoadSave() Saving Invoice Reject for DUNS '" + eInvoiceRejectDocument.getVendorDunsNumber() + "'");
-            
-            if (savedLoadSummariesMap.containsKey(eInvoiceRejectDocument.getVendorDunsNumber())) {
-                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(eInvoiceRejectDocument.getVendorDunsNumber()));
-            }
-            else {
-                eInvoiceRejectDocument.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
-            }
-            
-            try {
-                
-                /*AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
-                adHocRouteRecipient.setActionRequested(actionRequest);
-                adHocRouteRecipient.setId(personUserId);*/
-                
-                
-//                List<AdHocRouteRecipient> adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
-//                AdHocRouteRecipient recipient = new AdHocRouteRecipient()
-//                GlobalVariables.setUserSession(new UserSession("abolding"));
-//                KNSServiceLocator.getDocumentService().routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
-//                KNSServiceLocator.getDocumentService().acknowledgeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", new ArrayList());
-//                SpringContext.getBean(DocumentService.class).routeDocument(eInvoiceRejectDocument, "Routed by electronic invoice batch job", null);
-                SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
-            }
-            catch (WorkflowException e) {
-                e.printStackTrace();
-            }
+        for (Iterator rejectIter = eInvoiceLoad.getCompleteFailureRejects().iterator(); rejectIter.hasNext();) {
+            ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument) rejectIter.next();
+            routeRejectDocument(rejectDoc,true,savedLoadSummariesMap);
+        }
+        
+        for (Iterator rejectIter = eInvoiceLoad.getPartialFailureRejects().iterator(); rejectIter.hasNext();) {
+            ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument) rejectIter.next();
+            routeRejectDocument(rejectDoc,false,savedLoadSummariesMap);
         }
         
         moveFileList(eInvoiceLoad.getRejectFilesToMove());
         
         return summaryMessage;
+    }
+    
+    private void routeRejectDocument(ElectronicInvoiceRejectDocument rejectDoc,
+                                     boolean isCompleteFailure,
+                                     Map savedLoadSummariesMap){
+        
+        LOG.info("Saving Invoice Reject for DUNS '" + rejectDoc.getVendorDunsNumber() + "'");
+        
+        if (savedLoadSummariesMap.containsKey(rejectDoc.getVendorDunsNumber())) {
+            rejectDoc.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(rejectDoc.getVendorDunsNumber()));
+        }
+        else {
+            rejectDoc.setInvoiceLoadSummary((ElectronicInvoiceLoadSummary) savedLoadSummariesMap.get(UNKNOWN_DUNS_IDENTIFIER));
+        }
+        
+        List<AdHocRouteRecipient> adHocRoutingRecipients = null;
+        
+        if (isCompleteFailure){
+            /**
+             * TODO: Ack to the workgroup
+             */
+            adHocRoutingRecipients = new ArrayList<AdHocRouteRecipient>();
+            AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
+            adHocRouteRecipient.setActionRequested(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ);
+            adHocRouteRecipient.setId("abolding");
+            adHocRoutingRecipients.add(adHocRouteRecipient);
+            
+//            AdhocWorkgroup newAdHocWorkgroup = new AdhocWorkgroup("PA_AP_USERS");
+//            newAdHocWorkgroup.setActionRequested(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ);
+//            adHocRoutingRecipients.add(newAdHocWorkgroup);
+            
+            /*AdHocRouteRecipient adHocRouteRecipient = new AdHocRoutePerson();
+            adHocRouteRecipient.setActionRequested(actionRequest);
+            adHocRouteRecipient.setId(personUserId);*/
+            
+        }
+        
+        try{
+            KNSServiceLocator.getDocumentService().routeDocument(rejectDoc, "Routed by electronic invoice batch job", adHocRoutingRecipients);
+//            SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
+        }
+        catch (WorkflowException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     private void sendSummary(StringBuffer message, String filename) {
@@ -1114,17 +1115,17 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
      * @return true if the matching process is succeed
      */
     public boolean doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument){
-        
-        Map itemTypeMappings = getItemTypeMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),
-                                                   rejectDocument.getVendorDetailAssignedIdentifier());
-        
-        Map kualiItemTypes = getKualiItemTypes();
 
         /**
          * This is needed here since if the user changes the DUNS number.
          */
         validateVendorDetails(rejectDocument);
         
+        Map itemTypeMappings = getItemTypeMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),
+                                                   rejectDocument.getVendorDetailAssignedIdentifier());
+        
+        Map kualiItemTypes = getKualiItemTypes();
+
         ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
         matchingService.doMatchingProcess(rejectDocHolder);
         
@@ -1153,7 +1154,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         ElectronicInvoiceOrderHolder rejectDocHolder = new ElectronicInvoiceOrderHolder(rejectDocument,itemTypeMappings,kualiItemTypes);
         createPaymentRequest(rejectDocHolder);
         
-        return rejectDocHolder.isInvoiceRejected();
+        return !rejectDocHolder.isInvoiceRejected();
         
     }
     
@@ -1260,9 +1261,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return null;
         }
         
-        /**
-         * FIXME: Is it ok to proceed with warnings????
-         */
         if(GlobalVariables.getMessageList().size() > 0){
             if (LOG.isDebugEnabled()){
                 LOG.debug("Payment request contains " + GlobalVariables.getMessageList().size() + " warning message(s)");
@@ -1487,8 +1485,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         ElectronicInvoiceItemHolder itemHolder = orderHolder.getItemByLineNumber(purapItem.getItemLineNumber().intValue());
         if (itemHolder == null){
-            //I'm sure this never happen since we are validating all the line numbers during the matching process
-            throw new RuntimeException("ItemHolder not found for the item line# " + purapItem.getItemLineNumber());
+            LOG.info("Electronic Invoice does not have item with Ref Item Line number " + purapItem.getItemLineNumber());
+            return;
         }
         
         purapItem.setItemUnitPrice(itemHolder.getInvoiceItemUnitPrice());

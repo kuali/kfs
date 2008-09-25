@@ -376,6 +376,11 @@ public class ElectronicInvoiceItem {
   public void setInvoiceShippingContacts(List invoiceShippingContacts) {
     this.invoiceShippingContacts = invoiceShippingContacts;
   }
+  
+  public void addInvoiceShippingContacts(ElectronicInvoiceContact contact) {
+      invoiceShippingContacts.add(contact);
+  }
+  
   /**
    * @return Returns the quantity.
    */

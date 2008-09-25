@@ -554,7 +554,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
 
             // updated load object
             eil.insertInvoiceLoadSummary(eils);
-            eil.addInvoiceReject(eirDoc);
+            eil.addInvoiceReject(eirDoc,false);
 //            KNSServiceLocator.getDocumentService().saveDocument(eirDoc);
         }
         catch (WorkflowException e) {
@@ -605,7 +605,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
 
                 // updated load object
                 eInvoiceLoad.insertInvoiceLoadSummary(eInvoiceLoadSummary);
-                eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument);
+                eInvoiceLoad.addInvoiceReject(eInvoiceRejectDocument,true);
 //                KNSServiceLocator.getDocumentService().saveDocument(eInvoiceRejectDocument);
             }
             catch (WorkflowException e) {

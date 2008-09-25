@@ -166,7 +166,7 @@ public interface LaborModuleService {
      * @return a labor object retrieved based on the given information
      */
     public LaborLedgerObject retrieveLaborLedgerObject(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
-    
+
     /**
      * retrieves a specific LaborLedgerObject based on the information of the given financial object
      * 
@@ -192,16 +192,6 @@ public interface LaborModuleService {
      * @return true if there is a pending entry for the given account; otherwise, return false
      */
     public boolean hasPendingLaborLedgerEntry(String chartOfAccountsCode, String accountNumber);
-
-    /**
-     * Returns the fringe benefit information associated with a given fiscal year, chart, and object code
-     * 
-     * @param fiscalYear the fiscal year to find LaborFringeBenefitInformation records for
-     * @param chartOfAccountsCode the chart of accounts code to find LaborFringeBenefitInformation records for
-     * @param objectCode the object code to find LaborFringeBenefitInformation records for
-     * @return a List of fringe benefit information records
-     */
-    public List<LaborLedgerPositionObjectBenefit> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * Determines whether the given set of accounting lines have object codes that receieve fringe benefits

@@ -289,19 +289,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborObjectBenefitInformation(java.lang.Integer,
-     *      java.lang.String, java.lang.String)
-     */
-    public List<LaborLedgerPositionObjectBenefit> retrieveLaborObjectBenefitInformation(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
-        List<LaborLedgerPositionObjectBenefit> fringeBenefitInformationRecords = new ArrayList<LaborLedgerPositionObjectBenefit>();
-
-        Collection<PositionObjectBenefit> objectBenefits = retrieveLaborObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
-        fringeBenefitInformationRecords.addAll(objectBenefits);
-
-        return fringeBenefitInformationRecords;
-    }
-
-    /**
      * @see org.kuali.kfs.integration.service.LaborModuleService#retrieveLaborPositionObjectBenefits(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */

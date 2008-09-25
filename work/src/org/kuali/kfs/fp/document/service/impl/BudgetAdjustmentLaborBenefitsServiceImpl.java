@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
         List<BudgetAdjustmentAccountingLine> fringeLines = new ArrayList<BudgetAdjustmentAccountingLine>();
 
         try {
-            List<LaborLedgerPositionObjectBenefit> objectBenefits = SpringContext.getBean(LaborModuleService.class).retrieveLaborObjectBenefitInformation(fiscalYear, line.getChartOfAccountsCode(), line.getFinancialObjectCode());
+            Collection<LaborLedgerPositionObjectBenefit> objectBenefits = SpringContext.getBean(LaborModuleService.class).retrieveLaborPositionObjectBenefits(fiscalYear, line.getChartOfAccountsCode(), line.getFinancialObjectCode());
             if (objectBenefits != null) {
                 for (LaborLedgerPositionObjectBenefit fringeBenefitInformation : objectBenefits) {
                     // now create and set properties for the benefit line

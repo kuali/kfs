@@ -84,7 +84,7 @@
           <td align="right" class="datacell">
             <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${lockCamsEntry}"/>
             <c:if test="${not lockCamsEntry}">
-            	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
+            	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-sameasvendor.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
             </c:if>
           </td>
         </tr>

@@ -130,6 +130,9 @@ public class BCConstants extends JSTLConstants {
     // account budgetRecordingLevelCode where no budget is allowed
     public static final String BUDGET_RECORDING_LEVEL_N = "N";
 
+    // by default employees are assumed to work the entire 12-month year
+    public static final Integer DEFAULT_NORMAL_WORK_MONTHS = 12;
+
     public static final String BC_DOCUMENT_REFRESH_CALLER = "BudgetConstruction";
     public static final String BC_DOCUMENT_ACTION = "budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD = "refresh";

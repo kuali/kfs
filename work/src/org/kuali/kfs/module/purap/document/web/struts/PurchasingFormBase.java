@@ -50,7 +50,6 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;
 
-    private ItemCapitalAsset newPurchasingItemCapitalAssetLine;
     private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
 
     private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
@@ -67,7 +66,6 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         setAccountDistributionsourceAccountingLines(new ArrayList());
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
         
-        this.setNewPurchasingItemCapitalAssetLine(this.setupNewPurchasingItemCapitalAssetLine());
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
     }
     
@@ -229,26 +227,6 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         return null;
     }
 
-    //CAMS ASSET
-    //Must be overridden
-    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
-        ItemCapitalAsset asset = null;
-        return asset;
-    }
-
-    public void setNewPurchasingItemCapitalAssetLine(ItemCapitalAsset newItemCapitalAssetLine) {
-        this.newPurchasingItemCapitalAssetLine = newItemCapitalAssetLine;
-    }
-
-    public ItemCapitalAsset getNewPurchasingItemCapitalAssetLine() {
-        return newPurchasingItemCapitalAssetLine;
-    }
-
-    public ItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine() {
-        ItemCapitalAsset asset = getNewPurchasingItemCapitalAssetLine();
-        setNewPurchasingItemCapitalAssetLine(setupNewPurchasingItemCapitalAssetLine());
-        return asset;
-    }
 
     //CAMS LOCATION
     //Must be overridden

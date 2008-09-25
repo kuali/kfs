@@ -31,7 +31,8 @@ public abstract class PurchasingItemCapitalAssetBase extends PersistableBusiness
     /**
      * Default constructor
      */
-    public PurchasingItemCapitalAssetBase() {        
+    public PurchasingItemCapitalAssetBase() {       
+        super();
     }
     
     /**

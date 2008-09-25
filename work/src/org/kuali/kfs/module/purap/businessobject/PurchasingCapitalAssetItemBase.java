@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -35,9 +36,11 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     private CapitalAssetSystem purchasingCapitalAssetSystem;
     private PurchasingDocument purchasingDocument;
     private PurchasingItem purchasingItem;
+    private transient ItemCapitalAsset newPurchasingItemCapitalAssetLine;
     
     public PurchasingCapitalAssetItemBase(){
         super();        
+        this.setNewPurchasingItemCapitalAssetLine(this.setupNewPurchasingItemCapitalAssetLine());
     }
     
     public PurchasingCapitalAssetItemBase(PurchasingDocument pd) {        
@@ -119,11 +122,25 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
         return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingCapitalAssetSystem().isEmpty());
     }
  
-    
-    public void setPurchasingItem(PurchasingItem purchasingItem) {
-        this.purchasingItem = purchasingItem;
+    public void setNewPurchasingItemCapitalAssetLine(ItemCapitalAsset newItemCapitalAssetLine) {
+        this.newPurchasingItemCapitalAssetLine = newItemCapitalAssetLine;
     }
 
+    public ItemCapitalAsset getNewPurchasingItemCapitalAssetLine() {
+        return newPurchasingItemCapitalAssetLine;
+    }
+
+    public ItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = getNewPurchasingItemCapitalAssetLine();
+        setNewPurchasingItemCapitalAssetLine(setupNewPurchasingItemCapitalAssetLine());
+        return asset;
+    }
+
+    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = null;
+        return asset;
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("capitalAssetItemIdentifier", this.capitalAssetItemIdentifier);

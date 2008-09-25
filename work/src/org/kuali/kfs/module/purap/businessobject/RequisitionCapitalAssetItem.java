@@ -15,10 +15,9 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase {
     
@@ -51,6 +50,12 @@ public class RequisitionCapitalAssetItem extends PurchasingCapitalAssetItemBase 
         if(req != null){
             setPurapDocumentIdentifier( req.getPurapDocumentIdentifier() );
         }
+    }
+    
+    @Override
+    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = new RequisitionItemCapitalAsset();
+        return asset;
     }
 
 }

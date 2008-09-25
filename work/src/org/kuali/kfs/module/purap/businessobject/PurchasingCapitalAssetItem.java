@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 
 
@@ -53,5 +54,10 @@ public interface PurchasingCapitalAssetItem {
     public PurchasingItem getPurchasingItem();                  
     
     public boolean isEmpty();
- 
+
+    public ItemCapitalAsset getNewPurchasingItemCapitalAssetLine();
+    
+    public ItemCapitalAsset getAndResetNewPurchasingItemCapitalAssetLine();
+    
+    
 }

@@ -1,4 +1,5 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ attribute name="camsItemIndex" required="true" description="cams item index"%>
 <%@ attribute name="camsSystemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsAssetAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="camsLocationAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
@@ -22,11 +23,11 @@
 <c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" /> 
 	
 <c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByItem.line${ctr}" />
-<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.(((${ctr})))" />
+<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByItem.line${camsItemIndex}.(((${ctr})))" />
 <c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByItem.line${ctr}" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="addItemAssetUrl" value="methodToCall.addItemCapitalAssetByDocument.line${ctr}" />
-	<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByDocument.(((${ctr})))" />
+	<c:set var="deleteItemAssetUrl" value="methodToCall.deleteItemCapitalAssetByDocument.line${camsItemIndex}.(((${ctr})))" />
 	<c:set var="setManufacturerFromVendorUrl" value="methodToCall.setManufacturerFromVendorByDocument.line${ctr}" />	
 </c:if>
 
@@ -39,16 +40,20 @@
 	    <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right" width="250px" />    
 	      <td class="datacell" align="left" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${lockCamsEntry}"/>		
+			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${lockCamsEntry}"/>		
 	      	&nbsp;
 			<html:image property="${addItemAssetUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
 		  </td>
 	    </tr>
 	    <tr>  
 	      <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right"/>
-	      <td class="datacell" valign="top" colspan="3">	
+	      <td class="datacell" valign="top" colspan="3">
 			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
+			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].itemCapitalAssetIdentifier" />
+			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].versionNumber" />
+			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].objectId" />
 	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
+  				<html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].itemCapitalAssetIdentifier" />
   				<html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
 				  <br/>
 			</logic:iterate>

@@ -17,10 +17,9 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBase {
@@ -81,4 +80,9 @@ public class PurchaseOrderCapitalAssetItem extends PurchasingCapitalAssetItemBas
         return m;
     }
 
+    @Override
+    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
+        ItemCapitalAsset asset = new PurchaseOrderItemCapitalAsset();
+        return asset;
+    }
 }

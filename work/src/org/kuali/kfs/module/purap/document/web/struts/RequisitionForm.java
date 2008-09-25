@@ -105,12 +105,6 @@ public class RequisitionForm extends PurchasingFormBase {
     }
 
     @Override
-    public ItemCapitalAsset setupNewPurchasingItemCapitalAssetLine() {
-        ItemCapitalAsset asset = new RequisitionItemCapitalAsset();
-        return asset;
-    }
-
-    @Override
     public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
         CapitalAssetLocation location = new RequisitionCapitalAssetLocation();
         return location;

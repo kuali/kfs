@@ -171,10 +171,18 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      * 
      * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredBySoldOrAuction(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
      */
-    public boolean isAssetRetiredBySoldOrAuction(AssetRetirementGlobal assetRetirementGlobal) {
-        return CamsConstants.AssetRetirementReasonCode.AUCTION.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode()) || CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
+    public boolean isAssetRetiredByAuction(AssetRetirementGlobal assetRetirementGlobal) {
+        return CamsConstants.AssetRetirementReasonCode.AUCTION.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredBySold(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)
+     */
+    public boolean isAssetRetiredBySold(AssetRetirementGlobal assetRetirementGlobal) {
+        return CamsConstants.AssetRetirementReasonCode.SOLD.equalsIgnoreCase(assetRetirementGlobal.getRetirementReasonCode());
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.module.cam.document.service.AssetRetirementService#isAssetRetiredByExternalTransferOrGift(org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal)

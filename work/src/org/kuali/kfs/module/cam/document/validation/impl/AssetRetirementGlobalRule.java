@@ -355,8 +355,8 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
-
-        if (assetRetirementService.isAssetRetiredBySoldOrAuction(assetRetirementGlobal)) {
+        
+        if (assetRetirementService.isAssetRetiredBySold(assetRetirementGlobal)) {
             if (StringUtils.isBlank(sharedRetirementInfo.getBuyerDescription())) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
@@ -364,24 +364,37 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
             if (sharedRetirementInfo.getSalePrice() == null) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.SALE_PRICE, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.SALE_PRICE, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
                 valid = false;
-            }
-            if (StringUtils.isNotBlank(sharedRetirementInfo.getCashReceiptFinancialDocumentNumber())) {
-                Map retirementInfoMap = new HashMap();
-                retirementInfoMap.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber());
-                bo = (FinancialSystemDocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(FinancialSystemDocumentHeader.class, retirementInfoMap);
-                if (bo == null) {
-                    putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_RETIREMENT_DETAIL_INFO, new String[] { CamsConstants.RetirementLabel.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber() });
-                    valid = false;
-                }
-            }
-        }
-        else if (assetRetirementService.isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {
+            }          
+            valid &= validateCashReceiptFinancialDocumentNumber(sharedRetirementInfo);
+        } else if (assetRetirementService.isAssetRetiredByAuction(assetRetirementGlobal)) {
+            valid = validateCashReceiptFinancialDocumentNumber(sharedRetirementInfo);
+        } else if (assetRetirementService.isAssetRetiredByExternalTransferOrGift(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getRetirementInstitutionName())) {
             putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.RETIREMENT_INSTITUTION_NAME, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.RETIREMENT_INSTITUTION_NAME, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
         }
         else if (assetRetirementService.isAssetRetiredByTheft(assetRetirementGlobal) && StringUtils.isBlank(sharedRetirementInfo.getPaidCaseNumber())) {
             putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.PAID_CASE_NUMBER, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.PAID_CASE_NUMBER, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });
             valid = false;
+        }
+        return valid;
+    }
+
+    /**
+     * 
+     * validates Cash Receipt Financial Document Number
+     * @param sharedRetirementInfo
+     * @return boolean
+     */
+    private boolean validateCashReceiptFinancialDocumentNumber(AssetRetirementGlobalDetail sharedRetirementInfo) {
+        boolean valid = true;
+        if (StringUtils.isNotBlank(sharedRetirementInfo.getCashReceiptFinancialDocumentNumber())) {
+            Map retirementInfoMap = new HashMap();
+            retirementInfoMap.put(CamsPropertyConstants.AssetGlobal.DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber());
+            bo = (FinancialSystemDocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(FinancialSystemDocumentHeader.class, retirementInfoMap);
+            if (bo == null) {
+                putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, CamsKeyConstants.Retirement.ERROR_INVALID_RETIREMENT_DETAIL_INFO, new String[] { CamsConstants.RetirementLabel.CASH_RECEIPT_FINANCIAL_DOCUMENT_NUMBER, sharedRetirementInfo.getCashReceiptFinancialDocumentNumber() });
+                valid = false;
+            }
         }
         return valid;
     }

@@ -29,7 +29,9 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
  * The interface defines methods for Asset Document
  */
 public interface AssetRetirementService {
-    boolean isAssetRetiredBySoldOrAuction(AssetRetirementGlobal assetRetirementGlobal);
+    boolean isAssetRetiredBySold(AssetRetirementGlobal assetRetirementGlobal);
+    
+    boolean isAssetRetiredByAuction(AssetRetirementGlobal assetRetirementGlobal);
 
     boolean isAssetRetiredByExternalTransferOrGift(AssetRetirementGlobal assetRetirementGlobal);
 

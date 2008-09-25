@@ -65,16 +65,6 @@
 					p:dynamicLabelProperty="project.projectDescription" />
 				<bean parent="AccountingLineView-field"
 					p:name="organizationReferenceId" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="positionInformation" parent="positionInformation-parent" />
-	<bean parent="AccountingLineView-line"
-		id="positionInformation-parent" abstract="true">
-		<property name="elementName" value="positionInformation" />
-		<property name="fields">
-			<list>
 				<bean parent="AccountingLineView-field"
 					p:name="positionNumber" p:required="true" />
 				<bean parent="AccountingLineView-field"
@@ -82,10 +72,11 @@
 				<bean parent="AccountingLineView-field"
 					p:name="payrollEndDateFiscalPeriodCode" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollTotalHours" />
+					p:name="payrollTotalHours" />					
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="LaborDistribution-SalaryExpenseTransferDocument-accountingLineView"
 		parent="LaborDistribution-SalaryExpenseTransferDocument-accountingLineView-parent" />
 
@@ -98,7 +89,6 @@
 					<property name="lines">
 						<list>
 							<ref bean="accountingInformation" />
-							<ref bean="positionInformation" />
 						</list>
 					</property>
 				</bean>

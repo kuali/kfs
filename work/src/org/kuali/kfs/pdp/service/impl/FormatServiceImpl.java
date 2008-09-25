@@ -294,7 +294,7 @@ public class FormatServiceImpl implements FormatService {
                         if (lastPaymentInfo.equals(pi)) {
                             if (((lastPaymentInfo.noteLines + pi.noteLines) <= maxNoteLines)) {
                                 LOG.debug("performFormat() Combining");
-                                pg.setDisbursementNbr(new Integer(-1)); // Mark it for later
+                                pg.setDisbursementNbr(PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE); // Mark it for later
                                 lastPaymentInfo.noteLines += pi.noteLines;
                                 combine = true;
                             }
@@ -480,7 +480,7 @@ public class FormatServiceImpl implements FormatService {
             }
 
             if ("CHCK".equals(pg.getDisbursementType().getCode())) {
-                if ((pg.getDisbursementNbr() != null) && (pg.getDisbursementNbr().intValue() == -1)) {
+                if ((pg.getDisbursementNbr() != null) && (pg.getDisbursementNbr().intValue() == PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)) {
                     pg.setDisbursementNbr(new Integer(checkNumber));
                 }
                 else {

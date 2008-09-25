@@ -23,6 +23,8 @@ public class PdpConstants {
     public static final String PAYMENT_FILE_TYPE_INDENTIFIER = "paymentInputFileType";
     public static final String PAYMENT_LOAD_CREATE_DATE_SEPARATOR = "T";
     public static final String PAYMENT_LOAD_CREATE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    
+    public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";

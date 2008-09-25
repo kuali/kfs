@@ -90,13 +90,6 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getCfda(java.lang.String)
-     */
-    public ContractsAndGrantsCfda getCfda(String cfdaNumber) {
-        return getCfdaService().getByPrimaryId(cfdaNumber);
-    }
-
-    /**
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String, java.lang.String, java.util.List)
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
@@ -138,37 +131,6 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         }
 
         return primaryAwardAccount;
-    }
-    
-    /**
-     * TODO: This method does not seem to be used anywhere. Revisit...
-     * 
-     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getAwardInformationForAccount(java.lang.String, java.lang.String)
-     */
-    public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("getting award information for account "+chartOfAccountsCode+"-"+accountNumber);
-        }
-        List<ContractsAndGrantsAccountAwardInformation> awardAccounts = new ArrayList<ContractsAndGrantsAccountAwardInformation>();
-        
-        Map accountKeyValues = new HashMap();
-        accountKeyValues.put("chartOfAccountsCode", chartOfAccountsCode);
-        accountKeyValues.put("accountNumber", accountNumber);
-
-        for (Object awardAccountAsObject : getBusinessObjectService().findMatching(AwardAccount.class, accountKeyValues)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Adding award: "+awardAccountAsObject.toString());
-            }
-            awardAccounts.add((AwardAccount)awardAccountAsObject);
-        }
-        return awardAccounts;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getAgencyByAgencyNumber(java.lang.String)
-     */
-    public ContractsAndGrantsAgency getAgencyByAgencyNumber(String agencyNumber) {
-        return (ContractsAndGrantsAgency)getAgencyService().getByPrimaryId(agencyNumber);
     }
     
     /**

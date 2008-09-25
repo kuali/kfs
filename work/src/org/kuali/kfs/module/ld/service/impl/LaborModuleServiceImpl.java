@@ -180,7 +180,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.LaborModuleService#getLaborLedgerPositionObjectGroup(java.lang.String)
+     * @see org.kuali.kfs.integration.ld.LaborModuleService#getLaborLedgerPositionObjectGroup(java.lang.String)
      */
     public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup(String positionObjectGroupCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();

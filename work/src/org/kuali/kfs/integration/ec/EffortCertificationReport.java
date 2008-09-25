@@ -25,11 +25,13 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationPeriodStatusCod
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportType;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * Methods for getting and setting report attributes.
  */
-public interface EffortCertificationReport {
+public interface EffortCertificationReport extends ExternalizableBusinessObject{
 
     /**
      * Gets the universityFiscalYear attribute.

@@ -28,13 +28,6 @@ public interface ContractsAndGrantsModuleService {
     public UniversalUser getProjectDirectorForAccount(Account account);
     
     /**
-     * Returns CFDA information for the given CFDA number
-     * @param cfdaNumber a CFDA number
-     * @return information about that CFDA
-     */
-    public ContractsAndGrantsCfda getCfda(String cfdaNumber);
-    
-    /**
      * determine if the given account is awarded by a federal agency
      * 
      * @param chartOfAccountsCode the given account's chart of accounts code
@@ -44,19 +37,4 @@ public interface ContractsAndGrantsModuleService {
      *         false
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes);
-    
-    /**
-     * Retrieves a list of information about awards associated with the specified account
-     * @param chartOfAccountsCode the chart of accounts code of the specified account
-     * @param accountNumber the account number of the specified account
-     * @return a List of ContractsAndGrantsAccountAwardInformation records with the award information
-     */
-    public List<ContractsAndGrantsAccountAwardInformation> getAwardInformationForAccount(String chartOfAccountsCode, String accountNumber);
-    
-    /**
-     * Returns information about a contracts and grants agency based on a given agency number
-     * @param agencyNumber the agency number of the given agency
-     * @return agency information for the agency identified by the given agency number
-     */
-    public ContractsAndGrantsAgency getAgencyByAgencyNumber(String agencyNumber);
 }

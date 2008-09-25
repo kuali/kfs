@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PendingBudgetConstructionGeneralLedger" parent="PendingBudgetConstructionGeneralLedger-parentBean" />
 
@@ -32,6 +34,20 @@
         <ref bean="PendingBudgetConstructionGeneralLedger-adjustmentAmount" />
       </list>
     </property>
+    <property name="relationships" >
+      <list>
+        <dd:relationship objectAttribute="laborObject">
+            <dd:primitiveAttribute source="universityFiscalYear" target="universityFiscalYear" />
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="financialObjectCode" target="financialObjectCode" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="positionObjectBenefit" targetClass="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit">
+            <dd:primitiveAttribute source="universityFiscalYear" target="universityFiscalYear" />
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="financialObjectCode" target="financialObjectCode" />
+        </dd:relationship>        
+      </list>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->

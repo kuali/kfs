@@ -51,6 +51,12 @@
 				<value>effortCertificationCreateJob</value>
 			</list>
 		</property>
+		
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+				<entry key="org.kuali.kfs.integration.ec.EffortCertificationReport" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition" />
+            </map>
+        </property>		
 	</bean>
 
     <bean id="ecModuleService" parent="ecModuleService-parentBean"/>

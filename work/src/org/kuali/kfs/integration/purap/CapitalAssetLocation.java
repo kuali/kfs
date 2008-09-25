@@ -16,10 +16,11 @@
 package org.kuali.kfs.integration.purap;
 
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-public interface CapitalAssetLocation {
+public interface CapitalAssetLocation  extends ExternalizableBusinessObject{
 
     public Integer getCapitalAssetSystemIdentifier();
 

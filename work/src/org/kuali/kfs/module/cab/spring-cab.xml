@@ -55,7 +55,13 @@
 				<value>cabExtractJobTrigger</value>
 				<value>preAssetTaggingExtractJobTrigger</value>
 			</list>
-		</property>		
+		</property>	
+				
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+				<entry key="org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType" value="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" />
+            </map>
+        </property> 
 	</bean>
 
     <bean id="cabModuleService" parent="cabModuleService-parentBean"/>

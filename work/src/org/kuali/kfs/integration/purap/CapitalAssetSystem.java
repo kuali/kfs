@@ -17,8 +17,10 @@ package org.kuali.kfs.integration.purap;
 
 import java.util.List;
 
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-public interface CapitalAssetSystem {
+
+public interface CapitalAssetSystem  extends ExternalizableBusinessObject{
 
     public String getCapitalAssetSystemDescription();
 

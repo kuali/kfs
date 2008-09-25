@@ -31,13 +31,13 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
-import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -528,9 +528,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns the laborObject.
      */
     public LaborLedgerObject getLaborObject() {
-        if (laborObject == null) {
-            setLaborObject(SpringContext.getBean(LaborModuleService.class).retrieveLaborLedgerObject(getUniversityFiscalYear(), getChartOfAccountsCode(), getFinancialObjectCode()));
-        }
+        laborObject = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborLedgerObject.class).retrieveExternalizableBusinessObjectIfNecessary(this, laborObject, "laborObject");
         return laborObject;
     }
 
@@ -549,9 +547,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns the positionObjectBenefit.
      */
     public List<LaborLedgerPositionObjectBenefit> getPositionObjectBenefit() {
-        if (positionObjectBenefit == null) {
-            setPositionObjectBenefit((List<LaborLedgerPositionObjectBenefit>) SpringContext.getBean(LaborModuleService.class).retrieveLaborPositionObjectBenefits(getUniversityFiscalYear(), getChartOfAccountsCode(), getFinancialObjectCode()));
-        }
+        positionObjectBenefit = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborLedgerPositionObjectBenefit.class).retrieveExternalizableBusinessObjectsList(this, "positionObjectBenefit", LaborLedgerPositionObjectBenefit.class);
         return positionObjectBenefit;
     }
 

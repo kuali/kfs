@@ -77,6 +77,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -84,27 +85,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
-
-    private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private AssetService assetService;
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    public void setAssetService(AssetService assetService) {
-        this.assetService = assetService;
-    }
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateIndividualCapitalAssetSystemFromPurchasing(java.lang.String,
@@ -160,7 +140,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.service.CapitalAssetBuilderModuleService#doesDocumentExceedThreshold(org.kuali.rice.kns.util.KualiDecimal)
      */
     public boolean doesDocumentExceedThreshold(KualiDecimal docTotal) {
-        String parameterThreshold = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
+        String parameterThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
         if (docTotal.compareTo(new KualiDecimal(parameterThreshold)) > 0) {
             return true;
         }
@@ -225,7 +205,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (this.getParameterService().getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
@@ -284,7 +264,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (this.getParameterService().getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
@@ -400,9 +380,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
      */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
-        List<CapitalAssetBuilderAssetTransactionType> tranTypes = new ArrayList<CapitalAssetBuilderAssetTransactionType>();
-        tranTypes = (List<CapitalAssetBuilderAssetTransactionType>) businessObjectService.findAll(AssetTransactionType.class);
-        return tranTypes;
+        Class<? extends CapitalAssetBuilderAssetTransactionType> assetTransactionTypeClass = this.getKualiModuleService().getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).getExternalizableBusinessObjectImplementation(CapitalAssetBuilderAssetTransactionType.class);
+        
+        return (List<CapitalAssetBuilderAssetTransactionType>) this.getBusinessObjectService().findAll(assetTransactionTypeClass);
     }
 
     /**
@@ -488,7 +468,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
         String parameterName = CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS;
-        boolean allowedAssetNumbers = (parameterService.getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
+        boolean allowedAssetNumbers = (this.getParameterService().getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
             // If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
             return true;
@@ -694,12 +674,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, ObjectCode objectCode, String itemIdentifier) {
         boolean valid = true;
         if ((itemQuantity != null) && (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
-            String capitalAssetPriceThreshold = SpringContext.getBean(ParameterService.class).getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
+            String capitalAssetPriceThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
             if ((extendedPrice != null) && (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) && (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
 
                 String possiblyCapitalAssetObjectCodeLevels = "";
                 try {
-                    possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
+                    possiblyCapitalAssetObjectCodeLevels = this.getParameterService().getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
                     if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels, objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
                         valid &= false;
                     }
@@ -776,7 +756,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         // If there is a tran type ...
         if ((capitalAssetTransactionType != null) && (capitalAssetTransactionType.getCapitalAssetTransactionTypeCode() != null)) {
-            String recurringTransactionTypeCodes = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
+            String recurringTransactionTypeCodes = this.getParameterService().getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES);
 
 
             if (recurringPaymentType != null) { // If there is a recurring payment type ...
@@ -861,7 +841,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return True if the ObjectCode's level is the one designated as specifically for capital assets.
      */
     public boolean isCapitalAssetObjectCode(ObjectCode oc) {
-        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
+        String capitalAssetObjectCodeLevels = this.getParameterService().getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
         return (StringUtils.containsIgnoreCase(capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode()) ? true : false);
     }
 
@@ -888,8 +868,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         // Check if we need to collect cams data
         boolean dataEntryExpected = false;
-        if (parameterService.parameterExists(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
-            List<String> financialProcessingCapitalObjectSubTypes = parameterService.getParameterValues(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        if (this.getParameterService().parameterExists(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
+            List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
             for (SourceAccountingLine sourceAccountingLine : accountingLines) {
                 if (financialProcessingCapitalObjectSubTypes.contains(sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
                     dataEntryExpected = true;
@@ -922,11 +902,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             Map<String, String> params = new HashMap<String, String>();
             params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
-            Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, params);
+            Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
             if (ObjectUtils.isNull(asset)) {
                 valid = false;
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
             else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
@@ -941,77 +921,77 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             // Update Asset
 
             if (capitalAssetManagementAsset.getQuantity() == null || capitalAssetManagementAsset.getQuantity() <= 0) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getVendorName())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetTypeCode())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
             else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
-                AssetType assetType = (AssetType) businessObjectService.findByPrimaryKey(AssetType.class, params);
+                AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
 
                 if (ObjectUtils.isNull(assetType)) {
                     valid = false;
-                    String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getManufacturerName())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.MANUFACTURER_NAME);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.MANUFACTURER_NAME);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetDescription())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCampusTagNumber())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
             else {
-                if (!assetService.findActiveAssetsMatchingTagNumber(capitalAssetManagementAsset.getCampusTagNumber()).isEmpty()) {
+                if (!this.getAssetService().findActiveAssetsMatchingTagNumber(capitalAssetManagementAsset.getCampusTagNumber()).isEmpty()) {
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, capitalAssetManagementAsset.getCampusTagNumber());
                     valid = false;
                 }
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getCampusCode())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
             else {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
-                Campus campus = (Campus) businessObjectService.findByPrimaryKey(Campus.class, params);
+                Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, params);
 
                 if (ObjectUtils.isNull(campus)) {
                     valid = false;
-                    String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
+                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingCode())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
@@ -1019,17 +999,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
-                Building building = (Building) businessObjectService.findByPrimaryKey(Building.class, params);
+                Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
 
                 if (ObjectUtils.isNull(building)) {
                     valid = false;
-                    String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
+                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
 
             if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingRoomNumber())) {
-                String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
+                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
                 valid = false;
             }
@@ -1038,11 +1018,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
                 params.put(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, capitalAssetManagementAsset.getBuildingRoomNumber());
-                Room room = (Room) businessObjectService.findByPrimaryKey(Room.class, params);
+                Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
 
                 if (ObjectUtils.isNull(room)) {
                     valid = false;
-                    String label = dataDictionaryService.getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
+                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
                     GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
                 }
             }
@@ -1075,13 +1055,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void activateCabGlLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
-        Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
                 generalLedgerEntry.setActive(true);
-                businessObjectService.save(generalLedgerEntry);
-                businessObjectService.delete(generalLedgerEntryAsset);
+                this.getBusinessObjectService().save(generalLedgerEntry);
+                this.getBusinessObjectService().delete(generalLedgerEntryAsset);
             }
         }
     }
@@ -1094,24 +1074,69 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void activateCabPOLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
-        Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+        Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         if (matchingPoAssets != null && !matchingPoAssets.isEmpty()) {
             for (PurchasingAccountsPayableItemAsset iemAsset : matchingPoAssets) {
                 PurchasingAccountsPayableDocument purapDocument = iemAsset.getPurchasingAccountsPayableDocument();
                 purapDocument.setActive(true);
-                businessObjectService.save(purapDocument);
+                this.getBusinessObjectService().save(purapDocument);
                 iemAsset.setActive(true);
-                businessObjectService.save(iemAsset);
+                this.getBusinessObjectService().save(iemAsset);
                 List<PurchasingAccountsPayableLineAssetAccount> lineAssetAccounts = iemAsset.getPurchasingAccountsPayableLineAssetAccounts();
                 for (PurchasingAccountsPayableLineAssetAccount assetAccount : lineAssetAccounts) {
                     assetAccount.setActive(true);
-                    businessObjectService.save(assetAccount);
+                    this.getBusinessObjectService().save(assetAccount);
                     GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
                     generalLedgerEntry.setActive(true);
-                    businessObjectService.save(generalLedgerEntry);
+                    this.getBusinessObjectService().save(generalLedgerEntry);
                 }
             }
         }
+    }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+
+    /**
+     * Gets the dataDictionaryService attribute.
+     * 
+     * @return Returns the dataDictionaryService.
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return SpringContext.getBean(DataDictionaryService.class);
+    }
+
+    /**
+     * Gets the assetService attribute.
+     * 
+     * @return Returns the assetService.
+     */
+    public AssetService getAssetService() {
+        return SpringContext.getBean(AssetService.class);
+    }
+
+    /**
+     * Gets the kualiModuleService attribute.
+     * 
+     * @return Returns the kualiModuleService.
+     */
+    public KualiModuleService getKualiModuleService() {
+        return SpringContext.getBean(KualiModuleService.class);
     }
 }

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.validation.event.AddPendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.document.validation.event.DeletePendingBudgetGeneralLedgerLineEvent;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionDocumentAuthorizationException;
+import org.kuali.kfs.module.bc.util.BudgetUrlUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,16 +60,21 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -502,13 +509,59 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // this should also cancel in workflow if not already canceled
         // this implies cancel can be issued multiple times to allow purging BCAF lines if CSF is removed
         // Canceling should not be a one way trip, once canceled, reactivating should be possible
-        // Once the account reports to mapping is installed, canceling is no longer an option 
+        // Once the account reports to mapping is installed, canceling is no longer an option
 
         // TODO need to lift some code from super and see if doc service cancel will work
         // or add a cancel method to BudgetDocumentService
         // super.cancel(mapping, form, request, response);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Calls the single line benefits impact screen by setting up the required parameters and feeding them to the temporary list
+     * lookup action for the expenditure line selected. This is called from the ShowBenefits button on the BC document screen when an
+     * expenditure line is associated with benefits and benefits calculation is enabled.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performShowBenefits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument tDoc = tForm.getBudgetConstructionDocument();
+        int selectIndex = this.getSelectedLine(request);
+        PendingBudgetConstructionGeneralLedger expLine = tDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectIndex);
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+
+        if (StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BCConstants.REQUEST_BENEFITS_BO);
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "true");
+        parameters.put(BCConstants.SHOW_INITIAL_RESULTS, "true");
+        parameters.put(BCConstants.TempListLookupMode.TEMP_LIST_LOOKUP_MODE, Integer.toString(BCConstants.TempListLookupMode.SHOW_BENEFITS));
+
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, expLine.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, expLine.getChartOfAccountsCode());
+        parameters.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expLine.getFinancialObjectCode());
+        parameters.put(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT, expLine.getAccountLineAnnualBalanceAmount().toString());
+        parameters.put(KNSConstants.LOOKUP_READ_ONLY_FIELDS, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR + "," + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "," + KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME + "," + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT);
+
+        String url = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_TEMP_LIST_LOOKUP, parameters);
+        return new ActionForward(url, true);
     }
 
     public ActionForward performBalanceInquiryForRevenueLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -768,26 +821,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.QUICK_SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
-    }
-
-    /**
-     * controls calling the display of benefits resulting from the request amount for the selected line
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward performShowBenefits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
-
-        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES, KFSKeyConstants.ERROR_UNIMPLEMENTED, "Show Benefits");
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -1118,17 +1151,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         }
 
-
-        // TODO populate should already handle all this
-        // take this out when populate is fixed and confirmed to handle
-        /*
-         * // need to get current state of monthly budgets regardless of who calls refresh for
-         * (PendingBudgetConstructionGeneralLedger line :
-         * budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines()){
-         * line.refreshReferenceObject("budgetConstructionMonthly"); } for (PendingBudgetConstructionGeneralLedger line :
-         * budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines()){
-         * line.refreshReferenceObject("budgetConstructionMonthly"); }
-         */
         // TODO this should figure out if user is returning to a rev or exp line and refresh just that
         // TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)) {

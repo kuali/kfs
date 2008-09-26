@@ -230,7 +230,10 @@
   <bean id="PurchaseOrderCapitalAssetLocation-offCampusIndicator" parent="PurchaseOrderCapitalAssetLocation-offCampusIndicator-parentBean" />
   <bean id="PurchaseOrderCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" 
         p:name="offCampusIndicator"
-        p:required="false" />
+        p:required="false">
+    <property name="label" value="Off Campus Indicator" />
+    <property name="shortLabel" value="Off Campus" />
+  </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition" parent="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" />
 

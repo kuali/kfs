@@ -257,9 +257,9 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     public CapitalAssetLocation getAndResetNewPurchasingCapitalAssetLocationLine() {
-        CapitalAssetLocation asset = getNewPurchasingCapitalAssetLocationLine();
+        CapitalAssetLocation assetLocation = getNewPurchasingCapitalAssetLocationLine();
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
-        return asset;
+        return assetLocation;
     }
 
     //Availability once

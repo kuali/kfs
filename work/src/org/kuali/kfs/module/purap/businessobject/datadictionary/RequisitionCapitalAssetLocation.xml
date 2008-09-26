@@ -231,7 +231,7 @@
     <property name="name" value="offCampusIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Off Campus Indicator" />
-    <property name="shortLabel" value="Indicator" />
+    <property name="shortLabel" value="Off Campus" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />

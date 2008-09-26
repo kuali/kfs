@@ -215,25 +215,50 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return refresh(mapping, form, request, response);
     }
     
-    public ActionForward refreshAssetLocationBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward refreshAssetLocationBuildingByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
-        List<CapitalAssetSystem> systems = document.getPurchasingCapitalAssetSystems();
-        //TODO: This is rather naive code at this point.
-        if( document.getCapitalAssetSystemType().equals(PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM)) {
-            CapitalAssetSystem system = systems.get(0);
-            CapitalAssetLocation location = system.getNewPurchasingCapitalAssetLocationLine();
-            if( location.isOffCampusIndicator() ) {
-                location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-            }
-            else {
-                location.setBuildingCode(null);
-            }
-            //Null out every other location field here.
-        }
-        //TODO: Handle other System Type cases.
         
-        return refresh(mapping, form, request, response);
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String systemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+
+        CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(Integer.parseInt(systemIndex));
+        refreshAssetLocationBuilding(system);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward refreshAssetLocationBuildingByItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
+        
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String assetItemIndex = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        
+        PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(Integer.parseInt(assetItemIndex));
+        CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
+        refreshAssetLocationBuilding(system);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    } 
+    
+    private void refreshAssetLocationBuilding(CapitalAssetSystem system) {
+        if(system != null) {
+            CapitalAssetLocation location = system.getNewPurchasingCapitalAssetLocationLine();
+            if( location != null ) {
+                if( location.isOffCampusIndicator() ) {
+                    location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+                }
+                else {
+                    location.setBuildingCode(null);
+                }
+                location.setCapitalAssetLine1Address(null);
+                location.setCapitalAssetCityName(null);
+                location.setCapitalAssetStateCode(null);
+                location.setCapitalAssetPostalCode(null);
+                location.setCapitalAssetCountryCode(null);
+            }
+        }        
     }
 
     /**

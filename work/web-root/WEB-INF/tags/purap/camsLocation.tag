@@ -35,8 +35,10 @@
 <c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" />
 
 <c:set var="deleteLocationUrl" value="methodToCall.deleteCapitalAssetLocationByItem.(((${ctr}))).((#${ctr2}#))" />
+<c:set var="refreshAssetLocationBuildingUrl" value="methodToCall.refreshAssetLocationBuildingByItem.(((${ctr}))).((#${ctr2}#))" />
 <c:if test="${PurapConstants.CapitalAssetAvailability.ONCE eq availability}">
 	<c:set var="deleteLocationUrl" value="methodToCall.deleteCapitalAssetLocationByDocument.(((${ctr}))).((#${ctr2}#))" />
+	<c:set var="refreshAssetLocationBuildingUrl" value="methodToCall.refreshAssetLocationBuildingByDocument.(((${ctr}))).((#${ctr2}#))" />
 </c:if>
 
 <table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
@@ -63,9 +65,7 @@
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="${camsAssetLocationProperty}.buildingCode" readOnly="${(not isEditable) or lockCamsEntry}"/>
 		<c:if test="${isEditable and (not lockCamsEntry)}">
-        <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
-        	lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode"
-        	fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode,buildingStreetAddress:${camsAssetLocationProperty}.capitalAssetLine1Address,buildingAddressCityName:${camsAssetLocationProperty}.capitalAssetCityName,buildingAddressStateCode:${camsAssetLocationProperty}.capitalAssetStateCode,buildingAddressZipCode:${camsAssetLocationProperty}.capitalAssetPostalCode" />
+	        <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode,buildingStreetAddress:${camsAssetLocationProperty}.capitalAssetLine1Address,buildingAddressCityName:${camsAssetLocationProperty}.capitalAssetCityName,buildingAddressStateCode:${camsAssetLocationProperty}.capitalAssetStateCode" />
 		</c:if>
 	</td>
 	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />
@@ -79,7 +79,7 @@
     	<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.offCampusIndicator}" 
         	property="${camsAssetLocationProperty}.offCampusIndicator" readOnly="${(not isEditable) or lockCamsEntry}"/>&nbsp;
         <c:if test="${(fullEntryMode or amendmentEntry) && not(deliveryReadOnly)}">
-        	<html:image property="methodToCall.refreshAssetLocationBuilding" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+        	<html:image property="${refreshAssetLocationBuildingUrl}" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
         </c:if>
     </td>
     <kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetCityName}" align="right" />

@@ -35,6 +35,8 @@ import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -42,6 +44,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
@@ -97,7 +100,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= processPaymentInfoValidation((PurchasingDocument) purapDocument);
         valid &= processDeliveryValidation((PurchasingDocument) purapDocument);
         valid &= processCapitalAssetValidation((PurchasingDocument) purapDocument);
-
+        valid &= processUpdateCamsViewPurapBusinessRules(purapDocument);
+        
         return valid;
     }
 
@@ -846,19 +850,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.module.purap.rule.ValidateCapitalAssestsForAutomaticPurchaseOrderRule#processCapitalAssestsForAutomaticPurchaseOrderRule(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean processCapitalAssetsForAutomaticPurchaseOrderRule(PurchasingAccountsPayableDocument purapDocument) {
-        boolean valid = true;
-        List<PurApItem> itemList = purapDocument.getItems();
-        for (PurApItem item : itemList) {
-            for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
-                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-                ObjectCode objectCode = accountingLine.getObjectCode();
-                boolean isCapitalAssetObjectCode = SpringContext.getBean(CapitalAssetBuilderModuleService.class).isCapitalAssetObjectCode(objectCode);
-                if (isCapitalAssetObjectCode) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        
+        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateCapitalAssetsForAutomaticPurchaseOrderRule(purapDocument.getItems());
     }
 
     /**
@@ -873,8 +866,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @see org.kuali.kfs.module.purap.document.validation.UpdateViewPurapRule#processUpdateViewPurapBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
      */
     public boolean processUpdateCamsViewPurapBusinessRules(TransactionalDocument document) {
-        // TODO Auto-generated method stub
-        return true;
+        PurchasingDocument pd = (PurchasingDocument)document;
+
+        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateUpdateCAMSView(pd.getItems());
     }
 
     /**
@@ -886,19 +880,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     public boolean processAddItemCapitalAssetBusinessRules(PurchasingDocument purchasingDocument, ItemCapitalAsset asset) {
-        boolean valid = true;
-        if (asset.getCapitalAssetNumber() == null) {
-            valid = false;
-        }
-        else {
-            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase)asset);
-        }
-        if (!valid) {
-            String propertyName = "newPurchasingItemCapitalAssetLine.capitalAssetNumber";
-            String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
-            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
-        }
-        return valid;
+        
+        return SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateAddItemCapitalAssetBusinessRules(asset);
     }
 
     public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, CapitalAssetLocation location) {

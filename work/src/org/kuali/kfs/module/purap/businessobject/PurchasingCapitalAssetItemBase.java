@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -119,9 +120,14 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     }
     
     public boolean isEmpty() {
-        return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingCapitalAssetSystem().isEmpty());
+        if (this.getPurchasingDocument().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+            return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingCapitalAssetSystem().isEmpty());
+        }
+        else {
+            return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingDocument().getPurchasingCapitalAssetSystems().get(0).isEmpty());
+        }
     }
- 
+
     public void setNewPurchasingItemCapitalAssetLine(ItemCapitalAsset newItemCapitalAssetLine) {
         this.newPurchasingItemCapitalAssetLine = newItemCapitalAssetLine;
     }

@@ -45,11 +45,11 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
-import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingItemCapitalAssetEvent;
 import org.kuali.kfs.module.purap.document.validation.event.ImportPurchasingAccountsPayableItemEvent;
+import org.kuali.kfs.module.purap.document.validation.event.UpdateCamsViewPurapEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.util.ItemParser;
@@ -894,10 +894,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
         
-        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
-        
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateCamsViewPurapEvent(document));
+ 
+        if (rulePassed) {
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
     
     public ActionForward setManufacturerFromVendorByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;

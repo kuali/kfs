@@ -52,6 +52,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
@@ -59,9 +60,13 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -76,6 +81,7 @@ import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.LookupService;
@@ -1095,6 +1101,61 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
     }
 
+    public boolean validateUpdateCAMSView(List<PurApItem> purapItems) {
+        boolean valid = true;
+        for (PurApItem purapItem : purapItems) {
+            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (!doesItemNeedCapitalAsset(purapItem)){
+                    PurchasingCapitalAssetItem camsItem = ((PurchasingItem)purapItem).getPurchasingCapitalAssetItem();
+                    if (camsItem != null && !camsItem.isEmpty()) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_ITEM_NOT_CAMS_ELIGIBLE, "in line item # " + purapItem.getItemLineNumber());
+                    }
+                }
+            }
+        }        
+        return valid;
+    }
+    
+    public boolean doesItemNeedCapitalAsset(PurApItem item) {
+        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+            accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+            if (isCapitalAssetObjectCode(accountingLine.getObjectCode())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset) {
+        boolean valid = true;
+        if (asset.getCapitalAssetNumber() == null) {
+            valid = false;
+        }
+        else {
+            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase)asset);
+        }
+        if (!valid) {
+            String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
+            String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
+            GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+        }
+        
+        return valid;
+    }
+    
+    public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList) {
+        boolean valid = true;
+        for (PurApItem item : itemList) {
+            if (doesItemNeedCapitalAsset(item)) {
+                //If the item needs capital asset, we cannnot have an APO, so return false.
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Gets the parameterService attribute.
      * 

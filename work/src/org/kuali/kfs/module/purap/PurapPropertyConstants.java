@@ -92,6 +92,7 @@ public class PurapPropertyConstants {
     public static final String PURCHASING_CAPITAL_ASSET_SYSTEMS = "purchasingCapitalAssetSystems";
     public static final String PURCHASING_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
     public static final String CAPITAL_ASSET_LOCATIONS = "capitalAssetLocations";
+    public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";

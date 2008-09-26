@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -348,6 +348,10 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         }
 
         return availability;        
+    }
+    
+    public String getDefaultAssetTypeCodeNotThisFiscalYear() {
+        return SpringContext.getBean(PurchasingService.class).getDefaultAssetTypeCodeNotThisFiscalYear();   
     }
     
     @Override

@@ -97,8 +97,16 @@
           <th align="right" valign="middle" class="datacell">Asset Type:</th>
           <!-- td align="right" valign="middle" class="datacell">&nbsp;</td -->
           <td align="right" valign="middle" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode"/>		
-            <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/> 
+            <bean:define id="capitalAssetNotReceivedCurrentFiscalYearIndicator" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" name="KualiForm" />
+            <c:choose>
+                <c:when test="${capitalAssetNotReceivedCurrentFiscalYearIndicator eq 'Yes'}">
+                    ${KualiForm.defaultAssetTypeCodeNotThisFiscalYear}&nbsp;
+                </c:when>
+                <c:otherwise>
+                    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode"/>		
+                    <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/> 
+                </c:otherwise>
+            </c:choose>
           </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" align="right" width="250px"/>
           <td align="right" class="datacell">

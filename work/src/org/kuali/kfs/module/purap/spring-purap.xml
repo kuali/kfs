@@ -138,6 +138,7 @@
     <bean id="purchasingService" class="org.kuali.kfs.module.purap.document.service.impl.PurchasingServiceImpl">
         <property name="parameterService" ref="parameterService"/>
         <property name="sequenceAccessorService" ref="sequenceAccessorService"/>
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService"/>
     </bean>
     
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">

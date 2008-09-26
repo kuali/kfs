@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
@@ -34,5 +35,8 @@ public interface PurchasingService {
     public void saveDocumentWithoutValidation(PurchasingDocument purchasingDocument);
         
     public void prorateDiscountTradeIn(PurchasingDocument purDoc);
+    
+    public String getDefaultAssetTypeCodeNotThisFiscalYear();
+
     
 }

@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -129,4 +130,11 @@ public interface CapitalAssetBuilderModuleService {
      */
     public void notifyRouteStatusChange(String documentNumber, String financialStatusCode);
 
+    public boolean doesItemNeedCapitalAsset(PurApItem item);
+    
+    public boolean validateUpdateCAMSView(List<PurApItem> purapItems);
+
+    public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
+    
+    public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList);
 }

@@ -18,8 +18,11 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.List;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -29,10 +32,12 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +48,18 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
     private ParameterService parameterService;
     private SequenceAccessorService sequenceAccessorService;
-
+    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+    
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
+    }
+    
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 
     public void saveDocumentWithoutValidation(PurchasingDocument document) {
@@ -60,10 +70,10 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
         List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();
         List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
-
+        
         for (PurApItem purapItem : purDoc.getItems()) {
             if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if (doesItemNeedCapitalAsset(purapItem)) {
+                if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
                     if (ObjectUtils.isNull(camsItem)) {
                         PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
@@ -83,9 +93,8 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
 
         purDoc.setPurchasingCapitalAssetItems(newCamsItemsList);
-
     }
-
+    
     private PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingDocumentSpecificService purchasingDocumentSpecificService = purDoc.getDocumentSpecificService();
         if (purapItem.getItemIdentifier() == null) {
@@ -98,18 +107,6 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         return camsItem;
     }
 
-    private boolean doesItemNeedCapitalAsset(PurApItem item) {
-        List<String> capitalAssetSubTypes = parameterService.getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_OBJECT_SUB_TYPES);
-        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-            accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-            String subTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
-            if (capitalAssetSubTypes.contains(subTypeCode)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     private PurchasingCapitalAssetItem getItemIfAlreadyInCamsItemsList(PurApItem item, List<PurchasingCapitalAssetItem> camsItemsList) {
         for (PurchasingCapitalAssetItem camsItem : camsItemsList) {
@@ -148,5 +145,8 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         
     }
 
-
+    
+    public String getDefaultAssetTypeCodeNotThisFiscalYear() {
+        return parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
+    }
 }

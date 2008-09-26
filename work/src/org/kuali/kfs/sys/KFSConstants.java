@@ -1227,7 +1227,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String ALL_DAYS = "All days";
         public static final String HISTORY_REPORT_NAME = "Customer History Report";
-        public static final String OPEN_ITEM_REPORT_NAME = "Customer Open Item Report"; 
+        public static final String OPEN_ITEM_REPORT_NAME = "Customer Open Item Report";
+        public static final String REPORT_OPTION_ACCT = "Account";
         
         public static final String PROCESSING_COA_CODE = "processingChartOfAccountCode";
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";

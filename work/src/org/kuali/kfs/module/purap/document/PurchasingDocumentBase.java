@@ -1143,7 +1143,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         List managedLists = super.buildListOfDeletionAwareLists();
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchasingCapitalAssetItems());
-            if (this.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+            if (StringUtils.equals(this.getCapitalAssetSystemTypeCode(),PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
                 for (PurchasingCapitalAssetItem capitalAssetItem : this.getPurchasingCapitalAssetItems()) {
                     managedLists.add(capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
                 }

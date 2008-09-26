@@ -57,7 +57,7 @@
 						<table width="25%" cellspacing="0" cellpadding="0">
 							<tr><td>Report Option:</td><td><c:out value="${param.reportOption}" /></td>
 							 <c:choose>
-								<c:when test="${param.reportOption == ArConstants.CustomerAgingReportFields.ACCT}">
+								<c:when test="${param.reportOption == KFSConstants.CustomerOpenItemReport.REPORT_OPTION_ACCT}" >
 									<tr><td>Account Number:</td><td><c:out value="${param.accountNumber}" /></td>
 								</c:when>
 								<c:otherwise>

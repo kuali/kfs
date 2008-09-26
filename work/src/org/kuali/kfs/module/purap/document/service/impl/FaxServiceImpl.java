@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
@@ -69,14 +68,14 @@ public class FaxServiceImpl implements FaxService {
      */
     public Collection<ServiceError> faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
-        String pdfFileLocation = ""; // applicationSettingService.getString("PDF_DIRECTORY");
+        String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             throw new RuntimeException("Application Setting PDF_DIRECTORY is missing.");
         }
 
-        String imageTempLocation = ""; // applicationSettingService.getString("IMAGE_TEMP_PATH");
+        String imageTempLocation = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
         if (imageTempLocation == null) {
-            throw new RuntimeException("Application Setting IMAGE_TEMP_PATH is missing.");
+            throw new RuntimeException("Application Setting TEMP_DIRECTORY_KEY is missing.");
         }
 
         LOG.debug("faxPurchaseOrderPdf() ended");
@@ -97,8 +96,6 @@ public class FaxServiceImpl implements FaxService {
 
         Collection<ServiceError> errors = new ArrayList<ServiceError>();
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        // b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class,
-        // PurapParameterConstants.B2BParameters.ENVIRONMENT));
 
         String pdfFilename = System.currentTimeMillis() + "_" + environment + "_" + po.getPurapDocumentIdentifier().toString() + ".pdf";
 
@@ -133,8 +130,6 @@ public class FaxServiceImpl implements FaxService {
 
         Campus deliveryCampus = pdfParameters.getCampusParameter().getCampus();
 
-        // String campusName = pdfParameters. getCampusParameter().getCampus().getCampusName();
-
         if (deliveryCampus == null) {
             ServiceError se = new ServiceError("errors", "pdf.error");
             se.addParameter("delivery campus is null.");
@@ -143,13 +138,9 @@ public class FaxServiceImpl implements FaxService {
             return errors;
         }
         String campusName = deliveryCampus.getCampusName();
-        // String directorName = deliveryCampus.get getCampusPurchasingDirectorName();
-        // String directorTitle = deliveryCampus.getCampusPurchasingDirectorTitle();
-        String directorName = "";
-        String directorTitle = "";
-        if ((campusName == null) || (directorName == null) || (directorTitle == null)) {
+        if (campusName == null) {
             LOG.debug("faxPurchaseOrderPdf() ended");
-            throw new ConfigurationError("Campus Information is missing - campusName: " + campusName + "  - directorName: " + directorName + "  - directorTitle: " + directorTitle);
+            throw new ConfigurationError("Campus Information is missing - campusName: " + campusName);
         }
         String statusInquiryUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
         if (statusInquiryUrl == null) {
@@ -192,9 +183,6 @@ public class FaxServiceImpl implements FaxService {
         try {
             poPdf = new PurchaseOrderPdf();
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
-            // savePdf(po, pdfFileLocation, pdfFilename, statusInquiryUrl, campusName,
-            // contractLanguage.toString(), logoImage, directorSignatureImage, directorName,
-            // directorTitle, contractManagerSignatureImage, isRetransmit, environment);
         }
         catch (PurError e) {
             ServiceError se = new ServiceError("errors", "error.blank");
@@ -217,7 +205,6 @@ public class FaxServiceImpl implements FaxService {
         }
 
         LOG.info("faxPurchaseOrderPdf() PO: " + po.getPurapDocumentIdentifier() + " with vendor fax number: " + po.getVendorFaxNumber() + " and contract manager ID/Name: " + po.getContractManager().getContractManagerUserIdentifier() + " - " + po.getContractManager().getContractManagerName() + " and long distance code: " + po.getContractManager().getContractManagerPhoneNumber());
-        String faxNumber = this.getFaxNumberToUse(po.getVendorFaxNumber());
         String faxDescription = "PO: " + po.getPurapDocumentIdentifier() + " Cntrct Mgr: " + po.getContractManager().getContractManagerUserIdentifier();
         if (!kualiConfigurationService.isProductionEnvironment()) {
             faxDescription = environment + " TEST - " + faxDescription;
@@ -226,7 +213,7 @@ public class FaxServiceImpl implements FaxService {
         files[0] = pdfFilename;
 
         try {
-            this.faxPDF(files, pdfFileLocation, faxNumber, po.getVendorName(), faxDescription);
+            this.faxPDF(files, pdfFileLocation, po.getVendorFaxNumber(), po.getVendorName(), faxDescription);
         }
         catch (FaxSubmissionError e) {
             ServiceError se = new ServiceError("errors", "error.blank");
@@ -361,157 +348,13 @@ public class FaxServiceImpl implements FaxService {
     }
 
     /**
-     * Here we are calling the FaxPress WebService and giving it a PDF
-     * file that we would like to fax.
+     * Here is where the PDF is actually faxed, needs to be implemented at each institution
      */
     private void faxPDF(String[] files, String pdfFileLocation, String recipientFaxNumber, String vendorName, String faxDescription) {
-//      LOG.debug("faxPDF() started");
-//      
-//      String faxUser = applicationSettingService.getString("FAXPRESS_USER_NAME");
-//      if (faxUser == null) {
-//        LOG.error("faxPDF() Error getting FaxPress user for FaxPress");
-//        throw new ConfigurationError("Error getting FaxPress user for FaxPress");
-//      }
-//      String faxPass = applicationSettingService.getString("FAXPRESS_USER_PASSWORD");
-//      if (faxPass == null) {
-//        LOG.error("faxPDF() Error getting FaxPress password for FaxPress user " + faxUser);
-//        throw new ConfigurationError("Error getting FaxPress password for FaxPress user " + faxUser);
-//      }
-////      String faxLocation = applicationSettingService.getString("FAXPRESS_WEBSERVICE_URL");
-////      if (faxLocation == null) {
-////        String error = "Error getting Faxpress location url using application setting name '" + faxLocation + "'";
-////        LOG.error("faxPDF()" + error);
-////        throw new ConfigurationError(error);
-////      }
-//      
-//      WsQMClientSoapBindingStub binding;
-//      try {
-//        FaxPressQMLocator locator = new FaxPressQMLocator();
-////        if (EnvironmentService.PRODUCTION_ENVIRONMENT.equals(environmentService.getEnvironment())) {
-////            locator.setEnvironment(FaxPressQMLocator.ENVIRONMENT_TEST);
-////        } else {
-////            locator.setEnvironment(FaxPressQMLocator.ENVIRONMENT_PRODUCTION);
-////        }
-//        binding = (WsQMClientSoapBindingStub)locator.getwsQMClientSoapPort();
-//      } catch (ServiceException e) {
-//        LOG.error("faxPDF() Error getting port from fax server: " + e.getMessage(),e);
-//        throw new FaxServerUnavailableError("Error getting port from fax server",e);
-//      }
-//      
-//      binding.setTimeout(60000);  // One minute timeout
-//
-//      IntHolder sessionId = new IntHolder();
-//
-//      try {
-//        ShortHolder returnCode = new ShortHolder();
-//        binding.QMOpenSession(returnCode,faxUser,faxPass,sessionId);
-//        // return code of 0 means FaxPress session opened ok
-//        if (returnCode.value != ((short)0)) {
-//          LOG.error("faxPDF() QMOpenSession Return Code: " + returnCode.value);
-//          throw new FaxServerUnavailableError("Fax Server Unavailable - Error Opening Session with FaxPress.  FaxPress sent return code " + returnCode.value);
-//        }
-//      } catch (RemoteException e1) {
-//        LOG.error("faxPDF() Fax Server Unavailable - Error Opening Session: " + e1.getMessage(),e1);
-//        throw new FaxServerUnavailableError("Fax Server Unavailable - Error Opening Session",e1);
-//      }
-//
-//      FaxSubmissionError submissionError =  null;
-//      try {
-//        ShortHolder returnCode = new ShortHolder();
-//        
-//        binding._setProperty(Call.ATTACHMENT_ENCAPSULATION_FORMAT,Call.ATTACHMENT_ENCAPSULATION_FORMAT_DIME);
-//        File file = new File(pdfFileLocation + "/" + files[0]);
-//        DataHandler dh = new DataHandler(new FileDataSource(file));
-//        binding.addAttachment(dh);
-//
-//        // need a new DataHandler for each file
-////        dh = new DataHandler(new FileDataSource(pdfFileLocation + "/" + files[0]));
-////        binding.addAttachment(dh);
-//
-//        CpiDestinationParamDefExWs[] destinations = new CpiDestinationParamDefExWs[1];
-//
-//        destinations[0] = new CpiDestinationParamDefExWs();
-//        destinations[0].setCover_page( (short)1 );
-//        destinations[0].setBill_back_code("bill_back");
-//        destinations[0].setBill_back_matter("bill_matter");
-//        destinations[0].setSzCoverPageName("Urgent");
-//        destinations[0].setTarget_timdat(new TimeDateDef());
-//
-//        CpiNamePhoneDefExWs[] phones = new CpiNamePhoneDefExWs[1];
-//
-//        // Fax information of recipient
-//        phones[0] = new CpiNamePhoneDefExWs();
-//        phones[0].setName(vendorName);
-//        phones[0].setFaxPhone(recipientFaxNumber);
-//        phones[0].setName2("");
-//        phones[0].setName3("");
-//        phones[0].setName4("");
-//        phones[0].setName5("");
-//        phones[0].setCompany(vendorName);
-//        phones[0].setBillBackCode("");
-//        phones[0].setVoicePhone("");
-//        phones[0].setEmail("");
-//
-//        CpiFaxCommonParamDefWs param = new CpiFaxCommonParamDefWs();
-//        // FaxPress Server Description goes here
-//        param.setComment(faxDescription);
-//        param.setCoverMsg("Indiana University Fax to " + vendorName);
-//        param.setSender("Indiana University Purchasing Department");
-//
-//        IntHolder failCount = new IntHolder();
-//        ArrayOfstringHolder failedFiles = new ArrayOfstringHolder();
-//        ArrayOfintHolder jobIds = new ArrayOfintHolder();
-//        IntHolder bid = new IntHolder();
-//        ShortHolder unknown = new ShortHolder();
-//
-//        for (int i = 0; i < files.length; i++) {
-//         LOG.debug("faxPDF() Faxing file with name " + files[i]);
-//        }
-//        binding.QMSubmitFax(returnCode, sessionId.value, files, destinations, (short)1, phones,
-//            unknown, param, files.length,
-//            failCount, failedFiles, jobIds, bid);
-//        // return code of 0 means FaxPress closed session ok
-//        if (returnCode.value != ((short)0)) {
-//          LOG.error("faxPDF() QMSubmitFax Return Code: " + returnCode.value);
-//          throw new FaxSubmissionError("Fax Server Error - Error Submitting Fax to FaxPress.  FaxPress sent return code " + returnCode.value);
-//        }
-//
-//        binding.clearAttachments();
-//      } catch (RemoteException e3) {
-//        LOG.error("faxPDF() Fax Server Unavailable - Error Submitting Fax: " + e3.getMessage(),e3);
-//        binding.clearAttachments();
-//        submissionError =  new FaxSubmissionError("Fax Server Error - Error Submitting Fax",e3);
-//      }
-//
-//      try {
-//        ShortHolder returnCode = new ShortHolder();
-//        binding.QMCloseSession(returnCode,sessionId.value);
-//        // return code of 0 means FaxPress closed session ok
-//        if (returnCode.value != ((short)0)) {
-//          LOG.error("faxPDF() QMCloseSession Return Code: " + returnCode.value);
-//          throw new FaxServerUnavailableError("Fax Server Unavailable - Error Closing Session with FaxPress.  FaxPress sent return code " + returnCode.value);
-//        }
-//        if (submissionError != null) {
-//          LOG.error("faxPDF() QMCloseSession returned code " + returnCode.value + " but we had a Submission Error: " + submissionError);
-//          throw submissionError;
-//        }
-//      } catch (RemoteException e2) {
-//        LOG.error("faxPDF() Fax Server Unavailable - Error Closing Session: " + e2.getMessage(),e2);
-//        throw new FaxServerUnavailableError("Fax Server Unavailable - Error Closing Session",e2);
-//      }
+        LOG.info("faxPDF() NEEDS TO BE IMPLEMENTED!");
+        throw new RuntimeException("faxPDF() NEEDS TO BE IMPLEMENTED!");
     }
     
-    private String getFaxNumberToUse(String faxNumber) {
-        LOG.info("getFaxNumberToUse() started with faxNumber " + faxNumber);
-
-        String fakeFaxNumber = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.FAX_TEST_PHONE_NUMBER);
-        if (!StringUtils.isEmpty(fakeFaxNumber)) {
-            LOG.info("getFaxNumberToUse() Using fake fax number: " + fakeFaxNumber);
-            faxNumber = fakeFaxNumber;
-        }
-        return faxNumber;
-    }
-
     public KualiConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
     }

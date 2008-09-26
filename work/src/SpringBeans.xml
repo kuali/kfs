@@ -389,7 +389,9 @@
 		</property>
 	</bean>
 
-	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
+	<bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" >
+		<property name="loadRiceInstalledModuleServices" value="true"></property>
+	</bean>
 
 	<bean id="mailService" class="org.kuali.rice.kns.service.impl.MailServiceImpl">
 		<property name="mailSender">

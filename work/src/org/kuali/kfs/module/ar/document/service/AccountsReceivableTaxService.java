@@ -35,5 +35,4 @@ public interface AccountsReceivableTaxService {
      * @return
      */
     public String getPostalCodeForTaxation( CustomerInvoiceDocument document );
-
 }

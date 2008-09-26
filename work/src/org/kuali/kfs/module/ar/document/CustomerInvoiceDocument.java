@@ -24,6 +24,8 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
 import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -31,12 +33,14 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -999,22 +1003,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        boolean hasStateSalesTax = false;
-        boolean hasDistrictSalesTax = false;
         
         addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
         sequenceHelper.increment();
         addIncomeGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
         
-        if( hasStateSalesTax ){
-            sequenceHelper.increment();
-            addStateSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
+        //if sales tax is enabled generate GLPEs
+        if( SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(this, (CustomerInvoiceDetail)glpeSourceDetail ) ){
+            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset );
         }
         
-        if( hasDistrictSalesTax ){
-            sequenceHelper.increment();
-            addDistrictSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset);
-        }
 
         return true;
     }
@@ -1058,28 +1056,39 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         
     }
     
-    protected void addStateSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
-        /*
-        CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;   
-        boolean isDebit = isInvoiceReversal();
+    /**
+     * This method add pending entries for every tax detail that exists for a particular postal code
+     * 
+     * @param sequenceHelper
+     * @param glpeSourceDetail
+     * @param hasClaimOnCashOffset
+     */
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
         
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createStateSalesTaxGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasOffset, customerInvoiceDetail.getInvoiceItemTaxAmount());
-        //Add state sales tax receivable too
-        */
-    }
-    
-    protected void addDistrictSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasClaimOnCashOffset){
-        /*
-        CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail)glpeSourceDetail;        
-        boolean isDebit = isInvoiceReversal();
+        boolean isDebit = (!isInvoiceReversal() && customerInvoiceDetail.isDiscountLine())
+        || (isInvoiceReversal() && !customerInvoiceDetail.isDiscountLine());
+        
+        String postalCode = SpringContext.getBean(AccountsReceivableTaxService.class).getPostalCodeForTaxation(this);
+        Date dateOfTransaction = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        
+        List<TaxDetail> salesTaxDetails = SpringContext.getBean(TaxService.class).getSalesTaxDetails(dateOfTransaction, postalCode, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
         
         CustomerInvoiceGLPEService service = SpringContext.getBean(CustomerInvoiceGLPEService.class);
-        service.createDistrictSalesTaxGLPEs(this, customerInvoiceDetail, sequenceHelper, isDebit, hasOffset, customerInvoiceDetail.getInvoiceItemPreTaxAmount());
-        //Add district sales tax receivable too
-        */
-    }    
+        SalesTaxCustomerInvoiceDetail salesTaxCustomerInvoiceDetail;
+        ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail;
+        for( TaxDetail salesTaxDetail : salesTaxDetails ){
+            
+            salesTaxCustomerInvoiceDetail = new SalesTaxCustomerInvoiceDetail( salesTaxDetail, customerInvoiceDetail );
+            receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, this);
+            
+            sequenceHelper.increment();
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            
+            sequenceHelper.increment();
+            service.createAndAddGenericInvoiceRelatedGLPEs(this, salesTaxCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+        }
+    }  
 
     /**
      * Returns an implementation of the GeneralLedgerPendingEntryService

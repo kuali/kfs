@@ -46,7 +46,7 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
     public boolean isCustomerInvoiceDetailTaxable(CustomerInvoiceDocument customerInvoiceDocument, CustomerInvoiceDetail customerInvoiceDetail) {
 
         //check if sales tax is enabled
-        if( !parameterService.getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND)){
+        if( !parameterService.getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             return false;
         }
 
@@ -106,7 +106,7 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
            
         }
         return postalCode;
-    }    
+    }        
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -123,7 +123,4 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-
-
 }

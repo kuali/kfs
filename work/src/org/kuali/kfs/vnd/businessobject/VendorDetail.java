@@ -71,6 +71,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private Integer vendorSoldToAssignedIdentifier;
     private String vendorSoldToName;
     private boolean vendorFirstLastNameIndicator;
+    private boolean taxableIndicator;
 
     private List<VendorAddress> vendorAddresses;
     private List<VendorAlias> vendorAliases;
@@ -114,6 +115,20 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         vendorParentIndicator = true;
 
     }
+    
+    
+
+    public boolean isTaxableIndicator() {
+        return taxableIndicator;
+    }
+
+
+
+    public void setTaxableIndicator(boolean taxableIndicator) {
+        this.taxableIndicator = taxableIndicator;
+    }
+
+
 
     public boolean isVendorDebarred() {
 

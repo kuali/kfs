@@ -102,6 +102,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
+    private boolean useTaxIndicator;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -1029,5 +1030,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setCreatedByElectronicInvoice(boolean isCreatedByElectroniInvoice) {
         this.isCreatedByElectronicInvoice = isCreatedByElectroniInvoice;
+    }
+
+    public boolean isUseTaxIndicator() {
+        return useTaxIndicator;
+    }
+
+    public void setUseTaxIndicator(boolean useTaxIndicator) {
+        this.useTaxIndicator = useTaxIndicator;
     }
 }

@@ -40,6 +40,7 @@
         <ref bean="PurchaseOrderItem-itemReceivedTotalQuantity" />
         <ref bean="PurchaseOrderItem-itemSelectedForRetransmitIndicator" />
         <ref bean="PurchaseOrderItem-movingToSplit" />
+        <ref bean="PurchaseOrderItem-itemTaxAmount" />
       </list>
     </property>
   </bean>
@@ -324,6 +325,12 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>  
+  
+  <bean id="PurchaseOrderItem-itemTaxAmount" parent="PurchaseOrderItem-itemTaxAmount-parentBean" />
+  
+  <bean id="PurchaseOrderItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
+  	<property name="name" value="itemTaxAmount" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 

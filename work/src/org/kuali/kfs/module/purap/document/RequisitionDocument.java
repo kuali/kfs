@@ -85,6 +85,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate4VendorName;
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    private boolean useTaxIndicator;
     
     /**
      * Default constructor.
@@ -563,5 +564,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
+    }
+
+    public boolean isUseTaxIndicator() {
+        return useTaxIndicator;
+    }
+
+    public void setUseTaxIndicator(boolean useTaxIndicator) {
+        this.useTaxIndicator = useTaxIndicator;
     }
 }

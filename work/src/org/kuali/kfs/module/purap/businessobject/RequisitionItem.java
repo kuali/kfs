@@ -17,6 +17,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Requisition Item Business Object.
@@ -24,12 +25,24 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
+    private KualiDecimal itemTaxAmount;
     
     /**
      * Default constructor.
      */
     public RequisitionItem() {
     }
+
+    
+    public KualiDecimal getItemTaxAmount() {
+        return itemTaxAmount;
+    }
+
+
+    public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
+        this.itemTaxAmount = itemTaxAmount;
+    }
+
 
     public boolean isItemRestrictedIndicator() {
         return itemRestrictedIndicator;

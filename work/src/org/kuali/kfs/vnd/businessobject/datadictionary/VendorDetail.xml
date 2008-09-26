@@ -72,6 +72,7 @@
         <ref bean="VendorDetail-vendorCustomerNumbers.vendorOrganizationCode" />
         <ref bean="VendorDetail-vendorCommodities.purchasingCommodityCode" />
         <ref bean="VendorDetail-activeIndicator" />
+        <ref bean="VendorDetail-taxableIndicator" />
       </list>
     </property>
     <property name="collections" >
@@ -604,6 +605,14 @@
 
   <bean id="VendorDetail-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   </bean>
+  
+  <bean id="VendorDetail-taxableIndicator" parent="VendorDetail-taxableIndicator-parentBean" />
+  
+  <bean id="VendorDetail-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxableIndicator" />
+    <property name="label" value="Taxable Indicator" />
+    <property name="shortLabel" value="Taxable" />
+   </bean>
 
 <!-- Business Object Inquiry Definition -->
 

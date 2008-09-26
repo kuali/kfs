@@ -30,6 +30,7 @@ public class ItemType extends PersistableBusinessObjectBase {
     private boolean quantityBasedGeneralLedgerIndicator;
     private boolean itemTypeAboveTheLineIndicator;
     private boolean active;
+    private boolean taxableIndicator;
 
     /**
      * Default constructor.
@@ -37,6 +38,17 @@ public class ItemType extends PersistableBusinessObjectBase {
     public ItemType() {
 
     }
+
+    
+    public boolean isTaxableIndicator() {
+        return taxableIndicator;
+    }
+
+
+    public void setTaxableIndicator(boolean taxableIndicator) {
+        this.taxableIndicator = taxableIndicator;
+    }
+
 
     public String getItemTypeCode() {
         return itemTypeCode;

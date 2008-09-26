@@ -74,6 +74,7 @@
         <ref bean="CreditMemoDocument-lineItemTotal" />
         <ref bean="CreditMemoDocument-grandTotal" />
         <ref bean="CreditMemoDocument-reopenPurchaseOrderIndicator" />
+        <ref bean="CreditMemoDocument-useTaxIndicator" />
       </list>
     </property>
   </bean>
@@ -419,6 +420,14 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+  </bean>
+  
+  <bean id="CreditMemoDocument-useTaxIndicator" parent="CreditMemoDocument-useTaxIndicator-parentBean" />
+  
+  <bean id="CreditMemoDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="useTaxIndicator" />
+  	<property name="label" value="Use Tax Indicator" />
+  	<property name="shortLabel" value="Use Tax" />
   </bean>
 
 <!-- Exported Workflow Properties -->

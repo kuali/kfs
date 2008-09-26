@@ -46,6 +46,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private BigDecimal purchaseOrderItemUnitPrice;
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
+    private KualiDecimal itemTaxAmount;
 
     private boolean processedOnElectronicInvoice;
 
@@ -149,6 +150,16 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             LOG.error("getPurchaseOrderItem() Returning null because paymentRequest object is null");
             throw new PurError("Payment Request Object in Purchase Order item line number " + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
         }
+    }
+    
+    
+
+    public KualiDecimal getItemTaxAmount() {
+        return itemTaxAmount;
+    }
+
+    public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
+        this.itemTaxAmount = itemTaxAmount;
     }
 
     public KualiDecimal getPoOutstandingAmount() {

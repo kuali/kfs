@@ -47,6 +47,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private KualiDecimal itemDamagedTotalQuantity;
+    private KualiDecimal itemTaxAmount;
     
     private PurchaseOrderDocument purchaseOrder;
     
@@ -114,6 +115,15 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             PurchaseOrderCapitalAssetItem newPOCapitalAssetItem = new PurchaseOrderCapitalAssetItem(reqCamsItem, itemIdentifier);
             po.getPurchasingCapitalAssetItems().add(newPOCapitalAssetItem);
         }
+    }
+    
+
+    public KualiDecimal getItemTaxAmount() {
+        return itemTaxAmount;
+    }
+
+    public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
+        this.itemTaxAmount = itemTaxAmount;
     }
 
     public boolean isItemActiveIndicator() {

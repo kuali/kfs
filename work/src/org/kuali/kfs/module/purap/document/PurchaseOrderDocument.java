@@ -123,6 +123,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
+    private boolean useTaxIndicator;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -1310,5 +1311,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return PurchaseOrderCapitalAssetSystem.class;
+    }
+
+    public boolean isUseTaxIndicator() {
+        return useTaxIndicator;
+    }
+
+    public void setUseTaxIndicator(boolean useTaxIndicator) {
+        this.useTaxIndicator = useTaxIndicator;
     }
 }

@@ -37,6 +37,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     private KualiDecimal preqInvoicedTotalQuantity;
     private BigDecimal preqUnitPrice;
     private KualiDecimal preqTotalAmount;
+    private KualiDecimal itemTaxAmount;
 
     /**
      * Default constructor.
@@ -213,6 +214,15 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     @Override
     public Class<CreditMemoAccount> getAccountingLineClass() {
         return CreditMemoAccount.class;
+    }
+
+    
+    public KualiDecimal getItemTaxAmount() {
+        return itemTaxAmount;
+    }
+
+    public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
+        this.itemTaxAmount = itemTaxAmount;
     }
 
     public KualiDecimal getPoTotalAmount() {

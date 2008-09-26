@@ -133,7 +133,8 @@
         <ref bean="RequisitionDocument-alternate4VendorName" />
         <ref bean="RequisitionDocument-alternate5VendorName" />
         <ref bean="RequisitionDocument-capitalAssetSystemStateCode" />
-        <ref bean="RequisitionDocument-capitalAssetSystemTypeCode" />        
+        <ref bean="RequisitionDocument-capitalAssetSystemTypeCode" />  
+        <ref bean="RequisitionDocument-useTaxIndicator" />      
       </list>
     </property>
   </bean>
@@ -878,6 +879,14 @@
   	<property name="label" value="Capital Asset System Type Code"/>
   	<property name="shortLabel" value="System Type Code"/>
   </bean> 
+  
+  <bean id="RequisitionDocument-useTaxIndicator" parent="RequisitionDocument-useTaxIndicator-parentBean" />
+  
+  <bean id="RequisitionDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="useTaxIndicator" />
+  	<property name="label" value="Use Tax Indicator" />
+  	<property name="shortLabel" value="Use Tax" />
+  </bean>
 
 <!-- Exported Workflow Properties -->
 

@@ -23,6 +23,7 @@
         <ref bean="ItemType-quantityBasedGeneralLedgerIndicator" />
         <ref bean="ItemType-itemTypeAboveTheLineIndicator" />
         <ref bean="ItemType-active" />
+        <ref bean="ItemType-taxableIndicator" />
       </list>
     </property>
   </bean>
@@ -82,6 +83,13 @@
     <property name="name" value="active" />
   </bean>
 
+  <bean id="ItemType-taxableIndicator" parent="ItemType-taxableIndicator-parentBean" />
+  
+  <bean id="ItemType-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="taxableIndicator" />
+    <property name="label" value="Taxable Indicator" />
+    <property name="shortLabel" value="Taxable" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 

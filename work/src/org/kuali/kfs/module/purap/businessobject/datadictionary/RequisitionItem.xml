@@ -33,6 +33,7 @@
         <ref bean="RequisitionItem-itemQuantity" />
         <ref bean="RequisitionItem-commodityCode" />
         <ref bean="RequisitionItem-itemRestrictedIndicator" />
+        <ref bean="RequisitionItem-itemTaxAmount" />
       </list>
     </property>
   </bean>
@@ -259,6 +260,11 @@
     </property>
   </bean>
 
+  <bean id="RequisitionItem-itemTaxAmount" parent="RequisitionItem-itemTaxAmount-parentBean" />
+  
+  <bean id="RequisitionItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
+  	<property name="name" value="itemTaxAmount" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 

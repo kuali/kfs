@@ -99,6 +99,7 @@
         <ref bean="PaymentRequestDocument-grandTotal" />
         <ref bean="PaymentRequestDocument-closePurchaseOrderIndicator" />
         <ref bean="PaymentRequestDocument-awaitingReceiving" />        
+        <ref bean="PaymentRequestDocument-useTaxIndicator" />
       </list>
     </property>
   </bean>
@@ -663,6 +664,13 @@
     <property name="maxLength" value="1" />
   </bean>
 
+  <bean id="PaymentRequestDocument-useTaxIndicator" parent="PaymentRequestDocument-useTaxIndicator-parentBean" />
+  
+  <bean id="PaymentRequestDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="useTaxIndicator" />
+  	<property name="label" value="Use Tax Indicator" />
+  	<property name="shortLabel" value="Use Tax" />
+  </bean>
 <!-- Exported Workflow Properties -->
 
 

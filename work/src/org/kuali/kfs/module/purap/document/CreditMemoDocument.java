@@ -69,6 +69,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
+    private boolean useTaxIndicator;
     
     private PaymentRequestDocument paymentRequestDocument;
 
@@ -594,4 +595,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         // CMs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
 }
+
+    public boolean isUseTaxIndicator() {
+        return useTaxIndicator;
+    }
+
+    public void setUseTaxIndicator(boolean useTaxIndicator) {
+        this.useTaxIndicator = useTaxIndicator;
+    }
 }

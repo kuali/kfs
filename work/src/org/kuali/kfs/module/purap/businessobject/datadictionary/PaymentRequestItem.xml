@@ -37,6 +37,7 @@
         <ref bean="PaymentRequestItem-poOutstandingQuantity" />
         <ref bean="PaymentRequestItem-poOutstandingAmount" />
         <ref bean="PaymentRequestItem-itemQuantity" />
+        <ref bean="PaymentRequestItem-itemTaxAmount" />
       </list>
     </property>
   </bean>
@@ -274,6 +275,12 @@
     <property name="name" value="itemQuantity" />
     <property name="label" value="Quantity Invoiced" />
     <property name="shortLabel" value="Qty Invoiced" />
+  </bean>
+  
+  <bean id="PaymentRequestItem-itemTaxAmount" parent="PaymentRequestItem-itemTaxAmount-parentBean" />
+  
+  <bean id="PaymentRequestItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
+  	<property name="name" value="itemTaxAmount" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

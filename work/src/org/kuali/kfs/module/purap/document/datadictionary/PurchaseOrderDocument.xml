@@ -156,6 +156,7 @@
         <ref bean="PurchaseOrderDocument-copyingNotesWhenSplitting"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemTypeCode"/>
         <ref bean="PurchaseOrderDocument-capitalAssetSystemStateCode"/>
+        <ref bean="PurchaseOrderDocument-useTaxIndicator" />
       </list>
     </property>
   </bean>
@@ -1167,6 +1168,14 @@
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />
     </property>
+  </bean>
+  
+  <bean id="PurchaseOrderDocument-useTaxIndicator" parent="PurchaseOrderDocument-useTaxIndicator-parentBean" />
+  
+  <bean id="PurchaseOrderDocument-useTaxIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+  	<property name="name" value="useTaxIndicator" />
+  	<property name="label" value="Use Tax Indicator" />
+  	<property name="shortLabel" value="Use Tax" />
   </bean>
 
 <!-- Exported Workflow Properties -->

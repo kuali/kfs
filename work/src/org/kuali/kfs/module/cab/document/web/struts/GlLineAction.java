@@ -43,8 +43,18 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class GlLineAction extends KualiAction {
+
+    // TODO this can be removed later since we removed direct link from lookup screen
+    public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Find out the GL Entry
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
+        Document maintDoc = glLineService.createAssetGlobalDocument(entry);
+        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
+    }
+
     /**
-     * Action method that will create an AssetGlobal document and send to Cams module for asset creation
+     * Action "process" from CAB GL Lookup screen is processed by this method
      * 
      * @param mapping ActionMapping
      * @param form ActionForm
@@ -52,23 +62,11 @@ public class GlLineAction extends KualiAction {
      * @param response HttpServletResponse
      * @return ActionForward
      * @throws Exception
-     * @see KualiAction#execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
      */
-    public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        // Find out the GL Entry
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request, boService);
-        Document maintDoc = glLineService.createAssetGlobalDocument(entry);
-        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
-    }
-
     public ActionForward process(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request, boService);
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("documentNumber", entry.getDocumentNumber());
         fieldValues.put("active", true);
@@ -89,10 +87,10 @@ public class GlLineAction extends KualiAction {
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
-    protected GeneralLedgerEntry findGeneralLedgerEntry(HttpServletRequest request, BusinessObjectService boService) {
+    protected GeneralLedgerEntry findGeneralLedgerEntry(HttpServletRequest request) {
         String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
         Long cabGlEntryId = Long.valueOf(glAcctId);
-        return findGeneralLedgerEntry(boService, cabGlEntryId);
+        return findGeneralLedgerEntry(cabGlEntryId);
     }
 
     protected String prepareDocHandlerUrl(Document maintDoc, String docTypeName) {
@@ -109,31 +107,41 @@ public class GlLineAction extends KualiAction {
         return docHandler;
     }
 
-
+    // TODO this can be removed because we dont directly create payment from CAB GL lookup screen
     public ActionForward createPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // Find out the GL Entry
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request, boService);
+        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
         // initiate a new document
         Document document = glLineService.createAssetPaymentDocument(entry);
-        return new ActionForward(prepareDocHandlerUrl(document, "AssetPaymentDocument"), true);
+        return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
     }
 
+    /**
+     * Action "Create Assets" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset global
+     * document and redirect the user to document edit page.
+     * 
+     * @param mapping ActionMapping
+     * @param form ActionForm
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward submitAssetGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GlLineForm glLineForm = (GlLineForm) form;
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
         // add the default one
-        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(boService, glLineForm.getPrimaryGlAccountId());
+        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
         defaultGeneralLedgerEntry.setSelected(true);
         submitList.add(defaultGeneralLedgerEntry);
         List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
 
         for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
             if (generalLedgerEntry.isSelected()) {
-                GeneralLedgerEntry entry = findGeneralLedgerEntry(boService, generalLedgerEntry.getGeneralLedgerAccountIdentifier());
+                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
                 if (entry != null && entry.isActive()) {
                     submitList.add(entry);
                 }
@@ -146,20 +154,30 @@ public class GlLineAction extends KualiAction {
         return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
     }
 
+    /**
+     * Action "Create Payments" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset payment
+     * global document and redirect the user to document edit page.
+     * 
+     * @param mapping ActionMapping
+     * @param form ActionForm
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward submitPaymentGlobal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GlLineForm glLineForm = (GlLineForm) form;
         List<GeneralLedgerEntry> submitList = new ArrayList<GeneralLedgerEntry>();
         // add the default one
-        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(boService, glLineForm.getPrimaryGlAccountId());
+        GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId());
         defaultGeneralLedgerEntry.setSelected(true);
         submitList.add(defaultGeneralLedgerEntry);
         List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
 
         for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
             if (generalLedgerEntry.isSelected()) {
-                GeneralLedgerEntry entry = findGeneralLedgerEntry(boService, generalLedgerEntry.getGeneralLedgerAccountIdentifier());
+                GeneralLedgerEntry entry = findGeneralLedgerEntry(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
                 if (entry != null && entry.isActive()) {
                     submitList.add(entry);
                 }
@@ -169,10 +187,21 @@ public class GlLineAction extends KualiAction {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
         Document document = glLineService.createAssetPaymentDocument(submitList, defaultGeneralLedgerEntry);
-        return new ActionForward(prepareDocHandlerUrl(document, "AssetPaymentDocument"), true);
+        return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
     }
 
-    public ActionForward viewCamsDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * This method will process the view document request by clicking on a specific document.
+     * 
+     * @param mapping ActionMapping
+     * @param form ActionForm
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ActionForward
+     * @throws Exception
+     */
+    // TODO this can be removed later if there is a core Document Search/View service that does the same
+    public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String documentId = request.getParameter("documentNumber");
         DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
         DocumentType documentType = documentTypeService.findByDocumentId(Long.valueOf(documentId));
@@ -187,15 +216,34 @@ public class GlLineAction extends KualiAction {
         return new ActionForward(docHandler, true);
     }
 
-    protected GeneralLedgerEntry findGeneralLedgerEntry(BusinessObjectService boService, Long generalLedgerEntryId) {
+    /**
+     * Retrieves the CAB General Ledger Entry from DB
+     * 
+     * @param generalLedgerEntryId Entry Id
+     * @return GeneralLedgerEntry
+     */
+    protected GeneralLedgerEntry findGeneralLedgerEntry(Long generalLedgerEntryId) {
+        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<String, Object> pkeys = new HashMap<String, Object>();
         pkeys.put(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER, generalLedgerEntryId);
-        pkeys.put("active", true);
+        pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVE, true);
         GeneralLedgerEntry entry = (GeneralLedgerEntry) boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
         return entry;
     }
 
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+    }
+
+    @Override
+    public ActionForward showAllTabs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        GlLineForm glLineForm = (GlLineForm) form;
+        List<GeneralLedgerEntry> relatedGlEntries = glLineForm.getRelatedGlEntries();
+        for (GeneralLedgerEntry generalLedgerEntry : relatedGlEntries) {
+            if (generalLedgerEntry.getGeneralLedgerAccountIdentifier().equals(glLineForm.getPrimaryGlAccountId())) {
+                generalLedgerEntry.setSelected(true);
+            }
+        }
+        return super.showAllTabs(mapping, form, request, response);
     }
 }

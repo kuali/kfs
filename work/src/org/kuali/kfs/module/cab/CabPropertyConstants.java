@@ -32,6 +32,7 @@ public class CabPropertyConstants {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
         public static final String GENERAL_LEDGER_ACCOUNT_IDENTIFIER = "generalLedgerAccountIdentifier";
+        public static final String ACTIVE = "active";
     }
 
     public static class Parameter {
@@ -77,7 +78,7 @@ public class CabPropertyConstants {
 
     public static class Pretag {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
-        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";        
+        public static final String PRETAG_DETAIL_CAMPUS_TAG_NUMBER = "pretagDetail.campusTagNumber";
         public static final String LINE_ITEM_NUMBER = "lineItemNumber";
         public static final String PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
         public static final String PRE_TAG_DETAIS = "pretagDetails";

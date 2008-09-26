@@ -59,7 +59,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         else {
             List<GeneralLedgerEntryAsset> generalLedgerEntryAssets = entry.getGeneralLedgerEntryAssets();
             if (!generalLedgerEntryAssets.isEmpty()) {
-                anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=viewCamsDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewCamsDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber()));
+                anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber()));
             }
             else {
                 anchorHtmlDataList.add(new AnchorHtmlData("", "n/a"));

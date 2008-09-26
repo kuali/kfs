@@ -93,10 +93,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>  
   
   <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean">
-     <property name="shortLabel" value="Vendor Number" />
-    <property name="label" value="Vendor Number" />
-    <property name="summary" value="Vendor Number" />
-    <property name="description" value="Vendor Number" />
+    <property name="shortLabel" value="Asset Number" />
+    <property name="label" value="Capital Asset Number" />
+    <property name="summary" value="Capital Asset Number" />
+    <property name="description" value="Capital Asset Number" />
   </bean>
   
   <bean id="CapitalAssetInformation-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"

@@ -21,45 +21,57 @@
 	
 	<kul:tabTop tabTitle="Fiancial Document Capital Edit Info" defaultOpen="true">
 		<div class="tab-container" align=center>
-		<c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />
-			<c:if test="${!empty KualiForm.capitalAssetInformation}">
+		<c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />	
+			<c:if test="${!empty KualiForm.capitalAssetInformation }">		
 			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.campusCode}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.buildingCode}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.buildingRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.buildingSubRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationAttributes.vendorNumber}" hideRequiredAsterisk="true" scope="col"/>
+			   	</tr>
+			   	<tr>
+			   		<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation.campusCode" attributeEntry="${CapitalAssetInformationAttributes.campusCode}" readOnly="true"/></td>
+			   		<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation.buildingCode" attributeEntry="${CapitalAssetInformationAttributes.buildingCode}" readOnly="true"/></td>
+			   		<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation.buildingRoomNumber" attributeEntry="${CapitalAssetInformationAttributes.buildingRoomNumber}" readOnly="true"/></td>
+			   		<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation.buildingSubRoomNumber" attributeEntry="${CapitalAssetInformationAttributes.buildingSubRoomNumber}" readOnly="true"/></td>
+			   		<td class="grid"><kul:htmlControlAttribute property="capitalAssetInformation.vendorNumber" attributeEntry="${CapitalAssetInformationAttributes.vendorNumber}" readOnly="true"/></td>
+			   	</tr>
+			   	</table>
+			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">			
 			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.documentNumber" attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%">
+				<html:link href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.capitalAssetInformation.documentNumber}">
+				<kul:htmlControlAttribute property="capitalAssetInformation.documentNumber" attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true"/>
+				</html:link>
+				</td>			
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTypeCode" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTagNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTagNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTagNumber}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTagNumber}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTagNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTagNumber}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetQuantity" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerName" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetQuantity" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerModelNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetSerialNumber}" readOnly="true" /></th>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetSerialNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetSerialNumber}" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTypeCode" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerName" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetDescription" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerModelNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="50%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetSerialNumber}" readOnly="true" /></th>
-				<td class="grid" width="50%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetSerialNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetSerialNumber}" readOnly="true"/></td>
-			</tr>
+				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true" /></th>
+				<td class="grid" colspan="3" width="75%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetDescription" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
+			</tr>			
 		</table>
 		</c:if>
 		</div>
@@ -151,11 +163,9 @@
         <c:if test="${not readOnly}">
 	        <!--<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" 
 	        	property="methodToCall.submit" title="submit" alt="submit"/>-->
-	    	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_assets.gif" property="methodToCall.submitAssetGlobal" title="Add Assets" alt="Add Assets"/>
-	    	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-	    	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_payments.gif" property="methodToCall.submitPaymentGlobal" title="Add Payments" alt="Add Payments"/>
-	    	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;    	
-	        <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_closes.gif" styleClass="globalbuttons" property="methodToCall.close" title="Close" alt="Close"/>
+	    	<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" property="methodToCall.submitAssetGlobal" title="Add Assets" alt="Add Assets"/>
+	    	<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" property="methodToCall.submitPaymentGlobal" title="Add Payments" alt="Add Payments"/>
+	        <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-cancel.gif" styleClass="globalbuttons" property="methodToCall.close" title="Cancel" alt="Cancel"/>
         </c:if>		
     </div>
 </kul:page>

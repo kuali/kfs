@@ -743,6 +743,9 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>
+        <property name="budgetConstructionHumanResourcesPayrollInterfaceDao">
+            <ref bean="budgetConstructionHumanResourcesPayrollInterfaceDao" />
+        </property>
     </bean>
     
     <bean id="glBudgetLoadService" class="org.kuali.kfs.module.bc.batch.service.impl.GLBudgetLoadServiceImpl">

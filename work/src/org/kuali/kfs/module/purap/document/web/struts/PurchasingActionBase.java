@@ -801,7 +801,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             //get specific asset item and grab system as well and attach asset number
             PurchasingCapitalAssetItem assetItem = purDocument.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
             CapitalAssetSystem system = assetItem.getPurchasingCapitalAssetSystem();
-            location = purchasingForm.getAndResetNewPurchasingCapitalAssetLocationLine();
+            purchasingForm.resetNewPurchasingCapitalAssetLocationLine();
             location.setCapitalAssetSystemIdentifier(system.getCapitalAssetSystemIdentifier());
             system.getCapitalAssetLocations().add(location);
         }

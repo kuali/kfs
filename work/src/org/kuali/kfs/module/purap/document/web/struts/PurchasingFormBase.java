@@ -261,6 +261,10 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return assetLocation;
     }
+    
+    public void resetNewPurchasingCapitalAssetLocationLine() {
+        setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
+    }
 
     //Availability once
     public String getPurchasingItemCapitalAssetAvailability(){

@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingCapitalAssetLocationRule;
 import org.kuali.kfs.module.purap.document.validation.AddPurchasingItemCapitalAssetRule;
 import org.kuali.kfs.module.purap.document.validation.ChangeSystemPurapRule;
@@ -65,6 +66,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
@@ -900,8 +902,14 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     public boolean processAddCapitalAssetLocationBusinessRules(PurchasingDocument purchasingDocument, CapitalAssetLocation location) {
-        // TODO Auto-generated method stub
-        return true;
+        boolean valid = true;
+        // TODO: Move this into CABModuleService?
+        // Retrieve and evaluate the parameter which determines whether location's address is required.
+        // CHARTS_REQUIRING_LOCATIONS_ADDRESS_ON_(REQUISITION/PURCHASE_ORDER)
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        List<Parameter> results = SpringContext.getBean(PurapService.class).getParametersGivenLikeCriteria(fieldValues);
+        // If the location's address is required, enforce the validation of the individual fields of the address.
+        return valid;
     }
 
 }

@@ -100,7 +100,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateAccount();
             valid &= validateLocation();
             valid &= validateFabricationDetails();
-            valid &= validateAgencyNumber();
         } else {
             setAssetComponentNumbers(newAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
@@ -169,15 +168,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    private boolean validateAgencyNumber() {
-        boolean valid = true;        
-        if (ObjectUtils.isNull(newAsset.getAgency())) {
-            // Agency number does not exist
-            putFieldError(CamsPropertyConstants.Asset.AGENCY_NUMBER, CamsKeyConstants.AGENCY_NUMBER_NOT_EXIST);
-            valid &= false;
-        }
-        return valid;
-    }
 
     private void setAssetComponentNumbers(Asset asset) {
 
@@ -213,12 +203,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getOrganizationOwnerAccountNumber(), newAsset.getOrganizationOwnerAccountNumber())) {
             valid &= validateAccount();
         }
-
-//      validate Agency Number (Owner)
-        if (!StringUtils.equalsIgnoreCase(oldAsset.getAgencyNumber(), newAsset.getAgencyNumber())) {
-            valid &= validateAgencyNumber();
-        }
-
         
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {

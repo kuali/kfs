@@ -120,7 +120,7 @@
     <bean id="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-    	<property name="groupLabel" value="Test-From" />
+    	<property name="groupLabel" value="From" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
@@ -132,7 +132,7 @@
     <bean id="SalaryTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
-    	<property name="groupLabel" value="Test-To" />
+    	<property name="groupLabel" value="To" />
     	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="AccountingDocument-targetGroupTotals" />

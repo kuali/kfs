@@ -44,6 +44,7 @@ import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
+import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAdministrativePost;
@@ -163,7 +164,8 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private DocumentDao documentDao;
     private RouteHeaderService routeHeaderService = null;
     private LaborModuleService laborModuleService;
-
+    private BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;
+    
 
     public final Map<String, String> getBudgetConstructionControlFlags(Integer universityFiscalYear) {
         /*  return the flag names and the values for all the BC flags for the fiscal year */
@@ -2800,6 +2802,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    
+    public void setBudgetConstructionHumanResourcesPayrollInterfaceDao(BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao) {
+        // at IU, some of the tables in Genesis take data from base tables (not budget tables) in the Human Resources/payroll system.
+        // (specifically, the months appointment in appointment funding is set from the position table, and some budget construction CSF tracker rows are set to vacant based on attributes of the appointment--the incumbent's position does not match the appointments "grandfathered" attribute.)  
+        // these cases are particular to IU, so are not included in Kuali.  but, the idea that budget tables built with this Dao may need to interact with HR/payroll is accommodated with the injection of this service.
+        this.budgetConstructionHumanResourcesPayrollInterfaceDao = budgetConstructionHumanResourcesPayrollInterfaceDao;
     }
 
     public void setLaborModuleService(LaborModuleService laborModuleService) {

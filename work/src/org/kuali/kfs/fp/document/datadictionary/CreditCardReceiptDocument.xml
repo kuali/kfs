@@ -19,6 +19,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CreditCardReceiptDocumentAuthorizer" />
     <property name="documentTypeCode" value="CCR" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="CreditCardReceiptDocument-workflowProperties" />

@@ -27,12 +27,7 @@
 <c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 <c:set var="dataCellCssClass" value="datacell"/>
 
-<html:hidden property="${capitalAssetInfoName}.documentNumber" />
-<html:hidden property="${capitalAssetInfoName}.versionNumber" />
 
-<html:hidden property="${capitalAssetInfoName}.vendorHeaderGeneratedIdentifier" />
-<html:hidden property="${capitalAssetInfoName}.vendorDetailAssignedIdentifier" />
-		
 <table class="datatable" border="0" cellpadding="0" cellspacing="0" width="100%" summary="Capital Asset Information">
    	<tr>
    		<td colspan="2" class="tab-subhead" style="border-right: medium none;">Retrieve Asset to be Updated</td>

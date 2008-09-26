@@ -85,14 +85,9 @@
 						labelFor="" attributeEntry="${journalVoucherAttributes.balanceTypeCode}"
 						useShortLabel="false" /></div>
 					</th>
-					<td class="datacell-nowrap"><html:hidden
-						property="originalBalanceType"
-						value="${KualiForm.selectedBalanceType.code}" /> <html:hidden
-						property="selectedBalanceType.financialOffsetGenerationIndicator" />
+					<td class="datacell-nowrap">
 					<c:if test="${readOnly}">
                         ${KualiForm.selectedBalanceType.financialBalanceTypeName}
-						<html:hidden property="selectedBalanceType.code" />
-						<html:hidden property="selectedBalanceType.name" />
 					</c:if> <c:if test="${!readOnly}">
 						<SCRIPT type="text/javascript">
 						<!--

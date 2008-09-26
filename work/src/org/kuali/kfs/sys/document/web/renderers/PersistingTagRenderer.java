@@ -78,13 +78,16 @@ public class PersistingTagRenderer extends StringRenderer {
      */
     @Override
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
+        Boolean isSessionDoc = (Boolean) pageContext.getRequest().getAttribute("sessionDoc");
         super.render(pageContext, parentTag);
-        
-        persistingTag.setPageContext(pageContext);
-        persistingTag.setParent(parentTag);
-        persistingTag.setProperty(persistingProperty);
-        persistingTag.setValue(StringUtils.isBlank(valueToPersist) ? getStringToRender() : valueToPersist);
-        persistingTag.doStartTag();
-        persistingTag.doEndTag();
+
+        if(isSessionDoc != null && !isSessionDoc.booleanValue()){
+            persistingTag.setPageContext(pageContext);
+            persistingTag.setParent(parentTag);
+            persistingTag.setProperty(persistingProperty);
+            persistingTag.setValue(StringUtils.isBlank(valueToPersist) ? getStringToRender() : valueToPersist);
+            persistingTag.doStartTag();
+            persistingTag.doEndTag();
+        }
     }
 }

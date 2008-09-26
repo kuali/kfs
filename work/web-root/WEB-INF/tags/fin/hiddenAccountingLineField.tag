@@ -29,17 +29,34 @@
               from normal values by background color." %>
 <%@ attribute name="value" required="false"
               description="sets the hidden field to this value" %>
-
+<c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
+<c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
+<c:set var="sessionDocument" value="${documentEntry.sessionDocument}" />
 <c:if test="${displayHidden}">
     <span style="background: ${isBaseline ? 'blue' : 'green'}">
         <c:out value="${hiddenField}"/> =</c:if
 ><c:choose
     ><c:when test="${empty value}"
-        ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}"
-    /></c:when
+        ><c:choose
+        ><c:when test="${KualiForm.document.sessionDocument || sessionDocument}"
+        ><c:if test="${displayHidden}" >
+        <bean:write name="KualiForm" property="${accountingLine}.${hiddenField}" 
+        /></c:if></c:when
+        ><c:otherwise
+         ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}"
+         /></c:otherwise
+         ></c:choose
+         ></c:when
     ><c:otherwise
-        ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}" value="${value}"
-    /></c:otherwise
-></c:choose><c:if test="${displayHidden}">;<br/>
+        ><c:choose
+        ><c:when test="${KualiForm.document.sessionDocument || sessionDocument}"
+        ><c:if test="${displayHidden}" ><bean:write name="KualiForm" property="${accountingLine}.${hiddenField}" 
+        /></c:if></c:when
+        ><c:otherwise
+         ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}" value="${value}"
+         />
+       </c:otherwise
+         ></c:choose
+         ></c:otherwise></c:choose><c:if test="${displayHidden}">;<br/>
     </span>
 </c:if>

@@ -65,15 +65,7 @@
         </c:if>
         <logic:iterate id="creditCardReceipt" name="KualiForm" property="document.creditCardReceipts" indexId="ctr">
             <tr>
-                <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row">
-                    <%-- Outside this th, these hidden fields would be invalid HTML. --%>
-                    <html:hidden property="document.creditCardReceipt[${ctr}].documentNumber" />
-                    <html:hidden property="document.creditCardReceipt[${ctr}].financialDocumentTypeCode" />
-                    <html:hidden property="document.creditCardReceipt[${ctr}].financialDocumentColumnTypeCode" />
-                    <html:hidden property="document.creditCardReceipt[${ctr}].financialDocumentLineNumber" />
-                    <html:hidden property="document.creditCardReceipt[${ctr}].versionNumber" />
-                    <html:hidden property="document.creditCardReceipt[${ctr}].objectId" />
-                </kul:htmlAttributeHeaderCell>
+                
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" readOnly="${readOnly}" />
                 	<c:if test="${not readOnly}">
@@ -115,7 +107,7 @@
         </logic:iterate>
 		<tr>
 	 		<td class="total-line" colspan="5">&nbsp;</td>
-	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalCreditCardAmount}</strong><html:hidden write="false" property="document.totalCreditCardAmount" /></td>
+	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalCreditCardAmount}</strong></td>
             <c:if test="${not readOnly}">
                 <td class="total-line">&nbsp;</td>
             </c:if>

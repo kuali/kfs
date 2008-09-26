@@ -16,6 +16,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer" />
     <property name="documentTypeCode" value="PCDO" />
+    <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="ProcurementCardDocument-workflowProperties" />
     </property>

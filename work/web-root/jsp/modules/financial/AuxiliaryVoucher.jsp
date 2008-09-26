@@ -44,10 +44,6 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
-                    <c:if test="${readOnly}">
-                        ${KualiForm.accountingPeriod.universityFiscalPeriodName}
-                        <html:hidden property="selectedAccountingPeriod" />
-					</c:if>
 					<c:if test="${!readOnly}">
                         <select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
 							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
@@ -69,7 +65,6 @@
                   <th width="35%" class="bord-l-b">
                       <div align="right">
                           <kul:htmlAttributeLabel attributeEntry="${DataDictionary.AuxiliaryVoucherDocument.attributes.typeCode}" useShortLabel="false" />
-                          <html:hidden property="originalVoucherType" />
                       </div>
                   </th>
                   <td class="datacell-nowrap">

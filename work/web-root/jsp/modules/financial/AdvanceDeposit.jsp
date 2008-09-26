@@ -25,8 +25,6 @@
 	documentTypeName="AdvanceDepositDocument" renderMultipart="true"
 	showTabButtons="true">
 	<kfs:hiddenDocumentFields />
-	<!-- Advance Deposit Document Specific Hidden Fields -->
-	<html:hidden property="document.nextAdvanceDepositLineNumber" />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
 	    <!--

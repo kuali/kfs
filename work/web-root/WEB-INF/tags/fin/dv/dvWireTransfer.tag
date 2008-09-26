@@ -22,7 +22,7 @@
 	<table cellpadding=0 class="datatable" summary="Wire Transfer Section">
             
                <tr>
-                <td colspan=4 align=left valign=middle class="datacell"><html:hidden name="KualiForm" property="wireChargeMessage" write="true"/></td>
+                <td colspan=4 align=left valign=middle class="datacell"><bean:write name="KualiForm" property="wireChargeMessage" /></td>
               </tr>
             
                <tr>

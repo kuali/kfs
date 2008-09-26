@@ -18,7 +18,6 @@
 <kul:tab tabTitle="Pre-Paid Travel Expenses" defaultOpen="false" tabErrorKey="${KFSConstants.DV_PREPAID_TAB_ERRORS}">
 	<c:set var="prePaidConfAttributes" value="${DataDictionary.DisbursementVoucherPreConferenceDetail.attributes}" />
 	<c:set var="prePaidRegistrantAttributes" value="${DataDictionary.DisbursementVoucherPreConferenceRegistrant.attributes}" />
-    <html:hidden property="document.finDocNextRegistrantLineNbr"/>
   
     <div class="tab-container" align=center > 
 <h3>Pre-Paid Travel Expenses</h3>
@@ -92,7 +91,6 @@
             </tr>
   
             <logic:iterate indexId="ctr" name="KualiForm" property="document.dvPreConferenceDetail.dvPreConferenceRegistrants" id="currentLine">
-            <html:hidden property="document.dvPreConferenceDetail.dvPreConferenceRegistrants[${ctr}].versionNumber" />
             <tr>
               <th scope="row"><div align="center"><kul:htmlControlAttribute attributeEntry="${prePaidRegistrantAttributes.financialDocumentLineNumber}" property="document.dvPreConferenceDetail.dvPreConferenceRegistrants[${ctr}].financialDocumentLineNumber" readOnly="true"/></div></th>
               <td valign=top nowrap><div align="center"><span>

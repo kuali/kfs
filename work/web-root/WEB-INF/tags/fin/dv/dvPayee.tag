@@ -25,7 +25,6 @@
               <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
                 &nbsp;(${KualiForm.document.dvPayeeDetail.disbursementVoucherPayeeTypeName})
-				<html:hidden property="document.dvPayeeDetail.disbursementVoucherPayeeTypeCode" />
               </td>
               <th align=right valign=middle class="bord-l-b"><div align="right">City:
               </div></th>

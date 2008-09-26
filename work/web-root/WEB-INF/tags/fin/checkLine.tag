@@ -29,30 +29,34 @@
 
 <tr>
     <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row">
-        <%-- hidden fields inside th to generate valid HTML --%>
-        <html:hidden property="${propertyName}.documentNumber" write="${displayHidden}" />
-        <html:hidden property="${propertyName}.sequenceId" write="${displayHidden}" />
-        <html:hidden property="${propertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
-        <html:hidden property="${propertyName}.versionNumber" write="${displayHidden}" />
-        <html:hidden property="${propertyName}.financialDocumentTypeCode" write="${displayHidden}" />
-        <html:hidden property="${propertyName}.cashieringRecordSource" write="${displayHidden}" />
+        <c:if test="${displayHidden}" >
+			 <bean:write  name="KualiForm" property="${propertyName}.documentNumber" />
+        	 <bean:write  name="KualiForm" property="${propertyName}.sequenceId" />
+        	 <bean:write  name="KualiForm" property="${propertyName}.financialDocumentDepositLineNumber" />
+             <bean:write  name="KualiForm" property="${propertyName}.versionNumber" />
+             <bean:write  name="KualiForm" property="${propertyName}.financialDocumentTypeCode" />
+             <bean:write  name="KualiForm" property="${propertyName}.cashieringRecordSource" />
 
-        <c:if test="${!empty baselinePropertyName}">
-            <html:hidden property="${baselinePropertyName}.documentNumber" write="${displayHidden}" />
-            <html:hidden property="${baselinePropertyName}.sequenceId" write="${displayHidden}" />
-            <html:hidden property="${baselinePropertyName}.financialDocumentDepositLineNumber" write="${displayHidden}" />
-            <html:hidden property="${baselinePropertyName}.versionNumber" write="${displayHidden}" />
-        </c:if>
+        	<c:if test="${!empty baselinePropertyName}">
+            	<bean:write  name="KualiForm" property="${baselinePropertyName}.documentNumber" />
+            	<bean:write  name="KualiForm" property="${baselinePropertyName}.sequenceId" />
+            	<bean:write  name="KualiForm" property="${baselinePropertyName}.financialDocumentDepositLineNumber" />
+            	<bean:write  name="KualiForm" property="${baselinePropertyName}.versionNumber" />
+        	</c:if>
+		</c:if>
+       
     </kul:htmlAttributeHeaderCell>
     <td class="${cssClass}" nowrap>
     	<c:if test="${!readOnly}" >
         	<kul:htmlControlAttribute property="${propertyName}.checkNumber" attributeEntry="${checkBaseAttributes.checkNumber}" />
         </c:if>
         <c:if test="${readOnly}">
-        	<html:hidden property="${propertyName}.checkNumber" write="true" />
+			<bean:write  name="KualiForm" property="${propertyName}.checkNumber" />
         </c:if>
         <c:if test="${!empty baselinePropertyName}">
-            <html:hidden property="${baselinePropertyName}.checkNumber" write="${displayHidden}" />
+			 <c:if test="${displayHidden}" >
+				<bean:write  name="KualiForm" property="${baselinePropertyName}.checkNumber" />
+			 </c:if>
         </c:if>
     </td>
     <td class="${cssClass}" nowrap>
@@ -60,10 +64,12 @@
 	    	<kul:dateInput property="${propertyName}.checkDate" attributeEntry="${checkBaseAttributes.checkDate}" />
         </c:if>
         <c:if test="${readOnly}">
-        	<html:hidden property="${propertyName}.checkDate" write="true" />
+			<bean:write  name="KualiForm" property="${propertyName}.checkDate" />
         </c:if>
         <c:if test="${!empty baselinePropertyName}">
-            <html:hidden property="${baselinePropertyName}.checkDate" write="${displayHidden}" />
+			<c:if test="${displayHidden}" >
+				<bean:write  name="KualiForm" property="${baselinePropertyName}.checkDate" />
+			 </c:if>
         </c:if>
     </td>
     <td class="${cssClass}" nowrap>
@@ -71,10 +77,13 @@
         	<kul:htmlControlAttribute property="${propertyName}.description" attributeEntry="${checkBaseAttributes.description}" />
         </c:if>
         <c:if test="${readOnly}">
-        	<html:hidden property="${propertyName}.description" write="true" />
+			<bean:write  name="KualiForm" property="${propertyName}.description" />
         </c:if>
         <c:if test="${!empty baselinePropertyName}">
-            <html:hidden property="${baselinePropertyName}.description" write="${displayHidden}" />
+			<c:if test="${displayHidden}" >
+				<bean:write  name="KualiForm" property="${baselinePropertyName}.description" />
+			 </c:if>
+
         </c:if>
     </td>
     <td class="${cssClass}" nowrap>
@@ -82,10 +91,12 @@
 	    	<kul:htmlControlAttribute property="${propertyName}.amount" attributeEntry="${checkBaseAttributes.amount}" styleClass="amount" />
         </c:if>
         <c:if test="${readOnly}">
-        	<html:hidden property="${propertyName}.amount" write="true" />
+			<bean:write  name="KualiForm" property="${propertyName}.amount" />
         </c:if>
         <c:if test="${!empty baselinePropertyName}">
-            <html:hidden property="${baselinePropertyName}.amount" write="${displayHidden}" />
+			<c:if test="${displayHidden}" >
+				<bean:write  name="KualiForm" property="${baselinePropertyName}.amount" />
+			 </c:if>
         </c:if>
     </td>
     

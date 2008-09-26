@@ -60,13 +60,6 @@
         <logic:iterate id="advanceDepositDetail" name="KualiForm" property="document.advanceDeposits" indexId="ctr">
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row">
-                    <%-- Outside this th, these hidden fields would be invalid HTML. --%>
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].documentNumber" />
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentTypeCode" />
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentColumnTypeCode" />
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].financialDocumentLineNumber" />
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].versionNumber" />
-                    <html:hidden property="document.advanceDepositDetail[${ctr}].objectId" />
                 </kul:htmlAttributeHeaderCell>
                 <kfs:bankControl property="document.advanceDepositDetail[${ctr}].financialDocumentBankCode" objectProperty="document.advanceDepositDetail[${ctr}].bank" depositOnly="true" readOnly="${readOnly}"/>
                 <td class="datacell">
@@ -99,7 +92,7 @@
         </logic:iterate>
 		<tr>
 	 		<td class="total-line" colspan="6">&nbsp;</td>
-	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong><html:hidden write="false" property="document.totalAdvanceDepositAmount" /></td>
+	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong></td>
             <c:if test="${not readOnly}">
                 <td class="total-line">&nbsp;</td>
             </c:if>

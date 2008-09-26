@@ -26,7 +26,8 @@
 
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />
 <c:set var="coinAttributes" value="${DataDictionary.CoinDetail.attributes}" />
-
+<c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
+<c:if test="${not sessionDocument}">
 <html:hidden property="${currencyProperty}.financialDocumentTypeCode" />
 <html:hidden property="${currencyProperty}.cashieringRecordSource" />
 <html:hidden property="${currencyProperty}.documentNumber" />
@@ -37,7 +38,7 @@
 <html:hidden property="${coinProperty}.documentNumber" />
 <html:hidden property="${coinProperty}.versionNumber" />
 <html:hidden property="${coinProperty}.objectId" />
-
+</c:if>
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
         <tr>
           <th>&nbsp;</th>

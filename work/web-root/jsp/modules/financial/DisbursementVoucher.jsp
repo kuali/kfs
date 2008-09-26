@@ -19,11 +19,8 @@
 	htmlFormAction="financialDisbursementVoucher"
 	documentTypeName="DisbursementVoucherDocument"
 	renderMultipart="true" showTabButtons="true">
-
 	<dv:dvPrintCoverSheet />
-
 	<dv:dvMessages />
-
 	<c:if test="${!empty KualiForm.editingMode['fullEntry']}">
 		<c:set var="fullEntryMode" value="true" scope="request" />
 	</c:if>
@@ -45,55 +42,28 @@
 	<c:if test="${!empty KualiForm.editingMode['payeeEntry']}">
 		<c:set var="payeeEntryMode" value="true" scope="request" />
 	</c:if>
-
 	<kfs:hiddenDocumentFields />
-
-	<html:hidden property="document.dvPayeeDetail.documentNumber" />
-	<html:hidden property="document.dvPayeeDetail.versionNumber" />
-	<html:hidden property="document.dvNonEmployeeTravel.documentNumber" />
-	<html:hidden property="document.dvNonEmployeeTravel.versionNumber" />
-	<html:hidden property="document.dvPreConferenceDetail.documentNumber" />
-	<html:hidden property="document.dvPreConferenceDetail.versionNumber" />
-	<html:hidden property="document.dvWireTransfer.documentNumber" />
-	<html:hidden property="document.dvWireTransfer.versionNumber" />
-	<html:hidden property="document.dvNonResidentAlienTax.documentNumber" />
-	<html:hidden property="document.dvNonResidentAlienTax.versionNumber" />
-
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.disbVchrBankCode" 
 	  bankObjectProperty="document.bank"
 	  disbursementOnly="true" />
-
 	<dv:dvPayee />
-
 	<dv:dvPayment />
-
 	<fin:accountingLines sourceAccountingLinesOnly="true"
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"
 		editableFields="${KualiForm.accountingLineEditableFields}"
 		extraSourceRowFields="financialDocumentLineDescription" />
-
 	<dv:dvContact />
-
     <dv:dvSpecialHandling />
-
 	<dv:dvNRATax />
-
 	<dv:dvWireTransfer />
-
 	<dv:dvForeignDraft />
-
 	<dv:dvNonEmployeeTravel />
-
 	<dv:dvPrePaidTravel />
-  
     <dv:dvPDPStatus />
-
 	<gl:generalLedgerPendingEntries />
-
 	<kul:notes />
-
 	<kul:adHocRecipients />
 
 	<kul:routeLog />

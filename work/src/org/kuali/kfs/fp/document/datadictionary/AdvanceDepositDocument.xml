@@ -20,6 +20,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.AdvanceDepositDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentPreRules" />
     <property name="documentTypeCode" value="AD" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="AdvanceDepositDocument-workflowProperties" />

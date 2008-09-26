@@ -24,8 +24,6 @@
 	documentTypeName="CreditCardReceiptDocument"
 	renderMultipart="true" showTabButtons="true">
 	<kfs:hiddenDocumentFields />
-	<!-- Credit Card Receipt Document Specific Hidden Fields -->
-	<html:hidden property="document.nextCcCrLineNumber" />
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<SCRIPT type="text/javascript">
 	    <!--

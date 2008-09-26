@@ -13,16 +13,6 @@
 		<property name="fields">
 			<list>
 				<bean parent="AccountingLineView-field"
-					p:name="postingYear" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="overrideCode" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="versionNumber" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="objectId" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="documentNumber" p:hidden="true" />
-				<bean parent="AccountingLineView-field"
 					p:name="chartOfAccountsCode" p:required="true"
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
@@ -76,10 +66,6 @@
 		<property name="elementName" value="salesTaxInformation" />
 		<property name="fields">
 			<list>
-				<bean parent="AccountingLineView-field"
-					p:name="salesTax." p:hidden="true" />
-				<bean parent="AccountingLineView-field"
-					p:name="salesTax.objectId" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="salesTax.chartOfAccountsCode" p:required="true"
 					p:webUILeaveFieldFunction="updateChartName"

@@ -31,7 +31,6 @@
                               <c:if test="${KualiForm.document.dvWireTransfer.disbursementVoucherForeignCurrencyTypeCode=='F'}">
                                 DV amount is stated in foreign currency
                               </c:if> 
-                              <html:hidden property="document.dvWireTransfer.disbursementVoucherForeignCurrencyTypeCode"/> 
                             </c:if>
                            
                             <c:if test="${fullEntryMode||frnEntryMode}">

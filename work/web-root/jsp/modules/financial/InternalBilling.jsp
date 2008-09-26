@@ -20,7 +20,6 @@
 	documentTypeName="InternalBillingDocument" renderMultipart="true"
 	showTabButtons="true">
 
-	<html:hidden property="document.nextItemLineNumber" />
 	<kfs:hiddenDocumentFields />
 	<kfs:accountingLineScriptImports />
 

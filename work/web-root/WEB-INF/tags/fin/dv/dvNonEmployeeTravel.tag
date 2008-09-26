@@ -18,7 +18,6 @@
 <kul:tab tabTitle="Non-Employee Travel Expense" defaultOpen="false" tabErrorKey="${KFSConstants.DV_NON_EMPL_TRAVEL_TAB_ERRORS}">
 	<c:set var="nonEmplTravelAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeTravel.attributes}" />
     <c:set var="travelExpenseAttributes" value="${DataDictionary.DisbursementVoucherNonEmployeeExpense.attributes}" />
-    <html:hidden property="document.dvNonEmployeeTravel.financialDocumentNextLineNbr"/>
    
     <div class="tab-container" align=center > 
 <h3>Non-Employee Travel Expense</h3>
@@ -208,7 +207,6 @@
             </c:if>
             
             <logic:iterate indexId="ctr" name="KualiForm" property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses" id="currentLine">
-                <html:hidden property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].versionNumber" />
                 <tr>
                   <th scope="row"><div align="right"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.financialDocumentLineNumber}" property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].financialDocumentLineNumber" readOnly="true"/></div></th>
                   <td valign=top><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrExpenseCode}" property="document.dvNonEmployeeTravel.dvNonEmployeeExpenses[${ctr}].disbVchrExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>
@@ -287,7 +285,6 @@
             </c:if>
             
             <logic:iterate indexId="ctr2" name="KualiForm" property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses" id="currentLine">
-                <html:hidden property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].versionNumber" />
                 <tr>
                   <th scope="row"><div align="right"><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.financialDocumentLineNumber}" property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].financialDocumentLineNumber" readOnly="true"/></div></th>
                   <td valign=top ><kul:htmlControlAttribute attributeEntry="${travelExpenseAttributes.disbVchrPrePaidExpenseCode}" property="document.dvNonEmployeeTravel.dvPrePaidEmployeeExpenses[${ctr2}].disbVchrExpenseCode" readOnly="${!fullEntryMode&&!travelEntryMode}"/></td>

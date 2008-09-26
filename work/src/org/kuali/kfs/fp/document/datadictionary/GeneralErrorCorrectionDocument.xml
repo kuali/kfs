@@ -20,6 +20,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.GeneralErrorCorrectionDocumentRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="GEC" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="GeneralErrorCorrectionDocument-workflowProperties" />

@@ -19,7 +19,7 @@
 	documentTypeName="ServiceBillingDocument"
 	htmlFormAction="financialServiceBilling" renderMultipart="true"
 	showTabButtons="true">
-	<html:hidden property="document.nextItemLineNumber" />
+
 	<kfs:hiddenDocumentFields />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />

@@ -28,14 +28,6 @@
 	showTabButtons="true">
 	<cr:printCoverSheet />
 	<kfs:hiddenDocumentFields />
-	<html:hidden property="document.nextCheckSequenceId" />
-	<html:hidden property="document.checkEntryMode" />
-  <html:hidden property="document.cashReceiptHeader.documentNumber" />
-  <html:hidden property="document.cashReceiptHeader.workgroupName" />
-  <html:hidden property="document.cashReceiptHeader.objectId" />
-  <html:hidden property="document.cashReceiptHeader.versionNumber" />
-  <html:hidden property="document.cashReceiptHeader.depositDate" />
-	<html:hidden property="checkTotal" />
 	<c:set var="docStatusMessage"
 		value="${KualiForm.financialDocumentStatusMessage}" />
 	<c:if test="${!empty docStatusMessage}">
@@ -57,7 +49,6 @@
         }
     //-->
     </SCRIPT>
-	<html:hidden write="false" property="document.campusLocationCode" />
 	<kul:tab tabTitle="Cash Reconciliation" defaultOpen="true"
 		tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}">
 		<div class="tab-container" align=center>
@@ -71,18 +62,13 @@
 						useShortLabel="false" /></div>
 					</th>
 					<c:if test="${readOnly}">
-						<td>${KualiForm.document.currencyFormattedTotalCheckAmount} <html:hidden
-							write="false" property="document.totalCheckAmount" /> <html:hidden
-							write="false" property="checkEntryMode" /></td>
+						<td>${KualiForm.document.currencyFormattedTotalCheckAmount}</td>
 					</c:if>
 					<c:if test="${!readOnly}">
 						<td><c:if test="${!checkDetailMode}">
 							<kul:htmlControlAttribute property="document.totalCheckAmount"
 								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" />
-						</c:if> <c:if test="${checkDetailMode}"> ${KualiForm.document.currencyFormattedTotalCheckAmount} 
-	        		<html:hidden write="false"
-								property="document.totalCheckAmount" />
-						</c:if>
+						</c:if> 
 					</c:if>
 					<c:if test="${!readOnly}">
 

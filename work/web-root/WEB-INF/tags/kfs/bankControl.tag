@@ -24,10 +24,11 @@
 <%@ attribute name="disbursementOnly" required="false" description="boolean indicating whether the bank lookup call should request only disbursement banks" %>
 <%@ attribute name="readOnly" required="false" description="boolean indicating whether the document is readOnly. If not an additional check is made to verify the bank edit mode was exported." %>
 <%@ attribute name="style" required="false" description="style class for the cell" %>
-
+<c:set var="sessionDocument" value="${requestScope['sessionDoc']}" />
+<c:if test="${not sessionDocument}">
 <html:hidden property="documentActionFlags.canEditBank" />
 <html:hidden property="documentActionFlags.canViewBank" />
-  
+</c:if>  
 <c:if test="${KualiForm.documentActionFlags.canViewBank}">
 
   <c:if test="${not KualiForm.documentActionFlags.canEditBank}">

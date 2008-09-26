@@ -24,6 +24,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="BA" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="BudgetAdjustmentDocument-workflowProperties" />
@@ -222,13 +223,6 @@
 	              <property name="elementName" value="accountingInformation" />
 	              <property name="fields">
 	                <list>
-	                  <bean parent="AccountingLineView-field" p:name="postingYear" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="overrideCode" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="versionNumber" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="objectId" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="documentNumber" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="budgetAdjustmentPeriodCode" p:hidden="true" />
-	                  <bean parent="AccountingLineView-field" p:name="fringeBenefitIndicator" p:hidden="true" />
 	                  <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
 	                  <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
 	                  	<property name="overrideFields">

@@ -21,6 +21,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndBudgetAdjustmentDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules" />
     <property name="documentTypeCode" value="YEBA" />
+    <property name="sessionDocument" value="true" />
     <property name="allowsCopy" value="true" />
     <property name="workflowProperties" >
       <ref bean="YearEndBudgetAdjustmentDocument-workflowProperties" />

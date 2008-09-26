@@ -55,9 +55,9 @@
                     <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrAlienPaymentCode}" property="document.dvPayeeDetail.disbVchrAlienPaymentCode" readOnly="true"/>
                     <br><br>
                 </c:if>
-                <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeEmployeeCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrPayeeEmployeeCode" />  <br><br>
+                <kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrPayeeEmployeeCode}"/> <bean:write  name="KualiForm" property="document.dvPayeeDetail.disbVchrPayeeEmployeeCode" /><br><br>
 				<c:if test="${KualiForm.document.dvPayeeDetail.disbursementVoucherPayeeTypeCode=='V'}">
-                	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrEmployeePaidOutsidePayrollCode}"/> <html:hidden write="true" property="document.dvPayeeDetail.disbVchrEmployeePaidOutsidePayrollCode" />  <br><br>
+                	<kul:htmlAttributeLabel attributeEntry="${payeeAttributes.disbVchrEmployeePaidOutsidePayrollCode}"/><bean:write  name="KualiForm" property="document.dvPayeeDetail.disbVchrEmployeePaidOutsidePayrollCode" /><br><br>
                 </c:if>
               </td>  
               <th width="20%"  class="bord-l-b"><div align="right">Other Considerations: </div></th>
@@ -103,7 +103,7 @@
                    Exception Attached
                  </c:if>  
                  <c:if test="${!fullEntryMode}">
-                   Exception Attached: <html:hidden write="true" property="document.exceptionIndicator"/>
+                   Exception Attached: <bean:write name="KualiForm" property="document.exceptionIndicator" />
                  </c:if>
                  </td>
             </tr>

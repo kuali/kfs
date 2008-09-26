@@ -254,7 +254,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         }
         // setup outstanding amount and get totalEncumberance from this.getExtendedCost()
         KualiDecimal outstandingAmount = KualiDecimal.ZERO;
-        KualiDecimal totalEncumberance = this.getExtendedPrice();
+        KualiDecimal totalEncumberance = this.getTotalAmount();
 
         ItemType iT = this.getItemType();
         // if service add the po outstanding amount to outstanding amount

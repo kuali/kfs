@@ -362,17 +362,17 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 // check cm extended price is not greater than total invoiced amount
                 KualiDecimal invoicedAmount = null;
                 if (cmDocument.isSourceDocumentPurchaseOrder()) {
-                    invoicedAmount = item.getPoExtendedPrice();
+                    invoicedAmount = item.getPoTotalAmount();
                 }
                 else {
-                    invoicedAmount = item.getPreqExtendedPrice();
+                    invoicedAmount = item.getPreqTotalAmount();
                 }
 
                 if (invoicedAmount == null) {
                     invoicedAmount = KualiDecimal.ZERO;
                 }
 
-                if (item.getExtendedPrice().isGreaterThan(invoicedAmount)) {
+                if (item.getTotalAmount().isGreaterThan(invoicedAmount)) {
                     GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH);
                     valid = false;
                 }

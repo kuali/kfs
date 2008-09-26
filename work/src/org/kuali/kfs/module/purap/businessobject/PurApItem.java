@@ -89,6 +89,8 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
 
     public KualiDecimal getExtendedPrice();
 
+    public KualiDecimal getTotalAmount();
+
     public KualiDecimal calculateExtendedPrice();
 
     public void setExtendedPrice(KualiDecimal extendedPrice);

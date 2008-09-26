@@ -3506,10 +3506,10 @@
     <field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="poInvoicedTotalQuantity" column="PO_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="poUnitPrice" column="PO_UNT_PRC" jdbc-type="DECIMAL"/>
-    <field-descriptor name="poExtendedPrice" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="poTotalAmount" column="PO_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="preqInvoicedTotalQuantity" column="PMT_RQST_INV_TOT_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
-    <field-descriptor name="preqExtendedPrice" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="preqTotalAmount" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>

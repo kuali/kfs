@@ -205,6 +205,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return calculateExtendedPrice();
     }
 
+    public KualiDecimal getTotalAmount() {
+        //TODO: do tax calculation 
+        return getExtendedPrice();
+    }
+
     public KualiDecimal calculateExtendedPrice() {
         KualiDecimal extendedPrice = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(itemUnitPrice)) {

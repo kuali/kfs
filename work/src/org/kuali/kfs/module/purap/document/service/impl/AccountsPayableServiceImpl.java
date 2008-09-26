@@ -576,12 +576,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             cmItem.setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
             cmItem.setPreqUnitPrice(poItem.getItemUnitPrice());
-            cmItem.setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
+            cmItem.setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
         }
         else {
             cmItem.setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
             cmItem.setPreqUnitPrice(preqItem.getItemUnitPrice());
-            cmItem.setPreqExtendedPrice(preqItem.getExtendedPrice());
+            cmItem.setPreqTotalAmount(preqItem.getTotalAmount());
         }
     }
 
@@ -594,7 +594,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     private void updateEncumberance(PurchaseOrderItem purchaseOrderItem, CreditMemoItem cmItem) {
         cmItem.setPoInvoicedTotalQuantity(purchaseOrderItem.getItemInvoicedTotalQuantity());
         cmItem.setPreqUnitPrice(purchaseOrderItem.getItemUnitPrice());
-        cmItem.setPoExtendedPrice(purchaseOrderItem.getItemInvoicedTotalAmount());
+        cmItem.setPoTotalAmount(purchaseOrderItem.getItemInvoicedTotalAmount());
     }
 
     /**

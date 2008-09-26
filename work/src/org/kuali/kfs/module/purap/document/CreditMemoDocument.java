@@ -311,6 +311,24 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * Calculates the pretax total of the above the line items
+     * 
+     * @return KualiDecimal - above the line item pretax total
+     */
+    public KualiDecimal getLineItemPreTaxTotal() {
+        KualiDecimal lineItemPreTaxTotal = KualiDecimal.ZERO;
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getTotalAmount() != null) {
+                lineItemPreTaxTotal = lineItemPreTaxTotal.add(item.getExtendedPrice());
+            }
+        }
+
+        return lineItemPreTaxTotal;
+    }
+
+    /**
      * Calculates the total of the above the line items
      * 
      * @return KualiDecimal - above the line item total
@@ -320,8 +338,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getExtendedPrice() != null) {
-                lineItemTotal = lineItemTotal.add(item.getExtendedPrice());
+            if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getTotalAmount() != null) {
+                lineItemTotal = lineItemTotal.add(item.getTotalAmount());
             }
         }
 
@@ -329,11 +347,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Calculates the credit memo total: Sum of above the line - restocking fees + misc amount
+     * Calculates the credit memo pretax total: Sum of above the line - restocking fees + misc amount
      * 
      * @return KualiDecimal - credit memo document total
      */
-    public KualiDecimal getGrandTotal() {
+    public KualiDecimal getGrandPreTaxTotal() {
         KualiDecimal grandTotal = KualiDecimal.ZERO;
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
@@ -349,6 +367,34 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         }
 
         return grandTotal;
+    }
+
+    /**
+     * Calculates the credit memo total: Sum of above the line - restocking fees + misc amount
+     * 
+     * @return KualiDecimal - credit memo document total
+     */
+    public KualiDecimal getGrandTotal() {
+        KualiDecimal grandTotal = KualiDecimal.ZERO;
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
+            if (item.getTotalAmount() != null) {
+                // make sure restocking fee is negative
+                if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
+                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                }
+                grandTotal = grandTotal.add(item.getTotalAmount());
+            }
+        }
+
+        return grandTotal;
+    }
+
+    public KualiDecimal getGrandPreTaxTotalExcludingRestockingFee() {
+        String[] restockingFeeCode = new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE };
+        return this.getPreTaxTotalDollarAmountWithExclusions(restockingFeeCode, true);
     }
 
     public KualiDecimal getGrandTotalExcludingRestockingFee() {

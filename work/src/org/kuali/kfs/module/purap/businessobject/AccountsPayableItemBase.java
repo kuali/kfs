@@ -90,11 +90,24 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * 
      * @return Returns the extendedPrice.
      */
+    @Override
     public KualiDecimal getExtendedPrice() {
         if (ObjectUtils.isNotNull(this.getItemUnitPrice()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
         }
         return extendedPrice;
+    }
+
+    /**
+     * Gets the extendedPrice attribute. this override is necessary because extended price needs to be set based on the unit price
+     * for below the line(without this it would always be empty)
+     * 
+     * @return Returns the extendedPrice.
+     */
+    @Override
+    public KualiDecimal getTotalAmount() {
+        //TODO: do tax calculation
+        return getExtendedPrice();
     }
 
     public void setExtendedPrice(KualiDecimal extendedPrice) {

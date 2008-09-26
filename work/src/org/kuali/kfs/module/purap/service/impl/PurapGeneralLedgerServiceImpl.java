@@ -849,7 +849,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 LOG.debug("relieveEncumbrance() " + logItmNbr + " No encumbrances required because po item is null");
             }
             else {
-                final KualiDecimal preqItemExtendedPrice = (preqItem.getExtendedPrice()==null)?KualiDecimal.ZERO:preqItem.getExtendedPrice();
+                final KualiDecimal preqItemExtendedPrice = (preqItem.getTotalAmount()==null)?KualiDecimal.ZERO:preqItem.getTotalAmount();
                 if (ZERO.compareTo(preqItemExtendedPrice) == 0) {
                     /*
                      * This is a specialized case where PREQ item being processed must adjust the PO item's outstanding encumbered
@@ -1070,9 +1070,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             String logItmNbr = "Item # " + payRequestItem.getItemLineNumber();
             LOG.debug("reencumberEncumbrance() " + logItmNbr);
 
-            // If there isn't a PO item or the extended price is 0, we don't need encumbrances
-            final KualiDecimal preqItemExtendedPrice = (payRequestItem.getExtendedPrice()==null)?KualiDecimal.ZERO:payRequestItem.getExtendedPrice();
-            if ((poItem == null) || (preqItemExtendedPrice.doubleValue() == 0)) {
+            // If there isn't a PO item or the total amount is 0, we don't need encumbrances
+            final KualiDecimal preqItemTotalAmount = (payRequestItem.getTotalAmount()==null)?KualiDecimal.ZERO:payRequestItem.getTotalAmount();
+            if ((poItem == null) || (preqItemTotalAmount.doubleValue() == 0)) {
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " No encumbrances required");
             }
             else {
@@ -1095,19 +1095,19 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 else {
                     LOG.debug("reencumberEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
 
-                    itemReEncumber = preqItemExtendedPrice;
+                    itemReEncumber = preqItemTotalAmount;
                     // if re-encumber amount is more than original PO ordered amount... do not exceed ordered amount
                     // this prevents negative encumbrance
-                    if ((poItem.getExtendedPrice() != null) && (poItem.getExtendedPrice().bigDecimalValue().signum() < 0)) {
+                    if ((poItem.getTotalAmount() != null) && (poItem.getTotalAmount().bigDecimalValue().signum() < 0)) {
                         // po item extended cost is negative
-                        if ((poItem.getExtendedPrice().compareTo(itemReEncumber)) > 0) {
-                            itemReEncumber = poItem.getExtendedPrice();
+                        if ((poItem.getTotalAmount().compareTo(itemReEncumber)) > 0) {
+                            itemReEncumber = poItem.getTotalAmount();
                         }
                     }
-                    else if ((poItem.getExtendedPrice() != null) && (poItem.getExtendedPrice().bigDecimalValue().signum() >= 0)) {
+                    else if ((poItem.getTotalAmount() != null) && (poItem.getTotalAmount().bigDecimalValue().signum() >= 0)) {
                         // po item extended cost is positive
-                        if ((poItem.getExtendedPrice().compareTo(itemReEncumber)) < 0) {
-                            itemReEncumber = poItem.getExtendedPrice();
+                        if ((poItem.getTotalAmount().compareTo(itemReEncumber)) < 0) {
+                            itemReEncumber = poItem.getTotalAmount();
                         }
                     }
                 }
@@ -1122,7 +1122,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                 KualiDecimal invoicedTotalAmount = poItem.getItemInvoicedTotalAmount() == null ? ZERO : poItem.getItemInvoicedTotalAmount();
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " PO Item Invoiced Total Amount set to: " + invoicedTotalAmount);
-                KualiDecimal newInvoicedTotalAmount = invoicedTotalAmount.subtract(preqItemExtendedPrice);
+                KualiDecimal newInvoicedTotalAmount = invoicedTotalAmount.subtract(preqItemTotalAmount);
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " New PO Item Invoiced Total Amount to set: " + newInvoicedTotalAmount);
                 poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
 
@@ -1227,9 +1227,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             String logItmNbr = "Item # " + cmItem.getItemLineNumber();
             LOG.debug("getCreditMemoEncumbrance() " + logItmNbr);
 
-            final KualiDecimal cmItemExtendedPrice = (cmItem.getExtendedPrice()==null)?KualiDecimal.ZERO:cmItem.getExtendedPrice();;
-            // If there isn't a PO item or the extended price is 0, we don't need encumbrances
-            if ((poItem == null) || (cmItemExtendedPrice == null) || (cmItemExtendedPrice.doubleValue() == 0)) {
+            final KualiDecimal cmItemTotalAmount = (cmItem.getTotalAmount()==null)?KualiDecimal.ZERO:cmItem.getTotalAmount();;
+            // If there isn't a PO item or the total amount is 0, we don't need encumbrances
+            if ((poItem == null) || (cmItemTotalAmount == null) || (cmItemTotalAmount.doubleValue() == 0)) {
                 LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " No encumbrances required");
             }
             else {
@@ -1254,7 +1254,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     // Do encumbrance calculations based on amount only
                     if (cancel) {
                         // Decrease encumbrance
-                        itemDisEncumber = cmItemExtendedPrice.multiply(new KualiDecimal("-1"));
+                        itemDisEncumber = cmItemTotalAmount.multiply(new KualiDecimal("-1"));
 
                         if (poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber).doubleValue() < 0) {
                             LOG.debug("getCreditMemoEncumbrance() Cancel overflow");
@@ -1264,12 +1264,12 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     }
                     else {
                         // Increase encumbrance
-                        itemDisEncumber = cmItemExtendedPrice;
+                        itemDisEncumber = cmItemTotalAmount;
 
-                        if (poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber).doubleValue() > poItem.getExtendedPrice().doubleValue()) {
+                        if (poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber).doubleValue() > poItem.getTotalAmount().doubleValue()) {
                             LOG.debug("getCreditMemoEncumbrance() Create overflow");
 
-                            itemDisEncumber = poItem.getExtendedPrice().subtract(poItem.getItemOutstandingEncumberedAmount());
+                            itemDisEncumber = poItem.getTotalAmount().subtract(poItem.getItemOutstandingEncumberedAmount());
                         }
                     }
                 }

@@ -475,7 +475,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private KualiDecimal getTotalExcludingItemTypes(List<PurApItem> itemList, List<String> excludedItemTypes) {
         KualiDecimal total = zero;
         for (PurApItem item : itemList) {
-            if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
+            if (item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) {
                 boolean skipThisItem = false;
                 if (excludedItemTypes.contains(item.getItemTypeCode())) {
                     // this item type is excluded
@@ -485,7 +485,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 if (skipThisItem) {
                     continue;
                 }
-                total = total.add(item.getExtendedPrice());
+                total = total.add(item.getTotalAmount());
             }
         }
         return total;
@@ -636,7 +636,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean validateItemAccounts(PaymentRequestDocument paymentRequestDocument, PaymentRequestItem item, String identifierString) {
         boolean valid = true;
         List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
-        KualiDecimal itemTotal = item.getExtendedPrice();
+        KualiDecimal itemTotal = item.getTotalAmount();
         KualiDecimal accountTotal = KualiDecimal.ZERO;
         for (PurApAccountingLine accountingLine : accountingLines) {
             valid &= this.processReviewAccountingLineBusinessRules(paymentRequestDocument, accountingLine);
@@ -725,19 +725,19 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
 
-            if (((item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || (((item.getExtendedPrice() != null) && (item.getExtendedPrice().isNonZero())) && (!item.getItemType().isItemTypeAboveTheLineIndicator()))) {
-                // OK TO VALIDATE because we have extended price and an open encumberance on the PO item
+            if (((item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || (((item.getTotalAmount() != null) && (item.getTotalAmount().isNonZero())) && (!item.getItemType().isItemTypeAboveTheLineIndicator()))) {
+                // OK TO VALIDATE because we have total amount and an open encumberance on the PO item
                 super.processItemValidation(paymentRequest);
                 // This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be
                 // covered
                 // within the processItemValidation of this class.
                 validateEachItem(paymentRequest, item);
             }
-            else if ((item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero() && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
-                // ERROR because we have extended price and no open encumberance on the PO item
+            else if ((item.getTotalAmount() != null && item.getTotalAmount().isNonZero() && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
+                // ERROR because we have total amount and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
                 if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
-                    String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "' but outstanding encumbered amount " + item.getPoOutstandingAmount();
+                    String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has total amount '" + item.getTotalAmount() + "' but outstanding encumbered amount " + item.getPoOutstandingAmount();
                     LOG.error("validatePaymentRequestReview() " + error);
                 }
                 else {
@@ -747,7 +747,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
             else {
                 // not validating but ok
-                String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has extended price '" + item.getExtendedPrice() + "'";
+                String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has total amount '" + item.getTotalAmount() + "'";
                 if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                     if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                         error = error + " with outstanding encumbered amount " + item.getPoOutstandingAmount();

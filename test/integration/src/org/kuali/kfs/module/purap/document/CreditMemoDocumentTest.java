@@ -104,7 +104,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         CreditMemoItem cmItem = (CreditMemoItem) creditMemoDocument.getItem(0);
         cmItem.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         cmItem.setItemQuantity(new KualiDecimal(1));    
-        cmItem.setPreqExtendedPrice(new KualiDecimal(1));
+        cmItem.setPreqTotalAmount(new KualiDecimal(1));
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
         creditMemoDocument.prepareForSave();       
         DocumentService documentService = SpringContext.getBean(DocumentService.class);

@@ -243,7 +243,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
             itemNbr++;
             String identifier = item.getItemIdentifierString();
 
-            if (item.getExtendedPrice()!=null && item.getExtendedPrice().isNonZero()) {
+            if (item.getTotalAmount()!=null && item.getTotalAmount().isNonZero()) {
 
                 KualiDecimal accountTotal = KualiDecimal.ZERO;
                 int accountIdentifier = 0;
@@ -252,7 +252,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
                     PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
                     KualiDecimal accountAmount = account.getAmount();
                     BigDecimal tmpPercent = BigDecimal.ZERO;
-                    KualiDecimal extendedPrice = item.getExtendedPrice();
+                    KualiDecimal extendedPrice = item.getTotalAmount();
                     tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
                     // test that the above amount is correct, if so just check that the total of all these matches the item total
 
@@ -274,8 +274,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
                     accountTotal = accountTotal.add(calcAmount);
 
                 }
-                if (!accountTotal.equals(item.getExtendedPrice())) {
-                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getExtendedPrice()+"");
+                if (!accountTotal.equals(item.getTotalAmount())) {
+                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getTotalAmount()+"");
                     LOG.debug("Invalid Totals");
                 }
             }

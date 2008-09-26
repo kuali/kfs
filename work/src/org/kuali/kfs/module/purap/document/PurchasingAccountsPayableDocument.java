@@ -151,6 +151,28 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
 
     /**
+     * Computes the pre tax total dollar amount of all items.
+     * 
+     * @return the pre tax total dollar amount of all items.
+     */
+    public KualiDecimal getPreTaxTotalDollarAmount();
+
+    /**
+     * Sets the pre tax total dollar amount to the specified amount.
+     * 
+     * @param the specified total amount.
+     */
+    public void setPreTaxTotalDollarAmount(KualiDecimal totalDollarAmount);
+
+    /**
+     * Computes the pre tax total dollar amount with the specified item types excluded.
+     * 
+     * @param excludedTypes the types of items to be excluded.
+     * @return the pre tax total dollar amount with the specified item types excluded.
+     */
+    public KualiDecimal getPreTaxTotalDollarAmountAllItems(String[] excludedTypes);
+
+    /**
      * Sets vendor address fields based on a given VendorAddress.
      * 
      * @param vendorAddress

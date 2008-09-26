@@ -16,8 +16,8 @@
         <ref bean="CreditMemoItem-preqInvoicedTotalQuantity" />
         <ref bean="CreditMemoItem-poUnitPrice" />
         <ref bean="CreditMemoItem-preqUnitPrice" />
-        <ref bean="CreditMemoItem-poExtendedPrice" />
-        <ref bean="CreditMemoItem-preqExtendedPrice" />
+        <ref bean="CreditMemoItem-poTotalAmount" />
+        <ref bean="CreditMemoItem-preqTotalAmount" />
         <ref bean="CreditMemoItem-itemTypeCode" />
         <ref bean="CreditMemoItem-itemQuantity" />
         <ref bean="CreditMemoItem-itemUnitPrice" />
@@ -75,17 +75,17 @@
     <property name="label" value="PREQ Unit Price" />
     <property name="shortLabel" value="PREQ Unit Price" />
   </bean>
-  <bean id="CreditMemoItem-poExtendedPrice" parent="CreditMemoItem-poExtendedPrice-parentBean" />
+  <bean id="CreditMemoItem-poTotalAmount" parent="CreditMemoItem-poTotalAmount-parentBean" />
 
-  <bean id="CreditMemoItem-poExtendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="poExtendedPrice" />
+  <bean id="CreditMemoItem-poTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="poTotalAmount" />
     <property name="label" value="Total Invoice Cost" />
     <property name="shortLabel" value="Total Invoice Cost" />
   </bean>
-  <bean id="CreditMemoItem-preqExtendedPrice" parent="CreditMemoItem-preqExtendedPrice-parentBean" />
+  <bean id="CreditMemoItem-preqTotalAmount" parent="CreditMemoItem-preqTotalAmount-parentBean" />
 
-  <bean id="CreditMemoItem-preqExtendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="preqExtendedPrice" />
+  <bean id="CreditMemoItem-preqTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="preqTotalAmount" />
     <property name="label" value="Total Invoice Cost" />
     <property name="shortLabel" value="Total Invoice Cost" />
   </bean>

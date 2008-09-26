@@ -33,10 +33,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class CreditMemoItem extends AccountsPayableItemBase {
     private KualiDecimal poInvoicedTotalQuantity;
     private BigDecimal poUnitPrice;
-    private KualiDecimal poExtendedPrice;
+    private KualiDecimal poTotalAmount;
     private KualiDecimal preqInvoicedTotalQuantity;
     private BigDecimal preqUnitPrice;
-    private KualiDecimal preqExtendedPrice;
+    private KualiDecimal preqTotalAmount;
 
     /**
      * Default constructor.
@@ -69,7 +69,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setItemLineNumber(poItem.getItemLineNumber());
         setPoInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
         setPoUnitPrice(poItem.getItemUnitPrice());
-        setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
+        setPoTotalAmount(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
 
         if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
@@ -89,8 +89,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         if (getPoUnitPrice() == null) {
             setPoUnitPrice(BigDecimal.ZERO);
         }
-        if (getPoExtendedPrice() == null) {
-            setPoExtendedPrice(KualiDecimal.ZERO);
+        if (getPoTotalAmount() == null) {
+            setPoTotalAmount(KualiDecimal.ZERO);
         }
 
         for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
@@ -119,11 +119,11 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         // take invoiced quantities from the lower of the preq and po if different
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
-            setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
+            setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
         }
         else {
             setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
-            setPreqExtendedPrice(preqItem.getExtendedPrice());
+            setPreqTotalAmount(preqItem.getTotalAmount());
         }
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
@@ -146,8 +146,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         if (getPreqUnitPrice() == null) {
             setPreqUnitPrice(BigDecimal.ZERO);
         }
-        if (getPreqExtendedPrice() == null) {
-            setPreqExtendedPrice(KualiDecimal.ZERO);
+        if (getPreqTotalAmount() == null) {
+            setPreqTotalAmount(KualiDecimal.ZERO);
         }
 
         for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
@@ -174,11 +174,11 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         // take invoiced quantities from the lower of the preq and po if different
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
-            setPreqExtendedPrice(poItem.getItemInvoicedTotalAmount());
+            setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
         }
         else {
             setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
-            setPreqExtendedPrice(preqItem.getExtendedPrice());
+            setPreqTotalAmount(preqItem.getTotalAmount());
         }
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
@@ -193,8 +193,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         if (getPreqUnitPrice() == null) {
             setPreqUnitPrice(BigDecimal.ZERO);
         }
-        if (getPreqExtendedPrice() == null) {
-            setPreqExtendedPrice(KualiDecimal.ZERO);
+        if (getPreqTotalAmount() == null) {
+            setPreqTotalAmount(KualiDecimal.ZERO);
         }
 
         for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
@@ -215,12 +215,12 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         return CreditMemoAccount.class;
     }
 
-    public KualiDecimal getPoExtendedPrice() {
-        return poExtendedPrice;
+    public KualiDecimal getPoTotalAmount() {
+        return poTotalAmount;
     }
 
-    public void setPoExtendedPrice(KualiDecimal poExtendedCost) {
-        this.poExtendedPrice = poExtendedCost;
+    public void setPoTotalAmount(KualiDecimal poTotalAmount) {
+        this.poTotalAmount = poTotalAmount;
     }
 
     public KualiDecimal getPoInvoicedTotalQuantity() {
@@ -239,12 +239,12 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         this.poUnitPrice = poUnitPrice;
     }
 
-    public KualiDecimal getPreqExtendedPrice() {
-        return preqExtendedPrice;
+    public KualiDecimal getPreqTotalAmount() {
+        return preqTotalAmount;
     }
 
-    public void setPreqExtendedPrice(KualiDecimal preqExtendedCost) {
-        this.preqExtendedPrice = preqExtendedCost;
+    public void setPreqTotalAmount(KualiDecimal preqTotalAmount) {
+        this.preqTotalAmount = preqTotalAmount;
     }
 
     public KualiDecimal getPreqInvoicedTotalQuantity() {

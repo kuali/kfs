@@ -466,7 +466,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return getTotalDollarAmountAllItems();
+        return getTotalDollarAmountAllItems(null);
     }
 
     /**
@@ -474,15 +474,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public void setTotalDollarAmount(KualiDecimal amount) {
         // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
-    }
-
-    /**
-     * Computes the total dollar amount of all items.
-     * 
-     * @return the total dollar amount of all items.
-     */
-    public KualiDecimal getTotalDollarAmountAllItems() {
-        return getTotalDollarAmountAllItems(null);
     }
 
     /**
@@ -528,6 +519,71 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
             if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
+                KualiDecimal totalAmount = item.getTotalAmount();
+                KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        return total;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPreTaxTotalDollarAmount()
+     */
+    public KualiDecimal getPreTaxTotalDollarAmount() {
+        return getPreTaxTotalDollarAmountAllItems(null);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setPreTaxTotalDollarAmount(org.kuali.rice.kns.util.KualiDecimal)
+     */
+    public void setPreTaxTotalDollarAmount(KualiDecimal amount) {
+        // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPreTaxTotalDollarAmountAllItems(java.lang.String[])
+     */
+    public KualiDecimal getPreTaxTotalDollarAmountAllItems(String[] excludedTypes) {
+        return getPreTaxTotalDollarAmountWithExclusions(excludedTypes, true);
+    }
+
+    /**
+     * Computes the total dollar amount of all above the line items.
+     * 
+     * @return the total dollar amount of all above the line items.
+     */
+    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems() {
+        return getPreTaxTotalDollarAmountAboveLineItems(null);
+    }
+
+    /**
+     * Computes the total dollar amount of all above the line items with the specified item types excluded.
+     * 
+     * @param excludedTypes the types of items to be excluded.
+     * @return the total dollar amount of all above the line items with the specified item types excluded..
+     */
+    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems(String[] excludedTypes) {
+        return getPreTaxTotalDollarAmountWithExclusions(excludedTypes, false);
+    }
+
+    /**
+     * Computes the total dollar amount with the specified item types and possibly below the line items excluded.
+     * 
+     * @param excludedTypes the types of items to be excluded.
+     * @param includeBelowTheLine indicates whether below the line items shall be included.
+     * @return the total dollar amount with the specified item types excluded.
+     */
+    public KualiDecimal getPreTaxTotalDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
+        if (excludedTypes == null) {
+            excludedTypes = new String[] {};
+        }
+
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurApItem item : (List<PurApItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            ItemType it = item.getItemType();
+            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -535,7 +591,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return total;
     }
-
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#templateVendorAddress(VendorAddress)
      */

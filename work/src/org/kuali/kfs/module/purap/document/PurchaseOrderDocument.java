@@ -307,7 +307,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             item.setItemInvoicedTotalAmount(ZERO);
 
             // Set amount
-            item.setItemOutstandingEncumberedAmount(item.getExtendedPrice() == null ? ZERO : item.getExtendedPrice());
+            item.setItemOutstandingEncumberedAmount(item.getTotalAmount() == null ? ZERO : item.getTotalAmount());
 
             List accounts = (List) item.getSourceAccountingLines();
             Collections.sort(accounts);
@@ -1136,6 +1136,43 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @return the total dollar amount for this Purchase Order.
      */
     public KualiDecimal getTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+            ItemType it = item.getItemType();
+            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+                KualiDecimal totalAmount = item.getTotalAmount();
+                KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        return total;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPreTaxTotalDollarAmount()
+     */
+    @Override
+    public KualiDecimal getPreTaxTotalDollarAmount() {
+        // return total without inactive and with below the line
+        return getPreTaxTotalDollarAmount(false, true);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPreTaxTotalDollarAmountAboveLineItems()
+     */
+    @Override
+    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems() {
+        return getPreTaxTotalDollarAmount(false, false);
+    }
+
+    /**
+     * Gets the pre tax total dollar amount for this Purchase Order.
+     * 
+     * @param includeInactive indicates whether inactive items shall be included.
+     * @param includeBelowTheLine indicates whether below the line items shall be included.
+     * @return the total dollar amount for this Purchase Order.
+     */
+    public KualiDecimal getPreTaxTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             ItemType it = item.getItemType();

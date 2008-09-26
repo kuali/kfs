@@ -37,13 +37,13 @@
 		<c:if test="${usePO}" >
 	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poInvoicedTotalQuantity}" width="12%"/>
 	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poUnitPrice}" width="12%"/>		
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poExtendedPrice}" width="12%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poTotalAmount}" width="12%"/>
 	    </c:if>
 	    
 		<c:if test="${!usePO}" >
 	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqInvoicedTotalQuantity}" width="12%"/>
 	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqUnitPrice}" width="12%"/>		
-	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqExtendedPrice}" width="12%"/>
+	    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.preqTotalAmount}" width="12%"/>
 	    </c:if>
 	    	
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>		
@@ -126,8 +126,8 @@
 		    	<td class="infoline">
 		    	 <div align="right">
 		     	    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.poExtendedPrice}"
-				    property="document.item[${ctr}].poExtendedPrice"
+				    attributeEntry="${itemAttributes.poTotalAmount}"
+				    property="document.item[${ctr}].poTotalAmount"
 				    readOnly="true" styleClass="infoline" />
 				  </div>  
 	    	    </td>		
@@ -158,8 +158,8 @@
 		    	<td class="infoline">
 		      	  <div align="right">
 		     	    <kul:htmlControlAttribute
-				    attributeEntry="${itemAttributes.preqExtendedPrice}"
-				    property="document.item[${ctr}].preqExtendedPrice"
+				    attributeEntry="${itemAttributes.preqTotalAmount}"
+				    property="document.item[${ctr}].preqTotalAmount"
 				    readOnly="true" styleClass="infoline" />
 				  </div>  
 	    	    </td>		

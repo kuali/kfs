@@ -138,7 +138,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
         }
 
         if (item.getItemInvoicedTotalAmount() != null) {
-            KualiDecimal total = item.getExtendedPrice();
+            KualiDecimal total = item.getTotalAmount();
             if ((total == null) || total.compareTo(item.getItemInvoicedTotalAmount()) < 0) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMND_INVALID_AMT, "Item Extended Price", identifierString);

@@ -601,7 +601,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
     public void updateItemAccountAmounts(PurApItem item) {
-        if ((item.getExtendedPrice() != null) && KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) != 0) {
+        if ((item.getTotalAmount() != null) && KualiDecimal.ZERO.compareTo(item.getTotalAmount()) != 0) {
 
             KualiDecimal accountTotal = KualiDecimal.ZERO;
             PurApAccountingLine lastAccount = null;
@@ -609,7 +609,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getExtendedPrice().toString()))));
+                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(item.getTotalAmount().toString()))));
                 }
                 else {
                     account.setAmount(KualiDecimal.ZERO);
@@ -620,7 +620,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
             // put excess on last account
             if (lastAccount != null) {
-                KualiDecimal difference = item.getExtendedPrice().subtract(accountTotal);
+                KualiDecimal difference = item.getTotalAmount().subtract(accountTotal);
                 lastAccount.setAmount(lastAccount.getAmount().add(difference));
             }
         }

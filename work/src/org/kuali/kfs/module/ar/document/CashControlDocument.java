@@ -26,6 +26,9 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
@@ -531,4 +534,15 @@ public class CashControlDocument extends FinancialSystemTransactionalDocumentBas
         return null;
     }
 
+    public Document getReferenceFinancialDocument() {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        Document document = null;
+        try {
+            document = documentService.getByDocumentHeaderId(getReferenceFinancialDocumentNumber());
+        } catch(WorkflowException we) {
+            
+        }
+        return document;
+    }
+    
 }

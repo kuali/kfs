@@ -35,4 +35,18 @@ public class SystemInformationDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));
     }
     
+    public SystemInformation getByFiscalYear(Integer fiscalYear) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", fiscalYear);
+        return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));
+    }
+
+    public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("universityFiscalYear", fiscalYear);
+        criteria.addEqualTo("processingChartOfAccountCode", chartCode);
+        criteria.addEqualTo("processingOrganizationCode", orgCode);
+        return (SystemInformation) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SystemInformation.class, criteria));
+    }
+    
 }

@@ -17,24 +17,44 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
+import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+
+    //private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
     private List<InvoicePaidApplied> appliedPayments;
     private List<NonInvoiced> nonInvoicedPayments;
@@ -76,23 +96,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public void setAppliedPayments(List<InvoicePaidApplied> appliedPayments) {
         this.appliedPayments = appliedPayments;
     }
-
-    // /**
-    // * This method returns non invoiced payments sorted by financial document line number.
-    // *
-    // * @return
-    // */
-    // public List<NonInvoiced> getNonInvoicedPayments() {
-    // Collections.sort((List<NonInvoiced>)nonInvoicedPayments,new Comparator() {
-    // public int compare(Object o1, Object o2) {
-    // NonInvoiced ni1 = (NonInvoiced)o1;
-    // NonInvoiced ni2 = (NonInvoiced)o2;
-    //                
-    // return ni1.getFinancialDocumentLineNumber().compareTo(ni2.getFinancialDocumentLineNumber());
-    // }
-    // });
-    // return nonInvoicedPayments;
-    // }
 
     public void setNonInvoicedPayments(List<NonInvoiced> nonInvoicedPayments) {
         this.nonInvoicedPayments = nonInvoicedPayments;
@@ -164,78 +167,140 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return nonInvoicedPayments;
     }
 
-    private boolean isForLockbox() {
-        // TODO
-        return false;
+    private boolean isForLockbox(CashControlDocument cashControl) {
+        return cashControl.getDocumentHeader().getDocumentDescription().startsWith(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION);
     }
     
-    private boolean isForCreditCard() {
-        // TODO
-        return false;
+    private boolean isForCreditCard(CashControlDocument cashControl) {
+        return ArConstants.PaymentMediumCode.CREDIT_CARD.equals(cashControl.getCustomerPaymentMediumCode());
     }
     
-    private boolean isForWireTransfer() {
-        // TODO
-        return false;
+    private boolean isForWireTransfer(CashControlDocument cashControl) {
+        return ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(cashControl.getCustomerPaymentMediumCode());
     }
     
     /**
-     * @param sequenceHelper
+     * @param ipa
      * @return
      */
-    private List<GeneralLedgerPendingEntry> createPendingEntriesForLockboxDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        String processingOrganizationClearingAccountNumber = null;
-        String billingOrganizationAccountNumber = null;
-        String cashObjectCode = null;
-        String accountsReceivableObjectCode = null;
-        String unappliedCashObjectCode = null;
-        String accountsReceivableRefundsDueObjectCode = null;
-        
-        // TODO Fill in code to set all of the object codes and accounts numbers needed.
-        // TODO Fill in business logic.
-        
-        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-        
-        return entries;
+    private SystemInformation getSystemInformation(InvoicePaidApplied ipa) {
+        CustomerInvoiceDocument invoice = ipa.getInvoiceItem().getCustomerInvoiceDocument();
+        String processingOrgCode = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
+        String processingChartCode = invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
+        SystemInformation systemInformation = 
+            SpringContext.getBean(SystemInformationService.class).getByProcessingChartAndOrg(processingChartCode, processingOrgCode);
+        return systemInformation;
+    }
+    
+    /**
+     * @param ipa
+     * @return
+     */
+    private Account getUniversityClearingAccount(InvoicePaidApplied ipa) {
+        SystemInformation systemInformation = getSystemInformation(ipa);
+        Account universityClearingAccount = systemInformation.getUniversityClearingAccount();
+        return universityClearingAccount;
+    }
+    
+    /**
+     * @param ipa
+     * @return
+     */
+    private Account getBillingOrganizationAccount(InvoicePaidApplied ipa) {
+        String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
+        CustomerInvoiceDocumentService invoices =
+            SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        CustomerInvoiceDocument invoice = 
+            invoices.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+        CustomerInvoiceDetail invoiceDetail = ipa.getInvoiceItem();
+        return invoiceDetail.getAccount();
     }
 
     /**
-     * @param sequenceHelper
+     * @param ipa
      * @return
      */
-    private List<GeneralLedgerPendingEntry> createPendingEntriesForCreditCardDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        String processingOrganizationClearingAccountNumber = null;
-        String billingOrganizationAccountNumber = null;
-        String cashObjectCode = null;
-        String accountsReceivableObjectCode = null;
-        String unappliedCashObjectCode = null;
-        String creditCardChargesObjectCode = null;
+    public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) {
+        CustomerInvoiceDetail detail = ipa.getInvoiceItem();
+        String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String parameterValue = parameterService.getParameterValue(CustomerInvoiceDocument.class, parameterName);
         
-        // TODO Fill in code to set all of the object codes and accounts numbers needed.
-        // TODO Fill in business logic.
+        ObjectCode objectCode = null;
+        if("1".equals(parameterValue) || "2".equals(parameterValue)) {
+            objectCode = detail.getObjectCode();
+        } else if ("3".equals(parameterValue)) {
+            objectCode = detail.getCustomerInvoiceDocument().getPaymentFinancialObject();
+        }
         
-        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-        return entries;
+        return objectCode;
+    }
+    
+    public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) {
+        SystemInformation systemInformation = getSystemInformation(ipa);
+        return systemInformation.getUniversityClearingObject();
+    }
+    
+    public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) {
+        SystemInformation systemInformation = getSystemInformation(ipa);
+        return systemInformation.getCreditCardFinancialObject();
+    }
+    
+    /**
+     * @param invoicePaidApplied
+     * @return
+     */
+    private ObjectCode getCashObjectCode(InvoicePaidApplied invoicePaidApplied) {
+        return invoicePaidApplied.getInvoiceItem().getChart().getFinancialCashObject();
     }
     
     /**
      * @param sequenceHelper
      * @return
      */
-    private List<GeneralLedgerPendingEntry> createPendingEntriesForWireTransferDocument(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        
-        String eftClearingAccountNumber = null;
-        String processingOrganizationClearingAccountNumber = null;
-        String billingOrganizationAccountNumber = null;
-        String cashObjectCode = null;
-        String accountsReceivableObjectCode = null;
-        String unappliedCashObjectCode = null;
-        String incomeObjectCode = null;
-        
-        // TODO Fill in code to set all of the object codes and accounts numbers needed.
-        // TODO Fill in business logic.
-        
+    private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+        Iterator<InvoicePaidApplied> appliedPayments = this.getAppliedPayments().iterator();
+        for(InvoicePaidApplied ipa : getAppliedPayments()) {
+            Account clearingAccount = getUniversityClearingAccount(ipa);
+            Account billingOrganizationAccount = getBillingOrganizationAccount(ipa);
+            ObjectCode cashObjectCode = getCashObjectCode(ipa);
+            ObjectCode accountsReceivableObjectCode = getAccountsReceivableObjectCode(ipa);
+            ObjectCode unappliedCashObjectCode = getUnappliedCashObjectCode(ipa);
+            
+            GeneralLedgerPendingEntry debitGLPE_1 = new GeneralLedgerPendingEntry();
+            debitGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            debitGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            debitGLPE_1.setAccount(clearingAccount);
+            debitGLPE_1.setFinancialObject(unappliedCashObjectCode);
+            entries.add(debitGLPE_1);
+            sequenceHelper.increment();
+            
+            GeneralLedgerPendingEntry creditGLPE_1 = new GeneralLedgerPendingEntry();
+            creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            creditGLPE_1.setAccount(clearingAccount);
+            creditGLPE_1.setFinancialObject(cashObjectCode);
+            entries.add(creditGLPE_1);
+            sequenceHelper.increment();
+            
+            GeneralLedgerPendingEntry debitGLPE_2 = new GeneralLedgerPendingEntry();
+            debitGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            debitGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            debitGLPE_2.setAccount(billingOrganizationAccount);
+            debitGLPE_2.setFinancialObject(cashObjectCode);
+            entries.add(debitGLPE_2);
+            sequenceHelper.increment();
+
+            GeneralLedgerPendingEntry creditGLPE_2 = new GeneralLedgerPendingEntry();
+            creditGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            creditGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
+            creditGLPE_2.setAccount(billingOrganizationAccount);
+            creditGLPE_2.setFinancialObject(accountsReceivableObjectCode);
+            entries.add(creditGLPE_2);
+            sequenceHelper.increment();
+        }
+        
         return entries;
     }
     
@@ -243,28 +308,22 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        
-        String billingOrganizationAccountNumber = null;
-        String accountReceivableObjectCode = null;
-        String incomeObjectCode = null;
-        String cashObjectCode = null;
-        
         try {
-            List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-            if(isForLockbox()) {
-                entries = createPendingEntriesForLockboxDocument(sequenceHelper);
-            } else if(isForCreditCard()) {
-                entries = createPendingEntriesForCreditCardDocument(sequenceHelper);
-            } else if (isForWireTransfer()) {
-                entries = createPendingEntriesForWireTransferDocument(sequenceHelper);
+            CashControlDocument cashControlDocument = 
+                paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
+            PaymentMedium paymentMedium = cashControlDocument.getCustomerPaymentMedium();
+            List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
+            for(GeneralLedgerPendingEntry entry : entries) {
+                addPendingEntry(entry);
             }
         } catch(Throwable t) {
+            LOG.error("Exception encountered while generating pending entries.",t);
             return false;
         }
         
         return true;
     }
-
+    
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         // TODO Auto-generated method stub
         return false;

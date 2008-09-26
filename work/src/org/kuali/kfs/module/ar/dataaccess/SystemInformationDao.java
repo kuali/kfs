@@ -20,11 +20,19 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 public interface SystemInformationDao {
     
     /**
-     * Retrieves an OrganizationOptions object by primary key.
+     * Retrieves an SystemInformation object by primary key.
      * 
      * @param LockboxNumber 
      * @return SystemInformation
      */
     public SystemInformation getByLockboxNumber(String lockboxNumber);
     
+    /**
+     * Retrieves a SystemInformation object by university fiscal year.
+     * @param fiscalYear
+     * @return
+     */
+    public SystemInformation getByFiscalYear(Integer fiscalYear);
+    
+    public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
 }

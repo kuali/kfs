@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -76,8 +77,6 @@ public class LockboxServiceImpl implements LockboxService {
                 LOG.warn(String.format("\nuser not found on fetching session %s", nfex.getMessage()));
             }
 
-
-
             if (lockbox.compareTo(ctrlLockbox) != 0) {
                 // If we made it in here, then we have hit a different batchSequenceNumber and processedInvoiceDate.
                 // When this is the case, we create a new cashcontroldocument and start tacking subsequent lockboxes on 
@@ -86,7 +85,7 @@ public class LockboxServiceImpl implements LockboxService {
 
                 cashControlDocument = (CashControlDocument)KNSServiceLocator.getDocumentService().getNewDocument("CashControlDocument");
                 cashControlDocument.setCustomerPaymentMediumCode(lockbox.getCustomerPaymentMediumCode());
-                cashControlDocument.getDocumentHeader().setDocumentDescription("Created by Lockbox " + lockbox.getLockboxNumber());
+                cashControlDocument.getDocumentHeader().setDocumentDescription(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION + lockbox.getLockboxNumber());
 
                 AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
                 AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
@@ -108,7 +107,7 @@ public class LockboxServiceImpl implements LockboxService {
 
 
             CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-            cashControlDocumentService.addNewCashControlDetail("Created by Lockbox", cashControlDocument, detail);
+            cashControlDocumentService.addNewCashControlDetail(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION, cashControlDocument, detail);
             
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
            
@@ -117,13 +116,13 @@ public class LockboxServiceImpl implements LockboxService {
             try {
                 Integer.parseInt(invoiceNumber);
             } catch (Exception e) {
-                detail.setCustomerPaymentDescription("Lockbox: Remittance for INVALID invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
                 docService.saveDocument(cashControlDocument);
                 continue;
             }
             
             if (!docService.documentExists(invoiceNumber)) {
-                detail.setCustomerPaymentDescription("Lockbox: Remittance for INVALID invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
                 docService.saveDocument(cashControlDocument);
                 continue;
             }
@@ -131,11 +130,11 @@ public class LockboxServiceImpl implements LockboxService {
             CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)docService.getByDocumentHeaderId(lockbox.getFinancialDocumentReferenceInvoiceNumber());
             
             if (!customerInvoiceDocument.isOpenInvoiceIndicator()) {
-                detail.setCustomerPaymentDescription("Lockbox: Remittance for CLOSED invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
                 docService.saveDocument(cashControlDocument);
                 continue;
             } else {
-                detail.setCustomerPaymentDescription("Lockbox: Remittance for invoice number " +lockbox.getFinancialDocumentReferenceInvoiceNumber());
+                detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
 
                 if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
                     //TODO approve app doc created for this lockbox

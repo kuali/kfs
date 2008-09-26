@@ -297,7 +297,11 @@ public class BCConstants extends JSTLConstants {
         public final static int ACCOUNT_SELECT_MANAGER_DELEGATE = 9;
         public final static int BUDGET_POSITION_LOOKUP = 10;
         public final static int INTENDED_INCUMBENT = 11;
+        public final static int SHOW_BENEFITS = 12;
     }
+
+    public final static String BC_BO_CLASSPATH = "org.kuali.kfs.module.bc.businessobject";
+    public final static String REQUEST_BENEFITS_BO = BC_BO_CLASSPATH+".RequestBenefits";
 
     public enum RequestImportFileType {
         MONTHLY("MONTHLY"), ANNUAL("ANNUAL");

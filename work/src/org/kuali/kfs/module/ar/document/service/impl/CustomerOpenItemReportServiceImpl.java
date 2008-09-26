@@ -23,18 +23,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.batik.dom.util.HashTable;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.AccountsReceivableDocumentHeaderDao;
+import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDetailDao;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -63,6 +67,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     private FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao;
     private DocumentService documentService;
     private DateTimeService dateTimeService;
+    private CustomerInvoiceDetailDao customerInvoiceDetailDao;
 
     /**
      * This method populates CustomerOpenItemReportDetails (Customer History Report).
@@ -250,7 +255,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
     }
 
-    /*
+    /**
      * This method returns collection of documents of type classToSearchFrom Note: can be used for documents only, not for
      * *DocumentHeaders @param documentNumbers
      */
@@ -300,15 +305,23 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
         
         // get invoices
-        Collection<CustomerInvoiceDocument> invoices = getDocuments(CustomerInvoiceDocument.class, arDocumentHeaderIds);
+        String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
+        Collection<CustomerInvoiceDocument> invoices;
+        Collection<CustomerInvoiceDetail> details = null;
+        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.ACCT)) {
+            String accountNumber = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ACCOUNT_NUMBER))[0];
+            details = customerInvoiceDetailDao.getCustomerInvoiceDetailsByAccountNumberByInvoiceDocumentNumbers(accountNumber, arDocumentHeaderIds);
+            invoices = getInvoicesByAccountNumberByDocumentIds(accountNumber, arDocumentHeaderIds, details);
+        }
+        else {
+            invoices = getDocuments(CustomerInvoiceDocument.class, arDocumentHeaderIds);
+        }
         if (ObjectUtils.isNull(invoices) | invoices.size()==0 )
             return results;
         
         List<CustomerInvoiceDocument> selectedInvoices = new ArrayList();
 
-        String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
         String columnTitle = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.COLUMN_TITLE))[0];
-
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         
         java.util.Date reportRunDate= null;
@@ -325,33 +338,11 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             e.printStackTrace();
         }
         
-        // Processing Organization
-        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.PROCESSING_ORG)) {
-            
-            // All days
-            // 1. invoice open amount > 0
-            // 2. invoice billing dates <= reportRunDate
-            if (StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
-                for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate())&& !reportRunDate.before(invoice.getBillingDate()))
-                        selectedInvoices.add(invoice);
-                }
-            }
-            // *days
-            // 1. invoice open amount > 0
-            // 2. beginDate <= invoice billing date <= endDate
-            else {
-                for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate()) )
-                        selectedInvoices.add(invoice);
-                }  
-            }
-        }
         // Billing Organization
-        else if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.BILLING_ORG)) {
+        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.BILLING_ORG)) {
             // All days
-            // 1. with open amounts > 0
-            // 2. billingDates <= reportRunDate
+            // 1. invoice open amount > 0
+            // 2. billingDate <= reportRunDate
             // 3. billByChartOfAccountsCode = chartCode
             // 4. billbyOrganizationCode = orgCode
             String chartCode = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.CHART_CODE))[0];
@@ -375,35 +366,35 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 }
             }
         } 
-        // Account
+        // Processing Organization or Account
         else {
             // All days
             // 1. invoice open amount > 0
             // 2. invoice billing dates <= reportRunDate
-            // 3. paymentAccountNumber = accountNumber
-            String accountNumber = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.ACCOUNT_NUMBER))[0];
             if (StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
                 for (CustomerInvoiceDocument invoice:invoices) {
-                    // get only invoices with open amounts
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !reportRunDate.before(invoice.getBillingDate()) && ObjectUtils.isNotNull(invoice.getPaymentAccountNumber()) && StringUtils.equals(accountNumber, invoice.getPaymentAccountNumber()) )
+                    if (ObjectUtils.isNull(invoice.getClosedDate()) && ObjectUtils.isNotNull(invoice.getBillingDate())&& !reportRunDate.before(invoice.getBillingDate()))
                         selectedInvoices.add(invoice);
                 }
             }
             // *days
             // 1. invoice open amount > 0
             // 2. beginDate <= invoice billing date <= endDate
-            // 3. paymentAccountNumber = accountNumber
             else {
                 for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())  && ObjectUtils.isNotNull(invoice.getPaymentAccountNumber()) && StringUtils.equals(accountNumber, invoice.getPaymentAccountNumber()) )
+                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate()) )
                         selectedInvoices.add(invoice);
-                }
+                }  
             }
         }
+
         if (selectedInvoices.size() == 0)
             return results;
         
-        populateReportDetails(selectedInvoices,results);
+        if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.ACCT))
+            populateReporDetails(selectedInvoices,results,details);
+        else
+            populateReportDetails(selectedInvoices,results);
         
         return results;
     }
@@ -429,6 +420,98 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
         }
         return arDocumentHeaders;
+    }
+    
+    /*
+     * This method gets called only if reportOption is Account
+     * Gets invoices based on the selected invoice details <=> invoice details meeting search criteria i.e. the accountNumber and the list of documentIds
+     * @param accountNumber
+     * @param arDocumentHeaderIds
+     * @param details (will get populated here)
+     * @return invoices
+     */
+    private Collection<CustomerInvoiceDocument> getInvoicesByAccountNumberByDocumentIds(String accountNumber, List arDocumentHeaderIds, Collection<CustomerInvoiceDetail> details) {
+        Collection<CustomerInvoiceDocument> invoices = null;
+        
+        if (ObjectUtils.isNull(details) | details.size()==0)
+            return invoices;
+        
+        // get list of invoice document ids (eliminate duplicate invoice document ids)
+        List<String> documentIds = new ArrayList();
+        for (CustomerInvoiceDetail detail:details) {
+            String documentNumber = ((CustomerInvoiceDetail)detail).getDocumentNumber();
+            if (!documentIds.contains(documentNumber))
+                documentIds.add(documentNumber);
+        }
+        
+        // get invoices for the document ids list
+        if (documentIds.size() != 0)
+            invoices = getDocuments(CustomerInvoiceDocument.class, documentIds);
+        
+        return invoices;
+   }
+    
+    private void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices,List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
+        
+        for (Iterator<CustomerInvoiceDocument> iter = selectedInvoices.iterator(); iter.hasNext();) {
+            CustomerInvoiceDocument invoice = iter.next();
+            String documentNumber = invoice.getDocumentNumber();
+                    
+            KualiDecimal amount = KualiDecimal.ZERO;
+            KualiDecimal taxAmount = KualiDecimal.ZERO;
+            KualiDecimal openAmount = KualiDecimal.ZERO;
+            
+            boolean foundFlag = false;
+                    
+            for (CustomerInvoiceDetail invoiceDetail:invoiceDetails) {
+                String tempDocumentNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
+                if (!StringUtils.equals(documentNumber, tempDocumentNumber))
+                    continue;
+                foundFlag = true;
+                
+                KualiDecimal itemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmount();
+                if (ObjectUtils.isNotNull(itemAmount))
+                    amount = amount.add(itemAmount);
+                            
+                KualiDecimal itemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
+                if (ObjectUtils.isNotNull(itemTaxAmount))
+                    taxAmount = taxAmount.add(itemTaxAmount);
+                            
+                KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getOpenAmount();
+                if (ObjectUtils.isNotNull(openItemAmount))
+                    openAmount = openAmount.add(openItemAmount);
+            }
+            // How is this possible?
+            // invoiceDetails are for the list of invoices(invoices) meeting seach criteria including accountNumber and selected arDocumentHeaders
+            // -> list of invoices gets modified based on report run date and chosen date bucket -> selectedInvoices
+            // selectedInvoices.size() <= invoices.size()
+            if (!foundFlag)
+                continue;
+            
+            CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+            // Document Type
+            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            // Document Number
+            detail.setDocumentNumber(documentNumber);
+            // Document Description
+            String documentDescription = invoice.getInvoiceDescription();
+            if (ObjectUtils.isNotNull(documentDescription) && StringUtils.isNotEmpty(documentDescription))
+                detail.setDocumentDescription(documentDescription);
+            else {
+                documentDescription = invoice.getDocumentHeader().getDocumentDescription();
+                if (ObjectUtils.isNotNull(documentDescription))
+                    detail.setDocumentDescription(documentDescription);
+                else
+                    detail.setDocumentDescription("");
+            }
+            // Due Date
+            detail.setDueApprovedDate(invoice.getInvoiceDueDate());
+            // Document Payment Amount
+            detail.setDocumentPaymentAmount(amount.add(taxAmount));
+            // Unpaid/Unapplied Amount
+            detail.setUnpaidUnappliedAmount(openAmount);
+            results.add(detail);
+        }
     }
     
     private void populateReportDetails(List<CustomerInvoiceDocument> invoices, List results) {
@@ -482,5 +565,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setCustomerInvoiceDetailDao(CustomerInvoiceDetailDao customerInvoiceDetailDao) {
+        this.customerInvoiceDetailDao = customerInvoiceDetailDao;
     }
 }

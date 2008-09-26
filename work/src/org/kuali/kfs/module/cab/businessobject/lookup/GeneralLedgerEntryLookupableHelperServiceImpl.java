@@ -16,24 +16,25 @@
 package org.kuali.kfs.module.cab.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
-import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class overrides the base getActionUrls method
@@ -41,6 +42,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerEntryLookupableHelperServiceImpl.class);
     private GlLineService glLineService;
+    private BusinessObjectService businessObjectService;
 
     /*******************************************************************************************************************************
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
@@ -51,28 +53,17 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
         CapitalAssetInformation capitalAssetInformation = this.glLineService.findCapitalAssetInformation(entry);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        AnchorHtmlData createAssetHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createAsset&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createAsset", "Assets");
-        AnchorHtmlData createPaymentHref = new AnchorHtmlData("../cabGlLine.do?methodToCall=createPayment&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "createPayment", "Payments");
         if (entry.isActive()) {
-            if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-                // if asset is known, create payment
-                if (capitalAssetInformation.getCapitalAssetNumber() != null && capitalAssetInformation.getCapitalAssetNumber().longValue() > 0) {
-                    anchorHtmlDataList.add(createPaymentHref);
-                }
-                else {
-                    // else create new asset
-                    anchorHtmlDataList.add(createAssetHref);
-                }
-            }
-            else {
-                // provide both
-                anchorHtmlDataList.add(createAssetHref);
-                anchorHtmlDataList.add(createPaymentHref);
-            }
+            anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process"));
         }
         else {
-            anchorHtmlDataList.add(new AnchorHtmlData("", "", "Assets"));
-            anchorHtmlDataList.add(new AnchorHtmlData("", "", "Payments"));
+            List<GeneralLedgerEntryAsset> generalLedgerEntryAssets = entry.getGeneralLedgerEntryAssets();
+            if (!generalLedgerEntryAssets.isEmpty()) {
+                anchorHtmlDataList.add(new AnchorHtmlData("../cabGlLine.do?methodToCall=viewCamsDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewCamsDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber()));
+            }
+            else {
+                anchorHtmlDataList.add(new AnchorHtmlData("", "n/a"));
+            }
         }
         return anchorHtmlDataList;
     }
@@ -97,8 +88,20 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
                 if (!entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
                     newList.add(entry);
                 }
-                else if (entry.getFinancialDocumentTypeCode().equals(CabConstants.CM) && StringUtils.isBlank(entry.getReferenceFinancialDocumentNumber())) {
-                    newList.add(entry);
+                else if (entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
+                    Map<String, String> cmKeys = new HashMap<String, String>();
+                    cmKeys.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, entry.getDocumentNumber());
+                    // check if vendor credit memo, then include as FP line
+                    // FIXME get the latest db before uncommenting
+                    Collection<CreditMemoDocument> matchingCreditMemos = null;
+                    // businessObjectService.findMatching(CreditMemoDocument.class, cmKeys);
+                    if (matchingCreditMemos != null && !matchingCreditMemos.isEmpty()) {
+                        for (CreditMemoDocument creditMemoDocument : matchingCreditMemos) {
+                            if (creditMemoDocument.getPurchaseOrderIdentifier() == null) {
+                                newList.add(entry);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -125,6 +128,24 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
      */
     public void setGlLineService(GlLineService glLineService) {
         this.glLineService = glLineService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -26,4 +28,8 @@ public interface GlLineService {
     Document createAssetPaymentDocument(GeneralLedgerEntry entry) throws WorkflowException;
 
     CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry);
+
+    Document createAssetGlobalDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException;
+
+    Document createAssetPaymentDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException;
 }

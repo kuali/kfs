@@ -55,7 +55,7 @@
 				<value>cabExtractJobTrigger</value>
 				<value>preAssetTaggingExtractJobTrigger</value>
 			</list>
-		</property>	
+		</property>		
 				
 		<property name="externalizableBusinessObjectImplementations">
             <map>
@@ -198,6 +198,7 @@
     </bean>
 	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
 		<property name="glLineService" ref="glLineService" />
+		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
     <bean id="cabGlEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">

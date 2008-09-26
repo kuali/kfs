@@ -73,6 +73,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
+    private boolean selected;
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
@@ -753,8 +754,9 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.transactionDate = transactionDate;
     }
 
-        /**
-     * Gets the purApLineAssetAccounts attribute. 
+    /**
+     * Gets the purApLineAssetAccounts attribute.
+     * 
      * @return Returns the purApLineAssetAccounts.
      */
     public List<PurchasingAccountsPayableLineAssetAccount> getPurApLineAssetAccounts() {
@@ -763,6 +765,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the purApLineAssetAccounts attribute value.
+     * 
      * @param purApLineAssetAccounts The purApLineAssetAccounts to set.
      */
     public void setPurApLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts) {
@@ -775,5 +778,23 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
             return null;
         }
         return KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode()) ? absAmount.multiply(new KualiDecimal(-1)) : absAmount;
+    }
+
+    /**
+     * Gets the selected attribute.
+     * 
+     * @return Returns the selected.
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * Sets the selected attribute value.
+     * 
+     * @param selected The selected to set.
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

@@ -350,7 +350,12 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
+            <value>documentNumber</value>
+            <value>chartOfAccountsCode</value>
+            <value>accountNumber</value>
+            <value>subAccountNumber</value>
             <value>financialObjectCode</value>
+            <value>transactionLedgerEntrySequenceNumber</value>
           </list>
         </property>
       </bean>

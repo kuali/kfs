@@ -74,8 +74,8 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String, Object> toStringMapper() {
+        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
         m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
         m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier);
         return m;

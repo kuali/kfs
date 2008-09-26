@@ -79,12 +79,6 @@ public interface BatchExtractService {
      */
     void updateLastExtractTime(Timestamp time);
 
-    /**
-     * Sends out status email
-     * 
-     * @param extractProcessLog ExtractProcessLog
-     */
-    void sendStatusEmail(ExtractProcessLog extractProcessLog);
 
     /**
      * This method collects account line history using batch parameters

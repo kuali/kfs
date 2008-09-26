@@ -63,8 +63,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MailService;
@@ -474,53 +472,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 }
             }
         }
-    }
-
-
-    /**
-     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#sendStatusEmail(org.kuali.kfs.module.cab.batch.ExtractProcessLog)
-     *      TODO - This should be removed later
-     */
-    public void sendStatusEmail(ExtractProcessLog extractProcessLog) {
-        MailMessage message = new MailMessage();
-        message.setSubject("CAB Batch Process - " + (extractProcessLog.isSuccess() ? "SUCCESS" : "FAILURE"));
-        message.setFromAddress("email@ais.msu.edu");
-        message.addToAddress("email@ais.msu.edu");
-        StringBuilder msgBuilder = new StringBuilder();
-        msgBuilder.append("");
-        msgBuilder.append(NEW_LINE);
-
-        msgBuilder.append("CAB Batch started at [" + extractProcessLog.getStartTime() + "] and finished at [" + extractProcessLog.getFinishTime() + "] using last extract time [" + extractProcessLog.getLastExtractTime() + "]");
-        msgBuilder.append(NEW_LINE);
-
-        msgBuilder.append("Total Number of GL Records extracted - " + extractProcessLog.getTotalGlCount());
-        msgBuilder.append(NEW_LINE);
-
-        msgBuilder.append("Number of Non-Purchasing records - " + extractProcessLog.getNonPurApGlCount());
-        msgBuilder.append(NEW_LINE);
-
-        msgBuilder.append("Number of Purchasing records - " + extractProcessLog.getPurApGlCount());
-        msgBuilder.append(NEW_LINE);
-
-        if (extractProcessLog.getIgnoredGLEntries() != null && !extractProcessLog.getIgnoredGLEntries().isEmpty()) {
-            prepareListDetails(msgBuilder, "Ignored GL Entries", extractProcessLog.getIgnoredGLEntries());
-        }
-        if (extractProcessLog.getDuplicateGLEntries() != null && !extractProcessLog.getDuplicateGLEntries().isEmpty()) {
-            prepareListDetails(msgBuilder, "Duplicate GL Entries", extractProcessLog.getDuplicateGLEntries());
-        }
-        if (extractProcessLog.getMismatchedGLEntries() != null && !extractProcessLog.getMismatchedGLEntries().isEmpty()) {
-            prepareListDetails(msgBuilder, "Mismatched GL Entries", extractProcessLog.getMismatchedGLEntries());
-        }
-        try {
-            // LOG and Email
-            LOG.info(msgBuilder.toString());
-            message.setMessage(msgBuilder.toString());
-            mailService.sendMessage(message);
-        }
-        catch (InvalidAddressException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 

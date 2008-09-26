@@ -319,6 +319,7 @@
               </td>
               <td colspan="1" class="datacell" nowrap>
                 <div align="center">
+                  <html:image property="methodToCall.refresh.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" title="Refresh" alt="Refresh" styleClass="tinybutton" />
                   <html:image property="methodToCall.performRevMonthSpread.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />
                   <html:image property="methodToCall.performRevMonthDelete.anchorrevenueControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-monthdelete.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
                 </div>

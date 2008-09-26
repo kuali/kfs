@@ -117,6 +117,7 @@
 						  src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
 						  alt="submit" title="submit" border="0" onblur="formHasAlreadyBeenSubmitted = false"/>
 					</c:if>
+					<c:if test="${KualiForm.tempListLookupMode != BCConstants.TempListLookupMode.SHOW_BENEFITS}">
 					<html:image
 						property="methodToCall.search" value="search"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
@@ -125,6 +126,7 @@
 						property="methodToCall.clearValues" value="clearValues"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
 						alt="clear" title="clear" border="0" /> 
+					</c:if>
 					</c:if>
 					<c:if test="${KualiForm.forceToAccountListScreen == true}">
 						<html:image
@@ -135,7 +137,7 @@
 					<c:choose>
 						<c:when test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.CSF_TRACKER_POSITION_LOOKUP}" >
 							<html:image
-							property="methodToCall.cancel" value="cancel"
+							property="methodToCall.refresh" value="cancel"
 							src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="tinybutton"
 							onclick="window.close()" alt="cancel" title="cancel" border="0" />
 						</c:when>
@@ -269,8 +271,7 @@ financialObjectCode and financialSubObjectCode??
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
 				id="row" export="true" pagesize="100"
-				excludedParams="*"
-				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&backLocation=${KualiForm.backLocation}&businessObjectClassName=${KualiForm.businessObjectClassName}&hideReturnLink=${KualiForm.hideReturnLink}&tempListLookupMode=${KualiForm.tempListLookupMode}&docFormKey=${KualiForm.formKey}&suppressActions=${KualiForm.suppressActions}">
+				requestURI="budgetTempListLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
 
 				<c:if test="${param['d-16544-e'] == null}">
 			  	  <logic:present name="KualiForm" property="formKey">

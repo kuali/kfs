@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="accountingInformation"
-		parent="accountingInformation-parent" />
+	<bean id="labor-accountingInformation"
+		parent="labor-accountingInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="accountingInformation-parent" abstract="true">
+		id="labor-accountingInformation-parent" abstract="true">
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
@@ -77,10 +77,10 @@
 		</property>
 	</bean>
 	
-	<bean id="LaborDistribution-SalaryExpenseTransferDocument-accountingLineView"
-		parent="LaborDistribution-SalaryExpenseTransferDocument-accountingLineView-parent" />
+	<bean id="labor-SalaryExpenseTransferDocument-accountingLineView"
+		parent="labor-SalaryExpenseTransferDocument-accountingLineView-parent" />
 
-	<bean id="LaborDistribution-SalaryExpenseTransferDocument-accountingLineView-parent"
+	<bean id="labor-SalaryExpenseTransferDocument-accountingLineView-parent"
 		parent="AccountingLineView" abstract="true">
 		<property name="elements">
 			<list>
@@ -88,18 +88,17 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="accountingInformation" />
+							<ref bean="labor-accountingInformation" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field" p:name="amount"
 					p:required="true" />
-				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="AccountingDocument-sourceGroupTotals"
+	<bean id="labor-AccountingDocument-sourceGroupTotals"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
@@ -109,7 +108,7 @@
 		</property>
 	</bean>
 
-	<bean id="AccountingDocument-targetGroupTotals"
+	<bean id="labor-AccountingDocument-targetGroupTotals"
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>

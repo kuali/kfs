@@ -23,6 +23,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.FileTag;
 import org.apache.struts.taglib.html.ImageTag;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -240,7 +241,7 @@ public class ImportLineRenderer implements Renderer, CellCountCurious {
                 
                 uploadButtonTag.setPageContext(pageContext);
                 uploadButtonTag.setParent(parentTag);
-                uploadButtonTag.setProperty("methodToCall.upload"+accountingLineGroupDefinition.getImportedLinePropertyPrefix()+"Lines");
+                uploadButtonTag.setProperty("methodToCall.upload"+StringUtils.capitalize(accountingLineGroupDefinition.getImportedLinePropertyPrefix())+"Lines");
                 uploadButtonTag.setAlt("insert "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
                 uploadButtonTag.setTitle("insert "+accountingLineGroupDefinition.getGroupLabel()+" accounting lines");
                 uploadButtonTag.doStartTag();

@@ -23,9 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
+import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**
@@ -37,6 +39,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     private BudgetConstructionHeader budgetConstructionHeader;
     private boolean hideDetails = false;
     private boolean accountReportsExist;
+    private boolean rootApprover;
 
     public BudgetConstructionSelectionForm() {
         super();
@@ -124,6 +127,22 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      */
     public boolean isSalarySettingDisabled() {
         return SpringContext.getBean(SalarySettingService.class).isSalarySettingDisabled();
+    }
+
+    /**
+     * Gets the rootApprover attribute. 
+     * @return Returns the rootApprover.
+     */
+    public boolean isRootApprover() {
+        return SpringContext.getBean(PermissionService.class).isRootApprover(GlobalVariables.getUserSession().getUniversalUser());
+    }
+
+    /**
+     * Sets the rootApprover attribute value.
+     * @param rootApprover The rootApprover to set.
+     */
+    public void setRootApprover(boolean rootApprover) {
+        this.rootApprover = rootApprover;
     }
 
 }

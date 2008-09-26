@@ -22,7 +22,7 @@ import org.kuali.rice.kns.service.ModuleService;
  * Implementations of this interface are able to keep track of external job status and report it to the scheduler service.
  * 
  */
-public interface BatchModuleService extends ModuleService{
+public interface BatchModuleService {
 
     /**
      * This method returns whether a job is run on an external system. 

@@ -38,7 +38,6 @@ public class Pretag extends PersistableBusinessObjectBase {
 
     private Chart chartOfAccounts;
     private Org organization;
-    private PendingPurchaseOrder purchaseOrder;
     private AssetType capitalAssetType;
     private UniversalUser personUniversal;
 
@@ -399,25 +398,6 @@ public class Pretag extends PersistableBusinessObjectBase {
      */
     public void setPretagDetails(List<PretagDetail> pretagDetails) {
         this.pretagDetails = pretagDetails;
-    }
-
-    /**
-     * Gets the purchaseOrder attribute.
-     * 
-     * @return Returns the purchaseOrder.
-     */
-    public PendingPurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    /**
-     * Sets the purchaseOrder attribute value.
-     * 
-     * @param purchaseOrder The purchaseOrder to set.
-     * @deprecated
-     */
-    public void setPurchaseOrder(PendingPurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
     }
 
     /**

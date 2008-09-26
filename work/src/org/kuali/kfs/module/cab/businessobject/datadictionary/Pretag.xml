@@ -134,9 +134,24 @@
   </bean>
   <bean id="Pretag-purchaseOrderNumber" parent="Pretag-purchaseOrderNumber-parentBean" />
 
-  <bean id="Pretag-purchaseOrderNumber-parentBean" abstract="true" parent="PendingPurchaseOrder-purchaseOrderNumber">
+  <bean id="Pretag-purchaseOrderNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderNumber" />
+    <property name="forceUppercase" value="true" />
     <property name="required" value="true" />
+    <property name="label" value="Purchase Order Number" />
+    <property name="shortLabel" value="Number" />
+    <property name="maxLength" value="9" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="11" />
+    </property>
+    <property name="summary" value="purchaseOrderNumber" />
+    <property name="description" value="purchaseOrderNumber description..." />
   </bean>
+
   <bean id="Pretag-pretagCreateDate" parent="Pretag-pretagCreateDate-parentBean" />
 
   <bean id="Pretag-pretagCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">

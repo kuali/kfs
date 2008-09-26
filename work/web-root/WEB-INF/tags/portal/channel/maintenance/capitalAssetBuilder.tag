@@ -20,11 +20,6 @@
 <div class="body">
 	<ul class="chan">
 		<li>
-			<portal:portalLink displayTitle="true"
-				title="Capital Asset Builder Pending Action"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.CapitalAssetBuilderPendingAction&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		<li>
             <portal:portalLink displayTitle="true" title="Asset Transaction Type"
                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cab.businessobject.AssetTransactionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
         </li>				

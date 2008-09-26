@@ -14,13 +14,6 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-<class-descriptor class="org.kuali.kfs.module.cab.businessobject.CapitalAssetBuilderPendingAction" table="CB_PND_ACTION_T">
-	<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="actionDescription" column="ACTION_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset" table="CB_GL_ENTRY_AST_T">
 	<field-descriptor name="generalLedgerAccountIdentifier" column="CB_GL_ACCT_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
@@ -216,9 +209,6 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-	<reference-descriptor name="purchaseOrder" class-ref="org.kuali.kfs.module.cab.businessobject.PendingPurchaseOrder" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="purchaseOrderNumber" />
-	</reference-descriptor>
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
@@ -254,22 +244,6 @@
         <foreignkey field-ref="buildingCode" />
         <foreignkey field-ref="buildingRoomNumber" />
     </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.module.cab.businessobject.PendingPurchaseOrder" table="CB_PND_PO_T">
-	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="requiredNumber" column="REQ_NUMBER" jdbc-type="VARCHAR"/>
-	<field-descriptor name="departmentRepresentative" column="DEPT_REP" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToName" column="DELIVER_TO_NAME" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToAddress1" column="DELIVER_TO_ADDR1" jdbc-type="VARCHAR"/>
-	<field-descriptor name="deliverToAddress2" column="DELIVER_TO_ADDR2" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestName" column="REQUEST_NAME" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestAddress1" column="REQUEST_ADDR1" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestAddress2" column="REQUEST_ADDR2" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" table="CB_AST_TRN_TYP_T">

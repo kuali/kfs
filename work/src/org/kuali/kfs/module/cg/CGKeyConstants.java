@@ -49,7 +49,7 @@ public class CGKeyConstants {
     public static final String ERROR_INDIRECT_COST_MANUAL_JUSTIFICATION_REQUIRED = "error.indirectCostManualJustificationRequired";
     public static final String ERROR_FEE_REMISSION_DISTRIBUTION = "error.feeRemissionDistribution";
     public static final String ERROR_PER_CREDIT_HOUR_AMOUNT_ABOVE_MAXIMUM = "error.perCreditHourAmount.aboveMaximum";
-    public static final String ERROR_NO_PERSON_SELECTED = "error.noPermissionSelected";
+//    public static final String ERROR_NO_PERSON_SELECTED = "error.noPermissionSelected";
     public static final String ERROR_NO_ORG_SELECTED = "error.noOrgSelected";
     public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";
     public static final String ERROR_INDIRECT_COST_RATE_MALFORMED = "error.indirectCost.costRate.invalidFormat";
@@ -86,8 +86,8 @@ public class CGKeyConstants {
     public static final String AUDIT_MAIN_PAGE_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
 
     // Submission Details
-    public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED = "audit.mainPage.submission.type.required";
-    public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED = "audit.mainPage.submission.type.fedid.required";
+//    public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED = "audit.mainPage.submission.type.required";
+//    public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED = "audit.mainPage.submission.type.fedid.required";
     public static final String AUDIT_MAIN_PAGE_PROJECT_TYPE_REQUIRED = "audit.mainPage.project.type.required";
     public static final String AUDIT_MAIN_PAGE_PROJECT_TYPE_OTHER_REQUIRED = "audit.mainPage.project.type.other.required";
     public static final String AUDIT_MAIN_PAGE_PROJECT_TYPE_INVALID = "audit.mainPage.project.type.invalid";
@@ -148,6 +148,6 @@ public class CGKeyConstants {
     public static final String ERROR_AT_LEAST_ONE_PERIOD = "error.at.least.one.period";
 
     // Global Messages
-    public static final Object BUDGET_OVERRIDE = "document.budget.override";
+    public static final String BUDGET_OVERRIDE = "document.budget.override";
 
 }

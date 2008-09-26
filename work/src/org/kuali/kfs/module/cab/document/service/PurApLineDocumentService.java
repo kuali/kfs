@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.service;
 
-import java.util.List;
-
-import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
@@ -39,7 +37,7 @@ public interface PurApLineDocumentService {
      * @throws WorkflowException
      */
     String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException;
-    
+
     /**
      * Create CAMS asset payment document.
      * 
@@ -50,4 +48,5 @@ public interface PurApLineDocumentService {
      * @throws WorkflowException
      */
     String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException;
+
 }

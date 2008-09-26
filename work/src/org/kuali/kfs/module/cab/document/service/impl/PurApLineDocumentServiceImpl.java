@@ -56,11 +56,17 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private PurApLineService purApLineService;
 
     public String processApplyPayment(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession) throws WorkflowException {
-        // TODO Auto-generated method stub
         AssetPaymentDocument newDocument = (AssetPaymentDocument) documentService.getNewDocument(AssetPaymentDocument.class);
-        return null;
+        newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
+        // set assetPaymentDetail list
+        createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
+        documentService.saveDocument(newDocument);
+
+        postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
+        return newDocument.getDocumentNumber();
     }
-    
+
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processCreateAsset(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
@@ -75,42 +81,57 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         Pretag preTag = purApLineService.getPreTagLineItem(purApForm.getPurchaseOrderIdentifier(), selectedItem.getItemLineNumber());
 
         // create asset global BO instance
-        AssetGlobal assetGlobal = createAssetGlobal(selectedItem, newDocument, preTag, purApForm.getRequisitionIdentifier());
+        AssetGlobal assetGlobal = createAssetGlobal(selectedItem, newDocument.getDocumentNumber(), preTag, purApForm.getRequisitionIdentifier());
 
         // save asset global BO to the document
         newDocument.getNewMaintainableObject().setBusinessObject(assetGlobal);
         documentService.saveDocument(newDocument);
 
-        // save CAMS document number in CAB
-        selectedItem.setCapitalAssetManagementDocumentNumber(newDocument.getDocumentNumber());
-        // in-activate selected Item
-        selectedItem.setActive(false);
-        // in-active document if all the associated items are inactive.
-        if (ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
-            // link reference from item to document should be set in PurApLineAction.getSelectedLineItem().
-            inActivateDocument(selectedItem.getPurchasingAccountsPayableDocument());
-        }
+        postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
 
-        // persistent to the table
-        purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
         if (preTag != null) {
             businessObjectService.save(preTag);
         }
         return newDocument.getDocumentNumber();
     }
 
+
     /**
-     * In-activate document when all the associated items are inactive.
+     * Process item line, cab document after creating CAMs document.
      * 
-     * @param selectedDoc
+     * @param selectedItem
+     * @param purApForm
+     * @param purApLineSession
+     * @param documentNumber
      */
-    private void inActivateDocument(PurchasingAccountsPayableDocument selectedDoc) {
-        for (PurchasingAccountsPayableItemAsset item : selectedDoc.getPurchasingAccountsPayableItemAssets()) {
-            if (item.isActive()) {
-                return;
+    private void postProcessCreatingDocument(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession, String documentNumber) {
+        // save CAMS document number in CAB
+        selectedItem.setCapitalAssetManagementDocumentNumber(documentNumber);
+        // in-activate selected Item
+        selectedItem.setActive(false);
+        // in-active document if all the associated items are inactive.
+        if (ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
+            // link reference from item to document should be set in PurApLineAction.getSelectedLineItem().
+            purApLineService.inActivateDocument(selectedItem.getPurchasingAccountsPayableDocument());
+        }
+
+        setFormActiveItemIndicator(purApForm);
+        // persistent to the table
+        purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
+    }
+
+    /**
+     * In-activate form activeItemExist indicator if all items associating with the form are inactive.
+     * 
+     * @param purApForm
+     */
+    private void setFormActiveItemIndicator(PurApLineForm purApForm) {
+        for (PurchasingAccountsPayableDocument document : purApForm.getPurApDocs()) {
+            if (document.isActive()) {
+                purApForm.setActiveItemExist(true);
             }
         }
-        selectedDoc.setActive(false);
+        purApForm.setActiveItemExist(false);
     }
 
 
@@ -121,7 +142,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param newDocument
      * @param assetGlobal
      */
-    private void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, MaintenanceDocument newDocument, AssetGlobal assetGlobal, Pretag preTag) {
+    private void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag) {
         // build assetGlobalDetail list
         List<AssetGlobalDetail> assetDetailsList = assetGlobal.getAssetGlobalDetails();
         List<AssetGlobalDetail> sharedDetails = assetGlobal.getAssetSharedDetails();
@@ -201,20 +222,20 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param assetGlobal
      * @param requisitionIdentifier
      */
-    private void setAssetGlobalPaymentDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Integer requisitionIdentifier) {
-        List<AssetPaymentDetail> assetPaymentList = assetGlobal.getAssetPaymentDetails();
+    private void createAssetPaymentDetails(List<AssetPaymentDetail> assetPaymentList, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Integer requisitionIdentifier) {
         int seq = 1;
+
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
             AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
             // initialize payment detail fields
-            assetPaymentDetail.setDocumentNumber(assetGlobal.getDocumentNumber());
+            assetPaymentDetail.setDocumentNumber(documentNumber);
             assetPaymentDetail.setSequenceNumber(new Integer(seq++));
             assetPaymentDetail.setChartOfAccountsCode(glEntry.getChartOfAccountsCode());
             assetPaymentDetail.setAccountNumber(replaceFiller(glEntry.getAccountNumber()));
             assetPaymentDetail.setSubAccountNumber(replaceFiller(glEntry.getSubAccountNumber()));
             assetPaymentDetail.setFinancialObjectCode(replaceFiller(glEntry.getFinancialObjectCode()));
-            assetPaymentDetail.setFinancialSubObjectCode(glEntry.getFinancialSubObjectCode());
+            assetPaymentDetail.setFinancialSubObjectCode(replaceFiller(glEntry.getFinancialSubObjectCode()));
             assetPaymentDetail.setProjectCode(replaceFiller(glEntry.getProjectCode()));
             assetPaymentDetail.setOrganizationReferenceId(glEntry.getOrganizationReferenceId());
             assetPaymentDetail.setPostingYear(glEntry.getUniversityFiscalYear());
@@ -238,13 +259,13 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         }
     }
 
+
     /**
      * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.
      * 
      * @param glEntry
      */
     private void inActivateGLEntry(GeneralLedgerEntry glEntry) {
-        // glEntry.refreshReferenceObject("");
 
         for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
             if (account.isActive()) {
@@ -268,9 +289,9 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @return
      */
-    private AssetGlobal createAssetGlobal(PurchasingAccountsPayableItemAsset selectedItem, MaintenanceDocument newDocument, Pretag preTag, Integer requisitionIdentifier) {
+    private AssetGlobal createAssetGlobal(PurchasingAccountsPayableItemAsset selectedItem, String documentNumber, Pretag preTag, Integer requisitionIdentifier) {
         AssetGlobal assetGlobal = new AssetGlobal();
-        assetGlobal.setDocumentNumber(newDocument.getDocumentNumber());
+        assetGlobal.setDocumentNumber(documentNumber);
         assetGlobal.setCapitalAssetDescription(selectedItem.getAccountsPayableLineItemDescription());
         assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
@@ -280,13 +301,13 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         if (preTag != null) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
         }
-        
+
         // set asset global detail list
-        setAssetGlobalDetails(selectedItem, newDocument, assetGlobal, preTag);
-        
+        setAssetGlobalDetails(selectedItem, assetGlobal, preTag);
+
         // build payments list for asset global
-        setAssetGlobalPaymentDetails(selectedItem, assetGlobal, requisitionIdentifier);
-        
+        createAssetPaymentDetails(assetGlobal.getAssetPaymentDetails(), selectedItem, documentNumber, requisitionIdentifier);
+
         return assetGlobal;
     }
 

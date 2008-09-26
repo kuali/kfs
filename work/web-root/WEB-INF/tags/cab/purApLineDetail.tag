@@ -117,15 +117,15 @@
 		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-allocate.gif" styleClass="tinybutton" property="methodToCall.allocate.doc${docPos-1}.line${linePos-1}" title="allocate" alt="allocate"/>
 		<br></br>
 		<c:if test="${itemLine.createAssetIndicator}">
-		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.createAsset.doc${docPos-1}.line${linePos-1}" title="createAsset" alt="createAsset"/>
+		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" styleClass="tinybutton" property="methodToCall.createAsset.doc${docPos-1}.line${linePos-1}" title="createAsset" alt="createAsset"/>
 		<br></br>
 		</c:if>
 		<c:if test="${itemLine.applyPaymentIndicator}">
-		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
+		<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-applypayment.gif" styleClass="tinybutton" property="methodToCall.applyPayment.doc${docPos-1}.line${linePos-1}" title="applyPayment" alt="applyPayment"/>
 		</c:if>
 	</c:when>
 	<c:otherwise>
-		Submit to CAMS:<br></br>
+		Submitted to CAMS:<br></br>
 		<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
 			<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
 			</kul:htmlControlAttribute>

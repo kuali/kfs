@@ -40,18 +40,20 @@ public class PurApLineForm extends KualiForm {
 
     private KualiDecimal mergeQty;
     private String mergeDesc;
-    
+
     private boolean activeItemExist;
 
     private Integer requisitionIdentifier;
 
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+        this.activeItemExist = false;
     }
 
 
     /**
-     * Gets the activeItemExist attribute. 
+     * Gets the activeItemExist attribute.
+     * 
      * @return Returns the activeItemExist.
      */
     public boolean isActiveItemExist() {
@@ -61,6 +63,7 @@ public class PurApLineForm extends KualiForm {
 
     /**
      * Sets the activeItemExist attribute value.
+     * 
      * @param activeItemExist The activeItemExist to set.
      */
     public void setActiveItemExist(boolean activeItemExist) {

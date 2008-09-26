@@ -72,6 +72,19 @@ public class PurApLineServiceImpl implements PurApLineService {
     private BusinessObjectService businessObjectService;
     private PurApLineDao purApLineDao;
 
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#inActivateDocument(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument)
+     */
+    public void inActivateDocument(PurchasingAccountsPayableDocument selectedDoc) {
+        for (PurchasingAccountsPayableItemAsset item : selectedDoc.getPurchasingAccountsPayableItemAssets()) {
+            if (item.isActive()) {
+                return;
+            }
+        }
+        selectedDoc.setActive(false);
+    }
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#resetSelectedValue(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
@@ -133,6 +146,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         // remove allocate source line item.
         if (ObjectUtils.isNotNull(selectedLineItem.getPurchasingAccountsPayableDocument())) {
             selectedLineItem.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(selectedLineItem);
+            inActivateDocument(selectedLineItem.getPurchasingAccountsPayableDocument());
         }
 
         // Set create asset and apply payment indicator.
@@ -560,7 +574,10 @@ public class PurApLineServiceImpl implements PurApLineService {
             // Add into action history.
             addMergeHistory(purApLineSession, isMergeAllAction, firstItem, item);
             // remove mergeLines except the first one.
-            item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
+            if (ObjectUtils.isNotNull(item.getPurchasingAccountsPayableDocument())) {
+                item.getPurchasingAccountsPayableDocument().getPurchasingAccountsPayableItemAssets().remove(item);
+                inActivateDocument(item.getPurchasingAccountsPayableDocument());
+            }
         }
 
         // set create asset/ apply payment indicator if any of the merged lines has the indicator set.

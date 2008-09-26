@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +40,9 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -51,7 +53,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class PurApLineAction extends KualiAction {
@@ -86,28 +87,24 @@ public class PurApLineAction extends KualiAction {
      * @param purApLineForm
      */
     protected void buildPurApDocList(PurApLineForm purApLineForm) {
-        boolean activeDocExist = false;
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
         Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
         if (purApDocs == null || purApDocs.isEmpty()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier());
-            purApLineForm.setActiveItemExist(false);
         }
         else {
             for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-                // Select purApDoc
-                purApLineForm.getPurApDocs().add(purApDoc);
-                if (!activeDocExist && ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
-                    activeDocExist = true;
+                if (ObjectUtils.isNotNull(purApDoc) && purApDoc.isActive()) {
+                    // If there exists active document, set the activaItemExist indicator.
+                    purApLineForm.setActiveItemExist(true);
+                    break;
                 }
             }
-            if (purApLineForm.getPurApDocs().isEmpty() || !activeDocExist) {
+            purApLineForm.getPurApDocs().addAll(purApDocs);
+            // If no active item exists or no exist document, bring up a message for the user.
+            if (purApDocs.isEmpty() || !purApLineForm.isActiveItemExist()) {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.MESSAGE_NO_ACTIVE_PURAP_DOC);
-                purApLineForm.setActiveItemExist(false);
-            }
-            else {
-                purApLineForm.setActiveItemExist(true);
             }
         }
     }
@@ -448,14 +445,15 @@ public class PurApLineAction extends KualiAction {
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String documentNumber = null;
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                // TODO
                 // create CAMS asset payment global document.
-                purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession);
-                // inactivate the item lines and account lines.
-                // remove item line from doc.items list
+                if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession)) != null) {
+                    String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_PAYMENT_DOCUMENT, documentNumber);
+                    return new ActionForward(forwardUrl, true);
+                }
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -463,13 +461,14 @@ public class PurApLineAction extends KualiAction {
             // TI indicator exists, bring up a warning message to confirm this action.
             return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
         }
-        // TODO
         // create CAMS asset payment global document.
-        // inactivate the item lines and account lines.
-        // remove item line from doc.items list
-
-        purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession)) != null) {
+            String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_PAYMENT_DOCUMENT, documentNumber);
+            return new ActionForward(forwardUrl, true);
+        }
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
     }
 
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -477,19 +476,18 @@ public class PurApLineAction extends KualiAction {
         PurchasingAccountsPayableItemAsset selectedLine = getSelectedLineItem(purApForm);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String documentNumber = null;
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // create CAMS asset global document.
-                String documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession);
-
-                // forward link to asset global
-                String forwardUrl = getAssetGlobalForwardLink(request, documentNumber);
-                return new ActionForward(forwardUrl, true);
+                if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
+                    // forward link to asset global
+                    String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
+                    return new ActionForward(forwardUrl, true);
+                }
             }
-            else {
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-            }
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // validate selected line item
@@ -501,11 +499,11 @@ public class PurApLineAction extends KualiAction {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
             }
             // create CAMS asset global document.
-            String documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession);
-
-            // forward link to asset global
-            String forwardUrl = getAssetGlobalForwardLink(request, documentNumber);
-            return new ActionForward(forwardUrl, true);
+            if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
+                // forward link to asset global
+                String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
+                return new ActionForward(forwardUrl, true);
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -518,13 +516,20 @@ public class PurApLineAction extends KualiAction {
      * @param documentNumber
      * @return
      */
-    private String getAssetGlobalForwardLink(HttpServletRequest request, String documentNumber) {
-        Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
-        parameters.put(KNSConstants.PARAMETER_DOC_ID, documentNumber);
-        parameters.put(KNSConstants.PARAMETER_COMMAND, KEWConstants.DOCSEARCH_COMMAND);
-        String forwardUrl = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KNSConstants.MAINTENANCE_ACTION, parameters);
-        return forwardUrl;
+    private String getDocHandlerForwardLink(String docTypeName, String documentNumber) {
+        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentType documentType = documentTypeService.findByName(docTypeName);
+        String docHandlerUrl = documentType.getDocHandlerUrl();
+
+        if (docHandlerUrl.indexOf("?") == -1) {
+            docHandlerUrl += "?";
+        }
+        else {
+            docHandlerUrl += "&";
+        }
+
+        docHandlerUrl += KNSConstants.PARAMETER_DOC_ID + "=" + documentNumber + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
+        return docHandlerUrl;
     }
 
     /**

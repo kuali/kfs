@@ -19,6 +19,7 @@
 	transactionalDocument="false" headerDispatch="true" headerTabActive="true"
 	sessionDocument="false" headerMenuBar="" feedbackKey="true" defaultMethodToCall="refresh" >
 	<html:hidden property="requisitionIdentifier" />
+	<html:hidden property="activeItemExist" />
 	<kul:tabTop tabTitle="Purchase Order Processing" defaultOpen="true">
 		<div class="tab-container" align=center>
 			<c:set var="cabPurApDocumentAttributes"	value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />

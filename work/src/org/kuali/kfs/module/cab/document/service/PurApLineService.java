@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
@@ -154,4 +155,11 @@ public interface PurApLineService {
      * @return
      */
     Pretag getPreTagLineItem(String purchaseOrderIdentifier, Integer lineItemNumber);
+
+    /**
+     * In-activate document when all the associated items are inactive.
+     * 
+     * @param selectedDoc
+     */
+    void inActivateDocument(PurchasingAccountsPayableDocument selectedDoc);
 }

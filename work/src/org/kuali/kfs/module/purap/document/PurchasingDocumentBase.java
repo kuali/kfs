@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
@@ -1143,16 +1144,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         List managedLists = super.buildListOfDeletionAwareLists();
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchasingCapitalAssetItems());
+            List<ItemCapitalAsset> assetLists = new ArrayList<ItemCapitalAsset>();
             if (StringUtils.equals(this.getCapitalAssetSystemTypeCode(),PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
                 for (PurchasingCapitalAssetItem capitalAssetItem : this.getPurchasingCapitalAssetItems()) {
-                    managedLists.add(capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
+                    //We only need to add the itemCapitalAssets to assetLists if the system is not null, otherwise 
+                    //just let the assetLists be empty ArrayList.
+                    if (capitalAssetItem.getPurchasingCapitalAssetSystem() != null) {
+                        assetLists.addAll(capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
+                    }
                 }
             }
             else {
                 for (CapitalAssetSystem system : this.getPurchasingCapitalAssetSystems()) {
-                    managedLists.add(system.getItemCapitalAssets());
+                    assetLists.addAll(system.getItemCapitalAssets());
                 }
             }
+            managedLists.add(assetLists);
         }
         return managedLists;
     }

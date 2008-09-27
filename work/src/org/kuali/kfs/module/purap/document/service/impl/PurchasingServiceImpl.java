@@ -75,7 +75,10 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
-                    if (ObjectUtils.isNull(camsItem)) {
+                    //If either the camsItem is null or if its system is null and the document's system type is IND (this is
+                    //the case when the user tries to switch from ONE system type to IND system type), we'll have to create
+                    //the camsItem again along with its system to prevent the No collection found error.
+                    if (ObjectUtils.isNull(camsItem) || (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL) && ObjectUtils.isNull(camsItem.getPurchasingCapitalAssetSystem())) ) {
                         PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
                         newCamsItemsList.add(newCamsItem);
                     }

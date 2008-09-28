@@ -51,6 +51,7 @@
     <c:if test="${KualiForm.document.bankCashOffsetEnabled}" >
         <gl:generalLedgerPendingEntries />
     </c:if>
+    
     <kul:notes/>
     <kul:adHocRecipients />
     <kul:routeLog/>

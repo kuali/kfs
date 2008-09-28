@@ -43,9 +43,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -530,6 +533,29 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
+    
+    /**
+     * Helper method on document for determining whether the document can have GLPEs.
+     * 
+     * @return true if document can have GLPEs
+     */
+    public boolean getBankCashOffsetEnabled() {
+        return SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
+    }
 
+    /**
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        if (getBankCashOffsetEnabled()) { 
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+                logErrors();
+                throw new ValidationException("general ledger GLPE generation failed");
+            }
+        }
+        
+        super.prepareForSave(event);
+    }
     
 }

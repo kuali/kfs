@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -100,10 +101,12 @@ public class DepositWizardAction extends KualiAction {
             String depositTypeCode = request.getParameter("depositTypeCode");
 
             CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
+            DocumentActionFlags documentActionFlags = cmDocAuthorizer.getDocumentActionFlags(cmDoc, GlobalVariables.getUserSession().getUniversalUser());
 
             try {
-            initializeForm(dwForm, cmDoc, depositTypeCode);
-            } catch (CashDrawerStateException cdse) {
+                initializeForm(dwForm, cmDoc, depositTypeCode, documentActionFlags);
+            }
+            catch (CashDrawerStateException cdse) {
                 dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);
             }
         }
@@ -117,8 +120,9 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      * @param cmDoc
      * @param depositTypeCode
+     * @param documentActionFlags
      */
-    private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode) {
+    private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode, DocumentActionFlags documentActionFlags) {
         String verificationUnit = cmDoc.getWorkgroupName();
 
         CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(verificationUnit, true);
@@ -150,6 +154,8 @@ public class DepositWizardAction extends KualiAction {
             coinDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
             dform.setCoinDetail(coinDetail);
         }
+        
+        dform.setDocumentActionFlags(documentActionFlags);
 
         loadCashReceipts(dform);
         loadUndepositedCashieringChecks(dform);

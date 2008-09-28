@@ -73,7 +73,7 @@ function checkCheckAllOrNone() {
 			<table cellpadding="0" cellspacing="0" class="datatable"
 				summary="deposit header info">
 				<tr>
-				    <kfs:bankLabel/>
+				    <kfs:bankLabel align="left"/>
 					<kul:htmlAttributeHeaderCell labelFor="depositTypeCode"
 						attributeEntry="${depositAttributes.depositTypeCode}"
 						hideRequiredAsterisk="true" horizontal="true" align="left" />
@@ -82,7 +82,7 @@ function checkCheckAllOrNone() {
 						hideRequiredAsterisk="true" horizontal="true" align="left" />
 				</tr>
 				<tr>
-                    <kfs:bankControl property="bankCode" objectProperty="bank" depositOnly="true" readOnly="${readOnly}" class="infoline" />				
+                    <kfs:bankControl property="bankCode" objectProperty="bank" depositOnly="true" readOnly="${readOnly}" style="infoline" />				
 					<td class="infoline"><kul:htmlControlAttribute
 						property="depositTypeCode"
 						attributeEntry="${depositAttributes.depositTypeCode}"

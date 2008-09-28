@@ -47,7 +47,9 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class FaxServiceImpl implements FaxService {
 
     private static final Logger LOG = Logger.getLogger(BulkReceivingServiceImpl.class);

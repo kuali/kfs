@@ -21,6 +21,7 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_REQUIRED;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -804,14 +805,32 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         // KULEDOCS-1440: need to reset base accounting lines since when doc number changes on copy base lines would still reference
         // old doc number causing revert button to show up
-        tmpForm.setBaselineSourceAccountingLines(tmpForm.getFinancialDocument().getSourceAccountingLines());
-        tmpForm.setBaselineTargetAccountingLines(tmpForm.getFinancialDocument().getTargetAccountingLines());
+        
+        // TODO: remove the deepCopyAccountingLinesList method once we remove baseline accounting lines
+        tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
+        tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
+        
+        
         tmpForm.getSourceLineDecorators().clear();
         tmpForm.getTargetLineDecorators().clear();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * TODO: remove this method once baseline accounting lines has been removed
+     */
+    private List deepCopyAccountingLinesList(List originals) {
+        if (originals == null) {
+            return null;
+        }
+        List copiedLines = new ArrayList();
+        for (int i = 0; i < originals.size(); i++) {
+            copiedLines.add(ObjectUtils.deepCopy((AccountingLine) originals.get(i)));
+        }
+        return copiedLines;
+    }
+    
     /**
      * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
      * all of the labels for each of the accounting line values.
@@ -986,8 +1005,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         ActionForward forward = super.save(mapping, form, request, response);
 
         // KULEDOCS-1443: For the revert button, set the new baseline accounting lines as the most recently saved lines
-        tmpForm.setBaselineSourceAccountingLines(tmpForm.getFinancialDocument().getSourceAccountingLines());
-        tmpForm.setBaselineTargetAccountingLines(tmpForm.getFinancialDocument().getTargetAccountingLines());
+        // TODO: remove the deepCopyAccountingLinesList method once the baseline accounting lines have been removed
+        tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
+        tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
         
         // need to check on sales tax for all the accounting lines
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());

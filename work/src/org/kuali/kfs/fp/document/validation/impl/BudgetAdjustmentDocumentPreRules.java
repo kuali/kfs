@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
@@ -22,6 +24,7 @@ import org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorize
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -32,6 +35,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Checks warnings and prompt conditions for ba document.
@@ -80,8 +84,10 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
             if (generateBenefits) {
                 SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).generateLaborBenefitsAccountingLines(budgetDocument);
                 // update baselines in form
-                ((KualiAccountingDocumentFormBase) form).setBaselineSourceAccountingLines(budgetDocument.getSourceAccountingLines());
-                ((KualiAccountingDocumentFormBase) form).setBaselineTargetAccountingLines(budgetDocument.getTargetAccountingLines());
+                
+                // TODO: remove the deepCopyAccountingLinesList method from this class once we take out the baseline accountingl lines
+                ((KualiAccountingDocumentFormBase) form).setBaselineSourceAccountingLines(deepCopyAccountingLinesList(budgetDocument.getSourceAccountingLines()));
+                ((KualiAccountingDocumentFormBase) form).setBaselineTargetAccountingLines(deepCopyAccountingLinesList(budgetDocument.getTargetAccountingLines()));
 
                 // return to document after lines are generated
                 super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
@@ -92,4 +98,17 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         return true;
     }
 
+    /**
+     * TODO: remove this method once baseline accounting lines has been removed
+     */
+    private List deepCopyAccountingLinesList(List originals) {
+        if (originals == null) {
+            return null;
+        }
+        List copiedLines = new ArrayList();
+        for (int i = 0; i < originals.size(); i++) {
+            copiedLines.add(ObjectUtils.deepCopy((AccountingLine) originals.get(i)));
+        }
+        return copiedLines;
+    }
 }

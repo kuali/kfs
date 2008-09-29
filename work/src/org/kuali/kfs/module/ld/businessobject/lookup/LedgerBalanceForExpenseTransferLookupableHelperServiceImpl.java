@@ -109,7 +109,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
         for (BusinessObject element : displayList) {
             LOG.debug("Doing lookup for " + element.getClass());
             String returnUrl = 
-                getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
+                getReturnUrl(element, lookupForm, returnKeys).constructCompleteHtmlTag();
 
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
@@ -128,7 +128,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
                 else {
                     Collection<Column> columns = getColumns(element);
                     
-                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, "", getActionUrls(element, pkNames));
+                    ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
                 }

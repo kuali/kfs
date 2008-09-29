@@ -277,9 +277,7 @@ financialObjectCode and financialSubObjectCode??
 			  	  <logic:present name="KualiForm" property="formKey">
 					  <c:if
 						test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
-						<display:column class="infocell" title="Return value">
-							<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
-						</display:column>
+						<display:column class="infocell" property="returnUrl" media="html" />
 					  </c:if>
 					  <c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true}">
 						<display:column class="infocell" property="actionUrls"

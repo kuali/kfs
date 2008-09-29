@@ -43,6 +43,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Implements custom search routine to find the current budget locks and build up the result List. Set an unlock URL for each lock.
@@ -246,8 +247,8 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
-        return "";
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames) {
+        return getEmptyAnchorHtmlData();
     }
 
     /**

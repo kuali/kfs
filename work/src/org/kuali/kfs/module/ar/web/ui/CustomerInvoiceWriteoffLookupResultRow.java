@@ -24,8 +24,8 @@ public class CustomerInvoiceWriteoffLookupResultRow extends ResultRow {
     
     private List<ResultRow> subResultRows;
     
-    public CustomerInvoiceWriteoffLookupResultRow(List<Column> columns, List<ResultRow> subResultRows, String returnUrl, String actionUrls, String titleText ) {
-        super(columns, returnUrl, actionUrls, "");
+    public CustomerInvoiceWriteoffLookupResultRow(List<Column> columns, List<ResultRow> subResultRows, String returnUrl, String actionUrls) {
+        super(columns, returnUrl, actionUrls);
         this.subResultRows = subResultRows;
     }
 

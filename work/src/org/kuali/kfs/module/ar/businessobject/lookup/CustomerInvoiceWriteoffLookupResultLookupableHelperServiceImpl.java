@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
@@ -35,18 +36,23 @@ import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
 import org.kuali.rice.kns.service.AuthorizationService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.comparator.BeanPropertyComparator;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.format.BooleanFormatter;
 import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 
@@ -103,17 +109,16 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
             
             //create main customer header row
             Collection<Column> columns = getColumns(element);
-            String returnUrl = 
-                getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
+            HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys);
             CustomerInvoiceWriteoffLookupResultRow row = 
-                new CustomerInvoiceWriteoffLookupResultRow(
-                        (List<Column>) columns, subResultRows, returnUrl, getActionUrls(element, pkNames), "");
+                new CustomerInvoiceWriteoffLookupResultRow((List<Column>) columns, subResultRows, 
+                        returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames));
             resultTable.add(row);
         }
 
         return displayList;
     }
-
+    
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */

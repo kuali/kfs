@@ -27,9 +27,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * Searches for documents that are not approved.
@@ -98,9 +100,8 @@ public class OutstandingCertificationsByReportLookupableHelperServiceImpl extend
     }
 
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
-        
-        return "";
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List pkNames) {
+        return getEmptyAnchorHtmlData();
     }
    
 }

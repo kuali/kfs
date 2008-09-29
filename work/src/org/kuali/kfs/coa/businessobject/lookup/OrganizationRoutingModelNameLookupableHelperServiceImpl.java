@@ -25,6 +25,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 /**
  * This class overrides the getBackLocation, getReturnUrl, setFieldConversions and getActionUrls for
@@ -58,12 +59,12 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
      *      java.lang.String)
      */
     @Override
-    public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl, List pkNames) {
-        Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl, pkNames);
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys) {
+        Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "modelName" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelChartOfAccountsCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelOrganizationCode");
-        return UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+        return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
     }
 
     /**

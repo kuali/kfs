@@ -161,28 +161,7 @@
     <!--field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/-->
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
   </class-descriptor>
-
-  <class-descriptor class="org.kuali.kfs.pdp.businessobject.DocumentType" table="PDP_DOC_TYP_CD_T">
-    <field-descriptor name="id" column="DOC_TYP_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_DOC_TYP_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="lastUpdateUserId" column="LST_UPDT_USR_ID" jdbc-type="VARCHAR"/>
-
-    <field-descriptor name="fdocTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="fsOriginCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
-
-    <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="transactionTypeCode" column="TRN_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
-      <foreignkey field-ref="disbursementTypeCode"/>
-    </reference-descriptor>
-
-    <reference-descriptor name="transactionType" class-ref="org.kuali.kfs.pdp.businessobject.TransactionType" auto-retrieve="true" auto-update="false" auto-delete="false">
-      <foreignkey field-ref="transactionTypeCode"/>
-    </reference-descriptor>
-
-  </class-descriptor>
-
+ 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.FormatProcess" table="PDP_FMT_PROC_T">
     <field-descriptor name="physicalCampusProcessCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="beginFormat" column="BEG_PROC_TS" jdbc-type="TIMESTAMP"/>

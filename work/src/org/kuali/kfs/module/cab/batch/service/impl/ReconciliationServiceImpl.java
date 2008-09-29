@@ -60,7 +60,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      */
     public void reconcile(Collection<Entry> glEntries, Collection<GeneralLedgerPendingEntry> pendingGlEntries, Collection<PurApAccountingLineBase> purapAcctEntries) {
         /**
-         * FORMULA is amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
+         * FORMULA is to equate amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
          */
         LOG.info("Reconcile started");
         groupGLEntries(glEntries);
@@ -135,7 +135,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     protected void reconcileGroups(Collection<GlAccountLineGroup> glKeySet) {
         for (GlAccountLineGroup glAccountLineGroup : glKeySet) {
             PendingGlAccountLineGroup pendingGlAccountLineGroup = this.pendingGlEntryGroupMap.get(glAccountLineGroup);
-            PurApAccountLineGroup purapAccountLineGroup = purapAcctGroupMap.get(glAccountLineGroup);
+            PurApAccountLineGroup purapAccountLineGroup = this.purapAcctGroupMap.get(glAccountLineGroup);
             KualiDecimal pendingGlAmt = pendingGlAccountLineGroup != null ? pendingGlAccountLineGroup.getAmount() : KualiDecimal.ZERO;
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
             KualiDecimal totalAmount = glAmt.add(pendingGlAmt);

@@ -80,15 +80,15 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      * 
      * @param entry PurApAccountingLineBase
      */
-    public void combineEntry(PurApAccountingLineBase srcEntry) {
-        this.sourceEntries.add(srcEntry);
-        if (CreditMemoAccountHistory.class.isAssignableFrom(srcEntry.getClass())) {
-            this.amount = this.amount.add(srcEntry.getAmount().multiply(NEGATIVE_ONE));
+    public void combineEntry(PurApAccountingLineBase newEntry) {
+        this.sourceEntries.add(newEntry);
+        if (CreditMemoAccountHistory.class.isAssignableFrom(newEntry.getClass())) {
+            this.amount = this.amount.add(newEntry.getAmount().multiply(NEGATIVE_ONE));
         }
         else {
-            this.amount = this.amount.add(srcEntry.getAmount());
+            this.amount = this.amount.add(newEntry.getAmount());
         }
-        this.targetEntry.setAmount(this.targetEntry.getAmount().add(srcEntry.getAmount()));
+        this.targetEntry.setAmount(this.targetEntry.getAmount().add(newEntry.getAmount()));
     }
 
     /**

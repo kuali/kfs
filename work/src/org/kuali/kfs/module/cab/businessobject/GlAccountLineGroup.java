@@ -77,27 +77,27 @@ public class GlAccountLineGroup extends AccountLineGroup {
      * 
      * @param entry
      */
-    public void combineEntry(Entry srcEntry) {
-        this.sourceEntries.add(srcEntry);
-        KualiDecimal srcAmt = srcEntry.getTransactionLedgerEntryAmount();
-        String srcDebitCreditCode = srcEntry.getTransactionDebitCreditCode();
+    public void combineEntry(Entry newEntry) {
+        this.sourceEntries.add(newEntry);
+        KualiDecimal newAmt = newEntry.getTransactionLedgerEntryAmount();
+        String newDebitCreditCode = newEntry.getTransactionDebitCreditCode();
 
         KualiDecimal targetAmount = this.targetEntry.getTransactionLedgerEntryAmount();
         String targetDebitCreditCode = this.targetEntry.getTransactionDebitCreditCode();
 
         // if debit/credit code is same then just add the amount
-        if (targetDebitCreditCode.equals(srcDebitCreditCode)) {
-            targetAmount = targetAmount.add(srcAmt);
+        if (targetDebitCreditCode.equals(newDebitCreditCode)) {
+            targetAmount = targetAmount.add(newAmt);
         }
         else {
             // if debit/credit code is not the same and new amount is greater, toggle the debit/credit code
-            if (srcAmt.isGreaterThan(targetAmount)) {
-                targetDebitCreditCode = srcDebitCreditCode;
-                targetAmount = srcAmt.subtract(targetAmount);
+            if (newAmt.isGreaterThan(targetAmount)) {
+                targetDebitCreditCode = newDebitCreditCode;
+                targetAmount = newAmt.subtract(targetAmount);
             }
             else {
                 // if debit/credit code is not the same and current amount is greater or equal
-                targetAmount = targetAmount.subtract(srcAmt);
+                targetAmount = targetAmount.subtract(newAmt);
             }
         }
         this.targetEntry.setTransactionDebitCreditCode(targetDebitCreditCode);

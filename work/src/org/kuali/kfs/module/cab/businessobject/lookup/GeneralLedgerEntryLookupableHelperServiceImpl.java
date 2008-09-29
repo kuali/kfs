@@ -92,9 +92,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
                     Map<String, String> cmKeys = new HashMap<String, String>();
                     cmKeys.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, entry.getDocumentNumber());
                     // check if vendor credit memo, then include as FP line
-                    // FIXME get the latest db before uncommenting
-                    Collection<CreditMemoDocument> matchingCreditMemos = null;
-                    // businessObjectService.findMatching(CreditMemoDocument.class, cmKeys);
+                    Collection<CreditMemoDocument> matchingCreditMemos = businessObjectService.findMatching(CreditMemoDocument.class, cmKeys);
                     if (matchingCreditMemos != null && !matchingCreditMemos.isEmpty()) {
                         for (CreditMemoDocument creditMemoDocument : matchingCreditMemos) {
                             if (creditMemoDocument.getPurchaseOrderIdentifier() == null) {

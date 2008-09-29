@@ -65,7 +65,6 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -78,12 +77,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class BatchExtractServiceImpl implements BatchExtractService {
 
     protected static final Logger LOG = Logger.getLogger(BatchExtractServiceImpl.class);
-    protected static final String NEW_LINE = System.getProperty("line.separator");
     protected BusinessObjectService businessObjectService;
     protected ExtractDao extractDao;
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
-    protected MailService mailService;
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
 
     /**
@@ -476,23 +473,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
 
     /**
-     * Helper method which prepares message body for a list
-     * 
-     * @param msgBuilder Message Builder
-     * @param subHdr Sub Heading
-     * @param entries GL Entries
-     */
-    protected void prepareListDetails(StringBuilder msgBuilder, String subHdr, List<Entry> entries) {
-        msgBuilder.append(NEW_LINE);
-        msgBuilder.append(subHdr);
-        msgBuilder.append(NEW_LINE);
-        for (Entry entry : entries) {
-            msgBuilder.append(entry.toString());
-            msgBuilder.append(NEW_LINE);
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
     public void updateLastExtractTime(Timestamp time) {
@@ -541,6 +521,22 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
+     */
+    public void updateLastExtractDate(java.sql.Date dt) {
+        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
+        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
+        if (parameter != null) {
+            SimpleDateFormat format = new SimpleDateFormat(CabConstants.DATE_FORMAT_DT);
+            parameter.setParameterValue(format.format(dt));
+            businessObjectService.save(parameter);
         }
     }
 
@@ -616,23 +612,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         this.parameterService = parameterService;
     }
 
-    /**
-     * Gets the mailService attribute.
-     * 
-     * @return Returns the mailService.
-     */
-    public MailService getMailService() {
-        return mailService;
-    }
-
-    /**
-     * Sets the mailService attribute value.
-     * 
-     * @param mailService The mailService to set.
-     */
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
 
     /**
      * Gets the purchasingAccountsPayableItemAssetDao attribute.
@@ -652,16 +631,5 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         this.purchasingAccountsPayableItemAssetDao = purchasingAccountsPayableItemAssetDao;
     }
 
-    public void updateLastExtractDate(java.sql.Date dt) {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
-        if (parameter != null) {
-            SimpleDateFormat format = new SimpleDateFormat(CabConstants.DATE_FORMAT_DT);
-            parameter.setParameterValue(format.format(dt));
-            businessObjectService.save(parameter);
-        }
-    }
+
 }

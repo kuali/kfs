@@ -93,7 +93,7 @@ public interface BatchExtractService {
      * by pre-asset tagging, using these account lines, batch process can identify the elgible purchase order line items to be saved
      * for pre-tagging screen
      * 
-     * @return
+     * @return Pre-taggable PO Account lines
      */
     Collection<PurchaseOrderAccount> findPreTaggablePOAccounts();
 

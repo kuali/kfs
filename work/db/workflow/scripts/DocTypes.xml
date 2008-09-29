@@ -3781,17 +3781,6 @@
       <routingVersion>1</routingVersion>
     </documentType>
     <documentType>
-      <name>CapitalAssetBuilderPendingActionMaintenanceDocument</name>
-      <parent>KualiSimpleMaintenanceDocument</parent>
-      <label>CAB Action Codes</label>
-      <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
-      <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
-      <blanketApproveWorkgroupName>SY_MAINTENANCE_USERS</blanketApproveWorkgroupName>
-      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-      <active>true</active>
-      <routingVersion>1</routingVersion>
-    </documentType>
-    <documentType>
       <name>OrganizationOptionsMaintenanceDocument</name>
       <parent>KualiSimpleMaintenanceDocument</parent>
       <description>Organization Options</description>

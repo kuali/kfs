@@ -17,16 +17,11 @@ package org.kuali.kfs.module.ar.document;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -40,7 +35,6 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -49,6 +43,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
@@ -344,5 +341,28 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return false;
     }
 
-    
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        
+        if(getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            java.util.Date _today = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+            java.sql.Date today = new java.sql.Date(_today.getTime());
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            for(InvoicePaidApplied ipa : getAppliedPayments()) {
+                String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
+                CustomerInvoiceDocumentService invoices =
+                    SpringContext.getBean(CustomerInvoiceDocumentService.class);
+                CustomerInvoiceDocument invoice = 
+                    invoices.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                // KULAR-384
+                invoice.setClosedDate(today);
+                try {
+                    documentService.saveDocument(invoice);
+                } catch(WorkflowException we) {
+                    LOG.error("Failed to update closed date on Invoice.", we);
+                }
+            }
+        }
+    }
 }

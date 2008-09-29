@@ -86,6 +86,8 @@ function toggle(id) {
 		isCustomerSelected="${isCustomerSelected}" readOnly="${readOnly}" 
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" />
         
+	<gl:generalLedgerPendingEntries />
+		            
 	<kul:notes
 		notesBo="${KualiForm.document.documentBusinessObject.boNotes}"
 		noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"

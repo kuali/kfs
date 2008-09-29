@@ -313,7 +313,7 @@
 											<tr>
 												<td style='text-align: right;' colspan='4'>
 													<html:image property="methodToCall.apply"
-														src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
+														src="${ConfigProperties.externalizable.images.url}tinybutton-apply.gif"
 														alt="Apply" title="Apply" styleClass="tinybutton" />
 												</td>
 											</tr>

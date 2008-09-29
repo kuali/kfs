@@ -83,6 +83,10 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                         newCamsItemsList.add(newCamsItem);
                     }
                     else {
+                        //We need this next line so that the line item info is refreshed 
+                        //within the Capital Asset tab each time the document content has 
+                        //changed during editing to prevent KULPURAP-2926.
+                        camsItem.setPurchasingDocument(purDoc);
                         newCamsItemsList.add(camsItem);
                     }
                 }

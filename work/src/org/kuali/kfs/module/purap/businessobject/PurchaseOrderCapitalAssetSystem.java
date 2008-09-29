@@ -1,10 +1,8 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 
 
@@ -33,7 +31,7 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
 	    this.setCapitalAssetModelDescription(reqSystem.getCapitalAssetModelDescription());
 	    this.setCapitalAssetNoteText(reqSystem.getCapitalAssetNoteText());
 	    populatePurchaseOrderItemCapitalAssets(reqSystem);
-	    this.setCapitalAssetLocations(reqSystem.getCapitalAssetLocations());
+	    populateCapitalAssetLocations(reqSystem);
 	    this.setCapitalAssetCountAssetNumber(reqSystem.getCapitalAssetCountAssetNumber());
 	}
 
@@ -41,6 +39,23 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
 	    for (ItemCapitalAsset reqAsset : reqSystem.getItemCapitalAssets()) {
 	        PurchaseOrderItemCapitalAsset poAsset = new PurchaseOrderItemCapitalAsset(reqAsset.getCapitalAssetNumber());
 	        this.getItemCapitalAssets().add(poAsset);
+	    }
+	}
+	
+	private void populateCapitalAssetLocations(RequisitionCapitalAssetSystem reqSystem) {
+	    for (CapitalAssetLocation reqLocation : reqSystem.getCapitalAssetLocations()) {
+	        PurchaseOrderCapitalAssetLocation poLocation = new PurchaseOrderCapitalAssetLocation();
+	        poLocation.setItemQuantity(reqLocation.getItemQuantity());
+	        poLocation.setCampusCode(reqLocation.getCampusCode());
+	        poLocation.setOffCampusIndicator(reqLocation.isOffCampusIndicator());
+	        poLocation.setBuildingCode(reqLocation.getBuildingCode());
+	        poLocation.setBuildingRoomNumber(reqLocation.getBuildingRoomNumber());
+	        poLocation.setCapitalAssetLine1Address(reqLocation.getCapitalAssetLine1Address());
+	        poLocation.setCapitalAssetCityName(reqLocation.getCapitalAssetCityName());
+	        poLocation.setCapitalAssetStateCode(reqLocation.getCapitalAssetStateCode());
+	        poLocation.setCapitalAssetPostalCode(reqLocation.getCapitalAssetPostalCode());
+	        poLocation.setCapitalAssetCountryCode(reqLocation.getCapitalAssetCountryCode());
+	        this.getCapitalAssetLocations().add(poLocation);
 	    }
 	}
 	

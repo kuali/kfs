@@ -80,16 +80,19 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
-        if (checkReferencesExist(assetTransferDocument) && validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
+        
+        return checkReferencesExist(assetTransferDocument);
+        
+/*        if (checkReferencesExist(assetTransferDocument) && validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
             SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
                 throw new ValidationException("General Ledger GLPE generation failed");
             }
-            return true;
+            return true; 
         }
-        return false;
+        return false;*/
     }
-
+            
     private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
         boolean valid = true;
         List<AssetPayment> assetPayments = asset.getAssetPayments();
@@ -101,6 +104,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                     putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                     valid = false;
                 }
+                
                 AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
                 if (ObjectUtils.isNull(targetAssetObjectCode)) {
                     putError(CamsConstants.DOCUMENT_NUMBER_PATH, CamsKeyConstants.Transfer.ERROR_ASSET_OBJECT_CODE_NOT_FOUND, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
@@ -116,6 +120,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        if (!super.processCustomRouteDocumentBusinessRules(document))
+            return false;
+        
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
 
@@ -131,6 +138,16 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (valid) {
             valid &= applyRules(document);
         }
+        
+        if (validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
+            SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument);
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
+                throw new ValidationException("General Ledger GLPE generation failed");
+            }
+            valid &=true;
+        } else {
+            valid &=false;
+        }        
         return valid;
     }
 

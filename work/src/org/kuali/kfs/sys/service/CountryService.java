@@ -42,6 +42,13 @@ public interface CountryService {
     Country getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, Country existingCountry);
 
     /**
+     * get all countries that are note restricated
+     * 
+     * @return all countries that are note restricated
+     */
+    List<Country> findAllCountriesNotRestricted();
+
+    /**
      * get all countries
      * 
      * @return all countries

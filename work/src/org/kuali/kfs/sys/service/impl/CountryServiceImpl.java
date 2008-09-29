@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,20 @@ public class CountryServiceImpl implements CountryService {
         }
 
         return this.getByPrimaryId(postalCountryCode);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.service.CountryService#findAllCountriesNotRestricted()
+     */
+    public List<Country> findAllCountriesNotRestricted() {
+        List<String> criteriaValues = new ArrayList<String>();
+        criteriaValues.add(null);
+        criteriaValues.add("N");
+        
+        Map<String, Object> postalCountryMap = new HashMap<String, Object>();
+        postalCountryMap.put(KFSPropertyConstants.POSTAL_COUNTRY_RESTRICTED_INDICATOR, criteriaValues);
+        
+        return kualiModuleService.getResponsibleModuleService(Country.class).getExternalizableBusinessObjectsList(Country.class, postalCountryMap);
     }
 
     /**

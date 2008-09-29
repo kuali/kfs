@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -37,15 +38,7 @@ public class CountryNotRestrictedValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-
-        Map<String, List<String>> criteria = new HashMap<String, List<String>>();
-
-        List<String> criteriaValues = new ArrayList<String>();
-        criteriaValues.add(null);
-        criteriaValues.add("N");
-
-        criteria.put("postalCountryRestrictedIndicator", criteriaValues);
-        List<Country> boList = (List<Country>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class, criteria, "postalCountryName", true);
+        List<Country> boList = SpringContext.getBean(CountryService.class).findAllCountriesNotRestricted();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
         Country usCountry = null;

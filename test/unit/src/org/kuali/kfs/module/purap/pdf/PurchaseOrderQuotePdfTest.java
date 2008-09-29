@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 
 @ConfigureContext
@@ -49,6 +50,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        CountryService countryService = SpringContext.getBean(CountryService.class);
         // Map poCriteria = new HashMap();
         // poCriteria.put("documentNumber", new Integer(291190));
         // Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
@@ -80,9 +82,9 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorFaxNumber("517-111-1FAX");
         poqv.setVendorPhoneNumber("1-800-DUSTY-CELL");
         poqv.setVendorPostalCode("48864");
-        Map countryKey = new HashMap();
-        countryKey.put("postalCountryCode", "US");
-        poqv.setVendorCountry((Country) businessObjectService.findByPrimaryKey(Country.class, countryKey));
+
+        Country country = countryService.getByPrimaryId("US");
+        poqv.setVendorCountry(country);
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();
         it.setItemTypeCode("ITEM");

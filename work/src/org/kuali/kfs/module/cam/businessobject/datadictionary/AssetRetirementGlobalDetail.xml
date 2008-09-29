@@ -73,7 +73,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
             <dd:primitiveAttribute source="retirementZipCode" target="postalZipCode" />
-            <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">

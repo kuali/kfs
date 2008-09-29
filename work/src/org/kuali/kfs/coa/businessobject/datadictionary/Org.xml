@@ -135,7 +135,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="postalZip">
         	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
-        	<dd:primitiveAttribute source="organizationStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="organizationZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">

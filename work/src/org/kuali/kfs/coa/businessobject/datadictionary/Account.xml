@@ -135,7 +135,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="postalZipCode">
             <dd:primitiveAttribute source="accountZipCode" target="postalZipCode" />
-            <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountState">
             <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />

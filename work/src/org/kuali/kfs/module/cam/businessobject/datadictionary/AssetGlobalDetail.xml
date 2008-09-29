@@ -70,8 +70,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
           </property>
         </bean>
         <dd:relationship objectAttribute="postalZipCode">
-        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
-        	<dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode" /> 
+        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" /> 
             <dd:primitiveAttribute source="offCampusZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">

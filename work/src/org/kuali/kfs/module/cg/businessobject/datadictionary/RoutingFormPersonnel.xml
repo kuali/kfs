@@ -48,7 +48,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="personZip">
         	<dd:primitiveAttribute source="personCountryCode" target="postalCountryCode" />
-        	<dd:primitiveAttribute source="personStateCode" target="postalStateCode" /> 
             <dd:primitiveAttribute source="personZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="personState">

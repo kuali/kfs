@@ -87,7 +87,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="borrowerPostalZipCode">
         	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
-        	<dd:primitiveAttribute source="borrowerStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="borrowerZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerState">
@@ -99,7 +98,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStoragePostalZipCode">
         	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
-        	<dd:primitiveAttribute source="borrowerStorageStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageState">

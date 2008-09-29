@@ -56,7 +56,6 @@ public class CamsKeyConstants {
         public static final String DEPRECIATION_DATE_PARAMETER_NOT_FOUND = "error.batch.depreciation.depreciationDateNotFound";
         public static final String INVALID_DEPRECIATION_DATE_FORMAT = "error.batch.depreciation.invalidDepreciationDateFormat";
         public static final String DEPRECIATION_ALREADY_RAN_MSG = "error.batch.depreciation.alreadyRan";
-        public static final String ERROR_WHEN_UPDATING_DOCUMENT_HEADER_TABLE = "error.batch.depreciation.documentHeaderUpdateError";
 
         public static final String MSG_REPORT_DEPRECIATION_HEADING1 = "message.batch.report.depreciation.heading.description";
         public static final String MSG_REPORT_DEPRECIATION_HEADING2 = "message.batch.report.depreciation.heading.figures";
@@ -67,10 +66,6 @@ public class CamsKeyConstants {
         public static final String ERROR_INVALID_DOC_POST_DATE = "error.payment.invalid.document.postdate";
         public static final String ERROR_INVALID_OBJECT_SUBTYPE="error.asset.payment.invalidObjectSubtypeCode";                
         public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.payment.object.subtype.not_the_same";
-        public static final String MESSAGE_PAYMENT_WAS_NOT_SUBMITTED = "message.payment.routintCancelled";
-        public static final String TOTAL_LABEL = "label.document.payment.total";
-        public static final String PREVIOUS_COST_LABEL = "label.document.payment.previousCost";
-        public static final String NEW_TOTAL_LABEL = "label.document.payment.newTotal";        
         public static final String ERROR_NON_CAPITAL_ASSET = "error.non.capital.asset.payment";
         public static final String ERROR_ASSET_EXISTS_IN_DOCUMENT="error.asset.exists.in.payment.document";        
         public static final String ERROR_NON_ASSETS_IN_DOCUMENT="error.payment.document.noAssetsInDocumentFound";        
@@ -151,13 +146,7 @@ public class CamsKeyConstants {
     }
 
     public static class BarcodeInventory {
-        public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";
-        public static final String MESSAGE_UPLOAD_RECCOUNT="message.upload.record.count";
-        public static final String MESSAGE_UPLOAD_ERROR_RECCOUNT="message.upload.record.error.count";
-        //public static final String MESSAGE_DOCUMENT_URL="message.upload.document.barcodeInventory";
-        //public static final String MESSAGE_DOCUMENT_CREATED="message.upload.document.barcodeInventory.created";
-        //public static final String MESSAGE_NO_DOCUMENT_CREATED="message.upload.document.barcodeInventory.not.created";
-        
+        public static final String TITLE_BAR_CODE_INVENTORY = "message.upload.title.barCodeInventory";        
         public static final String ERROR_INVALID_FIELD="error.document.invalid.field";
         public static final String ERROR_CAPITAL_ASSET_DOESNT_EXISTS="error.document.capitalAsset.not.found";
         public static final String ERROR_DUPLICATED_TAG_NUMBER="error.document.duplicated.tagNumber";

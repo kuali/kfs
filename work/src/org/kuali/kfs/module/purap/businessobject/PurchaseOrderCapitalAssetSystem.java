@@ -32,11 +32,18 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
 	    this.setCapitalAssetManufacturerName(reqSystem.getCapitalAssetManufacturerName());
 	    this.setCapitalAssetModelDescription(reqSystem.getCapitalAssetModelDescription());
 	    this.setCapitalAssetNoteText(reqSystem.getCapitalAssetNoteText());
-	    this.setItemCapitalAssets(reqSystem.getItemCapitalAssets());
+	    populatePurchaseOrderItemCapitalAssets(reqSystem);
 	    this.setCapitalAssetLocations(reqSystem.getCapitalAssetLocations());
 	    this.setCapitalAssetCountAssetNumber(reqSystem.getCapitalAssetCountAssetNumber());
 	}
 
+	private void populatePurchaseOrderItemCapitalAssets(RequisitionCapitalAssetSystem reqSystem) {
+	    for (ItemCapitalAsset reqAsset : reqSystem.getItemCapitalAssets()) {
+	        PurchaseOrderItemCapitalAsset poAsset = new PurchaseOrderItemCapitalAsset(reqAsset.getCapitalAssetNumber());
+	        this.getItemCapitalAssets().add(poAsset);
+	    }
+	}
+	
 	public String getDocumentNumber() {
         return documentNumber;
     }

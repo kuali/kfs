@@ -6,7 +6,7 @@
 		    xmlns="http://www.kuali.org/modules/purap/electronicInvoice" 
 		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 		   
-  <xsd:import schemaLocation="InvoiceDetailRequest.xsd" namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="https://test.kuali.org/kuali-reg/static/xml/purap/InvoiceDetailRequest.xsd" />
 
   <xsd:element name="Credential">
   	<xsd:complexType>

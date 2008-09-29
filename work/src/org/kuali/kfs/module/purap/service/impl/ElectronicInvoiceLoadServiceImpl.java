@@ -193,7 +193,7 @@ public class ElectronicInvoiceLoadServiceImpl implements ElectronicInvoiceLoadSe
                 LOG.info(filesToBeProcessed[i].getName() + " has been rejected");
                 if (moveFiles) {
                     LOG.info(filesToBeProcessed[i].getName() + " has been marked to move to " + rejectDirName);
-                    eInvoiceLoad.insertRejectFileToMove(filesToBeProcessed[i], rejectDirName);
+                    eInvoiceLoad.addRejectFileToMove(filesToBeProcessed[i], rejectDirName);
                 }
                 hasRejectedFile = true;
             } else {

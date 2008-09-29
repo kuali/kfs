@@ -48,8 +48,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemOutstandingInvoiceAmount;
     private KualiDecimal itemTaxAmount;
 
-    private boolean processedOnElectronicInvoice;
-
     /**
      * Default constructor.
      */
@@ -365,12 +363,4 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         setExtendedPrice(addedPrice);
     }
     
-    public boolean isProcessedOnElectronicInvoice() {
-        return processedOnElectronicInvoice;
-    }
-
-    public void setProcessedOnElectronicInvoice(boolean processedOnElectronicInvoice) {
-        this.processedOnElectronicInvoice = processedOnElectronicInvoice;
-    }
-
 }

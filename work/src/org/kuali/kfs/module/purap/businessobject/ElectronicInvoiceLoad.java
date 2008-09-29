@@ -34,11 +34,11 @@ public class ElectronicInvoiceLoad {
     }
 
     public void insertInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
-        this.invoiceLoadSummaries.put(eils.getVendorDunsNumber(), eils);
+        invoiceLoadSummaries.put(eils.getVendorDunsNumber(), eils);
     }
 
-    public void insertRejectFileToMove(File file, String directory) {
-        this.rejectFilesToMove.put(file, directory);
+    public void addRejectFileToMove(File file, String directory) {
+        rejectFilesToMove.put(file, directory);
     }
 
     public void addInvoiceReject(ElectronicInvoiceRejectDocument eir,
@@ -70,7 +70,4 @@ public class ElectronicInvoiceLoad {
         return rejectFilesToMove;
     }
 
-    public void setRejectFilesToMove(Map rejectFilesToMove) {
-        this.rejectFilesToMove = rejectFilesToMove;
-    }
 }

@@ -46,7 +46,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="TaxRegionCounty-countyCode" parent="TaxRegionCounty-countyCode-parentBean" />
 
-  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="County-countyCode">
+  <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.County"
+	p:sourceAttributeName="countyCode">
     <property name="name" value="countyCode" />
   </bean>
   

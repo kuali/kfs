@@ -44,6 +44,7 @@ public interface StateService {
      * the system. If the given postal state code is same as that of the given existing postal code, return the existing postal code;
      * otherwise, retrieve a state object.
      * 
+     * @param businessObject the business object that references to a country object
      * @param postalStateCode the given state code
      * @return a state object based on the given state code and default country code
      */
@@ -54,6 +55,7 @@ public interface StateService {
      * are same as those of the given existing postal code, return the existing State; otherwise, retrieve a State
      * object.
      * 
+     * @param businessObject the business object that references to a country object 
      * @param postalCountryCode the given country code
      * @param postalStateCode the given state code
      * @return a state object based on the given state code and country code

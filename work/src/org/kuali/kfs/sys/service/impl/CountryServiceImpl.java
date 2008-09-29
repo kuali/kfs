@@ -48,8 +48,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNecessary(java.lang.String,
-     *      org.kuali.kfs.sys.businessobject.Country)
+     * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, org.kuali.kfs.sys.businessobject.Country)
      */
     public Country getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, Country existingCountry) {
         if (existingCountry != null) {

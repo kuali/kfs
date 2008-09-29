@@ -43,6 +43,7 @@ public interface PostalCodeService {
      * the system. If the given postal zip code is same as that of the given existing postal code, return the existing postal code;
      * otherwise, retrieve a postal code object.
      * 
+     * @param businessObject the business object that references to a country object 
      * @param postalZipCode the given zip code
      * @param existingPostalCode the given existing postal code
      * @return the postal zip code object with the given zip code and default country code if necessary
@@ -54,6 +55,7 @@ public interface PostalCodeService {
      * are same as those of the given existing postal code, return the existing postal code; otherwise, retrieve a postal code
      * object.
      * 
+     * @param businessObject the business object that references to a country object
      * @param postalCountryCode the given country code
      * @param postalZipCode the given zip code
      * @param existingPostalCode the given existing postal code

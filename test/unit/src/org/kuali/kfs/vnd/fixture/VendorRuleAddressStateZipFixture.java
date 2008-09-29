@@ -23,16 +23,21 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.CountryImpl;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.businessobject.StateImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public enum VendorRuleAddressStateZipFixture {
 
     BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode), BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null, KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null), BOTH_US_EMPTY_STATES_EMPTY_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "", KFSConstants.COUNTRY_CODE_UNITED_STATES, "", ""), BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, null), BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, ""), WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS("", StatesZips.stateCd, null, "", StatesZips.stateCd, null), WITHOUT_US_BOTH_STATES_EMPTY_ZIPS("", StatesZips.stateCd,
             "", "", StatesZips.stateCd, ""), WITHOUT_US_BOTH_STATES_BOTH_ZIPS("", StatesZips.stateCd, StatesZips.zipCode, "", StatesZips.stateCd, StatesZips.zipCode), ;
 
-    private State state = new StateImpl(); //TODO:: use EBO
-    private Country country = new CountryImpl(); //TODO:: use EBO
+    // Country and State were moved from KFS, so any module cannot instantiate a country or state object directly
+    private KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+    private State state = kualiModuleService.getResponsibleModuleService(State.class).createNewObjectFromExternalizableClass(State.class);
+    private Country country = kualiModuleService.getResponsibleModuleService(Country.class).createNewObjectFromExternalizableClass(Country.class);
+    
     private String country1;
     private String stateCd1;
     private String zip1;

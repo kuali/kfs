@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
@@ -38,6 +39,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -66,6 +68,7 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -259,9 +262,20 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         SpringContext.getBean(PurapService.class).addBelowLineItems(this);
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
+        clearCapitalAssetFields();
         this.refreshNonUpdateableReferences();
     }
 
+    private void clearCapitalAssetFields() {
+        this.setPurchasingCapitalAssetItems(new TypedArrayList(getPurchasingCapitalAssetItemClass()));
+        this.setPurchasingCapitalAssetSystems(new TypedArrayList(getPurchasingCapitalAssetSystemClass()));
+        this.setCapitalAssetSystemStateCode(null);
+        this.setCapitalAssetSystemTypeCode(null);
+        this.setCapitalAssetSystemState(null);
+        this.setCapitalAssetSystemType(null);
+        
+    }
+    
     /**
      * Updates status of this document and saves it.
      * 

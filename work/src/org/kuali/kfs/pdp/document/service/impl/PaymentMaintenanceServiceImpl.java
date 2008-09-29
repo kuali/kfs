@@ -18,10 +18,12 @@
  */
 package org.kuali.kfs.pdp.document.service.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentChange;
@@ -41,6 +43,7 @@ import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.ReferenceService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -49,6 +52,7 @@ import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -456,51 +460,77 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
         
         StringBuffer body = new StringBuffer();
+        //TODO: this if statement seems unnecessary
         if (paymentGroup.getPaymentDetails().size() > 1) {
-            body.append("The following payments have been cancelled by the Financial Management Services Tax Department.  The payments were cancelled for the following reason:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");          
         }
         else {
-            body.append("The following payment has been cancelled by the Financial Management Services Tax Department.  The payment was cancelled for the following reason:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");   
         }
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
         if (GeneralUtilities.isStringEmpty(taxEmail)) {
-            body.append("Please contact the Financial Management Services Tax Department if you have questions regarding this cancellation.\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");   
         }
         else {
-            body.append("Please contact the Financial Management Services Tax Department at " + taxEmail + " if you have questions regarding this cancellation.\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
+            body.append(MessageFormat.format(messageKey, new Object[]{taxEmail}) + " \n\n");   
         }
-
+        //TODO: unnecessary if statement?
         if (paymentGroup.getPaymentDetails().size() > 1) {
-            body.append("The following payment details were cancelled:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
         else {
-            body.append("The following payment detail was cancelled:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
         for (PaymentDetail pd : paymentGroup.getPaymentDetails()) {
-            body.append("Payee Name: " + paymentGroup.getPayeeName() + "\n");
-            body.append("Net Payment Amount: " + pd.getNetPaymentAmount() + "\n");
-            body.append("Source Document Number: " + pd.getCustPaymentDocNbr() + "\n");
-            body.append("Invoice Number: " + pd.getInvoiceNbr() + "\n");
-            body.append("Purchase Order Number: " + pd.getPurchaseOrderNbr() + "\n");
-            body.append("Payment Detail ID: " + pd.getId() + "\n\n");
-
+            String payeeMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYEE_NAME);
+            String netPaymentAccountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_NET_PAYMENT_AMOUNT);
+            String sourceDocumentNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_SOURCE_DOCUMENT_NUMBER);
+            String invoiceNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_INVOICE_NUMBER);
+            String purchaseOrderNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PURCHASE_ORDER_NUMBER);
+            String paymentDetailIdMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_DETAIL_ID);
+            
+            body.append(MessageFormat.format(payeeMessageKey, new Object[]{paymentGroup.getPayeeName()}) + " \n");  
+            body.append(MessageFormat.format(netPaymentAccountMessageKey, new Object[]{pd.getNetPaymentAmount()}) + " \n");  
+            body.append(MessageFormat.format(sourceDocumentNumberMessageKey, new Object[]{pd.getCustPaymentDocNbr()}) + " \n");  
+            body.append(MessageFormat.format(invoiceNumberMessageKey, new Object[]{pd.getInvoiceNbr()}) + " \n");  
+            body.append(MessageFormat.format(purchaseOrderNumberMessageKey, new Object[]{pd.getPurchaseOrderNbr()}) + " \n");  
+            body.append(MessageFormat.format(paymentDetailIdMessageKey, new Object[]{pd.getId()}) + " \n");  
+            
         }
-
+        //TODO: unnecessary if statement?
         if (paymentGroup.getPaymentDetails().size() > 1) {
-            body.append("The cancelled payment details were sent to PDP as part of the following batch:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
+            
         }
         else {
-            body.append("The cancelled payment detail was sent to PDP as part of the following batch:\n\n");
+            String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
-        body.append("Batch ID: " + paymentGroup.getBatch().getId() + "\n");
-        body.append("Chart: " + cp.getChartCode() + "\n");
-        body.append("Organization: " + cp.getOrgCode() + "\n");
-        body.append("Sub Unit: " + cp.getSubUnitCode() + "\n");
-        body.append("Creation Date: " + paymentGroup.getBatch().getCustomerFileCreateTimestamp() + "\n");
-        body.append("Payment Count: " + paymentGroup.getBatch().getPaymentCount() + "\n");
-        body.append("Payment Total Amount: " + paymentGroup.getBatch().getPaymentTotalAmount());
-
+        
+        String batchIdMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_ID);
+        String chartMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CHART);
+        String organizationMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_ORGANIZATION);
+        String subUnitMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_SUB_UNIT);
+        String creationDateMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CREATION_DATE);
+        String paymentCountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_COUNT);
+        String paymentTotalAmountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_TOTAL_AMOUNT);
+        
+        body.append(MessageFormat.format(batchIdMessageKey, new Object[]{paymentGroup.getBatch().getId()}) + " \n");  
+        body.append(MessageFormat.format(chartMessageKey, new Object[]{cp.getChartCode()}) + " \n");  
+        body.append(MessageFormat.format(organizationMessageKey, new Object[]{cp.getOrgCode()}) + " \n");  
+        body.append(MessageFormat.format(subUnitMessageKey, new Object[]{cp.getSubUnitCode()}) + " \n");  
+        body.append(MessageFormat.format(creationDateMessageKey, new Object[]{paymentGroup.getBatch().getCustomerFileCreateTimestamp()}) + " \n");  
+        body.append(MessageFormat.format(paymentCountMessageKey, new Object[]{paymentGroup.getBatch().getPaymentCount()}) + " \n");  
+        body.append(MessageFormat.format(paymentTotalAmountMessageKey, new Object[]{paymentGroup.getBatch().getPaymentTotalAmount()}) + " \n");  
+        
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);

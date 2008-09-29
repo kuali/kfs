@@ -903,8 +903,6 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_SUB_OBJ_ACTUAL_VALUE_WITH_WILDCARDS = "error.document.IndirectCostRecovery.subObjActualValueOnlyIfNoWildcards";
         public static final String ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD = "error.document.IndirectCostRecovery.cannotBeWildcard";
         public static final String ERROR_DOCUMENT_ICR_CHART_CODE_NOT_ONLY_WILDCARD = "error.document.IndirectCostRecovery.chartCodeNotOnlyWildcard";
-//        public static final String ERROR_DOCUMENT_ICR_INVALID_DASH_STRING = "error.document.IndirectCostRecovery.invalidDashString";
-//        public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_WILDCARD = "error.document.IndirectCostRecovery.fieldMustNotBeWildcard";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENTS_NOT_EQUAL = "error.document.IndirectCostRecovery.ratePercentsNotEqual";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_SCALE = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatScale";
         public static final String ERROR_DOCUMENT_ICR_RATE_PERCENT_INVALID_FORMAT_ZERO = "error.document.IndirectCostRecovery.ratePercentsInvalidFormatZero";
@@ -912,6 +910,10 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_CHART_CODE = "error.document.IndirectCostRecovery.existence.chartCode";
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE = "error.document.IndirectCostRecovery.existence.objectCode";
         public static final String ERROR_DOCUMENT_ICR_EXSISTENCE_OBJECT_CODE_DELETE = "error.document.IndirectCostRecovery.existence.objectCode.delete";
+        
+        public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_BE_DASHES = "error.document.IndirectCostRecovery.fieldMustBeDashes";
+        public static final String ERROR_DOCUMENT_ICR_FIELD_MUST_NOT_BE_DASHES = "error.document.IndirectCostRecovery.fieldMustNotBeDashes";
+        public static final String ERROR_DOCUMENT_ICR_ACCOUNT_USE_EXPENDITURE_ENTRY_WILDCARD_RESTRICTION_ON_SUB_ACCOUNT = "error.document.IndirectCostRecovery.accountUseExpenditureEntryWildcardRestrictionOnSubAccount";
     }
 
     public static final class AccountingLineParser {

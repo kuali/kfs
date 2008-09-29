@@ -55,20 +55,6 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.coa.service.ChartService#getUniversityChart()
-     */
-    public List getAllUniversityChartCodes() {
-        Collection charts = chartDao.getAllUniversityCharts();
-        List chartCodes = new ArrayList();
-        for(Iterator iter = charts.iterator(); iter.hasNext();) {
-            Chart element = (Chart) iter.next();
-            chartCodes.add(element.getChartOfAccountsCode());
-        }
-        return chartCodes;
-    }
-
-    /**
      * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
     public List getAllChartCodes() {

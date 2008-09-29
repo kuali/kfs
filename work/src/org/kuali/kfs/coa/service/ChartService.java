@@ -40,12 +40,6 @@ public interface ChartService {
      */
     public Chart getUniversityChart();
 
-    /**
-     * 
-     * Retrieves all of the University charts in the system and returns them in a List
-     * @return
-     */
-    public List getAllUniversityChartCodes();
 
     /**
      * Retrieves all of the charts in the system and returns them in a List.

@@ -334,7 +334,7 @@
 
   <bean id="RequisitionDocument-addressToVendorIndicator-parentBean" abstract="true" parent="ReceivingAddress-useReceivingIndicator">
     <property name="name" value="addressToVendorIndicator" />
-    <property name="label" value="Shipping Address Presented to Vendor" />
+    <property name="label" value="Shipping Address Presented to Vendor (use Receiving Address?)" />
     <property name="shortLabel" value="Address to Vendor" />
     <property name="control" >
       <bean parent="RadioControlDefinition"

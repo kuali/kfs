@@ -114,7 +114,7 @@
 </attributeReference>
 
 <attributeReference name="addressToVendorIndicator" sourceClassName="org.kuali.kfs.module.purap.businessobject.ReceivingAddress" sourceAttributeName="useReceivingIndicator">
-    <label>Shipping Address Presented to Vendor</label>
+    <label>Shipping Address Presented to Vendor (use Receiving Address?)</label>
     <shortLabel>Address to Vendor</shortLabel>
     <control>
     	<radio valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AddressToVendorIndicatorValuesFinder" />

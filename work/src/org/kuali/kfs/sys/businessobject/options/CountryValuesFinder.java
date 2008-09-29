@@ -16,15 +16,16 @@
 package org.kuali.kfs.sys.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -39,11 +40,13 @@ public class CountryValuesFinder extends KeyValuesBase {
         List<Country> boList = SpringContext.getBean(CountryService.class).findAllCountries();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
-        Country usCountry = null;
+        Country defaultCountry = null;
         for (Country element : boList) {
-            // Find US country code and pull it out so we can set it first in the results list later.
-            if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(element.getPostalCountryCode())) {
-                usCountry = element;
+            String defaultCountryCode = SpringContext.getBean(ParameterService.class).getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+            
+            // Find default country code and pull it out so we can set it first in the results list later.
+            if (StringUtils.equals(defaultCountryCode, element.getPostalCountryCode())) {
+                defaultCountry = element;
             }
             else {
                 if(element.isActive()) {
@@ -54,7 +57,7 @@ public class CountryValuesFinder extends KeyValuesBase {
 
         List<KeyLabelPair> keyValueUSFirst = new ArrayList<KeyLabelPair>();
         keyValueUSFirst.add(new KeyLabelPair("", ""));
-        keyValueUSFirst.add(new KeyLabelPair(usCountry.getPostalCountryCode(), usCountry.getPostalCountryName()));
+        keyValueUSFirst.add(new KeyLabelPair(defaultCountry.getPostalCountryCode(), defaultCountry.getPostalCountryName()));
         keyValueUSFirst.addAll(keyValues);
 
         return keyValueUSFirst;

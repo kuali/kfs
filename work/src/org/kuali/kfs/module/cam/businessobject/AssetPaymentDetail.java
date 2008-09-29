@@ -43,8 +43,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     // bo references    
     private AccountingPeriod financialDocumentPostingPeriod;
-//    private DocumentHeader documentHeader;
-//    private DocumentHeader expenditureFinancialDocument;
     private DocumentType expenditureFinancialDocumentType;
     private OriginationCode expenditureFinancialSystemOrigination;
 

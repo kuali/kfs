@@ -310,7 +310,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validatePostedDate(assetPaymentDetail);
         }
 
-        // TODO: Do we need this rule? This rule violates PurAP Credit memo payment lines. In that case, payment will be negative. 
+        // TODO: Do we need this rule? This rule violates PurAP Credit memo payment lines. In that case, payment will be negative.
         // handle payment information amount should be positive
         if (assetPaymentDetail.getAmount() != null && !assetPaymentDetail.getAmount().isPositive()) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.AMOUNT, CamsKeyConstants.AssetGlobal.ERROR_INVALID_PAYMENT_AMOUNT);
@@ -388,7 +388,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     private boolean validateObjectCode(ObjectCode objectCode, AssetGlobal assetGlobal) {
         boolean valid = true;
         // Check Object Code: Capital object code shall not be used for a non-capital asset.
-        if (!isCapitalStatus(assetGlobal) && assetGlobalService.isCapitablObjectCode(objectCode)) {
+        if (assetGlobal.getInventoryStatusCode() != null && !isCapitalStatus(assetGlobal) && assetGlobalService.isCapitablObjectCode(objectCode)) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_NOT_ALLOWED);
             valid = false;
         }

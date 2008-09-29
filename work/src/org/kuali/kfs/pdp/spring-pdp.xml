@@ -295,7 +295,6 @@
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
-		<property name="referenceService" ref="pdpReferenceService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 	</bean>
 
@@ -499,7 +498,13 @@
         </property>
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
-        <ref bean="pdpBatchMaintenanceService"/>
+            <ref bean="pdpBatchMaintenanceService"/>
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+        <property name="lookupDao">
+            <ref bean="lookupDao"/>
         </property>
 	</bean>
 

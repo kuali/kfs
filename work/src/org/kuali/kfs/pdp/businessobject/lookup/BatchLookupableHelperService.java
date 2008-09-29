@@ -51,11 +51,14 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.format.BooleanFormatter;
 
+/**
+ * This class allows custom handling of Batches within the lookup framework.
+ */
 public class BatchLookupableHelperService extends KualiLookupableHelperServiceImpl {
-    private KualiConfigurationService configurationService;
     private BatchMaintenanceService batchMaintenanceService;
-    private LookupDao lookupDao;
+    private KualiConfigurationService configurationService;
     private DateTimeService dateTimeService;
+    private LookupDao lookupDao;
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -84,7 +87,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
         if (fieldValues.containsKey(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME)) {
             String fileCreationTimeValue = fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
-            
+
             // if file creation time value is not empty and does not contain wildcards we have to create additional search criteria
             // to get the batches on that date;
             // that is because the file creation timestamp is a Timestamp in the BO but comes as a date from the GUI - we don't want
@@ -114,7 +117,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         List results = super.getSearchResults(fieldValues);
         return results;
     }
-    
+
     /**
      * This method creates additional criteria for the lookup when fileCreationTime is a single date (does not have any wildcards);
      * The file creation timestamp is a Timestamp in the BO but comes as a date from the GUI - we don't want to have the user enter the time too.
@@ -149,7 +152,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
-        AnchorHtmlData inquiryUrl = (AnchorHtmlData)super.getInquiryUrl(bo, propertyName);
+        AnchorHtmlData inquiryUrl = (AnchorHtmlData) super.getInquiryUrl(bo, propertyName);
         Batch batch = (Batch) bo;
         if (propertyName.equalsIgnoreCase(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID)) {
             Properties params = new Properties();
@@ -264,34 +267,66 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         }
     }
 
+    /**
+     * This method gets the kualiConfigurationService.
+     * @return the configurationService
+     */
     public KualiConfigurationService getConfigurationService() {
         return configurationService;
     }
 
+    /**
+     * This method sets the configurationService.
+     * @param configurationService KualiConfigurationService
+     */
     public void setConfigurationService(KualiConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
+    /**
+     * This method gets the batchMaintenanceService.
+     * @return the batchMaintenanceService
+     */
     public BatchMaintenanceService getBatchMaintenanceService() {
         return batchMaintenanceService;
     }
 
+    /**
+     * This method sets the batchMaintenanceService.
+     * @param batchMaintenanceService BatchMaintenanceService
+     */
     public void setBatchMaintenanceService(BatchMaintenanceService batchMaintenanceService) {
         this.batchMaintenanceService = batchMaintenanceService;
     }
 
+    /**
+     * This method gets the dateTimeService.
+     * @return dateTimeService
+     */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
+    /**
+     * This method sete the dateTimeService.
+     * @param dateTimeService DateTimeService
+     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * This method gets the lookupDao.
+     * @return the lookupDao
+     */
     public LookupDao getLookupDao() {
         return lookupDao;
     }
 
+    /**
+     * This method sets lookupDao.
+     * @param lookupDao LookupDao
+     */
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }

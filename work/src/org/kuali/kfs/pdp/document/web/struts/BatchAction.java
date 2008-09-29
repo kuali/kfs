@@ -42,6 +42,9 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/**
+ * This class defines action for Batch (cancel, hold, remove hold).
+ */
 public class BatchAction extends KualiAction {
 
     private BatchMaintenanceService batchMaintenanceService;
@@ -63,7 +66,7 @@ public class BatchAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward confirmCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward confirmAndCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -150,7 +153,7 @@ public class BatchAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward confirmHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String holdNoteText = KFSConstants.EMPTY_STRING;
@@ -236,7 +239,7 @@ public class BatchAction extends KualiAction {
      * @return
      * @throws Exception
      */
-    public ActionForward confirmRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String removeHoldNoteText = KFSConstants.EMPTY_STRING;
@@ -343,10 +346,18 @@ public class BatchAction extends KualiAction {
         return lookupUrl;
     }
 
+    /**
+     * This method gets the batch maintenance service.
+     * @return the BatchMaintenanceService
+     */
     public BatchMaintenanceService getBatchMaintenanceService() {
         return batchMaintenanceService;
     }
 
+    /**
+     * This method sets the batch maintenance service.
+     * @param batchMaintenanceService
+     */
     public void setBatchMaintenanceService(BatchMaintenanceService batchMaintenanceService) {
         this.batchMaintenanceService = batchMaintenanceService;
     }

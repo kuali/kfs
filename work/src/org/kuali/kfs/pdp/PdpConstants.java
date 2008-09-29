@@ -149,9 +149,9 @@ public class PdpConstants {
     }
     
     public static class ActionMethods{
-        public static final String CONFIRM_CANCEL_ACTION = "confirmCancel";
-        public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmRemoveHold";
-        public static final String CONFIRM_HOLD_ACTION = "confirmHold";
+        public static final String CONFIRM_CANCEL_ACTION = "confirmAndCancel";
+        public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmAndRemoveHold";
+        public static final String CONFIRM_HOLD_ACTION = "confirmAndHold";
     }
     
     public static class AccountChangeCodes {

@@ -18,12 +18,10 @@
  */
 package org.kuali.kfs.pdp.document.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentChange;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -32,17 +30,13 @@ import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
-import org.kuali.kfs.pdp.exception.CancelPaymentException;
 import org.kuali.kfs.pdp.exception.PdpException;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.KualiCodeService;
-import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
- * 
+ * This class provides methods for Batch maintenance.
  */
 @Transactional
 public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
@@ -51,23 +45,28 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private BatchMaintenanceDao batchMaintenanceDao;
     private PaymentGroupDao paymentGroupDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
-    private ReferenceService referenceService;
     private KualiCodeService kualiCodeService;
-    
+
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
-        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        PaymentChange paymentChange = (PaymentChange) kualiCodeService.getByCode(PaymentChange.class, changeStatus);
+
+        paymentGroupHistory.setPaymentChange(paymentChange);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
+
         paymentGroupHistoryDao.save(paymentGroupHistory);
 
-        KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
-        paymentGroup.setPaymentStatus((PaymentStatus) code);
+        PaymentStatus paymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
+
+        paymentGroup.setPaymentStatus(paymentStatus);
+
         paymentGroupDao.save(paymentGroup);
+
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
 
@@ -81,8 +80,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void cancelPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
+
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
-            List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
                 throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
@@ -90,17 +91,18 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             // cancel each payment
             // All actions must be performed on entire group not individual detail record
-            for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
-                PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_BATCH_CHNG_CD, note, user);
+            for (PaymentGroup paymentGroup : paymentGroupList) {
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_BATCH_CHNG_CD, note, user);
             }
+
             LOG.debug("cancelPendingBatch() All payment groups in batch have been canceled; exit method.");
         }
         else {
             LOG.debug("cancelPendingBatch() Not all payment groups are open; cannot cancel batch.");
+
             throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
         }
-    }// end cancelPendingBatch()
+    }
 
     /**
      * holdPendingBatch() This method holds a pending batch by holding each payment in the batch if the following rules apply. - All
@@ -112,8 +114,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void holdPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
+
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
-            List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
                 throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
@@ -121,17 +125,18 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             // hold each payment
             // All actions must be performed on entire group not individual detail record
-            for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
-                PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_BATCH_CHNG_CD, note, user);
+            for (PaymentGroup paymentGroup : paymentGroupList) {
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_BATCH_CHNG_CD, note, user);
             }
+
             LOG.debug("holdPendingBatch() All payment groups in batch have been held; exit method.");
         }
         else {
             LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
+
             throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
         }
-    }// end holdPendingBatch()
+    }
 
     /**
      * removeBatchHold() This method removes holds on batches of payments if the following rules apply. - All Payments' statuses in
@@ -143,8 +148,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
         LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
+
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
-            List paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
                 throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
@@ -152,78 +159,88 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             // hold each payment
             // All actions must be performed on entire group not individual detail record
-            for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
-                PaymentGroup element = (PaymentGroup) iter.next();
-                changeStatus(element, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_BATCH_CHNG_CD, note, user);
+            for (PaymentGroup paymentGroup : paymentGroupList) {
+                changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_BATCH_CHNG_CD, note, user);
             }
+
             LOG.debug("removeBatchHold() All payment groups in batch have been held; exit method.");
         }
         else {
             LOG.debug("removeBatchHold() Not all payment groups are open; cannot remove hold on batch.");
+
             throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
         }
 
-    }// end removeBatchHold()
+    }
 
+    /**
+     * @see org.kuali.kfs.pdp.document.service.BatchMaintenanceService#doBatchPaymentsHaveOpenStatus(java.lang.Integer)
+     */
     public boolean doBatchPaymentsHaveOpenStatus(Integer batchId) {
         return batchMaintenanceDao.doBatchPaymentsHaveOpenStatus(batchId);
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.document.service.BatchMaintenanceService#doBatchPaymentsHaveHeldStatus(java.lang.Integer)
+     */
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId) {
         return batchMaintenanceDao.doBatchPaymentsHaveHeldStatus(batchId);
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.document.service.BatchMaintenanceService#doBatchPaymentsHaveOpenOrHeldStatus(java.lang.Integer)
+     */
     public boolean doBatchPaymentsHaveOpenOrHeldStatus(Integer batchId) {
         LOG.debug("doBatchPaymentsHaveOpenOrHeldStatus() enter method.");
 
         if ((doBatchPaymentsHaveOpenStatus(batchId)) || (doBatchPaymentsHaveHeldStatus(batchId))) {
             LOG.debug("doBatchPaymentsHaveOpenOrHeldStatus() All payment groups have status 'HELD' or all payments have status 'OPEN'.");
+
             return true;
         }
         else {
             LOG.debug("doBatchPaymentsHaveOpenOrHeldStatus() Not all payment groups have status 'HELD' or not all payments have status 'OPEN'.");
+
             return false;
         }
     }
 
     /**
-     * inject
-     * 
-     * @param dao
+     * This method sets paymentGroupDao
+     * @param dao PaymentGroupDao
      */
     public void setPaymentGroupDao(PaymentGroupDao dao) {
         paymentGroupDao = dao;
     }
 
     /**
-     * inject
-     * 
-     * @param dao
+     * This method sets paymentGroupHistoryDao
+     * @param dao PaymentGroupHistoryDao
      */
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao dao) {
         paymentGroupHistoryDao = dao;
     }
 
     /**
-     * inject
-     * 
-     * @param service
-     */
-    public void setReferenceService(ReferenceService service) {
-        referenceService = service;
-    }
-
-    /**
-     * @param batchMaintenanceDao The batchMaintenanceDao to set.
+     * This method sets the batchMaintenanceDao
+     * @param batchMaintenanceDao BatchMaintenanceDao
      */
     public void setBatchMaintenanceDao(BatchMaintenanceDao batchMaintenanceDao) {
         this.batchMaintenanceDao = batchMaintenanceDao;
     }
 
+    /**
+     * This method gets the kualiCodeService.
+     * @return KualiCodeService
+     */
     public KualiCodeService getKualiCodeService() {
         return kualiCodeService;
     }
 
+    /**
+     * This method sets the kualiCodeService
+     * @param kualiCodeService
+     */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }

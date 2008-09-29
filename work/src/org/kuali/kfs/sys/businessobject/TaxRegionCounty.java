@@ -59,7 +59,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
         return m;
     }
 	public County getCounty() {
-	    county = SpringContext.getBean(CountyService.class).getByPrimaryIdIfNecessary(postalCountryCode, stateCode, countyCode, county);
+	    county = SpringContext.getBean(CountyService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, stateCode, countyCode, county);
 		return county;
 	}
 	public void setCounty(County county) {
@@ -84,7 +84,7 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements In
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, country);
         return country;
     }
     /**

@@ -79,7 +79,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

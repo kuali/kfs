@@ -119,6 +119,9 @@
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
 		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>		
 		
 		<property name="effortCertificationDocumentBuildService">
 			<ref bean="effortCertificationDocumentBuildService" />
@@ -185,6 +188,9 @@
 		<property name="laborModuleService">
 			<ref bean="laborModuleService" />
 		</property>
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>		
 		<property name="contractsAndGrantsModuleService">
 			<ref bean="contractsAndGrantsModuleService" />
 		</property>	
@@ -285,8 +291,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="laborModuleService">
-			<ref bean="laborModuleService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="effortCertificationReportDefinitionService">
 			<ref bean="effortCertificationReportDefinitionService" />

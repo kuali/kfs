@@ -66,7 +66,9 @@
   </bean>
   <bean id="BuildingParameter-buildingOverrideAddressStateCode" parent="BuildingParameter-buildingOverrideAddressStateCode-parentBean" />
 
-  <bean id="BuildingParameter-buildingOverrideAddressStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BuildingParameter-buildingOverrideAddressStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="buildingOverrideAddressStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Building Override Address State Code" />
@@ -82,7 +84,9 @@
   </bean>
   <bean id="BuildingParameter-buildingOverrideAddressZipCode" parent="BuildingParameter-buildingOverrideAddressZipCode-parentBean" />
 
-  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="BuildingParameter-buildingOverrideAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="buildingOverrideAddressZipCode" />
     <property name="label" value="Building Override Address Zip Code" />
     <property name="shortLabel" value="Code" />

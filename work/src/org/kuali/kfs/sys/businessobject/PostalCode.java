@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,214 +13,141 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-/**
- * 
- */
-public class PostalCode extends PersistableBusinessObjectBase implements Inactivateable {
-
-    private String postalCountryCode;
-    private String postalZipCode;
-    private String postalStateCode;
-    private String postalCityName;
-    private String buildingCode;
-    private String buildingRoomNumber;
-    private boolean active;
-    private String countyCode;
-
-    private State state;
-    private Country country;
-
-    /**
-     * Default no-arg constructor.
-     */
-    public PostalCode() {
-
-    }
+public interface PostalCode extends ExternalizableBusinessObject{
 
     /**
      * Gets the postalZipCode attribute.
      * 
      * @return Returns the postalZipCode
      */
-    public String getPostalZipCode() {
-        return postalZipCode;
-    }
+    public abstract String getPostalZipCode();
 
     /**
      * Sets the postalZipCode attribute.
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(String postalZipCode) {
-        this.postalZipCode = postalZipCode;
-    }
+    public abstract void setPostalZipCode(String postalZipCode);
 
     /**
      * Gets the postalStateCode attribute.
      * 
      * @return Returns the postalStateCode
      */
-    public String getPostalStateCode() {
-        return postalStateCode;
-    }
+    public abstract String getPostalStateCode();
 
     /**
      * Sets the postalStateCode attribute.
      * 
      * @param postalStateCode The postalStateCode to set.
      */
-    public void setPostalStateCode(String postalStateCode) {
-        this.postalStateCode = postalStateCode;
-    }
+    public abstract void setPostalStateCode(String postalStateCode);
 
     /**
      * Gets the postalCityName attribute.
      * 
      * @return Returns the postalCityName
      */
-    public String getPostalCityName() {
-        return postalCityName;
-    }
+    public abstract String getPostalCityName();
 
     /**
      * Sets the postalCityName attribute.
      * 
      * @param postalCityName The postalCityName to set.
      */
-    public void setPostalCityName(String postalCityName) {
-        this.postalCityName = postalCityName;
-    }
+    public abstract void setPostalCityName(String postalCityName);
 
     /**
      * Gets the buildingCode attribute.
      * 
      * @return Returns the buildingCode
      */
-    public String getBuildingCode() {
-        return buildingCode;
-    }
+    public abstract String getBuildingCode();
 
     /**
      * Sets the buildingCode attribute.
      * 
      * @param buildingCode The buildingCode to set.
      */
-    public void setBuildingCode(String buildingCode) {
-        this.buildingCode = buildingCode;
-    }
+    public abstract void setBuildingCode(String buildingCode);
 
     /**
      * Gets the buildingRoomNumber attribute.
      * 
      * @return Returns the buildingRoomNumber
      */
-    public String getBuildingRoomNumber() {
-        return buildingRoomNumber;
-    }
+    public abstract String getBuildingRoomNumber();
 
     /**
      * Sets the buildingRoomNumber attribute.
      * 
      * @param buildingRoomNumber The buildingRoomNumber to set.
      */
-    public void setBuildingRoomNumber(String buildingRoomNumber) {
-        this.buildingRoomNumber = buildingRoomNumber;
-    }
+    public abstract void setBuildingRoomNumber(String buildingRoomNumber);
 
     /**
      * Gets the state attribute.
      * 
      * @return Returns the state.
      */
-    public State getState() {
-        return state;
-    }
+    public abstract State getState();
 
     /**
      * Sets the state attribute value.
      * 
      * @param state The state to set.
      */
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("postalZipCode", this.postalZipCode);
-        return m;
-    }
+    public abstract void setState(State state);
 
     /**
      * Gets the active attribute.
      * 
      * @return Returns the active.
      */
-    public boolean isActive() {
-        return active;
-    }
+    public abstract boolean isActive();
 
     /**
      * Sets the active attribute value.
      * 
      * @param active The active to set.
      */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public abstract void setActive(boolean active);
 
-    public String getCountyCode() {
-        return countyCode;
-    }
+    public abstract String getCountyCode();
 
-    public void setCountyCode(String countyCode) {
-        this.countyCode = countyCode;
-    }
+    public abstract void setCountyCode(String countyCode);
 
     /**
      * Gets the postalCountryCode attribute.
      * 
      * @return Returns the postalCountryCode.
      */
-    public String getPostalCountryCode() {
-        return postalCountryCode;
-    }
+    public abstract String getPostalCountryCode();
 
     /**
      * Sets the postalCountryCode attribute value.
      * 
      * @param postalCountryCode The postalCountryCode to set.
      */
-    public void setPostalCountryCode(String postalCountryCode) {
-        this.postalCountryCode = postalCountryCode;
-    }
+    public abstract void setPostalCountryCode(String postalCountryCode);
 
     /**
      * Gets the country attribute.
      * 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        return country;
-    }
+    public abstract Country getCountry();
 
     /**
      * Sets the country attribute value.
      * 
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+    public abstract void setCountry(Country country);
+
 }

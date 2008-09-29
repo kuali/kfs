@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.service;
 
 import org.kuali.kfs.sys.businessobject.PostalCode;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 public interface PostalCodeService {
 
@@ -46,7 +47,7 @@ public interface PostalCodeService {
      * @param existingPostalCode the given existing postal code
      * @return the postal zip code object with the given zip code and default country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNecessary(String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalZipCode, PostalCode existingPostalCode);
 
     /**
      * get the postal zip code object based on the given zip code and country code. If the given postal zip code and country code
@@ -58,5 +59,5 @@ public interface PostalCodeService {
      * @param existingPostalCode the given existing postal code
      * @return the postal zip code object with the given zip code and country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNecessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
 }

@@ -19,8 +19,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
@@ -28,7 +30,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
@@ -46,6 +48,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DocumentTypeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
@@ -55,7 +58,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
     private DocumentTypeService documentTypeService;
-    private LaborModuleService laborModuleService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
@@ -88,7 +91,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#saveBudgetConstructionDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
-    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument){
+    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument) {
         getPersistenceBrokerTemplate().store(bcDocument);
     }
 
@@ -388,7 +391,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getOrganizationReports(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getOrganizationReports(java.lang.String,
+     *      java.lang.String)
      */
     public BudgetConstructionOrganizationReports getOrganizationReports(String chartOfAccountsCode, String organizationCode) {
 
@@ -400,7 +404,9 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#insertAccountIntoAccountOrganizationHierarchy(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#insertAccountIntoAccountOrganizationHierarchy(java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     public boolean insertAccountIntoAccountOrganizationHierarchy(String rootChart, String rootOrganization, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Integer currentLevelCode, String organizationChartOfAccountsCode, String organizationCode) {
 
@@ -437,10 +443,11 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#deleteExistingAccountOrganizationHierarchy(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#deleteExistingAccountOrganizationHierarchy(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
      */
-    public void deleteExistingAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber){
-        
+    public void deleteExistingAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
@@ -453,21 +460,16 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      *      java.lang.String)
      */
     public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode) {
-        List<String> detailSalarySettingObjects = new ArrayList();
+        List<String> detailSalarySettingObjects = new ArrayList<String>();
 
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("detailPositionRequiredIndicator", "Y");
-        String[] columns = new String[] { "financialObjectCode" };
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(laborModuleService.getLaborLedgerObjectClass(), columns, criteria, true);
-        PersistenceBroker pb = getPersistenceBroker(true);
+        Map<String, Object> laborObjectCodeMap = new HashMap<String, Object>();
+        laborObjectCodeMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        laborObjectCodeMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        laborObjectCodeMap.put(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR, true);
+        List<LaborLedgerObject> laborLedgerObjects = kualiModuleService.getResponsibleModuleService(LaborLedgerObject.class).getExternalizableBusinessObjectsList(LaborLedgerObject.class, laborObjectCodeMap);
 
-        Iterator Results = pb.getReportQueryIteratorByQuery(q);
-
-        while (Results.hasNext()) {
-            String objValue = (String) ((Object[]) Results.next())[0];
-            detailSalarySettingObjects.add(objValue);
+        for (LaborLedgerObject laborObject : laborLedgerObjects) {
+            detailSalarySettingObjects.add(laborObject.getFinancialObjectCode());
         }
 
         return detailSalarySettingObjects;
@@ -517,12 +519,12 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * Sets the laborModuleService attribute value.
+     * Sets the kualiModuleService attribute value.
      * 
-     * @param laborModuleService
+     * @param kualiModuleService The kualiModuleService to set.
      */
-    public void setlaborModuleService(LaborModuleService laborModuleService) {
-        this.laborModuleService = laborModuleService;
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 
 }

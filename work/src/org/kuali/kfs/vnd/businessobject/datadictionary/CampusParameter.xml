@@ -37,6 +37,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="purchasingDepartmentState">
+        	<dd:primitiveAttribute source="purchasingDepartmentCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="purchasingDepartmentStateCode" target="postalStateCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="purchasingDepartmentCountry">

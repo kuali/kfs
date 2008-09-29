@@ -591,7 +591,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return total;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#templateVendorAddress(VendorAddress)
      */
@@ -791,7 +791,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, vendorCountryCode, vendorCountry);
         return vendorCountry;
     }
 

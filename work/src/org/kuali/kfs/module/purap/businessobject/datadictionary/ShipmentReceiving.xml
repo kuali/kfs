@@ -212,7 +212,9 @@
   </bean>
   <bean id="ShipmentReceiving-deliveryPostalCode" parent="ShipmentReceiving-deliveryPostalCode-parentBean" />
 
-  <bean id="ShipmentReceiving-deliveryPostalCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="ShipmentReceiving-deliveryPostalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="deliveryPostalCode" />
     <property name="label" value="Delivery Postal Code" />
     <property name="shortLabel" value="Code" />
@@ -469,7 +471,9 @@
   </bean>
   <bean id="ShipmentReceiving-vendorPostalCode" parent="ShipmentReceiving-vendorPostalCode-parentBean" />
 
-  <bean id="ShipmentReceiving-vendorPostalCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="ShipmentReceiving-vendorPostalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="vendorPostalCode" />
     <property name="label" value="Vendor Postal Code" />
     <property name="shortLabel" value="Code" />

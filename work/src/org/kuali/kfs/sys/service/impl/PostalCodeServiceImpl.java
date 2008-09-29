@@ -26,13 +26,14 @@ import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class PostalCodeServiceImpl implements PostalCodeService {
     private static Logger LOG = Logger.getLogger(PostalCodeServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    public ParameterService parameterService;
+    private ParameterService parameterService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryId(java.lang.String)
@@ -52,28 +53,28 @@ public class PostalCodeServiceImpl implements PostalCodeService {
             return null;
         }
 
-        Map<String, String> postalCodeMap = new HashMap<String, String>();
+        Map<String, Object> postalCodeMap = new HashMap<String, Object>();
         postalCodeMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
         postalCodeMap.put(KFSPropertyConstants.POSTAL_ZIP_CODE, postalZipCode);
-
-        return (PostalCode) businessObjectService.findByPrimaryKey(PostalCode.class, postalCodeMap);
+        
+        return kualiModuleService.getResponsibleModuleService(PostalCode.class).getExternalizableBusinessObject(PostalCode.class, postalCodeMap);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNecessary(String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalZipCode, PostalCode existingPostalCode) {
         String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
-        return this.getByPrimaryIdIfNecessary(postalCountryCode, postalZipCode, existingPostalCode);
+        return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalZipCode, existingPostalCode);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNecessary(String postalCountryCode, String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalZipCode, PostalCode existingPostalCode) {
         if (existingPostalCode != null) {
             String existingCountryCode = existingPostalCode.getPostalCountryCode();
             String existingPostalZipCode = existingPostalCode.getPostalZipCode();
@@ -95,11 +96,10 @@ public class PostalCodeServiceImpl implements PostalCodeService {
     }
 
     /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
+     * Sets the kualiModuleService attribute value.
+     * @param kualiModuleService The kualiModuleService to set.
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

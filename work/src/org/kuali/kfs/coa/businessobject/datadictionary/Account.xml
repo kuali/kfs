@@ -135,6 +135,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="postalZipCode">
             <dd:primitiveAttribute source="accountZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountState">
             <dd:primitiveAttribute source="accountStateCode" target="postalStateCode" />
@@ -305,7 +306,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
 
-  <bean id="Account-accountStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="Account-accountStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="accountStateCode" />
     <property name="label" value="Account State Code" />
     <property name="shortLabel" value="StateCd" />
@@ -342,7 +345,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
 
-  <bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="Account-accountZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="accountZipCode" />
     <property name="label" value="Account Postal Code" />
     <property name="shortLabel" value="ZipCode" />

@@ -37,7 +37,7 @@ public class StateValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        Collection<State> codes = SpringContext.getBean(StateService.class).findAllStates();
+        List<State> codes = SpringContext.getBean(StateService.class).findAllStates();
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
         for (State state : codes) {

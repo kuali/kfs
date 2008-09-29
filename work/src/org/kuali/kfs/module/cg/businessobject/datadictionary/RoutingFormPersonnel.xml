@@ -47,9 +47,12 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="personZip">
+        	<dd:primitiveAttribute source="personCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="personStateCode" target="postalStateCode" /> 
             <dd:primitiveAttribute source="personZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="personState">
+        	<dd:primitiveAttribute source="personCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="personStateCode" target="postalStateCode" />            
         </dd:relationship>
         <dd:relationship objectAttribute="personCountry">
@@ -137,7 +140,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="RoutingFormPersonnel-personCountryCode" parent="RoutingFormPersonnel-personCountryCode-parentBean" />
 
-  <bean id="RoutingFormPersonnel-personCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RoutingFormPersonnel-personCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="personCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
@@ -408,7 +413,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="RoutingFormPersonnel-personStateCode" parent="RoutingFormPersonnel-personStateCode-parentBean" />
 
-  <bean id="RoutingFormPersonnel-personStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RoutingFormPersonnel-personStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="personStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
@@ -461,7 +468,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
 
-  <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="personZipCode" />
     <property name="label" value="Zip" />
     <property name="shortLabel" value="Code" />

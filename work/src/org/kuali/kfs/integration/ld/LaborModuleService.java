@@ -109,55 +109,6 @@ public interface LaborModuleService {
     public int countPendingSalaryExpenseTransfer(String emplid);
 
     /**
-     * Gets the laborLedgerObjectClass attribute.
-     * 
-     * @return Returns the laborLedgerObjectClass.
-     */
-    public Class<? extends LaborLedgerObject> getLaborLedgerObjectClass();
-
-    /**
-     * Gets the laborLedgerBalanceClass attribute.
-     * 
-     * @return Returns the laborLedgerBalanceClass.
-     */
-    public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass();
-
-    /**
-     * Gets the laborLedgerEntryClass attribute.
-     * 
-     * @return Returns the laborLedgerEntryClass.
-     */
-    public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass();
-
-    /**
-     * Gets the laborLedgerBenefitsCalculationClass attribute.
-     * 
-     * @return Returns the laborLedgerBenefitsCalculationClass.
-     */
-    public Class<? extends LaborLedgerBenefitsCalculation> getLaborLedgerBenefitsCalculationClass();
-
-    /**
-     * Gets the expenseTransferSourceAccoutingLineClass attribute.
-     * 
-     * @return Returns the expenseTransferSourceAccoutingLineClass.
-     */
-    public Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> getExpenseTransferSourceAccountingLineClass();
-
-    /**
-     * Gets the expenseTransferTargetAccoutingLineClass attribute.
-     * 
-     * @return Returns the expenseTransferTargetAccoutingLineClass.
-     */
-    public Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> getExpenseTransferTargetAccountingLineClass();
-
-    /**
-     * Gets the laborLedgerBalanceForEffortCertificationClass attribute. The class is typically used by effort balance lookup
-     * 
-     * @return Returns the laborLedgerBalanceForEffortCertificationClass.
-     */
-    public Class<? extends LaborLedgerBalanceForEffortCertification> getLaborLedgerBalanceForEffortCertificationClass();
-
-    /**
      * retrieves a specific LaborLedgerObject from the database using primary key
      * 
      * @param fiscalYear the given fiscal year
@@ -183,7 +134,7 @@ public interface LaborModuleService {
      * @param objectCode the given object code
      * @return a labor position object benefit retrieved based on the given information
      */
-    public Collection<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+    public List<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
     /**
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.

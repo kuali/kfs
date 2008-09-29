@@ -81,8 +81,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="laborModuleService">
-			<ref bean="laborModuleService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -351,9 +351,9 @@
 	    <property name="documentTypeService">
 	       <ref bean="documentTypeService"/>
 	    </property>   
-		<property name="laborModuleService">
-			<ref bean="laborModuleService" />
-		</property>
+        <property name="kualiModuleService">
+            <ref bean="kualiModuleService" />
+        </property>
 	</bean>
 	
 	<bean id="oracleIndicator" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
@@ -737,8 +737,8 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
-        <property name="laborModuleService">
-            <ref bean="laborModuleService" />
+        <property name="kualiModuleService">
+            <ref bean="kualiModuleService" />
         </property>
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />

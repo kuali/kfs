@@ -24,12 +24,13 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class CountryServiceImpl implements CountryService {
     private static Logger LOG = Logger.getLogger(CountryServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryId(java.lang.String)
@@ -40,17 +41,17 @@ public class CountryServiceImpl implements CountryService {
             return null;
         }
 
-        Map<String, String> postalCountryMap = new HashMap<String, String>();
+        Map<String, Object> postalCountryMap = new HashMap<String, Object>();
         postalCountryMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
 
-        return (Country) businessObjectService.findByPrimaryKey(Country.class, postalCountryMap);
+        return kualiModuleService.getResponsibleModuleService(Country.class).getExternalizableBusinessObject(Country.class, postalCountryMap);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.Country)
      */
-    public Country getByPrimaryIdIfNecessary(String postalCountryCode, Country existingCountry) {
+    public Country getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, Country existingCountry) {
         if (existingCountry != null) {
             if (StringUtils.equals(postalCountryCode, existingCountry.getPostalCountryCode())) {
                 return existingCountry;
@@ -64,15 +65,16 @@ public class CountryServiceImpl implements CountryService {
      * @see org.kuali.kfs.sys.service.CountryService#findAllCountries()
      */
     public List<Country> findAllCountries() {
-        return (List<Country>) businessObjectService.findAll(Country.class);
+        Map<String, Object> postalCountryMap = new HashMap<String, Object>();
+        return kualiModuleService.getResponsibleModuleService(Country.class).getExternalizableBusinessObjectsList(Country.class, postalCountryMap);
     }
 
     /**
-     * Sets the businessObjectService attribute value.
+     * Sets the kualiModuleService attribute value.
      * 
-     * @param businessObjectService The businessObjectService to set.
+     * @param kualiModuleService The kualiModuleService to set.
      */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

@@ -196,6 +196,7 @@
         </bean>
         <dd:relationship objectAttribute="offCampusLocation.postalZipCode">
         	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationStateCode" target="postalStateCode" /> 
             <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusLocation.assetLocationState">
@@ -1427,7 +1428,9 @@
   </bean>
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
 
-  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationStateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
@@ -1482,7 +1485,9 @@
   </bean>
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
 
-  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationState.postalStateCode" />
   </bean>
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" />
@@ -1492,7 +1497,9 @@
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerCountry.postalCountryName-parentBean" />
@@ -1502,7 +1509,9 @@
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" />
 
-  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+  <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName" parent="Asset-loanOrReturnInfo.borrowerStorageCountry.postalCountryName-parentBean" />

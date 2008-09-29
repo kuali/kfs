@@ -28,6 +28,7 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.sys</value>
+                <value>org.kuali.kfs.sys.businessobject</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
@@ -57,6 +58,15 @@
 				<value>purgeJob</value>
             </list>
         </property>
+        
+		<property name="externalizableBusinessObjectImplementations">
+            <map>
+				<entry key="org.kuali.kfs.sys.businessobject.Country" value="org.kuali.kfs.sys.businessobject.CountryImpl" />
+				<entry key="org.kuali.kfs.sys.businessobject.State" value="org.kuali.kfs.sys.businessobject.StateImpl" />
+				<entry key="org.kuali.kfs.sys.businessobject.PostalCode" value="org.kuali.kfs.sys.businessobject.PostalCodeImpl" />
+				<entry key="org.kuali.kfs.sys.businessobject.County" value="org.kuali.kfs.sys.businessobject.CountyImpl" />
+            </map>
+        </property>	        
     </bean>
 
     <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
@@ -342,8 +352,8 @@
     </bean>	    
 
 	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -351,8 +361,8 @@
 	</bean>
 	
 	<bean id="countyService" class="org.kuali.kfs.sys.service.impl.CountyServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -360,8 +370,8 @@
 	</bean>
 	
 	<bean id="stateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -369,8 +379,8 @@
 	</bean>
 	
 	<bean id="countryService" class="org.kuali.kfs.sys.service.impl.CountryServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
 		</property>
 	</bean>
 

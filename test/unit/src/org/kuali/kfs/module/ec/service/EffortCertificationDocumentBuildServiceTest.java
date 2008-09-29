@@ -21,8 +21,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
@@ -81,8 +83,9 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         effortCertificationDocumentBuildService = SpringContext.getBean(EffortCertificationDocumentBuildService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
-        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
-
+        KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalance.class);
+        
         TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }
 

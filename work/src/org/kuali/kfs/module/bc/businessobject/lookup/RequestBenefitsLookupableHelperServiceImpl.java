@@ -54,7 +54,7 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
         Integer fiscalYear = Integer.valueOf(fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
         String chartOfAccountsCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         String objectCode = fieldValues.get(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-        Collection<LaborLedgerPositionObjectBenefit> positionObjectBenefits = (Collection<LaborLedgerPositionObjectBenefit>) laborModuleService.retrieveLaborPositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
+        List<LaborLedgerPositionObjectBenefit> positionObjectBenefits = laborModuleService.retrieveLaborPositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
         for (Iterator<LaborLedgerPositionObjectBenefit> iterator = positionObjectBenefits.iterator(); iterator.hasNext();) {
             LaborLedgerPositionObjectBenefit positionObjectBenefit = (LaborLedgerPositionObjectBenefit) iterator.next();
 

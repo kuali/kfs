@@ -480,7 +480,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @return Returns the organizationCountry.
      */
     public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationCountry);
+        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, organizationCountryCode, organizationCountry);
         return organizationCountry;
     }
 
@@ -676,7 +676,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @return Returns the postalZip.
      */
     public PostalCode getPostalZip() {
-        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationZipCode, postalZip);
+        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, organizationCountryCode, organizationZipCode, postalZip);
         return postalZip;
     }
 

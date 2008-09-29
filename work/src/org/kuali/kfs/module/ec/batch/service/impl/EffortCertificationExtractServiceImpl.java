@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
@@ -48,10 +49,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.spring.Logged;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +78,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private UniversityDateService universityDateService;
 
     private LaborModuleService laborModuleService;
+    private KualiModuleService kualiModuleService;
+    
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
     private EffortCertificationReportService effortCertificationReportService;
     private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
@@ -414,8 +419,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     // add an error entry into error map
     private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
-        Class<? extends LaborLedgerBalance> clazz = laborModuleService.getLaborLedgerBalanceClass();
-        LaborLedgerBalance ledgerBalance = ObjectUtil.createObject(clazz);
+        LaborLedgerBalance ledgerBalance = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).createNewObjectFromExternalizableClass(LaborLedgerBalance.class);   
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }
@@ -546,5 +550,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     public void setEffortCertificationReportDefinitionService(EffortCertificationReportDefinitionService effortCertificationReportDefinitionService) {
         this.effortCertificationReportDefinitionService = effortCertificationReportDefinitionService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

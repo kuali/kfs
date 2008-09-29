@@ -144,7 +144,9 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderStateCode" parent="ProcurementCardHolder-cardHolderStateCode-parentBean" />
 
-  <bean id="ProcurementCardHolder-cardHolderStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="ProcurementCardHolder-cardHolderStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="cardHolderStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Card Holder State Code" />
@@ -170,7 +172,9 @@
   </bean>
   <bean id="ProcurementCardHolder-cardHolderZipCode" parent="ProcurementCardHolder-cardHolderZipCode-parentBean" />
 
-  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="cardHolderZipCode" />
     <property name="label" value="Card Holder Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />

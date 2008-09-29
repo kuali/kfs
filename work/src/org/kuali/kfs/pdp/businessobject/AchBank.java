@@ -392,7 +392,7 @@ public class AchBank extends PersistableBusinessObjectBase {
      * @return Returns the bankState.
      */
     public State getBankState() {
-        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(bankStateCode, bankState);
+        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, bankStateCode, bankState);
         return bankState;
     }
 
@@ -402,7 +402,7 @@ public class AchBank extends PersistableBusinessObjectBase {
      * @return Returns the postalCode.
      */
     public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(bankZipCode, postalCode);
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, bankZipCode, postalCode);
         return postalCode;
     }
 

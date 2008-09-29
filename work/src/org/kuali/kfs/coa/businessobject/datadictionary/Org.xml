@@ -135,6 +135,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="postalZip">
         	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="organizationStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="organizationZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">
@@ -329,7 +330,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Org-organizationZipCode" parent="Org-organizationZipCode-parentBean" />
 
-  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="organizationZipCode" />
     <property name="label" value="Organization Postal Code" />
     <property name="shortLabel" value="Postal Code" />
@@ -337,7 +340,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Org-organizationStateCode" parent="Org-organizationStateCode-parentBean" />
 
-  <bean id="Org-organizationStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Org-organizationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="organizationStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Organization State/Province Code" />
@@ -355,7 +360,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Org-organizationCountryCode" parent="Org-organizationCountryCode-parentBean" />
 
-  <bean id="Org-organizationCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Org-organizationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="organizationCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Country Code" />

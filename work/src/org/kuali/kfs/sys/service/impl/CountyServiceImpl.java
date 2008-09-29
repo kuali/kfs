@@ -26,7 +26,8 @@ import org.kuali.kfs.sys.businessobject.County;
 import org.kuali.kfs.sys.service.CountyService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 /**
  * This class...
@@ -34,8 +35,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class CountyServiceImpl implements CountyService {
     private static Logger LOG = Logger.getLogger(CountyServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    public ParameterService parameterService;
+    private ParameterService parameterService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * @see org.kuali.kfs.sys.service.CountyService#getByPrimaryId(java.lang.String, java.lang.String)
@@ -55,29 +56,29 @@ public class CountyServiceImpl implements CountyService {
             return null;
         }
 
-        Map<String, String> countyMap = new HashMap<String, String>();
+        Map<String, Object> countyMap = new HashMap<String, Object>();
         countyMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
         countyMap.put(KFSPropertyConstants.STATE_CODE, postalStateCode);
         countyMap.put(KFSPropertyConstants.COUNTY_CODE, countyCode);
 
-        return (County) businessObjectService.findByPrimaryKey(County.class, countyMap);
+        return kualiModuleService.getResponsibleModuleService(County.class).getExternalizableBusinessObject(County.class, countyMap);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.CountyService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.County)
      */
-    public County getByPrimaryIdIfNecessary(String postalStateCode, String countyCode, County existingCounty) {
+    public County getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalStateCode, String countyCode, County existingCounty) {
         String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
-        return this.getByPrimaryIdIfNecessary(postalCountryCode, postalStateCode, countyCode, existingCounty);
+        return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalStateCode, countyCode, existingCounty);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.CountyService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.County)
      */
-    public County getByPrimaryIdIfNecessary(String postalCountryCode, String postalStateCode, String countyCode, County existingCounty) {
+    public County getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalStateCode, String countyCode, County existingCounty) {
         if (existingCounty != null) {
             String existingCountryCode = existingCounty.getPostalCountryCode();
             String existingStateCode = existingCounty.getStateCode();
@@ -92,20 +93,20 @@ public class CountyServiceImpl implements CountyService {
     }
 
     /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
      * Sets the parameterService attribute value.
      * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

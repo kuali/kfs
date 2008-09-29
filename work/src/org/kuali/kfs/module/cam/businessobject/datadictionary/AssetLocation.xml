@@ -36,6 +36,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
         	<dd:primitiveAttribute source="assetLocationCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="assetLocationStateCode" target="postalStateCode" /> 
             <dd:primitiveAttribute source="assetLocationZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="assetLocationState">
@@ -108,7 +109,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean" />
 
-  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="assetLocationCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Location Country Code" />
@@ -162,7 +165,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetLocation-assetLocationStateCode" parent="AssetLocation-assetLocationStateCode-parentBean" />
 
-  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="AssetLocation-assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="assetLocationStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Location State Code" />
@@ -208,7 +213,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetLocation-assetLocationZipCode" parent="AssetLocation-assetLocationZipCode-parentBean" />
 
-  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="AssetLocation-assetLocationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="assetLocationZipCode" />
     <property name="label" value="Asset Location Postal Code" />
     <property name="shortLabel" value="Postal Code" />

@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerEntry;
@@ -98,8 +99,9 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
-        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
-        ledgerEntryClass = laborModuleService.getLaborLedgerEntryClass();
+        KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalance.class);
+        ledgerEntryClass = kualiModuleService.getResponsibleModuleService(LaborLedgerEntry.class).getExternalizableBusinessObjectImplementation(LaborLedgerEntry.class);
     }
 
     /**

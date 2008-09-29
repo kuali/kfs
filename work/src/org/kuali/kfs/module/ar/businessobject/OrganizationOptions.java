@@ -510,7 +510,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public State getOrganizationRemitToState() {
-        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(organizationRemitToStateCode, organizationRemitToState);
+        organizationRemitToState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, organizationRemitToStateCode, organizationRemitToState);
         return organizationRemitToState;
     }
 

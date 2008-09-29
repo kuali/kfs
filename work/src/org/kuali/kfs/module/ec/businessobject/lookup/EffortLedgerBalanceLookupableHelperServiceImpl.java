@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
@@ -31,13 +31,14 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    private KualiModuleService kualiModuleService;
     private BusinessObjectService businessObjectService;
-    private LaborModuleService laborModuleService;
     private OptionsService optionsService;
     private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
 
@@ -45,12 +46,12 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {        
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         Map<String, Object> searchFieldValues = this.getSearchFieldValues(fieldValues);
         List<String> defaultSortColumns = this.getDefaultSortColumns();
-        
-        List<? extends BusinessObject> searchResults = (List<? extends BusinessObject>)getLookupService().findCollectionBySearch(getBusinessObjectClass(), searchFieldValues);
-        
+
+        List<? extends BusinessObject> searchResults = (List<? extends BusinessObject>) getLookupService().findCollectionBySearch(getBusinessObjectClass(), searchFieldValues);
+
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
@@ -98,7 +99,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public Class<? extends LaborLedgerBalance> getBusinessObjectClass() {
-        return laborModuleService.getLaborLedgerBalanceForEffortCertificationClass();
+        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalanceForEffortCertification.class);
     }
 
     /**
@@ -108,15 +109,6 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the laborModuleService attribute value.
-     * 
-     * @param laborModuleService The laborModuleService to set.
-     */
-    public void setLaborModuleService(LaborModuleService laborModuleService) {
-        this.laborModuleService = laborModuleService;
     }
 
     /**
@@ -135,6 +127,15 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 
 }

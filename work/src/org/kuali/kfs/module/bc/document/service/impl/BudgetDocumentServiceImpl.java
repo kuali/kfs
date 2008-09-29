@@ -35,7 +35,6 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
-import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -78,6 +77,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -99,7 +99,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private WorkflowDocumentService workflowDocumentService;
     private BenefitsCalculationService benefitsCalculationService;
     private BusinessObjectService businessObjectService;
-    private LaborModuleService laborModuleService;
+    private KualiModuleService kualiModuleService;
     private ParameterService parameterService;
     private BudgetParameterService budgetParameterService;
     private PermissionService permissionService;
@@ -437,8 +437,9 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcDoc.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcDoc.getChartOfAccountsCode());
 
+        List<LaborLedgerBenefitsCalculation> benefitsCalculation = kualiModuleService.getResponsibleModuleService(LaborLedgerBenefitsCalculation.class).getExternalizableBusinessObjectsList(LaborLedgerBenefitsCalculation.class, fieldValues);
+
         List<String> fringeObjects = new ArrayList<String>();
-        List<LaborLedgerBenefitsCalculation> benefitsCalculation = (List<LaborLedgerBenefitsCalculation>) businessObjectService.findMatching(laborModuleService.getLaborLedgerBenefitsCalculationClass(), fieldValues);
         for (LaborLedgerBenefitsCalculation element : benefitsCalculation) {
             fringeObjects.add(element.getPositionFringeBenefitObjectCode());
         }
@@ -1147,27 +1148,28 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrieveOrBuildAccountOrganizationHierarchy(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#retrieveOrBuildAccountOrganizationHierarchy(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
      */
     @Transactional
-    public List<BudgetConstructionAccountOrganizationHierarchy> retrieveOrBuildAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber){
-        
-        List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHier = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>(); 
+    public List<BudgetConstructionAccountOrganizationHierarchy> retrieveOrBuildAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+
+        List<BudgetConstructionAccountOrganizationHierarchy> accountOrgHier = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>();
         BudgetConstructionAccountReports accountReports = (BudgetConstructionAccountReports) budgetConstructionDao.getAccountReports(chartOfAccountsCode, accountNumber);
-        if (accountReports != null){
+        if (accountReports != null) {
             accountOrgHier = budgetConstructionDao.getAccountOrgHierForAccount(chartOfAccountsCode, accountNumber, universityFiscalYear);
-            if (accountOrgHier == null || accountOrgHier.isEmpty()){
-                
+            if (accountOrgHier == null || accountOrgHier.isEmpty()) {
+
                 // attempt to build it
                 String[] rootNode = organizationService.getRootOrganizationCode();
                 String rootChart = rootNode[0];
                 String rootOrganization = rootNode[1];
                 Integer currentLevel = new Integer(1);
-                String organizationChartOfAccountsCode = accountReports.getReportsToChartOfAccountsCode(); 
+                String organizationChartOfAccountsCode = accountReports.getReportsToChartOfAccountsCode();
                 String organizationCode = accountReports.getReportsToOrganizationCode();
                 boolean overFlow = budgetConstructionDao.insertAccountIntoAccountOrganizationHierarchy(rootChart, rootOrganization, universityFiscalYear, chartOfAccountsCode, accountNumber, currentLevel, organizationChartOfAccountsCode, organizationCode);
-                if (!overFlow){
-                    accountOrgHier = budgetConstructionDao.getAccountOrgHierForAccount(chartOfAccountsCode, accountNumber, universityFiscalYear);                    
+                if (!overFlow) {
+                    accountOrgHier = budgetConstructionDao.getAccountOrgHierForAccount(chartOfAccountsCode, accountNumber, universityFiscalYear);
                 }
             }
         }
@@ -1178,7 +1180,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#instantiateNewBudgetConstructionDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
     @Transactional
-    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException{
+    public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException {
 
         budgetConstructionDocument.setOrganizationLevelChartOfAccountsCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
         budgetConstructionDocument.setOrganizationLevelOrganizationCode(BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
@@ -1196,7 +1198,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
         documentService.prepareWorkflowDocument(budgetConstructionDocument);
-        
+
         RouteHeaderService routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
 
         DocumentRouteHeaderValue ourWorkflowDoc = routeHeaderService.getRouteHeader(budgetConstructionDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
@@ -1204,7 +1206,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         CompleteAction action = new CompleteAction(ourWorkflowDoc, ourWorkflowDoc.getInitiatorUser(), "created by application UI");
         action.recordAction();
 
-        // there was no need to queue.  we want to mark the document final and save it 
+        // there was no need to queue. we want to mark the document final and save it
         ourWorkflowDoc.markDocumentEnroute();
         ourWorkflowDoc.markDocumentApproved();
         ourWorkflowDoc.markDocumentProcessed();
@@ -1300,18 +1302,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.businessObjectService = businessObjectService;
     }
 
-
-    /**
-     * Sets the laborModuleService attribute value.
-     * 
-     * @param laborModuleService The laborModuleService to set.
-     */
-    @NonTransactional
-    public void setLaborModuleService(LaborModuleService laborModuleService) {
-        this.laborModuleService = laborModuleService;
-    }
-
-
     /**
      * Sets the budgetParameterService attribute value.
      * 
@@ -1321,7 +1311,6 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
         this.budgetParameterService = budgetParameterService;
     }
-
 
     /**
      * Sets the parameterService attribute value.
@@ -1388,10 +1377,20 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * Sets the organizationService attribute value.
+     * 
      * @param organizationService The organizationService to set.
      */
     @NonTransactional
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

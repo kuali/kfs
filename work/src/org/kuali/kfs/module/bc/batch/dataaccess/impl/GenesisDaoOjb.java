@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -40,7 +40,7 @@ import org.kuali.kfs.fp.businessobject.FunctionControlCode;
 import org.kuali.kfs.gl.GeneralLedgerConstants.ColumnNames;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.UniversityDate;
-import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
@@ -75,6 +75,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -163,9 +164,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     private DateTimeService dateTimeService;
     private DocumentDao documentDao;
     private RouteHeaderService routeHeaderService = null;
-    private LaborModuleService laborModuleService;
+    private KualiModuleService kualiModuleService;
     private BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;
-    
+
 
     public final Map<String, String> getBudgetConstructionControlFlags(Integer universityFiscalYear) {
         /*  return the flag names and the values for all the BC flags for the fiscal year */
@@ -2347,16 +2348,16 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         // so having more PBGL rows than we need will not cause us to miss any
         Integer RequestYear = BaseYear + 1;
         ArrayList<String> objectCodesWithIndividualPositions = new ArrayList<String>(10);
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
-        criteriaID.addEqualTo(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR, true);
-        String[] selectList = { KFSPropertyConstants.FINANCIAL_OBJECT_CODE };
-        Class laborObjectClass = laborModuleService.getLaborLedgerObjectClass();
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(laborObjectClass, selectList, criteriaID, true);
-        Iterator objectCodesReturned = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        while (objectCodesReturned.hasNext()) {
-            objectCodesWithIndividualPositions.add((String) ((Object[]) objectCodesReturned.next())[0]);
+        
+        Map<String, Object> laborObjectCodeMap = new HashMap<String, Object>();
+        laborObjectCodeMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, RequestYear);
+        laborObjectCodeMap.put(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR, true);        
+        List<LaborLedgerObject> laborLedgerObjects = kualiModuleService.getResponsibleModuleService(LaborLedgerObject.class).getExternalizableBusinessObjectsList(LaborLedgerObject.class, laborObjectCodeMap);
+        
+        for(LaborLedgerObject laborObject: laborLedgerObjects) {
+            objectCodesWithIndividualPositions.add(laborObject.getFinancialObjectCode());
         }
+        
         return objectCodesWithIndividualPositions;
     }
 
@@ -2811,10 +2812,6 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         this.budgetConstructionHumanResourcesPayrollInterfaceDao = budgetConstructionHumanResourcesPayrollInterfaceDao;
     }
 
-    public void setLaborModuleService(LaborModuleService laborModuleService) {
-        this.laborModuleService = laborModuleService;
-    }
-
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
@@ -2823,6 +2820,14 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         if (this.routeHeaderService == null) {
             this.routeHeaderService = (RouteHeaderService) KEWServiceLocator.getService(KEWServiceLocator.DOC_ROUTE_HEADER_SRV);
         }
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 
 

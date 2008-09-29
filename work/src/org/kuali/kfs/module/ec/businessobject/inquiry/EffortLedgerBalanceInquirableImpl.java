@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -33,12 +34,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortLedgerBalanceInquirableImpl.class);
 
-    private LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+    private KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
 
     /**
      * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
@@ -101,7 +103,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInqu
      */
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return laborModuleService.getLaborLedgerBalanceForEffortCertificationClass();
+        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalanceForEffortCertification.class);
     }
 
     /**

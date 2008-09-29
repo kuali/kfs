@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -35,7 +36,7 @@ public class CountryValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<Country> boList = (List<Country>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(Country.class, "postalCountryName", true);
+        List<Country> boList = SpringContext.getBean(CountryService.class).findAllCountries();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
         Country usCountry = null;

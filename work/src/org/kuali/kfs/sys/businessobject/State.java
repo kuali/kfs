@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,139 +13,86 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-/**
- * 
- */
-public class State extends PersistableBusinessObjectBase implements Inactivateable {
-
-    private String postalCountryCode;
-    private String postalStateCode;
-    private String postalStateName;
-    private boolean active;
-
-    private Country country;
-
-    /**
-     * Default no-arg constructor.
-     */
-    public State() {
-
-    }
+public interface State extends ExternalizableBusinessObject{
 
     /**
      * Gets the postalStateCode attribute.
      * 
      * @return Returns the postalStateCode
      */
-    public String getPostalStateCode() {
-        return postalStateCode;
-    }
+    public abstract String getPostalStateCode();
 
     /**
      * Sets the postalStateCode attribute.
      * 
      * @param postalStateCode The postalStateCode to set.
      */
-    public void setPostalStateCode(String postalStateCode) {
-        this.postalStateCode = postalStateCode;
-    }
+    public abstract void setPostalStateCode(String postalStateCode);
 
     /**
      * Gets the postalStateName attribute.
      * 
      * @return Returns the postalStateName
      */
-    public String getPostalStateName() {
-        return postalStateName;
-    }
+    public abstract String getPostalStateName();
 
     /**
      * Sets the postalStateName attribute.
      * 
      * @param postalStateName The postalStateName to set.
      */
-    public void setPostalStateName(String postalStateName) {
-        this.postalStateName = postalStateName;
-    }
-
+    public abstract void setPostalStateName(String postalStateName);
 
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */
-    public String getCodeAndDescription() {
-        String theString = getPostalStateCode() + " - " + getPostalStateName();
-        return theString;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("postalStateCode", this.postalStateCode);
-        return m;
-    }
+    public abstract String getCodeAndDescription();
 
     /**
      * Gets the active attribute.
      * 
      * @return Returns the active.
      */
-    public boolean isActive() {
-        return active;
-    }
+    public abstract boolean isActive();
 
     /**
      * Sets the active attribute value.
      * 
      * @param active The active to set.
      */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public abstract void setActive(boolean active);
 
     /**
      * Gets the postalCountryCode attribute.
      * 
      * @return Returns the postalCountryCode.
      */
-    public String getPostalCountryCode() {
-        return postalCountryCode;
-    }
+    public abstract String getPostalCountryCode();
 
     /**
      * Sets the postalCountryCode attribute value.
      * 
      * @param postalCountryCode The postalCountryCode to set.
      */
-    public void setPostalCountryCode(String postalCountryCode) {
-        this.postalCountryCode = postalCountryCode;
-    }
+    public abstract void setPostalCountryCode(String postalCountryCode);
 
     /**
      * Gets the country attribute.
      * 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        return country;
-    }
+    public abstract Country getCountry();
 
     /**
      * Sets the country attribute value.
      * 
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+    public abstract void setCountry(Country country);
 
 }

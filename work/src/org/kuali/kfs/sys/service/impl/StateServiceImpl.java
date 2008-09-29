@@ -27,13 +27,14 @@ import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.service.KualiModuleService;
 
 public class StateServiceImpl implements StateService {
     private static Logger LOG = Logger.getLogger(StateServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    public ParameterService parameterService;
+    private ParameterService parameterService;
+    private KualiModuleService kualiModuleService;
 
     /**
      * @see org.kuali.kfs.sys.service.StateService#getByPrimaryId(java.lang.String)
@@ -52,28 +53,28 @@ public class StateServiceImpl implements StateService {
             return null;
         }
 
-        Map<String, String> postalStateMap = new HashMap<String, String>();
+        Map<String, Object> postalStateMap = new HashMap<String, Object>();
         postalStateMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
         postalStateMap.put(KFSPropertyConstants.POSTAL_STATE_CODE, postalStateCode);
 
-        return (State) businessObjectService.findByPrimaryKey(State.class, postalStateMap);
+        return kualiModuleService.getResponsibleModuleService(State.class).getExternalizableBusinessObject(State.class, postalStateMap);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(java.lang.String,
      *      org.kuali.kfs.sys.businessobject.State)
      */
-    public State getByPrimaryIdIfNecessary(String postalStateCode, State existingState) {
+    public State getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalStateCode, State existingState) {
         String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
 
-        return this.getByPrimaryIdIfNecessary(postalCountryCode, postalStateCode, existingState);
+        return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalStateCode, existingState);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(java.lang.String, java.lang.String,
      *      org.kuali.kfs.sys.businessobject.State)
      */
-    public State getByPrimaryIdIfNecessary(String postalCountryCode, String postalStateCode, State existingState) {
+    public State getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalStateCode, State existingState) {
         if (existingState != null) {
             String existingCountryCode = existingState.getPostalCountryCode();
             String existingPostalStateCode = existingState.getPostalStateCode();
@@ -101,19 +102,10 @@ public class StateServiceImpl implements StateService {
             throw new IllegalArgumentException("The postalCountryCode cannot be empty String.");
         }
 
-        Map<String, String> postalStateMap = new HashMap<String, String>();
+        Map<String, Object> postalStateMap = new HashMap<String, Object>();
         postalStateMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
 
-        return (List<State>) businessObjectService.findMatching(State.class, postalStateMap);
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+        return kualiModuleService.getResponsibleModuleService(State.class).getExternalizableBusinessObjectsList(State.class, postalStateMap);
     }
 
     /**
@@ -123,5 +115,14 @@ public class StateServiceImpl implements StateService {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

@@ -106,7 +106,7 @@
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" />
 
-  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
     <property name="name" value="disbVchrPayeeZipCode" />
     <property name="required" value="false" />
   </bean>

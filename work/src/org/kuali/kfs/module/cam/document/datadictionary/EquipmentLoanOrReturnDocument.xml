@@ -87,6 +87,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="borrowerPostalZipCode">
         	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="borrowerStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="borrowerZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerState">
@@ -98,6 +99,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStoragePostalZipCode">
         	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="borrowerStorageStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageState">
@@ -152,7 +154,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode" parent="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="borrowerCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
@@ -188,7 +192,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
      <property name="name" value="borrowerStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
@@ -235,7 +241,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="borrowerStorageCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />
@@ -271,7 +279,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="borrowerStorageStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
@@ -281,7 +291,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode" parent="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="borrowerStorageZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
@@ -291,7 +303,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode" parent="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" />
 
-  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="borrowerZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />

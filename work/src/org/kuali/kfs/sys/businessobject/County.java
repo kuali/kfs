@@ -1,103 +1,70 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.StateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+public interface County extends ExternalizableBusinessObject{
 
-public class County extends PersistableBusinessObjectBase implements Inactivateable {
+    public abstract State getState();
 
-    private String postalCountryCode;
-    private String countyCode;
-    private String stateCode;
-    private String countyName;
-    private boolean active;
+    public abstract void setState(State state);
 
-    private State state;
-    private Country country;
+    public abstract boolean isActive();
 
-    public State getState() {
-        return state;
-    }
+    public abstract void setActive(boolean active);
 
-    public void setState(State state) {
-        this.state = state;
-    }
+    public abstract String getCountyName();
 
-    public boolean isActive() {
-        return active;
-    }
+    public abstract void setCountyName(String countName);
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public abstract String getCountyCode();
 
-    public String getCountyName() {
-        return countyName;
-    }
+    public abstract void setCountyCode(String countyCode);
 
-    public void setCountyName(String countName) {
-        this.countyName = countName;
-    }
+    public abstract String getStateCode();
 
-    public String getCountyCode() {
-        return countyCode;
-    }
-
-    public void setCountyCode(String countyCode) {
-        this.countyCode = countyCode;
-    }
-
-    public String getStateCode() {
-        return stateCode;
-    }
-
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
-    }
-
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("countyCode", this.countyCode);
-        m.put("stateCode", this.stateCode);
-        return m;
-    }
+    public abstract void setStateCode(String stateCode);
 
     /**
      * Gets the postalCountryCode attribute.
      * 
      * @return Returns the postalCountryCode.
      */
-    public String getPostalCountryCode() {
-        return postalCountryCode;
-    }
+    public abstract String getPostalCountryCode();
 
     /**
      * Sets the postalCountryCode attribute value.
      * 
      * @param postalCountryCode The postalCountryCode to set.
      */
-    public void setPostalCountryCode(String postalCountryCode) {
-        this.postalCountryCode = postalCountryCode;
-    }
+    public abstract void setPostalCountryCode(String postalCountryCode);
 
     /**
      * Gets the country attribute.
      * 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        return country;
-    }
+    public abstract Country getCountry();
 
     /**
      * Sets the country attribute value.
      * 
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+    public abstract void setCountry(Country country);
+
 }

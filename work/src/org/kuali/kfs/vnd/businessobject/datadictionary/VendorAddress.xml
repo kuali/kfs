@@ -165,7 +165,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="VendorAddress-vendorZipCode" parent="VendorAddress-vendorZipCode-parentBean" />
 
-  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="VendorAddress-vendorZipCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
     <property name="name" value="vendorZipCode" />
   </bean>
   <bean id="VendorAddress-vendorCountryCode" parent="VendorAddress-vendorCountryCode-parentBean" />

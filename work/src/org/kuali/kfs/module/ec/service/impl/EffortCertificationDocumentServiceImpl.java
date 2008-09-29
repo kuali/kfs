@@ -55,6 +55,7 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.spring.Logged;
@@ -69,7 +70,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentServiceImpl.class);
 
     private LaborModuleService laborModuleService;
-    public ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    private KualiModuleService kualiModuleService;
+    private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
@@ -251,12 +253,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-        Class<? extends LaborLedgerExpenseTransferSourceAccountingLine> sourceLineclass = laborModuleService.getExpenseTransferSourceAccountingLineClass();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             if (this.getDifference(detailLine).isPositive()) {
-                this.addAccountingLineIntoList(sourceAccountingLines, sourceLineclass, effortCertificationDocument, detailLine);
+                LaborLedgerExpenseTransferSourceAccountingLine sourceLine = kualiModuleService.getResponsibleModuleService(LaborLedgerExpenseTransferSourceAccountingLine.class).createNewObjectFromExternalizableClass(LaborLedgerExpenseTransferSourceAccountingLine.class);
+                this.addAccountingLineIntoList(sourceAccountingLines, sourceLine, effortCertificationDocument, detailLine);
             }
         }
         return sourceAccountingLines;
@@ -271,12 +273,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildTargetAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-        Class<? extends LaborLedgerExpenseTransferTargetAccountingLine> targetLineclass = laborModuleService.getExpenseTransferTargetAccountingLineClass();
 
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             if (this.getDifference(detailLine).isNegative()) {
-                this.addAccountingLineIntoList(targetAccountingLines, targetLineclass, effortCertificationDocument, detailLine);
+                LaborLedgerExpenseTransferTargetAccountingLine targetLine = kualiModuleService.getResponsibleModuleService(LaborLedgerExpenseTransferTargetAccountingLine.class).createNewObjectFromExternalizableClass(LaborLedgerExpenseTransferTargetAccountingLine.class);
+                this.addAccountingLineIntoList(targetAccountingLines, targetLine, effortCertificationDocument, detailLine);
             }
         }
         return targetAccountingLines;
@@ -313,8 +315,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param effortCertificationDocument the given effort certification document that contains the given detail line
      * @param detailLine the given detail line that is used to generate an accounting line
      */
-    private void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, Class<? extends LaborLedgerExpenseTransferAccountingLine> clazz, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
-        LaborLedgerExpenseTransferAccountingLine accountingLine = ObjectUtil.createObject(clazz);
+    private void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, LaborLedgerExpenseTransferAccountingLine accountingLine, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
         accountingLine.setSequenceNumber(accountingLineList.size() + 1);
 
         this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
@@ -401,5 +402,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
         this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
+    }
+
+    /**
+     * Sets the kualiModuleService attribute value.
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
     }
 }

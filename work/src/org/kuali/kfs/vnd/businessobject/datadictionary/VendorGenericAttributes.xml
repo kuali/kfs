@@ -1,8 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         
 <bean id="VendorGenericAttributes" parent="VendorGenericAttributes-parentBean"/>
 
@@ -37,7 +39,9 @@
 
   <bean id="VendorGenericAttributes-stateCode" parent="VendorGenericAttributes-stateCode-parentBean" />
 
-  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="stateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
@@ -181,7 +185,9 @@
   </bean>
   <bean id="VendorGenericAttributes-zipCode" parent="VendorGenericAttributes-zipCode-parentBean" />
 
-  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="zipCode" />
     <property name="required" value="false" />
   </bean>
@@ -204,7 +210,9 @@
   </bean>
   <bean id="VendorGenericAttributes-countryCode" parent="VendorGenericAttributes-countryCode-parentBean" />
 
-  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorGenericAttributes-countryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="countryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Country" />

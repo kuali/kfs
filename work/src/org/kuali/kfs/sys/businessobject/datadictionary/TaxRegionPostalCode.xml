@@ -34,11 +34,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
 <!-- Attribute Definitions -->
-  <bean id="TaxRegionPostalCode-postalCountryCode" parent="Country-postalCountryCode-parentBean" />
-
+  <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean" />
+  
+  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
+	<property name="name" value="postalCountryCode" />
+  </bean>	
+  
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean" />
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="postalCode" />
   </bean>
   

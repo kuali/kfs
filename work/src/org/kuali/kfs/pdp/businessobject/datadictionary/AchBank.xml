@@ -42,6 +42,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <dd:primitiveAttribute source="bankStateCode" target="postalStateCode" />
         </dd:relationship> 
         <dd:relationship objectAttribute="postalCode">
+        	<dd:primitiveAttribute source="bankStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="bankZipCode" target="postalZipCode" />
         </dd:relationship> 
       </list>
@@ -220,12 +221,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AchBank-bankStateCode" parent="AchBank-bankStateCode-parentBean" />
 
-  <bean id="AchBank-bankStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+  <bean id="AchBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="bankStateCode" />
   </bean>
   <bean id="AchBank-bankZipCode" parent="AchBank-bankZipCode-parentBean" />
 
-  <bean id="AchBank-bankZipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AchBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="bankZipCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Zip Code" />

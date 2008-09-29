@@ -73,6 +73,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
             <dd:primitiveAttribute source="retirementZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode" />
+            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">
             <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode" />            
@@ -233,7 +235,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementCountryCode" parent="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="retirementCountryCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Retirement Country Code" />
@@ -289,7 +293,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementStateCode" parent="AssetRetirementGlobalDetail-retirementStateCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-retirementStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AssetRetirementGlobalDetail-retirementStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="retirementStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Retirement State Code" />
@@ -326,7 +332,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetRetirementGlobalDetail-retirementZipCode" parent="AssetRetirementGlobalDetail-retirementZipCode-parentBean" />
 
-  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="retirementZipCode" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />

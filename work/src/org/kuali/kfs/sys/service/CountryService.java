@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.service;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 public interface CountryService {
 
@@ -37,7 +38,7 @@ public interface CountryService {
      * @param existingCountry the given existing ccountry
      * @return a country object with the given country code if necessary
      */
-    Country getByPrimaryIdIfNecessary(String postalCountryCode, Country existingCountry);
+    Country getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, Country existingCountry);
 
     /**
      * get all countries

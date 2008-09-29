@@ -7,7 +7,7 @@
   <bean id="CountryMaintenanceDocument" parent="CountryMaintenanceDocument-parentBean" />
 
   <bean id="CountryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.Country" />
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.CountryImpl" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>

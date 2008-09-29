@@ -2,22 +2,27 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class TaxRegionState extends PersistableBusinessObjectBase implements Inactivateable {
+public class CountyImpl extends PersistableBusinessObjectBase implements Inactivateable, County {
 
     private String postalCountryCode;
+    private String countyCode;
     private String stateCode;
-    private String taxRegionCode;
+    private String countyName;
     private boolean active;
 
-    private Country country;
     private State state;
-    private TaxRegion taxRegion;
+    private Country country;
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 
     public boolean isActive() {
         return active;
@@ -25,6 +30,22 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countName) {
+        this.countyName = countName;
+    }
+
+    public String getCountyCode() {
+        return countyCode;
+    }
+
+    public void setCountyCode(String countyCode) {
+        this.countyCode = countyCode;
     }
 
     public String getStateCode() {
@@ -35,36 +56,11 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
         this.stateCode = stateCode;
     }
 
-    public TaxRegion getTaxRegion() {
-        return taxRegion;
-    }
-
-    public void setTaxRegion(TaxRegion taxRegion) {
-        this.taxRegion = taxRegion;
-    }
-
-    public String getTaxRegionCode() {
-        return taxRegionCode;
-    }
-
-    public void setTaxRegionCode(String taxRegionCode) {
-        this.taxRegionCode = taxRegionCode;
-    }
-
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
+        m.put("countyCode", this.countyCode);
         m.put("stateCode", this.stateCode);
-        m.put("taxRegionCode", this.taxRegionCode);
         return m;
-    }
-
-    public State getState() {
-        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, stateCode, state);
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     /**
@@ -86,16 +82,17 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
     }
 
     /**
-     * Gets the country attribute. 
+     * Gets the country attribute.
+     * 
      * @return Returns the country.
      */
     public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, postalCountryCode, country);
         return country;
     }
 
     /**
      * Sets the country attribute value.
+     * 
      * @param country The country to set.
      */
     public void setCountry(Country country) {

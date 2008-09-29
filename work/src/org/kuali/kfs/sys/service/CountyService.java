@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.service;
 
 import org.kuali.kfs.sys.businessobject.County;
+import org.kuali.rice.kns.bo.BusinessObject;
 
 public interface CountyService {
 
@@ -49,7 +50,7 @@ public interface CountyService {
      * @param existingCounty the given existing county
      * @return a county object based on the given county code, state code and default country code if necessary
      */
-    public County getByPrimaryIdIfNecessary(String postalStateCode, String countyCode, County existingCounty);
+    public County getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalStateCode, String countyCode, County existingCounty);
 
     /**
      * get a county object based on the given county code, state code and default country code. The default country code is set up
@@ -62,5 +63,5 @@ public interface CountyService {
      * @param existingCounty the given existing county
      * @return a county object based on the given county code, state code and country code if necessary
      */
-    public County getByPrimaryIdIfNecessary(String postalCountryCode, String postalStateCode, String countyCode, County existingCounty);
+    public County getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalStateCode, String countyCode, County existingCounty);
 }

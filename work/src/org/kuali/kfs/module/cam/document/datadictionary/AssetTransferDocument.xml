@@ -68,10 +68,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="postalZipCode">
+        	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
+        	<dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode" />
             <dd:primitiveAttribute source="offCampusZipCode" target="postalZipCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">
-            <dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode" />            
+            <dd:primitiveAttribute source="offCampusStateCode" target="postalStateCode" />
+			<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />           
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusCountry">
             <dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
@@ -211,7 +214,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetTransferDocument-offCampusStateCode" parent="AssetTransferDocument-offCampusStateCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
+  <bean id="AssetTransferDocument-offCampusStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusStateCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="State" />
@@ -221,7 +226,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetTransferDocument-offCampusZipCode" parent="AssetTransferDocument-offCampusZipCode-parentBean" />
 
-  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="AssetTransferDocument-offCampusZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />

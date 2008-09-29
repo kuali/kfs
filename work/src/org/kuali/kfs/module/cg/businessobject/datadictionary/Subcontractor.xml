@@ -34,6 +34,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="subcontractorState">
+        	<dd:primitiveAttribute source="subcontractorCountryCode" target="postalCountryCode" />
             <dd:primitiveAttribute source="subcontractorStateCode" target="postalStateCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="subcontractorCountry">
@@ -135,20 +136,26 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Subcontractor-subcontractorStateCode" parent="Subcontractor-subcontractorStateCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorStateCode-parentBean" abstract="true" parent="State-postalStateCode">
+  <bean id="Subcontractor-subcontractorStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+	p:sourceAttributeName="postalStateCode">
     <property name="name" value="subcontractorStateCode" />
     <property name="label" value="State Code" />
     <property name="shortLabel" value="State" />
   </bean>
   <bean id="Subcontractor-subcontractorZipCode" parent="Subcontractor-subcontractorZipCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="PostalCode-postalZipCode">
+  <bean id="Subcontractor-subcontractorZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+	p:sourceAttributeName="postalZipCode">
     <property name="name" value="subcontractorZipCode" />
     <property name="required" value="true" />
   </bean>
   <bean id="Subcontractor-subcontractorCountryCode" parent="Subcontractor-subcontractorCountryCode-parentBean" />
 
-  <bean id="Subcontractor-subcontractorCountryCode-parentBean" abstract="true" parent="Country-postalCountryCode">
+  <bean id="Subcontractor-subcontractorCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="subcontractorCountryCode" />
     <property name="shortLabel" value="Country" />
     <property name="maxLength" value="15" />

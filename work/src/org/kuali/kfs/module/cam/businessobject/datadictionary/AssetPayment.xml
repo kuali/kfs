@@ -135,17 +135,20 @@
   <bean id="AssetPayment-account.organizationCode" parent="AssetPayment-account.organizationCode-parentBean" />
   <bean id="AssetPayment-account.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="account.organizationCode" />
+    <property name="shortLabel" value="Org. Code" />    
   </bean>
 
   <bean id="AssetPayment-account.subFundGroupCode" parent="AssetPayment-account.subFundGroupCode-parentBean" />
   <bean id="AssetPayment-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
     <property name="name" value="account.subFundGroupCode" />
+    <property name="shortLabel" value="Sub-Fund Grp. Code" />
   </bean>
 
 
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber" parent="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" />
   <bean id="AssetPayment-account.organization.organizationPlantAccountNumber-parentBean" abstract="true" parent="Org-organizationPlantAccountNumber">
     <property name="name" value="account.organization.organizationPlantAccountNumber" />
+    <property name="shortLabel" value="Org. Plant Accnt#" />
   </bean>
 
 
@@ -153,17 +156,20 @@
   <bean id="AssetPayment-account.organization.chartOfAccountsCode-parentBean" abstract="true" parent="Org-chartOfAccountsCode">
     <property name="name" value="account.organization.chartOfAccountsCode" />
     <property name="label" value="Organization Chart Code" />
+	<property name="shortLabel" value="Org. Chart Code" />    
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber" parent="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" />
   <bean id="AssetPayment-account.organization.campusPlantAccountNumber-parentBean" abstract="true" parent="Org-campusPlantAccountNumber">
     <property name="name" value="account.organization.campusPlantAccountNumber" />
+    <property name="shortLabel" value="Campus Plant Accnt #" />
   </bean>
 
   <bean id="AssetPayment-account.organization.campusPlantChartCode" parent="AssetPayment-account.organization.campusPlantChartCode-parentBean" />
   <bean id="AssetPayment-account.organization.campusPlantChartCode-parentBean" abstract="true" parent="Org-campusPlantChartCode">
     <property name="name" value="account.organization.campusPlantChartCode" />
-    <property name="label" value="Campus Plant Chart Code" />    
+    <property name="label" value="Campus Plant Chart Code" />
+    <property name="shortLabel" value="Campus Plant Chart Code" />    
   </bean>
 
 
@@ -192,8 +198,8 @@
   <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Account Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="label" value="Account#" />
+    <property name="shortLabel" value="Accnt No" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -211,7 +217,7 @@
     <property name="name" value="accumulatedPrimaryDepreciationAmount" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Accumulated Primary Depreciation Amount" />
-    <property name="shortLabel" value="Amount" />
+    <property name="shortLabel" value="Accum. Depr. Amt." />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
       <bean parent="FloatingPointValidationPattern" />
@@ -249,7 +255,7 @@
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Asset#" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -271,7 +277,7 @@
     <property name="name" value="documentNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Document Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Doc. #" />
     <property name="maxLength" value="14" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -288,7 +294,7 @@
   <bean id="AssetPayment-financialDocumentPostingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="financialDocumentPostingDate" />
     <property name="label" value="Posting Date" />
-    <property name="shortLabel" value="Date" />
+    <property name="shortLabel" value="Posting Date" />
   </bean>
   <bean id="AssetPayment-financialDocumentPostingPeriodCode" parent="AssetPayment-financialDocumentPostingPeriodCode-parentBean" />
 
@@ -296,7 +302,7 @@
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Posting Period Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Period Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -314,7 +320,7 @@
     <property name="name" value="financialDocumentPostingYear" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Posting Year" />
-    <property name="shortLabel" value="Year" />
+    <property name="shortLabel" value="Posting Year" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -332,7 +338,7 @@
     <property name="name" value="financialDocumentTypeCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Document Type Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Doc. Type" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -350,7 +356,7 @@
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Object Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -368,7 +374,7 @@
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Sub-Object Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -386,7 +392,7 @@
     <property name="name" value="financialSystemOriginationCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Origination Code" />
-    <property name="shortLabel" value="Origination Code" />
+    <property name="shortLabel" value="Origin. Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -404,7 +410,7 @@
     <property name="name" value="organizationReferenceId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Organization Reference Id" />
-    <property name="shortLabel" value="Id" />
+    <property name="shortLabel" value="Org. Ref. Id" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -422,7 +428,7 @@
     <property name="name" value="paymentSequenceNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Sequence Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Sequence#" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -970,7 +976,7 @@
     <property name="name" value="purchaseOrderNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Purchase Order Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Purchase Order#" />
     <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -988,7 +994,7 @@
     <property name="name" value="requisitionNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Requisition Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Req. #" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -1231,42 +1237,76 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="capitalAssetNumber" />
+              p:attributeName="capitalAssetNumber"
+			  p:useShortLabel="true"/>
         <bean parent="FieldDefinition"
-              p:attributeName="paymentSequenceNumber" />
+              p:attributeName="paymentSequenceNumber" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingYear" />
+              p:attributeName="financialDocumentPostingYear" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingPeriodCode" />
+              p:attributeName="financialDocumentPostingPeriodCode" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
               p:attributeName="asset.capitalAssetDescription"
-              p:noInquiry="true" />
+              p:noInquiry="true" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="account.organizationCode" />              
+              p:attributeName="account.organizationCode"
+              p:useShortLabel="true"/>                            
         <bean parent="FieldDefinition"
-              p:attributeName="chartOfAccountsCode" />              
+              p:attributeName="chartOfAccountsCode" 
+              p:useShortLabel="true"
+              />              
         <bean parent="FieldDefinition"
-              p:attributeName="accountNumber" />
+              p:attributeName="accountNumber" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="subAccountNumber" />
+              p:attributeName="subAccountNumber" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialObjectCode" />
+              p:attributeName="financialObjectCode" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialSubObjectCode" />
+              p:attributeName="financialSubObjectCode" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="account.subFundGroupCode" />
+              p:attributeName="account.subFundGroupCode" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderNumber" />
+              p:attributeName="purchaseOrderNumber" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="documentNumber" />
+              p:attributeName="documentNumber" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentTypeCode" />
+              p:attributeName="financialDocumentTypeCode" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="financialDocumentPostingDate" />
+              p:attributeName="financialDocumentPostingDate" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="accountChargeAmount" />
+              p:attributeName="accountChargeAmount" 
+              p:useShortLabel="true"
+              />
         <bean parent="FieldDefinition"
-              p:attributeName="accumulatedPrimaryDepreciationAmount" />
+              p:attributeName="accumulatedPrimaryDepreciationAmount" 
+              p:useShortLabel="true"
+              />
      </list>
     </property>
   </bean>

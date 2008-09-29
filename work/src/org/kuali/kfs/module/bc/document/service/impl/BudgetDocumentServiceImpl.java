@@ -1390,6 +1390,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * 
      * @param kualiModuleService The kualiModuleService to set.
      */
+    @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }

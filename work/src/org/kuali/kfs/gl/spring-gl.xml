@@ -1554,7 +1554,7 @@
 	       <value>org/kuali/kfs/gl/batch/collectorDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	       <value>${schema.directory}/glCollector.xsd</value>
+	       <value>${externalizable.xml.url}/fs/glCollector.xsd</value>
 	    </property>
 	    <property name="dateTimeService">
 	       <ref bean="dateTimeService"/>

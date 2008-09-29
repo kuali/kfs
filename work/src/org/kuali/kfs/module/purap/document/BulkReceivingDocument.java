@@ -41,6 +41,7 @@ import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.user.UserService;
 import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kns.bo.Campus;
@@ -217,7 +218,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
          */
         try {
             UserIdDTO userDTO = new NetworkIdDTO(requisitionPreparer);
-            WorkflowUser wfUser = SpringContext.getBean(UserService.class).getWorkflowUser(userDTO);
+            WorkflowUser wfUser = KEWServiceLocator.getUserService().getWorkflowUser(userDTO);
             setPreparerPersonName(wfUser.getDisplayName());
         }
         catch (KEWUserNotFoundException e) {

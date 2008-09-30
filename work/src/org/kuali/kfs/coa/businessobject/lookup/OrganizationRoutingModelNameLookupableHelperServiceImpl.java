@@ -64,6 +64,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateGlobal.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "modelName" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelChartOfAccountsCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelOrganizationCode");
+        setBackLocation(KFSConstants.MAINTENANCE_ACTION);
         return getReturnAnchorHtmlData(businessObject, parameters, lookupForm, returnKeys);
     }
 

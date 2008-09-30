@@ -108,18 +108,23 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         // Loan can not be before today
         Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
         DateUtils.clearTimeFields(loanDate);
-        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date())) && (loanReturnDate == null)) {
+        if (loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
         }
 
-        // expect return date must be >= loan date and withing 2 years limit
+        // expect return date must be >= loan date and within 2 years limit
         Date expectReturnDate = equipmentLoanOrReturnDocument.getExpectedReturnDate();
         if (expectReturnDate != null) {
             DateUtils.clearTimeFields(expectReturnDate);
-            if (loanDate.after(expectReturnDate) || maxDate.before(expectReturnDate)) {
+            if (loanDate.after(expectReturnDate)) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
             }
+        }
+        
+        if (maxDate.before(expectReturnDate)) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);
         }
 
         // loan return date must be >= loan date and withing 2 years limit

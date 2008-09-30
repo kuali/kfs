@@ -84,18 +84,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         return subAccount;
     }
 
-    private UniversalUser createKualiUser(String userid) {
-        UniversalUser user = new UniversalUser();
-        try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(userid));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return user;
-    }
-
     public void testCheckForPartiallyEnteredReportingFields_nullChartAndAccount() {
         SubAccountRule rule = new SubAccountRule();
 

@@ -923,8 +923,6 @@
 	<message-resources
 		factory="org.kuali.kfs.sys.web.struts.KFSMessageResourcesFactory"
 		parameter="" />
-	<message-resources
-		factory="org.kuali.kfs.sys.web.struts.KFSMessageResourcesFactory"
-		key="kraResources" parameter="org.kuali.kfs.module.cg.KraResources" />
+
 	<plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
 </struts-config>

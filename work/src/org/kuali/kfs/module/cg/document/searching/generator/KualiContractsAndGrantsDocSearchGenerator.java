@@ -26,7 +26,7 @@ import org.kuali.kfs.module.cg.businessobject.options.DocumentSearchTypeOfSearch
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
-import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 
 /**
  * This class...

@@ -22,7 +22,7 @@ import java.io.Reader;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.kuali.rice.kew.doctype.DocumentType;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.exception.InvalidXmlException;
 import org.kuali.rice.kew.routeheader.DocumentContent;

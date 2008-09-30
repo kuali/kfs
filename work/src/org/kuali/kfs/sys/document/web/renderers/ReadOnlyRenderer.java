@@ -25,6 +25,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
@@ -126,11 +127,17 @@ public class ReadOnlyRenderer extends FieldRendererBase {
     protected String buildBeginInquiryLink() {
         StringBuilder beginInquiryLink = new StringBuilder();
         
-        beginInquiryLink.append("<a href=\"");
-        beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ReadOnlyRenderer.APPLICATION_URL_PROPERTY));
-        beginInquiryLink.append("/kr/");
-        beginInquiryLink.append(getField().getInquiryURL());
-        beginInquiryLink.append("\" target=\"blank\">");
+        if (getField().getInquiryURL() instanceof AnchorHtmlData) {
+            AnchorHtmlData htmlData = (AnchorHtmlData) getField().getInquiryURL();
+            beginInquiryLink.append("<a href=\"");
+            beginInquiryLink.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ReadOnlyRenderer.APPLICATION_URL_PROPERTY));
+            beginInquiryLink.append("/kr/");
+            beginInquiryLink.append(htmlData.getHref());
+            beginInquiryLink.append("\" title=\"");
+            beginInquiryLink.append(htmlData.getTitle());
+            beginInquiryLink.append("\" target=\"blank\">");
+            
+        }
         
         return beginInquiryLink.toString();
     }
@@ -140,7 +147,10 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return the HTML for the closing inquiry anchor tag
      */
     protected String buildEndInquiryLink() {
-        return "</a>";
+        if (getField().getInquiryURL() instanceof AnchorHtmlData) {
+            return "</a>";
+        }
+        return "";
     }
     
     /**

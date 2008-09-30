@@ -357,6 +357,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                     invoices.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
                 // KULAR-384
                 invoice.setClosedDate(today);
+                invoice.setOpenInvoiceIndicator(false);
                 try {
                     documentService.saveDocument(invoice);
                 } catch(WorkflowException we) {

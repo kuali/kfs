@@ -27,8 +27,10 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.dataaccess.LockboxDao;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
+import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -111,8 +113,7 @@ public class LockboxServiceImpl implements LockboxService {
             
             String invoiceNumber = lockbox.getFinancialDocumentReferenceInvoiceNumber();
            
-            
-            //This is just a temporary work around due to the invoice numbers being in FIS format still.
+            // This is just a temporary work around due to the invoice numbers being in FIS format still.
             try {
                 Integer.parseInt(invoiceNumber);
             } catch (Exception e) {
@@ -137,8 +138,10 @@ public class LockboxServiceImpl implements LockboxService {
                 detail.setCustomerPaymentDescription(ArConstants.LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER +lockbox.getFinancialDocumentReferenceInvoiceNumber());
 
                 if (customerInvoiceDocument.getTotalDollarAmount().equals(lockbox.getInvoicePaidOrAppliedAmount())){
-                    //TODO approve app doc created for this lockbox
-                   
+                    // KULAR-290
+                    PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
+                    PaymentApplicationDocument paymentApplicationDocument = 
+                        paymentApplicationDocumentService.createSaveAndApprovePaymentApplicationToMatchInvoice(customerInvoiceDocument, "Auto-approving. Created via Lockbox process.", null);
                     customerInvoiceDocument.setOpenInvoiceIndicator(false);
                 }
                 docService.saveDocument(cashControlDocument);

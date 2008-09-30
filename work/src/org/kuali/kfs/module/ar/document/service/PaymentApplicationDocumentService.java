@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentApplicationDocumentService {
@@ -46,4 +52,22 @@ public interface PaymentApplicationDocumentService {
      * @return the created invoice paid applied if it did not exist, null otherwise
      */
     public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, String applicationDocNbr, Integer universityFiscalYear, String universityFiscalPeriodCode, KualiDecimal amount, Integer invoicePaidAppliedItemNbr);
+    
+    /**
+     * This method is used in the lockbox process to create a PA document which is then auto-approved when the amount on the invoice matches 
+     * the amount on the lockbox.
+     * 
+     * @param customerInvoiceDocument
+     * @return
+     */
+    public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument);
+
+    public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+    public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+    public void updateCustomerInvoiceDetailBalance(CustomerInvoiceDetail customerInvoiceDetail);
+    public Collection<InvoicePaidApplied> getInvoicePaidAppliedsForDetail(Collection<InvoicePaidApplied> appliedPayments, CustomerInvoiceDetail customerInvoiceDetail);
+    public void updateCustomerInvoiceDetailInfo(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
+    public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException;
+    public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
+    
 }

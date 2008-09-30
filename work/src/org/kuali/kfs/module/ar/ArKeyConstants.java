@@ -156,5 +156,8 @@ public class ArKeyConstants {
         public static final String ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED = "error.document.organizationOptions.orgOptionsZipCodeRequired";
     }    
 
+    public static class PaymentApplicationDocumentErrors {
+        public static final String AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING = "error.document.paymentApplication.amountToBeAppliedExceedsAmountOutstanding";
+    }
     
 }

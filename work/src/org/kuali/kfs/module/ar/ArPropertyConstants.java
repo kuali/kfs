@@ -144,6 +144,12 @@ public class ArPropertyConstants {
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
+    
+    // PaymentApplicationDocument
+    public static class PaymentApplicationDocumentFields {
+        public static final String AMOUNT_TO_BE_APPLIED = "amountToBeApplied";
+    }
+    
     // CustomerInvoiceDocumentForm
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";

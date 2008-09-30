@@ -51,7 +51,7 @@
 				<c:set var="ActionName" value="glModifiedInquiry.do" scope="request" />
 				<c:set var="IsLookupDisplay" value="true" scope="request" />
 
-				<kul:rowDisplay rows="${KualiForm.lookupable.rows}"/>
+				<kul:rowDisplay rows="${KualiForm.lookupable.rows}"/>			`
 
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline"><html:image
@@ -65,19 +65,33 @@
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
 						<img src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" class="tinybutton"
 							border="0" alt="cancel" title="cancel" /> </a>
-					</c:if> <!-- Optional extra button --> <c:if
+					</c:if> <!-- Optional extra button -->
+				    <c:if
 						test="${not empty KualiForm.lookupable.extraButtonSource}">
 						<a
 							href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&refreshCaller=org.kuali.rice.kns.lookup.KualiLookupableImpl&docFormKey=${KualiForm.formKey}" /><c:out value="${KualiForm.lookupable.extraButtonParams}" />'  title="cancel">
 						<img
 							src='<c:out value="${KualiForm.lookupable.extraButtonSource}" />'
 							class="tinybutton"  border="0" alt="cancel"/></a>
-					</c:if></td>
+					</c:if></td> 
 				</tr>
 			</table>
 			</div>
+			 
 
 			<br />
+			<p>MATT IS HERE</p>
+			
+			     <div id="globalbuttons" class="globalbuttons">
+	        	
+	        	<c:if test="${!empty extraButtons}">
+		        	<c:forEach items="${extraButtons}" var="extraButton">
+		        		<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"/>
+		        	</c:forEach>
+	        	</c:if>
+	</div>
+			
+			
 			<br />
 			<br />
 			<div class="right"><logic-el:present name="KualiForm"
@@ -109,6 +123,17 @@
 						</c:choose>
 					</display:column>
 				</c:forEach>
+			
+				<table:footer>
+<th> <span class="grid">TOTALS:</span> </th>
+<td class="infocell">&nbsp; 5 customers </td>
+<td class="infocell">&nbsp; $54,000 </td>
+<td class="infocell">&nbsp; $40,000 </td>
+<td class="infocell">&nbsp; $30,000 </td>
+<td class="infocell">&nbsp; $20,000 </td>
+<td class="infocell">&nbsp; $10,000 </td>
+
+   </table>
 			</display:table>
 
 			</td>

@@ -283,7 +283,7 @@ public class BatchAction extends KualiAction {
                 }
 
                 try {
-                    performHold(batchId, removeHoldNoteText, universalUser);
+                    performRemoveHold(batchId, removeHoldNoteText, universalUser);
                     actionStatus = true;
                     message = PdpKeyConstants.BatchConstants.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_BATCH;
 

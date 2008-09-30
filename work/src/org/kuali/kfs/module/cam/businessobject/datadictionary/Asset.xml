@@ -148,6 +148,7 @@
         <ref bean="Asset-quantity" />
         <ref bean="Asset-assetPayments.paymentSequenceNumber" />
         <ref bean="Asset-assetPayments.purchaseOrderNumber" />
+        <ref bean="Asset-assetPayments.documentNumber" />
       </list>
     </property>
     <property name="relationships" >
@@ -191,6 +192,9 @@
               <bean parent="SupportAttributeDefinition"
                     p:sourceName="assetPayments.purchaseOrderNumber"
                     p:targetName="purchaseOrderNumber" />
+              <bean parent="SupportAttributeDefinition"
+                    p:sourceName="assetPayments.documentNumber"
+                    p:targetName="documentNumber" />
             </list>
           </property>
         </bean>
@@ -1532,6 +1536,13 @@
     <property name="label" value="Payment Purchase Order Number" />
   </bean>
 
+  <bean id="Asset-assetPayments.documentNumber" parent="Asset-assetPayments.documentNumber-parentBean" />
+
+  <bean id="Asset-assetPayments.documentNumber-parentBean" abstract="true" parent="AssetPayment-documentNumber">
+    <property name="name" value="assetPayments.documentNumber" />
+    <property name="label" value="Payment Document Number" />
+  </bean>
+
 <!-- Business Object Inquiry Definition -->
 
 
@@ -1957,35 +1968,6 @@
                           p:attributeName="componentWarrantyText" />
                   </list>
                 </property>
-                <property name="inquiryCollections" >
-                  <list>
-                    <bean parent="InquiryCollectionDefinition">
-                      <property name="attributeName" value="componentRepairHistory" />
-                      <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.ComponentRepairHistory" />
-                      <property name="numberOfColumns" value="2" />
-                      <property name="inquiryFields" >
-                        <list>
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentIncidentDate" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentProblemDescription" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentRepairContactName" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentEstimatedRepairDate" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentRepairDate" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentRepairAmount" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentRepairSolutionDescription" />
-                          <bean parent="FieldDefinition"
-                                p:attributeName="componentRepairNoteText" />
-                        </list>
-                      </property>
-                    </bean>
-                  </list>
-                </property>
               </bean>
             </list>
           </property>
@@ -2169,6 +2151,8 @@
               p:attributeName="assetPayments.paymentSequenceNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="assetPayments.purchaseOrderNumber" />
+        <bean parent="FieldDefinition"
+              p:attributeName="assetPayments.documentNumber" />
       </list>
     </property>
     <property name="resultFields" >

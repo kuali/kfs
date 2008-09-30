@@ -38,14 +38,11 @@ public class AssetComponent extends PersistableBusinessObjectBase {
 
     private Asset asset;
     private AssetCondition componentCondition;
-    private List<ComponentRepairHistory> componentRepairHistory;
 
     /**
      * Default constructor.
      */
     public AssetComponent() {
-        this.componentRepairHistory = new TypedArrayList(ComponentRepairHistory.class);
-
     }
 
     /**
@@ -556,14 +553,4 @@ public class AssetComponent extends PersistableBusinessObjectBase {
         }
         return m;
     }
-
-    public List<ComponentRepairHistory> getComponentRepairHistory() {
-        return componentRepairHistory;
-    }
-
-    public void setComponentRepairHistory(List<ComponentRepairHistory> componentRepairHistory) {
-        this.componentRepairHistory = componentRepairHistory;
-    }
-
-
 }

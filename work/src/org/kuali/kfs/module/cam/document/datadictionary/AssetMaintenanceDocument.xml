@@ -786,44 +786,6 @@
                     p:readOnlyAfterAdd="true" />
             </list>
           </property>
-          <property name="maintainableCollections" >
-            <list>
-              <bean parent="MaintainableCollectionDefinition">
-                <property name="name" value="componentRepairHistory" />
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.ComponentRepairHistory" />
-                <property name="maintainableFields" >
-                  <list>
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentIncidentDate"
-                          p:required="true"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentProblemDescription"
-                          p:required="true"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentRepairContactName"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentEstimatedRepairDate"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentRepairDate"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentRepairAmount"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentRepairSolutionDescription"
-                          p:readOnlyAfterAdd="true" />
-                    <bean parent="MaintainableFieldDefinition"
-                          p:name="componentRepairNoteText"
-                          p:readOnlyAfterAdd="true" />
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
         </bean>
       </list>
     </property>

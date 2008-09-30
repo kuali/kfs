@@ -410,18 +410,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    private UniversalUser getKualiUserByUserName(String userName) {
-        AuthenticationUserId userId = new AuthenticationUserId(userName);
-        UniversalUser user = null;
-        try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(userId);
-        }
-        catch (UserNotFoundException e) {
-            assertTrue("An Exception should not be thrown.", false);
-        }
-        return user;
-    }
-
+//    private UniversalUser getKualiUserByUserName(String userName) {
+//        AuthenticationUserId userId = new AuthenticationUserId(userName);
+//        UniversalUser user = null;
+//        try {
+//            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(userId);
+//        }
+//        catch (UserNotFoundException e) {
+//            assertTrue("An Exception should not be thrown.", false);
+//        }
+//        return user;
+//    }
+//
     // public void testNonSystemSupervisorReopeningClosedAccount_NotBeingReopened() {
     //
     // Account oldAccount = new Account();

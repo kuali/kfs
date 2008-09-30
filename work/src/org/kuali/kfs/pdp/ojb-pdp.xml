@@ -449,6 +449,7 @@
     <field-descriptor name="campus" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processTimestamp" column="PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="processUserId" column="PROC_USR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="extractedInd" column="EXTRACTED_IND" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>

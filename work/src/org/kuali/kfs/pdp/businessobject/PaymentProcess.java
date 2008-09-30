@@ -43,6 +43,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     private String campus;
     private String processUserId;
     private UniversalUser processUser;
+    private String extractedInd;
     
     public PaymentProcess() {
         super();
@@ -110,5 +111,13 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
 
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
+    }
+
+    public String getExtractedInd() {
+        return extractedInd;
+    }
+
+    public void setExtractedInd(String extractedInd) {
+        this.extractedInd = extractedInd;
     }
 }

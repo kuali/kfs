@@ -35,4 +35,11 @@ public interface ProcessDao {
     public PaymentProcess get(Integer procId);
 
     public List getMostCurrentProcesses(Integer number);
+    
+    public PaymentProcess createProcessToRun(Integer procId);
+    
+    public List<PaymentProcess> getAllExtractsToRun();
+    
+    public void setExtractProcessAsComplete(PaymentProcess paymentProcess);
+    
 }

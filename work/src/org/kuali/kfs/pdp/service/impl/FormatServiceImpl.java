@@ -339,7 +339,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private void saveProcessId(Integer id) {
-        Map fields = new HashMap();
+        /*Map fields = new HashMap();
         fields.put("parameterNamespaceCode", "KFS-PDP");
         fields.put("parameterDetailTypeCode", "All");
         fields.put("parameterName", PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
@@ -354,7 +354,10 @@ public class FormatServiceImpl implements FormatService {
             processParam.setParameterWorkgroupName("FP_OPERATIONS");
         }
         processParam.setParameterValue(id.toString());
-        businessObjectService.save(processParam);
+        businessObjectService.save(processParam);*/
+        
+        //KFSMI-236
+        this.processDao.createProcessToRun(id);
     }
 
     private List convertProcessSummary2FormatResult(List processSummaryResults) {

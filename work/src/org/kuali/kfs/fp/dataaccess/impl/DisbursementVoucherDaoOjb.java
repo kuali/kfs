@@ -59,30 +59,4 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }
-
-    /**
-     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getVendor(java.lang.String, java.lang.String)
-     */
-    public VendorDetail getVendor(String vendorHeaderId, String vendorDetailId) {
-        LOG.debug("getVendor() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderId);
-        criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailId);
-
-        return (VendorDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(VendorDetail.class, criteria));
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getEmployee(java.lang.String)
-     */
-    public FinancialSystemUser getEmployee(String uuid) {
-        LOG.debug("getEmployee() started");
-        
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("personUniversalIdentifier", uuid);
-        
-        return (FinancialSystemUser) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FinancialSystemUser.class, criteria));
-    }
 }

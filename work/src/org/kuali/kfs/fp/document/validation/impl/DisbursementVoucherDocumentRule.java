@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -1283,9 +1284,12 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return <code>UniversalUser</code>
      */
     private UniversalUser retrieveEmployee(String uuid) {
-        UniversalUser employee = new UniversalUser();
-        employee.setPersonUniversalIdentifier(uuid);
-        return (UniversalUser) SpringContext.getBean(BusinessObjectService.class).retrieve(employee);
+        try {
+            return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByAuthenticationUserId(uuid);
+        }
+        catch (UserNotFoundException unfe) {
+            return null; // an error will be given if the employee is null, so no need to rethrow the exception
+        }
     }
 
     /**

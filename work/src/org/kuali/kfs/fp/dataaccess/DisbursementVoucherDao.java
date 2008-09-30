@@ -44,22 +44,4 @@ public interface DisbursementVoucherDao {
      * @return list of doc headers
      */
     public Collection getDocumentsByHeaderStatus(String statusCode);
-
-    /**
-     * Get a vendor using a vendor Id
-     * 
-     * @param vendorHeaderId
-     * @param vendorDetailId
-     * @return
-     */
-    public VendorDetail getVendor(String vendorHeaderId, String vendorDetailId);
-    
-    /**
-     * 
-     * This method retrieves an instance of the employee object using the id provided.
-     * @param uuid
-     * @return
-     */
-    public FinancialSystemUser getEmployee(String uuid);
-    
 }

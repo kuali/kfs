@@ -22,9 +22,10 @@ import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class AchBank extends PersistableBusinessObjectBase {
+public class AchBank extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String bankRoutingNumber;
     private String bankOfficeCode;
@@ -41,10 +42,11 @@ public class AchBank extends PersistableBusinessObjectBase {
     private String bankPhoneSuffixNumber;
     private String bankInstitutionStatusCode;
     private String bankDataViewCode;
-
+    private boolean active;
+    
     private State bankState;
     private PostalCode postalCode;
-
+    
     /**
      * Default constructor.
      */
@@ -404,6 +406,22 @@ public class AchBank extends PersistableBusinessObjectBase {
     public PostalCode getPostalCode() {
         postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, bankZipCode, postalCode);
         return postalCode;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return active;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

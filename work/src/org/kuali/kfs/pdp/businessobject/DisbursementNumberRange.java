@@ -26,8 +26,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.bo.Inactivateable;
 
-public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
+public class DisbursementNumberRange extends TimestampedBusinessObjectBase implements Inactivateable {
 
     private Integer id; // DISB_NBR_RANGE_ID
     private String physCampusProcCode; // PHYS_CMP_PROC_CD
@@ -36,7 +37,8 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
     private Integer endDisbursementNbr; // END_DISB_NBR
     private Timestamp disbNbrEffectiveDt; // DISB_NBR_EFF_DT
     private Timestamp disbNbrExpirationDt; // DISB_NBR_EXPR_DT
-
+    private boolean active;
+    
     private String bankCode;
     private Bank bank;
 
@@ -220,6 +222,22 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase {
      */
     public void setDisbursementType(DisbursementType disbursementType) {
         this.disbursementType = disbursementType;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return active;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public boolean equals(Object obj) {

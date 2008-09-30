@@ -24,11 +24,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.bo.Inactivateable;
 
 /**
  * 
  */
-public class CustomerBank extends TimestampedBusinessObjectBase {
+public class CustomerBank extends TimestampedBusinessObjectBase implements Inactivateable {
     private Integer id; // CUST_BNK_ID
 
     private Integer customerId;
@@ -39,7 +40,9 @@ public class CustomerBank extends TimestampedBusinessObjectBase {
 
     private String disbursementTypeCode;
     private DisbursementType disbursementType; // DISB_TYP_CD
-
+    
+    private boolean active;
+    
     /**
      * 
      */
@@ -148,6 +151,22 @@ public class CustomerBank extends TimestampedBusinessObjectBase {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return active;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

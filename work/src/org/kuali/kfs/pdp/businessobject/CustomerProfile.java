@@ -30,13 +30,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author jsissom
  * @hibernate.class table="PDP.PDP_CUST_PRFL_T"
  */
-public class CustomerProfile extends PersistableBusinessObjectBase {
+public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
     private String achPaymentDescription; // ACH_PMT_DESC
@@ -86,6 +87,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase {
     private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
     private Boolean relieveLiabilities;
     private List customerBanks;
+    private boolean active;
     
     private Org organization;
     private Chart chartOfAccounts;
@@ -867,6 +869,22 @@ public class CustomerProfile extends PersistableBusinessObjectBase {
         this.organization = organization;
     }
     
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return active;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     /**
      * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

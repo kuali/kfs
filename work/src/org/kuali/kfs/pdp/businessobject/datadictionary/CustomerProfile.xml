@@ -64,6 +64,7 @@
 		<ref bean="CustomerProfile-nraReview" />
 		<ref bean="CustomerProfile-relieveLiabilities" />
 		<ref bean="CustomerProfile-psdTransactionCode" />
+		<ref bean="CustomerProfile-active" />
       </list>
     </property>
   </bean>
@@ -807,6 +808,11 @@
     </property>
   </bean>
   
+  <bean id="CustomerProfile-active" parent="CustomerProfile-active-parentBean" />
+
+  <bean id="CustomerProfile-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -834,6 +840,8 @@
                     p:attributeName="defaultPhysicalCampusProcessingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="customerActive" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -861,6 +869,8 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="id" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -879,6 +889,8 @@
                     p:attributeName="defaultPhysicalCampusProcessingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="customerActive" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="active" />
       </list>
     </property>
   </bean>

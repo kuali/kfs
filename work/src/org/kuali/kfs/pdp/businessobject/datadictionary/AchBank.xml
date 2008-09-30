@@ -34,6 +34,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AchBank-bankPhoneSuffixNumber" />
         <ref bean="AchBank-bankInstitutionStatusCode" />
         <ref bean="AchBank-bankDataViewCode" />
+        <ref bean="AchBank-active" />
       </list>
     </property>
 	<property name="relationships" >
@@ -343,7 +344,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="Bank Data View Code" />
     <property name="description" value="1=Current view" />
   </bean>
+  
+  <bean id="AchBank-active" parent="AchBank-active-parentBean" />
 
+  <bean id="AchBank-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -388,6 +395,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="bankInstitutionStatusCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="bankDataViewCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -418,6 +427,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="bankRoutingNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="bankName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -432,6 +443,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="bankStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="bankZipCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

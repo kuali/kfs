@@ -26,6 +26,7 @@
         <ref bean="DisbursementNumberRange-disbNbrExpirationDt" />
         <ref bean="DisbursementNumberRange-bankCode" />
         <ref bean="DisbursementNumberRange-disbursementTypeCode" />
+        <ref bean="DisbursementNumberRange-active" />
       </list>
     </property>
   </bean>
@@ -155,6 +156,11 @@
 	<property name="name" value="disbursementTypeCode" />
   </bean>
 
+  <bean id="DisbursementNumberRange-active" parent="DisbursementNumberRange-active-parentBean" />
+
+  <bean id="DisbursementNumberRange-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -186,6 +192,8 @@
                     p:attributeName="disbNbrEffectiveDt" />
               <bean parent="FieldDefinition"
                     p:attributeName="disbNbrExpirationDt" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -235,6 +243,8 @@
               p:attributeName="disbNbrEffectiveDt" />
         <bean parent="FieldDefinition"
               p:attributeName="disbNbrExpirationDt" />
+        <bean parent="FieldDefinition"
+              		p:attributeName="active" />
       </list>
     </property>
   </bean>

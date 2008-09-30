@@ -109,7 +109,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
     }
     
-    @RelatesTo(JiraIssue.KULPURAP2283)
+    @RelatesTo(JiraIssue.KULPURAP2949)
     @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, false);

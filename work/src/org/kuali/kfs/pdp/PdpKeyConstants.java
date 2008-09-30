@@ -132,4 +132,6 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CREATION_DATE = "message.pdp.paymentMaintenance.email.creationDate";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_COUNT = "message.pdp.paymentMaintenance.email.paymentCount";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_TOTAL_AMOUNT = "message.pdp.paymentMaintenance.email.paymentTotalAmount";
+    
+    public static final String ERROR_ACH_ACCOUNT_NOT_INACTIVABLE = "error.pdp.achAccount.accountNotInactivable";
 }

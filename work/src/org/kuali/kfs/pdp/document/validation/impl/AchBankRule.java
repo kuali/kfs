@@ -16,11 +16,14 @@
 package org.kuali.kfs.pdp.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.AchBank;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,7 +62,9 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         LOG.info("processCustomSaveDocumentBusinessRules called");
         // call the route rules to report all of the messages, but ignore the result
         processCustomRouteDocumentBusinessRules(document);
-
+        
+        if (!isInactivable(document)) return false;
+        
         // Save always succeeds, even if there are business rule failures
         return true;
     }
@@ -102,5 +107,23 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
         }
 
         return validEntry;
+    }
+    
+    /**
+     * An AchBank record can only be set to inactive if no PayeeAchAccount record with the same bank routing number can be found
+     * 
+     * @param document
+     * @return
+     */
+    private boolean isInactivable(MaintenanceDocument document) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("bankRoutingNumber", newAchBank.getBankRoutingNumber());
+        
+        if(!newAchBank.isActive() && !boService.findMatching(PayeeAchAccount.class, fieldValues).isEmpty()) {
+            putFieldError("bankRoutingNumber", PdpKeyConstants.ERROR_ACH_ACCOUNT_NOT_INACTIVABLE);
+            return false;
+        }
+        
+        return true;
     }
 }

@@ -37,5 +37,5 @@
 	 		<fin:capitalAssetInfo capitalAssetInfo="${newCapitalAssetInfo}" capitalAssetInfoName="${newCapitalAssetInfoName}"/>
 	 	</c:when>
 	 </c:choose>
-    </div>	
+	 </div>	
 </kul:tab>	 

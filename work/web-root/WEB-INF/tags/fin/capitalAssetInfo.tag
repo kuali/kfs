@@ -103,7 +103,7 @@
 			businessObjectValuesMap="${capitalAssetInfo.valuesMap}" />																			 
    </tr>
    
-   <tr><td colspan="5" class="infoline"><center><br/>
+   <tr><td colspan="5" class="infoline" style="border-bottom: none;"><center><br/>
 	   	<table style="border-top: 1px solid rgb(153, 153, 153); width: 90%;" cellpadding="0" cellspacing="0" class="datatable">       
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetTypeCode}" align="right" width="25%"/>		
@@ -151,4 +151,12 @@
 		    </tr>		    
 	   	</table><br/><br/>
    </center></td></tr>
+   <tr><td colspan="5" class="datacell">
+		<div class="right">   			 
+			 <html:image property="methodToCall.clearCapitalAssetInfo" 
+				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
+				title="Clear the capital Asset Information"
+				alt="Clear the capital Asset Information" styleClass="tinybutton" />
+		</div>
+	</td></tr>
 </table>

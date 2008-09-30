@@ -556,7 +556,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             // update the doc total
             AccountingDocument tdoc = (AccountingDocument) financialDocumentForm.getDocument();
             if (tdoc instanceof AmountTotaling)
-                ((FinancialSystemDocumentHeader)financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+                ((FinancialSystemDocumentHeader) financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
         }
         else {
             // remove from document
@@ -767,7 +767,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
             // Update the doc total
             if (tdoc instanceof AmountTotaling)
-                ((FinancialSystemDocumentHeader)financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
+                ((FinancialSystemDocumentHeader) financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
         }
         else {
             // add it to the document
@@ -801,16 +801,16 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         super.copy(mapping, form, request, response);
 
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
-        
+
 
         // KULEDOCS-1440: need to reset base accounting lines since when doc number changes on copy base lines would still reference
         // old doc number causing revert button to show up
-        
+
         // TODO: remove the deepCopyAccountingLinesList method once we remove baseline accounting lines
         tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
         tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
-        
-        
+
+
         tmpForm.getSourceLineDecorators().clear();
         tmpForm.getTargetLineDecorators().clear();
 
@@ -830,7 +830,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
         return copiedLines;
     }
-    
+
     /**
      * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
      * all of the labels for each of the accounting line values.
@@ -895,7 +895,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         int lineIndex = getSelectedLine(request);
 
-        TargetAccountingLine line = (TargetAccountingLine)((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
+        TargetAccountingLine line = (TargetAccountingLine) ((KualiAccountingDocumentFormBase) form).getFinancialDocument().getTargetAccountingLine(lineIndex);
 
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
@@ -976,7 +976,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (StringUtils.isNotBlank(getObjectTypeCodeFromLine(line))) {
             if (!StringUtils.isBlank(line.getObjectTypeCode())) {
                 parameters.put("objectTypeCode", line.getObjectTypeCode());
-            } else {
+            }
+            else {
                 line.refreshReferenceObject("objectCode");
                 parameters.put("objectTypeCode", line.getObjectCode().getFinancialObjectTypeCode());
             }
@@ -986,9 +987,11 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         return new ActionForward(lookupUrl, true);
     }
-    
+
     /**
-     * A hook so that most accounting lines - which don't have object types - can have their object type codes used in balance inquiries 
+     * A hook so that most accounting lines - which don't have object types - can have their object type codes used in balance
+     * inquiries
+     * 
      * @param line the line to get the object type code from
      * @return the object type code the line would use
      */
@@ -1001,14 +1004,14 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
         this.applyCapitalAssetInformation(tmpForm);
-        
+
         ActionForward forward = super.save(mapping, form, request, response);
 
         // KULEDOCS-1443: For the revert button, set the new baseline accounting lines as the most recently saved lines
         // TODO: remove the deepCopyAccountingLinesList method once the baseline accounting lines have been removed
         tmpForm.setBaselineSourceAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getSourceAccountingLines()));
         tmpForm.setBaselineTargetAccountingLines(deepCopyAccountingLinesList(tmpForm.getFinancialDocument().getTargetAccountingLines()));
-        
+
         // need to check on sales tax for all the accounting lines
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
@@ -1020,12 +1023,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
         this.applyCapitalAssetInformation(tmpForm);
-        
+
         ActionForward forward = super.route(mapping, form, request, response);
-        
+
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
         checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
-        
+
         return forward;
     }
 
@@ -1310,29 +1313,85 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         return new ActionForward(path, true);
     }
-    
+
+    /**
+     * clear up the capital asset information
+     */
+    public ActionForward clearCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("clearCapitalAssetInfo() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
+        if (!(financialDocument instanceof CapitalAssetEditable)) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        if (kualiAccountingDocumentFormBase instanceof CapitalAssetEditable) {
+            CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
+            CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
+
+            this.resetCapitalAssetInfo(newCapitalAssetInformation);
+        }
+
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
+        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
+        if (capitalAssetInformation != null) {
+            this.resetCapitalAssetInfo(capitalAssetInformation);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * reset the nonkey fields of the given capital asset information
+     * 
+     * @param capitalAssetInformation the given capital asset information
+     */
+    protected void resetCapitalAssetInfo(CapitalAssetInformation capitalAssetInformation) {
+        if (capitalAssetInformation != null) {
+            capitalAssetInformation.setBuildingCode(null);
+            capitalAssetInformation.setBuildingRoomNumber(null);
+            capitalAssetInformation.setBuildingSubRoomNumber(null);
+            capitalAssetInformation.setCampusCode(null);
+
+            capitalAssetInformation.setCapitalAssetDescription(null);
+            capitalAssetInformation.setCapitalAssetManufacturerModelNumber(null);
+            capitalAssetInformation.setCapitalAssetManufacturerName(null);
+            capitalAssetInformation.setCapitalAssetSerialNumber(null);
+
+            capitalAssetInformation.setCapitalAssetNumber(null);
+            capitalAssetInformation.setCapitalAssetTypeCode(null);
+            capitalAssetInformation.setCapitalAssetQuantity(null);
+            capitalAssetInformation.setCapitalAssetTagNumber(null);
+
+            capitalAssetInformation.setVendorDetailAssignedIdentifier(null);
+            capitalAssetInformation.setVendorHeaderGeneratedIdentifier(null);
+            capitalAssetInformation.setVendorNumber(null);
+        }
+    }
+
     // assoicate the new capital asset information with the current document if any
     protected void applyCapitalAssetInformation(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
         LOG.debug("applyCapitalAssetInformation() - start");
-        
+
         AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
-        if(!(financialDocument instanceof CapitalAssetEditable)) {
+        if (!(financialDocument instanceof CapitalAssetEditable)) {
             return;
         }
-                   
-        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable)financialDocument;
-        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();        
-        if(capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
+
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
+        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
+        if (capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
             return;
         }
-        
-        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable)kualiAccountingDocumentFormBase; 
-        CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();          
-        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();        
-        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class); 
-        
-        boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);  
-        if(isValidFinancialProcessingData) {
+
+        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
+        CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
+        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();
+        CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
+
+        boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);
+        if (isValidFinancialProcessingData) {
             newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
         }

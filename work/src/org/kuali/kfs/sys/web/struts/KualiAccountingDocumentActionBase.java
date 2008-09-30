@@ -1031,6 +1031,16 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         return forward;
     }
+    
+    @Override
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
+        this.applyCapitalAssetInformation(tmpForm);
+
+        ActionForward forward = super.blanketApprove(mapping, form, request, response);
+
+        return forward;
+    }
 
     /**
      * Encapsulate the rule check so we can call it from multiple places

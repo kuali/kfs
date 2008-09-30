@@ -573,181 +573,181 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-    public void testCheckUserStatusAndType_TermdAndNonProfessional() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user = new UniversalUser();
-        String fieldName = "userId";
-
-        // User w/ T status and N type, should fail
-        user.setEmployeeStatusCode("T");
-        user.setEmployeeTypeCode("N");
-        result = rule.checkUserStatusAndType(fieldName, user);
-        assertEquals("Terminated and Non-Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
-        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
-        assertGlobalErrorMapSize(1);
-
-    }
-
-    public void testCheckUserStatusAndType_ActiveButNonProfessional() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user = new UniversalUser();
-        String fieldName = "userId";
-
-        // User w/ A status and N type, should fail
-        user.setEmployeeStatusCode("A");
-        user.setEmployeeTypeCode("N");
-        result = rule.checkUserStatusAndType(fieldName, user);
-        assertEquals("Active but Non-Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
-        assertGlobalErrorMapSize(1);
-
-    }
-
-    public void testCheckUserStatusAndType_TermdButProfessional() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user = new UniversalUser();
-        String fieldName = "userId";
-
-        // User w/ T status and N type, should fail
-        user.setEmployeeStatusCode("T");
-        user.setEmployeeTypeCode("P");
-        result = rule.checkUserStatusAndType(fieldName, user);
-        assertEquals("Terminated but Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
-        assertGlobalErrorMapSize(1);
-
-    }
-
-    public void testCheckUserStatusAndType_ActiveAndProfessional() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user = new UniversalUser();
-        String fieldName = "userId";
-
-        // User w/ T status and N type, should fail
-        user.setEmployeeStatusCode("A");
-        user.setEmployeeTypeCode("P");
-        result = rule.checkUserStatusAndType(fieldName, user);
-        assertEquals("Terminated but Professional staff should fail.", true, result);
-        assertGlobalErrorMapEmpty();
-
-    }
-
-    public void testAreTwoUsersTheSame_BothNull() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user1 = new UniversalUser();
-        UniversalUser user2 = new UniversalUser();
-
-        // both null
-        result = rule.areTwoUsersTheSame(null, null);
-        assertEquals("Both users null should return false.", false, result);
-
-    }
-
-    public void testAreTwoUsersTheSame_User1Null() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user1 = new UniversalUser();
-        UniversalUser user2 = new UniversalUser();
-
-        // user1 null, user2 not null
-        result = rule.areTwoUsersTheSame(user1, null);
-        assertEquals("User1 null and User2 not null should return false.", false, result);
-
-    }
-
-    public void testAreTwoUsersTheSame_User2Null() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user1 = new UniversalUser();
-        UniversalUser user2 = new UniversalUser();
-
-        // user1 not null, user2 null
-        result = rule.areTwoUsersTheSame(null, user2);
-        assertEquals("User1 not null and User2 null should return false.", false, result);
-
-    }
-
-    public void testAreTwoUsersTheSame_UsersTheSame() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user1 = new UniversalUser();
-        UniversalUser user2 = new UniversalUser();
-
-        // both users non-null, both populated with same UniversalID
-        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
-        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
-        user2.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-        user2.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
-        user2.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-        user2.setPersonName(Accounts.User.AhlersEsteban.NAME);
-        result = rule.areTwoUsersTheSame(user1, user2);
-        assertEquals("User1 and User2 are same person, diff objects, result true", true, result);
-
-    }
-
-    public void testAreTwoUsersTheSame_UsersDifferent() {
-
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
-        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
-        boolean result;
-
-        UniversalUser user1 = new UniversalUser();
-        UniversalUser user2 = new UniversalUser();
-
-        // both users non-null, each different people
-        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
-        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
-        user2.setPersonUniversalIdentifier(Accounts.User.PhamAnibal.UNIVERSAL_ID);
-        user2.setPersonUserIdentifier(Accounts.User.PhamAnibal.USER_ID);
-        user2.setPersonPayrollIdentifier(Accounts.User.PhamAnibal.EMP_ID);
-        user2.setPersonName(Accounts.User.PhamAnibal.NAME);
-        result = rule.areTwoUsersTheSame(user1, user2);
-        assertEquals("User1 and User2 are different persons, result should be false", false, result);
-
-    }
+//    public void testCheckUserStatusAndType_TermdAndNonProfessional() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user = new UniversalUser();
+//        String fieldName = "userId";
+//
+//        // User w/ T status and N type, should fail
+//        user.setEmployeeStatusCode("T");
+//        user.setEmployeeTypeCode("N");
+//        result = rule.checkUserStatusAndType(fieldName, user);
+//        assertEquals("Terminated and Non-Professional staff should fail.", false, result);
+//        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+//        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+//        assertGlobalErrorMapSize(1);
+//
+//    }
+//
+//    public void testCheckUserStatusAndType_ActiveButNonProfessional() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user = new UniversalUser();
+//        String fieldName = "userId";
+//
+//        // User w/ A status and N type, should fail
+//        user.setEmployeeStatusCode("A");
+//        user.setEmployeeTypeCode("N");
+//        result = rule.checkUserStatusAndType(fieldName, user);
+//        assertEquals("Active but Non-Professional staff should fail.", false, result);
+//        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+//        assertGlobalErrorMapSize(1);
+//
+//    }
+//
+//    public void testCheckUserStatusAndType_TermdButProfessional() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user = new UniversalUser();
+//        String fieldName = "userId";
+//
+//        // User w/ T status and N type, should fail
+//        user.setEmployeeStatusCode("T");
+//        user.setEmployeeTypeCode("P");
+//        result = rule.checkUserStatusAndType(fieldName, user);
+//        assertEquals("Terminated but Professional staff should fail.", false, result);
+//        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+//        assertGlobalErrorMapSize(1);
+//
+//    }
+//
+//    public void testCheckUserStatusAndType_ActiveAndProfessional() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user = new UniversalUser();
+//        String fieldName = "userId";
+//
+//        // User w/ T status and N type, should fail
+//        user.setEmployeeStatusCode("A");
+//        user.setEmployeeTypeCode("P");
+//        result = rule.checkUserStatusAndType(fieldName, user);
+//        assertEquals("Terminated but Professional staff should fail.", true, result);
+//        assertGlobalErrorMapEmpty();
+//
+//    }
+//
+//    public void testAreTwoUsersTheSame_BothNull() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user1 = new UniversalUser();
+//        UniversalUser user2 = new UniversalUser();
+//
+//        // both null
+//        result = rule.areTwoUsersTheSame(null, null);
+//        assertEquals("Both users null should return false.", false, result);
+//
+//    }
+//
+//    public void testAreTwoUsersTheSame_User1Null() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user1 = new UniversalUser();
+//        UniversalUser user2 = new UniversalUser();
+//
+//        // user1 null, user2 not null
+//        result = rule.areTwoUsersTheSame(user1, null);
+//        assertEquals("User1 null and User2 not null should return false.", false, result);
+//
+//    }
+//
+//    public void testAreTwoUsersTheSame_User2Null() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user1 = new UniversalUser();
+//        UniversalUser user2 = new UniversalUser();
+//
+//        // user1 not null, user2 null
+//        result = rule.areTwoUsersTheSame(null, user2);
+//        assertEquals("User1 not null and User2 null should return false.", false, result);
+//
+//    }
+//
+//    public void testAreTwoUsersTheSame_UsersTheSame() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user1 = new UniversalUser();
+//        UniversalUser user2 = new UniversalUser();
+//
+//        // both users non-null, both populated with same UniversalID
+//        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
+//        user2.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user2.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user2.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user2.setPersonName(Accounts.User.AhlersEsteban.NAME);
+//        result = rule.areTwoUsersTheSame(user1, user2);
+//        assertEquals("User1 and User2 are same person, diff objects, result true", true, result);
+//
+//    }
+//
+//    public void testAreTwoUsersTheSame_UsersDifferent() {
+//
+//
+//        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+//        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+//        boolean result;
+//
+//        UniversalUser user1 = new UniversalUser();
+//        UniversalUser user2 = new UniversalUser();
+//
+//        // both users non-null, each different people
+//        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
+//        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
+//        user2.setPersonUniversalIdentifier(Accounts.User.PhamAnibal.UNIVERSAL_ID);
+//        user2.setPersonUserIdentifier(Accounts.User.PhamAnibal.USER_ID);
+//        user2.setPersonPayrollIdentifier(Accounts.User.PhamAnibal.EMP_ID);
+//        user2.setPersonName(Accounts.User.PhamAnibal.NAME);
+//        result = rule.areTwoUsersTheSame(user1, user2);
+//        assertEquals("User1 and User2 are different persons, result should be false", false, result);
+//
+//    }
 
     public void testCheckFringeBenefitAccountRule_FringeBenefitFlagTrue() {
 

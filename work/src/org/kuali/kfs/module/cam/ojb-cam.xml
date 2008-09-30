@@ -952,6 +952,7 @@
 	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="retirementDate" column="CPTLAST_RETIRE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="mergedTargetCapitalAssetDescription" column="MERGED_TGT_CPTLAST_DESC" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />

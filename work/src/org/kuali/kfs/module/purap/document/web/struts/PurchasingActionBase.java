@@ -251,12 +251,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 }
                 else {
                     location.setBuildingCode(null);
+                    location.setOffCampusIndicator(false);
                 }
                 location.setCapitalAssetLine1Address(null);
                 location.setCapitalAssetCityName(null);
                 location.setCapitalAssetStateCode(null);
                 location.setCapitalAssetPostalCode(null);
                 location.setCapitalAssetCountryCode(null);
+                location.setBuildingRoomNumber(null);
             }
         }        
     }

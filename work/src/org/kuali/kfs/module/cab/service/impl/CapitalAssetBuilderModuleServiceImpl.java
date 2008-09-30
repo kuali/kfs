@@ -214,8 +214,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean needValidation = (this.getParameterService().getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
+            if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
+                return validateCapitalAssetLocationAddressFieldsOneOrMultipleSystemType(capitalAssetSystems);
+            }          
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
-
             if (mappedName != null) {
                 // Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
                 // to validate any further.
@@ -273,6 +275,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean needValidation = (this.getParameterService().getParameterEvaluator(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
+            if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
+                return validateCapitalAssetLocationAddressFieldsForIndividualSystemType(capitalAssetItems);
+            }
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
             if (mappedName != null) {
                 // Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
@@ -1146,7 +1151,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
     
     public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList) {
-        boolean valid = true;
         for (PurApItem item : itemList) {
             if (doesItemNeedCapitalAsset(item)) {
                 //If the item needs capital asset, we cannnot have an APO, so return false.
@@ -1154,6 +1158,79 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         return true;
+    }
+        
+    public boolean validateCapitalAssetLocationAddressFieldsOneOrMultipleSystemType(List<CapitalAssetSystem> capitalAssetSystems) {
+        boolean valid = true;
+        int systemCount = 0;
+        for(CapitalAssetSystem system : capitalAssetSystems) {
+            List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
+            StringBuffer errorKey = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[" + new Integer(systemCount++) + "].");
+            errorKey.append("capitalAssetLocations");
+            int locationCount = 0;
+            for(CapitalAssetLocation location : capitalAssetLocations) {
+                errorKey.append("[" + locationCount++ + "].");
+                valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
+            }
+        }
+        return valid;
+    }
+    
+    public boolean validateCapitalAssetLocationAddressFieldsForIndividualSystemType(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+        boolean valid = true;
+        for(PurchasingCapitalAssetItem item : capitalAssetItems) {
+            CapitalAssetSystem system = item.getPurchasingCapitalAssetSystem();
+            List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
+            StringBuffer errorKey = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
+            errorKey.append("purchasingCapitalAssetSystem.capitalAssetLocations");
+            int i = 0;
+            for(CapitalAssetLocation location : capitalAssetLocations) {
+                errorKey.append("[" + i++ + "].");
+                valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
+            } 
+        }
+        return valid;
+    }
+    
+    private boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, StringBuffer errorKey) {
+        boolean valid = true;
+        if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(location.getCapitalAssetCityName())) {
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CITY);
+            valid &= false;
+        }
+        if (StringUtils.isBlank(location.getCapitalAssetCountryCode())) {
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY);          
+            valid &= false;
+        }
+        else if (location.getCapitalAssetCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+            if (StringUtils.isBlank(location.getCapitalAssetStateCode())) {
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE);          
+                valid &= false;
+            }
+            if (StringUtils.isBlank(location.getCapitalAssetPostalCode())) {
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);          
+                valid &= false;
+            }
+        }
+        if (!location.isOffCampusIndicator()) {
+            if (StringUtils.isBlank(location.getCampusCode())) {
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);  
+                valid &= false;
+            }
+            if (StringUtils.isBlank(location.getBuildingCode())) {
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);          
+                valid &= false;
+            }
+            if (StringUtils.isBlank(location.getBuildingRoomNumber())) {
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);          
+                valid &= false;
+            }
+        }
+        return valid;
     }
     
     /**

@@ -229,19 +229,13 @@
     <property name="summary" value="itemQuantity" />
     <property name="description" value="itemQuantity description..." />
   </bean>
+  
   <bean id="RequisitionCapitalAssetLocation-offCampusIndicator" parent="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" />
-
-  <bean id="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="offCampusIndicator" />
-    <property name="forceUppercase" value="true" />
+  <bean id="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" 
+        p:name="offCampusIndicator"
+        p:required="false">
     <property name="label" value="Off Campus Indicator" />
     <property name="shortLabel" value="Off Campus" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="offCampusIndicator" />
-    <property name="description" value="offCampusIndicator description..." />
   </bean>
 
 

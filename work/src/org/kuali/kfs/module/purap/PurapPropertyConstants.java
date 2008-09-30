@@ -94,6 +94,16 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_LOCATIONS = "capitalAssetLocations";
     public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     
+    // Capital Asset Locations
+    public static final String CAPITAL_ASSET_LOCATION_ADDRESS_LINE1 = "capitalAssetLine1Address";
+    public static final String CAPITAL_ASSET_LOCATION_CITY = "capitalAssetCityName";
+    public static final String CAPITAL_ASSET_LOCATION_STATE = "capitalAssetStateCode";
+    public static final String CAPITAL_ASSET_LOCATION_POSTAL_CODE = "capitalAssetPostalCode";
+    public static final String CAPITAL_ASSET_LOCATION_COUNTRY = "capitalAssetCountryCode";
+    public static final String CAPITAL_ASSET_LOCATION_CAMPUS = "campusCode";
+    public static final String CAPITAL_ASSET_LOCATION_BUILDING = "buildingCode";
+    public static final String CAPITAL_ASSET_LOCATION_ROOM = "buildingRoomNumber";
+    
     // AP DOCUMENT BASE
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
 

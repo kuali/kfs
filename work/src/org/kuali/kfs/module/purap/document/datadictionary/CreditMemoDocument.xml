@@ -75,6 +75,7 @@
         <ref bean="CreditMemoDocument-grandTotal" />
         <ref bean="CreditMemoDocument-reopenPurchaseOrderIndicator" />
         <ref bean="CreditMemoDocument-useTaxIndicator" />
+        <ref bean="CreditMemoDocument-bankCode" />
       </list>
     </property>
   </bean>
@@ -429,6 +430,10 @@
   	<property name="label" value="Use Tax Indicator" />
   	<property name="shortLabel" value="Use Tax" />
   </bean>
+  
+  <bean id="CreditMemoDocument-bankCode" parent="CreditMemoDocument-bankCode-parentBean" />
+  
+  <bean id="CreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
 
 <!-- Exported Workflow Properties -->
 

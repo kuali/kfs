@@ -41,6 +41,7 @@ import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -70,8 +71,26 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
     private boolean useTaxIndicator;
+    private String bankCode;
     
     private PaymentRequestDocument paymentRequestDocument;
+    private Bank bank;
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
     /**
      * Default constructor.

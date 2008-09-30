@@ -100,6 +100,7 @@
         <ref bean="PaymentRequestDocument-closePurchaseOrderIndicator" />
         <ref bean="PaymentRequestDocument-awaitingReceiving" />        
         <ref bean="PaymentRequestDocument-useTaxIndicator" />
+        <ref bean="PaymentRequestDocument-bankCode" />
       </list>
     </property>
   </bean>
@@ -671,6 +672,10 @@
   	<property name="label" value="Use Tax Indicator" />
   	<property name="shortLabel" value="Use Tax" />
   </bean>
+  
+  <bean id="PaymentRequestDocument-bankCode" parent="PaymentRequestDocument-bankCode-parentBean" />
+  
+  <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
 <!-- Exported Workflow Properties -->
 
 

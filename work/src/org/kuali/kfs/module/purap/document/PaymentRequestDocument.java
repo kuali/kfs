@@ -46,6 +46,7 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -103,6 +104,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
     private boolean useTaxIndicator;
+    private String bankCode;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -118,6 +120,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private PurchaseOrderCostSource paymentRequestCostSource;
     private RecurringPaymentType recurringPaymentType;
+    private Bank bank;
 
     private boolean isCreatedByElectronicInvoice = false;
     
@@ -1038,5 +1041,21 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setUseTaxIndicator(boolean useTaxIndicator) {
         this.useTaxIndicator = useTaxIndicator;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 }

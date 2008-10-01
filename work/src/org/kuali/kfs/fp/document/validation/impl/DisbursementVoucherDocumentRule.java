@@ -44,7 +44,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.PersonTaxId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
@@ -1244,7 +1243,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private UniversalUser getInitiator(AccountingDocument document) {
         UniversalUser initUser = null;
         try {
-            initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
         } catch (UserNotFoundException e) {
             throw new RuntimeException("Document Initiator not found " + e.getMessage());
         }

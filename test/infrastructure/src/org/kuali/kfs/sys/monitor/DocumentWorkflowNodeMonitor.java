@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * Watches the workflow document and indicates valueChanged when either the status or the current node changes.
@@ -39,7 +37,7 @@ public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(networkId)));
+        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(networkId));
         String currentNodeName = null;
         if (document.getNodeNames().length > 0) {
             currentNodeName = document.getNodeNames()[0];

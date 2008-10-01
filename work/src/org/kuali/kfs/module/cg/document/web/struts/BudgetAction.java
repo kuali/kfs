@@ -46,7 +46,6 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -320,7 +319,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId())));
+        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
 
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();

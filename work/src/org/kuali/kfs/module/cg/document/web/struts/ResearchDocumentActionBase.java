@@ -36,7 +36,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.rule.event.AddAdHocRoutePersonEvent;
@@ -132,7 +131,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
 
         if (rulePassed) {
             AdhocPerson newAdHocPermission = researchForm.getNewAdHocPerson();
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(adHocRoutePerson.getId());
             newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
             user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
             if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {

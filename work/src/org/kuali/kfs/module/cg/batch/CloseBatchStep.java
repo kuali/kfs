@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.KualiGroup;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.GroupNotFoundException;
@@ -80,8 +79,7 @@ public class CloseBatchStep extends AbstractStep {
             List<String> memberNetworkIds = workgroup.getGroupUsers();
             for (String id : memberNetworkIds) {
                 try {
-                    AuthenticationUserId authId = new AuthenticationUserId(id.toUpperCase());
-                    UniversalUser user = universalUserService.getUniversalUser(authId);
+                    UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(id.toUpperCase());
                     String address = user.getPersonEmailAddress();
                     if (null != address && !StringUtils.isEmpty(address)) {
                         message.addToAddress(address);

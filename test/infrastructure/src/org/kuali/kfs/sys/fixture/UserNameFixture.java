@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.fixture;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -34,11 +33,7 @@ public enum UserNameFixture {
         // Assert.assertEquals(KualiUser.SYSTEM_USER, KULUSER.toString());
     }
 
-    public AuthenticationUserId getAuthenticationUserId() {
-        return new AuthenticationUserId(toString());
-    }
-
     public UniversalUser getUniversalUser() throws UserNotFoundException {
-        return SpringContext.getBean(UniversalUserService.class).getUniversalUser(getAuthenticationUserId());
+        return SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(toString());
     }
 }

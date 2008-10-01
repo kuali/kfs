@@ -30,7 +30,6 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
 import org.kuali.rice.kew.engine.node.SplitNode;
 import org.kuali.rice.kew.engine.node.SplitResult;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -79,7 +78,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         // check remaining conditions
         if (autoApprovalAllowed) {
             // initiator should be fiscal officer or primary delegate for account
-            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(budgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(budgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
             List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
             Account userAccount = null;
             for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {

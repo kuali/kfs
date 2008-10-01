@@ -35,7 +35,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -131,7 +130,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             // if a super user network id was given... take all actions as super user
             if (StringUtils.isNotBlank(superUserNetworkId)) {
                 // approve each action request as the super user
-                UniversalUser superUser = universalUserService.getUniversalUser(new AuthenticationUserId(superUserNetworkId));
+                UniversalUser superUser = universalUserService.getUniversalUserByAuthenticationUserId(superUserNetworkId);
                 LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  personUserIdentifier - " + networkIdString + "; nodeName - " + nodeName);
                 superUserApproveAllActionRequests(superUser, documentNumber, nodeName, userToCheck, potentialAnnotation);
                 return true;

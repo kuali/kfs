@@ -57,9 +57,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -1770,10 +1768,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         DocumentInitiator initiator = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(initiatorNetworkId);
             initiator.setUniversalUser(initiatorUser);
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         transInfo.setDocumentInitiator(initiator);

@@ -36,11 +36,9 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -86,10 +84,10 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             }
 
             try {
-                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
                 documentTitle += initUser.getCampusCode();
             }
-            catch (UserNotFoundException e) {
+            catch (Exception e) {
                 throw new RuntimeException("Document Initiator not found " + e.getMessage());
             }
 

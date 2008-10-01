@@ -38,10 +38,8 @@ import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -147,10 +145,10 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(initiatorNetworkId);
             initiatior.setUniversalUser(initiatorUser);
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         transInfo.setDocumentInitiator(initiatior);

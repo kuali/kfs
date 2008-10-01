@@ -56,7 +56,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.AuthenticationUserId;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -126,11 +125,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
 
         String id = StringUtils.upperCase(initiatorID);
-        UniversalUser user = new UniversalUser();
+        UniversalUser user = null;
         try {
-            user = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(id));
+            user = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error( e );
         }
 
         invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );
@@ -255,11 +254,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         String id = StringUtils.upperCase(initiatorID);
-        UniversalUser user = new UniversalUser();
+        UniversalUser user = null;
         try {
-            user = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(id));
+            user = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error( e );
         }
 
         invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );

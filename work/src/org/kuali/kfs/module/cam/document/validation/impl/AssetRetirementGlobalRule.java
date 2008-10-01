@@ -106,7 +106,12 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-
+    /**
+     * 
+     * Validates object code
+     * @param assetRetirementGlobal
+     * @return boolean
+     */
     private boolean validateAssetObjectCodeExistence(AssetRetirementGlobal assetRetirementGlobal) {
         boolean valid = true;
 
@@ -123,6 +128,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
+
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
@@ -355,7 +361,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         AssetRetirementGlobalDetail sharedRetirementInfo = assetRetirementGlobal.getSharedRetirementInfo();
-        
+
         if (assetRetirementService.isAssetRetiredBySold(assetRetirementGlobal)) {
             if (StringUtils.isBlank(sharedRetirementInfo.getBuyerDescription())) {
                 putFieldError(CamsPropertyConstants.AssetRetirementGlobal.SHARED_RETIREMENT_INFO + "." + CamsPropertyConstants.AssetRetirementGlobalDetail.BUYER_DESCRIPTION, CamsKeyConstants.Retirement.ERROR_RETIREMENT_DETAIL_INFO_NULL, new String[] { CamsConstants.RetirementLabel.BUYER_DESCRIPTION, assetRetirementService.getAssetRetirementReasonName(assetRetirementGlobal) });

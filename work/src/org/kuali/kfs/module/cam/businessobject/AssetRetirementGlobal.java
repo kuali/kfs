@@ -30,6 +30,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     private String documentNumber;
     private Long mergedTargetCapitalAssetNumber;
+    private String mergedTargetCapitalAssetDescription;
     private String inventoryStatusCode;
     private String retirementReasonCode;
     private Date retirementDate;
@@ -364,6 +365,16 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+
+    public String getMergedTargetCapitalAssetDescription() {
+        return mergedTargetCapitalAssetDescription;
+    }
+
+
+    public void setMergedTargetCapitalAssetDescription(String mergedTargetCapitalAssetDescription) {
+        this.mergedTargetCapitalAssetDescription = mergedTargetCapitalAssetDescription;
     }
 
 }

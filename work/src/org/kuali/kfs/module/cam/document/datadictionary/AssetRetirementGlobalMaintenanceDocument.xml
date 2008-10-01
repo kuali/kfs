@@ -11,6 +11,7 @@
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetRetirementGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
+      	<ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation"/>
         <ref bean="AssetRetirementGlobalMaintenanceDocument-RetirementInformation" />
         <ref bean="AssetRetirementGlobalMaintenanceDocument-ExternalTransferorGift" />
         <ref bean="AssetRetirementGlobalMaintenanceDocument-Theft" />
@@ -58,6 +59,42 @@
   </bean>
 
 <!-- Maintenance Section Definitions -->
+  <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation" parent="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation-parentBean" />
+
+  <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementTargetAssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Retirement Target Information" />
+    <property name="title" value="Target Asset Information" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableSubSectionHeaderDefinition"
+              p:name="Target Asset" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAssetNumber" />              
+         <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAssetDescription"
+              p:readOnly="false"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode"
+              p:readOnly="true" 
+              p:template="organizationOwnerAccount.organizationCode"/>
+          <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAsset.capitalAssetTypeCode"
+              p:readOnly="true"
+              p:template="capitalAssetTypeCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAsset.createDate"
+              p:readOnly="true"/>              
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAsset.capitalAssetInServiceDate"
+              p:readOnly="true"
+              p:template="capitalAssetInServiceDate" />              
+        <bean parent="MaintainableFieldDefinition"
+              p:name="mergedTargetCapitalAsset.capitalAssetType.depreciableLifeLimit"
+              p:readOnly="true" />
+      </list>
+    </property>
+  </bean>
 
 
   <bean id="AssetRetirementGlobalMaintenanceDocument-RetirementInformation" parent="AssetRetirementGlobalMaintenanceDocument-RetirementInformation-parentBean" />
@@ -75,8 +112,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="retirementDate"
               p:readOnly="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="mergedTargetCapitalAssetNumber" />
       </list>
     </property>
   </bean>
@@ -259,6 +294,9 @@
                     p:template="federalContribution" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="asset.assetOrganization.organizationText" 
+                    p:readOnly="true"/>                    
             </list>
           </property>
         </bean>

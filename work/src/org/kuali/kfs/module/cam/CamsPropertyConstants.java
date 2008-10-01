@@ -197,6 +197,8 @@ public class CamsPropertyConstants {
     public static class AssetRetirementGlobal {
         public static final String SHARED_RETIREMENT_INFO = "sharedRetirementInfo";
         public static final String MERGED_TARGET_CAPITAL_ASSET_NUMBER = "mergedTargetCapitalAssetNumber";
+        public static final String MERGED_TARGET_CAPITAL_ASSET = "mergedTargetCapitalAsset";
+        public static final String MERGED_TARGET_CAPITAL_ASSET_DESC   = "mergedTargetCapitalAssetDescription";
         public static final String RETIREMENT_REASON_CODE = "retirementReasonCode";
         public static final String ASSET_RETIREMENT_GLOBAL_DETAILS = "assetRetirementGlobalDetails";
         public static final String VERSION_NUMBER = "versionNumber";

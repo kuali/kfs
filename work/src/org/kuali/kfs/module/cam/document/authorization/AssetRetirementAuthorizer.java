@@ -63,44 +63,12 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
 
         if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
+            auths.addHiddenAuthField(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC);            
         }
 
         return auths;
     }
 
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
-
-    @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-
-        FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
-
-        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getDocumentBusinessObject();
-        String reasonCode = assetRetirementGlobal.getRetirementReasonCode();
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-
-        pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
-
-        AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObjectService.findByPrimaryKey(AssetRetirementReason.class, pkMap);
-        if (assetRetirementReason != null && assetRetirementReason.isRetirementReasonRestrictionIndicator()) {
-            hideActions(actionFlags);
-            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
-        }
-        else if (Arrays.asList(parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_MERGE_SEPARATE_WORKGROUP)) {
-            // Retirement Reason Code is restricted for use depending on the user group
-            hideActions(actionFlags);
-            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
-        }
-        else if (Arrays.asList(parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS).split(";")).contains(reasonCode) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_RAZE_WORKGROUP)) {
-            hideActions(actionFlags);
-            GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsKeyConstants.Retirement.ERROR_DISALLOWED_RETIREMENT_REASON_CODE);
-        }
-
-        return actionFlags;
-    }
-*/
 
     /**
      * Hide action buttons in the screen when the user not allowed to proceed.
@@ -126,7 +94,6 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
         super.canInitiate(documentTypeName, user);
         String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
         String reasonCode = StringUtils.substringAfter(refreshCaller, "::");  
-        LOG.info("====================================>canInitiate   reasonCode="+reasonCode);
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(CamsPropertyConstants.AssetRetirementReason.RETIREMENT_REASON_CODE, reasonCode);
 

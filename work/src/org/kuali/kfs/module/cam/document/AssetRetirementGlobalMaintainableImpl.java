@@ -41,6 +41,8 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
+import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
@@ -49,6 +51,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Section;
 
 
@@ -116,6 +119,20 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         return maintenanceLocks;
     }
 
+    
+    @Override
+    public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
+        super.setupNewFromExisting(document, parameters);        
+        
+        AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
+        if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+            //Asset asset = ((AssetRetirementGlobal)document.getNewMaintainableObject().getBusinessObject()).getMergedTargetCapitalAsset();
+            //((AssetRetirementGlobal)document.getNewMaintainableObject().getBusinessObject()).setMergedTargetCapitalAssetDescription(asset.getCapitalAssetDescription());
+            assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());            
+        }
+    }    
+    
+    
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      */
@@ -130,13 +147,20 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         if (nonViewableSections == null) {
             nonViewableSections = new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT };
         }
+                
         // Hide retirement detail sections based on the retirement reason code
         for (Section section : sections) {
             if (ArrayUtils.contains(nonViewableSections, section.getSectionId())) {
                 section.setHidden(true);
             }
-        }
 
+            if (!assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+                if (CamsConstants.AssetRetirementGlobal.SECTION_TARGET_ASSET_RETIREMENT_INFO.equals(section.getSectionId())) {
+                    section.setHidden(true);    
+                }
+            }
+            
+        }               
         return sections;
     }
 
@@ -236,6 +260,11 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         else if (CamsConstants.ASSET_LOOKUPABLE_ID.equalsIgnoreCase(refreshCaller)) {
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from sigle asset
             // lookup.
+            String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
+            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal) && 
+                referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
+                assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
+            }
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);
             assetService.setAssetSummaryFields(newDetail.getAsset());
         }
@@ -252,9 +281,13 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         // all approvals have been processed, the retirement date is set to the approval date
         if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            
+            assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
+            //asset.setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
+            
             SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
+            SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
         }
-
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 
     }
@@ -291,7 +324,7 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         String organizationcode;
         
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
-//
+
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {               
             chartOfAccountsCode = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerChartOfAccountsCode();
             accountNumber = assetRetirementGlobal.getMergedTargetCapitalAsset().getOrganizationOwnerAccountNumber();

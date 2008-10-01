@@ -61,6 +61,22 @@ public class GroupTotalRenderer implements Renderer, CellCountCurious {
     }
 
     /**
+     * Gets the totalLabelProperty attribute. 
+     * @return Returns the totalLabelProperty.
+     */
+    public String getTotalLabelProperty() {
+        return totalLabelProperty;
+    }
+
+    /**
+     * Sets the totalLabelProperty attribute value.
+     * @param totalLabelProperty The totalLabelProperty to set.
+     */
+    public void setTotalLabelProperty(String totalLabelProperty) {
+        this.totalLabelProperty = totalLabelProperty;
+    }    
+    
+    /**
      * Gets the cellCount attribute. 
      * @return Returns the cellCount.
      */

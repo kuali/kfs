@@ -24,7 +24,10 @@
 	
 	<bean id="ProcurementCard-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-			<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
+			<list>
+				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
+				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+			</list>
 		</property>
 	</bean>
 	

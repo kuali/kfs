@@ -48,6 +48,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>
   		
   		
@@ -89,7 +90,10 @@
   
   	<bean id="DistributionOfIncomeAndExpense-blanketApproveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list><bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" /></list>
+  			<list>
+  				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+  				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+  			</list>
   		</property>
 	</bean>
   

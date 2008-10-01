@@ -39,7 +39,7 @@
         </bean>
       </list>
     </property>
-    <property name="validationMap" ref="GeneralErrorCorrectionDocument-validations" />
+    <property name="validationMap" ref="YearEndGeneralErrorCorrectionDocument-validations" />
   </bean>
 
 <!-- Exported Workflow Properties -->

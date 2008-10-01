@@ -54,25 +54,6 @@ import java.util.ListIterator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.ExceptionUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.document.CapitalAssetEditable;
-import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -92,8 +73,22 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.ExceptionUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class contains all of the business rules that are common to all of the Financial Transaction Processing documents. Any
@@ -102,7 +97,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
     private ParameterService parameterService;
-    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
     protected ParameterService getParameterService() {
         if (parameterService == null) {
@@ -145,30 +139,9 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // check balance
         valid &= isDocumentBalanceValid(financialDocument);
-        
-        valid &= hasValidCapitalAssetInformation(financialDocument);
 
         LOG.debug("processCustomRouteDocumentBusinessRules(Document) - end");
         return valid;
-    }
-
-    // determine whehter the given document has valid capital asset information if any
-    private boolean hasValidCapitalAssetInformation(AccountingDocument financialDocument) {
-        LOG.debug("hasValidCapitalAssetInformation(Document) - start");
-        
-        if(financialDocument instanceof CapitalAssetEditable == false) {
-            return true;
-        }
-        
-        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();           
-        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable)financialDocument;
-        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
-        
-        if(capitalAssetInformation != null) {            
-            return capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, capitalAssetInformation);
-        }
-        
-        return true;
     }
 
     /**
@@ -623,11 +596,12 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         return valid;
     }
-    
+
     /**
      * Returns the default version of the AccountingLineRuleHelperService
-     * @param accountingDocument the document to retrieve the AccountingLineRuleHelperService for - this allows certain modules like PurAP
-     * to use the document is deciding which implementation of the AccountingLineRuleHelperService to use
+     * 
+     * @param accountingDocument the document to retrieve the AccountingLineRuleHelperService for - this allows certain modules like
+     *        PurAP to use the document is deciding which implementation of the AccountingLineRuleHelperService to use
      * @return the default implementation of the AccountingLineRuleHelperService
      */
     protected AccountingLineRuleHelperService getAccountingLineRuleHelperService(AccountingDocument accountingDocument) {

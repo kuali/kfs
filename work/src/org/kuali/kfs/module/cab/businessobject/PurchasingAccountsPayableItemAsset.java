@@ -35,6 +35,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal splitQty;
     private boolean selectedValue;
     private String itemTypeCode;
+    // used to control "create asset" and "apply payment" button display
     private boolean createAssetIndicator;
     private boolean applyPaymentIndicator;
 
@@ -61,6 +62,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     
+
     /**
      * Gets the createAssetIndicator attribute. 
      * @return Returns the createAssetIndicator.

@@ -104,7 +104,7 @@ public interface PurApLineService {
      * 
      * @param mergeLines
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag);
 
     /**
      * Check if the merge action is merge all.

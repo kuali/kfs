@@ -16,17 +16,24 @@
 package org.kuali.kfs.module.cab.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
@@ -37,8 +44,9 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
 
     /**
      * Custom action urls for CAB PurAp lines.
-     *
-     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
+     * 
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List, java.util.List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
@@ -53,7 +61,6 @@ public class PurApDocumentLookupableHelperServiceImpl extends KualiLookupableHel
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CabConstants.Actions.PROCESS);
         anchorHtmlDataList.add(anchorHtmlData);
         return anchorHtmlDataList;
-        //return url = "<a href=\"../" + url + "\">" + CabConstants.Actions.PROCESS + "</a>";
+        // return url = "<a href=\"../" + url + "\">" + CabConstants.Actions.PROCESS + "</a>";
     }
-
 }

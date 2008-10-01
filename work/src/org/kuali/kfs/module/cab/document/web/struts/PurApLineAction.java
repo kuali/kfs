@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
@@ -236,6 +237,8 @@ public class PurApLineAction extends KualiAction {
     public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
+        // Check the associated pre-tagging data entries.
+        Pretag mergeTargetPretag = checkForPreTagging(mergeLines, purApForm.getPurchaseOrderIdentifier());
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
@@ -243,7 +246,7 @@ public class PurApLineAction extends KualiAction {
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
+                purApLineService.processMerge(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -266,12 +269,42 @@ public class PurApLineAction extends KualiAction {
             }
 
             // handle merging lines including merge all situation.
-            purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
+            purApLineService.processMerge(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * If to be merged items have: (1) No Pretag data: No problem; (2) 1 Pretag data entry: Associate this one with the new item created
+     * after merge;(3) 1+ Pretag data entries: Display error, user has to manually fix data
+     * 
+     * @param mergeLines
+     */
+    private Pretag checkForPreTagging(List<PurchasingAccountsPayableItemAsset> mergeLines, String purchaseOrderIdentifier) {
+        Pretag preTag = null;
+        Pretag findingPreTag = null;
+        for (PurchasingAccountsPayableItemAsset item : mergeLines) {
+            if ((preTag = purApLineService.getPreTagLineItem(purchaseOrderIdentifier, item.getItemLineNumber())) != null) {
+                if (findingPreTag == null) {
+                    findingPreTag = preTag;
+                }
+                else if (!findingPreTag.getLineItemNumber().equals(preTag.getLineItemNumber())) {
+                    // find two different pre-tagging entries.
+                    GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_WITH_PRETAGGING);
+                    return null;
+                }
+            }
+        }
+        return findingPreTag;
+    }
+
+    /**
+     * For merge all, check if exists Trade-in allowance pending for allocate.
+     * 
+     * @param mergeLines
+     * @param purApForm
+     */
     private void checkMergeAllValid(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm) {
         if (purApLineService.isTradeInAllowanceExist(purApForm)) {
             GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_TRADE_IN_PENDING);

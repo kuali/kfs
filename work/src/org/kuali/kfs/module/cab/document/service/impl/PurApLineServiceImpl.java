@@ -512,7 +512,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag) {
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
         PurchasingAccountsPayableItemAsset item = null;
@@ -539,7 +539,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // update action history, remove lines before merge and clean up the user input
-        postMergeProcess(mergeLines, purApForm, purApLineSession);
+        postMergeProcess(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
     }
 
     /**
@@ -560,7 +560,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param mergeLines
      * @param purApForm
      */
-    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
+    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag) {
         boolean isMergeAllAction = isMergeAllAction(purApForm);
         boolean existCreateAsset = false;
         boolean existApplyPayment = false;
@@ -579,7 +579,11 @@ public class PurApLineServiceImpl implements PurApLineService {
                 inActivateDocument(item.getPurchasingAccountsPayableDocument());
             }
         }
-
+        // set the target preTag
+        if (mergeTargetPretag != null) {
+            //TODO: firstItem.setItemLineNumber(mergeTargetPretag.getLineItemNumber());
+        }
+        
         // set create asset/ apply payment indicator if any of the merged lines has the indicator set.
         firstItem.setCreateAssetIndicator(firstItem.isCreateAssetIndicator() | existCreateAsset);
         firstItem.setApplyPaymentIndicator(firstItem.isApplyPaymentIndicator() | existApplyPayment);
@@ -835,6 +839,10 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getPreTagLineItem(java.lang.String, java.lang.Integer)
      */
     public Pretag getPreTagLineItem(String purchaseOrderIdentifier, Integer lineItemNumber) {
+
+        if (StringUtils.isBlank(purchaseOrderIdentifier) || lineItemNumber == null) {
+            return null;
+        }
 
         Map<String, Object> pKeys = new HashMap<String, Object>();
 

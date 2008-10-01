@@ -86,6 +86,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Phone" />
     <property name="shortLabel" value="Number" />
   </bean>
+  
 <!-- Business Object Inquiry Definition -->
   <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
 

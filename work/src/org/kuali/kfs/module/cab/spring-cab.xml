@@ -195,6 +195,18 @@
             <ref bean="purApDocumentLookupableHelperService" />
         </property>
     </bean>
+
+    <bean id="purApReportLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApReportLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="purApReportService">
+            <ref bean="purchasingAccountsPayableReportService" />
+        </property>
+    </bean>
+    <bean id="cabPurApReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="purApReportLookupableHelperService" />
+        </property>
+    </bean>
+    
 	<bean id="generalLedgerEntryLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.GeneralLedgerEntryLookupableHelperServiceImpl" singleton="false"  parent="lookupableHelperService">
 		<property name="glLineService" ref="glLineService" />
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -209,6 +221,12 @@
 <!-- **** End of Lookupable beans **** -->
 
 <!--  **** PurAp service beans **** -->
+	<bean id="purchasingAccountsPayableReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.dataaccess.impl.PurchasingAccountsPayableReportDaoOjb"></bean>
+    <bean id="purchasingAccountsPayableReportService" class="org.kuali.kfs.module.cab.service.impl.PurchasingAccountsPayableReportServiceImpl" >
+    	<property name="purApReportDao">
+    		<ref bean="purchasingAccountsPayableReportDao" />
+    	</property>
+    </bean>
 	<bean id="purApLineDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.dataaccess.impl.PurApLineDaoOjb"></bean>
 	<bean id="purApLineService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

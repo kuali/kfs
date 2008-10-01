@@ -59,6 +59,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
         setSourceAccountingLines(new ArrayList());
         setGeneralLedgerPendingEntries(new ArrayList());
+        customPrepareForSave(event);
     }
 
     /**

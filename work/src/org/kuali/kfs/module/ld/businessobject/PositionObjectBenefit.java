@@ -23,18 +23,21 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for Modeling of Position Object Benefit
  */
-public class PositionObjectBenefit extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectBenefit {
+public class PositionObjectBenefit extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectBenefit, Inactivateable {
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String financialObjectCode;
     private String financialObjectBenefitsTypeCode;
-    private ObjectCode financialObject;
     private Chart chartOfAccounts;
+    private boolean active;
+  
+    private ObjectCode financialObject;
     private transient Options universityFiscal;
     private BenefitsCalculation benefitsCalculation;
     private BenefitsType financialObjectBenefitsType;
@@ -231,6 +234,24 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     @Deprecated
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;
+    }
+    
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

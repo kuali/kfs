@@ -739,6 +739,7 @@
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuClassificationLevel" column="IU_CLASSIF_LEVEL" jdbc-type="VARCHAR"/>
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<collection-descriptor name="budgetConstructionSalarySocialSecurity" element-class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="personUniversalIdentifier" sort="ASC" />
 		<orderby name="organizationChartOfAccountsCode" sort="ASC" />
@@ -871,7 +872,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentFundingReasonDescription" column="APPT_FND_RESN_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker" table="LD_BCN_CSF_TRCKR_T">
@@ -1713,7 +1714,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="appointmentDurationDescription" column="APPT_DUR_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect" table="LD_BCN_INCUMBENT_SEL_T">
@@ -1813,6 +1814,7 @@
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfFundingStatusCode" column="POS_CSF_FNDSTAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="csfDeleteCode" column="POS_CSF_DELETE_CD" jdbc-type="VARCHAR"/>
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.sys.businessobject.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>

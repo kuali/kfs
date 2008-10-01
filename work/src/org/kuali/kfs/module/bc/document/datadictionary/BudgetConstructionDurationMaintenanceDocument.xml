@@ -57,7 +57,7 @@
               p:name="appointmentDurationDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="rowActiveIndicator"
+              p:name="active"
               p:required="false" />
       </list>
     </property>

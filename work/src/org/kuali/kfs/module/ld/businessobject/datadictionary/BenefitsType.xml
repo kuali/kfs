@@ -22,6 +22,7 @@
         <ref bean="BenefitsType-positionBenefitRetirementIndicator" />
         <ref bean="BenefitsType-positionBenefitTypeCode" />
         <ref bean="BenefitsType-positionBenefitTypeDescription" />
+        <ref bean="BenefitsType-active" />
       </list>
     </property>
   </bean>
@@ -70,6 +71,11 @@
             p:size="42" />
     </property>
   </bean>
+  
+  <bean id="BenefitsType-active" parent="BenefitsType-active-parentBean" />
+  <bean id="BenefitsType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -91,6 +97,8 @@
                     p:attributeName="positionBenefitTypeDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionBenefitRetirementIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -118,6 +126,8 @@
               p:attributeName="positionBenefitTypeDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="positionBenefitRetirementIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -128,6 +138,8 @@
               p:attributeName="positionBenefitTypeDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="positionBenefitRetirementIndicator" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

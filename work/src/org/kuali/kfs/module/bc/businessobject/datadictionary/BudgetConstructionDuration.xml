@@ -20,7 +20,7 @@
       <list>
         <ref bean="BudgetConstructionDuration-appointmentDurationCode" />
         <ref bean="BudgetConstructionDuration-appointmentDurationDescription" />
-        <ref bean="BudgetConstructionDuration-rowActiveIndicator" />
+        <ref bean="BudgetConstructionDuration-active" />
       </list>
     </property>
   </bean>
@@ -66,19 +66,10 @@
     <property name="summary" value="Appointment Duration Description" />
     <property name="description" value="Appointment Duration Description" />
   </bean>
-  <bean id="BudgetConstructionDuration-rowActiveIndicator" parent="BudgetConstructionDuration-rowActiveIndicator-parentBean" />
-
-  <bean id="BudgetConstructionDuration-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rowActiveIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Active Code" />
-    <property name="shortLabel" value="Active Code" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
-    <property name="summary" value="Duration Code active code" />
-    <property name="description" value="Appointment Duration Code active code." />
+  
+  <bean id="BudgetConstructionDuration-active" parent="BudgetConstructionDuration-active-parentBean" />
+  <bean id="BudgetConstructionDuration-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -100,7 +91,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="appointmentDurationDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="rowActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -127,7 +118,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="appointmentDurationDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -138,7 +129,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="appointmentDurationDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

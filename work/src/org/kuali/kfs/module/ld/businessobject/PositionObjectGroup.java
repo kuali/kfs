@@ -19,15 +19,16 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for PositionObjectGroup
  */
-public class PositionObjectGroup extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectGroup {
+public class PositionObjectGroup extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectGroup, Inactivateable {
     private String positionObjectGroupCode;
     private String positionObjectGroupName;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -73,37 +74,28 @@ public class PositionObjectGroup extends PersistableBusinessObjectBase implement
     }
 
     /**
-     * Gets the rowActiveIndicator
+     * Gets the active attribute.
      * 
-     * @return Returns the rowActiveIndicator
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * @see org.kuali.kfs.integration.businessobject.ld.LaborLedgerPositionObjectGroup#getRowActiveIndicator()
-     */
-    public boolean getRowActiveIndicator() {
-        return isRowActiveIndicator();
-    }
-
-    /**
-     * Sets the rowActiveIndicator
+     * Sets the active attribute value.
      * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     /**
-     * Gets the active
-     * 
-     * @return Returns the active
+     * @see org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup#getActive()
      */
     public boolean getActive() {
-        return rowActiveIndicator;
+        return active;
     }
 
     /**

@@ -38,6 +38,7 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -220,6 +221,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         document.setDisbVchrContactPhoneNumber("8081234567");
         document.setDisbVchrContactPersonName("aynalem");
         document.setDisbVchrCheckStubText("Test DV Check");
+        document.setDisbVchrBankCode(KualiTestConstants.TestConstants.BankCodeTestData.BANK_CODE);
 
         KualiDecimal amount = KualiDecimal.ZERO;
         for (AccountingLineFixture fixture : getSourceAccountingLineParametersFromFixtures()) {

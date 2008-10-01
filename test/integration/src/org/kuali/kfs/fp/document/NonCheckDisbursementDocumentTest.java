@@ -31,6 +31,7 @@ import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -125,7 +126,8 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     private NonCheckDisbursementDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         NonCheckDisbursementDocument document = (NonCheckDisbursementDocument) getDocumentParameterFixture();
-
+        document.setFinancialDocumentBankCode(KualiTestConstants.TestConstants.BankCodeTestData.BANK_CODE);
+        
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
             sourceFixture.addAsSourceTo(document);
@@ -139,7 +141,7 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     }
 
     private int getExpectedPrePeCount() {
-        return 4;
+        return 6;
     }
 
 

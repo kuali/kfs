@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent {
+public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent, Inactivateable {
 
     private String emplid;
     private String personName;
@@ -33,6 +34,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     private String salaryAdministrationPlan;
     private String grade;
     private String iuClassificationLevel;
+    private boolean active;
 
     private List<BudgetConstructionSalarySocialSecurityNumber> budgetConstructionSalarySocialSecurity;
     private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
@@ -197,6 +199,24 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     @Deprecated
     public void setPendingBudgetConstructionAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

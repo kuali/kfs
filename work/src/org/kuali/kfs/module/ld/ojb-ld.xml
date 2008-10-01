@@ -21,7 +21,8 @@
 	<field-descriptor name="financialObjectBenefitsTypeCode" column="FINOBJ_BENE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+   	
 	<reference-descriptor name="benefitsCalculation" class-ref="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -61,6 +62,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionBenefitTypeDescription" column="POS_BENE_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionBenefitRetirementIndicator" column="POS_BENE_RETIRE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" table="LD_BENEFITS_CALC_T">
@@ -71,7 +73,8 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionFringeBenefitPercent" column="POS_FRNG_BENE_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiPercentFieldConversion"/>
 	<field-descriptor name="positionFringeBenefitObjectCode" column="POS_FRNGBEN_OBJ_CD" jdbc-type="VARCHAR" index="true"/>
-	
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+   	
 	<reference-descriptor name="positionFringeBenefitObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -300,7 +303,8 @@
 	<field-descriptor name="financialObjectPayTypeCode" column="FIN_OBJ_PAY_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialObjectFringeOrSalaryCode" column="FINOBJ_FRNGSLRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionObjectGroupCode" column="POS_OBJ_GRP_CD" jdbc-type="VARCHAR"/>
-	
+   	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+   		
 	<reference-descriptor name="financialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -323,7 +327,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionObjectGroupName" column="POS_OBJ_GRP_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ld.document.BenefitExpenseTransferDocument" table="LD_EXP_TRNFR_DOC_T">

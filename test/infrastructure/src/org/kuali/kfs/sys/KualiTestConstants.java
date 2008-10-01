@@ -133,5 +133,9 @@ public interface KualiTestConstants {
             public static final String CHART = "BA";
             public static final String POSITION_TYPE_CODE = "B";
         }
+        
+        public static class BankCodeTestData {
+            public static final String BANK_CODE = "TEST";
+        }
     }
 }

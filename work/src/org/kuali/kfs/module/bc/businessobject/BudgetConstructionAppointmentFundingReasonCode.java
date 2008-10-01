@@ -18,16 +18,17 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionAppointmentFundingReasonCode extends PersistableBusinessObjectBase {
+public class BudgetConstructionAppointmentFundingReasonCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private String appointmentFundingReasonCode;
     private String appointmentFundingReasonDescription;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -74,21 +75,21 @@ public class BudgetConstructionAppointmentFundingReasonCode extends PersistableB
     }
 
     /**
-     * Gets the rowActiveIndicator attribute.
+     * Gets the active attribute.
      * 
-     * @return Returns the rowActiveIndicator.
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the rowActiveIndicator attribute value.
+     * Sets the active attribute value.
      * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

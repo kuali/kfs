@@ -23,13 +23,14 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiPercent;
 
 /**
  * Labor business object for Benefits Calculation.
  */
-public class BenefitsCalculation extends PersistableBusinessObjectBase implements LaborLedgerBenefitsCalculation {
+public class BenefitsCalculation extends PersistableBusinessObjectBase implements LaborLedgerBenefitsCalculation, Inactivateable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -40,6 +41,7 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
     private Chart chartOfAccounts;
     private BenefitsType positionBenefitType;
     private transient Options universityFiscal;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -211,6 +213,24 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase implement
      */
     public void setUniversityFiscal(Options universityFiscal) {
         this.universityFiscal = universityFiscal;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

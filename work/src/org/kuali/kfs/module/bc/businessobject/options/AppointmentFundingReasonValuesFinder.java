@@ -43,7 +43,7 @@ public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
         reasonCodeKeyLabels.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
 
         for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
-            if (!reasonCode.isRowActiveIndicator()) {
+            if (!reasonCode.isActive()) {
                 continue;
             }
 

@@ -23,12 +23,13 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for LaborObject.
  */
-public class LaborObject extends PersistableBusinessObjectBase implements LaborLedgerObject {
+public class LaborObject extends PersistableBusinessObjectBase implements LaborLedgerObject, Inactivateable {
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String financialObjectCode;
@@ -37,6 +38,8 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
     private String financialObjectPayTypeCode;
     private String financialObjectFringeOrSalaryCode;
     private String positionObjectGroupCode;
+    private boolean active;
+    
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private PositionObjectGroup positionObjectGroup;
@@ -281,6 +284,24 @@ public class LaborObject extends PersistableBusinessObjectBase implements LaborL
      */
     public void setOption(Options option) {
         this.option = option;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

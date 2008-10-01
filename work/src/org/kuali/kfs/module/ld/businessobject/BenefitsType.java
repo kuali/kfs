@@ -19,16 +19,18 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for Benefits Type
  */
-public class BenefitsType extends PersistableBusinessObjectBase implements LaborLedgerBenefitsType {
+public class BenefitsType extends PersistableBusinessObjectBase implements LaborLedgerBenefitsType, Inactivateable {
 
     private String positionBenefitTypeCode;
     private String positionBenefitTypeDescription;
     private boolean positionBenefitRetirementIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -89,6 +91,24 @@ public class BenefitsType extends PersistableBusinessObjectBase implements Labor
      */
     public void setPositionBenefitRetirementIndicator(boolean positionBenefitRetirementIndicator) {
         this.positionBenefitRetirementIndicator = positionBenefitRetirementIndicator;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

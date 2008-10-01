@@ -48,7 +48,7 @@
         <bean parent="ReferenceDefinition"
               p:collection="effortCertificationReportPositions"
               p:attributeName="positionObjectGroup"
-              p:activeIndicatorAttributeName="rowActiveIndicator"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
       </list>
     </property>

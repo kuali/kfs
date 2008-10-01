@@ -23,6 +23,7 @@
         <ref bean="BenefitsCalculation-positionFringeBenefitObjectCode" />
         <ref bean="BenefitsCalculation-positionBenefitTypeCode" />
         <ref bean="BenefitsCalculation-positionFringeBenefitPercent" />
+        <ref bean="BenefitsCalculation-active" />
       </list>
     </property>
   </bean>
@@ -65,6 +66,11 @@
             p:size="24" />
     </property>
   </bean>
+  
+  <bean id="BenefitsCalculation-active" parent="BenefitsCalculation-active-parentBean" />
+  <bean id="BenefitsCalculation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -90,6 +96,8 @@
                     p:attributeName="positionFringeBenefitObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionFringeBenefitPercent" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -121,6 +129,8 @@
               p:attributeName="positionFringeBenefitObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="positionFringeBenefitPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -135,6 +145,8 @@
               p:attributeName="positionFringeBenefitObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="positionFringeBenefitPercent" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -27,13 +27,14 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.Options;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
  */
-public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusinessObjectBase {
+public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -48,6 +49,7 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
     private BigDecimal csfTimePercent;
     private String csfFundingStatusCode;
     private String csfDeleteCode;
+    private boolean active;
 
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
@@ -441,6 +443,24 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
      */
     public void setUniversityFiscal(Options universityFiscal) {
         this.universityFiscal = universityFiscal;
+    }
+
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

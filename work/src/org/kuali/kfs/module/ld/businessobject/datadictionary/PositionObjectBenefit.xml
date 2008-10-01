@@ -22,6 +22,7 @@
         <ref bean="PositionObjectBenefit-chartOfAccountsCode" />
         <ref bean="PositionObjectBenefit-financialObjectCode" />
         <ref bean="PositionObjectBenefit-financialObjectBenefitsTypeCode" />
+        <ref bean="PositionObjectBenefit-active" />
       </list>
     </property>
   </bean>
@@ -48,6 +49,11 @@
   <bean id="PositionObjectBenefit-financialObjectBenefitsTypeCode-parentBean" abstract="true" parent="BenefitsType-positionBenefitTypeCode">
     <property name="name" value="financialObjectBenefitsTypeCode" />
   </bean>
+  
+  <bean id="PositionObjectBenefit-active" parent="PositionObjectBenefit-active-parentBean" />
+  <bean id="PositionObjectBenefit-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -71,6 +77,8 @@
                     p:attributeName="financialObjectCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialObjectBenefitsTypeCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -101,6 +109,8 @@
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectBenefitsTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -113,6 +123,8 @@
               p:attributeName="financialObjectCode" />
         <bean parent="FieldDefinition"
               p:attributeName="financialObjectBenefitsTypeCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

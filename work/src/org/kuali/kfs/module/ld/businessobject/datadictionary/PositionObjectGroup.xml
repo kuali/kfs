@@ -20,7 +20,7 @@
       <list>
         <ref bean="PositionObjectGroup-positionObjectGroupCode" />
         <ref bean="PositionObjectGroup-positionObjectGroupName" />
-        <ref bean="PositionObjectGroup-rowActiveIndicator" />
+        <ref bean="PositionObjectGroup-active" />
       </list>
     </property>
   </bean>
@@ -61,17 +61,10 @@
             p:size="42" />
     </property>
   </bean>
-  <bean id="PositionObjectGroup-rowActiveIndicator" parent="PositionObjectGroup-rowActiveIndicator-parentBean" />
-
-  <bean id="PositionObjectGroup-rowActiveIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rowActiveIndicator" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Active Indicator" />
-    <property name="shortLabel" value="Indicator" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="CheckboxControlDefinition" />
-    </property>
+  
+  <bean id="PositionObjectGroup-active" parent="PositionObjectGroup-active-parentBean" />
+  <bean id="PositionObjectGroup-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -93,7 +86,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="positionObjectGroupName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="rowActiveIndicator" />
+                    p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -118,7 +111,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="positionObjectGroupCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -128,7 +121,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="positionObjectGroupName" />
         <bean parent="FieldDefinition"
-              p:attributeName="rowActiveIndicator" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

@@ -53,25 +53,19 @@ public interface LaborLedgerPositionObjectGroup extends PersistableBusinessObjec
      * 
      * @return Returns the rowActiveIndicator
      */
-    abstract boolean isRowActiveIndicator();
+    abstract boolean isActive();
     
     /**
      * This method makes up for some sillyness in DataDictionary
      * @return
      */
-    abstract boolean getRowActiveIndicator();
+    abstract boolean getActive();
 
     /**
      * Sets the rowActiveIndicator
      * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
-    abstract void setRowActiveIndicator(boolean rowActiveIndicator);
-    
-    /**
-     * Gets the rowActiveIndicator
-     * 
-     * @return Returns the rowActiveIndicator
-     */
-    abstract boolean getActive();
+    abstract void setActive(boolean rowActiveIndicator);
+
 }

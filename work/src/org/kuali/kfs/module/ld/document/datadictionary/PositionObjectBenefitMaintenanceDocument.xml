@@ -21,12 +21,15 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialObject"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="financialObjectCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialObjectBenefitsType"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="financialObjectBenefitsTypeCode" />
       </list>
     </property>
@@ -84,6 +87,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="financialObjectBenefitsTypeCode"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active"
+              p:required="false" />
       </list>
     </property>
   </bean>

@@ -42,7 +42,7 @@ public class BudgetConstructionDurationValuesFinder extends KeyValuesBase {
 
         List<KeyLabelPair> durationKeyLabels = new ArrayList<KeyLabelPair>();
         for (BudgetConstructionDuration budgetConstructionDurationCode : budgetConstructionDurationCodes) {
-            if (!budgetConstructionDurationCode.isRowActiveIndicator()) {
+            if (!budgetConstructionDurationCode.isActive()) {
                 continue;
             }
 

@@ -99,7 +99,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public Class<? extends LaborLedgerBalance> getBusinessObjectClass() {
-        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalanceForEffortCertification.class);
+        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).createNewObjectFromExternalizableClass(LaborLedgerBalanceForEffortCertification.class).getClass();
     }
 
     /**

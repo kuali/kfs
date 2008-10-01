@@ -85,8 +85,8 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalance.class);
-        ledgerEntryClass = kualiModuleService.getResponsibleModuleService(LaborLedgerEntry.class).getExternalizableBusinessObjectImplementation(LaborLedgerEntry.class);
+        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).createNewObjectFromExternalizableClass(LaborLedgerBalance.class).getClass();
+        ledgerEntryClass = kualiModuleService.getResponsibleModuleService(LaborLedgerEntry.class).createNewObjectFromExternalizableClass(LaborLedgerEntry.class).getClass();
     }
 
     /**

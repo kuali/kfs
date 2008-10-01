@@ -71,7 +71,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalance.class);
+        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).createNewObjectFromExternalizableClass(LaborLedgerBalance.class).getClass();
 
         TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }

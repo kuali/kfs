@@ -40,6 +40,12 @@ public interface CountryService {
      * @return a country object with the given country code if necessary
      */
     Country getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, Country existingCountry);
+    
+    /**
+     * get the system default country, which is configured as a system parameter
+     * @return the system default country
+     */
+    Country getDefaultCountry();
 
     /**
      * get all countries that are note restricated

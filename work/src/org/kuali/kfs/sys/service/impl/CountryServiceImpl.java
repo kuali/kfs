@@ -22,9 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.KualiModuleService;
 
@@ -32,6 +35,7 @@ public class CountryServiceImpl implements CountryService {
     private static Logger LOG = Logger.getLogger(CountryServiceImpl.class);
 
     private KualiModuleService kualiModuleService;
+    private ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.sys.service.CountryService#getByPrimaryId(java.lang.String)
@@ -58,6 +62,14 @@ public class CountryServiceImpl implements CountryService {
             }
         }
 
+        return this.getByPrimaryId(postalCountryCode);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.CountryService#getDefaultCountry()
+     */
+    public Country getDefaultCountry() {
+        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
         return this.getByPrimaryId(postalCountryCode);
     }
     
@@ -90,5 +102,14 @@ public class CountryServiceImpl implements CountryService {
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+    
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

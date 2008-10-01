@@ -20,12 +20,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.County;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.CountyService;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.KualiModuleService;
 
@@ -35,14 +33,14 @@ import org.kuali.rice.kns.service.KualiModuleService;
 public class CountyServiceImpl implements CountyService {
     private static Logger LOG = Logger.getLogger(CountyServiceImpl.class);
 
-    private ParameterService parameterService;
+    private CountryService countryService;
     private KualiModuleService kualiModuleService;
 
     /**
      * @see org.kuali.kfs.sys.service.CountyService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public County getByPrimaryId(String postalStateCode, String countyCode) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+        String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
 
         return this.getByPrimaryId(postalCountryCode, postalStateCode, countyCode);
     }
@@ -69,7 +67,7 @@ public class CountyServiceImpl implements CountyService {
      *      org.kuali.kfs.sys.businessobject.County)
      */
     public County getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalStateCode, String countyCode, County existingCounty) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+        String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
 
         return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalStateCode, countyCode, existingCounty);
     }
@@ -93,20 +91,20 @@ public class CountyServiceImpl implements CountyService {
     }
 
     /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    /**
      * Sets the kualiModuleService attribute value.
      * 
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * Sets the countryService attribute value.
+     * 
+     * @param countryService The countryService to set.
+     */
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
     }
 }

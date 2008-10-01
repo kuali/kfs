@@ -358,8 +358,8 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="countryService">
+			<ref bean="countryService" />
 		</property>
 	</bean>
 	
@@ -367,8 +367,8 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="countryService">
+			<ref bean="countryService" />
 		</property>
 	</bean>
 	
@@ -376,8 +376,8 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="countryService">
+			<ref bean="countryService" />
 		</property>
 	</bean>
 	
@@ -385,6 +385,9 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>		
 	</bean>
 
 	<bean id="workflow-org.kuali.rice.kns.bo.user.UniversalUser-Lookupable" parent="workflowLookupable" scope="prototype">

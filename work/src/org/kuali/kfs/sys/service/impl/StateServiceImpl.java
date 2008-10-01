@@ -21,26 +21,24 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.State;
-import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.StateService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants.FINANCIAL_SYSTEM_ALL;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.service.KualiModuleService;
 
 public class StateServiceImpl implements StateService {
     private static Logger LOG = Logger.getLogger(StateServiceImpl.class);
 
-    private ParameterService parameterService;
     private KualiModuleService kualiModuleService;
+    private CountryService countryService;
 
     /**
      * @see org.kuali.kfs.sys.service.StateService#getByPrimaryId(java.lang.String)
      */
     public State getByPrimaryId(String postalStateCode) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+        String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
         return this.getByPrimaryId(postalCountryCode, postalStateCode);
     }
 
@@ -61,16 +59,18 @@ public class StateServiceImpl implements StateService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, org.kuali.kfs.sys.businessobject.State)
+     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject, java.lang.String,
+     *      org.kuali.kfs.sys.businessobject.State)
      */
     public State getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalStateCode, State existingState) {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+        String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
 
         return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalStateCode, existingState);
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.lang.String, org.kuali.kfs.sys.businessobject.State)
+     * @see org.kuali.kfs.sys.service.StateService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject, java.lang.String,
+     *      java.lang.String, org.kuali.kfs.sys.businessobject.State)
      */
     public State getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalStateCode, State existingState) {
         if (existingState != null) {
@@ -88,7 +88,7 @@ public class StateServiceImpl implements StateService {
      * @see org.kuali.kfs.sys.service.StateService#findAllStates()
      */
     public List<State> findAllStates() {
-        String postalCountryCode = parameterService.getParameterValue(FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.DEFAULT_COUNTRY);
+        String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
         return this.findAllStates(postalCountryCode);
     }
 
@@ -107,20 +107,20 @@ public class StateServiceImpl implements StateService {
     }
 
     /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    /**
      * Sets the kualiModuleService attribute value.
      * 
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
+    }
+
+    /**
+     * Sets the countryService attribute value.
+     * 
+     * @param countryService The countryService to set.
+     */
+    public void setCountryService(CountryService countryService) {
+        this.countryService = countryService;
     }
 }

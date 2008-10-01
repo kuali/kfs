@@ -45,7 +45,7 @@ public class DebitsAndCreditsBalanceValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("************************DebitsAndCreditsBalanceValidation"  + accountingDocumentForValidation);
+        LOG.debug("Validation started");
         
         // generate GLPEs specifically here so that we can compare debits to credits
         if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(accountingDocumentForValidation)) {
@@ -72,8 +72,6 @@ public class DebitsAndCreditsBalanceValidation extends GenericValidation {
         if (!isValid) {
             GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_BALANCE);
         }
-        
-        LOG.info("************************DebitsAndCreditsBalanceValidation" + accountingDocumentForValidation);
         
         return isValid;
     }

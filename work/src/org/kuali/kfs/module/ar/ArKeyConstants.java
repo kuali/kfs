@@ -90,6 +90,10 @@ public class ArKeyConstants {
         public static final String ERROR_CUSTOMER_TYPE_DUPLICATE_VALUE = "error.document.customerType.duplicateValue";
     }
 
+    // Customer Load messages
+    public static final class CustomerLoad {
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.title";
+    }
     // Customer errors
     public static class CustomerConstants {
         public static final String MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS = "message.document.customerMaintenance.customerWithSameNameExists";
@@ -122,9 +126,7 @@ public class ArKeyConstants {
     // Cash Control Document errors
     public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberCannotBeNullforPaymentMediumCash";
     public static final String ERROR_REFERENCE_DOC_NUMBER_MUST_BE_VALID_FOR_PAYMENT_MEDIUM_CASH = "error.ar.ReferenceDocNumberMustBeValidforPaymentMediumCash";
-    public static final String ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL = "error.ar.ReferenceDocNumberCannotBeNull";
     public static final String ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG = "error.ar.OrganizationOptionsMustBeSet";
-    public static final String ERROR_PAYMENT_MEDIUM_CANNOT_BE_NULL = "error.ar.CustomerPaymentMediumCannotBeNull";
     public static final String ERROR_PAYMENT_MEDIUM_IS_NOT_VALID = "error.ar.CustomerPaymentMediumIsNotValid";
     public static final String ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED = "error.ar.AllApplicationDocumentsMustBeApproved";
     public static final String ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN = "error.ar.DeleteAddApplicationDocNotAllowedAfterGLPEsGenerated";
@@ -134,15 +136,12 @@ public class ArKeyConstants {
     public static final String ERROR_GLPES_NOT_CREATED = "error.ar.GLPEsNotCreated";
     public static final String ERROR_CUSTOMER_NUMBER_IS_NOT_VALID = "error.ar.CustomerNumberIsNotValid";
     public static final String ERROR_CUSTOMER_IS_INACTIVE = "error.ar.CustomerIsInactive";
-    public static final String CASH_CONTROL_TOTAL = "ar.CashControlTotal";
 
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
     public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";
 
     // Customer Invoice Writeoff Document errors
-    public static final String ERROR_ORG_ACCT_DEFAULT_FOR_USER_MUST_EXIST = "error.ar.OrganizationAccountingDefaultMustExist";
-    public static final String ERROR_ORG_ACCT_DEFAULT_WRITEOFF_MUST_EXIST = "error.ar.OrganizationAccountingDefaultWriteoffMustExist";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffObjectDoesntExist";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_MUST_EXIST = "error.document.customerInvoiceWriteoff.writeoffFAUMustExist";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_CHART_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUChartMustExist";

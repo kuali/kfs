@@ -26,14 +26,6 @@
 <c:set var="cashDrawerAttributes" value="${DataDictionary.CashDrawer.attributes}" />
 <c:set var="cashDrawer" value="${cashDrawerProperty}" />
 
-<html:hidden property="${cashDrawerProperty}.workgroupName" />
-<html:hidden property="${cashDrawerProperty}.statusCode" />
-<html:hidden property="${cashDrawerProperty}.objectId" />
-<html:hidden property="${cashDrawerProperty}.versionNumber" />
-<html:hidden property="${cashDrawerProperty}.cashDrawerTotalAmount" />
-<html:hidden property="${cashDrawerProperty}.financialDocumentMiscellaneousAdvanceAmount" />
-<html:hidden property="${cashDrawerProperty}.referenceFinancialDocumentNumber" />
-
 
   <h3>Cash Drawer Currency/Coin</h3>
 
@@ -211,27 +203,32 @@
 		    				<tr>
 			  				<td rowspan="5">&nbsp;</td>
 			  				<td colspan="4" class="infoline">Miscellaneous Checks</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.undepositedCashieringChecksTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2">$
+			  				<bean:write name="KualiForm" property="cashDrawerSummary.undepositedCashieringChecksTotal"/></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline">Currency</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerCurrencyTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2">$
+			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCurrencyTotal"/></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline">Coin</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerCoinTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2">$
+			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerCoinTotal"/></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline">Items in Process</td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.openItemsTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2">$
+			  				<bean:write name="KualiForm" property="cashDrawerSummary.openItemsTotal"/></td>
 		    				</tr>
 
 		    				<tr>
 			  				<td colspan="4" class="infoline"><strong>Cash Drawer Total</strong></td>
-			  				<td style="text-align: right" colspan="2">$<html:hidden property="cashDrawerSummary.cashDrawerTotal" write="true" /></td>
+			  				<td style="text-align: right" colspan="2">$
+			  				<bean:write name="KualiForm" property="cashDrawerSummary.cashDrawerTotal"/></td>
 		    				</tr>
           </c:otherwise>
         </c:choose>

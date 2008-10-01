@@ -18,7 +18,6 @@
 	<h4>Money In</h4>
 <kul:htmlControlAttribute property="document.currentTransaction.workgroupName" attributeEntry="${DataDictionary.CashieringTransaction.attributes.workgroupName}" />
 <kul:htmlControlAttribute property="document.currentTransaction.referenceFinancialDocumentNumber" attributeEntry="${DataDictionary.CashieringTransaction.attributesreferenceFinancialDocumentNumber}" />
-<html:hidden name="KualiForm" property="document.currentTransaction.nextCheckSequenceId" write="false" />
 <%-- <kul:htmlControlAttribute property="document.currentTransaction.transactionStarted" attributeEntry="${DataDictionary.CashieringTransaction.attributes.transactionStarted}" /> --%>
 <div style="padding: 5px;">
     <h3>Currency/Coin</h3>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -420,7 +421,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
     }
 
-    public static final class CashDrawerSummary {
+    public static final class CashDrawerSummary implements Serializable {
         private Timestamp timeOpened;
         private Timestamp timeRefreshed;
 
@@ -945,7 +946,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             return overallReceiptStats;
         }
 
-        public static final class CashReceiptStatistics {
+        public static final class CashReceiptStatistics implements Serializable{
             private int receiptCount;
             private KualiDecimal checkTotal;
             private KualiDecimal currencyTotal;

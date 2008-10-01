@@ -20,6 +20,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CashManagementDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules" />
     <property name="documentTypeCode" value="CMD" />
+     <property name="sessionDocument" value="true" />
     <property name="workflowProperties" >
       <ref bean="CashManagementDocument-workflowProperties" />
     </property>

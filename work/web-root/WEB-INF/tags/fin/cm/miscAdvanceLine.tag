@@ -25,9 +25,7 @@
 
 <c:set var="itemInProcessAttributes" value="${DataDictionary.CashieringItemInProcess.attributes}" />
 
-<html:hidden property="${itemInProcessProperty}.workgroupName" />
-<html:hidden property="${itemInProcessProperty}.versionNumber" />
-<html:hidden property="${itemInProcessProperty}.objectId" />
+
   
   <tr>
     <c:if test="${!creatingItemInProcess}">
@@ -40,7 +38,7 @@
     </td>
     <c:if test="${!creatingItemInProcess}">
       <td><kul:htmlControlAttribute property="${itemInProcessProperty}.itemReducedAmount" attributeEntry="${itemInProcessAttributes.itemReducedAmount}" readOnly="true" /></td>
-      <td><html:hidden property="${itemInProcessProperty}.itemRemainingAmount" write="true" /></td>
+      <td><bean:write name="KualiForm" property="${itemInProcessProperty}.itemRemainingAmount"/></td>
       <td><kul:htmlControlAttribute property="${itemInProcessProperty}.currentPayment" attributeEntry="${itemInProcessAttributes.currentPayment}" readOnly="${readOnly}" />
     </c:if>
     <td>

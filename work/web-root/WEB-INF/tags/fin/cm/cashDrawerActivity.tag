@@ -35,8 +35,7 @@
     <c:set var="subheading" value="${subheading} as of ${KualiForm.cashDrawerSummary.timeRefreshed}" />
 </c:if>
 
-<html:hidden property="cashDrawerSummary.timeRefreshed" />
-<html:hidden property="cashDrawerSummary.timeOpened" />
+
 <kul:tab tabTitle="Cash Drawer Activity" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_MANAGEMENT_CASHIERING_TRANSACTION_ERRORS}" >
     <div class="tab-container" align=center>
 	  <table cellspacing="0" cellpadding="0" border="0" class="datatable">
@@ -68,60 +67,69 @@
 
             			<c:if test="${KualiForm.document.rawCashDrawerStatus != KFSConstants.CashDrawerConstants.STATUS_CLOSED && KualiForm.cashDrawerSummary.remainingSumTotal != null}">
                 				<tr>
-                    				<td colspan=5 class="tab-subhead">Cash Drawer Activity: <html:hidden property="cashDrawerSummary.overallReceiptStats.receiptCount" write="true" /> available Cash Receipts</td>
+                    				<td colspan=5 class="tab-subhead">Cash Drawer Activity: <bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptStats.receiptCount"/> available Cash Receipts</td>
                 				</tr>
                 
                 				<tr>
                     				<td rowspan=4 >&nbsp;&nbsp;</td>
                     				<td colspan=2 class="infoline">Checks</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.checkTotal" write="true" /></td>
+                    				<td style="text-align: right">$<bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptStats.checkTotal"/></td>
                     				<td rowspan=4 width=100%>&nbsp;</td>
                 				</tr>
                 				<tr>
                     				<td colspan="2" class="infoline">Currency</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.currencyTotal" write="true" /></td>
+                    				<td style="text-align: right">$<bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptStats.currencyTotal"/></td>
                 				</tr>
                 				<tr>
                     				<td colspan="2" class="infoline">Coin</td>
-                    					<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.coinTotal" write="true" /></td>
+                    					<td style="text-align: right">$
+                    					<bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptStats.coinTotal"/></td>
                 				</tr>
                 				<tr>
                     				<th colspan=2 style="text-align: left; padding-left: 0px">TOTAL</th>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptStats.sumTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptStats.sumTotal"/></td>
                 				</tr>
                 				<tr>
-                    				<td colspan=5 class="tab-subhead">Deposit Activity: <html:hidden property="cashDrawerSummary.depositedReceiptCount" write="true" /> Deposited Cash Receipts</td>
+                    				<td colspan=5 class="tab-subhead">Deposit Activity: <bean:write name="KualiForm" property="cashDrawerSummary.depositedReceiptCount"/>  Deposited Cash Receipts</td>
                 				</tr>
                 				<tr>
                     				<td rowspan="8">&nbsp;&nbsp;</td>
                     				<td colspan=2 class="infoline">Operating</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.overallReceiptSumTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.overallReceiptSumTotal"/></td>
                     				<td rowspan="8" width=100%>&nbsp;</td>
                 				</tr>
                 				<tr>
                     				<td colspan=2 class="infoline">- Interim</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.interimReceiptSumTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.interimReceiptSumTotal"/></td>
                 				</tr>
                 				<tr>
                     				<td colspan=2 class="infoline">- Final</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.finalReceiptSumTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.finalReceiptSumTotal"/></td>
                 				</tr>
                 				<tr>
                     				<th colspan=2 style="text-align: left; padding-left: 0px">= Remaining</th>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingSumTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.remainingSumTotal"/></td>
                 				</tr>
                 				<tr>
                     				<td rowspan="3">&nbsp;&nbsp;</td>
                     				<td class="infoline">Checks</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCheckTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.remainingCheckTotal"/></td>
                 				</tr>
                 				<tr>
                    	 			<td class="infoline">Currency</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCurrencyTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.remainingCurrencyTotal"/></td>
                 				</tr>
                 				<tr>
                     				<td class="infoline">Coin</td>
-                    				<td style="text-align: right">$<html:hidden property="cashDrawerSummary.remainingCoinTotal" write="true" /></td>
+                    				<td style="text-align: right">$
+                    				<bean:write name="KualiForm" property="cashDrawerSummary.remainingCoinTotal"/></td>
                 				</tr>
 		    
             			</c:if>

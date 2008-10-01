@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.batch;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -39,7 +38,7 @@ public class CustomerLoadXMLSchemaTest extends TestCase {
 
     private static final String XML_SAMPLE_DIRECTORY = "org/kuali/kfs/module/ar/batch/sample/";
     private static final String XML_SAMPLE_FILE = "CustomerLoad-Sample.xml";
-    private static final String SCHEMA_DIRECTORY = "work/web-root/static/xml/fs/";
+    private static final String SCHEMA_DIRECTORY = "org/kuali/kfs/module/ar/batch/";
     private static final String SCHEMA_FILE = "arCustomerLoad.xsd";
     
     /**
@@ -70,7 +69,7 @@ public class CustomerLoadXMLSchemaTest extends TestCase {
         ByteArrayInputStream sampleXmlFile = new ByteArrayInputStream(byteArray);
         
         //  Schema file stream creation
-        inputStream = new FileInputStream(SCHEMA_DIRECTORY + SCHEMA_FILE);
+        inputStream = ClassLoader.getSystemResourceAsStream(SCHEMA_DIRECTORY + SCHEMA_FILE);
         byteArray = IOUtils.toByteArray(inputStream);
         ByteArrayInputStream schemaLocation = new ByteArrayInputStream(byteArray);
 

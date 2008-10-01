@@ -30,6 +30,13 @@ public interface CustomerService {
     public Customer getByPrimaryKey(String customerNumber);
     
     /**
+     * Return customer by taxNumber
+     * @param customerNumber
+     * @return
+     */
+    public Customer getByTaxNumber(String taxNumber);
+    
+    /**
      * This method builds the new customer number
      * @param newCustomer the new customer
      * @return the new customer number

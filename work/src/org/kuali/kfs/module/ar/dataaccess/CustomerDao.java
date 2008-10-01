@@ -27,6 +27,8 @@ public interface CustomerDao {
      */
     public Customer getByPrimaryId( String customerNumber );
     
+    public Customer getByTaxNumber(String taxNumber);
+    
     public Customer getByName(String customerName);
 
 }

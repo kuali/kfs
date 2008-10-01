@@ -350,6 +350,48 @@
 		</property>
 	</bean>
 	
+	<bean id="customerLoadStep" class="org.kuali.kfs.module.ar.batch.CustomerLoadStep" parent="step">
+	</bean>
+	
+	<bean id="customerLoadService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerLoadServiceImpl">
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>					
+		<property name="customerAddressService">
+			<ref bean="customerAddressService" />
+		</property>					
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>					
+		<property name="maintDocDDService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>					
+		<property name="ddService">
+			<ref bean="dataDictionaryService" />
+		</property>					
+	</bean>
+	
+	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">
+		<property name="directoryPath">
+			<value>${staging.directory}/ar/customer/</value>
+		</property>
+		<property name="fileExtension">
+			<value>xml</value>
+		</property>
+		<property name="digestorRulesFileName">
+			<value>org/kuali/kfs/module/ar/batch/digester/customerLoadDigesterRules.xml</value>
+		</property>
+		<property name="schemaLocation">
+			<value>org/kuali/kfs/module/ar/batch/schema/arCustomerLoad.xsd</value>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>					
+		<property name="customerLoadService">
+			<ref bean="customerLoadService" />
+		</property>					
+	</bean>
+		
 	<!-- Workflow Lookupables -->
 	
 	<bean id="systemInformationLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.SystemInformationLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />

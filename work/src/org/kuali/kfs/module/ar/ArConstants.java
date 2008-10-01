@@ -97,6 +97,11 @@ public class ArConstants {
         public static final String GENERATE_CUSTOMER_CREDIT_MEMO_DOCUMENT_QUESTION_ID = "GenerateCustomerCreditMemoDocumentQuestionID";
     }
 
+    public static final class CustomerLoad {
+        public static final String CUSTOMER_LOAD_FILE_TYPE_IDENTIFIER = "customerLoadInputFileType";
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.title";
+    }
+    
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
     public static final String DISCOUNT_PREFIX = "DISCOUNT - ";
     public static final String GLPE_WRITEOFF_OBJECT_CODE_BY_CHART = "GLPE_WRITEOFF_OBJECT_CODE_BY_CHART";

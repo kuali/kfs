@@ -495,7 +495,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         File batchTypeDirectory = new File(batchInputFileType.getDirectoryPath());
         File[] doneFiles = batchTypeDirectory.listFiles(new DoneFilenameFilter());
 
-        List<String> batchInputFiles = new ArrayList();
+        List<String> batchInputFiles = new ArrayList<String>();
         for (int i = 0; i < doneFiles.length; i++) {
             File doneFile = doneFiles[i];
             File dataFile = new File(StringUtils.substringBeforeLast(doneFile.getPath(), ".") + "." + batchInputFileType.getFileExtension());

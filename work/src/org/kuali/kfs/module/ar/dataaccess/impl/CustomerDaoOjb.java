@@ -36,6 +36,13 @@ public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerD
         return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
     }
 
+    public Customer getByTaxNumber(String taxNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("customerTaxNbr", taxNumber);
+
+        return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
+    }
+    
     public Customer getByName(String customerName) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("customerName", customerName);

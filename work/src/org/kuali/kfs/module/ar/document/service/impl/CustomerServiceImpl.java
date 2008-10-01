@@ -45,6 +45,10 @@ public class CustomerServiceImpl implements CustomerService {
        return customerDao.getByPrimaryId(customerNumber);
     }
 
+    public Customer getByTaxNumber(String taxNumber) {
+        return customerDao.getByTaxNumber(taxNumber);
+    }
+    
     public CustomerDao getCustomerDao() {
         return customerDao;
     }

@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="labor-accountingInformation"
-		parent="labor-accountingInformation-parent" />
+	<bean id="labor-SalaryExpenseTransfer-accountingInformation"
+		parent="labor-SalaryExpenseTransfer-accountingInformation-parent" />
 
 	<bean parent="AccountingLineView-line"
-		id="labor-accountingInformation-parent" abstract="true">
+		id="labor-SalaryExpenseTransfer-accountingInformation-parent" abstract="true">
 		<property name="elementName" value="accountingInformation" />
 		<property name="fields">
 			<list>
@@ -23,11 +23,87 @@
 				<bean parent="AccountingLineView-field"
 					p:name="documentNumber" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="chartOfAccountsCode" p:required="true"
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true"
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
 				<bean parent="AccountingLineView-field"
-					p:name="accountNumber" p:required="true"
+					p:name="accountNumber" p:required="true" p:useShortLabel="true"
+					p:webUILeaveFieldFunction="loadAccountInfo"
+					p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="accountExpiredOverride" />
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="nonFringeAccountOverride" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" 
+					p:name="subAccountNumber" p:useShortLabel="true"
+					p:webUILeaveFieldFunction="loadSubAccountInfo"
+					p:dynamicLabelProperty="subAccount.subAccountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="financialObjectCode" p:required="true" p:useShortLabel="true"
+					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean
+								parent="AccountingLineView-overrideField"
+								p:name="objectBudgetOverride" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode" p:useShortLabel="true"
+					p:webUILeaveFieldFunction="loadSubObjectInfo"
+					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+				<bean parent="AccountingLineView-field"
+					p:name="projectCode"  p:useShortLabel="true"
+				    p:webUILeaveFieldFunction="loadProjectInfo"
+					p:dynamicLabelProperty="project.projectDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="organizationReferenceId" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field"
+					p:name="positionNumber" p:required="true" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalYear" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollTotalHours" p:useShortLabel="true" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- accountingInformation for Labor Journal Voucher line -->
+		
+	<bean id="labor-KualiLaborJournalVoucherDocument-accountingInformation"
+		parent="labor-KualiLaborJournalVoucherDocument-accountingInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-KualiLaborJournalVoucherDocument-accountingInformation-parent" abstract="true">
+		<property name="elementName" value="accountingInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="postingYear" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="overrideCode" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="sequenceNumber" p:hidden="true" />					
+				<bean parent="AccountingLineView-field"
+					p:name="versionNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="documentNumber" p:hidden="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true"
+					p:webUILeaveFieldFunction="loadChartInfo"
+					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="accountNumber" p:required="true" p:useShortLabel="true" 
 					p:webUILeaveFieldFunction="loadAccountInfo"
 					p:dynamicLabelProperty="account.accountName">
 					<property name="overrideFields">
@@ -42,7 +118,7 @@
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field"
-					p:name="subAccountNumber"
+					p:name="subAccountNumber" p:useShortLabel="true" 
 					p:webUILeaveFieldFunction="loadSubAccountInfo"
 					p:dynamicLabelProperty="subAccount.subAccountName" />
 				<bean parent="AccountingLineView-field"
@@ -57,22 +133,98 @@
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field"
-					p:name="financialSubObjectCode"
+					p:name="objectTypeCode" p:required="true" p:useShortLabel="true" 
+					p:webUILeaveFieldFunction="loadObjectTypeInfo"
+					p:dynamicLabelProperty="ObjectType-name" />				
+				<bean parent="AccountingLineView-field"
+					p:name="financialSubObjectCode" p:useShortLabel="true" 
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
 					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
 				<bean parent="AccountingLineView-field"
-					p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
+					p:name="projectCode"  p:useShortLabel="true" 
+					p:webUILeaveFieldFunction="loadProjectInfo"
 					p:dynamicLabelProperty="project.projectDescription" />
 				<bean parent="AccountingLineView-field"
-					p:name="organizationReferenceId" />
+					p:name="organizationReferenceId" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />					
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="labor-KualiLaborJournalVoucherDocument-employeeInformation"
+		parent="labor-KualiLaborJournalVoucherDocument-employeeInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-KualiLaborJournalVoucherDocument-employeeInformation-parent" abstract="true">
+		<property name="elementName" value="employeeInformation" />
+		<property name="fields">
+			<list>
 				<bean parent="AccountingLineView-field"
-					p:name="positionNumber" p:required="true" />
+					p:name="positionNumber" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollEndDateFiscalYear" />
+					p:name="emplid" p:useShortLabel="true" />					
 				<bean parent="AccountingLineView-field"
-					p:name="payrollEndDateFiscalPeriodCode" />
+					p:name="employeeRecord" p:useShortLabel="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollTotalHours" />					
+					p:name="earnCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payGroup" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salaryAdministrationPlan" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="grade" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="runIdentifier" p:useShortLabel="true" />					
+			</list>
+		</property>
+	</bean>	
+	
+	
+	<bean id="labor-KualiLaborJournalVoucherDocument-payInformation"
+		parent="labor-KualiLaborJournalVoucherDocument-payInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-KualiLaborJournalVoucherDocument-payInformation-parent" abstract="true">
+		<property name="elementName" value="payInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="payPeriodEndDate" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalYear" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="payrollEndDateFiscalPeriodCode" p:required="true" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="transactionTotalHours" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="laborLedgerOriginalChartOfAccountsCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="laborLedgerOriginalAccountNumber" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="laborLedgerOriginalSubAccountNumber" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="laborLedgerOriginalFinancialObjectCode" p:useShortLabel="true" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="labor-KualiLaborJournalVoucherDocument-companyInformation"
+		parent="labor-KualiLaborJournalVoucherDocument-companyInformation-parent" />
+
+	<bean parent="AccountingLineView-line"
+		id="labor-KualiLaborJournalVoucherDocument-companyInformation-parent" abstract="true">
+		<property name="elementName" value="companyInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="laborLedgerOriginalFinancialSubObjectCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="hrmsCompany" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="encumbranceUpdateCode" p:useShortLabel="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="setid" p:useShortLabel="true" />
 			</list>
 		</property>
 	</bean>
@@ -88,12 +240,33 @@
 				<bean parent="AccountingLineView-lines">
 					<property name="lines">
 						<list>
-							<ref bean="labor-accountingInformation" />
+							<ref bean="labor-SalaryExpenseTransfer-accountingInformation" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="amount"
-					p:required="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView"
+		parent="labor-KualiLaborJournalVoucherDocument-accountingLineView-parent" />
+
+	<bean id="labor-KualiLaborJournalVoucherDocument-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="labor-KualiLaborJournalVoucherDocument-accountingInformation" />
+							<ref bean="labor-KualiLaborJournalVoucherDocument-employeeInformation" />
+							<ref bean="labor-KualiLaborJournalVoucherDocument-payInformation" />
+							<ref bean="labor-KualiLaborJournalVoucherDocument-companyInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-actions" />						
 			</list>
 		</property>
 	</bean>
@@ -117,5 +290,5 @@
 			</list>
 		</property>
 	</bean>
-
+	
 </beans>

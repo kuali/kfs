@@ -47,6 +47,21 @@
         <ref bean="KualiLaborJournalVoucherDocument-offsetTypeCode" />
       </list>
     </property>
+    
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+    			<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" />
+    		</entry>
+    	</map>
+     </property>  
+     <property name="routingDataGenerators">
+    	<list>
+    		<value>subFundGroupRoutingDataGenerator</value>
+    	</list>
+     </property>
+        
   </bean>
 
 <!-- Attribute Definitions -->
@@ -130,4 +145,18 @@
       </list>
     </property>
   </bean>
+  
+    <!-- accounting line groups -->
+    <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />
+    
+    <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+		<property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView" />
+   	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+    	<property name="groupLabel" value="" />
+    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+    	<property name="importedLinePropertyPrefix" value="source" />
+    	<property name="totals" ref="labor-AccountingDocument-sourceGroupTotals" />
+    	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
+    </bean>
+  
 </beans>

@@ -26,6 +26,7 @@ import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
  */
 public class AccountingLineGroupTotalDefinition extends TotalDefinition {
     private String totalProperty;
+    private String totalLabelProperty = "accounting.line.group.total.label";
     
     /**
      * Gets the totalProperty attribute. 
@@ -44,12 +45,29 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition {
     }
 
     /**
+     * Gets the totalLabelProperty attribute. 
+     * @return Returns the totalLabelProperty.
+     */
+    public String getTotalLabelProperty() {
+        return totalLabelProperty;
+    }
+
+    /**
+     * Sets the totalLabelProperty attribute value.
+     * @param totalLabelProperty The totalLabelProperty to set.
+     */
+    public void setTotalLabelProperty(String totalLabelProperty) {
+        this.totalLabelProperty = totalLabelProperty;
+    }
+    
+    /**
      * Uses GroupTotalRenderer to render the total
      * @see org.kuali.kfs.sys.document.datadictionary.TotalDefinition#getTotalRenderer()
      */
     @Override
     public Renderer getTotalRenderer() {
         GroupTotalRenderer renderer = new GroupTotalRenderer();
+        renderer.setTotalLabelProperty(totalLabelProperty);
         renderer.setTotalProperty(totalProperty);
         return renderer;
     }

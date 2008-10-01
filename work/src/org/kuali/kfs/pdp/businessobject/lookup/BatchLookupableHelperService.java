@@ -31,6 +31,7 @@ import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.dataaccess.impl.util.PdpDataaccessUtil;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -57,7 +58,6 @@ import org.kuali.rice.kns.web.format.BooleanFormatter;
 public class BatchLookupableHelperService extends KualiLookupableHelperServiceImpl {
     private BatchMaintenanceService batchMaintenanceService;
     private KualiConfigurationService configurationService;
-    private DateTimeService dateTimeService;
     private LookupDao lookupDao;
 
     /**
@@ -66,19 +66,34 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         Map parameters = super.getParameters();
+        String errorList;
 
         if (parameters.containsKey(PdpParameterConstants.BatchConstants.ACTION_SUCCESSFUL_PARAM)) {
             String[] actionSuccessRequestParm = (String[]) parameters.get(PdpParameterConstants.BatchConstants.ACTION_SUCCESSFUL_PARAM);
             Boolean actionSuccess = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(actionSuccessRequestParm[0]);
 
             if (actionSuccess != null) {
-                if (parameters.containsKey(PdpParameterConstants.BatchConstants.MESSAGE_PARAM)) {
-                    String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.BatchConstants.MESSAGE_PARAM);
-                    String message = messageRequestParm[0];
-                    if (!actionSuccess) {
-                        GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, message);
+
+                if (!actionSuccess) {
+
+                    //if the action performed on batch was not successful we get the error message list and add them to GlobalVariables errorMap
+                    if (parameters.containsKey(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM)) {
+                        String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM);
+                        errorList = errorListParam[0];
+                        if (StringUtils.isNotEmpty(errorList)) {
+                            String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR);
+                            for (String error : errorMsgs) {
+                                if (StringUtils.isNotEmpty(error)) {
+                                    GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                }
+                            }
+                        }
                     }
-                    else {
+                }
+                else {
+                    if (parameters.containsKey(PdpParameterConstants.BatchConstants.MESSAGE_PARAM)) {
+                        String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.BatchConstants.MESSAGE_PARAM);
+                        String message = messageRequestParm[0];
                         GlobalVariables.getMessageList().add(message);
                     }
                 }
@@ -92,23 +107,16 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             // to get the batches on that date;
             // that is because the file creation timestamp is a Timestamp in the BO but comes as a date from the GUI - we don't want
             // to have the user enter the time too
-            if (!StringUtils.isEmpty(fileCreationTimeValue)) {
-                String wildCards = "";
-                for (int i = 0; i < KFSConstants.QUERY_CHARACTERS.length; i++) {
-                    wildCards += KFSConstants.QUERY_CHARACTERS[i];
-                }
-                if (StringUtils.containsNone(fileCreationTimeValue, wildCards)) {
 
-                    fieldValues.remove(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
+            Criteria additionalCriteria = PdpDataaccessUtil.createAdditionalRangeCriteriaForTimestampField(fileCreationTimeValue);
+            if (additionalCriteria != null) {
 
-                    Criteria additionalCriteria = createAdditionalCriteria(fileCreationTimeValue);
+                fieldValues.remove(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME);
+                boolean unbounded = false;
+                boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
+                List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
+                return searchResults;
 
-                    boolean unbounded = false;
-                    boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
-                    List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
-                    return searchResults;
-
-                }
             }
         }
 
@@ -119,36 +127,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
     /**
-     * This method creates additional criteria for the lookup when fileCreationTime is a single date (does not have any wildcards);
-     * The file creation timestamp is a Timestamp in the BO but comes as a date from the GUI - we don't want to have the user enter the time too.
-     * 
-     * @param fileCreationTimeValue
-     * @return
-     */
-    private Criteria createAdditionalCriteria(String fileCreationTimeValue) {
-        Criteria additionalCriteria = new Criteria();
-        try {
-            Date startDate = dateTimeService.convertToSqlDate(fileCreationTimeValue);
-            Timestamp startTime = new Timestamp(startDate.getTime());
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startTime);
-            calendar.add(Calendar.HOUR, 24);
-            Timestamp endTime = new Timestamp(calendar.getTimeInMillis());
-
-            additionalCriteria.addLessThan(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, endTime);
-            additionalCriteria.addGreaterOrEqualThan(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, startTime);
-        }
-        catch (Exception e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME, KFSKeyConstants.ERROR_DATE_TIME, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Batch.class, PdpPropertyConstants.BatchConstants.Fields.FILE_CREATION_TIME));
-            throw new ValidationException("errors in search criteria");
-        }
-
-        return additionalCriteria;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -169,7 +149,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -244,7 +225,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.ORG_CODE);
         String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.Fields.SUB_UNIT_CODE);
 
-        //check if there is any search criteria entered
+        // check if there is any search criteria entered
         if (StringUtils.isEmpty(batchIdValue) && StringUtils.isEmpty(chartCodeValue) && StringUtils.isEmpty(orgCodeValue) && StringUtils.isEmpty(subUnitCodeValue) && StringUtils.isEmpty(paymentCountValue) && StringUtils.isEmpty(paymentTotalAmountValue) && StringUtils.isEmpty(fileCreationTimeValue)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_HEADER_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_NONE_ENTERED);
         }
@@ -269,6 +250,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
     /**
      * This method gets the kualiConfigurationService.
+     * 
      * @return the configurationService
      */
     public KualiConfigurationService getConfigurationService() {
@@ -277,6 +259,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
     /**
      * This method sets the configurationService.
+     * 
      * @param configurationService KualiConfigurationService
      */
     public void setConfigurationService(KualiConfigurationService configurationService) {
@@ -285,6 +268,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
     /**
      * This method gets the batchMaintenanceService.
+     * 
      * @return the batchMaintenanceService
      */
     public BatchMaintenanceService getBatchMaintenanceService() {
@@ -293,6 +277,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
     /**
      * This method sets the batchMaintenanceService.
+     * 
      * @param batchMaintenanceService BatchMaintenanceService
      */
     public void setBatchMaintenanceService(BatchMaintenanceService batchMaintenanceService) {
@@ -300,23 +285,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
     /**
-     * This method gets the dateTimeService.
-     * @return dateTimeService
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * This method sete the dateTimeService.
-     * @param dateTimeService DateTimeService
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    /**
      * This method gets the lookupDao.
+     * 
      * @return the lookupDao
      */
     public LookupDao getLookupDao() {
@@ -325,6 +295,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
     /**
      * This method sets lookupDao.
+     * 
      * @param lookupDao LookupDao
      */
     public void setLookupDao(LookupDao lookupDao) {

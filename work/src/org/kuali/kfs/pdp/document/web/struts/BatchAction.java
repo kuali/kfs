@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.document.web.struts;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,15 +29,17 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.batch.util.PdpBatchQuestionCallback;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
-import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -58,7 +61,8 @@ public class BatchAction extends KualiAction {
 
 
     /**
-     * This method confirms batch cancel action.
+     * This method confirms and performs batch cancel.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -68,6 +72,128 @@ public class BatchAction extends KualiAction {
      */
     public ActionForward confirmAndCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
+            public boolean doPostQuestion(String batchIdString, String cancelNote, UniversalUser user) {
+                return performCancel(batchIdString, cancelNote, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_QUESTION, PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_MESSAGE, PdpKeyConstants.BatchConstants.Messages.BATCH_SUCCESSFULLY_CANCELED, "confirmAndCancel", callback);
+
+    }
+
+    /**
+     * This method cancels a batch.
+     * 
+     * @param batchIdString a string representing the batch id
+     * @param cancelNote the cancelation note entered by the user
+     * @param user the current user
+     */
+    private boolean performCancel(String batchIdString, String cancelNote, UniversalUser user) {
+        try {
+            Integer batchId = Integer.parseInt(batchIdString);
+            return batchMaintenanceService.cancelPendingBatch(batchId, cancelNote, user);
+        }
+        catch (NumberFormatException e) {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            return false;
+        }
+
+    }
+
+    /**
+     * This method confirms and performs batch hold.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
+            public boolean doPostQuestion(String batchIdString, String note, UniversalUser user) {
+                return performHold(batchIdString, note, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_QUESTION, PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_MESSAGE, PdpKeyConstants.BatchConstants.Messages.BATCH_SUCCESSFULLY_HOLD, "confirmAndHold", callback);
+    }
+
+    /**
+     * This method holds a batch
+     * 
+     * @param batchIdString
+     * @param holdNote
+     * @param user
+     * @throws PdpException
+     */
+    private boolean performHold(String batchIdString, String holdNote, UniversalUser user) {
+        try {
+            Integer batchId = Integer.parseInt(batchIdString);
+            return batchMaintenanceService.holdPendingBatch(batchId, holdNote, user);
+        }
+        catch (NumberFormatException e) {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            return false;
+        }
+
+    }
+
+    /**
+     * This method confirms and peforms remove hold on batch action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
+            public boolean doPostQuestion(String batchIdString, String note, UniversalUser user) {
+                return performRemoveHold(batchIdString, note, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_QUESTION, PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_MESSAGE, PdpKeyConstants.BatchConstants.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_BATCH, "confirmAndRemoveHold", callback);
+    }
+
+    /**
+     * This method removes a batch hold.
+     * 
+     * @param batchIdString
+     * @param changeText
+     * @param user
+     * @throws PdpException
+     */
+    private boolean performRemoveHold(String batchIdString, String changeText, UniversalUser user) {
+        try {
+            Integer batchId = Integer.parseInt(batchIdString);
+            return batchMaintenanceService.removeBatchHold(batchId, changeText, user);
+        }
+        catch (NumberFormatException e) {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
+            return false;
+        }
+
+    }
+
+    /**
+     * This method prompts for a reason to perfomr an action on a batch (cancel, hold, remove hold).
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param confirmationQuestion
+     * @param confirmationText
+     * @param caller
+     * @param callback
+     * @return
+     * @throws Exception
+     */
+    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String confirmationQuestion, String confirmationText, String successMessage, String caller, PdpBatchQuestionCallback callback) throws Exception {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String cancelNoteText = KFSConstants.EMPTY_STRING;
@@ -81,16 +207,16 @@ public class BatchAction extends KualiAction {
         }
 
         KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-        String confirmationText = kualiConfiguration.getPropertyString(PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_MESSAGE);
+        confirmationText = kualiConfiguration.getPropertyString(confirmationText);
         confirmationText = MessageFormat.format(confirmationText, batchId);
 
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, "confirmCancel", batchId);
+            return this.performQuestionWithInput(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, caller, batchId);
         }
         else {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if ((confirmationQuestion.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 actionStatus = false;
             }
             else {
@@ -104,228 +230,33 @@ public class BatchAction extends KualiAction {
                         // prevent a NPE by setting the reason to a blank string
                         reason = KFSConstants.EMPTY_STRING;
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
                 else if (noteTextLength > noteTextMaxLength) {
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.CANCEL_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
 
-                try {
-                    performCancel(batchId, cancelNoteText, universalUser);
-                    actionStatus = true;
-                    message = PdpKeyConstants.BatchConstants.Messages.BATCH_SUCCESSFULLY_CANCELED;
+                actionStatus = callback.doPostQuestion(batchId, cancelNoteText, universalUser);
+                if (actionStatus) {
+                    message = successMessage;
                 }
-                catch (PdpException pdpe) {
-                    actionStatus = false;
-                    message = pdpe.getMessage();
-                }
+
             }
         }
-        String returnUrl = buildUrl(batchId, actionStatus, message);
+
+        String returnUrl = buildUrl(batchId, actionStatus, message, buildErrorMesageKeyList());
         return new ActionForward(returnUrl, true);
-
-    }
-
-    /**
-     * This method cancels a batch.
-     * 
-     * @param batchIdString a string representing the batch id
-     * @param cancelNote the cancelation note entered by the user
-     * @param user the current user
-     */
-    private void performCancel(String batchIdString, String cancelNote, UniversalUser user) throws PdpException {
-        try {
-            Integer batchId = Integer.parseInt(batchIdString);
-            batchMaintenanceService.cancelPendingBatch(batchId, cancelNote, user);
-        }
-        catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
-        }
-
-    }
-
-    /**
-     * This method confirms batch hold action
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-        String holdNoteText = KFSConstants.EMPTY_STRING;
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-        boolean actionStatus;
-        String message = KFSConstants.EMPTY_STRING;
-
-        String batchId = request.getParameter(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM);
-        if (batchId == null) {
-            batchId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
-        }
-
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-        String confirmationText = kualiConfiguration.getPropertyString(PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_MESSAGE);
-        confirmationText = MessageFormat.format(confirmationText, batchId);
-
-        if (question == null) {
-            // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, "confirmHold", batchId);
-        }
-        else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                actionStatus = false;
-            }
-            else {
-                holdNoteText = reason;
-                int noteTextLength = (reason == null) ? 0 : holdNoteText.length();
-                int noteTextMaxLength = PdpKeyConstants.BatchConstants.Confirmation.NOTE_TEXT_MAX_LENGTH;
-
-                if (StringUtils.isBlank(reason)) {
-
-                    if (reason == null) {
-                        // prevent a NPE by setting the reason to a blank string
-                        reason = KFSConstants.EMPTY_STRING;
-                    }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
-                }
-                else if (noteTextLength > noteTextMaxLength) {
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
-                }
-
-                try {
-                    performHold(batchId, holdNoteText, universalUser);
-                    actionStatus = true;
-                    message = PdpKeyConstants.BatchConstants.Messages.BATCH_SUCCESSFULLY_HOLD;
-                }
-                catch (PdpException pdpe) {
-                    actionStatus = false;
-                    message = pdpe.getMessage();
-                }
-            }
-        }
-
-        String returnUrl = buildUrl(batchId, actionStatus, message);
-        return new ActionForward(returnUrl, true);
-    }
-
-    /**
-     * This method holds a batch
-     * @param batchIdString
-     * @param holdNote
-     * @param user
-     * @throws PdpException
-     */
-    private void performHold(String batchIdString, String holdNote, UniversalUser user) throws PdpException {
-        try {
-            Integer batchId = Integer.parseInt(batchIdString);
-            batchMaintenanceService.holdPendingBatch(batchId, holdNote, user);
-        }
-        catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
-        }
-
-    }
-
-    /**
-     * This method confirms remove hold action
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-        String removeHoldNoteText = KFSConstants.EMPTY_STRING;
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-        boolean actionStatus;
-        String message = KFSConstants.EMPTY_STRING;
-
-        String batchId = request.getParameter(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM);
-        if (batchId == null) {
-            batchId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
-        }
-
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-        String confirmationText = kualiConfiguration.getPropertyString(PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_MESSAGE);
-        confirmationText = MessageFormat.format(confirmationText, batchId);
-
-        if (question == null) {
-            // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, "confirmHold", batchId);
-        }
-        else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
-            if ((PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                actionStatus = false;
-            }
-            else {
-                removeHoldNoteText = reason;
-                int noteTextLength = (reason == null) ? 0 : removeHoldNoteText.length();
-                int noteTextMaxLength = PdpKeyConstants.BatchConstants.Confirmation.NOTE_TEXT_MAX_LENGTH;
-
-                if (StringUtils.isBlank(reason)) {
-
-                    if (reason == null) {
-                        // prevent a NPE by setting the reason to a blank string
-                        reason = KFSConstants.EMPTY_STRING;
-                    }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
-                }
-                else if (noteTextLength > noteTextMaxLength) {
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PdpKeyConstants.BatchConstants.Confirmation.REMOVE_HOLD_BATCH_QUESTION, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
-                }
-
-                try {
-                    performRemoveHold(batchId, removeHoldNoteText, universalUser);
-                    actionStatus = true;
-                    message = PdpKeyConstants.BatchConstants.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_BATCH;
-
-                }
-                catch (PdpException pdpe) {
-
-                    actionStatus = false;
-                    message = pdpe.getMessage();
-                }
-            }
-        }
-
-        String returnUrl = buildUrl(batchId, actionStatus, message);
-        return new ActionForward(returnUrl, true);
-    }
-
-    /**
-     * This method removes a batch hold.
-     * @param batchIdString
-     * @param changeText
-     * @param user
-     * @throws PdpException
-     */
-    private void performRemoveHold(String batchIdString, String changeText, UniversalUser user) throws PdpException {
-        try {
-            Integer batchId = Integer.parseInt(batchIdString);
-            batchMaintenanceService.removeBatchHold(batchId, changeText, user);
-        }
-        catch (NumberFormatException e) {
-            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_ID_IS_NOT_NUMERIC);
-        }
-
     }
 
     /**
      * This method builds the forward url.
+     * 
      * @param batchId the batch id
      * @param success action status: true if success, false otherwise
      * @param message the message for the user
      * @return the build url
      */
-    private String buildUrl(String batchId, boolean success, String message) {
+    private String buildUrl(String batchId, boolean success, String message, String errorList) {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
         Properties parameters = new Properties();
@@ -341,13 +272,41 @@ public class BatchAction extends KualiAction {
             parameters.put(PdpParameterConstants.BatchConstants.MESSAGE_PARAM, message);
         }
 
+        if (StringUtils.isNotEmpty(errorList)) {
+            parameters.put(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM, errorList);
+        }
+
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
 
         return lookupUrl;
     }
 
     /**
+     * This method build a string list of error message keys out of the error map in GlobalVariables
+     * 
+     * @return a String representing the list of error message keys
+     */
+    private String buildErrorMesageKeyList() {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        StringBuffer errorList = new StringBuffer();
+
+        for (String errorKey : (List<String>) errorMap.getPropertiesWithErrors()) {
+            for (ErrorMessage errorMessage : (List<ErrorMessage>) errorMap.getMessages(errorKey)) {
+
+                errorList.append(errorMessage.getErrorKey());
+                errorList.append(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR);
+            }
+        }
+        if (errorList.length() > 0) {
+            errorList.replace(errorList.lastIndexOf(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR), errorList.lastIndexOf(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR) + PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR.length(), "");
+        }
+
+        return errorList.toString();
+    }
+
+    /**
      * This method gets the batch maintenance service.
+     * 
      * @return the BatchMaintenanceService
      */
     public BatchMaintenanceService getBatchMaintenanceService() {
@@ -356,6 +315,7 @@ public class BatchAction extends KualiAction {
 
     /**
      * This method sets the batch maintenance service.
+     * 
      * @param batchMaintenanceService
      */
     public void setBatchMaintenanceService(BatchMaintenanceService batchMaintenanceService) {

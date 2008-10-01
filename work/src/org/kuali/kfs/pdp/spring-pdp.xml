@@ -500,10 +500,7 @@
         </property>
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
-        <ref bean="pdpBatchMaintenanceService"/>
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService"/>
+            <ref bean="pdpBatchMaintenanceService"/>
         </property>
         <property name="lookupDao">
             <ref bean="lookupDao"/>

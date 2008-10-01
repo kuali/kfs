@@ -71,8 +71,8 @@ public class PdpKeyConstants {
         
         public static class Messages {
             public static final String BATCH_SUCCESSFULLY_CANCELED = "message.batch.successfullyCanceled";
-            public static final String BATCH_SUCCESSFULLY_HOLD = "message.batch.successfullyCanceled";
-            public static final String HOLD_SUCCESSFULLY_REMOVED_ON_BATCH = "message.batch.successfullyCanceled";
+            public static final String BATCH_SUCCESSFULLY_HOLD = "message.batch.successfullyHold";
+            public static final String HOLD_SUCCESSFULLY_REMOVED_ON_BATCH = "message.batch.successfullyRemoveHold";
         }
         
         public static class LinkText{

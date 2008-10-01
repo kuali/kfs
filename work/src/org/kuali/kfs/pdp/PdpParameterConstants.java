@@ -29,6 +29,8 @@ public class PdpParameterConstants {
         public static final String BATCH_ID_PARAM = "batchId";
         public static final String ACTION_SUCCESSFUL_PARAM = "actionSuccesful";
         public static final String MESSAGE_PARAM = "message";
+        public static final String ERROR_KEY_LIST_PARAM = "errorKeyList";
+        public static final String ERROR_KEY_LIST_SEPARATOR = ";";
     }
     
     public static class PaymentDetail {

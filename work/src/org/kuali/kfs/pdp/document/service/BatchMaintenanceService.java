@@ -18,7 +18,6 @@
  */
 package org.kuali.kfs.pdp.document.service;
 
-import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
@@ -28,33 +27,33 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
  * This class defines services for Batch maintenance.
  */
 public interface BatchMaintenanceService {
-    
+
     /**
      * This method cancels a pending Batch.
      * @param batchId the id of the batch to be canceled
-     * @param note a note stating the reason for the batch cancelation
+     * @param note  a note stating the reason for the batch cancelation
      * @param user the user that performed the batch cancelation
-     * @throws PdpException
+     * @return true if batch successfully canceled, false otherwise
      */
-    public void cancelPendingBatch(Integer batchId, String note, UniversalUser user) throws PdpException;
+    public boolean cancelPendingBatch(Integer batchId, String note, UniversalUser user);
 
     /**
      * This method holds a pending Batch.
      * @param batchId the id of the batch to perfomr hold on
      * @param note a nite stating the reason for holding batch
      * @param user the user that performed the batch hold
-     * @throws PdpException
+     * @return true if batch successfully hold, false otherwise
      */
-    public void holdPendingBatch(Integer batchId, String note, UniversalUser user) throws PdpException;
+    public boolean holdPendingBatch(Integer batchId, String note, UniversalUser user);
 
     /**
      * This method removes a hold on a Batch.
      * @param batchId the id of the batch we want to remove the hold
      * @param changeText a text stating the reason for removing the hold
      * @param user the user that removed hold on batch
-     * @throws PdpException
+     * @return  true if batch hold successfully removed, false otherwise
      */
-    public void removeBatchHold(Integer batchId, String changeText, UniversalUser user) throws PdpException;
+    public boolean removeBatchHold(Integer batchId, String changeText, UniversalUser user);
 
     /**
      * This method checks if the batch has open payments.

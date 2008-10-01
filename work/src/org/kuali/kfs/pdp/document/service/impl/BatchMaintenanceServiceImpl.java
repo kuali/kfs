@@ -30,9 +30,10 @@ import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
-import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,10 +44,18 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceServiceImpl.class);
 
     private BatchMaintenanceDao batchMaintenanceDao;
+    private KualiCodeService kualiCodeService;
     private PaymentGroupDao paymentGroupDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
-    private KualiCodeService kualiCodeService;
-
+   
+    /**
+     * This method changes the status for PaymentGroup and PaymentGroupHistory.
+     * 
+     * @param paymentGroup the PaymentGroup to change the status
+     * @param newPaymentStatus the new payment status
+     * @param changeStatus the payment change status code
+     * @param note a note from the user
+     */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
@@ -78,7 +87,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void cancelPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
+    public boolean cancelPendingBatch(Integer paymentBatchId, String note, UniversalUser user) {
         LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
@@ -86,7 +95,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                return false;
             }
 
             // cancel each payment
@@ -100,8 +112,11 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         else {
             LOG.debug("cancelPendingBatch() Not all payment groups are open; cannot cancel batch.");
 
-            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
+            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
+            
+            return false;
         }
+        return true;
     }
 
     /**
@@ -112,7 +127,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void holdPendingBatch(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
+    public boolean holdPendingBatch(Integer paymentBatchId, String note, UniversalUser user) {
         LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
@@ -120,7 +135,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                return false;
             }
 
             // hold each payment
@@ -133,9 +151,12 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
-
-            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
+            
+            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
+            
+            return false;
         }
+        return true;
     }
 
     /**
@@ -146,7 +167,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public void removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) throws PdpException {
+    public boolean removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) {
         LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
@@ -154,7 +175,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
-                throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
+                
+                return false;
             }
 
             // hold each payment
@@ -167,9 +191,12 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("removeBatchHold() Not all payment groups are open; cannot remove hold on batch.");
-
-            throw new PdpException(PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
+            
+            GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
+            
+            return false;
         }
+        return true;
 
     }
 
@@ -207,6 +234,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     /**
      * This method sets paymentGroupDao
+     * 
      * @param dao PaymentGroupDao
      */
     public void setPaymentGroupDao(PaymentGroupDao dao) {
@@ -215,6 +243,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     /**
      * This method sets paymentGroupHistoryDao
+     * 
      * @param dao PaymentGroupHistoryDao
      */
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao dao) {
@@ -223,6 +252,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     /**
      * This method sets the batchMaintenanceDao
+     * 
      * @param batchMaintenanceDao BatchMaintenanceDao
      */
     public void setBatchMaintenanceDao(BatchMaintenanceDao batchMaintenanceDao) {
@@ -231,6 +261,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     /**
      * This method gets the kualiCodeService.
+     * 
      * @return KualiCodeService
      */
     public KualiCodeService getKualiCodeService() {
@@ -239,6 +270,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     /**
      * This method sets the kualiCodeService
+     * 
      * @param kualiCodeService
      */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {

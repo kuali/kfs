@@ -142,7 +142,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 appliedPayments.add(new InvoicePaidApplied());
             }
         }
-        return (InvoicePaidApplied) appliedPayments.get(index);
+        return appliedPayments.get(index);
     }
 
     /**
@@ -157,7 +157,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 nonInvoicedPayments.add(new NonInvoiced());
             }
         }
-        return (NonInvoiced) nonInvoicedPayments.get(index);
+        return nonInvoicedPayments.get(index);
     }
 
     public List<NonInvoiced> getNonInvoicedPayments() {

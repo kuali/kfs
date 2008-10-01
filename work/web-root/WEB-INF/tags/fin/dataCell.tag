@@ -135,7 +135,7 @@
 		    render="${inquiry && canRenderInquiry}"
 		    >
 		    <html:hidden write="true" property="${cellProperty}" style="${textStyle}" />
-		</kul:inquiry>    
+		</kul:inquiry>&nbsp;    
     </kul:htmlControlAttribute>
 
     <%-- lookup control --%>

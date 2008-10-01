@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
@@ -114,7 +115,7 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
-        return ArConstants.CustomerLoad.MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER;
+        return ArKeyConstants.CustomerLoad.MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER;
     }
 
     /**

@@ -896,6 +896,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument" table="PUR_PO_T">
@@ -1122,6 +1132,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument" table="PUR_PO_T">
@@ -1349,6 +1369,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument" table="PUR_PO_T">
@@ -1575,6 +1605,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument" table="PUR_PO_T">
@@ -1801,6 +1841,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument" table="PUR_PO_T">
@@ -2027,6 +2077,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument" table="PUR_PO_T">
@@ -2253,6 +2313,16 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument" table="PUR_PO_T">
@@ -2478,7 +2548,17 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    
+
+    <collection-descriptor name="purchasingCapitalAssetItems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetItemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="purchasingCapitalAssetSystems" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="capitalAssetSystemIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>   
+        
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.PaymentRequestDocument" table="AP_PMT_RQST_T">

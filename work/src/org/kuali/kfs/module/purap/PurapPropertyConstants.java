@@ -41,7 +41,9 @@ public class PurapPropertyConstants {
     public static final String NEW_PURCHASING_ITEM_LINE = "newPurchasingItemLine";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE = "capitalAssetTransactionTypeCode";
-
+    public static final String CAPITAL_ASSET_ITEM_IDENTIFIER = "capitalAssetItemIdentifier";
+    public static final String CAPITAL_ASSET_SYSTEM_IDENTIFIER = "capitalAssetSystemIdentifier";
+    
     // accounting line
     public static final String ACCOUNT_DISTRIBUTION_NEW_SRC_LINE = "accountDistributionnewSourceLine";
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";

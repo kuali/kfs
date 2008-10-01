@@ -637,6 +637,8 @@ public class PurapConstants extends JSTLConstants {
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
         fields.put(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES, null);
+        fields.put(PurapPropertyConstants.CAPITAL_ASSET_ITEM_IDENTIFIER, null);
+        fields.put(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_IDENTIFIER, null);
         return fields;
     }
 

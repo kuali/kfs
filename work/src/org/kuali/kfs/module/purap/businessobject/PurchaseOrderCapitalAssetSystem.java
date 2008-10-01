@@ -3,6 +3,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 
 
@@ -22,28 +23,28 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
        super();
 	}
 	
-	public PurchaseOrderCapitalAssetSystem(RequisitionCapitalAssetSystem reqSystem) {
+	public PurchaseOrderCapitalAssetSystem(CapitalAssetSystem originalSystem) {
 	    super();
-	    this.setCapitalAssetSystemDescription(reqSystem.getCapitalAssetSystemDescription());
-	    this.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(reqSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator());
-	    this.setCapitalAssetTypeCode(reqSystem.getCapitalAssetTypeCode());
-	    this.setCapitalAssetManufacturerName(reqSystem.getCapitalAssetManufacturerName());
-	    this.setCapitalAssetModelDescription(reqSystem.getCapitalAssetModelDescription());
-	    this.setCapitalAssetNoteText(reqSystem.getCapitalAssetNoteText());
-	    populatePurchaseOrderItemCapitalAssets(reqSystem);
-	    populateCapitalAssetLocations(reqSystem);
-	    this.setCapitalAssetCountAssetNumber(reqSystem.getCapitalAssetCountAssetNumber());
+	    this.setCapitalAssetSystemDescription(originalSystem.getCapitalAssetSystemDescription());
+	    this.setCapitalAssetNotReceivedCurrentFiscalYearIndicator(originalSystem.isCapitalAssetNotReceivedCurrentFiscalYearIndicator());
+	    this.setCapitalAssetTypeCode(originalSystem.getCapitalAssetTypeCode());
+	    this.setCapitalAssetManufacturerName(originalSystem.getCapitalAssetManufacturerName());
+	    this.setCapitalAssetModelDescription(originalSystem.getCapitalAssetModelDescription());
+	    this.setCapitalAssetNoteText(originalSystem.getCapitalAssetNoteText());
+	    populatePurchaseOrderItemCapitalAssets(originalSystem);
+	    populateCapitalAssetLocations(originalSystem);
+	    this.setCapitalAssetCountAssetNumber(originalSystem.getCapitalAssetCountAssetNumber());
 	}
-
-	private void populatePurchaseOrderItemCapitalAssets(RequisitionCapitalAssetSystem reqSystem) {
-	    for (ItemCapitalAsset reqAsset : reqSystem.getItemCapitalAssets()) {
+	
+	private void populatePurchaseOrderItemCapitalAssets(CapitalAssetSystem originalSystem) {
+	    for (ItemCapitalAsset reqAsset : originalSystem.getItemCapitalAssets()) {
 	        PurchaseOrderItemCapitalAsset poAsset = new PurchaseOrderItemCapitalAsset(reqAsset.getCapitalAssetNumber());
 	        this.getItemCapitalAssets().add(poAsset);
 	    }
 	}
 	
-	private void populateCapitalAssetLocations(RequisitionCapitalAssetSystem reqSystem) {
-	    for (CapitalAssetLocation reqLocation : reqSystem.getCapitalAssetLocations()) {
+	private void populateCapitalAssetLocations(CapitalAssetSystem originalSystem) {
+	    for (CapitalAssetLocation reqLocation : originalSystem.getCapitalAssetLocations()) {
 	        PurchaseOrderCapitalAssetLocation poLocation = new PurchaseOrderCapitalAssetLocation();
 	        poLocation.setItemQuantity(reqLocation.getItemQuantity());
 	        poLocation.setCampusCode(reqLocation.getCampusCode());

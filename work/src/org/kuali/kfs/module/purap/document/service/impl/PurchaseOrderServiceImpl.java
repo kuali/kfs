@@ -105,6 +105,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -628,14 +629,40 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         for (PurApItem item : (List<PurApItem>) newPurchaseOrderChangeDocument.getItems()) {
             item.getSourceAccountingLines().iterator();
             // we only need to do this once to apply to all items, so we can break out of the loop now
-            break;
+            Integer itemIdentifier = new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("PO_ITM_ID").toString());
+            item.setItemIdentifier(itemIdentifier); 
         }
 
+        updateCapitalAssetRelatedCollections(newPurchaseOrderChangeDocument);
         newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
         
         return newPurchaseOrderChangeDocument;
     }
 
+    private void updateCapitalAssetRelatedCollections(PurchaseOrderDocument newDocument) {
+ 
+        for (PurchasingCapitalAssetItem capitalAssetItem : newDocument.getPurchasingCapitalAssetItems()) {
+            Integer lineNumber = capitalAssetItem.getPurchasingItem().getItemLineNumber();
+            PurApItem newItem = newDocument.getItemByLineNumber(lineNumber.intValue());
+            capitalAssetItem.setItemIdentifier(newItem.getItemIdentifier());
+            capitalAssetItem.setPurchasingDocument(newDocument);
+            capitalAssetItem.setCapitalAssetSystemIdentifier(null);
+//            if (capitalAssetItem.getPurchasingCapitalAssetSystem() != null) {
+//                for (CapitalAssetLocation loc : capitalAssetItem.getPurchasingCapitalAssetSystem().getCapitalAssetLocations()) {
+//                    //loc.setCapitalAssetLocationIdentifier(null);
+//                    loc.setCapitalAssetSystemIdentifier(null);
+//                }
+//                for (ItemCapitalAsset asset : capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets()) {
+//                    //asset.setItemCapitalAssetIdentifier(null);
+//                    asset.setCapitalAssetSystemIdentifier(null);
+//                }
+//            }
+            CapitalAssetSystem oldSystem = capitalAssetItem.getPurchasingCapitalAssetSystem();
+            capitalAssetItem.setPurchasingCapitalAssetSystem(new PurchaseOrderCapitalAssetSystem(oldSystem));
+            
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String,
      *      java.lang.String, java.lang.String)

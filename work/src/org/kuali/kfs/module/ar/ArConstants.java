@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar;
 
+
 public class ArConstants {
 
     //System Parameters
@@ -45,11 +46,6 @@ public class ArConstants {
     public static final String LOOKUP_CUSTOMER_NAME = "customerName";
     public static final String LOOKUP_CUSTOMER_NUMBER = "customerNumber";
     public static final String LOOKUP_INVOICE_NUMBER = "invoiceNumber";
-    
-    // PaymentApplicationDocument errors:
-    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_NUMERIC = "error.ar.paymentApplication.amountToBeAppliedMustBeNumeric";
-    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_POSITIVE = "error.ar.paymentApplication.amountToBeAppliedMustBePositive";
-    public static final String ERROR_PAYMENT_APPLICATION_DOCUMNET_AMOUNT_TO_BE_APPLIED_MUST_BE_LESS_EQUAL_TO_DETAIL_AMOUNT = "error.ar.paymentApplication.amountToBeAppliedMustBeLesOrEqualWithTheDetailAmount";
 
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
@@ -66,7 +62,7 @@ public class ArConstants {
         public static final String WIRE_TRANSFER = "WT";
         public static final String CREDIT_CARD = "CR";
     }
-    
+
     public static class CustomerAgingReportFields {        
         // Report Options
         public static final String PROCESSING_ORG = "Processing Organization";
@@ -99,7 +95,6 @@ public class ArConstants {
 
     public static final class CustomerLoad {
         public static final String CUSTOMER_LOAD_FILE_TYPE_IDENTIFIER = "customerLoadInputFileType";
-        public static final String MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.title";
     }
     
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";
@@ -115,7 +110,7 @@ public class ArConstants {
     }
 
     public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
-    
+
     public static final String LOCKBOX_DOCUMENT_DESCRIPTION = "Created by Lockbox ";
     public static final String LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER = "Lockbox: Remittance for INVALID invoice number ";
     public static final String LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER = "Lockbox: Remittance for CLOSED invoice number ";

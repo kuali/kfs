@@ -10,6 +10,7 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.Building;
@@ -19,6 +20,7 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -119,7 +121,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private List<AssetRetirementGlobal> retirementGlobals;
     private ObjSubTyp financialObjectSubType;
     private AssetAcquisitionType acquisitionType;
-    private Agency agency;
+    private ContractsAndGrantsAgency agency;
 
 
     // Non-persisted attributes:
@@ -1897,12 +1899,10 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.acquisitionType = acquisitionType;
     }
 
-    public Agency getAgency() {
-        return agency;
-    }
-
-    public void setAgency(Agency agency) {
-        this.agency = agency;
+    public ContractsAndGrantsAgency getAgency() {
+        return agency = (ContractsAndGrantsAgency)SpringContext.getBean(KualiModuleService.class)
+                            .getResponsibleModuleService(ContractsAndGrantsAgency.class)
+                            .retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
     }
     
     public Integer getQuantity() {

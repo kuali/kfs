@@ -62,6 +62,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
             </map>
         </property> 
 	</bean>

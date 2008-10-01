@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+
 /**
  * Methods which return information needed about Contracts and Grants agencies by other modules.
  */
-public interface ContractsAndGrantsAgency {
+public interface ContractsAndGrantsAgency extends ExternalizableBusinessObject {
     /**
      * Returns the agency number for this agency
      * @return the agency number for the given agency

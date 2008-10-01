@@ -209,6 +209,9 @@
         <dd:relationship objectAttribute="offCampusLocation.assetLocationCountry">
             <dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
         </dd:relationship>
+        <dd:relationship objectAttribute="agency">
+			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber" />
+        </dd:relationship>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">

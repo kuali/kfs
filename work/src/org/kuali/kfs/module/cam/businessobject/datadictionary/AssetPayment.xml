@@ -135,7 +135,7 @@
   <bean id="AssetPayment-account.organizationCode" parent="AssetPayment-account.organizationCode-parentBean" />
   <bean id="AssetPayment-account.organizationCode-parentBean" abstract="true" parent="Account-organizationCode">
     <property name="name" value="account.organizationCode" />
-    <property name="shortLabel" value="Org. Code" />    
+    <property name="shortLabel" value="Organization Code" />    
   </bean>
 
   <bean id="AssetPayment-account.subFundGroupCode" parent="AssetPayment-account.subFundGroupCode-parentBean" />
@@ -198,8 +198,8 @@
   <bean id="AssetPayment-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Account#" />
-    <property name="shortLabel" value="Accnt No" />
+    <property name="label" value="Account Number" />
+    <property name="shortLabel" value="Account Number" />
     <property name="maxLength" value="7" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -255,7 +255,7 @@
     <property name="name" value="capitalAssetNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Asset Number" />
-    <property name="shortLabel" value="Asset#" />
+    <property name="shortLabel" value="Asset Number" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -267,9 +267,12 @@
     <property name="summary" value="capitalAssetNumber" />
     <property name="description" value="capitalAssetNumber description..." />
   </bean>
+  
   <bean id="AssetPayment-chartOfAccountsCode" parent="AssetPayment-chartOfAccountsCode-parentBean" />
-
-  <bean id="AssetPayment-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"></bean>
+  <bean id="AssetPayment-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="label" value="Chart Code" />
+	<property name="shortLabel" value="Chart Code" />    
+  </bean>
   
   <bean id="AssetPayment-documentNumber" parent="AssetPayment-documentNumber-parentBean" />
 
@@ -374,7 +377,7 @@
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub-Object Code" />
-    <property name="shortLabel" value="Sub-Object Code" />
+    <property name="shortLabel" value="Sub-Obj. Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -428,7 +431,7 @@
     <property name="name" value="paymentSequenceNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Sequence Number" />
-    <property name="shortLabel" value="Sequence#" />
+    <property name="shortLabel" value="Seq. #" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -1031,7 +1034,7 @@
     <property name="name" value="subAccountNumber" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sub Account Number" />
-    <property name="shortLabel" value="Number" />
+    <property name="shortLabel" value="Sub Accnt No" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />

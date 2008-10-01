@@ -89,7 +89,7 @@
         p:forceUppercase="false"
         p:label="Capital Asset City Name"
         p:shortLabel="City"
-        p:maxLength="10"
+        p:maxLength="45"
         p:required="false" >
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -125,7 +125,7 @@
         p:forceUppercase="false"
         p:label="Capital Asset Line1 Address"
         p:shortLabel="Address"
-        p:maxLength="10"
+        p:maxLength="45"
         p:required="false" >
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

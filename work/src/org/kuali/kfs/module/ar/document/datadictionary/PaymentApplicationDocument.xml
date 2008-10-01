@@ -26,5 +26,19 @@
         </bean>
       </list>
     </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentApplicationDocument-versionNumber" />
+      </list>
+    </property>
   </bean>
+    
+    
+  <bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean" />
+
+  <bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
+  </bean>
+  
+    
+    
 </beans>

@@ -23,12 +23,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.user.KualiGroup;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -41,12 +43,13 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     /**
      * Adds settings for KFS transactional-document-specific flags.
      * 
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(Document,
+     *      UniversalUser)
      */
     @Override
     public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         LOG.debug("calling FinancialSystemTransactionalDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
-        FinancialSystemTransactionalDocumentActionFlags flags =  new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
+        FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         FinancialSystemTransactionalDocument transactionalDocument = (FinancialSystemTransactionalDocument) document;
         KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
@@ -62,13 +65,18 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         else {
             flags.setHasAmountTotal(false);
         }
-        
-        // check bank specification is enabled and set flag accordingly
+
+        // check bank specification is enabled and the code should be viewable for this document type. set flag accordingly
         boolean bankSpecificationEnabled = SpringContext.getBean(BankService.class).isBankSpecificationEnabled();
-        flags.setCanViewBank(bankSpecificationEnabled);
+        if (bankSpecificationEnabled) {
+            String documentTypeCode = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(document.getClass());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
+
+            flags.setCanViewBank(evaluator.evaluationSucceeds());
+        }
 
         // check user can edit bank and set flag accordingly
-        if (bankSpecificationEnabled) {
+        if (flags.getCanViewBank()) {
             String editBankGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(Bank.class, KFSParameterKeyConstants.BANK_EDITABLE_GROUP);
             try {
                 KualiGroup editBankGroup = SpringContext.getBean(KualiGroupService.class).getByGroupName(editBankGroupName);
@@ -82,6 +90,6 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
 
         return flags;
     }
-    
+
 
 }

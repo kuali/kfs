@@ -319,6 +319,9 @@
 		<property name="balanceTypeService">
 			<ref bean="balanceTypService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 
 	

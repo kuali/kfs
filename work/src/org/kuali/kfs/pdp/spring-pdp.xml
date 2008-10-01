@@ -338,6 +338,8 @@
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
 		<property name="chartService" ref="chartService"/>
 		<property name="accountingPeriodService" ref="accountingPeriodService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
 
 	<bean id="pdpPaymentDetailSearchService" class="org.kuali.kfs.pdp.service.impl.PaymentDetailSearchServiceImpl">
@@ -498,7 +500,7 @@
         </property>
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
-            <ref bean="pdpBatchMaintenanceService"/>
+        <ref bean="pdpBatchMaintenanceService"/>
         </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService"/>
@@ -547,6 +549,15 @@
 	<bean id="dailyReportComparator" class="org.kuali.kfs.pdp.businessobject.options.DailyReportComparator" singleton="false">
 		<property name="paymentGroupService">
 			<ref bean="pdpPaymentGroupService" />
+		</property>
+	</bean>	
+	
+	<bean id="bankChangeHistoryLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" singleton="false">
+	</bean>
+	
+	<bean id="bankChangeHistoryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="bankChangeHistoryLookupableHelperService" />
 		</property>
 	</bean>	
 	

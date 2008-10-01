@@ -22,6 +22,7 @@ public class PdpPropertyConstants {
     public static final String BATCH_ID = "batchId";
     public static final String CUSTOMER_ID = "customerId";
     public static final String CUSTOMER_FILE_CREATE_TIMESTAMP = "customerFileCreateTimestamp";
+    public static final String DISBURSEMENT_TYPE_CODE = "disbursementTypeCode";
     public static final String DETAIL_COUNT = "detailCount";
     public static final String PAYMENT_COUNT = "paymentCount";
     public static final String PAYMENT_TOTAL_AMOUNT = "paymentTotalAmount";
@@ -32,10 +33,7 @@ public class PdpPropertyConstants {
     public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
     public static final String PSD_TRANSACTION_CODE = "psdTransactionCode";
     public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
-    public static final String DISBURSEMENT_VOUCHER_PAYEE_ID_NUMBER = "disbVchrPayeeIdNumber";
     public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";
-    public static final String VENDOR_HEADER_GENERATED_IDENTIFIER = "vendorHeaderGeneratedIdentifier";
-    public static final String VENDOR_DETAIL_ASSIGNED_IDENTIFIER = "vendorDetailAssignedIdentifier";
     
     public static final String CHART_DB_COLUMN_NAME = "fin_coa_cd";
     public static final String ACCOUNT_DB_COLUMN_NAME = "account_nbr";
@@ -43,6 +41,12 @@ public class PdpPropertyConstants {
     public static final String OBJECT_DB_COLUMN_NAME = "fin_object_cd";
     public static final String SUB_OBJECT_DB_COLUMN_NAME = "fin_sub_obj_cd";
     public static final String PROJECT_DB_COLUMN_NAME = "project_cd";
+    public static final String ORIG_BANK_CODE = "origBankCode";
+    public static final String DISBURSEMENT_NBR = "disbursementNbr";
+    public static final String PAYMENT_CHANGE_CODE = "paymentChangeCode";
+    public static final String PHYS_CAMPUS_PROC_CODE = "physCampusProcCode";
+    public static final String BEGIN_DISBURSEMENT_NBR = "beginDisbursementNbr";
+    public static final String END_DISBURSEMENT_NBR = "endDisbursementNbr";
     
     public static class BatchConstants{
         public static class Fields{

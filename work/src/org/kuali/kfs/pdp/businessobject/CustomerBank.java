@@ -19,67 +19,65 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import java.util.LinkedHashMap;
+
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Inactivateable;
 
-/**
- * 
- */
-public class CustomerBank extends TimestampedBusinessObjectBase implements Inactivateable {
-    private Integer id; // CUST_BNK_ID
-
+public class CustomerBank extends PersistableBusinessObjectBase implements Inactivateable {
     private Integer customerId;
-    private CustomerProfile customerProfile; // CUST_ID
-
     private String bankCode;
-    private Bank bank; // BNK_ID
-
     private String disbursementTypeCode;
-    private DisbursementType disbursementType; // DISB_TYP_CD
+    
+    private CustomerProfile customerProfile; 
+    private Bank bank; 
+    private DisbursementType disbursementType;
     
     private boolean active;
-    
-    /**
-     * 
-     */
+
     public CustomerBank() {
         super();
     }
-   
+
     /**
-     * @hibernate.many-to-one column="CUST_ID" class="edu.iu.uis.pdp.bo.CustomerProfile" not-null="true"
+     * Gets the customerId attribute.
+     * 
      * @return Returns the customerId.
+     */
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    /**
+     * Sets the customerId attribute value.
+     * 
+     * @param customerId The customerId to set.
+     */
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    /**
+     * Gets the customerProfile attribute.
+     * 
+     * @return Returns the customerProfile.
      */
     public CustomerProfile getCustomerProfile() {
         return customerProfile;
     }
 
     /**
-     * @param customerId The customerId to set.
+     * Sets the customerProfile attribute value.
+     * 
+     * @param customerProfile The customerProfile to set.
      */
-    public void setCustomerProfile(CustomerProfile customer) {
-        this.customerProfile = customer;
+    public void setCustomerProfile(CustomerProfile customerProfile) {
+        this.customerProfile = customerProfile;
     }
 
-    /**
-     * @hibernate.many-to-one column="BNK_ID" class="edu.iu.uis.pdp.bo.Bank" not-null="true"
-     * @return Returns the bankId.
-     */
-    public Bank getBank() {
-        return bank;
-    }
-
-    /**
-     * @param bankId The bankId to set.
-     */
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-    
     /**
      * Gets the bankCode attribute.
      * 
@@ -99,7 +97,44 @@ public class CustomerBank extends TimestampedBusinessObjectBase implements Inact
     }
 
     /**
-     * @hibernate.many-to-one column="DISB_TYP_CD" class="edu.iu.uis.pdp.bo.DisbursementType" not-null="true"
+     * Gets the bank attribute.
+     * 
+     * @return Returns the bank.
+     */
+    public Bank getBank() {
+        return bank;
+    }
+
+    /**
+     * Sets the bank attribute value.
+     * 
+     * @param bank The bank to set.
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    /**
+     * Gets the disbursementTypeCode attribute.
+     * 
+     * @return Returns the disbursementTypeCode.
+     */
+    public String getDisbursementTypeCode() {
+        return disbursementTypeCode;
+    }
+
+    /**
+     * Sets the disbursementTypeCode attribute value.
+     * 
+     * @param disbursementTypeCode The disbursementTypeCode to set.
+     */
+    public void setDisbursementTypeCode(String disbursementTypeCode) {
+        this.disbursementTypeCode = disbursementTypeCode;
+    }
+
+    /**
+     * Gets the disbursementType attribute.
+     * 
      * @return Returns the disbursementType.
      */
     public DisbursementType getDisbursementType() {
@@ -107,6 +142,8 @@ public class CustomerBank extends TimestampedBusinessObjectBase implements Inact
     }
 
     /**
+     * Sets the disbursementType attribute value.
+     * 
      * @param disbursementType The disbursementType to set.
      */
     public void setDisbursementType(DisbursementType disbursementType) {
@@ -114,45 +151,18 @@ public class CustomerBank extends TimestampedBusinessObjectBase implements Inact
     }
 
     /**
-     * @hibernate.id column="CUST_BNK_ID" generator-class="sequence"
-     * @hibernate.generator-param name="sequence" value="PDP.PDP_CUST_BNK_ID_SEQ"
-     * @return Returns the id.
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    public Integer getId() {
-        return id;
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put(PdpPropertyConstants.CUSTOMER_ID, this.customerId);
+        m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
+        m.put(KFSPropertyConstants.BANK_CODE, this.bankCode);
+        
+        return m;
     }
 
-    /**
-     * @param id The id to set.
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof CustomerBank)) {
-            return false;
-        }
-        CustomerBank o = (CustomerBank) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(83, 37).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-    
     /**
      * 
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
@@ -168,5 +178,6 @@ public class CustomerBank extends TimestampedBusinessObjectBase implements Inact
     public void setActive(boolean active) {
         this.active = active;
     }
+
 
 }

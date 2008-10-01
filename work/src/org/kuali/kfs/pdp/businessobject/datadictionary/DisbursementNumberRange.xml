@@ -17,7 +17,6 @@
     <property name="objectLabel" value="Disbursement Number Range" />
     <property name="attributes" >
       <list>
-        <ref bean="DisbursementNumberRange-id" />
         <ref bean="DisbursementNumberRange-physCampusProcCode" />
         <ref bean="DisbursementNumberRange-beginDisbursementNbr" />
         <ref bean="DisbursementNumberRange-lastAssignedDisbNbr" />
@@ -32,26 +31,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-
-  <bean id="DisbursementNumberRange-id" parent="DisbursementNumberRange-id-parentBean" />
-  <bean id="DisbursementNumberRange-id-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="id" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Disbursement Range ID" />
-    <property name="shortLabel" value="Disbursement Range ID" />
-    <property name="maxLength" value="9" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="9" />
-    </property>
-    <property name="summary" value="Disbursement Range ID" />
-    <property name="description" value="Disbursement Range ID" />
-  </bean>
   
   <bean id="DisbursementNumberRange-physCampusProcCode" parent="DisbursementNumberRange-physCampusProcCode-parentBean" />
   <bean id="DisbursementNumberRange-physCampusProcCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -175,8 +154,6 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="id" />
-              <bean parent="FieldDefinition"
                     p:attributeName="physCampusProcCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="bankCode" />                   
@@ -185,9 +162,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="beginDisbursementNbr" />
               <bean parent="FieldDefinition"
-                    p:attributeName="lastAssignedDisbNbr" />
-              <bean parent="FieldDefinition"
                     p:attributeName="endDisbursementNbr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="lastAssignedDisbNbr" />
               <bean parent="FieldDefinition"
                     p:attributeName="disbNbrEffectiveDt" />
               <bean parent="FieldDefinition"
@@ -212,7 +189,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>id</value>
+            <value>physCampusProcCode</value>
           </list>
         </property>
       </bean>
@@ -220,13 +197,13 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="id" />
+              p:attributeName="physCampusProcCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="bankCode" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="id" />
         <bean parent="FieldDefinition"
               p:attributeName="physCampusProcCode" />
         <bean parent="FieldDefinition"
@@ -236,15 +213,15 @@
         <bean parent="FieldDefinition"
               p:attributeName="beginDisbursementNbr" />
         <bean parent="FieldDefinition"
-              p:attributeName="lastAssignedDisbNbr" />
-        <bean parent="FieldDefinition"
               p:attributeName="endDisbursementNbr" />
+        <bean parent="FieldDefinition"
+              p:attributeName="lastAssignedDisbNbr" />
         <bean parent="FieldDefinition"
               p:attributeName="disbNbrEffectiveDt" />
         <bean parent="FieldDefinition"
               p:attributeName="disbNbrExpirationDt" />
         <bean parent="FieldDefinition"
-              		p:attributeName="active" />
+              p:attributeName="active" />
       </list>
     </property>
   </bean>

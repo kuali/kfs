@@ -19,14 +19,11 @@
 <div class="body">
     <ul class="chan">
       <li><portal:portalLink displayTitle="true" title="ACH Bank" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.AchBank&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
-      <li><portal:portalLink displayTitle="true" title="Bank Maintenance" url="pdp/bank.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Customer Profile Maintenance" url="pdp/customerprofile.do"/></li>
-      <li><portal:portalLink displayTitle="true" title="Customer Profile Maintenance"
-				url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.CustomerProfile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+      <li><portal:portalLink displayTitle="true" title="Customer Profile Maintenance Rice" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.CustomerProfile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 	  </li>
       <li><portal:portalLink displayTitle="true" title="Disbursement Range Maintenance" url="pdp/disbursementmaint.do"/></li>
-      <li><portal:portalLink displayTitle="true" title="Disbursement Range Maintenance"
-				url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.DisbursementNumberRange&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+      <li><portal:portalLink displayTitle="true" title="Disbursement Range Maintenance Rice" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.DisbursementNumberRange&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 	  </li>
       <li><portal:portalLink displayTitle="true" title="Format Checks/ACH" url="pdp/formatselection.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Format Summary Review" url="pdp/formatsummary.do"/></li>
@@ -34,9 +31,10 @@
 	  <li><portal:portalLink displayTitle="true" title="Payment File Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=paymentInputFileType" /></li>
 	  <li><portal:portalLink displayTitle="true" title="Payee ACH Account" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PayeeAchAccount&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Batch" url="pdp/batchsearch.do"/></li>
-      <li><portal:portalLink displayTitle="true" title="Search for Payment" url="pdp/paymentsearch.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Batch Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.Batch&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+      <li><portal:portalLink displayTitle="true" title="Search for Payment" url="pdp/paymentsearch.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Search for Payment Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PaymentDetail&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+      <li><portal:portalLink displayTitle="true" title="Payment Bank History" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.BankChangeHistory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

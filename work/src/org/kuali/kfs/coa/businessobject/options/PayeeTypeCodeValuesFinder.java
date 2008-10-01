@@ -31,7 +31,6 @@ public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
      * <ul>
      * <li>E = Employee</li>
      * <li>F = FEIN</li>
-     * <li>P = DV Payee</li>
      * <li>S = SSN</li>
      * <li>V = Vendor</li>
      * </ul>
@@ -42,7 +41,6 @@ public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("E", "Employee"));
         keyValues.add(new KeyLabelPair("F", "FEIN"));
-//        keyValues.add(new KeyLabelPair("P", "DV Payee"));
         keyValues.add(new KeyLabelPair("S", "SSN"));
         keyValues.add(new KeyLabelPair("V", "Vendor"));
 

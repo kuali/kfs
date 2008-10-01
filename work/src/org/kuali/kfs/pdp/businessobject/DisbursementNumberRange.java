@@ -20,49 +20,36 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Inactivateable;
 
-public class DisbursementNumberRange extends TimestampedBusinessObjectBase implements Inactivateable {
-
-    private Integer id; // DISB_NBR_RANGE_ID
-    private String physCampusProcCode; // PHYS_CMP_PROC_CD
-    private Integer beginDisbursementNbr; // BEG_DISB_NBR
-    private Integer lastAssignedDisbNbr; // LST_ASND_DISB_NBR
-    private Integer endDisbursementNbr; // END_DISB_NBR
-    private Timestamp disbNbrEffectiveDt; // DISB_NBR_EFF_DT
-    private Timestamp disbNbrExpirationDt; // DISB_NBR_EXPR_DT
-    private boolean active;
-    
+public class DisbursementNumberRange extends PersistableBusinessObjectBase implements Inactivateable {
+   
+    private String physCampusProcCode; 
+    private Integer beginDisbursementNbr; 
+    private Integer lastAssignedDisbNbr; 
+    private Integer endDisbursementNbr;
+    private Timestamp disbNbrEffectiveDt; 
+    private Timestamp disbNbrExpirationDt; 
     private String bankCode;
-    private Bank bank;
-
     private String disbursementTypeCode;
+    private boolean active;
+
+    private Campus campus;
+    private Bank bank;
     private DisbursementType disbursementType;
 
     public DisbursementNumberRange() {
         super();
-    }
-
-    /**
-     * @hibernate.id column="DISB_NBR_RANGE_ID" generator-class="sequence"
-     * @hibernate.generator-param name="sequence" value="PDP.PDP_DISB_NBR_RANGE_ID_SEQ"
-     * @return
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param documentTypeId The documentTypeId to set.
-     */
-    public void setId(Integer documentTypeId) {
-        this.id = documentTypeId;
     }
 
     /**
@@ -223,8 +210,26 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase imple
     public void setDisbursementType(DisbursementType disbursementType) {
         this.disbursementType = disbursementType;
     }
-    
+
     /**
+     * Gets the campus attribute.
+     * 
+     * @return Returns the campus.
+     */
+    public Campus getCampus() {
+        return campus;
+    }
+
+    /**
+     * Sets the campus attribute value.
+     * 
+     * @param campus The campus to set.
+     */
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+    
+     /**
      * 
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
@@ -240,19 +245,18 @@ public class DisbursementNumberRange extends TimestampedBusinessObjectBase imple
         this.active = active;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof DisbursementNumberRange)) {
-            return false;
-        }
-        DisbursementNumberRange o = (DisbursementNumberRange) obj;
-        return new EqualsBuilder().append(id, o.getId()).isEquals();
-    }
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put(PdpPropertyConstants.PHYS_CAMPUS_PROC_CODE, this.physCampusProcCode);
+        m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
+        m.put(KFSPropertyConstants.BANK_CODE, this.bankCode);
+        m.put(PdpPropertyConstants.BEGIN_DISBURSEMENT_NBR, this.beginDisbursementNbr);
+        m.put(PdpPropertyConstants.END_DISBURSEMENT_NBR, this.endDisbursementNbr);
 
-    public int hashCode() {
-        return new HashCodeBuilder(83, 43).append(id).toHashCode();
-    }
-
-    public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).toString();
+        return m;
     }
 }

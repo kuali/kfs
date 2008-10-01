@@ -26,14 +26,32 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 /**
- * @author jsissom
+ * Creates GLPEs for PDP extracted and canceled payments.
  */
 public interface PendingTransactionService {
-    public void createProcessPaymentTransaction(PaymentDetail pd, Boolean relieveLiabilities);
+    
+    /**
+     * Creates GLPE entries for the Payment record and stores to PDP pending entry table
+     * 
+     * @param paymentGroup payment group record to create GLPE for
+     */
+    public void generatePaymentGeneralLedgerPendingEntry(PaymentGroup paymentGroup);
 
-    public void createCancellationTransaction(PaymentGroup pg);
+    /**
+     * Creates GLPE entries for a payment cancel and stores to PDP pending entry table. Debit/Credit codes are
+     * reversed backing out the original GLPEs for the payment.
+     * 
+     * @param paymentGroup payment group record to create GLPE for
+     */
+    public void generateCancellationGeneralLedgerPendingEntry(PaymentGroup paymentGroup);
 
-    public void createCancelReissueTransaction(PaymentGroup pg);
+    /**
+     * Creates GLPE entries for a reissue and stores to PDP pending entry table. Debit/Credit codes are
+     * reversed backing out the original GLPEs for the payment.
+     * 
+     * @param paymentGroup payment group record to create GLPE for
+     */  
+    public void generateReissueGeneralLedgerPendingEntry(PaymentGroup paymentGroup);
 
     /**
      * Save a transaction

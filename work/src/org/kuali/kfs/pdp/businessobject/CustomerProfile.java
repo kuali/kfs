@@ -21,22 +21,28 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.kfs.sys.businessobject.PostalCode;
+import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-/**
- * @author jsissom
- * @hibernate.class table="PDP.PDP_CUST_PRFL_T"
- */
 public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
@@ -61,7 +67,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String city; // CUST_CTY_NM
     private String contactFullName; // CUST_CNTC_FULL_NM
     private String countryName; // CUST_CNTRY_NM
-    private Boolean customerActive; // CUST_ACTV_IND
     private String customerDescription; // CUST_DESC
     private String defaultChartCode; // DFLT_COA_CD
     private String defaultAccountNumber; // DFLT_ACCT_NBR
@@ -81,26 +86,37 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
     private String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
     private String psdTransactionCode; // PSD_TRN_CD
-    private String state; // CUST_ST_CD
+    private String stateCode; // CUST_ST_CD
     private String subUnitCode; // SBUNT_CD
     private String zipCode; // CUST_ZIP_CD
     private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
     private Boolean relieveLiabilities;
-    private List customerBanks;
-    private boolean active;
-    
+    private boolean active; 
+
     private Org organization;
     private Chart chartOfAccounts;
+    private Campus defaultProcessingCampus;
+    private Chart defaultChart;
+    private Account defaultAccount;
+    private SubAccount defaultSubAccount;
+    private ObjectCode defaultObject;
+    private SubObjCd defaultSubObject;
+    private State state;
+    private PostalCode postalCode;
+    private Country country;
+
+    private List<CustomerBank> customerBanks;
+
 
     public CustomerProfile() {
         super();
-        customerBanks = new ArrayList();
+        customerBanks = new ArrayList<CustomerBank>();
     }
 
     public String getCustomerShortName() {
         return chartCode + "-" + orgCode + "-" + subUnitCode;
     }
-    
+
     public void setCustomerShortName(String customerShortName) {
         
     }
@@ -139,21 +155,21 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
         this.defaultSubAccountNumber = defaultSubAccountNumber;
     }
 
-    public List getCustomerBanks() {
+    public List<CustomerBank> getCustomerBanks() {
         return customerBanks;
     }
 
     public CustomerBank getCustomerBankByDisbursementType(String dt) {
-        for (Iterator iter = customerBanks.iterator(); iter.hasNext();) {
-            CustomerBank element = (CustomerBank) iter.next();
+        for (CustomerBank element : customerBanks) {
             if (element.getDisbursementType().getCode().equals(dt)) {
                 return element;
             }
         }
+
         return null;
     }
 
-    public void setCustomerBanks(List cbs) {
+    public void setCustomerBanks(List<CustomerBank> cbs) {
         customerBanks = cbs;
     }
 
@@ -441,8 +457,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="CUST_ST_CD" length="30" not-null="false"
      * @return Returns the state.
      */
-    public String getState() {
-        return state;
+    public String getStateCode() {
+        return stateCode;
     }
 
     /**
@@ -487,14 +503,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      */
     public String getAdviceReturnEmailAddr() {
         return adviceReturnEmailAddr;
-    }
-
-    /**
-     * @hibernate.property column="CUST_ACTV_IND" type="yes_no" not-null="false"
-     * @return Returns the customerActive.
-     */
-    public Boolean getCustomerActive() {
-        return customerActive;
     }
 
     /**
@@ -677,13 +685,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @param customerActive The customerActive to set.
-     */
-    public void setCustomerActive(Boolean customerActive) {
-        this.customerActive = customerActive;
-    }
-
-    /**
      * @param customerDescription The customerDescription to set.
      */
     public void setCustomerDescription(String customerDescription) {
@@ -812,8 +813,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param state The state to set.
      */
-    public void setState(String state) {
-        this.state = state;
+    public void setStateCode(String state) {
+        this.stateCode = state;
     }
 
     /**
@@ -862,23 +863,186 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     /**
      * This method sets the organization.
+     * 
      * @param organization
      * @deprecated
      */
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
-    
+
+
     /**
+     * Gets the defaultProcessingCampus attribute.
      * 
+     * @return Returns the defaultProcessingCampus.
+     */
+    public Campus getDefaultProcessingCampus() {
+        return defaultProcessingCampus;
+    }
+
+    /**
+     * Sets the defaultProcessingCampus attribute value.
+     * 
+     * @param defaultProcessingCampus The defaultProcessingCampus to set.
+     */
+    public void setDefaultProcessingCampus(Campus defaultProcessingCampus) {
+        this.defaultProcessingCampus = defaultProcessingCampus;
+    }
+
+    /**
+     * Gets the defaultChart attribute.
+     * 
+     * @return Returns the defaultChart.
+     */
+    public Chart getDefaultChart() {
+        return defaultChart;
+    }
+
+    /**
+     * Sets the defaultChart attribute value.
+     * 
+     * @param defaultChart The defaultChart to set.
+     */
+    public void setDefaultChart(Chart defaultChart) {
+        this.defaultChart = defaultChart;
+    }
+
+    /**
+     * Gets the defaultAccount attribute.
+     * 
+     * @return Returns the defaultAccount.
+     */
+    public Account getDefaultAccount() {
+        return defaultAccount;
+    }
+
+    /**
+     * Sets the defaultAccount attribute value.
+     * 
+     * @param defaultAccount The defaultAccount to set.
+     */
+    public void setDefaultAccount(Account defaultAccount) {
+        this.defaultAccount = defaultAccount;
+    }
+
+    /**
+     * Gets the defaultSubAccount attribute.
+     * 
+     * @return Returns the defaultSubAccount.
+     */
+    public SubAccount getDefaultSubAccount() {
+        return defaultSubAccount;
+    }
+
+    /**
+     * Sets the defaultSubAccount attribute value.
+     * 
+     * @param defaultSubAccount The defaultSubAccount to set.
+     */
+    public void setDefaultSubAccount(SubAccount defaultSubAccount) {
+        this.defaultSubAccount = defaultSubAccount;
+    }
+
+    /**
+     * Gets the defaultObject attribute.
+     * 
+     * @return Returns the defaultObject.
+     */
+    public ObjectCode getDefaultObject() {
+        return defaultObject;
+    }
+
+    /**
+     * Sets the defaultObject attribute value.
+     * 
+     * @param defaultObject The defaultObject to set.
+     */
+    public void setDefaultObject(ObjectCode defaultObject) {
+        this.defaultObject = defaultObject;
+    }
+
+    /**
+     * Gets the defaultSubObject attribute.
+     * 
+     * @return Returns the defaultSubObject.
+     */
+    public SubObjCd getDefaultSubObject() {
+        return defaultSubObject;
+    }
+
+    /**
+     * Sets the defaultSubObject attribute value.
+     * 
+     * @param defaultSubObject The defaultSubObject to set.
+     */
+    public void setDefaultSubObject(SubObjCd defaultSubObject) {
+        this.defaultSubObject = defaultSubObject;
+    }
+
+    /**
+     * Gets the state attribute.
+     * 
+     * @return Returns the state.
+     */
+    public State getState() {
+        return state;
+    }
+
+    /**
+     * Sets the state attribute value.
+     * 
+     * @param state The state to set.
+     */
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    /**
+     * Gets the postalCode attribute.
+     * 
+     * @return Returns the postalCode.
+     */
+    public PostalCode getPostalCode() {
+        postalCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(this, this.zipCode, this.postalCode);
+        return postalCode;
+    }
+
+    /**
+     * Sets the postalCode attribute value.
+     * 
+     * @param postalCode The postalCode to set.
+     */
+    public void setPostalCode(PostalCode postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    /**
+     * Gets the country attribute.
+     * 
+     * @return Returns the country.
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the country attribute value.
+     * 
+     * @param country The country to set.
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
      */
     public boolean isActive() {
         return active;
     }
-    
+
     /**
-     * 
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
@@ -886,13 +1050,12 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("id", this.id);
+        m.put(KFSPropertyConstants.ID, this.id);
+        
         return m;
     }
-    
 }

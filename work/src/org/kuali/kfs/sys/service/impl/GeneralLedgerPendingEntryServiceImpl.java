@@ -87,6 +87,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     private OptionsService optionsService;
     private ParameterService parameterService;
     private BalanceTypService balanceTypeService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
@@ -459,7 +460,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(financialDocument.getClass()));
         bankOffsetEntry.setVersionNumber(1L);
         bankOffsetEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        Timestamp transactionTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
         bankOffsetEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         bankOffsetEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
         Account cashOffsetAccount = bank.getCashOffsetAccount();
@@ -544,14 +545,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             bankOffsetEntry.setFinancialSubObjectCode(bank.getCashOffsetSubObjectCode());
         }
      
-        bankOffsetEntry.setFinancialSubObjectCode(getEntryValue(bank.getCashOffsetSubObjectCode(), KFSConstants.getDashFinancialSubObjectCode()));
         bankOffsetEntry.setTransactionEntryOffsetIndicator(true);
         bankOffsetEntry.setTransactionLedgerEntryAmount(depositAmount.abs());
         bankOffsetEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
         bankOffsetEntry.setUniversityFiscalYear(universityFiscalYear);
-        // TODO wait for core budget year data structures to be put in place
-        // bankOffsetEntry.setBudgetYear(accountingLine.getBudgetYear());
-        // bankOffsetEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
         bankOffsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
   
         return true;
@@ -723,5 +720,13 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         this.optionsService = optionsService;
     }
 
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 
 }

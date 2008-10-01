@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.kfs.pdp.businessobject.AchInformation;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 
 public interface AchService {
-    public AchInformation getAchInformation(String idType, String payeeId, String psdTransactionCode);
+    public PayeeAchAccount getAchInformation(String idType, String payeeId, String psdTransactionCode);
 }

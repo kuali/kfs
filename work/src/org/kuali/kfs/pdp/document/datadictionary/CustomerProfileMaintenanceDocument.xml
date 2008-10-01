@@ -12,12 +12,71 @@
     <property name="maintainableSections" >
       <list>
         <ref bean="CustomerProfileMaintenanceDocument-EditCustomerProfile" />
-        <!--ref bean="CustomerProfileMaintenanceDocument-EditCustomerBank" /-->
+        <ref bean="CustomerProfileMaintenanceDocument-EditCustomerBank" />
+      </list>
+    </property>
+    <property name="defaultExistenceChecks" >
+      <list>
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultChart"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="defaultChartCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultAccount"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="defaultAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultSubAccount"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="defaultSubAccountNumber" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultObject"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="defaultObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultSubObject"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="defaultSubObjectCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="chartOfAccounts"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="chartCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="organization"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="orgCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="defaultProcessingCampus"
+              p:attributeToHighlightOnFail="defaultPhysicalCampusProcessingCode" />
+        <!--bean parent="ReferenceDefinition"
+              p:attributeName="state"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="stateCode" /-->
+        <bean parent="ReferenceDefinition"
+              p:attributeName="postalCode"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="zipCode" />
+        <!-- bean parent="ReferenceDefinition"
+              p:attributeName="country"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="countryName" /-->
+        <bean parent="ReferenceDefinition"
+              p:collection="customerBanks"
+              p:attributeName="disbursementType"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="disbursementTypeCode" />
+        <bean parent="ReferenceDefinition"
+              p:collection="customerBanks"
+              p:attributeName="bank"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="bankCode" />
       </list>
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>id</value>
+        <value>chartCode</value>
+        <value>orgCode</value>
+        <value>subUnitCode</value>
       </list>
     </property>
     <property name="label" value="Customer Profile" />
@@ -25,7 +84,6 @@
     <property name="summary" value="Customer Profile Maintenance Document" />
     <property name="description" value="Document used to create or update Customer Profile Maintenance Document" />
     <property name="documentTypeName" value="CustomerProfileMaintenanceDocument" />
-    <!--property name="businessRulesClass" value="org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationReportDefinitionRule" /-->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
     <property name="documentTypeCode" value="CSPR" />
     <property name="authorizations" >
@@ -111,7 +169,7 @@
 	              p:name="city" 
               p:required="true" />
 	  <bean parent="MaintainableFieldDefinition"
-	              p:name="state"  
+	              p:name="stateCode"  
               p:required="true" />
 	  <bean parent="MaintainableFieldDefinition"
 	              p:name="zipCode"  
@@ -192,13 +250,13 @@
 	              p:name="psdTransactionCode"    
               p:required="false" />
        <bean parent="MaintainableFieldDefinition"
-              p:name="customerActive"
+              p:name="active"
               p:required="false" />
       </list>
     </property>
   </bean>
   
-  <!--bean id="CustomerProfileMaintenanceDocument-EditCustomerBank" parent="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean" />
+  <bean id="CustomerProfileMaintenanceDocument-EditCustomerBank" parent="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean" />
 
   <bean id="CustomerProfileMaintenanceDocument-EditCustomerBank-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Customer Bank" />
@@ -212,13 +270,16 @@
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerId" />
+                    p:name="disbursementTypeCode" />
             </list>
           </property>
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="customerId"
+                    p:name="disbursementTypeCode"
+                    p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="bankCode"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="newCollectionRecord" />
@@ -226,12 +287,13 @@
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="id" />
+          		<bean parent="MaintainableFieldDefinition" p:name="customerId" />
+          		<bean parent="MaintainableFieldDefinition" p:name="disbursementTypeCode" />
           	</list>
           </property>
         </bean>
       </list>
     </property>
-  </bean-->
+  </bean>
   
 </beans>

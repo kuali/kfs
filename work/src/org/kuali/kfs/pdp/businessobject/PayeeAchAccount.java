@@ -33,7 +33,6 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     private String payeeEmailAddress;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
-    private String disbVchrPayeeIdNumber;
     private String personUniversalIdentifier;
     private String payeeSocialSecurityNumber;
     private String payeeFederalEmployerIdentificationNumber;
@@ -184,26 +183,6 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
     }
-
-
-    /**
-     * Gets the disbVchrPayeeIdNumber attribute.
-     * 
-     * @return Returns the disbVchrPayeeIdNumber
-     */
-    public String getDisbVchrPayeeIdNumber() {
-        return disbVchrPayeeIdNumber;
-    }
-
-    /**
-     * Sets the disbVchrPayeeIdNumber attribute.
-     * 
-     * @param disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
-     */
-    public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
-        this.disbVchrPayeeIdNumber = disbVchrPayeeIdNumber;
-    }
-
 
     /**
      * Gets the personUniversalIdentifier attribute.

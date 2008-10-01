@@ -106,10 +106,9 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
         }
         else {
-            // TODO: fix compile error
-            /*if (!customer.isActive()) {
+            if (!customer.isActive()) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
-            }*/
+            }
         }
     }
 

@@ -24,14 +24,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
-import org.kuali.kfs.pdp.businessobject.AchInformation;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
@@ -39,8 +37,10 @@ import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatResult;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
+import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PostFormatProcessSummary;
@@ -63,6 +63,7 @@ import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
@@ -94,10 +95,6 @@ public class FormatServiceImpl implements FormatService {
     private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
     
-    public FormatServiceImpl() {
-        super();
-    }
-
     /**
      * @see org.kuali.kfs.pdp.service.FormatService#formatSelectionAction(org.kuali.module.pdp.bo.PdpUser, boolean)
      */
@@ -180,12 +177,8 @@ public class FormatServiceImpl implements FormatService {
             pg.setPhysCampusProcessCd(proc.getCampus());
             pg.setProcess(proc);
 
-            // Do we do ACH for this person?
-            AchInformation ai = null;
-            boolean check = true;
-            boolean noNegativeDetails = true;
-
             // If any one of the payment details in the group are negative, we always force a check
+            boolean noNegativeDetails = true;
             for (Iterator it = pg.getPaymentDetails().iterator(); it.hasNext();) {
                 PaymentDetail pd = (PaymentDetail) it.next();
                 if (pd.getNetPaymentAmount().doubleValue() < 0) {
@@ -195,15 +188,20 @@ public class FormatServiceImpl implements FormatService {
                     break;
                 }
             }
+            
+            // hold original bank code to log any change
+            String origBankCode = pg.getBankCode();
 
             // Attachments, Process Immediate & Special Handling are always checks
             // If there isn't a PSD Transaction code for the customer, don't even look to see if any payment is ACH
             // If the payment ID is X, it's always a check
             // If any one of the payment details in the group are negative, we always force a check
+            PayeeAchAccount payeeAchAccount = null;
+            boolean check = true;
             if ((!PdpConstants.PayeeTypeCode.OTHER.getTypeCode().equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
                 LOG.debug("performFormat() Checking ACH");
-                ai = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
-                check = (ai == null);
+                payeeAchAccount = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
+                check = (payeeAchAccount == null);
             }
 
             if (check) {
@@ -215,7 +213,8 @@ public class FormatServiceImpl implements FormatService {
                 // set bank, use group bank unless not given or not valid for checks
                 if (pg.getBank() == null || !pg.getBank().isBankCheckIndicator()) {
                     CustomerBank cb = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.CHECK);
-                    if (cb != null) {
+                    if (cb != null && cb.isActive()) {
+                        pg.setBankCode(cb.getBankCode());
                         pg.setBank(cb.getBank());
                     }
                 }
@@ -234,7 +233,8 @@ public class FormatServiceImpl implements FormatService {
                 // set bank, use group bank unless not given or not valid for ACH
                 if (pg.getBank() == null || !pg.getBank().isBankAchIndicator()) {
                     CustomerBank cb = customer.getCustomerBankByDisbursementType(PdpConstants.DisbursementTypeCodes.ACH);
-                    if (cb != null) {
+                    if (cb != null && cb.isActive()) {
+                        pg.setBankCode(cb.getBankCode());
                         pg.setBank(cb.getBank());
                     }
                 }
@@ -243,15 +243,28 @@ public class FormatServiceImpl implements FormatService {
                     LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                     throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
                 }
-
-                pg.setAchBankRoutingNbr(ai.getAchBankRoutingNbr());
-                pg.setAdviceEmailAddress(ai.getAdviceEmailAddress());
-                pg.setAchAccountType(ai.getAchAccountType());
+                
+                pg.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());
+                pg.setAdviceEmailAddress(payeeAchAccount.getPayeeEmailAddress());
+                pg.setAchAccountType(payeeAchAccount.getBankAccountTypeCode());
 
                 AchAccountNumber aan = new AchAccountNumber();
-                aan.setAchBankAccountNbr(ai.getAchBankAccountNbr());
+                aan.setAchBankAccountNbr(payeeAchAccount.getBankAccountNumber());
                 aan.setId(pg.getId());
                 pg.setAchAccountNumber(aan);
+            }
+            
+            // create payment history record if bank was changed
+            if (!pg.getBankCode().equals(origBankCode)) {
+                PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
+
+                paymentGroupHistory.setPaymentChangeCode(PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
+                paymentGroupHistory.setOrigBankCode(origBankCode);
+                paymentGroupHistory.setOrigPaymentStatus(pg.getPaymentStatus());
+                paymentGroupHistory.setChangeUserId(KFSConstants.SYSTEM_USER);
+                paymentGroupHistory.setPaymentGroup(pg);
+
+                businessObjectService.save(paymentGroupHistory);
             }
 
             paymentGroupDao.save(pg);
@@ -524,10 +537,7 @@ public class FormatServiceImpl implements FormatService {
             paymentGroupDao.save(pg);
 
             // Generate a GL entry for CHCK & ACH
-            for (Iterator iter = pg.getPaymentDetails().iterator(); iter.hasNext();) {
-                PaymentDetail element = (PaymentDetail) iter.next();
-                glPendingTransactionService.createProcessPaymentTransaction(element, pg.getBatch().getCustomerProfile().getRelieveLiabilities());
-            }
+            glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(pg);
         }
 
         // Update all the ranges

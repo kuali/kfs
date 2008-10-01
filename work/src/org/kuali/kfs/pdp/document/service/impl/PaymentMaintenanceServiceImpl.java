@@ -316,7 +316,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
                     changeStatus(element, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
-                    glPendingTransactionService.createCancellationTransaction(element);
+                    glPendingTransactionService.generateCancellationGeneralLedgerPendingEntry(element);
                 }
                 // set primary cancel indicator for EPIC to use
                 PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
@@ -377,7 +377,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pgh.setDisbursementType(pg.getDisbursementType());
                     pgh.setProcess(pg.getProcess());
 
-                    glPendingTransactionService.createCancelReissueTransaction(pg);
+                    glPendingTransactionService.generateReissueGeneralLedgerPendingEntry(pg);
                     LOG.debug("cancelReissueDisbursement() Status is '" + paymentStatus + "; delete row from AchAccountNumber table.");
                     AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
                     if (achAccountNumber != null) {
@@ -502,19 +502,19 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             body.append(MessageFormat.format(invoiceNumberMessageKey, new Object[]{pd.getInvoiceNbr()}) + " \n");  
             body.append(MessageFormat.format(purchaseOrderNumberMessageKey, new Object[]{pd.getPurchaseOrderNbr()}) + " \n");  
             body.append(MessageFormat.format(paymentDetailIdMessageKey, new Object[]{pd.getId()}) + " \n");  
-            
+
         }
         //TODO: unnecessary if statement?
         if (paymentGroup.getPaymentDetails().size() > 1) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
             body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
-            
+
         }
         else {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
             body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
-        
+
         String batchIdMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_ID);
         String chartMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CHART);
         String organizationMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_ORGANIZATION);

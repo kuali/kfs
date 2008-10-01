@@ -298,6 +298,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addGreaterOrEqualThan("disbNbrExpirationDt", nowTs);
         criteria.addLessOrEqualThan("disbNbrEffectiveDt", nowTs);
         criteria.addEqualTo("physCampusProcCode", campus);
+        criteria.addEqualTo("active", true);
 
         QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class, criteria);
         qbc.addOrderBy("bankCode", true);

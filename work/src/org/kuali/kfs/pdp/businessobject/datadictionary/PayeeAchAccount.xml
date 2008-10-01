@@ -30,7 +30,6 @@
         <ref bean="PayeeAchAccount-vendorHeaderGeneratedIdentifier" />
         <ref bean="PayeeAchAccount-vendorDetailAssignedIdentifier" />
         <ref bean="PayeeAchAccount-vendorNumber" />
-        <ref bean="PayeeAchAccount-disbVchrPayeeIdNumber" />
         <ref bean="PayeeAchAccount-personUniversalIdentifier" />
         <ref bean="PayeeAchAccount-active" />
       </list>
@@ -290,12 +289,6 @@
     <property name="description" value="Vendor Number" />
   </bean>
   
-  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber" parent="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" />
-
-  <bean id="PayeeAchAccount-disbVchrPayeeIdNumber-parentBean" abstract="true" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeIdNumber">
-    <property name="name" value="disbVchrPayeeIdNumber" />
-    <property name="label" value="Disbursement Voucher Payee ID" />
-  </bean>
   <bean id="PayeeAchAccount-personUniversalIdentifier" parent="PayeeAchAccount-personUniversalIdentifier-parentBean" />
 
   <bean id="PayeeAchAccount-personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
@@ -340,8 +333,6 @@
                     p:attributeName="vendorHeaderGeneratedIdentifier" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorDetailAssignedIdentifier" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="disbVchrPayeeIdNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="personUniversalIdentifier" />
               <bean parent="FieldDefinition"
@@ -393,8 +384,6 @@
               p:attributeName="payeeIdentifierTypeCode" />
         <bean parent="FieldDefinition"
               p:attributeName="vendorNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="disbVchrPayeeIdNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="personUniversalIdentifier" />
         <bean parent="FieldDefinition"

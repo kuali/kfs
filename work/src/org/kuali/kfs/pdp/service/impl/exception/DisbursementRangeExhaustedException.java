@@ -19,9 +19,6 @@
  */
 package org.kuali.kfs.pdp.service.impl.exception;
 
-/**
- * @author jsissom
- */
 public class DisbursementRangeExhaustedException extends RuntimeException {
 
     public DisbursementRangeExhaustedException() {

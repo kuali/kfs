@@ -8,6 +8,7 @@
 
   <bean id="CustomerProfile-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerProfile" />
+    <property name="titleAttribute" value="id" />
     <property name="inquiryDefinition" >
       <ref bean="CustomerProfile-inquiryDefinition" />
     </property>
@@ -23,7 +24,6 @@
         <ref bean="CustomerProfile-contactFullName" />
         <ref bean="CustomerProfile-processingEmailAddr" />
         <ref bean="CustomerProfile-defaultPhysicalCampusProcessingCode" />
-        <ref bean="CustomerProfile-customerActive" />
         <ref bean="CustomerProfile-chartCode" />
 		<ref bean="CustomerProfile-orgCode" />
 		<ref bean="CustomerProfile-subUnitCode" />
@@ -37,7 +37,7 @@
 		<ref bean="CustomerProfile-address3" />
 		<ref bean="CustomerProfile-address4" />
 		<ref bean="CustomerProfile-city" />
-		<ref bean="CustomerProfile-state" />
+		<ref bean="CustomerProfile-stateCode" />
 		<ref bean="CustomerProfile-zipCode" />
 		<ref bean="CustomerProfile-countryName" />
 		<ref bean="CustomerProfile-fileThresholdAmount" />
@@ -67,6 +67,20 @@
 		<ref bean="CustomerProfile-active" />
       </list>
     </property>
+	<property name="relationships" >
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="postalCode" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="zipCode"
+                    p:targetName="postalZipCode" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>  
   </bean>
 
 <!-- Attribute Definitions -->
@@ -365,9 +379,9 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfile-state" parent="CustomerProfile-state-parentBean" />
-  <bean id="CustomerProfile-state-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="state" />
+  <bean id="CustomerProfile-stateCode" parent="CustomerProfile-stateCode-parentBean" />
+  <bean id="CustomerProfile-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="stateCode" />
     <property name="label" value="State" />
     <property name="shortLabel" value="State" />
     <property name="summary" value="State" />
@@ -675,7 +689,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -691,7 +705,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -707,7 +721,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -723,7 +737,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -739,7 +753,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -755,7 +769,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -771,23 +785,7 @@
     <property name="required" value="false" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
-            p:includeKeyInLabel="false" />
-    </property>
-  </bean>
-  
-  <bean id="CustomerProfile-customerActive" parent="CustomerProfile-customerActive-parentBean" />
-  <bean id="CustomerProfile-customerActive-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="customerActive" />
-    <property name="label" value="Profile Active Indicator" />
-    <property name="shortLabel" value="Profile Active Indicator" />
-    <property name="summary" value="Profile Active Indicator" />
-    <property name="description" value="Profile Active Indicator" />
-    <property name="required" value="false" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
+      <bean parent="CheckboxControlDefinition"
             p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
@@ -829,19 +827,138 @@
               <bean parent="FieldDefinition"
                     p:attributeName="id" />
               <bean parent="FieldDefinition"
-                    p:attributeName="customerShortName" />
+                    p:attributeName="chartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="orgCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subUnitCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="customerDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="contactFullName" />
+                    p:attributeName="defaultPhysicalCampusProcessingCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="processingEmailAddr" />
               <bean parent="FieldDefinition"
-                    p:attributeName="defaultPhysicalCampusProcessingCode" />
+                    p:attributeName="contactFullName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="customerActive" />
+                    p:attributeName="address1" />
               <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+                    p:attributeName="address2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="address3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="address4" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="city" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="stateCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="zipCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="countryName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />                   
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Customer Check/ACH" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="achPaymentDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="additionalCheckNoteTextLine1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="additionalCheckNoteTextLine2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="additionalCheckNoteTextLine3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="additionalCheckNoteTextLine4" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="adviceHeaderText" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="adviceSubjectLine" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="adviceReturnEmailAddr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="checkHeaderNoteTextLine1" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="checkHeaderNoteTextLine2" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="checkHeaderNoteTextLine3" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="checkHeaderNoteTextLine4" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Customer Processing" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="adviceCreate" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultChartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultSubAccountNumber" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="defaultSubObjectCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="employeeCheck" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fileThresholdAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="fileThresholdEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="nraReview" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="ownershipCodeRequired" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeIdRequired" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentThresholdAmount" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentThresholdEmailAddress" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="psdTransactionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountingEditRequired" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="relieveLiabilities" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Customer Banks" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="customerBanks" />
+                <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.CustomerBank" />
+                <property name="numberOfColumns" value="1" />
+                <property name="inquiryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="disbursementTypeCode" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="bankCode" />
+                  </list>
+                </property>
+                <property name="summaryFields" >
+                  <list>
+                    <bean parent="FieldDefinition"
+                          p:attributeName="disbursementTypeCode" />
+                  </list>
+                </property>
+              </bean>
             </list>
           </property>
         </bean>
@@ -888,9 +1005,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="defaultPhysicalCampusProcessingCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="customerActive" />
-              <bean parent="FieldDefinition"
-              		p:attributeName="active" />
+                    p:attributeName="active" />
       </list>
     </property>
   </bean>

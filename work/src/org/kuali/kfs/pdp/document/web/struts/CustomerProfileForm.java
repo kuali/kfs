@@ -183,7 +183,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setCity(cp.getCity());
         this.setContactFullName(cp.getContactFullName());
         this.setCountryName(cp.getCountryName());
-        this.setCustomerActive(cp.getCustomerActive());
+        this.setCustomerActive(cp.isActive());
         this.setCustomerDescription(cp.getCustomerDescription());
         this.setDefaultAccountNumber(cp.getDefaultAccountNumber());
         this.setDefaultChartCode(cp.getDefaultChartCode());
@@ -204,7 +204,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setPaymentThresholdEmailAddress(cp.getPaymentThresholdEmailAddress());
         this.setProcessingEmailAddr(cp.getProcessingEmailAddr());
         this.setPsdTransactionCode(cp.getPsdTransactionCode());
-        this.setState(cp.getState());
+        this.setState(cp.getStateCode());
         this.setSubUnitCode(cp.getSubUnitCode().toUpperCase());
         this.setVersion(GeneralUtilities.convertLongToString(cp.getVersionNumber()));
         this.setZipCode(cp.getZipCode());
@@ -241,7 +241,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setCity(this.getCity());
         cp.setContactFullName(this.getContactFullName());
         cp.setCountryName(this.getCountryName());
-        cp.setCustomerActive(this.getCustomerActive());
+        cp.setActive(this.getCustomerActive());
         cp.setCustomerDescription(this.getCustomerDescription());
         cp.setDefaultAccountNumber(this.getDefaultAccountNumber());
         cp.setDefaultChartCode(this.getDefaultChartCode().toUpperCase());
@@ -260,7 +260,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setPaymentThresholdEmailAddress(this.getPaymentThresholdEmailAddress());
         cp.setProcessingEmailAddr(this.getProcessingEmailAddr());
         cp.setPsdTransactionCode(this.getPsdTransactionCode());
-        cp.setState(this.getState());
+        cp.setStateCode(this.getState());
         cp.setSubUnitCode(this.getSubUnitCode().toUpperCase());
         cp.setVersionNumber(GeneralUtilities.convertStringToLong(this.getVersion()));
         cp.setZipCode(this.getZipCode());

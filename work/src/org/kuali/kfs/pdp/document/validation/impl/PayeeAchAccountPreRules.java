@@ -42,20 +42,17 @@ public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
         if ( payeeIdTypeCd != null ) {
             if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.EMPLOYEE_ID.getTypeCode()) ) {
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
             else if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.VENDOR_ID.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
             }
             else if ( payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.FEIN.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
@@ -63,17 +60,9 @@ public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
             else if (  payeeIdTypeCd.equals(PdpConstants.PayeeTypeCode.SSN.getTypeCode()) ) {
                 newPayeeAchAccount.setPersonUniversalIdentifier(null);
                 newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
                 newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
-            /*else if ( payeeIdTypeCd.equals("P")) {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
-                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-                newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
-                newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
-            }*/
         }
     }
 }

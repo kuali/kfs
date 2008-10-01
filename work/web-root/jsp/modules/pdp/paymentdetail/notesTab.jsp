@@ -44,7 +44,7 @@
 									</tbody>
 								</table>
 							</c:if>
-							<c:if test="${empty PaymentDetail.notes}">
+							<c:if test="${empty KualiForm.paymentDetail.notes}">
 								<strong>There are no notes for this payment.</strong><br><br>
 			        </c:if>
 							</div><br>

@@ -108,8 +108,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorNumber" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="disbVchrPayeeIdNumber" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="personUniversalIdentifier" />
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="payeeSocialSecurityNumber" />

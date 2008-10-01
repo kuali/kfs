@@ -23,19 +23,21 @@
 				        <tbody>
 				          <tr>
 				            <th width="33%" align=right valign=top nowrap>
-				            	Payment Bank:
+				            	Disbursement Bank Code:
 				            </th>
-				            <td align=left class="datacell">						
-				              <c:out value="${KualiForm.paymentDetail.paymentGroup.bank.description}"/>
+				            <td align=left class="datacell">	
+				            <kul:inquiry boClassName="org.kuali.kfs.sys.businessobject.Bank" keyValues="bankCode=${PaymentDetail.paymentGroup.bankCode}" render="true">					
+				              <c:out value="${KualiForm.paymentDetail.paymentGroup.bank.bankName}"/>
+				            </kul:inquiry>  
 				            	&nbsp;
-										</td>	
+							  </td>	
 				          </tr>				    
 				          <tr>
 				            <th width="33%" align=right valign=top nowrap>
                       <c:if test="${SecurityRecord.anyViewRole != true}">
                         <font color="#800000">*&nbsp;</font>
                       </c:if>
-				            	ACH Bank Routing Number:
+				            	Payee Bank Routing Number:
 				            </th>
 				            <td align=left class="datacell">
                       <c:if test="${not empty KualiForm.paymentDetail.paymentGroup.achBankRoutingNbr}">
@@ -56,7 +58,7 @@
 				            	<c:if test="${(SecurityRecord.viewBankRole != true) and (SecurityRecord.viewAllRole != true)}">
 						          	<font color="#800000">*&nbsp;</font>
 						          </c:if>
-						          ACH Bank Account Number:
+						          Payee Bank Account Number:
 				            </th>
                     <td align=left class="datacell">
                       <c:if test="${not empty KualiForm.paymentDetail.paymentGroup.achAccountNumber.achBankAccountNbr}">

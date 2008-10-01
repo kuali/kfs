@@ -58,7 +58,6 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         this.setDisbNbrEffectiveDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrEffectiveDt()));
         this.setDisbNbrExpirationDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrExpirationDt()));
         this.setEndDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getEndDisbursementNbr()));
-        this.setId(dnr.getId());
         this.setLastAssignedDisbNbr(GeneralUtilities.convertIntegerToString(dnr.getLastAssignedDisbNbr()));
         //this.setLastUpdate(dnr.getLastUpdate());
         //this.setLastUpdateUser(dnr.getLastUpdateUser());
@@ -83,7 +82,6 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
             // Form Validation Nullifies this
         }
         dnr.setEndDisbursementNbr(GeneralUtilities.convertStringToInteger(this.getEndDisbursementNbr()));
-        dnr.setId(this.getId());
         dnr.setLastAssignedDisbNbr(GeneralUtilities.convertStringToInteger(this.getLastAssignedDisbNbr()));
         //dnr.setLastUpdate(this.getLastUpdate());
         //dnr.setLastUpdateUser(this.getLastUpdateUser());

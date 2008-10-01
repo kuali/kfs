@@ -27,7 +27,8 @@
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>id</value>
+        <value>disbursementTypeCode</value>
+        <value>bankCode</value>
       </list>
     </property>
     <property name="label" value="Disbursement Number Range" />
@@ -63,9 +64,6 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="id"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
               p:name="physCampusProcCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
@@ -78,10 +76,10 @@
               p:name="beginDisbursementNbr"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="lastAssignedDisbNbr"
+              p:name="endDisbursementNbr"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="endDisbursementNbr"
+              p:name="lastAssignedDisbNbr"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="disbNbrEffectiveDt"

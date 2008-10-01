@@ -112,10 +112,10 @@
 			        	&nbsp;
 			        </td>
 			        <td nowrap=nowrap class="datacell">
-			          <logic:equal name="profile" property="customerActive" value="true">
+			          <logic:equal name="profile" property="active" value="true">
 			            Active
 			          </logic:equal>
-			          <logic:notEqual name="profile" property="customerActive" value="true">
+			          <logic:notEqual name="profile" property="active" value="true">
 			            Not Active
 			          </logic:notEqual>   
 			        	

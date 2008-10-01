@@ -55,7 +55,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private String disbursementTypeCode;
     private DisbursementType disbursementType;
 
-    private String bankCode;
+    private String origBankCode;
     private Bank bank;
 
     private String paymentStatusCode;
@@ -329,14 +329,14 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public Bank getBank() {
         return bank;
     }
-    
+
     /**
      * Gets the bankCode attribute.
      * 
      * @return Returns the bankCode.
      */
-    public String getBankCode() {
-        return bankCode;
+    public String getOrigBankCode() {
+        return origBankCode;
     }
 
     /**
@@ -344,8 +344,8 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * 
      * @param bankCode The bankCode to set.
      */
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
+    public void setOrigBankCode(String bankCode) {
+        this.origBankCode = bankCode;
     }
 
     /**
@@ -398,6 +398,97 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         this.changeUserId = changeUserId;
     }
 
+
+    /**
+     * Gets the disbursementTypeCode attribute.
+     * 
+     * @return Returns the disbursementTypeCode.
+     */
+    public String getDisbursementTypeCode() {
+        return disbursementTypeCode;
+    }
+
+    /**
+     * Sets the disbursementTypeCode attribute value.
+     * 
+     * @param disbursementTypeCode The disbursementTypeCode to set.
+     */
+    public void setDisbursementTypeCode(String disbursementTypeCode) {
+        this.disbursementTypeCode = disbursementTypeCode;
+    }
+
+    /**
+     * Gets the paymentStatusCode attribute.
+     * 
+     * @return Returns the paymentStatusCode.
+     */
+    public String getPaymentStatusCode() {
+        return paymentStatusCode;
+    }
+
+    /**
+     * Sets the paymentStatusCode attribute value.
+     * 
+     * @param paymentStatusCode The paymentStatusCode to set.
+     */
+    public void setPaymentStatusCode(String paymentStatusCode) {
+        this.paymentStatusCode = paymentStatusCode;
+    }
+
+    /**
+     * Gets the paymentProcess attribute.
+     * 
+     * @return Returns the paymentProcess.
+     */
+    public PaymentProcess getPaymentProcess() {
+        return paymentProcess;
+    }
+
+    /**
+     * Sets the paymentProcess attribute value.
+     * 
+     * @param paymentProcess The paymentProcess to set.
+     */
+    public void setPaymentProcess(PaymentProcess paymentProcess) {
+        this.paymentProcess = paymentProcess;
+    }
+
+    /**
+     * Gets the paymentChangeCode attribute.
+     * 
+     * @return Returns the paymentChangeCode.
+     */
+    public String getPaymentChangeCode() {
+        return paymentChangeCode;
+    }
+
+    /**
+     * Sets the paymentChangeCode attribute value.
+     * 
+     * @param paymentChangeCode The paymentChangeCode to set.
+     */
+    public void setPaymentChangeCode(String paymentChangeCode) {
+        this.paymentChangeCode = paymentChangeCode;
+    }
+
+    /**
+     * Gets the paymentGroupId attribute.
+     * 
+     * @return Returns the paymentGroupId.
+     */
+    public Integer getPaymentGroupId() {
+        return paymentGroupId;
+    }
+
+    /**
+     * Sets the paymentGroupId attribute value.
+     * 
+     * @param paymentGroupId The paymentGroupId to set.
+     */
+    public void setPaymentGroupId(Integer paymentGroupId) {
+        this.paymentGroupId = paymentGroupId;
+    }
+
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
         UniversalUser u = userService.getUniversalUser(changeUserId);
         setChangeUser(u);
@@ -418,7 +509,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
-    
+
     public Integer getProcessId() {
         return processId;
     }
@@ -426,5 +517,5 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     public void setProcessId(Integer processId) {
         this.processId = processId;
     }
-    
+
 }

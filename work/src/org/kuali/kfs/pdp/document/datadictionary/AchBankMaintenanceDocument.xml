@@ -18,7 +18,12 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="bankState"
+              p:activeIndicatorAttributeName="active"
               p:attributeToHighlightOnFail="bankStateCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="postalCode"
+              p:activeIndicatorAttributeName="active"
+              p:attributeToHighlightOnFail="bankZipCode" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -46,7 +51,7 @@
           <property name="action" value="initiate" />
           <property name="authorizedGroups" >
             <set>
-              <value>PD_VIEW_ACH</value>
+              <value>SY_MAINTENANCE_USERS</value>
             </set>
           </property>
         </bean>

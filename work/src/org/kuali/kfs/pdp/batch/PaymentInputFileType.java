@@ -53,7 +53,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
 
         String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX + user.getPersonUserIdentifier().toLowerCase();
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
-            fileName += "_" + fileUserIdentifer;
+            fileName += "_" + StringUtils.remove(fileUserIdentifer, " ");
         }
         fileName += "_" + buf.toString();
 
@@ -82,9 +82,8 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         String userIdentifier = user.getPersonUserIdentifier();
-        userIdentifier = StringUtils.remove(userIdentifier, " ");
 
-        return StringUtils.contains(batchFile.getName(), userIdentifier);
+        return StringUtils.contains(batchFile.getName(), userIdentifier.toLowerCase());
     }
 
     /**

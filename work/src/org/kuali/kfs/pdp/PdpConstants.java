@@ -23,7 +23,9 @@ public class PdpConstants {
     public static final String PAYMENT_FILE_TYPE_INDENTIFIER = "paymentInputFileType";
     public static final String PAYMENT_LOAD_CREATE_DATE_SEPARATOR = "T";
     public static final String PAYMENT_LOAD_CREATE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    
+    public static final String PDP_FDOC_TYPE_CODE = "PDP";
+    public static final String PDP_FDOC_ORIGIN_CODE = "PD";
+
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeTypeCodes {
@@ -120,6 +122,7 @@ public class PdpConstants {
         public static final String HOLD_CHNG_CD = "HP";
         public static final String CHANGE_IMMEDIATE_CHNG_CD = "IMP";
         public static final String REMOVE_HOLD_CHNG_CD = "RHP";
+        public static final String BANK_CHNG_CD = "BC";
     }
 
     public static class PaymentStatusCodes {

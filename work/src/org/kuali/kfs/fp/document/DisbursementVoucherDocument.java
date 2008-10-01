@@ -117,6 +117,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private Date paidDate;
     private Date cancelDate;
     private String disbVchrBankCode;
+    private String disbVchrPdpBankCode;
 
     private boolean payeeAssigned = false;
 
@@ -1424,5 +1425,24 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setPayeeAssigned(boolean payeeAssigned) {
         this.payeeAssigned = payeeAssigned;
+    }
+
+    /**
+     * Gets the disbVchrPdpBankCode attribute.
+     * 
+     * @return Returns the disbVchrPdpBankCode.
+     */
+    public String getDisbVchrPdpBankCode() {
+        return disbVchrPdpBankCode;
+    }
+
+
+    /**
+     * Sets the disbVchrPdpBankCode attribute value.
+     * 
+     * @param disbVchrPdpBankCode The disbVchrPDPBankCode to set.
+     */
+    public void setDisbVchrPdpBankCode(String disbVchrPdpBankCode) {
+        this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }
 }

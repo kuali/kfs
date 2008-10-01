@@ -1,0 +1,179 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+  <bean id="BankChangeHistory" parent="BankChangeHistory-parentBean" />
+
+  <bean id="BankChangeHistory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.BankChangeHistory" />
+    <property name="lookupDefinition" >
+      <ref bean="BankChangeHistory-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Bank Change History" />
+    <property name="attributes" >
+      <list>
+        <ref bean="BankChangeHistory-chartCode" />
+        <ref bean="BankChangeHistory-orgCode" />
+        <ref bean="BankChangeHistory-subUnitCode" />
+        <ref bean="BankChangeHistory-custPaymentDocNbr" />
+        <ref bean="BankChangeHistory-purchaseOrderNbr" />
+        <ref bean="BankChangeHistory-invoiceNbr" />
+        <ref bean="BankChangeHistory-payeeName" />
+        <ref bean="BankChangeHistory-paymentDate" />
+        <ref bean="BankChangeHistory-disbursementDate" />
+        <ref bean="BankChangeHistory-paymentStatusCode" />
+        <ref bean="BankChangeHistory-disbursementTypeName" />
+        <ref bean="BankChangeHistory-disbursementNbr" />
+        <ref bean="BankChangeHistory-netPaymentAmount" />
+        <ref bean="BankChangeHistory-origBankCode" />
+        <ref bean="BankChangeHistory-bankCode" />
+      </list>
+    </property>
+  </bean>  
+  
+  <!-- Attribute Definitions -->
+
+  <bean id="BankChangeHistory-chartCode" parent="BankChangeHistory-chartCode-parentBean" />
+  <bean id="BankChangeHistory-chartCode-parentBean" abstract="true" parent="CustomerProfile-chartCode">
+    <property name="name" value="chartCode" />
+  </bean>    
+  
+  <bean id="BankChangeHistory-orgCode" parent="BankChangeHistory-orgCode-parentBean" />
+  <bean id="BankChangeHistory-orgCode-parentBean" abstract="true" parent="CustomerProfile-orgCode">
+    <property name="name" value="orgCode" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-subUnitCode" parent="BankChangeHistory-subUnitCode-parentBean" />
+  <bean id="BankChangeHistory-subUnitCode-parentBean" abstract="true" parent="CustomerProfile-subUnitCode">
+    <property name="name" value="subUnitCode" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-custPaymentDocNbr" parent="BankChangeHistory-custPaymentDocNbr-parentBean" />
+  <bean id="BankChangeHistory-custPaymentDocNbr-parentBean" abstract="true" parent="PaymentDetail-custPaymentDocNbr">
+    <property name="name" value="custPaymentDocNbr" />
+  </bean>    
+  
+  <bean id="BankChangeHistory-purchaseOrderNbr" parent="BankChangeHistory-purchaseOrderNbr-parentBean" />
+  <bean id="BankChangeHistory-purchaseOrderNbr-parentBean" abstract="true" parent="PaymentDetail-purchaseOrderNbr">
+    <property name="name" value="purchaseOrderNbr" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-invoiceNbr" parent="BankChangeHistory-invoiceNbr-parentBean" />
+  <bean id="BankChangeHistory-invoiceNbr-parentBean" abstract="true" parent="PaymentDetail-invoiceNbr">
+    <property name="name" value="invoiceNbr" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-payeeName" parent="BankChangeHistory-payeeName-parentBean" />
+  <bean id="BankChangeHistory-payeeName-parentBean" abstract="true" parent="PaymentGroup-payeeName">
+    <property name="name" value="payeeName" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-paymentDate" parent="BankChangeHistory-paymentDate-parentBean" />
+  <bean id="BankChangeHistory-paymentDate-parentBean" abstract="true" parent="PaymentGroup-paymentDate">
+    <property name="name" value="paymentDate" />
+  </bean>    
+  
+  <bean id="BankChangeHistory-disbursementDate" parent="BankChangeHistory-disbursementDate-parentBean" />
+  <bean id="BankChangeHistory-disbursementDate-parentBean" abstract="true" parent="PaymentGroup-disbursementDate">
+    <property name="name" value="disbursementDate" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-paymentStatusCode" parent="BankChangeHistory-paymentStatusCode-parentBean" />
+  <bean id="BankChangeHistory-paymentStatusCode-parentBean" abstract="true" parent="PaymentGroup-paymentStatusCode">
+    <property name="name" value="paymentStatusCode" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-disbursementTypeName" parent="BankChangeHistory-disbursementTypeName-parentBean" />
+  <bean id="BankChangeHistory-disbursementTypeName-parentBean" abstract="true" parent="DisbursementType-name">
+    <property name="name" value="disbursementTypeName" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-disbursementNbr" parent="BankChangeHistory-disbursementNbr-parentBean" />
+  <bean id="BankChangeHistory-disbursementNbr-parentBean" abstract="true" parent="PaymentGroup-disbursementNbr">
+    <property name="name" value="disbursementNbr" />
+  </bean>    
+  
+  <bean id="BankChangeHistory-netPaymentAmount" parent="BankChangeHistory-netPaymentAmount-parentBean" />
+  <bean id="BankChangeHistory-netPaymentAmount-parentBean" abstract="true" parent="PaymentDetail-netPaymentAmount">
+    <property name="name" value="netPaymentAmount" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-origBankCode" parent="BankChangeHistory-origBankCode-parentBean" />
+  <bean id="BankChangeHistory-origBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="origBankCode" />
+    <property name="label" value="Original Bank Code" />
+    <property name="shortLabel" value="Orig Bnk Cd" />
+  </bean> 
+  
+  <bean id="BankChangeHistory-bankCode" parent="BankChangeHistory-bankCode-parentBean" />
+  <bean id="BankChangeHistory-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="bankCode" />
+  </bean> 
+  
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="BankChangeHistory-lookupDefinition" parent="BankChangeHistory-lookupDefinition-parentBean" />
+
+  <bean id="BankChangeHistory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Bank Change History" />
+    <property name="lookupableID" value="bankChangeHistoryLookupable" />
+    <property name="instructions" value="Search for Payments with Bank changes" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>chartCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true" />
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="orgCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subUnitCode" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>     
+              <bean parent="FieldDefinition"
+                    p:attributeName="chartCode" />     
+              <bean parent="FieldDefinition"
+                    p:attributeName="orgCode" />                                                                                           
+              <bean parent="FieldDefinition"
+                    p:attributeName="subUnitCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="custPaymentDocNbr" />                    
+              <bean parent="FieldDefinition"
+                    p:attributeName="purchaseOrderNbr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="invoiceNbr" />   
+              <bean parent="FieldDefinition"
+                    p:attributeName="payeeName" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentDate" />   
+              <bean parent="FieldDefinition"
+                    p:attributeName="disbursementDate" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="paymentStatusCode" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="disbursementTypeName" />                                                       
+              <bean parent="FieldDefinition"
+                    p:attributeName="disbursementNbr" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="netPaymentAmount" />   
+              <bean parent="FieldDefinition"
+                    p:attributeName="origBankCode" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="bankCode" /> 
+      </list>
+    </property>
+  </bean>
+        
+</beans>        

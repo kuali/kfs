@@ -161,7 +161,7 @@
                     <c:if test="${KualiForm.btnPressed != 'btnAchInfoTab'}" >
                        <a href="<%= request.getContextPath().toString() %>/pdp/paymentdetailrice.do?DetailId=${KualiForm.paymentDetail.id}&methodToCall=showPaymentDetail&tab=btnAchInfoTab" class="HdrScrLnk">
                     </c:if>
-                    ACH Info
+                    Bank Info
                     <c:if test="${KualiForm.btnPressed != 'btnAchInfoTab'}" >
                        </a>
                     </c:if>

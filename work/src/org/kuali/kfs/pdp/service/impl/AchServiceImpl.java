@@ -17,17 +17,18 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.AchInformation;
 import org.kuali.kfs.pdp.businessobject.PayeeAchAccount;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
+/**
+ * @see org.kuali.kfs.pdp.service.AchService
+ */
 public class AchServiceImpl implements AchService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchServiceImpl.class);
 
@@ -36,21 +37,20 @@ public class AchServiceImpl implements AchService {
     /**
      * @see org.kuali.kfs.pdp.service.AchService#getAchInformation(java.lang.String, java.lang.String, java.lang.String)
      */
-    public AchInformation getAchInformation(String idType, String payeeId, String psdTransactionCode) {
+    public PayeeAchAccount getAchInformation(String idType, String payeeId, String psdTransactionCode) {
         LOG.debug("getAchInformation() started");
 
-        Map fields = new HashMap();
+        Map<String, Object> fields = new HashMap<String, Object>();
+
         fields.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         fields.put(PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, idType);
         fields.put(PdpPropertyConstants.PSD_TRANSACTION_CODE, psdTransactionCode);
+
         if (PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType)) {
             fields.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.SSN.equals(idType)) {
             fields.put(PdpPropertyConstants.PAYEE_SOCIAL_SECURITY_NUMBER, payeeId);
-        }
-        else if (PdpConstants.PayeeIdTypeCodes.PAYEE_ID.equals(idType)) {
-            fields.put(PdpPropertyConstants.DISBURSEMENT_VOUCHER_PAYEE_ID_NUMBER, payeeId);
         }
         else if (PdpConstants.PayeeIdTypeCodes.FEIN.equals(idType)) {
             fields.put(PdpPropertyConstants.PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER, payeeId);
@@ -59,15 +59,17 @@ public class AchServiceImpl implements AchService {
             String parts[] = payeeId.split("-");
             if (parts.length == 2) {
                 try {
-                    fields.put(PdpPropertyConstants.VENDOR_HEADER_GENERATED_IDENTIFIER, new Integer(Integer.parseInt(parts[0])));
-                    fields.put(PdpPropertyConstants.VENDOR_DETAIL_ASSIGNED_IDENTIFIER, new Integer(Integer.parseInt(parts[1])));
+                    fields.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, new Integer(Integer.parseInt(parts[0])));
+                    fields.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, new Integer(Integer.parseInt(parts[1])));
                 }
                 catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    LOG.error("Invaid vendor id: " + payeeId);
+                    throw new RuntimeException("Invaid vendor id: " + payeeId);
                 }
             }
         }
-        Collection rows = businessObjectService.findMatching(PayeeAchAccount.class, fields);
+
+        Collection<PayeeAchAccount> rows = businessObjectService.findMatching(PayeeAchAccount.class, fields);
         if (rows.size() != 1) {
             LOG.debug("getAchInformation() not found rows = " + rows.size());
 
@@ -76,21 +78,17 @@ public class AchServiceImpl implements AchService {
         else {
             LOG.debug("getAchInformation() found");
 
-            Iterator i = rows.iterator();
-            PayeeAchAccount paa = (PayeeAchAccount) i.next();
-            AchInformation ai = new AchInformation();
-            ai.setAchAccountType("22"); // TODO Fix this
-            ai.setAchBankAccountNbr(paa.getBankAccountNumber());
-            ai.setAchBankRoutingNbr(paa.getBankRoutingNumber());
-            ai.setAdviceEmailAddress(paa.getPayeeEmailAddress());
-            ai.setDepartmentCode(paa.getPsdTransactionCode());
-            ai.setIdType(paa.getPayeeIdentifierTypeCode());
-            ai.setPayeeId(payeeId);
-            return ai;
+            return rows.iterator().next();
         }
     }
 
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        businessObjectService = bos;
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
+
 }

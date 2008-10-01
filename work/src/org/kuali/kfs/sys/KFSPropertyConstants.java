@@ -1202,6 +1202,7 @@ public class KFSPropertyConstants {
     public static final String CASH_CONTROL_DETAILS = "cashControlDetails";
     public static final String BANK_CODE = "bankCode";
     public static final String CAPITAL_ASSET_MANAGEMENT_ASSET = "capitalAssetManagementAsset";
+    public static final String VENDOR_NUMBER = "vendorNumber";
     public static final String CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE = "capitalAssetManagementAssetType";
     public static final String POSTAL_COUNTRY_RESTRICTED_INDICATOR = "postalCountryRestrictedIndicator";
 }

@@ -21,11 +21,8 @@ package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
-
-/**
- * 
- */
 public class DisbursementType extends KualiCodeBase {
+    
     public DisbursementType() {
     }
 

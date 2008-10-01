@@ -50,7 +50,7 @@
 					      			Original Payment Status
 					          </th>
 					          <th height="50" class="thfont">
-					      			Bank
+					      			Original Bank Code
 					          </th>
 					          <th height="50" class="thfont">
 					      			Original ACH Bank Routing Number
@@ -108,7 +108,7 @@
 						              <c:out value="${item.origPaymentStatus.description}"/>&nbsp;
 												</td>
 						            <td class="datacell">
-						              <c:out value="${item.bank.bankName}"/>&nbsp;
+						              <c:out value="${item.origBankCode}"/>&nbsp;
 												</td>
 						            <td class="datacell">
 						              <c:out value="${item.origAchBankRouteNbr}"/>&nbsp;

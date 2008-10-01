@@ -229,8 +229,8 @@ public class CustomerProfileSaveAction extends BaseAction {
                                 if (element.getDisbursementTypeCode().equals(storedCustomerBank.getDisbursementType().getCode())) {
                                     // UPDATE CUSTOMERBANK storedCustomerBank by setting Version and ID
                                     LOG.debug("executeLogic() The next CustomerBank stored will be an UPDATE from existing");
-                                    cb.setId(storedCustomerBank.getId());
-                                    cb.setVersionNumber(storedCustomerBank.getVersionNumber());
+//                                    cb.setId(storedCustomerBank.getId());
+//                                    cb.setVersionNumber(storedCustomerBank.getVersionNumber());
                                 }
                             }
 
@@ -245,7 +245,7 @@ public class CustomerProfileSaveAction extends BaseAction {
                                 CustomerBank storedCustomerBank = (CustomerBank) iter.next();
                                 if (element.getDisbursementTypeCode().equals(storedCustomerBank.getDisbursementType().getCode())) {
                                     // DELETE CUSTOMERBANK storedCustomerBank
-                                    LOG.debug("executeLogic() Now deleting CustomerBank with id of " + storedCustomerBank.getId());
+//                                    LOG.debug("executeLogic() Now deleting CustomerBank with id of " + storedCustomerBank.getId());
                                     //storedCustomerBank.setLastUpdateUser(getUser(request));
                                     customerProfileService.deleteCustomerBank(storedCustomerBank);
                                 }

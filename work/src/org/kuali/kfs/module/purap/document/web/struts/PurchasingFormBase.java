@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,7 +36,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 /**
  * Struts Action Form for Purchasing documents.
  */
-public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
+public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     private Boolean notOtherDeliveryBuilding = true;
     private Boolean hideDistributeAccounts = true;
@@ -356,13 +357,21 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     
     @Override
     public List<ExtraButton> getExtraButtons() {
-        extraButtons.clear();    
+        extraButtons.clear();
+        if(getAuth()==null){
+            return extraButtons;
+        }
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-            // add the calculate button
-    //        if (purDocAuth.canCalculate()) {
-//        addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
-    //        }
+        
+        // add the calculate button
+            if (getAuth().canCalculate()) {
+                addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+            }
         return extraButtons;
     }
+
+
+
+    public abstract PurchasingDocumentActionAuthorizer getAuth();
 
 }

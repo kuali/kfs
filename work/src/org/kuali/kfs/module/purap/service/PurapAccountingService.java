@@ -67,7 +67,7 @@ public interface PurapAccountingService {
      * @param clazz the class of the Purchasing Accounts Payable Account
      * @return a list of new Purchasing Accounts Payable Accounts
      */
-    public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale);
+    public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(PurchasingAccountsPayableDocument purapdoc);
 
     /**
      * 

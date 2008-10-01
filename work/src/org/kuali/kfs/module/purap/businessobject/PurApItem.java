@@ -103,6 +103,8 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
 
     public List<PurApAccountingLine> getSourceAccountingLines();
 
+    public void setSourceAccountingLines(List<PurApAccountingLine> purapAccountingLines);
+    
     public List<PurApAccountingLine> getBaselineSourceAccountingLines();
 
     public KualiDecimal getItemQuantity();

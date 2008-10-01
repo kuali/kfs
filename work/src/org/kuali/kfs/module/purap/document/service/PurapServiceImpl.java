@@ -40,6 +40,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -650,7 +651,5 @@ public class PurapServiceImpl implements PurapService {
      */
     public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues) {
         return parameterDao.getParametersGivenLikeCriteria(fieldValues);
-    }
-    
-
+    }    
 }

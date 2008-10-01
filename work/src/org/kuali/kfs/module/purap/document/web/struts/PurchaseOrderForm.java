@@ -35,6 +35,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation
 import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -201,7 +202,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        
+        //setup auth first if necessary
+        if (auth == null) {
+            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
+            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        }
         //add buttons from purapformbase
         super.getExtraButtons();
         
@@ -210,10 +215,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         
-        if (auth == null) {
-            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
-        }
         if (auth.canRetransmit()) {
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
             extraButtons.add(retransmitButton);
@@ -404,7 +405,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
     }
     
-    public PurchaseOrderDocumentActionAuthorizer getAuth() {
+    @Override
+    public PurchasingDocumentActionAuthorizer getAuth() {
         return auth;
     }
 

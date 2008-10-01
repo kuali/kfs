@@ -25,18 +25,22 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -48,8 +52,13 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
 
     private ParameterService parameterService;
     private SequenceAccessorService sequenceAccessorService;
+    private PurapAccountingService purapAccountingService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
+    }
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -145,13 +154,44 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 purDoc.getPurchasingCapitalAssetSystems().add(resultSystem);
             }
         }
-    }
-    
-    public void prorateDiscountTradeIn(PurchasingDocument purDoc) {
-        //purapAccountingLineService.generateAccountDistributionForProration
+    }    
+
+    /**
+     * 
+     * @see org.kuali.kfs.module.purap.document.service.PurchasingService#prorateForTradeInAndFullOrderDiscount(org.kuali.kfs.module.purap.document.PurchasingDocument)
+     */
+    public void prorateForTradeInAndFullOrderDiscount(PurchasingDocument purDoc) {
+        PurApItem fullOrderDiscount = null;
+        PurApItem tradeIn = null;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;        
+
+        List<PurApAccountingLine> distributedAccounts = null;
+        List<SourceAccountingLine> summaryAccounts = null;
+        
+        // iterate through below the line and grab FoD and TrdIn.  
+        for (PurApItem item : purDoc.getItems()) {
+            if(item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
+                fullOrderDiscount = item;
+            } else if(item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
+                tradeIn = item;
+            }
+        }
+        //If Discount is not null or zero get proration list for all non misc items and set (if not empty?)
+        if(fullOrderDiscount!=null && fullOrderDiscount.getExtendedPrice().isNonZero()) {
+            //TODO: Chris check if we should update maybe use doc specific service since req is always update and po is only if empty
+            fullOrderDiscount.getSourceAccountingLines().clear();
+
+            totalAmount = purDoc.getTotalDollarAmountAllItems(new String[]{PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE});
+
+            summaryAccounts = purapAccountingService.generateSummary(purDoc.getItems());
+
+            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, fullOrderDiscount.getAccountingLineClass());
+            fullOrderDiscount.setSourceAccountingLines(distributedAccounts);
+        }
+        //TODO: If Trade in is not null or zero get proration list for all trade in selected items
         
     }
-
+    
     
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         return parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);

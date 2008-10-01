@@ -16,16 +16,21 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
+import org.kuali.kfs.module.purap.document.authorization.RequisitionDocumentActionAuthorizer;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -33,6 +38,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Struts Action Form for Requisition document.
  */
 public class RequisitionForm extends PurchasingFormBase {
+
+    RequisitionDocumentActionAuthorizer auth;
 
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document.
@@ -93,6 +100,22 @@ public class RequisitionForm extends PurchasingFormBase {
         return new RequisitionAccount();
     }
 
+    /**
+     * Override the superclass method to add appropriate buttons for
+     * PurchaseOrderDocument.
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        //setup auth first if necessary
+        if (auth == null) {
+            RequisitionDocument req = (RequisitionDocument) this.getDocument();
+            auth = new RequisitionDocumentActionAuthorizer(req, getEditingMode());
+        }
+        //add buttons from purapformbase
+        return super.getExtraButtons();
+    }
 
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
@@ -110,4 +133,10 @@ public class RequisitionForm extends PurchasingFormBase {
         return location;
     }
 
+    public PurchasingDocumentActionAuthorizer getAuth() {
+        return auth;
+    }
+    public void setAuth(RequisitionDocumentActionAuthorizer auth) {
+        this.auth = auth;
+    }
 }

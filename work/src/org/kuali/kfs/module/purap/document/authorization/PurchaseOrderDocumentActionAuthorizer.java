@@ -46,10 +46,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
  * buttons on Purchase Order Document.
  * 
  */
-public class PurchaseOrderDocumentActionAuthorizer {
+public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentActionAuthorizer {
 
-    private String docStatus;
-    private String documentType;
     private boolean currentIndicator;
     private boolean pendingActionIndicator;
     private boolean purchaseOrderAutomatedIndicator;
@@ -284,6 +282,11 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return SpringContext.getBean(ReceivingService.class).canCreateReceivingLineDocument(purchaseOrder) && isUserAuthorized;
     }
     
+    @Override
+    public boolean canCalculate() {
+        return (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS)||purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW));
+    }
+    
     /**
      * Determines if a Split a PO document can be created from this purchase order.
      * 
@@ -340,5 +343,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean isApprover() {
         return approver;
     }
+
+
 
 }

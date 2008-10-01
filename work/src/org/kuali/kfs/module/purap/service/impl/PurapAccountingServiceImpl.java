@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
@@ -219,12 +220,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProrationWithZeroTotal(java.util.List,
      *      java.lang.Integer)
      */
-    public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(List<PurApAccountingLine> accounts, Integer percentScale) {
+    public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(PurchasingAccountsPayableDocument purapDoc) {
         String methodName = "generateAccountDistributionForProrationWithZeroTotal()";
         if ( LOG.isDebugEnabled() ) {
             LOG.debug(methodName + " started");
         }
 
+        List<PurApAccountingLine> accounts = generatePercentSummary(purapDoc);
+        
         // find the total percent and strip trailing zeros
         BigDecimal totalPercentValue = BigDecimal.ZERO;
         for (PurApAccountingLine accountingLine : accounts) {
@@ -630,6 +633,32 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 account.setAmount(KualiDecimal.ZERO);
             }
         }
+    }
+    
+    public List<PurApAccountingLine> generatePercentSummary(PurchasingAccountsPayableDocument purapDoc) {
+        List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
+        for (PurApItem currentItem : purapDoc.getItems()) {
+            if (PurApItemUtils.checkItemActive(currentItem)) {
+                for (PurApAccountingLine account : currentItem.getSourceAccountingLines()) {
+                    boolean thisAccountAlreadyInSet = false;
+                    for (Iterator iter = accounts.iterator(); iter.hasNext();) {
+                        PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
+                        if (alreadyAddedAccount.accountStringsAreEqual(account)) {
+
+                            alreadyAddedAccount.setAccountLinePercent(alreadyAddedAccount.getAccountLinePercent().add(account.getAccountLinePercent()));
+                            
+                            thisAccountAlreadyInSet = true;
+                            break;
+                        }
+                    }
+                    if (!thisAccountAlreadyInSet) {
+                        PurApAccountingLine accountToAdd = (PurApAccountingLine) ObjectUtils.deepCopy(account);
+                        accounts.add(accountToAdd);
+                    }
+                }
+            }
+        }
+        return accounts;
     }
 
     /**

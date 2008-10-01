@@ -15,15 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
@@ -36,7 +35,6 @@ import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -231,7 +229,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 }
             }
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemType().getItemTypeCode()) || PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemType().getItemTypeCode())) {
-                if ((item.getItemUnitPrice() != null) && ((KualiDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
+                if ((item.getItemUnitPrice() != null) && ((BigDecimal.ZERO.compareTo(item.getItemUnitPrice())) != 0)) {
                     // discount or trade-in item has unit price that is not empty or zero
                     return "Requisition contains a " + item.getItemType().getItemTypeDescription() + " item, so it does not qualify as an APO.";
                 }

@@ -69,6 +69,15 @@
     <bean id="purapModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="purapModuleConfiguration" />
 	</bean>
+	
+	<bean id="purchasingAccountsPayableModuleService" parent="purchasingAccountsPayableModuleService-parentBean"/>
+	
+	<bean id="purchasingAccountsPayableModuleService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchasingAccountsPayableModuleServiceImpl">
+		<property name="documentService" ref="documentService" />
+		<property name="purapService" ref="purapService"/>
+		<property name="purchaseOrderService" ref="purchaseOrderService"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+	</bean>
 
 	<!--  override accounting service -->
     <bean id="purapAccountingLineRuleHelperService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingLineRuleHelperServiceImpl">

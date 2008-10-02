@@ -17,6 +17,9 @@ package org.kuali.kfs.module.purap.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -25,10 +28,45 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = KHUNTLEY)
 public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
+    
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    public void testAddAssignedAssetNumbers() {
+        Integer purchaseOrderNumber = null;
+        PurchaseOrderDocumentTest documentTest = new PurchaseOrderDocumentTest();
+        try {
+            PurchaseOrderDocument poDocument = documentTest.buildSimpleDocument();
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            poDocument.prepareForSave();       
+            AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
+            PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
+            purchaseOrderNumber = result.getPurapDocumentIdentifier();
+        } 
+        catch (Exception e) {
+            assertTrue(false);
+        }
+        List<Integer> assetNumbers = new ArrayList<Integer>();
+        assetNumbers.add(new Integer("12345"));
+        assetNumbers.add(new Integer("12346"));
+        SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers);
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
+        if( po == null ) {
+            assertTrue(false);
+        }
+        List<Note> boNotes = po.getBoNotes();
+        boolean hasNote = false;
+        for( Note note : boNotes ) {
+            if (note.getNoteText().contains("Asset Numbers have been created for this document:")) {
+                hasNote = true;
+                break;
+            }
+        }
+        assertTrue(hasNote);
+    }
     
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
     public void testGetPurchaseOrderInquiryUrl() {

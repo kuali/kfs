@@ -8,6 +8,7 @@
 <%@ attribute name="availability" required="true" description="Determines if this is a capture once or each tag or for each"%>
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
+<%@ attribute name="poItemInactive" required="false" description="True if the item this is part of is inactive."%>
 
 <html:hidden property="${camsAssetSystemProperty}.capitalAssetSystemIdentifier" />
 <html:hidden property="${camsAssetSystemProperty}.versionNumber" />
@@ -40,7 +41,7 @@
 	    <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right" width="250px" />    
 	      <td class="datacell" align="left" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${lockCamsEntry}"/>		
+			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${lockCamsEntry or poItemInactive}"/>		
 	      	&nbsp;
 			<html:image property="${addItemAssetUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
 		  </td>
@@ -65,7 +66,7 @@
 		<tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" align="right" width="250px" />    
 	      <td class="datacell" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${lockCamsEntry}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNoteText}" property="${camsAssetSystemProperty}.capitalAssetNoteText" readOnly="${lockCamsEntry or poItemInactive}"/>
 		  </td>		
 		</tr>
 	    </c:if>
@@ -74,7 +75,7 @@
         <tr>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" align="right" width="250px"/>
           <td align="right" colspan="3" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${lockCamsEntry}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetSystemDescription}" property="${camsAssetSystemProperty}.capitalAssetSystemDescription" readOnly="${lockCamsEntry or poItemInactive}"/>
 		  </td>
         </tr>
 		</c:if>
@@ -83,11 +84,11 @@
         <tr>
 		  <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" align="right" />
           <td align="right" class="datacell">
-			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="${lockCamsEntry}"/>
+			<kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetNotReceivedCurrentFiscalYearIndicator}" property="${camsAssetSystemProperty}.capitalAssetNotReceivedCurrentFiscalYearIndicator" readOnly="${lockCamsEntry or poItemInactive}"/>
 		  </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" align="right" width="250px"/>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${lockCamsEntry}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetManufacturerName}" property="${camsAssetSystemProperty}.capitalAssetManufacturerName" readOnly="${lockCamsEntry or poItemInactive}"/>
             <c:if test="${not lockCamsEntry}">
             	<html:image property="${setManufacturerFromVendorUrl}" src="${ConfigProperties.externalizable.images.url}tinybutton-sameasvendor.gif" alt="Manufacturer Same as Vendor" styleClass="tinybutton"/>
             </c:if>
@@ -103,14 +104,14 @@
                     ${KualiForm.defaultAssetTypeCodeNotThisFiscalYear}&nbsp;
                 </c:when>
                 <c:otherwise>
-                    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode"/>		
+                    <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${lockCamsEntry or poItemInactive}"/>		
                     <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/> 
                 </c:otherwise>
             </c:choose>
           </td>
           <kul:htmlAttributeHeaderCell attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" align="right" width="250px"/>
           <td align="right" class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${lockCamsEntry}"/>
+            <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetModelDescription}" property="${camsAssetSystemProperty}.capitalAssetModelDescription" readOnly="${lockCamsEntry or poItemInactive}"/>
 		  </td>
         </tr>
 
@@ -179,7 +180,7 @@
 					</c:if>   
 				        <th colspan="10" style="padding:0;">
 							<!-- Cams Location List -->
-							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.capitalAssetLocations[${ctr2}]" isEditable="false" availability="${availability}" />
+							<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${camsAssetSystemProperty}.capitalAssetLocations[${ctr2}]" isEditable="false" availability="${availability}" poItemInactive="${poItemInactive}"/>
 				        </th>
 				    
 					<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

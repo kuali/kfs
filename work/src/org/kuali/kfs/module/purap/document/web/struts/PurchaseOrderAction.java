@@ -1680,13 +1680,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // Add a note if system change occurs when the document is a PO that is being amended.
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument)purchasingForm.getDocument();
-        if (PurapConstants.PurchaseOrderStatuses.AMENDMENT.equals(document.getStatusCode())) {
+        if (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(document.getStatusCode())) {
             Integer poId = document.getPurapDocumentIdentifier();
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
             if (currentPO != null) {
                 CapitalAssetSystemType oldSystemType = currentPO.getCapitalAssetSystemType();
                 String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
-                StringUtils.replace(noteText, "{0}", oldSystemType.getCapitalAssetSystemTypeDescription());
+                String description = ((oldSystemType == null) ? "(NONE)" : oldSystemType.getCapitalAssetSystemTypeDescription());
+                StringUtils.replace(noteText, "{0}", description);
                 try {
                     Note systemTypeChangeNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
                     document.addNote(systemTypeChangeNote);

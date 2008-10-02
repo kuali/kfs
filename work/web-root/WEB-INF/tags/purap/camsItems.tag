@@ -106,7 +106,9 @@
     </c:choose>
 	
     <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
+    
+    <c:set var="itemActive" value="${document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
+    
 	<tr>
 	<td class="infoline" valign="middle" colspan="10">
 		<table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -125,19 +127,19 @@
 	    </tr>
 	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-		<tr style="display: none;"  id="tab-${tabKey}-div">
-		</c:if>   
+			<tr style="display: none;"  id="tab-${tabKey}-div">
+		</c:if>  
 	        <th colspan="10" style="padding:0;">
 				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 				<tr>
 			    <kul:htmlAttributeHeaderCell attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" align="right" width="250px"/>
 			    <td class="datacell">
-					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${false}"/>		
+					<kul:htmlControlAttribute attributeEntry="${camsItemAttributes.capitalAssetTransactionTypeCode}" property="document.purchasingCapitalAssetItems[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not itemActive}"/>		
 				</td>
 				</tr>
 				</table>
-				<purap:camsDetail ctr="${ctr}" camsItemIndex="${ctr}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" camsAssetSystemProperty="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem" availability="${PurapConstants.CapitalAssetAvailability.EACH}" isRequisition="${isRequisition}" isPurchaseOrder="${isPurchaseOrder}" />
-	        </th>	    
+				<purap:camsDetail ctr="${ctr}" camsItemIndex="${ctr}" camsSystemAttributes="${camsSystemAttributes}" camsAssetAttributes="${camsAssetAttributes}" camsLocationAttributes="${camsLocationAttributes}" camsAssetSystemProperty="document.purchasingCapitalAssetItems[${ctr}].purchasingCapitalAssetSystem" availability="${PurapConstants.CapitalAssetAvailability.EACH}" isRequisition="${isRequisition}" isPurchaseOrder="${isPurchaseOrder}" poItemInactive="${not itemActive}"/>
+	        </th>    
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 		    </tr>
 		</c:if>

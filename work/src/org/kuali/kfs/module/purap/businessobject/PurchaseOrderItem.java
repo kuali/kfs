@@ -129,6 +129,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public boolean isItemActiveIndicator() {
         return itemActiveIndicator;
     }
+    
+    public String getItemActiveIndicator() {
+        return (new Boolean(itemActiveIndicator)).toString();
+    }
 
     public void setItemActiveIndicator(boolean itemActiveIndicator) {
         this.itemActiveIndicator = itemActiveIndicator;

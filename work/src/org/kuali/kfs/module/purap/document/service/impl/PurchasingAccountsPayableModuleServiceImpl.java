@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.UrlFactory;
 
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
@@ -49,6 +50,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     private PurchaseOrderService purchaseOrderService;
     private PurapService purapService;
     private DocumentService documentService;
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
@@ -79,17 +81,20 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getPurchaseOrderInquiryUrl(java.lang.Integer)
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber) {
+        
+        String url = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        
         Properties parameters = new Properties();
-        String url = "";
         parameters.setProperty(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         try {
-            PurchaseOrderDocument currentDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);                  
+            PurchaseOrderDocument currentDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
+            parameters.setProperty("businessObjectClassName", PurchaseOrderDocument.class.getName());
             parameters.setProperty("documentNumber", currentDocument.getDocumentNumber());
         }
         catch (NullPointerException npe) {
-            //TODO Find an appropriate exception.
+            throw new RuntimeException("Could not find the current PO document" + npe);
         }
-        url = UrlFactory.parameterizeUrl(KFSConstants.INQUIRY_ACTION, parameters);
+        url = UrlFactory.parameterizeUrl(url + "/" + KFSConstants.INQUIRY_ACTION, parameters);
         return url;
     }
 
@@ -222,5 +227,13 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-    
+
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
 }

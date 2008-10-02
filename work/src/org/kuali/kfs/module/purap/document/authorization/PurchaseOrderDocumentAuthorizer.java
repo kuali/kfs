@@ -127,7 +127,8 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
 
-            if (PurapConstants.PurchaseOrderStatuses.AMENDMENT.equals(poDocument.getStatusCode())) {
+            // Unlock Capital Assets tag during Amendment.
+            if (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(poDocument.getStatusCode())) {
                 String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
                 if (user.isMember(purchasingGroup)) {
                     editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);

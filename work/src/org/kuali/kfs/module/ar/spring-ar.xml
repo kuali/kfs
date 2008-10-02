@@ -351,6 +351,9 @@
 	</bean>
 	
 	<bean id="customerLoadStep" class="org.kuali.kfs.module.ar.batch.CustomerLoadStep" parent="step">
+		<property name="batchService">
+			<ref bean="customerLoadService" />
+		</property>					
 	</bean>
 	
 	<bean id="customerLoadService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerLoadServiceImpl">
@@ -368,6 +371,18 @@
 		</property>					
 		<property name="ddService">
 			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>					
+		<property name="docService">
+			<ref bean="documentService" />
+		</property>					
+		<property name="batchInputFileType">
+			<ref bean="customerLoadInputFileType" />
 		</property>					
 	</bean>
 	

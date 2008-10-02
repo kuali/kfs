@@ -22,6 +22,12 @@ import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 public interface CustomerLoadService {
 
     /**
+     * Validates and parses all files ready to go in the batch staging area.
+     * @return
+     */
+    public boolean loadFiles();
+
+    /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
      * 
      * @param fileNaem Name of file to be uploaded and processed.

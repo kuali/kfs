@@ -42,6 +42,7 @@
         <ref bean="AssetGlobal-financialDocumentNextLineNumber" />
         <ref bean="AssetGlobal-financialDocumentTypeCode" />
         <ref bean="AssetGlobal-separateSourcePaymentSequenceNumber" />
+        <ref bean="AssetGlobal-capitalAssetBuilderOriginIndicator" />
       </list>
     </property>
 	<property name="relationships" >
@@ -309,5 +310,13 @@
   
   <bean id="AssetGlobal-separateSourcePaymentSequenceNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
    <property name="name" value="separateSourcePaymentSequenceNumber" />
+  </bean>
+  
+  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator"  parent="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean" />
+  
+  <bean id="AssetGlobal-capitalAssetBuilderOriginIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
+	<property name="name" value="capitalAssetBuilderOriginIndicator" />
+	<property name="label" value="Capital Asset Builder Origin Indicator" />
+	<property name="shortLabel" value="Origin Indicator" />
   </bean>
 </beans>

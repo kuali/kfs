@@ -68,7 +68,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Integer financialDocumentNextLineNumber;
     private Asset separateSourceCapitalAsset;
     private Integer separateSourcePaymentSequenceNumber;
-
+    private boolean capitalAssetBuilderOriginIndicator;
+    
     // Not Persisted
     private Date lastInventoryDate;
     private ContractsAndGrantsAgency agency;
@@ -1131,6 +1132,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         return ObjectUtils.isNull(documentHeader) ? null : documentHeader.getDocumentFinalDate();
     }
 
+    public boolean isCapitalAssetBuilderOriginIndicator() {
+        return capitalAssetBuilderOriginIndicator;
+    }
+
+    public void setCapitalAssetBuilderOriginIndicator(boolean capitalAssetBuilderOriginIndicator) {
+        this.capitalAssetBuilderOriginIndicator = capitalAssetBuilderOriginIndicator;
+    }
+
     /**
      * Gets the calculate equal source amounts button
      * 
@@ -1148,5 +1157,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setCalculateEqualSourceAmountsButton(String calculateEqualSourceAmountsButton) {
         this.calculateEqualSourceAmountsButton = calculateEqualSourceAmountsButton;
     }
+
 
 }

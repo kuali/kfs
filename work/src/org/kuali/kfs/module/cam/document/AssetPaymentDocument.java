@@ -52,6 +52,9 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private List<AssetPaymentAssetDetail> assetPaymentAssetDetail;
 
     private Long capitalAssetNumber;
+    private boolean capitalAssetBuilderOriginIndicator;
+
+
 
     public AssetPaymentDocument() {
         super();
@@ -66,6 +69,14 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return false;
+    }
+
+    public boolean isCapitalAssetBuilderOriginIndicator() {
+        return capitalAssetBuilderOriginIndicator;
+    }
+
+    public void setCapitalAssetBuilderOriginIndicator(boolean capitalAssetBuilderOriginIndicator) {
+        this.capitalAssetBuilderOriginIndicator = capitalAssetBuilderOriginIndicator;
     }
 
     /**

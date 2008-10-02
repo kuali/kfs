@@ -879,7 +879,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         // reduce source total amount and asset payment if document is Asset Separate
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
-            separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.totalSeparateSourceAmount(this)));
+            separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(this)));
             persistables.add(separateSourceCapitalAsset);
 
             // copy and set AssetPayment from source Asset into new AssetPayment object

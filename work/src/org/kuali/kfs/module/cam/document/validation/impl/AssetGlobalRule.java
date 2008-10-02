@@ -461,7 +461,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             }
 
             // new source payments must be greater than the capital asset cost amount
-            KualiDecimal totalSeparateSourceAmount = assetGlobalService.totalSeparateSourceAmount(assetGlobal);
+            KualiDecimal totalSeparateSourceAmount = assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal);
             if (totalSeparateSourceAmount.isGreaterThan(assetGlobal.getTotalCostAmount())) {
                 putFieldError(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS, CamsKeyConstants.AssetSeparate.ERROR_INVALID_TOTAL_SEPARATE_SOURCE_AMOUNT, new String[] { assetGlobal.getSeparateSourceCapitalAssetNumber().toString() });
                 success &= false;

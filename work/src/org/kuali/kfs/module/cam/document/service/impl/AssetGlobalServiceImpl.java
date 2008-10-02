@@ -326,12 +326,12 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
-     * Add and return the total amount for separate source amount
+     * Add and return the total amount for all unique assets created.
      * 
      * @param assetGlobal
      * @return Returns the total separate source amount
      */
-    public KualiDecimal totalSeparateSourceAmount(AssetGlobal assetGlobal) {
+    public KualiDecimal getUniqueAssetsTotalAmount(AssetGlobal assetGlobal) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         // add new asset location
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {

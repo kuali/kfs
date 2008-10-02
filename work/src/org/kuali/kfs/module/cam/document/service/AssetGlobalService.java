@@ -76,11 +76,11 @@ public interface AssetGlobalService {
     public boolean isAssetSeparateDocument(AssetGlobal assetGlobal);
 
     /**
-     * Add and return the total amount for separate source amount
+     * Add and return the total amount for all unique assets created.
      * 
      * @param assetGlobal
      * @return KualiDecimal
      */
-    public KualiDecimal totalSeparateSourceAmount(AssetGlobal assetGlobal);
+    public KualiDecimal getUniqueAssetsTotalAmount(AssetGlobal assetGlobal);
 
 }

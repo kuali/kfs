@@ -17,6 +17,8 @@ package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +40,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
+import org.kuali.kfs.module.cam.util.KualiDecimalService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -478,30 +481,50 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     @Override
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
-        LOG.info("LEO - processAfterPost() called....");
         super.processAfterPost(document, parameters);
         // adjust the quantity
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
-        List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
-        if (!assetSharedDetails.isEmpty()) {
-            for (AssetGlobalDetail assetGlobalDetail : assetSharedDetails) {
-                assetGlobalDetail.setLocationQuantity(assetGlobalDetail.getAssetGlobalUniqueDetails().size());
+        List<AssetGlobalDetail> sharedDetailsList = assetGlobal.getAssetSharedDetails();
+        
+        // each shared detail is a group of new assets to be created.
+        // so to equally split the source amount into all new assets (all groups), 
+        // we need to get the total of ALL location quantities from each shared detail group  
+        int locationQtyTotal = 0;
+        if (!sharedDetailsList.isEmpty()) {
+            for (AssetGlobalDetail sharedDetail : sharedDetailsList) {
+                sharedDetail.setLocationQuantity(sharedDetail.getAssetGlobalUniqueDetails().size());
+                locationQtyTotal += sharedDetail.getLocationQuantity();
             }
         }
         
-        String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
-        // only on Asset Separate document
-        // if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-        // when click on "calculateEqualSourceAmounts", put logic here.
-        
-        if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0])) {
-            LOG.info("LEO - processAfterPost(): button is working...?");
+        // button actions for Asset Separate document
+        if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
+            
+            // calculate equal source total amounts and set separate source amount fields
+            // TODO throws exception if no shared details exist
+            // TODO calc amount and populate across multiple shared details
+            if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0])) {
+                KualiDecimalService kualiDecimalService = new KualiDecimalService(assetGlobal.getTotalCostAmount(), Currency.getInstance("USD"));
+                KualiDecimal[] equalSourceAmounts = kualiDecimalService.allocate(locationQtyTotal);
+                setSingleSeparateSourceAmounts(equalSourceAmounts, assetGlobal);
+            }
+            
+            // TODO calculate source asset remaining amount
         }
-        // }
-
-        LOG.info("LEO - processAfterPost() finished....");
     }
-
+    
+    // one group - seems to work fine
+    public void setSingleSeparateSourceAmounts(KualiDecimal[] kualiDecimalArray, AssetGlobal assetGlobal) {
+        int i = 0;
+        for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
+            for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
+                assetGlobalUniqueDetail.setSeparateSourceAmount(kualiDecimalArray[i]);
+                i++;
+            }
+        }
+    }
+    
     /**
      * Gets the routingInfo attribute.
      * 

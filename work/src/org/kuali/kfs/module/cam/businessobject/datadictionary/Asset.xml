@@ -103,7 +103,7 @@
         <ref bean="Asset-assetWarranty.warrantyEndingDate" />
         <ref bean="Asset-assetWarranty.warrantyText" />
         <ref bean="Asset-separateHistory.separateSourceCapitalAssetNumber" />
-        <ref bean="Asset-separateHistory.documentHeaderFinalDate" />
+        <ref bean="Asset-separateHistory.separateDocumentHeaderFinalDate" />
         <ref bean="Asset-retirementInfo.documentNumber" />
         <ref bean="Asset-retirementReason.retirementReasonName" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementDate" />
@@ -1232,10 +1232,10 @@
     <property name="label" value="Original Asset Number" />
     <property name="shortLabel" value="OrigAssetNbr" />
   </bean>
-  <bean id="Asset-separateHistory.documentHeaderFinalDate" parent="Asset-separateHistory.documentHeaderFinalDate-parentBean" />
+  <bean id="Asset-separateHistory.separateDocumentHeaderFinalDate" parent="Asset-separateHistory.separateDocumentHeaderFinalDate-parentBean" />
 
-  <bean id="Asset-separateHistory.documentHeaderFinalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="separateHistory.documentHeaderFinalDate" />
+  <bean id="Asset-separateHistory.separateDocumentHeaderFinalDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="separateHistory.separateDocumentHeaderFinalDate" />
     <property name="label" value="Separate Date" />
     <property name="shortLabel" value="Date" />
   </bean>
@@ -1763,7 +1763,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="separateHistory.separateSourceCapitalAssetNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="separateHistory.documentHeaderFinalDate" />
+                    p:attributeName="separateHistory.separateDocumentHeaderFinalDate" />
             </list>
           </property>
         </bean>

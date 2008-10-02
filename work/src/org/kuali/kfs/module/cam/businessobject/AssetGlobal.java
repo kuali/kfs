@@ -784,8 +784,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setCampusTagNumber(detail.getCampusTagNumber());
             asset.setNationalStockNumber(detail.getNationalStockNumber());
 
-            // asset.setVersionNumber(1L);
-
             // set specific values for new asset if document is Asset Separate
             // capitalAssetTypeCode is over written from above
             if (assetGlobalService.isAssetSeparateDocument(this)) {
@@ -799,6 +797,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
                 assetOrganization.setOrganizationText(detail.getOrganizationText());
+                assetOrganization.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
+                asset.setAssetOrganization(assetOrganization);
+            } else {
+                // set AssetOrganization data, this time from the main object though since it's not coming from separate
+                AssetOrganization assetOrganization = new AssetOrganization();
+                assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
+                assetOrganization.setOrganizationText(this.getOrganizationText());
                 assetOrganization.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
                 asset.setAssetOrganization(assetOrganization);
             }
@@ -1124,12 +1129,18 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date.
+     * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date. This only returns a date if this is a separate.
      * 
      * @return
      */
-    public Date getDocumentHeaderFinalDate() {
-        return ObjectUtils.isNull(documentHeader) ? null : documentHeader.getDocumentFinalDate();
+    public Date getSeparateDocumentHeaderFinalDate() {
+        if (ObjectUtils.isNull(documentHeader)) {
+            return null;
+        } else {
+            AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+            
+            return assetGlobalService.isAssetSeparateDocument(this) ? documentHeader.getDocumentFinalDate() : null;
+        }
     }
 
     public boolean isCapitalAssetBuilderOriginIndicator() {

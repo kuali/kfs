@@ -490,7 +490,7 @@
               p:name="separateHistory.separateSourceCapitalAssetNumber"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="separateHistory.documentHeaderFinalDate"
+              p:name="separateHistory.separateDocumentHeaderFinalDate"
               p:readOnly="true" />
       </list>
     </property>

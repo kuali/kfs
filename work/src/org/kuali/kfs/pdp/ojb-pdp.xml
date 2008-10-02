@@ -497,6 +497,13 @@
     </reference-descriptor>
   </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentType" table="PDP_PMT_TYP_T">
+    <field-descriptor name="paymentTypeCode" column="PMT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="description" column="PMT_TYP_DESC" jdbc-type="VARCHAR" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchBank" table="PDP_ACH_BNK_T">
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

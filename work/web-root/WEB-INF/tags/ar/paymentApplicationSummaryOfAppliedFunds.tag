@@ -89,7 +89,7 @@
 												</td>
 												<td>
 													<c:out
-														value="${appliedPayment.invoiceItem.financialDocumentLineDescription}" />
+														value="${appliedPayment.invoiceItem.financialDocumentLineDescription}" />&nbsp;
 													<html:hidden
 														property="document.appliedPayment[${ctr}].invoiceItem.financialDocumentLineDescription" />
 												</td>

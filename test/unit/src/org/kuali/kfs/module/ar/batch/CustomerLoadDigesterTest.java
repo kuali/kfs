@@ -38,7 +38,7 @@ public class CustomerLoadDigesterTest extends TestCase {
     private static final String XML_SAMPLE_FILE = "CustomerLoad-Sample.xml";
     private static final String SCHEMA_DIRECTORY = "work/web-root/static/xml/fs/";
     private static final String SCHEMA_FILE = "arCustomerLoad.xsd";
-    private static final String DIGESTER_RULE_DIRECTORY = "org/kuali/kfs/module/ar/batch/";
+    private static final String DIGESTER_RULE_DIRECTORY = "org/kuali/kfs/module/ar/batch/digester/";
     private static final String DIGESTER_RULE_FILE = "customerLoadDigesterRules.xml";
     
     private List<CustomerDigesterVO> parsedCustomerList;

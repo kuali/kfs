@@ -38,7 +38,7 @@ public class CustomerLoadXMLSchemaTest extends TestCase {
 
     private static final String XML_SAMPLE_DIRECTORY = "org/kuali/kfs/module/ar/batch/sample/";
     private static final String XML_SAMPLE_FILE = "CustomerLoad-Sample.xml";
-    private static final String SCHEMA_DIRECTORY = "org/kuali/kfs/module/ar/batch/";
+    private static final String SCHEMA_DIRECTORY = "org/kuali/kfs/module/ar/batch/schema/";
     private static final String SCHEMA_FILE = "arCustomerLoad.xsd";
     
     /**

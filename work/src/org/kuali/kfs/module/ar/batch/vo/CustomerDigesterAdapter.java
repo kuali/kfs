@@ -314,7 +314,7 @@ public class CustomerDigesterAdapter {
             return defaultValue;
         }
         else {
-            return incomingValue;
+            return ((incomingValue == null) ? "" : incomingValue);
         }
     }
     

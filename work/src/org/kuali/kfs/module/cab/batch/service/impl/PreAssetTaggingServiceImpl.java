@@ -78,7 +78,7 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
                 HashMap map = new HashMap();
 
                 map.put("purchaseOrderNumber", lineStrings[0]);
-                map.put("lineItemNumber", new Long(Long.parseLong(lineStrings[1])));
+                map.put("itemLineNumber", new Integer(lineStrings[1]));
                 map.put("quantityInvoiced", new BigDecimal(lineStrings[2]));
                 map.put("vendorName", lineStrings[3]);
                 map.put("assetTopsDescription", lineStrings[4]);
@@ -92,7 +92,7 @@ public class PreAssetTaggingServiceImpl implements PreAssetTaggingService {
                 if (persistableBusinessObject == null) {
 
                     pretag.setPurchaseOrderNumber(lineStrings[0]);
-                    pretag.setLineItemNumber(new Long(Long.parseLong(lineStrings[1])));
+                    pretag.setItemLineNumber(new Integer(lineStrings[1]));
                     pretag.setObjectId(lineStrings[0] + lineStrings[1]);
                     pretag.setQuantityInvoiced(new KualiDecimal(lineStrings[2]));
                     pretag.setVendorName(lineStrings[3]);

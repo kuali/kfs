@@ -21,7 +21,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class Pretag extends PersistableBusinessObjectBase {
 
     private String purchaseOrderNumber;
-    private Long lineItemNumber;
+    private Integer itemLineNumber;
     private KualiDecimal quantityInvoiced;
     private String capitalAssetTypeCode;
     private String manufacturerName;
@@ -74,23 +74,22 @@ public class Pretag extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the lineItemNumber attribute.
+     * Gets the itemLineNumber attribute.
      * 
-     * @return Returns the lineItemNumber
+     * @return Returns the itemLineNumber.
      */
-    public Long getLineItemNumber() {
-        return lineItemNumber;
+    public Integer getItemLineNumber() {
+        return itemLineNumber;
     }
 
     /**
-     * Sets the lineItemNumber attribute.
+     * Sets the itemLineNumber attribute value.
      * 
-     * @param lineItemNumber The lineItemNumber to set.
+     * @param itemLineNumber The itemLineNumber to set.
      */
-    public void setLineItemNumber(Long lineItemNumber) {
-        this.lineItemNumber = lineItemNumber;
+    public void setItemLineNumber(Integer itemLineNumber) {
+        this.itemLineNumber = itemLineNumber;
     }
-
 
     /**
      * Gets the quantityInvoiced attribute.
@@ -425,8 +424,8 @@ public class Pretag extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderNumber", this.purchaseOrderNumber);
-        if (this.lineItemNumber != null) {
-            m.put("lineItemNumber", this.lineItemNumber.toString());
+        if (this.itemLineNumber != null) {
+            m.put("itemLineNumber", this.itemLineNumber.toString());
         }
         return m;
     }

@@ -15,7 +15,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PretagDetail-purchaseOrderNumber" />
-        <ref bean="PretagDetail-lineItemNumber" />
+        <ref bean="PretagDetail-itemLineNumber" />
         <ref bean="PretagDetail-campusCode" />
         <ref bean="PretagDetail-pretagTagCreateDate" />
         <ref bean="PretagDetail-buildingCode" />
@@ -42,9 +42,9 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="PretagDetail-lineItemNumber" parent="PretagDetail-lineItemNumber-parentBean" />
+  <bean id="PretagDetail-itemLineNumber" parent="PretagDetail-itemLineNumber-parentBean" />
 
-  <bean id="PretagDetail-lineItemNumber-parentBean" abstract="true" parent="Pretag-lineItemNumber">
+  <bean id="PretagDetail-itemLineNumber-parentBean" abstract="true" parent="Pretag-itemLineNumber">
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
@@ -209,7 +209,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="purchaseOrderNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="lineItemNumber" />
+                    p:attributeName="itemLineNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="campusTagNumber" />
               <bean parent="FieldDefinition"

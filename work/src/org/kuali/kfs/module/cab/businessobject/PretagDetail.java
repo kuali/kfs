@@ -14,7 +14,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class PretagDetail extends PersistableBusinessObjectBase {
 
     private String purchaseOrderNumber;
-    private Long lineItemNumber;
+    private Integer itemLineNumber;
     private String campusTagNumber;
     private String serialNumber;
     private String organizationTagNumber;
@@ -26,7 +26,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     private String governmentTagNumber;
     private String nationalStockNumber;
     private boolean active;
-    
+
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -58,23 +58,22 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the lineItemNumber attribute.
+     * Gets the itemLineNumber attribute.
      * 
-     * @return Returns the lineItemNumber
+     * @return Returns the itemLineNumber.
      */
-    public Long getLineItemNumber() {
-        return lineItemNumber;
+    public Integer getItemLineNumber() {
+        return itemLineNumber;
     }
 
     /**
-     * Sets the lineItemNumber attribute.
+     * Sets the itemLineNumber attribute value.
      * 
-     * @param lineItemNumber The lineItemNumber to set.
+     * @param itemLineNumber The itemLineNumber to set.
      */
-    public void setLineItemNumber(Long lineItemNumber) {
-        this.lineItemNumber = lineItemNumber;
+    public void setItemLineNumber(Integer itemLineNumber) {
+        this.itemLineNumber = itemLineNumber;
     }
-
 
     /**
      * Gets the campusTagNumber attribute.
@@ -264,7 +263,8 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -273,6 +273,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -342,8 +343,8 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderNumber", this.purchaseOrderNumber);
-        if (this.lineItemNumber != null) {
-            m.put("lineItemNumber", this.lineItemNumber.toString());
+        if (this.itemLineNumber != null) {
+            m.put("itemLineNumber", this.itemLineNumber.toString());
         }
         m.put("campusTagNumber", this.campusTagNumber);
         return m;

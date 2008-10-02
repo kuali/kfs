@@ -60,12 +60,19 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
         // set assetPaymentDetail list
         createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
+        
+        // TODO: createAssetPaymentAssetDetails() for capitalAssetNumber entered from PurAp.
+        createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(),selectedItem, purApForm.getRequisitionIdentifier());
+        
         documentService.saveDocument(newDocument);
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
         return newDocument.getDocumentNumber();
     }
 
+    private void createAssetPaymentAssetDetails(List assetPaymentAssetDetail, PurchasingAccountsPayableItemAsset selectedItem, Integer requisitionIdentifier) {
+        
+    }
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processCreateAsset(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
@@ -118,6 +125,27 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         setFormActiveItemIndicator(purApForm);
         // persistent to the table
         purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
+        
+        // TODO: below code won't work either???
+        // In-activate GeneralLedgerEntry
+        /*
+        for (PurchasingAccountsPayableLineAssetAccount account: selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            boolean glActive = false;
+            account.refreshReferenceObject("generalLedgerEntry");
+            
+            GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
+            for (PurchasingAccountsPayableLineAssetAccount acct: glEntry.getPurApLineAssetAccounts()) {
+                if (acct.isActive()) {
+                    glActive = true;
+                    break;
+                }
+            }
+            if (!glActive) {
+            glEntry.setActive(glActive);
+            businessObjectService.save(glEntry);
+            }
+        }
+        */
     }
 
     /**
@@ -226,6 +254,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         int seq = 1;
 
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            account.refreshReferenceObject("generalLedgerEntry");
             GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
             AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
             // initialize payment detail fields
@@ -253,7 +282,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             account.setActive(false);
 
             // in-activate generalLedgerEnter if needed
-            inActivateGLEntry(glEntry);
+            inActivateGLEntry(glEntry, account);
 
             assetPaymentList.add(assetPaymentDetail);
         }
@@ -265,10 +294,10 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param glEntry
      */
-    private void inActivateGLEntry(GeneralLedgerEntry glEntry) {
+    private void inActivateGLEntry(GeneralLedgerEntry glEntry, PurchasingAccountsPayableLineAssetAccount currentAccount) {
 
         for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
-            if (account.isActive()) {
+            if (!(account.getDocumentNumber().equalsIgnoreCase(currentAccount.getDocumentNumber()) && account.getAccountsPayableLineItemIdentifier().equals(currentAccount.getAccountsPayableLineItemIdentifier()) && account.getCapitalAssetBuilderLineNumber().equals(currentAccount.getCapitalAssetBuilderLineNumber()) && account.getGeneralLedgerAccountIdentifier().equals(currentAccount.getGeneralLedgerAccountIdentifier())) && account.isActive()) {
                 // if one account shows active, return without modification.
                 return;
             }

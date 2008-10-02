@@ -165,7 +165,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
         if (detail.isActive()) {
 
             detail.setPurchaseOrderNumber(pretag.getPurchaseOrderNumber());
-            detail.setLineItemNumber(pretag.getLineItemNumber());
+            detail.setItemLineNumber(pretag.getItemLineNumber());
 
             success &= checkDuplicateTagNumber(pretag, detail.getCampusTagNumber());
             success &= checkTotalDetailCount(pretag, newDetailLine);

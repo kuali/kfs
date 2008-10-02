@@ -581,7 +581,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
         // set the target preTag
         if (mergeTargetPretag != null) {
-            //TODO: firstItem.setItemLineNumber(mergeTargetPretag.getLineItemNumber());
+            firstItem.setItemLineNumber(mergeTargetPretag.getItemLineNumber());
         }
         
         // set create asset/ apply payment indicator if any of the merged lines has the indicator set.
@@ -785,12 +785,30 @@ public class PurApLineServiceImpl implements PurApLineService {
 
             // set reqs_id
             purApLineForm.setRequisitionIdentifier(purchaseOrderDocument.getRequisitionIdentifier());
-
+            
             break;
         }
     }
 
 
+    /**
+     * Get PurchaseOrderDocument documentNumber
+     * 
+     * @param purApLineForm
+     * @return
+     */
+    private String getPurchaseOrderDocumentNumber(PurApLineForm purApLineForm) {
+        Map<String, Object> cols = new HashMap<String, Object>();
+        cols.put(PurapPropertyConstants.PURAP_DOC_ID, purApLineForm.getPurchaseOrderIdentifier());
+        cols.put(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+        Collection<PurchaseOrderDocument> poDocs = businessObjectService.findMatching(PurchaseOrderDocument.class, cols);
+
+        for (PurchaseOrderDocument purchaseOrderDocument : poDocs) {
+            return purchaseOrderDocument.getDocumentNumber();
+        }
+        
+        return null;
+    }
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#buildPurApItemAssetsList(org.kuali.kfs.module.cab.document.web.struts.PurApLineForm)
      */
@@ -847,7 +865,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         Map<String, Object> pKeys = new HashMap<String, Object>();
 
         pKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier);
-        pKeys.put(CabPropertyConstants.Pretag.LINE_ITEM_NUMBER, lineItemNumber);
+        pKeys.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, lineItemNumber);
         return (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, pKeys);
     }
 

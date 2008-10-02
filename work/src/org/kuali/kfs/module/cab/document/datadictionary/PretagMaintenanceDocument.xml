@@ -35,7 +35,7 @@
     <property name="lockingKeys" >
       <list>
         <value>purchaseOrderNumber</value>
-        <value>lineItemNumber</value>
+        <value>itemLineNumber</value>
       </list>
     </property>
     <property name="label" value="Pre-Asset Tagging" />
@@ -74,7 +74,7 @@
               p:name="purchaseOrderNumber"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="lineItemNumber"
+              p:name="itemLineNumber"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="quantityInvoiced"
@@ -142,7 +142,7 @@
                     p:name="purchaseOrderNumber"
                     p:readOnlyAfterAdd="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="lineItemNumber"
+                    p:name="itemLineNumber"
                     p:readOnlyAfterAdd="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusTagNumber"

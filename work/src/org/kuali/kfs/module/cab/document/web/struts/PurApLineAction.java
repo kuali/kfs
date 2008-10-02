@@ -90,7 +90,8 @@ public class PurApLineAction extends KualiAction {
     protected void buildPurApDocList(PurApLineForm purApLineForm) {
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
-        Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
+        //Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
+        Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatching(PurchasingAccountsPayableDocument.class, cols);
         if (purApDocs == null || purApDocs.isEmpty()) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier());
         }
@@ -289,7 +290,7 @@ public class PurApLineAction extends KualiAction {
                 if (findingPreTag == null) {
                     findingPreTag = preTag;
                 }
-                else if (!findingPreTag.getLineItemNumber().equals(preTag.getLineItemNumber())) {
+                else if (!findingPreTag.getItemLineNumber().equals(preTag.getItemLineNumber())) {
                     // find two different pre-tagging entries.
                     GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_WITH_PRETAGGING);
                     return null;

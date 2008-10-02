@@ -502,13 +502,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 if (poId != null && itemLineNumber != null) {
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, poId);
-                    primaryKeys.put(CabPropertyConstants.Pretag.LINE_ITEM_NUMBER, itemLineNumber);
+                    primaryKeys.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, itemLineNumber);
                     // check if already in pre-tag table
                     Pretag pretag = (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, primaryKeys);
                     if (ObjectUtils.isNull(pretag) && savedLines.add("" + poId + "-" + itemLineNumber)) {
                         pretag = new Pretag();
                         pretag.setPurchaseOrderNumber(poId.toString());
-                        pretag.setLineItemNumber(Long.valueOf(itemLineNumber));
+                        pretag.setItemLineNumber(itemLineNumber);
                         KualiDecimal quantity = purapItem.getItemInvoicedTotalQuantity();
                         pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());

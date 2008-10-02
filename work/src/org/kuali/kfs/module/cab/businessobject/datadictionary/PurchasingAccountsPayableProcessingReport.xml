@@ -218,8 +218,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentTypeCode" 
               p:noLookup="true"/>
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
+        <!-- bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" /> -->
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber"  />
         <bean parent="FieldDefinition"

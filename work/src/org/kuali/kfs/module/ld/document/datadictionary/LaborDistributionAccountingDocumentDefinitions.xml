@@ -290,5 +290,15 @@
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="labor-KualiLaborJournalVoucherDocument-AccountingDocument-sourceGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedSourceTotal" 
+					p:totalLabelProperty="label.document.journalVoucher.accountingLine.credit"/>
+			</list>
+		</property>
+	</bean>	
 </beans>

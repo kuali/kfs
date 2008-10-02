@@ -27,6 +27,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -51,6 +52,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class GlLineServiceImpl implements GlLineService {
+    private static final String CAB_DESC_PREFIX = "CAB created for GL ";
     protected BusinessObjectService businessObjectService;
 
     /**
@@ -68,7 +70,7 @@ public class GlLineServiceImpl implements GlLineService {
         // save the document
         document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         document.getOldMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getDocumentHeader().setDocumentDescription("CAB created for GL " + entry.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + entry.getGeneralLedgerAccountIdentifier());
         document.getOldMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(assetGlobal));
         document.getOldMaintainableObject().setBoClass(assetGlobal.getClass());
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
@@ -96,7 +98,7 @@ public class GlLineServiceImpl implements GlLineService {
         // save the document
         document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
         document.getOldMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getDocumentHeader().setDocumentDescription("CAB created for GL " + primary.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getGeneralLedgerAccountIdentifier());
         document.getOldMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(assetGlobal));
         document.getOldMaintainableObject().setBoClass(assetGlobal.getClass());
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
@@ -129,21 +131,23 @@ public class GlLineServiceImpl implements GlLineService {
             assetGlobalDetail.setSerialNumber(assetInformation.getCapitalAssetSerialNumber());
 
             Integer capitalAssetQuantity = assetInformation.getCapitalAssetQuantity() == null ? 1 : assetInformation.getCapitalAssetQuantity();
-            if (capitalAssetQuantity == 1) {
-                // set tag number when 1 asset is created, else duplicate tag error
-                assetGlobalDetail.setCampusTagNumber(assetInformation.getCapitalAssetTagNumber());
-            }
+
             for (int i = 0; i < capitalAssetQuantity; i++) {
                 AssetGlobalDetail uniqueAsset = new AssetGlobalDetail();
                 ObjectValueUtils.copySimpleProperties(assetGlobalDetail, uniqueAsset);
                 uniqueAsset.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+                if (i == 0) {
+                    // set tag number only for the first one in the list
+                    uniqueAsset.setCampusTagNumber(assetInformation.getCapitalAssetTagNumber());
+                }
                 assetGlobalDetail.getAssetGlobalUniqueDetails().add(uniqueAsset);
             }
-            assetGlobal.setCapitalAssetTypeCode(assetInformation.getCapitalAssetTypeCode());
             VendorDetail vendorDetail = assetInformation.getVendorDetail();
             if (ObjectUtils.isNotNull(vendorDetail)) {
                 assetGlobal.setVendorName(vendorDetail.getVendorName());
             }
+            assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
+            assetGlobal.setCapitalAssetTypeCode(assetInformation.getCapitalAssetTypeCode());
             assetGlobal.setManufacturerName(assetInformation.getCapitalAssetManufacturerName());
             assetGlobal.setManufacturerModelNumber(assetInformation.getCapitalAssetManufacturerModelNumber());
             assetGlobal.setCapitalAssetDescription(assetInformation.getCapitalAssetDescription());
@@ -202,7 +206,7 @@ public class GlLineServiceImpl implements GlLineService {
         // initiate a new document
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(CabConstants.ASSET_PAYMENT_DOCUMENT);
-        document.getDocumentHeader().setDocumentDescription("CAB created for GL " + entry.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + entry.getGeneralLedgerAccountIdentifier());
         updatePreTagInformation(entry, document);
         // Asset Payment Detail
         AssetPaymentDetail detail = createAssetPaymentDetail(entry, document, 1);
@@ -222,7 +226,7 @@ public class GlLineServiceImpl implements GlLineService {
         // initiate a new document
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(CabConstants.ASSET_PAYMENT_DOCUMENT);
-        document.getDocumentHeader().setDocumentDescription("CAB created for GL " + primaryGlEntry.getGeneralLedgerAccountIdentifier());
+        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getGeneralLedgerAccountIdentifier());
         updatePreTagInformation(primaryGlEntry, document);
         // Asset Payment Detail
         int seq = 0;
@@ -254,7 +258,7 @@ public class GlLineServiceImpl implements GlLineService {
             AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();
             assetPaymentAssetDetail.setDocumentNumber(document.getDocumentNumber());
             assetPaymentAssetDetail.setCapitalAssetNumber(assetInformation.getCapitalAssetNumber());
-            assetPaymentAssetDetail.refreshReferenceObject("asset");
+            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
             Asset asset = assetPaymentAssetDetail.getAsset();
             if (ObjectUtils.isNotNull(asset)) {
                 assetPaymentAssetDetail.setPreviousTotalCostAmount(asset.getTotalCostAmount() != null ? asset.getTotalCostAmount() : KualiDecimal.ZERO);

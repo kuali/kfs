@@ -77,7 +77,7 @@ public class CamsPropertyConstants {
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
         public static final String QUANTITY = "quantity";
-        
+
         public static class AssetLocation {
             public static final String CONTACT_NAME = "offCampusLocation.assetLocationContactName";
             public static final String STREET_ADDRESS = "offCampusLocation.assetLocationStreetAddress";
@@ -151,6 +151,11 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_POSTING_FISCAL_MONTH = "postingPeriodCode";
         public static final String ACCOUNT = "account";
         public static final String VERSION_NUMBER = "versionNumber";
+    }
+
+    public static class AssetPaymentAssetDetail {
+        public static final String ASSET = "asset";
+
     }
 
     public static class AssetType {
@@ -299,7 +304,7 @@ public class CamsPropertyConstants {
         public static final String ASSET_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
-        //**** Asset Separate ****
+        // **** Asset Separate ****
         // needed to highlight fields
         public static final String ASSET_GLOBAL_UNIQUE_DETAILS = "assetGlobalUniqueDetails";
         public static String REPRESENTATIVE_UNIVERSAL_IDENTIFIER = "representativeUniversalIdentifier";
@@ -310,7 +315,7 @@ public class CamsPropertyConstants {
         public static String MANUFACTURER_MODEL_NUMBER = "manufacturerModelNumber";
         public static String SEPARATE_SOURCE_AMOUNT = "separateSourceAmount";
     }
-    
+
     public static class AssetDepreciationConvention {
         public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "financialObjectSubTypeCode";
     }
@@ -319,34 +324,34 @@ public class CamsPropertyConstants {
         public static final String ASSET = "asset";
         public static final String ASSET_PAYMENTS = "assetPayments";
     }
-    
+
     public static class AssetObjectCode {
         public static final String CAPITALIZATION_FINANCIAL_OBJECT = "capitalizationFinancialObject";
         public static final String ACCUMULATED_DEPRECIATION_FINANCIAL_OBJECT = "accumulatedDepreciationFinancialObject";
     }
-    
+
     public static class AssetRetirementReason {
         public static String RETIREMENT_REASON_CODE = "retirementReasonCode";
     }
 
     public static class BarcodeInventory {
-        public static String ASSET_TAG_NUMBER="assetTagNumber"; 
-        public static String UPLOAD_SCAN_INDICATOR="uploadScanIndicator"; 
-        public static String INVENTORY_DATE="uploadScanTimestamp"; 
-        public static String CAMPUS_CODE="campusCode"; 
-        public static String BUILDING_CODE="buildingCode"; 
-        public static String BUILDING_ROOM_NUMBER="buildingRoomNumber"; 
-        public static String BUILDING_SUBROOM_NUMBER="buildingSubRoomNumber"; 
-        public static String ASSET_CONDITION_CODE="assetConditionCode";
-        public static String CAMPUS_REFERENCE="campus";
-        public static String BUILDING_REFERENCE="building";
-        public static String BUILDING_ROOM_REFERENCE="buildingRoom";
-        public static String CONDITION_REFERENCE="condition";
+        public static String ASSET_TAG_NUMBER = "assetTagNumber";
+        public static String UPLOAD_SCAN_INDICATOR = "uploadScanIndicator";
+        public static String INVENTORY_DATE = "uploadScanTimestamp";
+        public static String CAMPUS_CODE = "campusCode";
+        public static String BUILDING_CODE = "buildingCode";
+        public static String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+        public static String BUILDING_SUBROOM_NUMBER = "buildingSubRoomNumber";
+        public static String ASSET_CONDITION_CODE = "assetConditionCode";
+        public static String CAMPUS_REFERENCE = "campus";
+        public static String BUILDING_REFERENCE = "building";
+        public static String BUILDING_ROOM_REFERENCE = "buildingRoom";
+        public static String CONDITION_REFERENCE = "condition";
         public static final String BARCODE_INVENTORY_DETAIL = "barcodeInventoryErrorDetail";
     }
-    
+
     public static class AssetAcquisitionType {
         public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
-	}
+    }
 
 }

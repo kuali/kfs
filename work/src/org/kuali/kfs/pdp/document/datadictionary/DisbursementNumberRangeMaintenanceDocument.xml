@@ -87,6 +87,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="disbNbrExpirationDt"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
       </list>
     </property>
   </bean>

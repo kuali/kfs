@@ -122,6 +122,8 @@
               p:name="bankInstitutionStatusCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="bankDataViewCode" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="active" />
       </list>
     </property>
   </bean>

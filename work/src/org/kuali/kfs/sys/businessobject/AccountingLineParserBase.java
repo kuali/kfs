@@ -215,7 +215,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @param document
      * @param sequenceNumber
      */
-    private final void putCommonAttributesInMap(Map<String, String> attributeValueMap, AccountingDocument document, Integer sequenceNumber) {
+    protected void putCommonAttributesInMap(Map<String, String> attributeValueMap, AccountingDocument document, Integer sequenceNumber) {
         attributeValueMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         attributeValueMap.put(POSTING_YEAR, document.getPostingYear().toString());
         attributeValueMap.put(SEQUENCE_NUMBER, sequenceNumber.toString());

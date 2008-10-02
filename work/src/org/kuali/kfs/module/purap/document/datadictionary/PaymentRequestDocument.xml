@@ -675,7 +675,9 @@
   
   <bean id="PaymentRequestDocument-bankCode" parent="PaymentRequestDocument-bankCode-parentBean" />
   
-  <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" />
+  <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode" >
+    <property name="required" value="false" />
+  </bean>
 <!-- Exported Workflow Properties -->
 
 

@@ -48,6 +48,17 @@ public class CamsConstants extends JSTLConstants {
         public static final String TRANSFER = "transfer";
     }
 
+    public static class StrutsActions {
+        public static final String ONE_UP = "../";        
+        public static final String TRANSFER = "camsAssetTransfer.do";
+        public static final String EQUIPMENT_LOAN_OR_RETURN = "camsEquipmentLoanOrReturn.do";
+    }
+    
+    public static class DocumentTypeName {
+        public static final String TRANSFER = "AssetTransferDocument";
+        public static final String EQUIPMENT_LOAN_OR_RETURN = "EquipmentLoanOrReturnDocument";
+    }
+    
     public static class PaymentDocumentTypeCodes {
         // These are the document type codes that payments are saved under when they are modified by assets. Note that not
         // necessarily

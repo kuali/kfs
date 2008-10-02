@@ -23,6 +23,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -49,8 +50,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
 
-        /** TODO per authorization don't show some links * */
-        /** TODO per Asset status don't show some links * */
         anchorHtmlDataList.add(getUrlData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         anchorHtmlDataList.add(getLoanUrl(bo));
         anchorHtmlDataList.add(getMergeUrl(bo));
@@ -59,60 +58,96 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return anchorHtmlDataList;
     }
 
-    private HtmlData getMergeUrl(BusinessObject bo) {
-        // TODO use system parameter
+    protected HtmlData getMergeUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
-        String href = "maintenance.do?methodToCall=newWithExisting&businessObjectClassName=org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal&" + KFSConstants.OVERRIDE_KEYS + "=retirementReasonCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "mergedTargetCapitalAssetNumber&docFormKey=88888888&retirementReasonCode=M&mergedTargetCapitalAssetNumber=" + asset.getCapitalAssetNumber();
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetRetirementGlobal.class.getName());
+        parameters.put(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
+        parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
+        
+        String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+
         return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
     }
 
-    private HtmlData getLoanUrl(BusinessObject bo) {
+    protected HtmlData getLoanUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
         AnchorHtmlData anchorHtmlData = null;
         List<HtmlData> childURLDataList = new ArrayList<HtmlData>();
+        
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.EQUIPMENT_LOAN_OR_RETURN);
+        
         if (getAssetService().isAssetLoaned(asset)){
-            anchorHtmlData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
-            String childHref = "../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=renew&capitalAssetNumber=" + asset.getCapitalAssetNumber();
-
-            AnchorHtmlData childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN_RENEW);
+            anchorHtmlData = new AnchorHtmlData("", "", "");
+            
+            AnchorHtmlData childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
             childURLDataList.add(childURLData);
-            childHref = "../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=return&capitalAssetNumber=" + asset.getCapitalAssetNumber();
+            
+            parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN_RENEW);
+            String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
+            childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN_RENEW);
+            childURLDataList.add(childURLData);
+
+            parameters.remove(CamsConstants.AssetActions.LOAN_TYPE);
+            parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN_RETURN);
+            childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
             childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN_RETURN);
             childURLDataList.add(childURLData);
+            
             anchorHtmlData.setChildUrlDataList(childURLDataList);
         } else {
-            String href = "../camsEquipmentLoanOrReturn.do?methodToCall=docHandler&command=initiate&docTypeName=EquipmentLoanOrReturnDocument&loanType=loan&capitalAssetNumber=" + asset.getCapitalAssetNumber();
-            anchorHtmlData = new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
-
-            AnchorHtmlData childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RENEW);
+            anchorHtmlData = new AnchorHtmlData("", "", "");
+            
+            parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN);
+            String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
+            AnchorHtmlData childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
             childURLDataList.add(childURLData);
+            
+            childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RENEW);
+            childURLDataList.add(childURLData);
+            
             childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RETURN);
             childURLDataList.add(childURLData);
+            
             anchorHtmlData.setChildUrlDataList(childURLDataList);
         }
 
         return anchorHtmlData;
     }
 
-    private HtmlData getSeparateUrl(BusinessObject bo) {
+    protected HtmlData getSeparateUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetGlobal.class.getName());
-
-        // Asset PK - constant will later be in OJB
         parameters.put(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-
         // parameter that tells us this is a separate action. We read this in AssetMaintenanbleImpl.processAfterNew
         parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
 
         String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
+
         return new AnchorHtmlData(href, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL, CamsConstants.AssetActions.SEPARATE);
     }
 
-    private HtmlData getTransferUrl(BusinessObject bo) {
+    protected HtmlData getTransferUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
-        String href = "../camsAssetTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=AssetTransferDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber();
+        
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
+        parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.TRANSFER);
+        
+        String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.TRANSFER, parameters);
+        
         return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.TRANSFER);
     }
 

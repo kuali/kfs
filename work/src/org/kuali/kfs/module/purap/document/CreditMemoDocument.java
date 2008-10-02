@@ -367,6 +367,29 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * Calculates the credit memo total: Sum of above the line - restocking fees + misc amount
+     * 
+     * @return KualiDecimal - credit memo document total
+     */
+    public KualiDecimal getGrandTotal() {
+        KualiDecimal grandTotal = KualiDecimal.ZERO;
+
+        for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
+            if (item.getTotalAmount() != null) {
+                // make sure restocking fee is negative
+                if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
+                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                }
+                grandTotal = grandTotal.add(item.getTotalAmount());
+            }
+        }
+
+        return grandTotal;
+    }
+
+    /**
      * Calculates the credit memo pretax total: Sum of above the line - restocking fees + misc amount
      * 
      * @return KualiDecimal - credit memo document total
@@ -390,22 +413,22 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Calculates the credit memo total: Sum of above the line - restocking fees + misc amount
+     * Calculates the credit memo tax amount: Sum of above the line - 
      * 
      * @return KualiDecimal - credit memo document total
      */
-    public KualiDecimal getGrandTotal() {
+    public KualiDecimal getGrandTaxAmount() {
         KualiDecimal grandTotal = KualiDecimal.ZERO;
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            if (item.getTotalAmount() != null) {
+            if (item.getExtendedPrice() != null) {
                 // make sure restocking fee is negative
                 if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
-                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                    item.setExtendedPrice(item.getItemTaxAmount().abs().negated());
                 }
-                grandTotal = grandTotal.add(item.getTotalAmount());
+                grandTotal = grandTotal.add(item.getItemTaxAmount());
             }
         }
 
@@ -414,7 +437,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     public KualiDecimal getGrandPreTaxTotalExcludingRestockingFee() {
         String[] restockingFeeCode = new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE };
-        return this.getPreTaxTotalDollarAmountWithExclusions(restockingFeeCode, true);
+        return this.getTotalPreTaxDollarAmountWithExclusions(restockingFeeCode, true);
     }
 
     public KualiDecimal getGrandTotalExcludingRestockingFee() {

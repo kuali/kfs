@@ -49,6 +49,8 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%"/>
 	</tr>
@@ -56,7 +58,7 @@
 
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
-		<th height=30 colspan="10">No items added to document</th>
+		<th height=30 colspan="11">No items added to document</th>
 	</tr>
 </c:if>
 
@@ -197,6 +199,22 @@
 			    </div>
 			</td>
 			<td class="infoline">
+			    <div align="right">
+			        <kul:htmlControlAttribute
+				        attributeEntry="${itemAttributes.itemTaxAmount}"
+				        property="document.item[${ctr}].itemTaxAmount"
+				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+			    </div>
+			</td>
+			<td class="infoline">
+			    <div align="right">
+			        <kul:htmlControlAttribute
+				        attributeEntry="${itemAttributes.totalAmount}"
+				        property="document.item[${ctr}].totalAmount"
+				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+			    </div>
+			</td>
+			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
@@ -226,7 +244,7 @@
 			hideFields="amount" 
 			accountingAddLineIndex="${ctr}"
 			ctr="${ctr}" 
-			itemColSpan="10"/>	
+			itemColSpan="11"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>
@@ -234,5 +252,5 @@
 </logic:iterate>
 
 <tr>
-	<th height=30 colspan="10">&nbsp;</th>
+	<th height=30 colspan="11">&nbsp;</th>
 </tr>

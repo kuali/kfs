@@ -1150,20 +1150,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPreTaxTotalDollarAmount()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getTotalPreTaxDollarAmount()
      */
     @Override
-    public KualiDecimal getPreTaxTotalDollarAmount() {
+    public KualiDecimal getTotalPreTaxDollarAmount() {
         // return total without inactive and with below the line
-        return getPreTaxTotalDollarAmount(false, true);
+        return getTotalPreTaxDollarAmount(false, true);
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPreTaxTotalDollarAmountAboveLineItems()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getTotalPreTaxDollarAmountAboveLineItems()
      */
     @Override
-    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems() {
-        return getPreTaxTotalDollarAmount(false, false);
+    public KualiDecimal getTotalPreTaxDollarAmountAboveLineItems() {
+        return getTotalPreTaxDollarAmount(false, false);
     }
 
     /**
@@ -1173,7 +1173,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @param includeBelowTheLine indicates whether below the line items shall be included.
      * @return the total dollar amount for this Purchase Order.
      */
-    public KualiDecimal getPreTaxTotalDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
+    public KualiDecimal getTotalPreTaxDollarAmount(boolean includeInactive, boolean includeBelowTheLine) {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             ItemType it = item.getItemType();

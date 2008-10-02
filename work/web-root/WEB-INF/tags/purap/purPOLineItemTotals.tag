@@ -18,19 +18,19 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields." %>
 
 <tr>
-	<td colspan="10" class="subhead">
+	<td colspan="12" class="subhead">
 	    <span class="subhead-left">Purchase Order Line Item Totals</span>
 	</td>
 </tr>
 
 <tr>
-	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmount}" colspan="3" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmountRelieved}" colspan="3" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoPaidAmount}" colspan="4" />
+	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmount}" colspan="4"/>
+	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmountRelieved}" colspan="4"/>
+	<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.itemTotalPoPaidAmount}" colspan="4"/>
 </tr>
 
 <tr>
-	<td class="infoline" colspan="3">
+	<td class="infoline" colspan="4">
 	    <div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmount}"
@@ -38,7 +38,7 @@
 		    readOnly="true" />
 		</div>
 	</td>
-	<td class="infoline" colspan="3">
+	<td class="infoline" colspan="4">
 		<div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmountRelieved}"
@@ -57,5 +57,5 @@
 </tr>
 
 <tr>
-	<th height=30 colspan="10">&nbsp;</th>
+	<th height=30 colspan="12">&nbsp;</th>
 </tr>

@@ -41,6 +41,7 @@
         <ref bean="PurchaseOrderItem-itemSelectedForRetransmitIndicator" />
         <ref bean="PurchaseOrderItem-movingToSplit" />
         <ref bean="PurchaseOrderItem-itemTaxAmount" />
+        <ref bean="PurchaseOrderItem-totalAmount" />
       </list>
     </property>
   </bean>
@@ -329,7 +330,16 @@
   <bean id="PurchaseOrderItem-itemTaxAmount" parent="PurchaseOrderItem-itemTaxAmount-parentBean" />
   
   <bean id="PurchaseOrderItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
-  	<property name="name" value="itemTaxAmount" />
+  	<property name="name" value="itemTaxAmount" />  
+    <property name="label" value="Tax Amount" />
+    <property name="shortLabel" value="Tax Amount" />  	
+  </bean>
+  <bean id="PurchaseOrderItem-totalAmount" parent="PurchaseOrderItem-totalAmount-parentBean" />
+
+  <bean id="PurchaseOrderItem-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

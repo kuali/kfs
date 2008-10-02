@@ -38,6 +38,7 @@
         <ref bean="PaymentRequestItem-poOutstandingAmount" />
         <ref bean="PaymentRequestItem-itemQuantity" />
         <ref bean="PaymentRequestItem-itemTaxAmount" />
+        <ref bean="PaymentRequestItem-totalAmount" />
       </list>
     </property>
   </bean>
@@ -281,6 +282,15 @@
   
   <bean id="PaymentRequestItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
   	<property name="name" value="itemTaxAmount" />
+    <property name="label" value="Tax Amount" />
+    <property name="shortLabel" value="Tax Amount" />  	
+  </bean>
+  <bean id="PaymentRequestItem-totalAmount" parent="PaymentRequestItem-totalAmount-parentBean" />
+
+  <bean id="PaymentRequestItem-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

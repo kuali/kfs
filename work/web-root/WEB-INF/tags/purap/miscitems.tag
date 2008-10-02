@@ -77,7 +77,7 @@
 <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
-	<td colspan="12" class="subhead">
+	<td colspan="14" class="subhead">
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
@@ -96,14 +96,14 @@
 
 <!-- 
 <tr>
-	<td colspan="12" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
+	<td colspan="14" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 -->
 
 <tr>
-	<c:set var="typeColSpan" value="5" />
+	<c:set var="typeColSpan" value="7" />
 	<c:if test="${showInvoiced}">
-		<c:set var="typeColSpan" value="3" />
+		<c:set var="typeColSpan" value="5" />
 	</c:if>
 	
 	<kul:htmlAttributeHeaderCell colspan="${typeColSpan}"
@@ -118,15 +118,15 @@
 	
 <c:choose>
 	<c:when test="${descriptionFirst}">
-		<kul:htmlAttributeHeaderCell colspan="3"
-			attributeEntry="${itemAttributes.itemDescription}" />
 		<kul:htmlAttributeHeaderCell colspan="5"
+			attributeEntry="${itemAttributes.itemDescription}" />
+		<kul:htmlAttributeHeaderCell colspan="7"
 			attributeEntry="${itemAttributes.extendedPrice}" />
 	</c:when>
     <c:otherwise>
-		<kul:htmlAttributeHeaderCell colspan="3"
-			attributeEntry="${itemAttributes.extendedPrice}" />
 		<kul:htmlAttributeHeaderCell colspan="5"
+			attributeEntry="${itemAttributes.extendedPrice}" />
+		<kul:htmlAttributeHeaderCell colspan="7"
 			attributeEntry="${itemAttributes.itemDescription}" />
 	</c:otherwise>
 </c:choose>	
@@ -142,7 +142,7 @@
   			  </c:if>
 		</c:if>
 		<tr>
-			<td colspan="12" class="tab-subhead" style="border-right: none;">
+			<td colspan="14" class="tab-subhead" style="border-right: none;">
 			<kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemTypeCode}"
 				property="document.item[${ctr}].itemType.itemTypeDescription"
@@ -170,22 +170,22 @@
 			</c:if>
 			<c:choose>
 				<c:when test="${descriptionFirst}">
-					<td class="infoline" colspan="3">
+					<td class="infoline" colspan="5">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
-					<td class="infoline" colspan="5">
+					<td class="infoline" colspan="7">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
 				</c:when>
     			<c:otherwise>
-					<td class="infoline" colspan="3">
+					<td class="infoline" colspan="5">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
-					<td class="infoline" colspan="5">
+					<td class="infoline" colspan="7">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
 				</c:otherwise>
@@ -201,7 +201,7 @@
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				hideFields="amount" accountingAddLineIndex="${ctr}" 
-				ctr="${ctr}" itemColSpan="12"/>
+				ctr="${ctr}" itemColSpan="14"/>
 		</c:if>
 		
 		<!-- KULPURAP-1500 -->
@@ -222,7 +222,7 @@
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}" itemColSpan="12" />
+				    ctr="${ctr}" itemColSpan="14" />
 		    </c:if>
 		</c:if>
 	</c:if>

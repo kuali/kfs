@@ -48,7 +48,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private String externalOrganizationB2bProductTypeName;
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; // not currently in DB
-
+    private KualiDecimal itemTaxAmount;
+    
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
@@ -201,13 +202,32 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         this.itemType = itemType;
     }
 
+    public KualiDecimal getItemTaxAmount() {
+        return itemTaxAmount;
+    }
+
+    public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
+        this.itemTaxAmount = itemTaxAmount;
+    }
+
     public KualiDecimal getExtendedPrice() {
         return calculateExtendedPrice();
     }
 
-    public KualiDecimal getTotalAmount() {
-        //TODO: do tax calculation 
-        return getExtendedPrice();
+    public KualiDecimal getTotalAmount() { 
+        KualiDecimal totalAmount = getExtendedPrice();        
+        if(ObjectUtils.isNull(totalAmount)){
+            totalAmount = KualiDecimal.ZERO;
+        }
+        
+        KualiDecimal taxAmount = getItemTaxAmount();
+        if(ObjectUtils.isNull(taxAmount)){
+            taxAmount = KualiDecimal.ZERO;
+        }
+        
+        totalAmount.add(taxAmount);
+        
+        return totalAmount;
     }
 
     public KualiDecimal calculateExtendedPrice() {

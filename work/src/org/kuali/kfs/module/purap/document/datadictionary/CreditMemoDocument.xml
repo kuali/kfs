@@ -73,6 +73,8 @@
         <ref bean="CreditMemoDocument-creditMemoType" />
         <ref bean="CreditMemoDocument-lineItemTotal" />
         <ref bean="CreditMemoDocument-grandTotal" />
+        <ref bean="CreditMemoDocument-grandPreTaxTotal" />
+        <ref bean="CreditMemoDocument-grandTaxAmount" />        
         <ref bean="CreditMemoDocument-reopenPurchaseOrderIndicator" />
         <ref bean="CreditMemoDocument-useTaxIndicator" />
         <ref bean="CreditMemoDocument-bankCode" />
@@ -409,6 +411,20 @@
     <property name="name" value="grandTotal" />
     <property name="label" value="Grand Total" />
     <property name="shortLabel" value="Grand Total" />
+  </bean>
+  <bean id="CreditMemoDocument-grandPreTaxTotal" parent="CreditMemoDocument-grandPreTaxTotal-parentBean" />
+
+  <bean id="CreditMemoDocument-grandPreTaxTotal-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+    <property name="name" value="grandPreTaxTotal" />
+    <property name="label" value="Grand Total Prior to Tax" />
+    <property name="shortLabel" value="Grand Total Prior to Tax" />
+  </bean>
+  <bean id="CreditMemoDocument-grandTaxAmount" parent="CreditMemoDocument-grandTaxAmount-parentBean" />
+
+  <bean id="CreditMemoDocument-grandTaxAmount-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemAmount">
+    <property name="name" value="grandTaxAmount" />
+    <property name="label" value="Grand Total Tax" />
+    <property name="shortLabel" value="Grand Total Tax" />
   </bean>
   <bean id="CreditMemoDocument-reopenPurchaseOrderIndicator" parent="CreditMemoDocument-reopenPurchaseOrderIndicator-parentBean" />
 

@@ -59,7 +59,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=2 class="datacell">&nbsp;</td>
+			<td colspan=5 class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 		<c:set var="showInvoiced" value="${empty isCreditMemo or !isCreditMemo}" />
@@ -87,13 +87,49 @@
                         </div>
 					</td>
 	
-					<td colspan=2 class="datacell">
+					<td colspan=5 class="datacell">
 						&nbsp;
 					</td>
 				</tr>
 			</jsp:attribute>
 		</purap:miscitems>
 		<!-- BEGIN TOTAL SECTION -->
+		<tr>
+			<td align=right width='75%' colspan="5" scope="row" class="datacell">
+			    <div align="right">
+			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandPreTaxTotal}" skipHelpUrl="true" /></b>&nbsp;
+			    </div>
+			</td>
+			<td valign=middle class="datacell" colspan="2">
+			    <div align="right"><b>
+                    <kul:htmlControlAttribute
+                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandPreTaxTotal}"
+                        property="document.grandPreTaxTotal"
+                        readOnly="true" />&nbsp; </b>
+                </div>
+			</td>
+			<td valign="middle" class="datacell" colspan="5">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td align=right width='75%' colspan="5" scope="row" class="datacell">
+			    <div align="right">
+			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTaxAmount}" skipHelpUrl="true" /></b>&nbsp;
+			    </div>
+			</td>
+			<td valign=middle class="datacell" colspan="2">
+			    <div align="right"><b>
+                    <kul:htmlControlAttribute
+                        attributeEntry="${DataDictionary.PaymentRequestDocument.grandTaxAmount}"
+                        property="document.grandTaxAmount"
+                        readOnly="true" />&nbsp; </b>
+                </div>
+			</td>
+			<td valign="middle" class="datacell" colspan="5">
+				&nbsp;
+			</td>
+		</tr>
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
@@ -108,7 +144,7 @@
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
-			<td colspan=2 class="datacell">
+			<td colspan=5 class="datacell">
               <c:if test="${empty isCreditMemo or !isCreditMemo}" >
 	              <c:if test="${empty KualiForm.document.recurringPaymentTypeCode and KualiForm.ableToClosePurchaseOrder}" >
 	              	<kul:htmlControlAttribute

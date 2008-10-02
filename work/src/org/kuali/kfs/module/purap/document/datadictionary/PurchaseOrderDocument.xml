@@ -49,6 +49,8 @@
         <ref bean="PurchaseOrderDocument-vendorAddressInternationalProvinceName" />
         <ref bean="PurchaseOrderDocument-vendorPostalCode" />
         <ref bean="PurchaseOrderDocument-totalDollarAmount" />
+        <ref bean="PurchaseOrderDocument-totalPreTaxDollarAmount" />
+        <ref bean="PurchaseOrderDocument-totalTaxAmount" />
         <ref bean="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" />
         <ref bean="PurchaseOrderDocument-retransmitHeader" />
         <ref bean="PurchaseOrderDocument-receivingDocumentRequiredIndicator" />
@@ -232,6 +234,24 @@
     <property name="shortLabel" value="Grand Total" />
     <property name="summary" value="totalDollarAmount" />
     <property name="description" value="totalDollarAmount description..." />
+  </bean>
+  <bean id="PurchaseOrderDocument-totalPreTaxDollarAmount" parent="PurchaseOrderDocument-totalPreTaxDollarAmount-parentBean" />
+
+  <bean id="PurchaseOrderDocument-totalPreTaxDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalPreTaxDollarAmount" />
+    <property name="label" value="Total Prior to Tax" />
+    <property name="shortLabel" value="Total Prior to Tax" />
+    <property name="summary" value="totalPreTaxDollarAmount" />
+    <property name="description" value="totalPreTaxDollarAmount description..." />
+  </bean>
+  <bean id="PurchaseOrderDocument-totalTaxAmount" parent="PurchaseOrderDocument-totalTaxAmount-parentBean" />
+
+  <bean id="PurchaseOrderDocument-totalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalTaxAmount" />
+    <property name="label" value="Total Tax" />
+    <property name="shortLabel" value="Total Tax" />
+    <property name="summary" value="totalTaxAmount" />
+    <property name="description" value="totalTaxAmount description..." />
   </bean>
   <bean id="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode" parent="PurchaseOrderDocument-purchaseOrderRetransmissionMethodCode-parentBean" />
 

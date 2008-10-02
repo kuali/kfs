@@ -48,6 +48,8 @@
         <ref bean="RequisitionDocument-vendorAddressInternationalProvinceName" />
         <ref bean="RequisitionDocument-vendorPostalCode" />
         <ref bean="RequisitionDocument-totalDollarAmount" />
+        <ref bean="RequisitionDocument-totalPreTaxDollarAmount" />        
+        <ref bean="RequisitionDocument-totalTaxAmount" />
         <ref bean="RequisitionDocument-purapDocumentIdentifier" />
         <ref bean="RequisitionDocument-statusCode" />
         <ref bean="RequisitionDocument-chartOfAccountsCode" />
@@ -206,6 +208,24 @@
     <property name="summary" value="totalDollarAmount" />
     <property name="description" value="totalDollarAmount description..." />
   </bean>
+  <bean id="RequisitionDocument-totalPreTaxDollarAmount" parent="RequisitionDocument-totalPreTaxDollarAmount-parentBean" />
+
+  <bean id="RequisitionDocument-totalPreTaxDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalPreTaxDollarAmount" />
+    <property name="label" value="Total Prior to Tax" />
+    <property name="shortLabel" value="Total Prior to Tax" />
+    <property name="summary" value="totalPreTaxDollarAmount" />
+    <property name="description" value="totalPreTaxDollarAmount description..." />
+  </bean>
+  <bean id="RequisitionDocument-totalTaxAmount" parent="RequisitionDocument-totalTaxAmount-parentBean" />
+
+  <bean id="RequisitionDocument-totalTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalTaxAmount" />
+    <property name="label" value="Total Tax" />
+    <property name="shortLabel" value="Total Tax" />
+    <property name="summary" value="totalTaxAmount" />
+    <property name="description" value="totalTaxAmount description..." />
+  </bean>
   <bean id="RequisitionDocument-purapDocumentIdentifier" parent="RequisitionDocument-purapDocumentIdentifier-parentBean" />
 
   <bean id="RequisitionDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionIdentifier">
@@ -334,7 +354,7 @@
 
   <bean id="RequisitionDocument-addressToVendorIndicator-parentBean" abstract="true" parent="ReceivingAddress-useReceivingIndicator">
     <property name="name" value="addressToVendorIndicator" />
-    <property name="label" value="Shipping Address Presented to Vendor (use Receiving Address?)" />
+    <property name="label" value="Shipping Address Presented to Vendor" />
     <property name="shortLabel" value="Address to Vendor" />
     <property name="control" >
       <bean parent="RadioControlDefinition"

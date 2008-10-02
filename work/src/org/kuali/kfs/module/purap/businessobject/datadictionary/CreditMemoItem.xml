@@ -25,6 +25,7 @@
         <ref bean="CreditMemoItem-itemCatalogNumber" />
         <ref bean="CreditMemoItem-itemDescription" />
         <ref bean="CreditMemoItem-itemTaxAmount" />
+        <ref bean="CreditMemoItem-totalAmount" />
       </list>
     </property>
   </bean>
@@ -167,5 +168,15 @@
   
   <bean id="CreditMemoItem-itemTaxAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount" >
   	<property name="name" value="itemTaxAmount" />
+    <property name="label" value="Tax Amount" />
+    <property name="shortLabel" value="Tax Amount" />  	  	
   </bean>
+  <bean id="CreditMemoItem-totalAmount" parent="CreditMemoItem-totalAmount-parentBean" />
+
+  <bean id="CreditMemoItem-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalAmount" />
+    <property name="label" value="Total Amount" />
+    <property name="shortLabel" value="Total Amount" />
+  </bean>
+  
 </beans>

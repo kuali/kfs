@@ -23,7 +23,7 @@
 
 
 <tr>
-	<td colspan="10" class="subhead">
+	<td colspan="12" class="subhead">
 		<span class="subhead-left">Items</span>
 	</td>
 </tr>
@@ -38,14 +38,16 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>				
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="2"/>
 	</tr>
 </c:if>
 
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
-		<th height=30 colspan="10">No items Payable</th>
+		<th height=30 colspan="12">No items Payable</th>
 	</tr>
 </c:if>
 
@@ -146,23 +148,33 @@
 			    </div>
 			</td>
 			<td class="infoline">
+			    <div align="right">
+			        <kul:htmlControlAttribute
+				        attributeEntry="${itemAttributes.itemTaxAmount}"
+				        property="document.item[${ctr}].itemTaxAmount" 
+				        readOnly="${not (fullEntryMode)}" />
+			    </div>
+			</td>
+			<td class="infoline">
+			    <div align="right">
+			        <kul:htmlControlAttribute
+				        attributeEntry="${itemAttributes.totalAmount}"
+				        property="document.item[${ctr}].totalAmount" 
+				        readOnly="${not (fullEntryMode)}" />
+			    </div>
+			</td>
+			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
 		    </td>
-			<td class="infoline">
+			<td class="infoline" colspan="2">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
 				    readOnly="true" />
-			</td>
-			
-			<c:if test="${(not (fullEntryMode))}">
-				<td class="infoline">
-				    <div align="center">&nbsp;</div>
-				</td>
-			</c:if>
+			</td>			
 		</tr>
 		<c:set var="optionalFields" value="accountLinePercent" />
 		<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
@@ -182,7 +194,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}" itemColSpan="10" />	
+			ctr="${ctr}" itemColSpan="12" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>
@@ -190,5 +202,5 @@
 </logic:iterate>
 
 <tr>
-	<th height=30 colspan="10">&nbsp;</th>
+	<th height=30 colspan="12">&nbsp;</th>
 </tr>

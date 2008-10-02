@@ -529,10 +529,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPreTaxTotalDollarAmount()
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getTotalPreTaxDollarAmount()
      */
-    public KualiDecimal getPreTaxTotalDollarAmount() {
-        return getPreTaxTotalDollarAmountAllItems(null);
+    public KualiDecimal getTotalPreTaxDollarAmount() {
+        return getTotalPreTaxDollarAmountAllItems(null);
     }
 
     /**
@@ -543,10 +543,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPreTaxTotalDollarAmountAllItems(java.lang.String[])
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getTotalPreTaxDollarAmountAllItems(java.lang.String[])
      */
-    public KualiDecimal getPreTaxTotalDollarAmountAllItems(String[] excludedTypes) {
-        return getPreTaxTotalDollarAmountWithExclusions(excludedTypes, true);
+    public KualiDecimal getTotalPreTaxDollarAmountAllItems(String[] excludedTypes) {
+        return getTotalPreTaxDollarAmountWithExclusions(excludedTypes, true);
     }
 
     /**
@@ -554,8 +554,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * 
      * @return the total dollar amount of all above the line items.
      */
-    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems() {
-        return getPreTaxTotalDollarAmountAboveLineItems(null);
+    public KualiDecimal getTotalPreTaxDollarAmountAboveLineItems() {
+        return getTotalPreTaxDollarAmountAboveLineItems(null);
     }
 
     /**
@@ -564,8 +564,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param excludedTypes the types of items to be excluded.
      * @return the total dollar amount of all above the line items with the specified item types excluded..
      */
-    public KualiDecimal getPreTaxTotalDollarAmountAboveLineItems(String[] excludedTypes) {
-        return getPreTaxTotalDollarAmountWithExclusions(excludedTypes, false);
+    public KualiDecimal getTotalPreTaxDollarAmountAboveLineItems(String[] excludedTypes) {
+        return getTotalPreTaxDollarAmountWithExclusions(excludedTypes, false);
     }
 
     /**
@@ -575,7 +575,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param includeBelowTheLine indicates whether below the line items shall be included.
      * @return the total dollar amount with the specified item types excluded.
      */
-    public KualiDecimal getPreTaxTotalDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
+    public KualiDecimal getTotalPreTaxDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
         if (excludedTypes == null) {
             excludedTypes = new String[] {};
         }
@@ -587,6 +587,44 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        return total;
+    }
+
+    public KualiDecimal getTotalTaxAmount() {
+        return getTotalTaxAmountAllItems(null);
+    }
+
+    public void setTotalTaxAmount(KualiDecimal amount) {
+        // do nothing, this is so that the jsp won't complain about totalTaxAmount have no setter method.
+    }
+
+    public KualiDecimal getTotalTaxAmountAllItems(String[] excludedTypes) {
+        return getTotalTaxAmountWithExclusions(excludedTypes, true);
+    }
+
+    public KualiDecimal getTotalTaxAmountAboveLineItems() {
+        return getTotalTaxAmountAboveLineItems(null);
+    }
+
+    public KualiDecimal getTotalTaxAmountAboveLineItems(String[] excludedTypes) {
+        return getTotalTaxAmountWithExclusions(excludedTypes, false);
+    }
+
+    public KualiDecimal getTotalTaxAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
+        if (excludedTypes == null) {
+            excludedTypes = new String[] {};
+        }
+
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurApItem item : (List<PurApItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            ItemType it = item.getItemType();
+            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
+                KualiDecimal taxAmount = item.getItemTaxAmount();
+                KualiDecimal itemTotal = (taxAmount != null) ? taxAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
             }
         }

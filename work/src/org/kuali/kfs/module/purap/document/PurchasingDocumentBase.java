@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -1145,21 +1146,25 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchasingCapitalAssetItems());
             List<ItemCapitalAsset> assetLists = new ArrayList<ItemCapitalAsset>();
+            List<CapitalAssetLocation>capitalAssetLocationLists = new ArrayList<CapitalAssetLocation>();
             if (StringUtils.equals(this.getCapitalAssetSystemTypeCode(),PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
                 for (PurchasingCapitalAssetItem capitalAssetItem : this.getPurchasingCapitalAssetItems()) {
                     //We only need to add the itemCapitalAssets to assetLists if the system is not null, otherwise 
                     //just let the assetLists be empty ArrayList.
                     if (capitalAssetItem.getPurchasingCapitalAssetSystem() != null) {
                         assetLists.addAll(capitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
+                        capitalAssetLocationLists.addAll(capitalAssetItem.getPurchasingCapitalAssetSystem().getCapitalAssetLocations());
                     }
                 }
             }
             else {
                 for (CapitalAssetSystem system : this.getPurchasingCapitalAssetSystems()) {
                     assetLists.addAll(system.getItemCapitalAssets());
+                    capitalAssetLocationLists.addAll(system.getCapitalAssetLocations());
                 }
             }
             managedLists.add(assetLists);
+            managedLists.add(capitalAssetLocationLists);
         }
         return managedLists;
     }

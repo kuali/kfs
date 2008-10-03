@@ -200,6 +200,8 @@
               p:attributeName="physCampusProcCode" />
         <bean parent="FieldDefinition"
               p:attributeName="bankCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >

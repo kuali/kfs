@@ -16,6 +16,7 @@
         <bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
             <property name="messageDataSource" ref="dataSource"/>
 			<property name="registryDataSource" ref="registryDataSource"/>
+			<property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource"/>
 			<property name="serviceServletUrl" value="${workflow.url}/remote" />
             <property name="exceptionMessagingScheduler" ref="scheduler"/>
             <property name="authorizationService">

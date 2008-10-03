@@ -63,6 +63,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -75,8 +76,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private UniversityDateService universityDateService;
     DateTimeService dateTimeService;// = SpringContext.getBean(DateTimeService.class);
 
-
-    public void generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException{
+    public File generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException{
         CustomerCreditMemoReportDataHolder reportDataHolder = new CustomerCreditMemoReportDataHolder();
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
@@ -91,7 +91,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         creditMemoMap.put("docNumber", creditMemo.getDocumentNumber());
         creditMemoMap.put("refDocNumber", invoice.getDocumentNumber());
         Date date = creditMemo.getDocumentHeader().getDocumentFinalDate();
-        creditMemoMap.put("createDate", dateTimeService.toDateString(date));
+        if (ObjectUtils.isNotNull(date))
+            creditMemoMap.put("createDate", dateTimeService.toDateString(date));
         reportDataHolder.setCreditmemo(creditMemoMap);
 
         Map<String, String> customerMap = new HashMap<String, String>();
@@ -102,28 +103,28 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             customerMap.put("StreetAddressLine2", billToAddr.getCustomerLine2StreetAddress());
             customerMap.put("City", billToAddr.getCustomerCityName());
 
-            if (billToAddr.getCustomerCountryCode().equals("US")) { 
-                customerMap.put("State", billToAddr.getCustomerStateCode());
-                customerMap.put("Zipcode", billToAddr.getCustomerZipCode());
-            } else {
-                customerMap.put("State", billToAddr.getCustomerAddressInternationalProvinceName());
-                customerMap.put("Zipcode", billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("Country", billToAddr.getCustomerCountry().getPostalCountryName());
-
-            } 
+            if (ObjectUtils.isNotNull(billToAddr.getCustomerCountryCode())) {
+                if (billToAddr.getCustomerCountryCode().equals("US")) { 
+                    customerMap.put("State", billToAddr.getCustomerStateCode());
+                    customerMap.put("Zipcode", billToAddr.getCustomerZipCode());
+                } else {
+                    customerMap.put("State", billToAddr.getCustomerAddressInternationalProvinceName());
+                    customerMap.put("Zipcode", billToAddr.getCustomerInternationalMailCode());
+                    customerMap.put("Country", billToAddr.getCustomerCountry().getPostalCountryName());
+                }
+            }
         }
 
         reportDataHolder.setCustomer(customerMap);
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         Map<String, String> invoiceMap = new HashMap<String, String>();
-        invoiceMap.put("poNumber", invoice.getCustomerPurchaseOrderNumber());
-        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        if (ObjectUtils.isNotNull(invoice.getCustomerPurchaseOrderNumber()))
+            invoiceMap.put("poNumber", invoice.getCustomerPurchaseOrderNumber());
         if(invoice.getCustomerPurchaseOrderDate() != null)
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
-        UniversalUserService userService = SpringContext.getBean(UniversalUserService.class);
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-
         String id = StringUtils.upperCase(initiatorID);
         UniversalUser user = null;
         try {
@@ -133,7 +134,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );
-        invoiceMap.put("headerField", invoice.getInvoiceHeaderText());
+        invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText())?"":invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
         invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
@@ -175,7 +176,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         reportDataHolder.setSysinfo(sysinfoMap);
 
-        invoiceMap.put("billingOrgFax", orgOptions.getOrganizationFaxNumber());
+        invoiceMap.put("billingOrgFax", (ObjectUtils.isNull(orgOptions.getOrganizationFaxNumber())?"":orgOptions.getOrganizationFaxNumber()));
         invoiceMap.put("billingOrgPhone", orgOptions.getOrganizationPhoneNumber());
 
         creditMemo.populateCustomerCreditMemoDetailsAfterLoad();
@@ -192,9 +193,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         Date runDate = dateTimeService.getCurrentSqlDate();
         CustomerCreditMemoReportService service = SpringContext.getBean(CustomerCreditMemoReportService.class);
-        service.generateReport(reportDataHolder, runDate);
+        File report = service.generateReport(reportDataHolder, runDate);
 
-
+        return report;
     }
     public File generateInvoice(CustomerInvoiceDocument invoice) {
 

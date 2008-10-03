@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.report.service.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -41,7 +42,7 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public void generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate) {
+    public File generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate) {
         String reportFileName = customerCreditMemoReportInfo.getReportFileName();
         String reportDirectory = customerCreditMemoReportInfo.getReportsDirectory();
         String reportTemplateClassPath = customerCreditMemoReportInfo.getReportTemplateClassPath();
@@ -58,6 +59,8 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = reportGenerationService.buildFullFileName(runDate, reportDirectory, reportFileName, "");
         reportGenerationService.generateReportToPdfFile(reportData, template, fullReportFileName);
+        File report = new File(fullReportFileName+".pdf");
+        return report;
     }
     
     /**

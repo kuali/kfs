@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecif
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kns.bo.Campus;
@@ -60,7 +61,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private boolean continuationAccountIndicator;
     private boolean closePurchaseOrderIndicator;
     private boolean reopenPurchaseOrderIndicator;
-
+    private String bankCode;
+    
     private boolean unmatchedOverride; // not persisted
 
     // NOT PERSISTED IN DB
@@ -76,7 +78,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     // REFERENCE OBJECTS
     private Campus processingCampus;
     private transient PurchaseOrderDocument purchaseOrderDocument;
-
+    private Bank bank;
+    
     /**
      * Constructs a AccountsPayableDocumentBase
      */
@@ -389,6 +392,22 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
     }
     
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
     /**
      * Sets the processing campus.
      * @deprecated

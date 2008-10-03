@@ -86,9 +86,11 @@ import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -1057,6 +1059,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // distribute accounts (i.e. proration)
         distributeAccounting(paymentRequestDocument);
 
+        // set bank code to default bank code in the system parameter
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(PaymentRequestDocument.class);
+        if (defaultBank != null) {
+            paymentRequestDocument.setBankCode(defaultBank.getBankCode());
+            paymentRequestDocument.setBank(defaultBank);
+        }
     }
 
     /**

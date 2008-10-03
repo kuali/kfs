@@ -15,11 +15,11 @@
  limitations under the License.
 -->
 <xsd:schema elementFormDefault="qualified"
-    targetNamespace="http://kuali.org/pdp/payment1"
-    xmlns:kfs="http://www.kuali.org/kfsTypes"
-    xmlns="http://kuali.org/pdp/payment1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    
-    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="https://test.kuali.org/kuali-reg/static/xml/fs/kfsTypes.xsd" />
+    targetNamespace="http://www.kuali.org/kfs/pdp/payment"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns="http://www.kuali.org/kfs/pdp/payment" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
         
     <!-- simple data types -->
     <xsd:simpleType name="idTypeType">

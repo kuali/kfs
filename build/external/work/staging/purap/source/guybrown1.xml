@@ -1,5 +1,7 @@
-<cXML xmlns="http://www.kuali.org/modules/purap/electronicInvoice"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  version="1.2.009" payloadID="1218606996002.2057496250@prod-wm-app9" timestamp="2008-08-13T12:56:36" xml:lang="en-US">
+<cXML xmlns="http://www.kuali.org/kfs/purap/electronicInvoice"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.kuali.org/kfs/purap/electronicInvoice @externalizable.static.content.url@/xsd/purap/electronicInvoice.xsd"
+	version="1.2.009" payloadID="1218606996002.2057496250@prod-wm-app9" timestamp="2008-08-13T12:56:36" xml:lang="en-US">
   <Header>
     <From>
       <Credential domain="DUNS">

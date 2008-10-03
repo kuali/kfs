@@ -15,11 +15,11 @@
  limitations under the License.
 -->
 <xsd:schema elementFormDefault="qualified"
-    targetNamespace="http://www.kuali.org/modules/gl/collector"
-    xmlns:kfs="http://www.kuali.org/kfsTypes"
-    xmlns="http://www.kuali.org/modules/gl/collector" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    targetNamespace="http://www.kuali.org/kfs/gl/collector"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns="http://www.kuali.org/kfs/gl/collector" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="https://test.kuali.org/kuali-reg/static/xml/fs/kfsTypes.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
 
     <!-- header fields -->   
     <xsd:element name="organizationCode" type="kfs:oneToFourCharType"/>

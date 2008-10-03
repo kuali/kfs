@@ -110,7 +110,7 @@
 		</javadoc>
 	</target>
 
-	<target name="clean-help" depends="init-property-files" unless="no.filter.project.help">
+	<target name="clean-help" if="do.filter-project-help" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${help.directory}/**" />
@@ -118,7 +118,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-rice" depends="init-property-files" unless="no.filter.project.rice">
+	<target name="clean-rice" unless="dont.filter-project-rice" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${licenses.directory}/${rice.name}/**" />
@@ -129,18 +129,20 @@
 		</delete>
 	</target>
 	
-	<target name="clean-spring-ide" depends="init-property-files" unless="no.filter.project.spring.ide">
+	<target name="clean-spring-ide" unless="dont.filter.project.spring.ide" depends="init-property-files">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" />
 		<delete file="${spring.ide.support.file}" failonerror="false" />
 	</target>
 
 	<target name="clean-project" depends="init-property-files,clean-help,clean-rice,clean-spring-ide">
-		<delete failonerror="false">
+		<echo message="${basedir}/${xsd.directory}" />
+		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
 				<include name="${source.directory}/${p6spy.file}" />
 				<include name="${webinf.directory}/${web.file}" />
 				<include name="${lib.directory}/${log4j.library.file}" />
+				<include name="${xsd.directory}/**/**" />
 				<include name="${war.directory}/**/**" />
 				<include name="${test.directory}/**/**" />
 				<include name="*.war" />
@@ -150,7 +152,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-local-work" if="is.local.build" unless="preserve.work.directory" depends="init-property-files">
+	<target name="clean-local-work" if="is.local.build" unless="dont.clean-local-work" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
 		</delete>
@@ -194,16 +196,16 @@
 		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
 	
-	<target name="filter-project-help" unless="no.filter.project.help" depends="init-properties">
+	<target name="filter-project-help" if="do.filter-project-help" depends="init-properties">
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 	</target>
 
-	<target name="filter-project-rice" unless="no.filter.project.rice" depends="init-properties">
+	<target name="filter-project-rice" unless="dont.filter-project-rice" depends="init-properties">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
 	
-  	<target name="filter-project-spring-ide" unless="no.filter.project.spring.ide" depends="init-properties">
+  	<target name="filter-project-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
 		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
 		<mkdir dir="${rice.datadictionary.directory}"/>
 		<unjar src="${lib.directory}/${rice.name}-${rice.impl.name}-${rice.version}.jar" dest="${rice.datadictionary.directory}">
@@ -235,6 +237,12 @@
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+		<copy todir="${static.directory}">
+			<fileset dir="${build.project.directory}" includes="xsd/**/**" />
+			<filterset>
+				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
+			</filterset>
+		</copy>
 	</target>
 	
 	<target name="filter-local" if="is.local.build" depends="init-properties">
@@ -253,6 +261,9 @@
 		<echo file="${logs.directory}/${ant.project.name}.log" message="" />
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
+			<filterset>
+				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
+			</filterset>
 		</copy>
 	</target>
 

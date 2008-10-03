@@ -712,7 +712,7 @@
 	       <value>org/kuali/kfs/module/purap/batch/electronicInvoiceDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	     <value>${externalizable.xml.url}/purap/electronicInvoice.xsd</value>
+	     <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
 	       <!-- <value>work/src/org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value> -->
 	    </property>
 	</bean>

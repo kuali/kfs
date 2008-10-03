@@ -14,9 +14,9 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 -->
-<transactions
-	xmlns="http://www.kuali.org/modules/financial/procurementCard"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<transactions xmlns="http://www.kuali.org/kfs/fp/procurementCard"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.kuali.org/kfs/fp/procurementCard @externalizable.static.content.url@/xsd/fp/procurementCard.xsd" >
 
 	<transaction>
 		<transactionCreditCardNumber>999911112222333</transactionCreditCardNumber>

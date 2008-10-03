@@ -14,8 +14,9 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 -->
-<batch xmlns="http://www.kuali.org/modules/gl/collector"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<batch xmlns="http://www.kuali.org/kfs/gl/collector"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.kuali.org/kfs/gl/collector @externalizable.static.content.url@/xsd/gl/collector.xsd" >
 	<header>
 		<chartOfAccountsCode>IN</chartOfAccountsCode>
 		<organizationCode>MDEP</organizationCode>
@@ -58,7 +59,6 @@
 	<detail>
 		<universityFiscalAccountingPeriod>06</universityFiscalAccountingPeriod>
 		<universityFiscalYear>2006</universityFiscalYear>
-		<createSequence>2006</createSequence>
 		<chartOfAccountsCode>BL</chartOfAccountsCode>
 		<accountNumber>1031400</accountNumber>
 		<subAccountNumber>ADV</subAccountNumber>

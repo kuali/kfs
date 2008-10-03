@@ -65,11 +65,17 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         extraButtons.clear();
 
         String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String printButtonURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
  
         if (getEditingMode().containsKey(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB)) {
             if (getEditingMode().get(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB).equals("TRUE")) {
                 addExtraButton("methodToCall.continueCreditMemo", externalImageURL + "buttonsmall_continue.gif", "Continue");
                 addExtraButton("methodToCall.clearInitTab", externalImageURL + "buttonsmall_clear.gif", "Clear");
+            }
+        }
+        if (getEditingMode().containsKey(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON)) {
+            if (getEditingMode().get(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON).equals("TRUE")) {
+                addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
             }
         }
         return extraButtons;

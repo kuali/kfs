@@ -32,7 +32,8 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
     }
     
     public static class CustomerCreditMemoEditMode extends EditMode {
-        public static final String DISPLAY_INIT_TAB ="displayInitTab";  
+        public static final String DISPLAY_INIT_TAB ="displayInitTab";
+        public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
 
 }

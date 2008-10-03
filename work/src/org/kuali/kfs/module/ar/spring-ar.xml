@@ -360,26 +360,29 @@
 		<property name="batchInputFileService">
 			<ref bean="batchInputFileService" />
 		</property>					
-		<property name="customerAddressService">
-			<ref bean="customerAddressService" />
-		</property>					
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>					
-		<property name="maintDocDDService">
-			<ref bean="maintenanceDocumentDictionaryService" />
-		</property>					
-		<property name="ddService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-		</property>
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>					
 		<property name="docService">
 			<ref bean="documentService" />
+		</property>					
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>					
+		<property name="orgService">
+			<ref bean="organizationService" />
+		</property>					
+		<property name="fsUserService">
+			<ref bean="financialSystemUserService" />
+		</property>					
+		<property name="sysInfoService">
+			<ref bean="systemInformationService" />
+		</property>					
+		<property name="boService">
+			<ref bean="businessObjectService" />
 		</property>					
 		<property name="batchInputFileType">
 			<ref bean="customerLoadInputFileType" />
@@ -388,7 +391,7 @@
 	
 	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">
 		<property name="directoryPath">
-			<value>${staging.directory}/ar/customer/</value>
+			<value>${staging.directory}/ar</value>
 		</property>
 		<property name="fileExtension">
 			<value>xml</value>
@@ -397,7 +400,7 @@
 			<value>org/kuali/kfs/module/ar/batch/digester/customerLoadDigesterRules.xml</value>
 		</property>
 		<property name="schemaLocation">
-			<value>org/kuali/kfs/module/ar/batch/schema/arCustomerLoad.xsd</value>
+			<value>${externalizable.xml.url}/ar/arCustomerLoad.xsd</value>
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />

@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public interface CustomerLoadService {
 
@@ -45,5 +47,14 @@ public interface CustomerLoadService {
      * @return True if no errors were encountered, False otherwise.
      */
     public boolean validate(List<CustomerDigesterVO> customerUploads);
+    
+    /**
+     * 
+     * Checks whether a given user is authorized to upload and batch a given File.
+     * @param user The user doing the upload/batch.
+     * @param batchFile The file being uploaded/batched.
+     * @return True if the person is authorized, False if not.
+     */
+    public boolean checkAuthorization(UniversalUser user, File batchFile);
     
 }

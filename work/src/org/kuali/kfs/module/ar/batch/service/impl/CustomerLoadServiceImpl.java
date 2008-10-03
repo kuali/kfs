@@ -22,44 +22,47 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.batch.BatchMaintainable;
 import org.kuali.kfs.module.ar.batch.CustomerLoadBatchErrors;
-import org.kuali.kfs.module.ar.batch.CustomerLoadBatchMaintainable;
-import org.kuali.kfs.module.ar.batch.rule.CustomerLoadDDValidator;
+import org.kuali.kfs.module.ar.batch.CustomerLoadStep;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterAdapter;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.validation.impl.CustomerRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.datadictionary.ApcRuleDefinition;
-import org.kuali.rice.kns.datadictionary.ReferenceDefinition;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -68,25 +71,77 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class CustomerLoadServiceImpl implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
-    private static final Class<Customer> BO_CLASS = Customer.class;
-    private static final String DD_ENTRY_NAME = BO_CLASS.getName();
     private static final String DOC_TYPE_NAME = "CustomerMaintenanceDocument";
+    private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     
     private BatchInputFileService batchInputFileService;
-    private CustomerAddressService customerAddressService;
     private CustomerService customerService;
-    private MaintenanceDocumentDictionaryService maintDocDDService;
-    private DataDictionaryService ddService;
-    private DictionaryValidationService dictionaryValidationService;
     private KualiConfigurationService configService;
     private DocumentService docService;
+    private ParameterService parameterService;
+    private OrganizationService orgService;
+    private FinancialSystemUserService fsUserService;
+    private SystemInformationService sysInfoService;
+    private BusinessObjectService boService;
     
     private BatchInputFileType batchInputFileType;
-
     private CustomerDigesterAdapter adapter;
-    private CustomerLoadDDValidator ddValidator;
     
     public CustomerLoadServiceImpl() {
+    }
+    
+    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+        FinancialSystemUser fsUser = fsUserService.getFinancialSystemUser(user.getPersonUniversalIdentifier());
+        return isUserInArBillingOrProcessingOrg(fsUser);
+    }
+
+    private boolean isUserInArBillingOrProcessingOrg(FinancialSystemUser fsUser) {
+        
+        Org fsUserOrg = fsUser.getOrganization();
+        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
+        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
+        
+        //  gather up all chart/org combos we want to search for
+        String userChart, userOrg; 
+        Map<String,String> pkMap;
+        Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
+        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
+            userChart = userPrimaryOrg.getChartOfAccountsCode();
+            userOrg = userPrimaryOrg.getOrganizationCode();
+            if (!searchOrgs.containsKey(userChart + userOrg)) {
+                pkMap = new HashMap<String,String>();
+                pkMap.put("chartOfAccountsCode", userChart);
+                pkMap.put("organizationCode", userOrg);
+                searchOrgs.put(userChart + userOrg, pkMap);
+            }
+        }
+        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
+            userChart = userOrgSecurity.getChartOfAccountsCode();
+            userOrg = userOrgSecurity.getOrganizationCode();
+            if (!searchOrgs.containsKey(userChart + userOrg)) {
+                pkMap = new HashMap<String,String>();
+                pkMap.put("chartOfAccountsCode", userChart);
+                pkMap.put("organizationCode", userOrg);
+                searchOrgs.put(userChart + userOrg, pkMap);
+            }
+        }
+        
+        OrganizationOptions orgOpts = null;
+        SystemInformation sysInfo = null;
+        for (String searchOrgKey : searchOrgs.keySet()) {
+            pkMap = searchOrgs.get(searchOrgKey);
+            userChart = pkMap.get("chartOfAccountsCode");
+            userOrg = pkMap.get("organizationCode");
+
+            //  see if there is an OrgOpt (Billing Org) belonging to this person's orgs
+            orgOpts = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, pkMap);
+            if (orgOpts != null) return true; 
+            
+            //  see if there is a SystemInformation (ProcessingOrg) belonging to this person's orgs
+            sysInfo = sysInfoService.getByProcessingChartAndOrg(userChart, userOrg);
+            if (sysInfo != null) return true;
+        }
+        return false;
     }
     
     public boolean loadFiles() {
@@ -149,8 +204,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         //  load up the file into a byte array 
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
-        BatchInputFileType batchInputFileType;
-        batchInputFileType = retrieveBatchInputFileTypeImpl(ArConstants.CustomerLoad.CUSTOMER_LOAD_FILE_TYPE_IDENTIFIER);
 
         //  parse the file against the XSD schema and load it into an object
         Object parsedObject = null;
@@ -258,21 +311,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
     
     /**
-     * 
-     * Delegates to Spring Context to retrieve an instance of the named BatchInputFileType.
-     * @param batchInputTypeName The TypeName of the BatchInputFileType subclass desired.
-     * @return An instance of the named type.
-     */
-    private BatchInputFileType retrieveBatchInputFileTypeImpl(String batchInputTypeName) {
-        BatchInputFileType batchInputType = SpringContext.getBeansOfType(BatchInputFileType.class).get(batchInputTypeName);
-        if (batchInputType == null) {
-            LOG.error("Batch input type implementation not found for id " + batchInputTypeName);
-            throw new RuntimeException(("Batch input type implementation not found for id " + batchInputTypeName));
-        }
-        return batchInputType;
-    }
-
-    /**
      * The results of this method follow the same rules as the batch step result rules:
      * 
      * The execution of this method may have 3 possible outcomes:
@@ -306,6 +344,21 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
         boolean groupSucceeded = true;
         boolean docSucceeded = true;
+        
+        //  check to make sure the input file doesnt have more docs than we allow in one batch file
+        String maxRecordsString = parameterService.getParameterValue(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
+        if (StringUtils.isBlank(maxRecordsString) || !StringUtils.isNumeric(maxRecordsString)) {
+            throw new RuntimeException("Expected 'Max Records Per Document' System Parameter is not available.");
+        }
+        Integer maxRecords = new Integer(maxRecordsString);
+        if (customerUploads.size() > maxRecords.intValue()) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
+            return false;
+        }
+        
+        //  we have to create one real maint doc for the whole thing to pass the maintainable.checkAuthorizationRestrictions 
+        MaintenanceDocument oneRealMaintDoc = null;
+        
         Customer customer = null;
         CustomerLoadBatchErrors batchErrors = null;
         if (adapter == null) adapter = new CustomerDigesterAdapter();
@@ -336,9 +389,17 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             //  do some housekeeping
             processBeforeValidating(customer, existingCustomer, isUpdate);
             
-            //  create the maint doc
-            MaintenanceDocument transientMaintDoc = createTransientMaintDoc(customer);
-
+            //  create the transient maint doc
+            MaintenanceDocument transientMaintDoc = createTransientMaintDoc();
+            
+            //  make sure we have the one real maint doc (to steal its document id)
+            oneRealMaintDoc = createRealMaintDoc(oneRealMaintDoc);
+            
+            //  steal the doc id from the real doc
+            transientMaintDoc.setDocumentNumber(oneRealMaintDoc.getDocumentNumber());
+            transientMaintDoc.setDocumentHeader(oneRealMaintDoc.getDocumentHeader());
+            transientMaintDoc.getDocumentHeader().setDocumentDescription("AR Customer Load Batch Transient");
+            
             //  set the old and new
             transientMaintDoc.getNewMaintainableObject().setBusinessObject(customer);
             transientMaintDoc.getOldMaintainableObject().setBusinessObject(existingCustomer);
@@ -511,102 +572,21 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    private MaintenanceDocument createTransientMaintDoc(Customer customer) {
+    private MaintenanceDocument createTransientMaintDoc() {
         MaintenanceDocument maintDoc = new MaintenanceDocumentBase(DOC_TYPE_NAME);
         return maintDoc;
     }
     
-    private boolean validateSingle2(Customer customer, CustomerLoadBatchErrors batchErrors) {
-        boolean result = true;
-        
-        BatchMaintainable customerMaintainable = new CustomerLoadBatchMaintainable(customer);
-        
-        //  determine whether this is an Update or a New
-        Customer existingCustomer = customerAlreadyExists(customer);
-        if (existingCustomer != null) {
-            customerMaintainable.setUpdate(true);
-            //  wire in the customer number from the Customer record already in the db``
-            customer.setCustomerNumber(existingCustomer.getCustomerNumber());
-        }
-        else {
-            customerMaintainable.setNew(true);
-        }
-        
-        //  test against the DD rules and restrictions
-        result &= applyDataDictionaryRules(customer, batchErrors);
-        
-        //  make sure all reference fields that are filled have valid values for the reference table/objects
-        result &= validateBOReferences(customer, batchErrors);
-        
-        //  apply all APC rules, if any
-        result &= validateAPCRules(customer, batchErrors);
-        
-        //  apply regular maint doc business rules
-        result &= applyMaintDocRules(customerMaintainable, batchErrors);
-        
-        return true;
-    }
-    
-    private boolean validateAPCRules(Customer customer, CustomerLoadBatchErrors batchErrors) {
-        boolean result = true;
-        
-        List<ApcRuleDefinition> apcRules = (List<ApcRuleDefinition>) maintDocDDService.getApplyApcRules(BO_CLASS);
-        
-        for (ApcRuleDefinition apcRule : apcRules) {
-
-            String propertyName = apcRule.getAttributeName();
-            String propertyValue;
+    private MaintenanceDocument createRealMaintDoc(MaintenanceDocument document) {
+        if (document == null) {
             try {
-                propertyValue = BeanUtils.getSimpleProperty(customer, apcRule.getAttributeName());
+                document = (MaintenanceDocument) docService.getNewDocument(DOC_TYPE_NAME);
             }
-            catch (Exception e) {
-                throw new RuntimeException("Exception thrown while trying to get bean property [" + propertyName + "] from a Customer instance.", e);
-            }
-
-            //  only run the apc rule if there's a value present
-            if (StringUtils.isNotBlank(propertyValue)) {
-                if (!configService.evaluateConstrainedValue(apcRule.getParameterNamespace(), apcRule.getParameterDetailType(), apcRule.getParameterName(), propertyValue)) {
-                    result &= false;
-                    addError(batchErrors, customer.getCustomerName(), apcRule.getAttributeName(), Object.class, propertyValue, "APC Rule Failure: " + apcRule.getErrorMessage());
-                }
+            catch (WorkflowException e) {
+                throw new RuntimeException("WorkflowException thrown when trying to create new MaintenanceDocument.", e);
             }
         }
-        return result;
-    }
-    
-    private boolean validateBOReferences(Customer customer, CustomerLoadBatchErrors batchErrors) {
-        boolean result = true;
-        
-        result &= validateBOReferenceOnObject(customer, batchErrors, customer.getCustomerName());
-        
-        for (CustomerAddress address : customer.getCustomerAddresses()) {
-            result &= validateBOReferenceOnObject(address, batchErrors, customer.getCustomerName());
-        }
-        return result;
-    }
-    
-    private boolean validateBOReferenceOnObject(PersistableBusinessObject bo, CustomerLoadBatchErrors batchErrors, String customerName) {
-        boolean result = true;
-        
-        String propertyName;
-        String propertyValue;
-        
-        List<ReferenceDefinition> references = (List<ReferenceDefinition>) maintDocDDService.getDefaultExistenceChecks(BO_CLASS);
-        for (ReferenceDefinition reference : references) {
-            if (!dictionaryValidationService.validateReferenceExistsAndIsActive(bo, reference)) {
-                propertyName = reference.getAttributeName();
-                try {
-                    propertyValue = BeanUtils.getSimpleProperty(bo, propertyName);
-                }
-                catch (Exception e) {
-                    LOG.error("Exception occurred while trying to access bean property for Customer instance with propertyName [" + propertyName + "].");
-                    propertyValue = "Unknown";
-                }
-                result &= false;
-                addError(batchErrors, customerName, propertyName, Object.class, propertyValue, "Reference value specified is not valid, does not exist or is not active.");
-            }
-        }
-        return result;
+        return document;
     }
     
     /**
@@ -643,46 +623,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
-    /**
-     * 
-     * Applies DataDictionary maint doc & bo rules & configuration against the BO.  This is things 
-     * like required fields, default values, etc etc.
-     * 
-     * @param customerMaintainable The BatchMaintainable containing the BO.
-     * @return True if no errors occurred, False if any errors or validation failures occurred.
-     */
-    private boolean applyDataDictionaryRules(Customer customer, CustomerLoadBatchErrors batchErrors) {
-        if (ddValidator == null) ddValidator = new CustomerLoadDDValidator();
-        return ddValidator.validate(customer, batchErrors);
-    }
-    
-    private boolean applyMaintDocRules(BatchMaintainable customerMaintainable, CustomerLoadBatchErrors batchErrors) {
-        
-        return false;
-    }
-
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
         this.batchInputFileService = batchInputFileService;
     }
 
-    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
-        this.customerAddressService = customerAddressService;
-    }
-
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
-    }
-
-    public void setMaintDocDDService(MaintenanceDocumentDictionaryService maintDocDDService) {
-        this.maintDocDDService = maintDocDDService;
-    }
-
-    public void setDdService(DataDictionaryService ddService) {
-        this.ddService = ddService;
-    }
-
-    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
-        this.dictionaryValidationService = dictionaryValidationService;
     }
 
     public void setConfigService(KualiConfigurationService configService) {
@@ -695,6 +641,26 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     public void setBatchInputFileType(BatchInputFileType batchInputFileType) {
         this.batchInputFileType = batchInputFileType;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
+    }
+
+    public void setFsUserService(FinancialSystemUserService fsUserService) {
+        this.fsUserService = fsUserService;
+    }
+
+    public void setSysInfoService(SystemInformationService sysInfoService) {
+        this.sysInfoService = sysInfoService;
+    }
+
+    public void setBoService(BusinessObjectService boService) {
+        this.boService = boService;
     }
 
 }

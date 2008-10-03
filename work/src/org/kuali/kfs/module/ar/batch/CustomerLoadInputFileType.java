@@ -107,7 +107,7 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
-        return true;
+        return customerLoadService.checkAuthorization(user, batchFile);
     }
 
     /**

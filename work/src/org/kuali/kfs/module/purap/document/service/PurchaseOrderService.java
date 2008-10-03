@@ -20,9 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteStatus;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
@@ -370,4 +372,37 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @return boolean true if the job is completed successfully and false otherwise.
      */
     public boolean autoCloseRecurringOrders();
+    
+    
+    /**
+     * Return a list of PurchasingCapitalAssetItems where each item would have a CapitalAssetSystem. The CapitalAssetSystem provides
+     * the capital asset information such as asset numbers and asset type.
+     * 
+     * @param poId Purchase Order ID used to retrieve the asset information for the current PO
+     * @return List of PurchasingCapitalAssetItems (each of which contain a CapitalAssetSystem)
+     */
+    public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId);
+
+
+    /**
+     * Return a CapitalAssetSystem which provides the capital asset information such as asset numbers and asset type.
+     * 
+     * @param poId Purchase Order ID used to retrieve the asset information for the current PO
+     * @return CapitalAssetSystem
+     */
+    public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId);
+
+
+    /**
+     * Return a list of CapitalAssetSystems which provide the capital asset information such as asset numbers and asset type.
+     * 
+     * @param poId Purchase Order ID used to retrieve the asset information for the current PO
+     * @return List of CapitalAssetSystems
+     */
+    public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId);
+
+
+    
+    
+    
 }

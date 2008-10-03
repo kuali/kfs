@@ -1811,4 +1811,44 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException(errorMessage, e);
         }   
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetItemsForIndividual(java.lang.Integer)
+     */
+    public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId) {
+        PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
+        if (ObjectUtils.isNull(po)) {
+            return po.getPurchasingCapitalAssetItems();
+        }
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetSystemForOneSystem(java.lang.Integer)
+     */
+    public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId) {
+        PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
+        if (ObjectUtils.isNull(po)) {
+            List<CapitalAssetSystem> systems = po.getPurchasingCapitalAssetSystems();
+            if (ObjectUtils.isNotNull(systems)) {
+                //for one system, there should only ever be one system
+                return systems.get(0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#retrieveCapitalAssetSystemsForMultipleSystem(java.lang.Integer)
+     */
+    public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId) {
+        PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
+        if (ObjectUtils.isNull(po)) {
+            return po.getPurchasingCapitalAssetSystems();
+        }
+        return null;
+    }
+
+
+
 }

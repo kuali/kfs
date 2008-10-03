@@ -39,6 +39,7 @@ import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 //public class CustomerCreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
@@ -59,6 +60,12 @@ public class CustomerCreditMemoDocumentAuthorizer extends FinancialSystemTransac
         if( ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals( receivableOffsetOption ) ){
             editModeMap.put(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.SHOW_RECEIVABLE_FAU, "TRUE");
         }
+        
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (ObjectUtils.isNotNull(workflowDocument) && (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal()))
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON, "TRUE");
+        else
+            editModeMap.put(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_PRINT_BUTTON, "FALSE");
         
         return editModeMap;
     }

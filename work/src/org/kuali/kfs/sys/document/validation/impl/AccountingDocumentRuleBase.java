@@ -94,10 +94,12 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * This class contains all of the business rules that are common to all of the Financial Transaction Processing documents. Any
  * document specific business rules are contained within the specific child class that extends off of this one.
  */
+@Deprecated
 public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
     private ParameterService parameterService;
 
+    @Deprecated
     protected ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
@@ -108,6 +110,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     /**
      * Indicates what is being done to an accounting line. This allows the same method to be used for different actions.
      */
+    @Deprecated
     public enum AccountingLineAction {
         ADD(ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD), DELETE(ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE), UPDATE(ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
 
@@ -127,6 +130,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @return boolean True if the document is valid for routing, false otherwise.
      */
     @Override
+    @Deprecated
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         LOG.debug("processCustomRouteDocumentBusinessRules(Document) - start");
 
@@ -152,6 +156,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @return boolean True if the document is valid for approval, false otherwise.
      */
     @Override
+    @Deprecated
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         LOG.debug("processCustomApproveDocumentBusinessRules(ApproveDocumentEvent) - start");
 
@@ -175,6 +180,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @see org.kuali.rice.kns.rule.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.rice.kns.document.AccountingDocument,
      *      org.kuali.rice.kns.bo.AccountingLine)
      */
+    @Deprecated
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
 
@@ -198,6 +204,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
+    @Deprecated
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processCustomAddAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
 
@@ -212,6 +219,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @see org.kuali.rice.kns.rule.DeleteAccountingLineRule#processDeleteAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine, boolean)
      */
+    @Deprecated
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         LOG.debug("processDeleteAccountingLineBusinessRules(AccountingDocument, AccountingLine, boolean) - start");
 
@@ -227,6 +235,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param lineWasAlreadyDeletedFromDocument
      * @return boolean
      */
+    @Deprecated
     protected boolean processCustomDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         LOG.debug("processCustomDeleteAccountingLineBusinessRules(AccountingDocument, AccountingLine, boolean) - start");
 
@@ -241,6 +250,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param lineWasAlreadyDeletedFromDocument
      * @return boolean
      */
+    @Deprecated
     private boolean verifyExistenceOfOtherAccessibleAccountingLines(AccountingDocument financialDocument, boolean lineWasAlreadyDeletedFromDocument) {
         LOG.debug("verifyExistenceOfOtherAccessibleAccountingLines(AccountingDocument, boolean) - start");
 
@@ -262,6 +272,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @see org.kuali.rice.kns.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.rice.kns.bo.AccountingLine)
      */
+    @Deprecated
     public boolean processUpdateAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
         LOG.debug("processUpdateAccountingLineBusinessRules(AccountingDocument, AccountingLine, AccountingLine) - start");
 
@@ -286,6 +297,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param updatedAccountingLine
      * @return boolean
      */
+    @Deprecated
     protected boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         LOG.debug("processCustomUpdateAccountingLineBusinessRules(AccountingDocument, AccountingLine, AccountingLine) - start");
 
@@ -300,6 +312,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param errorKey
      * @param errorParams
      */
+    @Deprecated
     protected void reportError(String propertyName, String errorKey, String... errorParams) {
         LOG.debug("reportError(String, String, String) - start");
 
@@ -316,6 +329,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param boe
      * @param propertyName
      */
+    @Deprecated
     public static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
         LOG.debug("putRequiredPropertyError(BusinessObjectEntry, String) - start");
 
@@ -334,6 +348,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param action
      * @return true if the given accountingLine refers to an account which allows it to be added, deleted, or updated
      */
+    @Deprecated
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
         LOG.debug("checkAccountingLineAccountAccessibility(AccountingDocument, AccountingLine, AccountingLineAction) - start");
 
@@ -356,6 +371,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return true if the given accountingLine refers to an account which allows it to be added, deleted, or updated
      */
+    @Deprecated
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
 
@@ -396,6 +412,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param min
      * @return true if the document has n (or more) accessible accountingLines
      */
+    @Deprecated
     protected boolean hasAccessibleAccountingLines(AccountingDocument financialDocument, int min) {
         LOG.debug("hasAccessibleAccountingLines(AccountingDocument, int) - start");
 
@@ -446,6 +463,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @see org.kuali.rice.kns.rule.ReviewAccountingLineRule#processReviewAccountingLineBusinessRules(org.kuali.rice.kns.document.FinancialDocument,
      *      org.kuali.rice.kns.bo.AccountingLine)
      */
+    @Deprecated
     public boolean processReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processReviewAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
 
@@ -466,6 +484,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
+    @Deprecated
     protected boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
         LOG.debug("processCustomReviewAccountingLineBusinessRules(AccountingDocument, AccountingLine) - start");
 
@@ -604,6 +623,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      *        PurAP to use the document is deciding which implementation of the AccountingLineRuleHelperService to use
      * @return the default implementation of the AccountingLineRuleHelperService
      */
+    @Deprecated
     protected AccountingLineRuleHelperService getAccountingLineRuleHelperService(AccountingDocument accountingDocument) {
         return SpringContext.getBean(AccountingLineRuleHelperService.class);
     }
@@ -618,6 +638,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param financialDocument
      * @return documentClass associated with this accounting document
      */
+    @Deprecated
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
         return financialDocument.getClass();
     }
@@ -630,6 +651,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return boolean True if the number of accounting lines are valid for routing, false otherwise.
      */
+    @Deprecated
     protected boolean isAccountingLineTotalsUnchanged(AccountingDocument accountingDocument) {
         LOG.debug("isAccountingLineTotalsUnchanged(AccountingDocument) - start");
 
@@ -677,6 +699,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return AccountingDocument
      */
+    @Deprecated
     protected AccountingDocument retrievePersistedDocument(AccountingDocument accountingDocument) {
         LOG.debug("retrievePersistedDocument(AccountingDocument) - start");
 
@@ -702,6 +725,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param persistedSourceLineTotal
      * @param currentSourceLineTotal
      */
+    @Deprecated
     protected void buildTotalChangeErrorMessage(String propertyName, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
         LOG.debug("buildTotalChangeErrorMessage(String, KualiDecimal, KualiDecimal) - start");
 
@@ -717,6 +741,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * 
      * @param accountingDocument
      */
+    @Deprecated
     protected final void handleNonExistentDocumentWhenApproving(AccountingDocument accountingDocument) {
         LOG.debug("handleNonExistentDocumentWhenApproving(AccountingDocument) - start");
 
@@ -735,6 +760,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return boolean True if the number of accounting lines are valid for routing, false otherwise.
      */
+    @Deprecated
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument accountingDocument) {
         LOG.debug("isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument) - start");
 
@@ -753,6 +779,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return boolean
      */
+    @Deprecated
     protected boolean isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(AccountingDocument accountingDocument) {
         LOG.debug("isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(AccountingDocument) - start");
 
@@ -778,6 +805,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if there aren't any issues, false otherwise.
      */
+    @Deprecated
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         LOG.debug("isAmountValid(AccountingDocument, AccountingLine) - start");
 
@@ -809,6 +837,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return isOk
      */
+    @Deprecated
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument accountingDocument) {
         LOG.debug("isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument) - start");
 
@@ -831,6 +860,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return isOk
      */
+    @Deprecated
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument accountingDocument) {
         LOG.debug("isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument) - start");
 
@@ -856,6 +886,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return boolean True if the document is balanced, false otherwise.
      */
+    @Deprecated
     protected boolean isDocumentBalanceValid(AccountingDocument accountingDocument) {
         LOG.debug("isDocumentBalanceValid(AccountingDocument) - start");
 
@@ -871,6 +902,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingDocument
      * @return boolean
      */
+    @Deprecated
     protected boolean isDocumentBalanceValidConsideringDebitsAndCredits(AccountingDocument accountingDocument) {
         LOG.debug("isDocumentBalanceValidConsideringDebitsAndCredits(AccountingDocument) - start");
 
@@ -913,14 +945,17 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code is allowed.
      */
+    @Deprecated
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_CODES, KFSPropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine.getFinancialObjectCode());
     }
 
+    @Deprecated
     private boolean isAccountingLineValueAllowed(AccountingDocument accountingDocument, AccountingLine accountingLine, String parameterName, String propertyName) {
         return isAccountingLineValueAllowed(accountingDocument.getClass(), accountingLine, parameterName, propertyName, propertyName);
     }
 
+    @Deprecated
     private boolean isAccountingLineValueAllowed(Class documentClass, AccountingLine accountingLine, String parameterName, String propertyName, String userEnteredPropertyName) {
         boolean isAllowed = true;
         String exceptionMessage = "Invalue property name provided to AccountingDocumentRuleBase isAccountingLineValueAllowed method: " + propertyName;
@@ -952,6 +987,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
+    @Deprecated
     public boolean isObjectTypeAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_TYPE_CODES, "objectCode.financialObjectTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
@@ -963,6 +999,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
+    @Deprecated
     public boolean isFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_FUND_GROUP_CODES, "account.subFundGroup.fundGroupCode", "accountNumber");
     }
@@ -974,6 +1011,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean
      */
+    @Deprecated
     public boolean isSubFundGroupAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_SUB_FUND_GROUP_CODES, "account.subFundGroupCode", "accountNumber");
     }
@@ -985,6 +1023,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
+    @Deprecated
     public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_SUB_TYPE_CODES, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
@@ -996,6 +1035,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
+    @Deprecated
     public boolean isObjectLevelAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_LEVELS, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
@@ -1007,6 +1047,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param accountingLine
      * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
      */
+    @Deprecated
     public boolean isObjectConsolidationAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_CONSOLIDATIONS, "objectCode.financialObjectLevel.financialConsolidationObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
@@ -1017,6 +1058,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isFundBalanceCode(String objectCode) {
         LOG.debug("isFundBalanceCode(String) - start");
 
@@ -1031,6 +1073,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isBudgetOnlyCodesSubType(String objectCode) {
         LOG.debug("isBudgetOnlyCodesSubType(String) - start");
 
@@ -1045,6 +1088,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isCashSubType(String objectCode) {
         LOG.debug("isCashSubType(String) - start");
 
@@ -1059,6 +1103,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isFundBalanceSubType(String objectCode) {
         LOG.debug("isFundBalanceSubType(String) - start");
 
@@ -1073,6 +1118,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isHourlyWagesSubType(String objectCode) {
         LOG.debug("isHourlyWagesSubType(String) - start");
 
@@ -1087,6 +1133,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isSalariesSubType(String objectCode) {
         LOG.debug("isSalariesSubType(String) - start");
 
@@ -1101,6 +1148,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectSubTypeCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isValuationsAndAdjustmentsSubType(String objectSubTypeCode) {
         LOG.debug("isValuationsAndAdjustmentsSubType(String) - start");
 
@@ -1115,6 +1163,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectSubTypeCode
      * @return True if it is a manadatory transfer, false otherwise.
      */
+    @Deprecated
     public final boolean isMandatoryTransfersSubType(String objectSubTypeCode) {
         LOG.debug("isMandatoryTransfersSubType(String) - start");
 
@@ -1129,6 +1178,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectSubTypeCode
      * @return True if it is a non-mandatory transfer, false otherwise.
      */
+    @Deprecated
     public final boolean isNonMandatoryTransfersSubType(String objectSubTypeCode) {
         LOG.debug("isNonMandatoryTransfersSubType(String) - start");
 
@@ -1144,6 +1194,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param parameterName
      * @return boolean
      */
+    @Deprecated
     private final boolean checkMandatoryTransfersSubType(String objectSubTypeCode, String parameterName) {
         LOG.debug("checkMandatoryTransfersSubType(String, String) - start");
 
@@ -1160,6 +1211,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isFringeBenefitsSubType(String objectCode) {
         LOG.debug("isFringeBenefitsSubType(String) - start");
 
@@ -1172,6 +1224,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param objectCode
      * @return boolean
      */
+    @Deprecated
     public final boolean isCostRecoveryExpenseSubType(String objectCode) {
         LOG.debug("isCostRecoveryExpenseSubType(String) - start");
 
@@ -1188,6 +1241,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param fundGroupCodes An array of the fund group codes that will be considered for balancing.
      * @return True if they balance; false otherwise.
      */
+    @Deprecated
     protected boolean isFundGroupSetBalanceValid(AccountingDocument tranDoc, Class componentClass, String parameterName) {
         LOG.debug("isFundGroupSetBalanceValid(AccountingDocument, String[]) - start");
 
@@ -1244,6 +1298,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      * @param fundGroupCodes
      * @return String
      */
+    @Deprecated
     private String buildFundGroupCodeBalancingErrorMessage(String[] fundGroupCodes) {
         // TODO: delete this method
         LOG.debug("buildFundGroupCodeBalancingErrorMessage(String[]) - start");

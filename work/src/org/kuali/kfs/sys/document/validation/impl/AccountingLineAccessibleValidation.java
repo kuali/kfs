@@ -71,7 +71,7 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @param event the event to use to determine the error message
      * @return the key of the error message to display
      */
-    private String convertEventToMessage(KualiDocumentEvent event) {
+    protected String convertEventToMessage(KualiDocumentEvent event) {
         if (event instanceof AttributedAddAccountingLineEvent) {
             return AccountingLineAction.ADD.accessibilityErrorKey;
         } else if (event instanceof AttributedUpdateAccountingLineEvent) {

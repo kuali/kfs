@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.DocumentType;
@@ -73,7 +74,9 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     private List<GeneralLedgerEntryAsset> generalLedgerEntryAssets;
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
+    // non-db fields
     private boolean selected;
+    private KualiDecimal absAmount;
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
@@ -796,5 +799,29 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    /**
+     * Gets the absAmount attribute.
+     * 
+     * @return Returns the absAmount.
+     */
+    public KualiDecimal getAbsAmount() {
+        if (getTransactionLedgerEntryAmount() != null && KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode())) {
+            setAbsAmount(getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)));
+        }
+        else {
+            setAbsAmount(getTransactionLedgerEntryAmount());
+        }
+        return absAmount;
+    }
+
+    /**
+     * Sets the absAmount attribute value.
+     * 
+     * @param absAmount The absAmount to set.
+     */
+    public void setAbsAmount(KualiDecimal absAmount) {
+        this.absAmount = absAmount;
     }
 }

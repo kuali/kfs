@@ -93,23 +93,21 @@
 				<tr>
 					<th><input type="checkbox" onclick="selectAll(this,'glselect');" />Select</th>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.accountNumber}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.subAccountNumber}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSubObjectCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectTypeCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialDocumentTypeCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.documentNumber}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionDebitCreditCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationReferenceId}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.absAmount}" hideRequiredAsterisk="true" scope="col"/>
 				</tr>
 		<html:hidden property="listSize"/>
 		<html:hidden property="primaryGlAccountId"/>
@@ -130,6 +128,8 @@
 				</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].universityFiscalYear" 
 				attributeEntry="${entryAttributes.universityFiscalYear}" readOnly="true"/></td>
+				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].universityFiscalPeriodCode" 
+				attributeEntry="${entryAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
 				<td class="grid">
 					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${entry.chartOfAccountsCode}" render="true">
 					<kul:htmlControlAttribute property="relatedGlEntries[${pos}].chartOfAccountsCode" 
@@ -151,15 +151,7 @@
 				</kul:inquiry>
 				</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].financialSubObjectCode" 
-				attributeEntry="${entryAttributes.financialSubObjectCode}" readOnly="true"/></td>				
-				<td class="grid">
-				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectType" keyValues="code=${entry.financialObjectTypeCode}" render="true">
-				<kul:htmlControlAttribute property="relatedGlEntries[${pos}].financialObjectTypeCode" 
-				attributeEntry="${entryAttributes.financialObjectTypeCode}" readOnly="true"/>
-				</kul:inquiry>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].universityFiscalPeriodCode" 
-				attributeEntry="${entryAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
+				attributeEntry="${entryAttributes.financialSubObjectCode}" readOnly="true"/></td>
 				<td class="grid">
 				<kul:inquiry boClassName="org.kuali.rice.kns.bo.DocumentType" keyValues="documentTypeCode=${entry.financialDocumentTypeCode}" render="true">
 				<kul:htmlControlAttribute property="relatedGlEntries[${pos}].financialDocumentTypeCode" 
@@ -172,10 +164,6 @@
 				attributeEntry="${entryAttributes.documentNumber}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].transactionLedgerEntryDescription" 
 				attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].transactionLedgerEntryAmount" 
-				attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].transactionDebitCreditCode" 
-				attributeEntry="${entryAttributes.transactionDebitCreditCode}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].organizationDocumentNumber" 
 				attributeEntry="${entryAttributes.organizationDocumentNumber}" readOnly="true"/></td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].organizationReferenceId" 
@@ -184,6 +172,8 @@
 				attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" readOnly="true"/>&nbsp;</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].referenceFinancialDocumentNumber" 
 				attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>&nbsp;</td>
+				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].absAmount" 
+				attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" readOnly="true"/></td>
 			</tr>
 		</c:forEach>   			
     	</table>

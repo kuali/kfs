@@ -63,8 +63,11 @@ import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorUtils;
@@ -287,6 +290,20 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public void populateAndSaveCreditMemo(CreditMemoDocument document) {
         try {
             document.setStatusCode(PurapConstants.CreditMemoStatuses.IN_PROCESS);
+            
+            if (document.isSourceDocumentPaymentRequest()) {
+                document.setBankCode(document.getPaymentRequestDocument().getBankCode());
+                document.setBank(document.getPaymentRequestDocument().getBank());
+            }
+            else {
+                // set bank code to default bank code in the system parameter
+                Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditMemoDocument.class);
+                if (defaultBank != null) {
+                    document.setBankCode(defaultBank.getBankCode());
+                    document.setBank(defaultBank);
+                }
+            }
+            
             documentService.saveDocument(document, ContinuePurapEvent.class);
         }
         catch (ValidationException ve) {

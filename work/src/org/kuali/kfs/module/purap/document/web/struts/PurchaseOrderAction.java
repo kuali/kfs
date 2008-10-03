@@ -165,8 +165,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
     /**
      * For use with a specific set of methods of this class that create new purchase order-derived document types in response to
-     * user actions, including <code>closePo</code>, <code>reopenPo</code>, <code>paymentHoldPo</code>,
-     * <code>removeHoldPo</code>, <code>amendPo</code>, and <code>voidPo</code>. It employs the question framework to ask
+     * user actions, including <code>closePo</code>, <code>reopenPo</code>, <code>paymentHoldPo</code>, <code>removeHoldPo</code>, 
+     * <code>splitPo</code>, <code>amendPo</code>, and <code>voidPo</code>. It employs the question framework to ask
      * the user for a response before creating and routing the new document. The response should consist of a note detailing a
      * reason, and either yes or no. This method can be better understood if it is noted that it will be gone through twice (via the
      * question framework); when each question is originally asked, and again when the yes/no response is processed, for

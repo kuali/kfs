@@ -203,10 +203,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     @Override
     public List<ExtraButton> getExtraButtons() {
         //setup auth first if necessary
-        if (auth == null) {
+        // remove this if condition to accomodate the change from request to scope obj, so that auth always gets refreshed; 
+        // otherwise extra buttons won't show correctly
+        //if (auth == null) { 
             PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
             auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
-        }
+        //    
         //add buttons from purapformbase
         super.getExtraButtons();
         

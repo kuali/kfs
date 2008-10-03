@@ -123,7 +123,6 @@
 			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].financialSubObjectCode" />
 			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].projectCode" />
 			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].balanceTypeCode" />
-			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].objectTypeCode" />
 			        		
 			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].accountIdentifier" />
 			        <html:hidden property="document.item[${ctr}].sourceAccountingLines[${acctCtr}].itemIdentifier" />

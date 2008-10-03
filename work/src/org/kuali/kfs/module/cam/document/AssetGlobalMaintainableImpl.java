@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cam.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -88,11 +87,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         setSeparateSourceCapitalAssetNumber(assetGlobal, parameters);
         setFinancialDocumentTypeCode(assetGlobal, parameters);
 
+        // set current date for Global and Separate.
+        assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        
         // populate required fields for "Asset Separate" doc
         if (assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             Asset asset = getAsset(assetGlobal);
             AssetOrganization assetOrganization = getAssetOrganization(assetGlobal);
-
             populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
@@ -144,6 +145,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      * @param assetGlobal
      */
     private void populateAssetSeparateAssetDetails(AssetGlobal assetGlobal, Asset asset, AssetOrganization assetOrganization) {
+        LOG.info("populateAssetSeparateAssetDetails() called....");
         assetGlobal.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         assetGlobal.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
         assetGlobal.setAgencyNumber(asset.getAgencyNumber());
@@ -156,12 +158,19 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setManufacturerName(asset.getManufacturerName());
         assetGlobal.setManufacturerModelNumber(asset.getManufacturerModelNumber());
         assetGlobal.setOrganizationText(assetOrganization.getOrganizationText());
-        assetGlobal.setLastInventoryDate(new java.sql.Date(asset.getLastInventoryDate().getTime()));
+        // added in case of NULL date in DB
+        if (asset.getLastInventoryDate() == null) {
+            assetGlobal.setLastInventoryDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        }
+        else {
+            assetGlobal.setLastInventoryDate(new java.sql.Date(asset.getLastInventoryDate().getTime()));
+        }
         assetGlobal.setCreateDate(asset.getCreateDate());
         assetGlobal.setCapitalAssetInServiceDate(asset.getCapitalAssetInServiceDate());
         assetGlobal.setLandCountyName(asset.getLandCountyName());
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
+        LOG.info("populateAssetSeparateAssetDetails() finished....");
     }
 
     /**

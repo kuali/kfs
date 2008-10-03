@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.report.service;
 
+import java.io.File;
 import java.util.Date;
 
 import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
@@ -24,5 +25,5 @@ import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
  */
 public interface CustomerCreditMemoReportService {
 
-    void generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate);
+    public File generateReport(CustomerCreditMemoReportDataHolder reportDataHolder, Date runDate);
 }

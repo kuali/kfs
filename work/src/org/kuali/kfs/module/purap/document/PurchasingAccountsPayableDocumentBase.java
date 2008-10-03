@@ -536,9 +536,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setPreTaxTotalDollarAmount(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#setTotalPreTaxDollarAmount(org.kuali.rice.kns.util.KualiDecimal)
      */
-    public void setPreTaxTotalDollarAmount(KualiDecimal amount) {
+    public void setTotalPreTaxDollarAmount(KualiDecimal amount) {
         // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
     }
 

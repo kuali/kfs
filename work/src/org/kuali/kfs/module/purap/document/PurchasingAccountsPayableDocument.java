@@ -162,7 +162,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      * 
      * @param the specified total amount.
      */
-    public void setPreTaxTotalDollarAmount(KualiDecimal totalDollarAmount);
+    public void setTotalPreTaxDollarAmount(KualiDecimal totalDollarAmount);
 
     /**
      * Computes the pre tax total dollar amount with the specified item types excluded.

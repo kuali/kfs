@@ -197,7 +197,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the capitalAssetManagementAsset.
      */
     public CapitalAssetManagementAsset getCapitalAssetManagementAsset() {
-        capitalAssetManagementAsset = (CapitalAssetManagementAsset) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAsset.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAsset, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET);
+        capitalAssetManagementAsset = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAsset.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAsset, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET);
         return capitalAssetManagementAsset;
     }
 
@@ -216,7 +216,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      * @return Returns the capitalAssetManagementAssetType.
      */
     public CapitalAssetManagementAssetType getCapitalAssetManagementAssetType() {
-        capitalAssetManagementAssetType = (CapitalAssetManagementAssetType) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAssetType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAssetType, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE);
+        capitalAssetManagementAssetType = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAssetType.class).retrieveExternalizableBusinessObjectIfNecessary(this, capitalAssetManagementAssetType, KFSPropertyConstants.CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE);
         return capitalAssetManagementAssetType;
     }
 

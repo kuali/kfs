@@ -32,8 +32,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class DisbursementVoucherNonEmployeeTravelExpenseValidation extends GenericValidation {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineValidation.class);
+public class DisbursementVoucherNonEmployeeTravelComanyValidation extends GenericValidation {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonEmployeeTravelComanyValidation.class);
 
     private AccountingDocument accountingDocumentForValidation;
 

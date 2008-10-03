@@ -66,7 +66,10 @@
     <td class="datacell">
 		<kul:htmlControlAttribute attributeEntry="${camsLocationAttributes.buildingCode}" property="${camsAssetLocationProperty}.buildingCode" readOnly="${(not isEditable) or lockCamsEntry or poItemInactive}"/>
 		<c:if test="${isEditable and (not lockCamsEntry)}">
-	        <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" fieldConversions="buildingCode:${camsAssetLocationProperty}.buildingCode,campusCode:${camsAssetLocationProperty}.campusCode,buildingStreetAddress:${camsAssetLocationProperty}.capitalAssetLine1Address,buildingAddressCityName:${camsAssetLocationProperty}.capitalAssetCityName,buildingAddressStateCode:${camsAssetLocationProperty}.capitalAssetStateCode" />
+	        <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
+	        	lookupParameters="${camsAssetLocationProperty}.campusCode:campusCode" 
+	        	fieldConversions="buildingCode:locationBuildingFromLookup,campusCode:locationCampusFromLookup,buildingStreetAddress:locationCapitalAssetItemNumber.${ctr}"
+	        	anchor="${currentTabIndex}"/>
 		</c:if>
 	</td>
 	<kul:htmlAttributeHeaderCell attributeEntry="${camsLocationAttributes.capitalAssetLine1Address}" align="right" />

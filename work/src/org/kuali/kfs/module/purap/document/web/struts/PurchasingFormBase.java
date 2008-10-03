@@ -54,6 +54,9 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     private CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
 
     private BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
+    
+    private String locationBuildingFromLookup;
+    private String locationCampusFromLookup;
 
     /**
      * Constructs a PurchasingFormBase instance and sets up the appropriately casted document.
@@ -357,17 +360,32 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     
     @Override
     public List<ExtraButton> getExtraButtons() {
-        extraButtons.clear();
+        extraButtons.clear();    
         if(getAuth()==null){
             return extraButtons;
         }
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        
-        // add the calculate button
+            // add the calculate button
             if (getAuth().canCalculate()) {
                 addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
             }
         return extraButtons;
+    }
+
+    public String getLocationBuildingFromLookup() {
+        return locationBuildingFromLookup;
+    }
+
+    public void setLocationBuildingFromLookup(String locationBuildingFromLookup) {
+        this.locationBuildingFromLookup = locationBuildingFromLookup;
+    }
+
+    public String getLocationCampusFromLookup() {
+        return locationCampusFromLookup;
+    }
+
+    public void setLocationCampusFromLookup(String locationCampusFromLookup) {
+        this.locationCampusFromLookup = locationCampusFromLookup;
     }
 
 

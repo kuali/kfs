@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +56,7 @@ import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -173,8 +175,44 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 // returning from a chart/org lookup on the document detail tab (update receiving address)
                 document.loadReceivingAddress();
             }
+            else if (request.getParameter("locationBuildingFromLookup") != null) {
+                // returning from a building lookup in a capital asset tab location (update location address)
+                PurchasingFormBase purchasingForm = (PurchasingFormBase)form;       
+                CapitalAssetLocation location = null;
+                                                              
+                if (document.getCapitalAssetSystemType().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+                    Map<String,String> parameters = request.getParameterMap();
+                    Set<String> parameterKeys = parameters.keySet();
+                    String locationCapitalAssetItemNumber = "";
+                    for(String parameterKey : parameterKeys) {
+                        if(StringUtils.containsIgnoreCase(parameterKey, "locationCapitalAssetItemNumber")) {
+                            locationCapitalAssetItemNumber = StringUtils.substringAfter(parameterKey, "locationCapitalAssetItemNumber.");
+                            break;
+                        }
+                    }                   
+                    Integer capitalAssetItemNumber = new Integer(locationCapitalAssetItemNumber);
+                    PurchasingCapitalAssetItem capitalAssetItem = document.getPurchasingCapitalAssetItems().get(capitalAssetItemNumber);
+                    location = capitalAssetItem.getPurchasingCapitalAssetSystem().getNewPurchasingCapitalAssetLocationLine();
+                }
+                else {
+                    // Assuming for now that there is only one system in either the ONE or MULT case.
+                    CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
+                    location = capitalAssetSystem.getNewPurchasingCapitalAssetLocationLine();
+                }
+                 
+                String campusCode = purchasingForm.getLocationCampusFromLookup();
+                String buildingCode = purchasingForm.getLocationBuildingFromLookup();
+                
+                Building locationBuilding = new Building();
+                locationBuilding.setCampusCode(campusCode);
+                locationBuilding.setBuildingCode(buildingCode);
+                Map<String,String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(locationBuilding);
+                locationBuilding = (Building)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, keys);
+                if((location != null) && (locationBuilding != null)) {
+                    location.templateBuilding(locationBuilding);
+                }
+            }
         }
-
         return super.refresh(mapping, form, request, response);
     }
 

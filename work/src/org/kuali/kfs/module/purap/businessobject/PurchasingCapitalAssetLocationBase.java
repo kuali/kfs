@@ -19,11 +19,13 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusinessObjectBase implements CapitalAssetLocation {
 
@@ -150,6 +152,18 @@ public abstract class PurchasingCapitalAssetLocationBase extends PersistableBusi
 
     public void setCampus(Campus campus) {
     	this.campus = campus;
+    }
+    
+    public void templateBuilding(Building building) {
+        if(ObjectUtils.isNotNull(building)) {
+            this.setBuildingCode(building.getBuildingCode());
+            this.setCampusCode(building.getCampusCode());
+            this.setCapitalAssetLine1Address(building.getBuildingStreetAddress());
+            this.setCapitalAssetCityName(building.getBuildingAddressCityName());
+            this.setCapitalAssetStateCode(building.getBuildingAddressStateCode());
+            this.setCapitalAssetPostalCode(building.getBuildingAddressZipCode());
+            this.setCapitalAssetCountryCode(building.getBuildingAddressCountryCode());
+        }
     }
 
     protected LinkedHashMap toStringMapper() {

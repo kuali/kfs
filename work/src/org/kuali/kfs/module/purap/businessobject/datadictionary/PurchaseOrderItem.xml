@@ -31,7 +31,7 @@
         <ref bean="PurchaseOrderItem-externalOrganizationB2bProductReferenceNumber" />
         <ref bean="PurchaseOrderItem-externalOrganizationB2bProductTypeName" />
         <ref bean="PurchaseOrderItem-itemQuantity" />
-        <ref bean="PurchaseOrderItem-commodityCode" />
+        <ref bean="PurchaseOrderItem-purchasingCommodityCode" />
         <ref bean="PurchaseOrderItem-itemActiveIndicator" />
         <ref bean="PurchaseOrderItem-itemInvoicedTotalAmount" />
         <ref bean="PurchaseOrderItem-itemInvoicedTotalQuantity" />
@@ -239,10 +239,10 @@
     <property name="exclusiveMin" value="0" />
   </bean>
 
-  <bean id="PurchaseOrderItem-commodityCode" parent="PurchaseOrderItem-commodityCode-parentBean" />
+  <bean id="PurchaseOrderItem-purchasingCommodityCode" parent="PurchaseOrderItem-purchasingCommodityCode-parentBean" />
 
-  <bean id="PurchaseOrderItem-commodityCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="commodityCode" />
+  <bean id="PurchaseOrderItem-purchasingCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchasingCommodityCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Commodity Code" />
     <property name="shortLabel" value="Commodity Code" />

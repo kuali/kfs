@@ -95,7 +95,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}"/>
 				<kul:htmlAttributeHeaderCell><kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" nowrap="true" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" nowrap="true" />
 				<kul:htmlAttributeHeaderCell> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemDescription}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>
 				<kul:htmlAttributeHeaderCell nowrap="true"> * <kul:htmlAttributeLabel attributeEntry="${itemAttributes.itemUnitPrice}" useShortLabel="true"/></kul:htmlAttributeHeaderCell>				
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" nowrap="true" />
@@ -128,7 +128,7 @@
                 <td class="infoline">
                     <c:set var="commodityCodeField"  value="newPurchasingItemLine.purchasingCommodityCode" />
                     <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
-                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.commodityCode}" 
+                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                         property="${commodityCodeField}" 
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
                     <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
@@ -206,7 +206,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
@@ -326,7 +326,7 @@
 				    </td>
                     <td class="infoline">
                         <kul:htmlControlAttribute 
-                            attributeEntry="${itemAttributes.commodityCode}" 
+                            attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                             property="document.item[${ctr}].purchasingCommodityCode"
                             onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
                             readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}"/>

@@ -31,7 +31,7 @@
         <ref bean="RequisitionItem-externalOrganizationB2bProductReferenceNumber" />
         <ref bean="RequisitionItem-externalOrganizationB2bProductTypeName" />
         <ref bean="RequisitionItem-itemQuantity" />
-        <ref bean="RequisitionItem-commodityCode" />
+        <ref bean="RequisitionItem-purchasingCommodityCode" />
         <ref bean="RequisitionItem-itemRestrictedIndicator" />
         <ref bean="RequisitionItem-itemTaxAmount" />
         <ref bean="RequisitionItem-totalAmount" />
@@ -231,10 +231,10 @@
     <property name="exclusiveMin" value="0" />
   </bean>
 
-  <bean id="RequisitionItem-commodityCode" parent="RequisitionItem-commodityCode-parentBean" />
+  <bean id="RequisitionItem-purchasingCommodityCode" parent="RequisitionItem-purchasingCommodityCode-parentBean" />
 
-  <bean id="RequisitionItem-commodityCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="commodityCode" />
+  <bean id="RequisitionItem-purchasingCommodityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchasingCommodityCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Commodity Code" />
     <property name="shortLabel" value="Commodity Code" />

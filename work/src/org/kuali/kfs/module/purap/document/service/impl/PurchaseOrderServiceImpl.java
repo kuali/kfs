@@ -1817,7 +1817,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public List<PurchasingCapitalAssetItem> retrieveCapitalAssetItemsForIndividual(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
-        if (ObjectUtils.isNull(po)) {
+        if (ObjectUtils.isNotNull(po)) {
             return po.getPurchasingCapitalAssetItems();
         }
         return null;
@@ -1828,7 +1828,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public CapitalAssetSystem retrieveCapitalAssetSystemForOneSystem(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
-        if (ObjectUtils.isNull(po)) {
+        if (ObjectUtils.isNotNull(po)) {
             List<CapitalAssetSystem> systems = po.getPurchasingCapitalAssetSystems();
             if (ObjectUtils.isNotNull(systems)) {
                 //for one system, there should only ever be one system
@@ -1843,7 +1843,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public List<CapitalAssetSystem> retrieveCapitalAssetSystemsForMultipleSystem(Integer poId) {
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
-        if (ObjectUtils.isNull(po)) {
+        if (ObjectUtils.isNotNull(po)) {
             return po.getPurchasingCapitalAssetSystems();
         }
         return null;

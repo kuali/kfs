@@ -34,11 +34,13 @@ import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstant
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -77,7 +79,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      */
     public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
-        if (documentRule.isCoverSheetPrintable(document)) {
+        if (this.isCoverSheetPrintable(document)) {
             String attachment = "";
             String handling = "";
             String alien = "";
@@ -153,6 +155,20 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             }
         }
 
+    }
+    
+    /**
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#isCoverSheetPrintable(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
+    public boolean isCoverSheetPrintable(DisbursementVoucherDocument document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        return !(workflowDocument.stateIsCanceled() || 
+                 workflowDocument.stateIsInitiated() || 
+                 workflowDocument.stateIsDisapproved() || 
+                 workflowDocument.stateIsException() || 
+                 workflowDocument.stateIsDisapproved() || 
+                 workflowDocument.stateIsSaved());
     }
 
     /**

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 import com.lowagie.text.DocumentException;
 
@@ -40,4 +41,12 @@ public interface DisbursementVoucherCoverSheetService {
      * @throws IOException Thrown if there is a problem writing the cover sheet to the output stream.
      */
     public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException;
+
+    /**
+     * checks the status of the document to see if the cover sheet is printable
+     * 
+     * @param document submitted document
+     * @return true if document is not canceled, initiated, disapproved, exception, or saved
+     */
+    public boolean isCoverSheetPrintable(DisbursementVoucherDocument document);
 }

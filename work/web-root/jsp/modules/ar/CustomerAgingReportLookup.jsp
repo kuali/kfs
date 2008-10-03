@@ -79,21 +79,6 @@
 			</div>
 			 
 
-			<br />
-			<p>MATT IS HERE</p>
-			
-			     <div id="globalbuttons" class="globalbuttons">
-	        	
-	        	<c:if test="${!empty extraButtons}">
-		        	<c:forEach items="${extraButtons}" var="extraButton">
-		        		<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"/>
-		        	</c:forEach>
-	        	</c:if>
-	</div>
-			
-			
-			<br />
-			<br />
 			<div class="right"><logic-el:present name="KualiForm"
 				property="formKey">
 				<c:if
@@ -124,16 +109,17 @@
 					</display:column>
 				</c:forEach>
 			
-				<table:footer>
-<th> <span class="grid">TOTALS:</span> </th>
-<td class="infocell">&nbsp; 5 customers </td>
-<td class="infocell">&nbsp; $54,000 </td>
-<td class="infocell">&nbsp; $40,000 </td>
-<td class="infocell">&nbsp; $30,000 </td>
-<td class="infocell">&nbsp; $20,000 </td>
-<td class="infocell">&nbsp; $10,000 </td>
 
-   </table>
+				<display:footer>
+					<th> <span class="grid">TOTALS:</span> </th>
+					<td class="infocell">&nbsp; 5 customers </td>
+					<td class="infocell">&nbsp; $54,000 </td>
+					<td class="infocell">&nbsp; $40,000 </td>
+					<td class="infocell">&nbsp; $30,000 </td>
+					<td class="infocell">&nbsp; $20,000 </td>
+					<td class="infocell">&nbsp; $10,000 </td>
+				</display:footer>
+			
 			</display:table>
 
 			</td>

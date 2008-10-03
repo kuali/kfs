@@ -1669,35 +1669,4 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return forward;      
     }
     
-    /**
-     * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingActionBase#changeSystem(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward changeSystem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        ActionForward forward = super.changeSystem(mapping, form, request, response);
-        
-        // Add a note if system change occurs when the document is a PO that is being amended.
-        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
-        PurchaseOrderDocument document = (PurchaseOrderDocument)purchasingForm.getDocument();
-        if (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(document.getStatusCode())) {
-            Integer poId = document.getPurapDocumentIdentifier();
-            PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
-            if (currentPO != null) {
-                CapitalAssetSystemType oldSystemType = currentPO.getCapitalAssetSystemType();
-                String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
-                String description = ((oldSystemType == null) ? "(NONE)" : oldSystemType.getCapitalAssetSystemTypeDescription());
-                StringUtils.replace(noteText, "{0}", description);
-                try {
-                    Note systemTypeChangeNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
-                    document.addNote(systemTypeChangeNote);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        
-        return forward;
-    }
 }

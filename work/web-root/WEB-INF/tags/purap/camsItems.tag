@@ -107,7 +107,7 @@
 	
     <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
     
-    <c:set var="itemActive" value="${document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
+    <c:set var="itemActive" value="${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
     
 	<tr>
 	<td class="infoline" valign="middle" colspan="10">

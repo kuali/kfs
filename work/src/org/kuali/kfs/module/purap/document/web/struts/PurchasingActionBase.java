@@ -36,15 +36,18 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
+import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetSystemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingCapitalAssetLocationEvent;
@@ -64,8 +67,10 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -198,8 +203,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     // Assuming for now that there is only one system in either the ONE or MULT case.
                     CapitalAssetSystem capitalAssetSystem = document.getPurchasingCapitalAssetSystems().get(0);
                     location = capitalAssetSystem.getNewPurchasingCapitalAssetLocationLine();
-                }
-                 
+				}
                 String campusCode = purchasingForm.getLocationCampusFromLookup();
                 String buildingCode = purchasingForm.getLocationBuildingFromLookup();
                 
@@ -919,11 +923,33 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
             return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.CapitalAssetTabStrings.SYSTEM_SWITCHING_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
         }
-        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+        else if (ConfirmationQuestion.YES.equals(buttonClicked)) {                     
+            // Add a note if system change occurs when the document is a PO that is being amended.
+            if ((document instanceof PurchaseOrderDocument) && (PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS.equals(document.getStatusCode()))) {
+                Integer poId = document.getPurapDocumentIdentifier();
+                PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
+                String oldSystemTypeCode = "";
+                if (currentPO != null) {
+                    oldSystemTypeCode = currentPO.getCapitalAssetSystemTypeCode();
+                }
+                CapitalAssetSystemType oldSystemType = new CapitalAssetSystemType();
+                oldSystemType.setCapitalAssetSystemTypeCode(oldSystemTypeCode);
+                Map<String,String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(oldSystemType);
+                oldSystemType = (CapitalAssetSystemType)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CapitalAssetSystemType.class, keys);
+                String noteText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE);
+                String description = ((oldSystemType == null) ? "(NONE)" : oldSystemType.getCapitalAssetSystemTypeDescription());
+                noteText = StringUtils.replace(noteText, "{0}", description);
+                try {
+                    Note systemTypeChangeNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+                    document.addNote(systemTypeChangeNote);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(document);
-            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document);
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(document); 
             SpringContext.getBean(PurchasingService.class).saveDocumentWithoutValidation(document);
-            
             GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }
         

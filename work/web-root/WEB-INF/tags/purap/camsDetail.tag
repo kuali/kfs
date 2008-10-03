@@ -126,7 +126,7 @@
 			</c:if>
 
 			<!-- Cams Location Entry -->
-			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" isEditable="true" availability="${availability}" />
+			<purap:camsLocation camsLocationAttributes="${camsLocationAttributes}" ctr="${ctr}" ctr2="${ctr2}" camsAssetLocationProperty="${locationPrefix}newPurchasingCapitalAssetLocationLine" isEditable="true" availability="${availability}" poItemInactive="${poItemInactive}"/>
 			
 			<table class="datatable" summary="" border="0" cellpadding="0" cellspacing="0" style="width:100%">
             <tr>

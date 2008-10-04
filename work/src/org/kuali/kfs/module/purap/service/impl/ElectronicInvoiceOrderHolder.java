@@ -44,6 +44,12 @@ import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.util.GlobalVariables;
 
+/**
+ * This is a holder class which can be passed to the matching service to validate einvoice or reject doc data 
+ * against the po document.   
+ * 
+ * @author vpremcha
+ */
 
 public class ElectronicInvoiceOrderHolder {
     
@@ -104,7 +110,7 @@ public class ElectronicInvoiceOrderHolder {
         }
         
         /**
-         * It's needed to retain any reject reasons which is related to summary amount matching
+         * It's needed to retain any reject reasons which are related to summary amount matching
          * which should not escape from the matching process 
          */
         retainSummaryRejects(rejectDocument);

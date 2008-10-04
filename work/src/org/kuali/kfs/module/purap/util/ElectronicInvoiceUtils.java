@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
@@ -102,6 +103,25 @@ public class ElectronicInvoiceUtils {
         }else{
             return null;
         }
+    }
+    
+    public static String getDateDisplayText(java.util.Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        // we add one to the month below because January = 0, February = 1, March = 2, and so on
+        String monthPart = (c.get(Calendar.MONTH) + 1) + "";
+        String dayPart = c.get(Calendar.DATE) + "";
+        if (monthPart.length() == 1){
+            monthPart = "0" + monthPart;
+        }
+        
+        if (dayPart.length() == 1){
+            dayPart = "0" + dayPart;
+        }
+        
+        String useDate =  monthPart + "/" + dayPart + "/" + c.get(Calendar.YEAR);
+        String actualDate = (date != null) ? date.toString() : "empty given date";
+        return useDate;
     }
     
     public static String stripSplChars(String data){

@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ElectronicInvoiceItemHolder {
@@ -83,11 +84,11 @@ public class ElectronicInvoiceItemHolder {
         return poItem;
     }
         
-    public String getCatalogNumber(){
+    public String getCatalogNumberStripped(){
         if (isRejectItemHolder()){
-            return rejectItem.getInvoiceItemCatalogNumber();
+            return ElectronicInvoiceUtils.stripSplChars(rejectItem.getInvoiceItemCatalogNumber());
         }else{
-            return invoiceItem.getReferenceItemIDSupplierPartID();
+            return ElectronicInvoiceUtils.stripSplChars(invoiceItem.getCatalogNumber());
         }
     }
     

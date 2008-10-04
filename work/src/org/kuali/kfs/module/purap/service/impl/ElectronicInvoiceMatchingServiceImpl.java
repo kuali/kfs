@@ -354,8 +354,8 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
         if (!itemHolder.isCatalogNumberAcceptIndicatorEnabled()){
             if (StringUtils.isNotEmpty(poItem.getItemCatalogNumber())){
-                if (!StringUtils.equals(poItem.getItemCatalogNumber(), itemHolder.getCatalogNumber())){
-                    String extraDescription = "Invoice Catalog No:" + itemHolder.getCatalogNumber() + ", PO Catalog No:" + poItem.getItemCatalogNumber();
+                if (!StringUtils.equals(poItem.getItemCatalogNumber(), itemHolder.getCatalogNumberStripped())){
+                    String extraDescription = "Invoice Catalog No:" + itemHolder.getCatalogNumberStripped() + ", PO Catalog No:" + poItem.getItemCatalogNumber();
                     ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
                     orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
                     return; 

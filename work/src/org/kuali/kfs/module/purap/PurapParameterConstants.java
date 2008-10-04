@@ -140,4 +140,10 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String PO_URL = "B2B_PO_URL";
     }
 
+    public static class ElectronicInvoiceParameters{
+        public static final String FILE_MOVE_AFTER_LOAD_IND = "FILE_MOVE_AFTER_LOAD_IND";
+        public static final String REQUISITION_SOURCES_REQUIRING_CATALOG_MATCHING = "REQUISITION_SOURCES_REQUIRING_CATALOG_MATCHING";
+        public static final String DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS = "DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS";
+        public static final String DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES = "DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES";
+    }
 }

@@ -13,8 +13,6 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 
 /**
- * This class has been copied from EPIC
- * 
  * @author delyea
  */
 public class ElectronicInvoiceLoad {
@@ -23,14 +21,12 @@ public class ElectronicInvoiceLoad {
 
     private Map invoiceLoadSummaries;
     private Map rejectFilesToMove;
-    private List partialFailureRejects;
-    private List completeFailureRejects;
+    private List rejectDocumentList;
 
     public ElectronicInvoiceLoad() {
         invoiceLoadSummaries = new HashMap();
         rejectFilesToMove = new HashMap();
-        partialFailureRejects = new ArrayList();
-        completeFailureRejects = new ArrayList();
+        rejectDocumentList = new ArrayList();
     }
 
     public void insertInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
@@ -41,21 +37,12 @@ public class ElectronicInvoiceLoad {
         rejectFilesToMove.put(file, directory);
     }
 
-    public void addInvoiceReject(ElectronicInvoiceRejectDocument eir,
-                                 boolean isCompleteFailure) {
-        if (isCompleteFailure){
-            completeFailureRejects.add(eir);
-        }else{
-            partialFailureRejects.add(eir);
-        }
+    public void addInvoiceReject(ElectronicInvoiceRejectDocument eir) {
+        rejectDocumentList.add(eir);
     }
 
-    public List getPartialFailureRejects() {
-        return partialFailureRejects;
-    }
-    
-    public List getCompleteFailureRejects() {
-        return completeFailureRejects;
+    public List getRejectDocuments() {
+        return rejectDocumentList;
     }
 
     public Map getInvoiceLoadSummaries() {

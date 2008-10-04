@@ -40,6 +40,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
+import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlHeader;
 
 /**
@@ -123,29 +124,6 @@ public class ElectronicInvoice {
         }
     }
 
-    /*
-     * DATE DISPLAY TEXT METHODS
-     */
-    private String getDateDisplayText(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        // we add one to the month below because January = 0, February = 1, March = 2, and so on
-        String monthPart = (c.get(Calendar.MONTH) + 1) + "";
-        String dayPart = c.get(Calendar.DATE) + "";
-        if (monthPart.length() == 1){
-            monthPart = "0" + monthPart;
-        }
-        
-        if (dayPart.length() == 1){
-            dayPart = "0" + dayPart;
-        }
-        
-        String useDate =  monthPart + "/" + dayPart + "/" + c.get(Calendar.YEAR);
-        String actualDate = (date != null) ? date.toString() : "empty given date";
-        LOG.info("getDateDisplayText() Returning Date '" + useDate + "' garnered from " + actualDate);
-        return useDate;
-    }
-
     public String getShippingDateDisplayText(ElectronicInvoiceOrder eio) {
         Date date = null;
         String dateString = "";
@@ -158,7 +136,7 @@ public class ElectronicInvoice {
             dateString = this.invoiceDetailRequestHeader.getShippingDateString();
         }
         if (date != null) {
-            return this.getDateDisplayText(date);
+            return ElectronicInvoiceUtils.getDateDisplayText(date);
         }
         else {
             return dateString;
@@ -168,7 +146,7 @@ public class ElectronicInvoice {
     public String getMasterAgreementIDInfoDateDisplayText(ElectronicInvoiceOrder eio) {
         Date date = eio.getMasterAgreementIDInfoDate();
         if (date != null) {
-            return this.getDateDisplayText(date);
+            return ElectronicInvoiceUtils.getDateDisplayText(date);
         }
         else {
             return eio.getMasterAgreementIDInfoDateString();
@@ -178,7 +156,7 @@ public class ElectronicInvoice {
     public String getMasterAgreementReferenceDateDisplayText(ElectronicInvoiceOrder eio) {
         Date date = eio.getMasterAgreementReferenceDate();
         if (date != null) {
-            return this.getDateDisplayText(date);
+            return ElectronicInvoiceUtils.getDateDisplayText(date);
         }
         else {
             return eio.getMasterAgreementReferenceDateString();
@@ -188,7 +166,7 @@ public class ElectronicInvoice {
     public String getOrderIDInfoDateDisplayText(ElectronicInvoiceOrder eio) {
         Date date = eio.getOrderIDInfoDate();
         if (date != null) {
-            return this.getDateDisplayText(date);
+            return ElectronicInvoiceUtils.getDateDisplayText(date);
         }
         else {
             return eio.getOrderIDInfoDateString();
@@ -198,7 +176,7 @@ public class ElectronicInvoice {
     public String getInvoiceDateDisplayText() {
         Date date = this.invoiceDetailRequestHeader.getInvoiceDate();
         if (date != null) {
-            return this.getDateDisplayText(date);
+            return ElectronicInvoiceUtils.getDateDisplayText(date);
         }
         else {
             return this.invoiceDetailRequestHeader.getInvoiceDateString();

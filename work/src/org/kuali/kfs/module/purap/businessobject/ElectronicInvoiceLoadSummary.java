@@ -17,7 +17,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
   
-  // NOT NULL FIELDS
   private Integer invoiceLoadSummaryIdentifier;
   private String vendorDunsNumber; // this is string constant if DUNS not found
   private Integer vendorHeaderGeneratedIdentifier;
@@ -30,21 +29,12 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   private Boolean isEmpty = Boolean.TRUE;
   private Date fileProcessDate;
   
-  /**
-   * 
-   */
   public ElectronicInvoiceLoadSummary() {
     super();
   }
   
   public ElectronicInvoiceLoadSummary(String vendorDunsNumber) {
     super();
-    this.vendorDunsNumber = vendorDunsNumber;
-  }
-  
-  public ElectronicInvoiceLoadSummary(Integer id, String vendorDunsNumber) {
-    super();
-    this.invoiceLoadSummaryIdentifier = id;
     this.vendorDunsNumber = vendorDunsNumber;
   }
   

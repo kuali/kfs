@@ -197,10 +197,6 @@ public class ElectronicInvoiceItem {
     return catalogNumber;
   }
   
-  public String getCatalogNumberStripped() {
-     return ElectronicInvoiceUtils.stripSplChars(catalogNumber);
-  }
-  
   /**
    * @param catalogNumber The catalogNumber to set.
    */
@@ -676,7 +672,6 @@ public class ElectronicInvoiceItem {
         toString.append("invoiceLineNumber",getInvoiceLineNumber());
         toString.append("quantity",getQuantity());
         toString.append("catalogNumber",getCatalogNumber());
-        toString.append("catalogNumberStripped",getCatalogNumberStripped());
         toString.append("unitOfMeasure",getUnitOfMeasure());
         toString.append("unitPrice",getUnitPrice());
         toString.append("unitPriceCurrency",getUnitPriceCurrency());

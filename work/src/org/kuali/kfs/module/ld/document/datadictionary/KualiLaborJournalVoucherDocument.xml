@@ -155,6 +155,14 @@
   	<property name="sourceMap">
 		<map>
 			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>KualiLaborJournalVoucherDocument-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>KualiLaborJournalVoucherDocument-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
 				<value>KualiLaborJournalVoucherDocument-updateAccountLineValidation</value>
 			</entry>
@@ -162,9 +170,18 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
 				<value>KualiLaborJournalVoucherDocument-addAccountingLineValidation</value>
 			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>KualiLaborJournalVoucherDocument-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>KualiLaborJournalVoucherDocument-reviewAccountingLineValidation</value>
+			</entry>
     	</map>
     </property>
   </bean>  
+  
     <!-- accounting line groups -->
     <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />
     

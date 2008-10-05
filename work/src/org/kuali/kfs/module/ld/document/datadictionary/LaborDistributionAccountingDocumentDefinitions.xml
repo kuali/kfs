@@ -133,9 +133,9 @@
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field"
-					p:name="objectTypeCode" p:required="true" p:useShortLabel="true" 
+					p:name="objectTypeCode" p:required="false" p:useShortLabel="true" 
 					p:webUILeaveFieldFunction="loadObjectTypeInfo"
-					p:dynamicLabelProperty="ObjectType-name" />				
+					p:dynamicLabelProperty="objectType.name" />					
 				<bean parent="AccountingLineView-field"
 					p:name="financialSubObjectCode" p:useShortLabel="true" 
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
@@ -244,6 +244,9 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />				
 			</list>
 		</property>
 	</bean>
@@ -301,4 +304,9 @@
 			</list>
 		</property>
 	</bean>	
+	    	
+    <bean id="labor-SalaryExpenseTransferDocument-AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.datadictionary.SalaryExpenseTransferAccountingLineAuthorizerBase" />
+    </bean>
+    	    	
 </beans>

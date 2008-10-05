@@ -117,11 +117,11 @@
     <!-- accounting line groups -->
     <bean id="SalaryTransferDocument-sourceAccountingLineGroup" parent="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" />
     
-    <bean id="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+    <bean id="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" parent="labor-SalaryExpenseTransferDocument-AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
     	<property name="groupLabel" value="From" />
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.datadictionary.SalaryExpenseTransferAccountingLineAuthorizerBase" />
     	<property name="importedLinePropertyPrefix" value="source" />
     	<property name="totals" ref="labor-AccountingDocument-sourceGroupTotals" />
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />

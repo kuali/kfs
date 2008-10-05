@@ -20,11 +20,54 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<bean id="KualiLaborJournalVoucherDocument-blanketApproveDocumentValidation" parent="KualiLaborJournalVoucherDocument-blanketApproveDocumentValidation-parent" scope="prototype" />
+	
+	<bean id="KualiLaborJournalVoucherDocument-blanketApproveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="KualiLaborJournalVoucherDocument-updateAccountLineValidation" parent="KualiLaborJournalVoucherDocument-updateAccountLineValidation-parentBean" scope="prototype" />
 		
 	<bean id="KualiLaborJournalVoucherDocument-updateAccountLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>	
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="KualiLaborJournalVoucherDocument-laborJournalVoucherEmployeeIDExistenceCheckValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -70,6 +113,124 @@
 				<bean parent="KualiLaborJournalVoucherDocument-laborJournalVoucherEmployeeIDExistenceCheckValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<bean parent="validationFieldConversion">
+										<property name="sourceEventProperty" value="accountingLine" />
+										<property name="targetValidationProperty" value="businessObjectForValidation" />
+									</bean>
+								</property>
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+									<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>	
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="KualiLaborJournalVoucherDocument-laborJournalVoucherPositionCodeExistenceCheckValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="KualiLaborJournalVoucherDocument-laborJournalVoucherExternalEncumbranceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>								
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="KualiLaborJournalVoucherDocument-deleteAccountingLineValidation" parent="KualiLaborJournalVoucherDocument-deleteAccountingLineValidation-parent" scope="prototype" />
+	
+	<bean id="KualiLaborJournalVoucherDocument-deleteAccountingLineValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="KualiLaborJournalVoucherDocument-reviewAccountingLineValidation" parent="KualiLaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" scope="prototype" />
+		
+	<bean id="KualiLaborJournalVoucherDocument-reviewAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="updatedAccountingLine" />
+							<property name="targetValidationProperty" value="businessObjectForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>	
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="KualiLaborJournalVoucherDocument-laborJournalVoucherEmployeeIDExistenceCheckValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="accountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
@@ -99,7 +260,7 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>								
+				</bean>
 			</list>
 		</property>	
 	</bean>

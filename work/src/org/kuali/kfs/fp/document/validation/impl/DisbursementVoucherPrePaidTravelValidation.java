@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class DisbursementVoucherPrePaidTravelValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPrePaidTravelValidation.class);
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -95,13 +95,4 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
 }

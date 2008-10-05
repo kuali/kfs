@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class DisbursementVoucherVendorInformationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private AccountingDocument accountingDocumentForValidation;
 
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
@@ -151,15 +151,6 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
     private boolean isActiveEmployeeSSN(String ssnNumber) {
         UniversalUser employee = retrieveEmployeeBySSN(ssnNumber);
         return employee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode());
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**

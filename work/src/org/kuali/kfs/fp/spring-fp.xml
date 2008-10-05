@@ -422,6 +422,6 @@
 	<import resource="document/validation/configuration/NonCheckDisbursementValidation.xml" />
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
-	
+	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
 	
 </beans>

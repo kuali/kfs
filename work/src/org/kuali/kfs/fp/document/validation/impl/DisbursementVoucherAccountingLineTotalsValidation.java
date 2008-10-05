@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
+    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
 
     /**
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)

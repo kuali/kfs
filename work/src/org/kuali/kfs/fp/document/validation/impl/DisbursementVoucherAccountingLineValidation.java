@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class DisbursementVoucherAccountingLineValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineValidation.class);
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
     private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
@@ -173,15 +173,6 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
         accountNumberAllowed = accountNumberAllowed && parameterService.getParameterEvaluator(financialDocument.getClass(), DisbursementVoucherRuleConstants.VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM, documentPaymentReason, accountingLine.getAccount().getSubFundGroupCode()).evaluateAndAddError(SourceAccountingLine.class, "account.subFundGroupCode", KFSPropertyConstants.ACCOUNT_NUMBER);
 
         return accountNumberAllowed;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**

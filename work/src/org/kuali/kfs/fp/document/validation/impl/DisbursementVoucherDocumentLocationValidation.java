@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class DisbursementVoucherDocumentLocationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentLocationValidation.class);
 
-    private ParameterService parameterService;
+    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -93,14 +93,5 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 }

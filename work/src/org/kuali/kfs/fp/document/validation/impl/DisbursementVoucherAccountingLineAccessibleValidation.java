@@ -33,8 +33,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class DisbursementVoucherAccountingLineAccessibleValidation extends AccountingLineAccessibleValidation {
-    private AccountService accountService;
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
+    private AccountService accountService = SpringContext.getBean(AccountService.class);
+    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
     
     private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
@@ -90,14 +90,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     }
 
     /**
-     * Sets the accountService attribute value.
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    /**
      * Sets the accountingDocumentForValidation attribute value.
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
@@ -111,13 +103,5 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      */
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
-    }
-
-    /**
-     * Sets the disbursementVoucherWorkGroupService attribute value.
-     * @param disbursementVoucherWorkGroupService The disbursementVoucherWorkGroupService to set.
-     */
-    public void setDisbursementVoucherWorkGroupService(DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService) {
-        this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }

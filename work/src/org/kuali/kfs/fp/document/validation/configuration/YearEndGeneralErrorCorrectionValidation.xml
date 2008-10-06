@@ -45,10 +45,9 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				
-				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+			  	<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" /> 
   			</list>
   		</property>
   	</bean>
@@ -81,8 +80,8 @@
   					<property name="parameterProperties">
            				<list>
             				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="document" />
- 	              				<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+               					<property name="sourceEventProperty" value="accountingLine" />
+ 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
    		          			</bean>
     	       			</list> 
       	          </property>
@@ -91,8 +90,8 @@
   					<property name="parameterProperties">
        	    			<list>
        		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="document" />
-           	    				<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+           	    				<property name="sourceEventProperty" value="accountingLine" />
+           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
            		  			</bean>
            				</list> 
            			</property>
@@ -126,8 +125,8 @@
   					<property name="parameterProperties">
            				<list>
             				<bean parent="validationFieldConversion">
-               					<property name="sourceEventProperty" value="document" />
- 	              				<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+               					<property name="sourceEventProperty" value="accountingLine" />
+ 	              				<property name="targetValidationProperty" value="accountingLineForValidation" />
    		          			</bean>
     	       			</list> 
       	          </property>
@@ -136,8 +135,8 @@
   					<property name="parameterProperties">
        	    			<list>
        		     			<bean parent="validationFieldConversion">
-           	    				<property name="sourceEventProperty" value="document" />
-           	    				<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+           	    				<property name="sourceEventProperty" value="accountingLine" />
+           	    				<property name="targetValidationProperty" value="accountingLineForValidation" />
            		  			</bean>
            				</list> 
            			</property>

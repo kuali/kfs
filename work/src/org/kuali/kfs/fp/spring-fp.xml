@@ -417,7 +417,8 @@
 	<import resource="document/validation/configuration/JournalVoucherValidation.xml" />
 	<import resource="document/validation/configuration/DistributionOfIncomeAndExpenseValidation.xml" />
 	<import resource="document/validation/configuration/YearEndDistributionOfIncomeAndExpenseValidation.xml" />
-	<import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />	
+	<import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
+	<import resource="document/validation/configuration/YearEndGeneralErrorCorrectionValidation.xml" />	
 	<import resource="document/validation/configuration/ServiceBillingValidation.xml" />
 	<import resource="document/validation/configuration/NonCheckDisbursementValidation.xml" />
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />

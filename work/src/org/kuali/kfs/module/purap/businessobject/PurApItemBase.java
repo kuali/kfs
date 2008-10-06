@@ -230,6 +230,10 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         return totalAmount;
     }
 
+    public void setTotalAmount(KualiDecimal totalAmount){
+        //do nothing, setter required by interface
+    }
+    
     public KualiDecimal calculateExtendedPrice() {
         KualiDecimal extendedPrice = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(itemUnitPrice)) {

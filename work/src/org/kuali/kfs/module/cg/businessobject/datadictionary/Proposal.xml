@@ -727,7 +727,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="proposalNumber" />
+              p:attributeName="proposalNumber" p:noLookup="true"/>
         <bean parent="FieldDefinition"
               p:attributeName="agencyNumber" />
         <bean parent="FieldDefinition"
@@ -743,7 +743,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="grantNumber" />
         <bean parent="FieldDefinition"
-              p:defaultValue="P"
               p:attributeName="proposalStatusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="federalPassThroughAgencyNumber" />

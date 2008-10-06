@@ -96,7 +96,7 @@
     <property name="description" value="Calculate and split the current asset total amount equally between all new asset amounts. Use the &quot;calculate equal asset amounts&quot; button to calculate new asset amounts." />
     <property name="control" >
       <bean parent="ButtonControlDefinition"
-            p:imageSrc="https://test.kuali.org/kuali-reg/static/images/tinybutton-allocate.gif"
+            p:imageSrc="tinybutton-allocate.gif"
             p:styleClass="globalbuttons" />
     </property>
   </bean>
@@ -315,7 +315,7 @@
     <property name="description" value="Calculate remaining source amount. Use the &quot;calculate equal asset amounts&quot; button to calculate remaining source amount." />
     <property name="control" >
       <bean parent="ButtonControlDefinition"
-            p:imageSrc="https://test.kuali.org/kuali-reg/static/images/tinybutton-recalculate.gif"
+            p:imageSrc="tinybutton-recalculate.gif"
             p:styleClass="globalbuttons" />
     </property>
   </bean>

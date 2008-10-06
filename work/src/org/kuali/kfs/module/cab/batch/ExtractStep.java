@@ -89,6 +89,10 @@ public class ExtractStep extends AbstractStep {
         }
         finally {
             batchExtractReportService.generateStatusReportPDF(processLog);
+            // create mismatch report if necessary
+            if (processLog.getMismatchedGLEntries() != null && !processLog.getMismatchedGLEntries().isEmpty()) {
+                batchExtractReportService.generateMismatchReportPDF(processLog);
+            }
             LOG.info("Batch status report is generated successfully.");
         }
         return true;

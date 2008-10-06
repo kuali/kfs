@@ -126,6 +126,7 @@
 	<bean id="batchExtractReportService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractReportServiceImpl">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cabBatchStatusReportInfo" ref="cabBatchStatusReportInfo" />
+		<property name="cabBatchMismatchReportInfo" ref="cabBatchMismatchReportInfo" />
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
 	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
@@ -176,14 +177,30 @@
 		<property name="reportsDirectory" value="${reports.directory}/cab/" />
 		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cab/report/messages" />
 		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
-		<property name="reportTemplateName" value="BatchReport" />
+		<property name="reportTemplateName" value="BatchStatusReport" />
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
 		<property name="subReports">
 			<map>
 				<entry key="batchReportDetails" value="BatchReportDetails"/>
 			</map>
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="cabBatchMismatchReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="CAB Batch Mismatch Report" />
+		<property name="reportFileName" value="cab_batch_mismatch_report" />
+		<property name="reportsDirectory" value="${reports.directory}/cab/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cab/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
+		<property name="reportTemplateName" value="BatchMismatchReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/cab/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="batchReportDetails" value="BatchReportDetails"/>
+			</map>
+		</property>
+	</bean>
+		
 	<!-- END Pre-Asset tagging extract job beans -->
 	
 <!-- **** Begin of Lookupable beans **** -->

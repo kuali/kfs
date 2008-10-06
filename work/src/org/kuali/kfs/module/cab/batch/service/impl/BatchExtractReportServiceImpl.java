@@ -34,6 +34,8 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class BatchExtractReportServiceImpl implements BatchExtractReportService {
     protected ReportGenerationService reportGenerationService;
     protected ReportInfo cabBatchStatusReportInfo;
+    protected ReportInfo cabBatchMismatchReportInfo;
+
     protected DateTimeService dateTimeService;
 
     public File generateStatusReportPDF(ExtractProcessLog extractProcessLog) {
@@ -44,6 +46,26 @@ public class BatchExtractReportServiceImpl implements BatchExtractReportService 
         ResourceBundle resourceBundle = cabBatchStatusReportInfo.getResourceBundle();
         String subReportTemplateClassPath = cabBatchStatusReportInfo.getSubReportTemplateClassPath();
         Map<String, String> subReports = cabBatchStatusReportInfo.getSubReports();
+        Map<String, Object> reportData = new HashMap<String, Object>();
+        reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
+        reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME, subReports);
+        String template = reportTemplateClassPath + reportTemplateName;
+        String fullReportFileName = reportGenerationService.buildFullFileName(dateTimeService.getCurrentDate(), reportDirectoty, reportFileName, "");
+        List<ExtractProcessLog> dataSource = new ArrayList<ExtractProcessLog>();
+        dataSource.add(extractProcessLog);
+        reportGenerationService.generateReportToPdfFile(reportData, dataSource, template, fullReportFileName);
+        return new File(fullReportFileName + ".pdf");
+    }
+
+    public File generateMismatchReportPDF(ExtractProcessLog extractProcessLog) {
+        String reportFileName = cabBatchMismatchReportInfo.getReportFileName();
+        String reportDirectoty = cabBatchMismatchReportInfo.getReportsDirectory();
+        String reportTemplateClassPath = cabBatchMismatchReportInfo.getReportTemplateClassPath();
+        String reportTemplateName = cabBatchMismatchReportInfo.getReportTemplateName();
+        ResourceBundle resourceBundle = cabBatchMismatchReportInfo.getResourceBundle();
+        String subReportTemplateClassPath = cabBatchMismatchReportInfo.getSubReportTemplateClassPath();
+        Map<String, String> subReports = cabBatchMismatchReportInfo.getSubReports();
         Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
         reportData.put(ReportGeneration.PARAMETER_NAME_SUBREPORT_DIR, subReportTemplateClassPath);
@@ -109,5 +131,23 @@ public class BatchExtractReportServiceImpl implements BatchExtractReportService 
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the cabBatchMismatchReportInfo attribute.
+     * 
+     * @return Returns the cabBatchMismatchReportInfo.
+     */
+    public ReportInfo getCabBatchMismatchReportInfo() {
+        return cabBatchMismatchReportInfo;
+    }
+
+    /**
+     * Sets the cabBatchMismatchReportInfo attribute value.
+     * 
+     * @param cabBatchMismatchReportInfo The cabBatchMismatchReportInfo to set.
+     */
+    public void setCabBatchMismatchReportInfo(ReportInfo cabBatchMismatchReportInfo) {
+        this.cabBatchMismatchReportInfo = cabBatchMismatchReportInfo;
     }
 }

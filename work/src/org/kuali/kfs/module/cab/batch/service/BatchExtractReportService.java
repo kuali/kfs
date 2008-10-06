@@ -27,4 +27,11 @@ public interface BatchExtractReportService {
      * @param extractProcessLog ExtractProcessLog
      */
     File generateStatusReportPDF(ExtractProcessLog extractProcessLog);
+
+    /**
+     * Generates a PDF report with mismatched record details
+     * 
+     * @param extractProcessLog ExtractProcessLog
+     */
+    File generateMismatchReportPDF(ExtractProcessLog extractProcessLog);
 }

@@ -30,34 +30,34 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAddAssetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetPaymentAction.class);
+    private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
     /**
      * 
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     //TODO remove this method.
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AssetPaymentForm apForm = (AssetPaymentForm) form;
-        String command = ((AssetPaymentForm) form).getCommand();
-        String docID = ((AssetPaymentForm) form).getDocId();
-        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
-        LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
-        return super.execute(mapping, form, request, response);
-    }
+//    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        AssetPaymentForm apForm = (AssetPaymentForm) form;
+//        String command = ((AssetPaymentForm) form).getCommand();
+//        String docID = ((AssetPaymentForm) form).getDocId();
+//        String capitalAssetNumber = ((AssetPaymentForm) form).getCapitalAssetNumber();
+//        LOG.info("***AssetPaymentAction.execute() - menthodToCall: " + apForm.getMethodToCall() + " - Command:" + command + " - DocId:" + docID + " - Capital Asset Number:" + capitalAssetNumber);
+//        return super.execute(mapping, form, request, response);
+//    }
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -70,9 +70,12 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
      */
     @Override
     protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
-        AssetPaymentForm assetPaymentForm = (AssetPaymentForm) form;
-        
+        AssetPaymentForm assetPaymentForm = (AssetPaymentForm) form;        
         super.uploadAccountingLines(isSource, assetPaymentForm);
+        List <AssetPaymentDetail> assetPaymentDetails =assetPaymentForm.getAssetPaymentDocument().getSourceAccountingLines(); 
+        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails ) {
+            assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);
+        }    
     }
     
     
@@ -171,5 +174,5 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
         assetPaymentForm.getAssetPaymentDocument().getAssetPaymentAssetDetail().remove(deleteIndex);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
+    }    
 }

@@ -30,7 +30,6 @@ import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
-import org.kuali.kfs.module.ar.businessobject.PaymentMedium;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -42,8 +41,11 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -181,7 +183,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      */
     private SystemInformation getSystemInformation(InvoicePaidApplied ipa) {
-        CustomerInvoiceDocument invoice = ipa.getInvoiceItem().getCustomerInvoiceDocument();
+        CustomerInvoiceDetail item = ipa.getInvoiceItem();
+        item.refreshReferenceObject("customerInvoiceDocument");
+        CustomerInvoiceDocument invoice = item.getCustomerInvoiceDocument();
         String processingOrgCode = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         String processingChartCode = invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         SystemInformation systemInformation = 
@@ -256,6 +260,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      */
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+        
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
         Iterator<InvoicePaidApplied> appliedPayments = this.getAppliedPayments().iterator();
         for(InvoicePaidApplied ipa : getAppliedPayments()) {
@@ -274,6 +281,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             sequenceHelper.increment();
             
             GeneralLedgerPendingEntry creditGLPE_1 = new GeneralLedgerPendingEntry();
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
             creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_1.setAccount(clearingAccount);
@@ -290,6 +298,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             sequenceHelper.increment();
 
             GeneralLedgerPendingEntry creditGLPE_2 = new GeneralLedgerPendingEntry();
+            glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_2, sequenceHelper, creditGLPE_2);
             creditGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_2.setAccount(billingOrganizationAccount);
@@ -308,7 +317,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         try {
             CashControlDocument cashControlDocument = 
                 paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
-            PaymentMedium paymentMedium = cashControlDocument.getCustomerPaymentMedium();
             List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
             for(GeneralLedgerPendingEntry entry : entries) {
                 addPendingEntry(entry);
@@ -322,22 +330,22 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
     
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        // TODO Auto-generated method stub
-        return false;
+        // Auto-generated method stub
+        return true;
     }
 
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         return null;
     }
 
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
-        // TODO Auto-generated method stub
-        return null;
+        // Auto-generated method stub
+        return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         return false;
     }
 
@@ -366,4 +374,15 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             }
         }
     }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        // generate GLPEs
+        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
+        super.prepareForSave(event);  
+    }
+    
 }

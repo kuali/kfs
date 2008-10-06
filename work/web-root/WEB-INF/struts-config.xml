@@ -184,6 +184,8 @@
 			type="org.kuali.kfs.module.purap.document.web.struts.BulkReceivingForm" />
 		<form-bean name="ElectronicInvoiceRejectForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceRejectForm" />
+        <form-bean name="B2BForm"
+            type="org.kuali.kfs.module.purap.web.struts.B2BForm" />
 
 		<!-- CG Module Bean Definitions -->
 		<form-bean name="CloseForm"
@@ -686,10 +688,6 @@
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/modules/purap/{1}.jsp" />
-			<forward name="viewRelatedDocuments"
-				path="/jsp/modules/purap/ViewRelatedDocuments.jsp" redirect="false" />
-			<forward name="viewPaymentHistory"
-				path="/jsp/modules/purap/ViewPaymentHistory.jsp" redirect="false" />
 			<forward name="printPurchaseOrderPDF"
 				path="/jsp/modules/purap/PrintForward.jsp" redirect="false" />
 			<forward name="retransmitPurchaseOrderPDF"
@@ -702,6 +700,22 @@
 		<action path="/purapPrint"
 			type="org.kuali.kfs.module.purap.document.web.struts.PrintAction"
 			scope="request" />
+
+		<action path="/b2b" 
+            name="B2BForm" scope="request"
+            attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.module.purap.web.struts.B2BAction">
+
+			<forward name="basic" path="/jsp/modules/purap/ShopCatalogs.jsp" />
+			<forward name="invalid" path="/requisition/shopFail.jsp" />
+			<forward name="multiple"
+				path="/requisition/listRequisitions.jsp" />
+			<forward name="gotoRequisition" path="/purapRequisition.do?methodToCall=displayB2BRequisition" />
+			<forward name="failure"
+				path="/requisition/requisitionFailure.jsp" />
+			<forward name="removeframe" path="/removeframe.jsp" />
+
+		</action>
 
 		<action path="/cg*" name="{1}Form"
 			input="/jsp/modules/cg/{1}.jsp"

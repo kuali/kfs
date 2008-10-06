@@ -22,82 +22,50 @@ import java.io.Serializable;
  */
 public class B2BInformation implements Serializable {
 
-  private String punchoutURL;
-  private String punchbackURL;
-  private String environment;
-  private String userAgent;
-  private String password;
+    private String punchoutURL;
+    private String punchbackURL;
+    private String environment;
+    private String userAgent;
+    private String password;
 
-  /**
-   * @return Returns the environment.
-   */
-  public String getEnvironment() {
-    return environment;
-  }
-  /**
-   * @param environment
-   *          The environment to set.
-   */
-  public void setEnvironment(String environment) {
-    this.environment = environment;
-  }
-  /**
-   * @return Returns the password.
-   */
-  public String getPassword() {
-    return password;
-  }
-  /**
-   * @param password
-   *          The password to set.
-   */
-  public void setPassword(String password) {
-    this.password = password;
-  }
-  /**
-   * @return Returns the punchbackURL.
-   */
-  public String getPunchbackURL() {
-    return punchbackURL;
-  }
-  /**
-   * @param punchbackURL
-   *          The punchbackURL to set.
-   */
-  public void setPunchbackURL(String punchbackURL) {
-    this.punchbackURL = punchbackURL;
-  }
-  /**
-   * @return Returns the punchoutURL.
-   */
-  public String getPunchoutURL() {
-    return punchoutURL;
-  }
-  /**
-   * @param punchoutURL
-   *          The punchoutURL to set.
-   */
-  public void setPunchoutURL(String punchoutURL) {
-    this.punchoutURL = punchoutURL;
-  }
-  /**
-   * @return Returns the userAgent.
-   */
-  public String getUserAgent() {
-    return userAgent;
-  }
-  /**
-   * @param userAgent
-   *          The userAgent to set.
-   */
-  public void setUserAgent(String userAgent) {
-    this.userAgent = userAgent;
-  }
-  /**
-   *  
-   */
-  public B2BInformation() {
-    super();
-  }
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPunchbackURL() {
+        return punchbackURL;
+    }
+
+    public void setPunchbackURL(String punchbackURL) {
+        this.punchbackURL = punchbackURL;
+    }
+
+    public String getPunchoutURL() {
+        return punchoutURL;
+    }
+
+    public void setPunchoutURL(String punchoutURL) {
+        this.punchoutURL = punchoutURL;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
 
 }

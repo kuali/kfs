@@ -138,6 +138,7 @@ public class PurapParameterConstants implements ParameterKeyConstants {
         public static final String PASSWORD = "B2B_PASSWORD";
         public static final String PO_PASSWORD = "B2B_PO_PASSWORD";
         public static final String PO_URL = "B2B_PO_URL";
+        public static final String DEFAULT_REQUISITION_SOURCE = "DEFAULT_REQUISITION_SOURCE";
     }
 
     public static class ElectronicInvoiceParameters{

@@ -29,6 +29,7 @@ import org.kuali.kfs.vnd.businessobject.VendorContractOrganization;
 import org.kuali.kfs.vnd.businessobject.VendorDefaultAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
+import org.kuali.kfs.vnd.dataaccess.VendorDao;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -52,6 +53,7 @@ public class VendorServiceImpl implements VendorService {
     private DocumentService documentService;
     private UniversalUserService universalUserService;
     private PersistenceService persistenceService;
+    private VendorDao vendorDao;
 
     /**
      * 
@@ -150,13 +152,15 @@ public class VendorServiceImpl implements VendorService {
     public VendorDetail getVendorByDunsNumber(String vendorDunsNumber) {
         LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
         Map criteria = new HashMap();
-        criteria.put(VendorPropertyConstants.VENDOR_DUNES_NUMBER, vendorDunsNumber);
+        criteria.put(VendorPropertyConstants.VENDOR_DUNS_NUMBER, vendorDunsNumber);
         List<VendorDetail> vds = (List) businessObjectService.findMatching(VendorDetail.class, criteria);
         LOG.debug("Exiting getVendorByDunsNumber.");
-        if (vds.size()<1)
+        if (vds.size() < 1) {
             return null;
-        else
-            return vds.get(0);        
+        }
+        else {
+            return vds.get(0);
+        }
     }
 
     /**
@@ -344,38 +348,30 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * 
-     * This method...
-     * @param universalUserService
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorB2BContract(org.kuali.kfs.vnd.businessobject.VendorDetail, java.lang.String)
      */
+    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
+        return vendorDao.getVendorB2BContract(vendorDetail, campus);
+    }
+
+    
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
 
-    /**
-     * 
-     * This method...
-     * @param boService
-     */
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
 
-    /**
-     * 
-     * This method...
-     * @param documentService
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-    /**
-     * 
-     * This method...
-     * @param persistenceService
-     */
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
+    }
+
+    public void setVendorDao(VendorDao vendorDao) {
+        this.vendorDao = vendorDao;
     }
 }

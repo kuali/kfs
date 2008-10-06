@@ -81,5 +81,12 @@ public class RequisitionAction extends PurchasingActionBase {
         //item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
+    public ActionForward displayB2BRequisition(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionForm reqForm = (RequisitionForm) form;
+        reqForm.setDocId((String) request.getSession().getAttribute("docId"));
+        loadDocument(reqForm);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

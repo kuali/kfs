@@ -392,11 +392,31 @@
 	    </property>
 	</bean>
 	
-	<bean id="receivingAddressService" class="org.kuali.kfs.module.purap.document.service.impl.ReceivingAddressServiceImpl">
-		<property name="receivingAddressDao">
-			<ref bean="receivingAddressDao" />
+	<bean id="b2bService" class="org.kuali.kfs.module.purap.document.service.impl.B2BServiceImpl">
+		<property name="b2bDao">
+			<ref bean="b2bDao" />
 		</property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="requisitionService">
+            <ref bean="requisitionService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
 	</bean>
+
+    <bean id="b2bDao" class="org.kuali.kfs.module.purap.dataaccess.impl.B2BDaoImpl"/>
+
+    <bean id="receivingAddressService" class="org.kuali.kfs.module.purap.document.service.impl.ReceivingAddressServiceImpl">
+        <property name="receivingAddressDao">
+            <ref bean="receivingAddressDao" />
+        </property>
+    </bean>
 
 	<bean id="receivingService" class="org.kuali.kfs.module.purap.document.service.impl.ReceivingServiceImpl">
         <property name="paymentRequestService">

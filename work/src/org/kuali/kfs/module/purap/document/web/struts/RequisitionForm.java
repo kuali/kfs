@@ -39,6 +39,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class RequisitionForm extends PurchasingFormBase {
 
+    private String shopUrl;
+    
     RequisitionDocumentActionAuthorizer auth;
 
     /**
@@ -138,5 +140,13 @@ public class RequisitionForm extends PurchasingFormBase {
     }
     public void setAuth(RequisitionDocumentActionAuthorizer auth) {
         this.auth = auth;
+    }
+
+    public String getShopUrl() {
+        return shopUrl;
+    }
+
+    public void setShopUrl(String shopUrl) {
+        this.shopUrl = shopUrl;
     }
 }

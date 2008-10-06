@@ -287,6 +287,8 @@ public class PurapConstants extends JSTLConstants {
     public static final int UNIT_PRICE_MAX_SCALE = 4;
     public static final int PREQ_DESC_LENGTH = 500;
     public static final String PREQ_DISCOUNT_MULT = "-0.01";
+    
+    public static final String REQUISITION_DOCUMENT_TYPE = "RequisitionDocument";
 
     public static class PurchaseOrderDocTypes {
         public static final String PURCHASE_ORDER_REOPEN_DOCUMENT = "PurchaseOrderReopenDocument";

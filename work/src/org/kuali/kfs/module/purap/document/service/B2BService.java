@@ -20,39 +20,37 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
- *
- * These items will allow a user to punch out to SciQuest and
- * will create requisitions from an order.  There is an additional
- * service that sends a PO to SciQuest.  That is in a different service
- * because it is called in a postprocessor in workflow.
+ * These items will allow a user to punch out for shopping and will create requisitions from an order.
  */
 public interface B2BService {
-  /**
-   * Get URL to punch out to
-   * 
-   * @param User ID punching out
-   * @return URL to punch out to
-   */
-  public String getPunchOutUrl(UniversalUser user);
 
-  /**
-   * Create requisition(s) from cxml and return
-   * list for display
-   * 
-   * @param cxml cXml string from sciquest
-   * @param user User doing the requisitioning
-   * @return List of requisitions
-   */
-  public List createRequisitionsFromCxml(B2BShoppingCartParser message, UniversalUser user);
+    /**
+     * Get URL to punch out to
+     * 
+     * @param User ID punching out
+     * @return URL to punch out to
+     */
+    public String getPunchOutUrl(FinancialSystemUser user);
 
-  /**
-   * Send the PO to sciquest
-   * 
-   * @param po
-   * @return Response from sciquest
-   */
-  public Collection sendPurchaseOrder(PurchaseOrderDocument po, UniversalUser user);
+    /**
+     * Create requisition(s) from cxml and return list for display
+     * 
+     * @param cxml cXml string
+     * @param user User doing the requisitioning
+     * @return List of requisitions
+     */
+    public List createRequisitionsFromCxml(B2BShoppingCartParser message, FinancialSystemUser user) throws WorkflowException;
+
+    /**
+     * Send the Purchase Order
+     * 
+     * @param po
+     * @return Response
+     */
+    public Collection sendPurchaseOrder(PurchaseOrderDocument po, FinancialSystemUser user);
+
 }

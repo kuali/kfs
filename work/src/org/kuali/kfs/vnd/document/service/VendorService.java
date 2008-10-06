@@ -18,6 +18,7 @@ package org.kuali.kfs.vnd.document.service;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
@@ -168,4 +169,13 @@ public interface VendorService {
      */
     public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier);
         
+    /**
+     * This method retrieves the B2B Contract for the given Vendor (see method in VendorDao for criteria).
+     *
+     * @param vendorDetail Vendor info
+     * @param campus Campus
+     * @return VendorContract B2B Contract for given vendor
+     */
+    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
+
 }

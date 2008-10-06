@@ -1,0 +1,3 @@
+insert into fp_doc_header_t (FDOC_NBR, OBJ_ID, VER_NBR, FDOC_DESC, ORG_DOC_NBR, FDOC_TMPL_NBR, FDOC_EXPLAIN_TXT)
+values ('41', '325C3255-09E8-FD13-6853-07476CA1F6A1', 10, 'PO: 1007 Vendor: BESCO WATER TREATMENT I', null, null, null);
+

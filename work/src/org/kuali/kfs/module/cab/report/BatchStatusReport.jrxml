@@ -256,7 +256,7 @@
 						height="29"
 						key="subreport-1"
 						positionType="Float">
-							<printWhenExpression><![CDATA[$F{mismatchedGLEntries} != null && !$F{mismatchedGLEntries}.isEmpty()]]></printWhenExpression>
+							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{mismatchedGLEntries} != null && !$F{mismatchedGLEntries}.isEmpty())]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="subHeaderMessage">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "mismatch.records.message" )]]></subreportParameterExpression>
@@ -275,7 +275,7 @@
 						height="29"
 						key="subreport-2"
 						positionType="Float">
-							<printWhenExpression><![CDATA[$F{duplicateGLEntries} != null && !$F{duplicateGLEntries}.isEmpty()]]></printWhenExpression>
+							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{duplicateGLEntries} != null && !$F{duplicateGLEntries}.isEmpty())]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="subHeaderMessage">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "duplicate.records.message" )]]></subreportParameterExpression>
@@ -294,7 +294,7 @@
 						height="29"
 						key="subreport-3"
 						positionType="Float">
-							<printWhenExpression><![CDATA[$F{ignoredGLEntries} != null && !$F{ignoredGLEntries}.isEmpty()]]></printWhenExpression>
+							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{ignoredGLEntries} != null && !$F{ignoredGLEntries}.isEmpty())]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="subHeaderMessage">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "ignored.records.message" )]]></subreportParameterExpression>

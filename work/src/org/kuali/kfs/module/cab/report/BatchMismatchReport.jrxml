@@ -256,7 +256,7 @@
 						height="29"
 						key="subreport-1"
 						positionType="Float">
-							<printWhenExpression><![CDATA[$F{mismatchedGLEntries} != null && !$F{mismatchedGLEntries}.isEmpty()]]></printWhenExpression>
+							<printWhenExpression><![CDATA[java.lang.Boolean.valueOf($F{mismatchedGLEntries} != null && !$F{mismatchedGLEntries}.isEmpty())]]></printWhenExpression>
 						</reportElement>
 					<subreportParameter  name="subHeaderMessage">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString( "mismatch.records.message" )]]></subreportParameterExpression>

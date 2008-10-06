@@ -284,6 +284,10 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     
     @Override
     public boolean canCalculate() {
+        // don't show calculate button on the split PO item selection page
+        if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
+            return false;
+        }
         return (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS)||purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW));
     }
     

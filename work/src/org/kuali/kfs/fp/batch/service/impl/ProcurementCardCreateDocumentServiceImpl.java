@@ -149,7 +149,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             throw new RuntimeException(re.getMessage());
         }
         
-        Collections.reverse(documentIdList);
+        //Collections.reverse(documentIdList);
         LOG.info("PCards to Route: "+documentIdList);
         
         for (String pcardDocumentId: documentIdList) {

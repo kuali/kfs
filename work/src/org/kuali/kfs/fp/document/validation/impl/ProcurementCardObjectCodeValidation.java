@@ -50,8 +50,9 @@ public class ProcurementCardObjectCodeValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) event.getDocument();
         AccountingLine accountingLine = getAccountingLineForValidation();
+        if (!accountingLine.isTargetAccountingLine()) return true;
+        
         ErrorMap errors = GlobalVariables.getErrorMap();
-
         String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
         boolean objectCodeAllowed = true;
 

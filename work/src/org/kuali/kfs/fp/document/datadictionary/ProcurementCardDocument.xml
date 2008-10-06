@@ -80,8 +80,8 @@
 				<value>ProcurementCard-routeDocumentValidation</value>
 			</entry>
 			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
-				<value>ProcurementCard-saveDocumentValidation</value>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>ProcurementCard-approveDocumentValidation</value>
 			</entry>
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>

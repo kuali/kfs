@@ -25,13 +25,10 @@
 	<bean id="ProcurementCard-routeDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
-				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" /> 
 			</list>
 		</property>
 	</bean>
-	
-	
 	
 	<bean id="ProcurementCard-addAccountingLineValidation" parent="ProcurementCard-addAccountingLineValidation-parentBean" scope="prototype" />
 	
@@ -58,8 +55,15 @@
 									</property>
 								</bean>
 							</entry>
-							
 						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
 					</property>
 				</bean>
 			
@@ -113,8 +117,15 @@
 									</property>
 								</bean>
 							</entry>
-							
 						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
 					</property>
 				</bean>
 			
@@ -167,8 +178,15 @@
 									</property>
 								</bean>
 							</entry>
-							
 						</map>
+					</property>
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="accountingLine" />
+								<property name="targetValidationProperty" value="accountingLineForValidation" />
+							</bean>
+						</list>
 					</property>
 				</bean>
 			
@@ -196,15 +214,20 @@
 		</property>
 	</bean>
 
-	
-	
-
 	<bean id="ProcurementCard-deleteAccountingLineValidation" parent="ProcurementCard-deleteAccountingLineValidation-parentBean" scope="prototype" />
   
 	<bean id="ProcurementCard-deleteAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
   		</property>
+	</bean>
+	
+	<bean id="ProcurementCard-approveDocumentValidation" parent="ProcurementCard-approveDocumentValidation-parent" scope="prototype" />
+	
+	<bean id="ProcurementCard-approveDocumentValidation-parent" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
+		</property>
 	</bean>
 
 </beans>

@@ -25,32 +25,32 @@ public class ProcurementCardNewAccountingLineBranchingValidation extends Branchi
     public static final String IS_NEW_LINE = "isNewLine";
     public static final String IS_OLD_LINE = "isOldLine";
     
-    private AccountingLine accountingLine;
+    private AccountingLine accountingLineForValidation;
 
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (accountingLine.getSequenceNumber() != null) {
+        if (accountingLineForValidation.getSequenceNumber() != null) {
             return IS_OLD_LINE;
-        } else if (accountingLine.getSequenceNumber() == null) {
+        } else if (accountingLineForValidation.getSequenceNumber() == null) {
            return IS_NEW_LINE;
         }
         return null;
     }
 
     /**
-     * Gets the accountingLine attribute. 
-     * @return Returns the accountingLine.
+     * Gets the accountingLineForValidation attribute. 
+     * @return Returns the accountingLineForValidation.
      */
-    public AccountingLine getAccountingLine() {
-        return accountingLine;
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
     /**
-     * Sets the accountingLine attribute value.
-     * @param accountingLine The accountingLine to set.
+     * Sets the accountingLineForValidation attribute value.
+     * @param accountingLineForValidation The accountingLineForValidation to set.
      */
-    public void setAccountingLine(AccountingLine accountingLine) {
-        this.accountingLine = accountingLine;
+    public void setAccountingLineForValidation(AccountingLine accountingLine) {
+        this.accountingLineForValidation = accountingLine;
     }
     
     

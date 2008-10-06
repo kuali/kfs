@@ -45,39 +45,41 @@ public class ProcurementCardErrorPathUtil {
      */
     public static void fixErrorPath(AccountingDocument financialDocument, AccountingLine accountingLine) {
         List transactionEntries = ((ProcurementCardDocument) financialDocument).getTransactionEntries();
-        ProcurementCardTargetAccountingLine targetAccountingLineToBeFound = (ProcurementCardTargetAccountingLine) accountingLine;
-
-        String errorPath = KFSPropertyConstants.DOCUMENT;
-
-        // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunately
-        // this makes it dependent on the order of transactionEntries in FP_PRCRMNT_DOC_T. Hence we have two loops below.
-        boolean done = false;
-        int transactionLineIndex = 0;
-        for (Iterator iterTransactionEntries = transactionEntries.iterator(); !done && iterTransactionEntries.hasNext(); transactionLineIndex++) {
-            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iterTransactionEntries.next();
-
-            // Loop over the transactionEntry to find the accountingLine's location. Keep another counter handy.
-            int accountingLineCounter = 0;
-            for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); !done && iterTargetAccountingLines.hasNext(); accountingLineCounter++) {
-                ProcurementCardTargetAccountingLine targetAccountingLine = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
-
-                if (targetAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
-                    // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
-                    errorPath = errorPath + "." + KFSPropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + KFSPropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
-                    done = true;
+        if (accountingLine.isTargetAccountingLine()) {
+            ProcurementCardTargetAccountingLine targetAccountingLineToBeFound = (ProcurementCardTargetAccountingLine) accountingLine;
+    
+            String errorPath = KFSPropertyConstants.DOCUMENT;
+    
+            // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunately
+            // this makes it dependent on the order of transactionEntries in FP_PRCRMNT_DOC_T. Hence we have two loops below.
+            boolean done = false;
+            int transactionLineIndex = 0;
+            for (Iterator iterTransactionEntries = transactionEntries.iterator(); !done && iterTransactionEntries.hasNext(); transactionLineIndex++) {
+                ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iterTransactionEntries.next();
+    
+                // Loop over the transactionEntry to find the accountingLine's location. Keep another counter handy.
+                int accountingLineCounter = 0;
+                for (Iterator iterTargetAccountingLines = transactionEntry.getTargetAccountingLines().iterator(); !done && iterTargetAccountingLines.hasNext(); accountingLineCounter++) {
+                    ProcurementCardTargetAccountingLine targetAccountingLine = (ProcurementCardTargetAccountingLine) iterTargetAccountingLines.next();
+    
+                    if (targetAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
+                        // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
+                        errorPath = errorPath + "." + KFSPropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + KFSPropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
+                        done = true;
+                    }
                 }
             }
+    
+            if (!done) {
+                LOG.warn("fixErrorPath failed to locate item accountingLine=" + accountingLine.toString());
+            }
+    
+            // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice
+            // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
+            // method knows how it is called).
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.clearErrorPath();
+            errorMap.addToErrorPath(errorPath);
         }
-
-        if (!done) {
-            LOG.warn("fixErrorPath failed to locate item accountingLine=" + accountingLine.toString());
-        }
-
-        // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice
-        // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
-        // method knows how it is called).
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.clearErrorPath();
-        errorMap.addToErrorPath(errorPath);
     }
 }

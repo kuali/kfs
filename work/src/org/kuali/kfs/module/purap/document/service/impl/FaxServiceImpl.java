@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +46,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -68,7 +68,7 @@ public class FaxServiceImpl implements FaxService {
      * @param isRetransmit if passed true then PO is being retransmitted
      * @return Collection of ServiceError objects
      */
-    public Collection<ServiceError> faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
+    public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf(po,reTransmit) started");
         String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
@@ -81,7 +81,7 @@ public class FaxServiceImpl implements FaxService {
         }
 
         LOG.debug("faxPurchaseOrderPdf() ended");
-        return this.faxPurchaseOrderPdf(po, pdfFileLocation, imageTempLocation, isRetransmit);
+        this.faxPurchaseOrderPdf(po, pdfFileLocation, imageTempLocation, isRetransmit);
     }
 
     /**
@@ -91,12 +91,11 @@ public class FaxServiceImpl implements FaxService {
      * @param isRetransmit if passed true then PO is being retransmitted
      * @return Collection of ServiceError objects
      */
-    public Collection<ServiceError> faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit) {
+    public void faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf() started with locations");
 
         PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
 
-        Collection<ServiceError> errors = new ArrayList<ServiceError>();
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         String pdfFilename = System.currentTimeMillis() + "_" + environment + "_" + po.getPurapDocumentIdentifier().toString() + ".pdf";
@@ -107,37 +106,25 @@ public class FaxServiceImpl implements FaxService {
         LOG.debug("Getting images. key is " + key + ". campusCode is " + campusCode);
         String logoImage;
         if ((logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null) {
-            ServiceError se = new ServiceError("errors", "pdf.error");
-            se.addParameter("logoImage is null.");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "logoImage is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
         String directorSignatureImage;
         if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
-            ServiceError se = new ServiceError("errors", "pdf.error");
-            se.addParameter("directorSignatureImage is null.");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "directorSignatureImage is null." );
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
         String contractManagerSignatureImage;
         if ((contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManager().getContractManagerCode(), imageTempLocation)) == null) {
-            ServiceError se = new ServiceError("errors", "pdf.error");
-            se.addParameter("contractManagerSignatureImage is null.");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "contractManagerSignatureImage is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
 
         Campus deliveryCampus = pdfParameters.getCampusParameter().getCampus();
 
         if (deliveryCampus == null) {
-            ServiceError se = new ServiceError("errors", "pdf.error");
-            se.addParameter("delivery campus is null.");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "pdf.error", "delivery campus is null.");
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
         String campusName = deliveryCampus.getCampusName();
         if (campusName == null) {
@@ -187,23 +174,17 @@ public class FaxServiceImpl implements FaxService {
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
         }
         catch (PurError e) {
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter(e.getMessage());
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank");
             imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images;
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
         catch (Throwable e) {
             LOG.error("faxPurchaseOrderPdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter("Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
             imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images;
                                                                                                   // only need to call once.
             LOG.debug("faxPurchaseOrderPdf() ended");
-            return errors;
         }
 
         LOG.info("faxPurchaseOrderPdf() PO: " + po.getPurapDocumentIdentifier() + " with vendor fax number: " + po.getVendorFaxNumber() + " and contract manager ID/Name: " + po.getContractManager().getContractManagerUserIdentifier() + " - " + po.getContractManager().getContractManagerName() + " and long distance code: " + po.getContractManager().getContractManagerPhoneNumber());
@@ -218,25 +199,17 @@ public class FaxServiceImpl implements FaxService {
             this.faxPDF(files, pdfFileLocation, po.getVendorFaxNumber(), po.getVendorName(), faxDescription);
         }
         catch (FaxSubmissionError e) {
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter(e.getMessage());
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank");
         }
         catch (FaxServerUnavailableError e) {
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter(e.getMessage());
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank");
         }
         catch (PurError e) {
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter(e.getMessage());
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank");
         }
         catch (Throwable e) {
             LOG.error("faxPurchaseOrderPdf() Faxing Failed Exception was " + e.getMessage(), e);
-            ServiceError se = new ServiceError("errors", "error.blank");
-            se.addParameter("Faxing Error.  Please Contact Purchasing");
-            errors.add(se);
+            GlobalVariables.getErrorMap().putError("errors", "error.blank", "Faxing Error.  Please Contact Purchasing");
         }
         finally {
             try {
@@ -249,20 +222,16 @@ public class FaxServiceImpl implements FaxService {
             }
             catch (Throwable e) {
                 LOG.error("faxPurchaseOrderPdf() Error deleting PDF" + pdfFilename + " - Exception was " + e.getMessage(), e);
-                ServiceError se = new ServiceError("errors", "error.blank");
-                se.addParameter("Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
-                errors.add(se);
+                GlobalVariables.getErrorMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
             }
         }
 
         imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), imageTempLocation); // Removes the temporary images; only need to call once.
         LOG.debug("faxPurchaseOrderPdf() ended");
-        return errors;
     }
 
-    public Collection<ServiceError> faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq) {
+    public void faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     /**

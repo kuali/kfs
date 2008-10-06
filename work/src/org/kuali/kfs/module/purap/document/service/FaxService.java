@@ -30,27 +30,24 @@ public interface FaxService {
      * 
      * @param po        PurchaseOrder that holds the Quote
      * @param poqv      PurchaseOrderQuoteVendor that is being transmitted to
-     * @return Collection of ServiceError objects
      */
-    public Collection faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq);
+    public void faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq);
     /**
      * Create the Purchase Order Pdf document and send it via
      * fax to the recipient in the PO
      * 
      * @param po                         PurchaseOrder that holds the Quote
      * @param isRetransmit               sends true if PO is being retransmitted
-     * @return Collection of ServiceError objects
      */
-    public Collection faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit);
+    public void faxPurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit);
     /**
      * Create the Purchase Order Pdf document and send it via
      * fax to the recipient in the PO
      * 
      * @param po                         PurchaseOrder that holds the Quote
      * @param isRetransmit               if passed true then PO is being retransmitted
-     * @return Collection of ServiceError objects
      */
-    public Collection faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit);
+    public void faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit);
     /**
      * Fax the PO and return true if it succeeds. Add error message and return false if problems
      * 

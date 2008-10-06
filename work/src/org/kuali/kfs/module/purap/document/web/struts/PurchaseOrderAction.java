@@ -847,9 +847,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             // call fax service
+            GlobalVariables.getErrorMap().clear();
             FaxService faxService = SpringContext.getBean(FaxService.class);
-            Collection errors = faxService.faxPurchaseOrderPdf(po, false);
-            if (errors.size() == 0) {
+            faxService.faxPurchaseOrderPdf(po, false);
+            if (GlobalVariables.getErrorMap().size() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
                 SpringContext.getBean(PurchaseOrderService.class).saveDocumentWithoutValidation(po);
             }

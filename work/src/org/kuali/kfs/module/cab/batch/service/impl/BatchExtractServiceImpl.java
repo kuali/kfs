@@ -194,6 +194,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return lastRunTime;
     }
 
+    /**
+     * Gets the last pre tag extract run date from system parameter
+     * 
+     * @return
+     */
     protected java.sql.Date getPreTagLastRunDate() {
         java.sql.Date lastRunDt;
         String lastRunTS = parameterService.getParameterValue(PreAssetTaggingStep.class, CabConstants.Parameters.LAST_EXTRACT_DATE);

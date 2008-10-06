@@ -31,6 +31,9 @@ public class PreAssetTaggingExtractStep extends AbstractStep {
     private BatchExtractService batchExtractService;
     private DateTimeService dateTimeService;
 
+    /**
+     * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
+     */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         try {
             java.sql.Date currentSqlDate = dateTimeService.getCurrentSqlDate();

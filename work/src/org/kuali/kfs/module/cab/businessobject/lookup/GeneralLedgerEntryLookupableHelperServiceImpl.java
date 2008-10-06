@@ -26,6 +26,7 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -90,15 +91,11 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
                 }
                 else if (entry.getFinancialDocumentTypeCode().equals(CabConstants.CM)) {
                     Map<String, String> cmKeys = new HashMap<String, String>();
-                    cmKeys.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, entry.getDocumentNumber());
-                    // check if vendor credit memo, then include as FP line
-                    Collection<CreditMemoDocument> matchingCreditMemos = businessObjectService.findMatching(CreditMemoDocument.class, cmKeys);
-                    if (matchingCreditMemos != null && !matchingCreditMemos.isEmpty()) {
-                        for (CreditMemoDocument creditMemoDocument : matchingCreditMemos) {
-                            if (creditMemoDocument.getPurchaseOrderIdentifier() == null) {
-                                newList.add(entry);
-                            }
-                        }
+                    cmKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
+                    // check if CAB PO document exsists, if not include
+                    Collection<PurchasingAccountsPayableDocument> matchingCreditMemos = businessObjectService.findMatching(PurchasingAccountsPayableDocument.class, cmKeys);
+                    if (matchingCreditMemos == null || matchingCreditMemos.isEmpty()) {
+                        newList.add(entry);
                     }
                 }
             }

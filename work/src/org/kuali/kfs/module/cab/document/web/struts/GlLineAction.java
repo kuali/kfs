@@ -44,15 +44,6 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class GlLineAction extends KualiAction {
 
-    // TODO this can be removed later since we removed direct link from lookup screen
-    public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // Find out the GL Entry
-        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
-        Document maintDoc = glLineService.createAssetGlobalDocument(entry);
-        return new ActionForward(prepareDocHandlerUrl(maintDoc, CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT), true);
-    }
-
     /**
      * Action "process" from CAB GL Lookup screen is processed by this method
      * 
@@ -107,15 +98,6 @@ public class GlLineAction extends KualiAction {
         return docHandler;
     }
 
-    // TODO this can be removed because we dont directly create payment from CAB GL lookup screen
-    public ActionForward createPayment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // Find out the GL Entry
-        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
-        // initiate a new document
-        Document document = glLineService.createAssetPaymentDocument(entry);
-        return new ActionForward(prepareDocHandlerUrl(document, CabConstants.ASSET_PAYMENT_DOCUMENT), true);
-    }
 
     /**
      * Action "Create Assets" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset global
@@ -231,7 +213,7 @@ public class GlLineAction extends KualiAction {
         return entry;
     }
 
-    public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
     }
 

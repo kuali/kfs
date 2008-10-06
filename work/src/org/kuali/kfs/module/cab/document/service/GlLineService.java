@@ -23,9 +23,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 
 public interface GlLineService {
-    Document createAssetGlobalDocument(GeneralLedgerEntry entry) throws WorkflowException;
-
-    Document createAssetPaymentDocument(GeneralLedgerEntry entry) throws WorkflowException;
 
     CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry);
 

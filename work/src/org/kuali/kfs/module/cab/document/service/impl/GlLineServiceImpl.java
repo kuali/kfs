@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cab.document.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,34 +54,11 @@ public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for GL ";
     protected BusinessObjectService businessObjectService;
 
-    /**
-     * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
-     */
-    public Document createAssetGlobalDocument(GeneralLedgerEntry entry) throws WorkflowException {
-        // initiate a new document
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        MaintenanceDocument document = (MaintenanceDocument) documentService.getNewDocument(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT);
-        // create asset global
-        AssetGlobal assetGlobal = createAssetGlobal(entry, document);
-        assetGlobal.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_N);
-        updatePreTagInformation(entry, document, assetGlobal);
-        assetGlobal.getAssetPaymentDetails().add(createAssetPaymentDetail(entry, document, 1));
-        // save the document
-        document.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getOldMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
-        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + entry.getGeneralLedgerAccountIdentifier());
-        document.getOldMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(assetGlobal));
-        document.getOldMaintainableObject().setBoClass(assetGlobal.getClass());
-        document.getNewMaintainableObject().setBusinessObject(assetGlobal);
-        document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
-        documentService.saveDocument(document);
-        // de-activate the entry
-        entry.setActive(false);
-        createGeneralLedgerEntryAsset(entry, document);
-        getBusinessObjectService().save(entry);
-        return document;
-    }
 
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
+     *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
+     */
     public Document createAssetGlobalDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException {
         // initiate a new document
         DocumentService documentService = KNSServiceLocator.getDocumentService();
@@ -198,28 +174,6 @@ public class GlLineServiceImpl implements GlLineService {
         return assetGlobal;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetPaymentDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
-     */
-    public Document createAssetPaymentDocument(GeneralLedgerEntry entry) throws WorkflowException {
-        // Find out the GL Entry
-        // initiate a new document
-        DocumentService documentService = KNSServiceLocator.getDocumentService();
-        AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(CabConstants.ASSET_PAYMENT_DOCUMENT);
-        document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + entry.getGeneralLedgerAccountIdentifier());
-        updatePreTagInformation(entry, document);
-        // Asset Payment Detail
-        AssetPaymentDetail detail = createAssetPaymentDetail(entry, document, 1);
-        document.getSourceAccountingLines().add(detail);
-        // Asset payment asset detail
-        // save the document
-        documentService.saveDocument(document);
-        // de-activate the entry
-        entry.setActive(false);
-        createGeneralLedgerEntryAsset(entry, document);
-        getBusinessObjectService().save(entry);
-        return document;
-    }
 
     public Document createAssetPaymentDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primaryGlEntry) throws WorkflowException {
         // Find out the GL Entry

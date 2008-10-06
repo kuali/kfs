@@ -223,7 +223,7 @@
 
 		</c:if>
 
-		<c:if test="${not quoteOpen}">
+		<c:if test="${not quoteOpen && preRouteChangeMode}">
 		<tr>
 			<td colspan="5" class="subhead">
 				<span class="subhead-right">

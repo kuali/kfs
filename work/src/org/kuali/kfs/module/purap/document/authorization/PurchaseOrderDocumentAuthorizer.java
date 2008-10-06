@@ -106,21 +106,20 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
                 }
             }
             
-        }
-        
+        }        
         
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(d, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-
+            }
+            
+            String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+            if (user.isMember(purchasingGroup)) {
                 // PRE_ROUTE_CHANGEABLE mode is used for fields that are editable only before PO is routed
                 // for ex, contract manager, manual status change, and quote etc
                 editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.PRE_ROUTE_CHANGEABLE, "TRUE");
-            }
-            
-            //if user is part of the purchasing group, allow edit while in process
-            String purchasingGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-            if (user.isMember(purchasingGroup)) {
+
+                //if user is part of the purchasing group, allow edit while in process
                 editModeMap.remove(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY);
             }
         }

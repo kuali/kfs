@@ -14,6 +14,7 @@
         <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation" />
         <ref bean="AssetGlobalMaintenanceDocument-CampusLocation" />
         <ref bean="AssetGlobalMaintenanceDocument-AddPayments" />
+        <ref bean="AssetGlobalMaintenanceDocument-RecalculateSourceAmount" />
       </list>
     </property>
     <property name="defaultExistenceChecks" >
@@ -431,8 +432,22 @@
     </property>
   </bean>
 
-  <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="AssetGlobalMaintenanceDocument-RecalculateSourceAmount" parent="AssetGlobalMaintenanceDocument-RecalculateSourceAmount-parentBean" />
+  <bean id="AssetGlobalMaintenanceDocument-RecalculateSourceAmount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="recalculateSeparateSourceAmount" />
+    <property name="title" value="Recalculate Total Amount" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="calculateSeparateSourceRemainingAmountButton" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="separateSourceRemainingAmount"
+              p:readOnly="true" />
+      </list>
+    </property>
+  </bean>
 
+  <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
   <bean id="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>

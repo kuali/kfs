@@ -282,6 +282,7 @@ public class CamsPropertyConstants {
         public static final String SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER = "separateSourceCapitalAssetNumber";
         public static final String CAPITAL_ASSET_DEPRECIATION_DATE = "capitalAssetDepreciationDate";
         public static final String SEPARATE_SOURCE_CAPITAL_ASSET = "separateSourceCapitalAsset";
+        public static final String SEPARATE_SOURCE_REMAINING_AMOUNT = "separateSourceRemainingAmount";
     }
 
     public static class AssetGlobalDetail {

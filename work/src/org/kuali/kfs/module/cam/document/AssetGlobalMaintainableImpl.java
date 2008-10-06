@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationConvention;
@@ -75,8 +76,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     /**
      * Get Asset from AssetGlobal
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.util.Map)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -97,6 +97,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             populateAssetInformation(assetGlobal, asset);
             populateAssetSeparateAssetDetails(assetGlobal, asset, assetOrganization);
             populateAssetSeparatePaymentDetails(assetGlobal, asset);
+            populateAssetSeparateRecalculateSourceAmount(assetGlobal, asset);
         }
 
         super.processAfterNew(document, parameters);
@@ -143,9 +144,10 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      * Populate Asset Details for Asset Separate document
      * 
      * @param assetGlobal
+     * @param asset
+     * @param assetOrganization
      */
     private void populateAssetSeparateAssetDetails(AssetGlobal assetGlobal, Asset asset, AssetOrganization assetOrganization) {
-        LOG.info("populateAssetSeparateAssetDetails() called....");
         assetGlobal.setOrganizationOwnerAccountNumber(asset.getOrganizationOwnerAccountNumber());
         assetGlobal.setOrganizationOwnerChartOfAccountsCode(asset.getOrganizationOwnerChartOfAccountsCode());
         assetGlobal.setAgencyNumber(asset.getAgencyNumber());
@@ -170,13 +172,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setLandCountyName(asset.getLandCountyName());
         assetGlobal.setLandAcreageSize(asset.getLandAcreageSize());
         assetGlobal.setLandParcelNumber(asset.getLandParcelNumber());
-        LOG.info("populateAssetSeparateAssetDetails() finished....");
     }
 
     /**
      * Populate Asset Payment Details for Asset Separate document
      * 
      * @param assetGlobal
+     * @param asset
      */
     private void populateAssetSeparatePaymentDetails(AssetGlobal assetGlobal, Asset asset) {
         // clear and create temp AssetPaymentDetail list
@@ -211,6 +213,15 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setAssetPaymentDetails(newAssetPaymentDetailList);
     }
 
+    /**
+     * Populates "Remaining Total Amount" field with the source total amount.
+     * 
+     * @param assetGlobal
+     * @param asset
+     */
+    private void populateAssetSeparateRecalculateSourceAmount(AssetGlobal assetGlobal, Asset asset) {
+        assetGlobal.setSeparateSourceRemainingAmount(asset.getTotalCostAmount());
+    }
 
     /**
      * Set capital asset number from URL.
@@ -250,10 +261,13 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<Section> sections = super.getCoreSections(oldMaintainable);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
-        // hide "Asset Information" tab from "Asset Separate" doc
+        // hide "Asset Information" and "Recalculate Total Amount" tab from "Asset Separate" doc
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
                 if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
+                    section.setHidden(true);
+                }
+                if (CamsConstants.AssetGlobal.SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }
             }
@@ -511,24 +525,31 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
             
             // calculate equal source total amounts and set separate source amount fields
-            // TODO throws exception if no shared details exist
-            // TODO calc amount and populate across multiple shared details
-            if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0])) {
+            if (customAction != null && "calculateEqualSourceAmountsButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
                 KualiDecimalService kualiDecimalService = new KualiDecimalService(assetGlobal.getTotalCostAmount(), Currency.getInstance("USD"));
-                KualiDecimal[] equalSourceAmounts = kualiDecimalService.allocate(locationQtyTotal);
-                setSingleSeparateSourceAmounts(equalSourceAmounts, assetGlobal);
+                KualiDecimal[] equalSourceAmountsArray = kualiDecimalService.allocate(locationQtyTotal);
+                setEqualSeparateSourceAmounts(equalSourceAmountsArray, assetGlobal);
             }
-            
-            // TODO calculate source asset remaining amount
+
+            // calculate source asset remaining amount
+            if (customAction != null && "calculateSeparateSourceRemainingAmountButton".equals(customAction[0]) && sharedDetailsList.size() >= 1) {
+                KualiDecimal remainingAmount = assetGlobal.getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal));
+                assetGlobal.setSeparateSourceRemainingAmount(assetGlobal.getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(assetGlobal)));
+            }
         }
     }
     
-    // one group - seems to work fine
-    public void setSingleSeparateSourceAmounts(KualiDecimal[] kualiDecimalArray, AssetGlobal assetGlobal) {
+    /**
+     * Separates the current asset amount equally into new unique assets.
+     * 
+     * @param kualiDecimalArray
+     * @param assetGlobal
+     */
+    public void setEqualSeparateSourceAmounts(KualiDecimal[] equalSourceAmountsArray, AssetGlobal assetGlobal) {
         int i = 0;
         for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
             for (AssetGlobalDetail assetGlobalUniqueDetail : assetSharedDetail.getAssetGlobalUniqueDetails()) {
-                assetGlobalUniqueDetail.setSeparateSourceAmount(kualiDecimalArray[i]);
+                assetGlobalUniqueDetail.setSeparateSourceAmount(equalSourceAmountsArray[i]);
                 i++;
             }
         }

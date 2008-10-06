@@ -90,6 +90,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     // calculate equal totals button
     private String calculateEqualSourceAmountsButton;
+    // calculate remaining source amount
+    private String calculateSeparateSourceRemainingAmountButton;
+    private KualiDecimal separateSourceRemainingAmount;
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private FinancialSystemDocumentHeader documentHeader;
@@ -792,7 +795,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
                 asset.setManufacturerName(detail.getManufacturerName());
                 asset.setManufacturerModelNumber(detail.getManufacturerModelNumber());
-                asset.setLastInventoryDate(separateSourceCapitalAsset.getLastInventoryDate());
+                /* TODO ??
+                if (separateSourceCapitalAsset.getLastInventoryDate() == null) {
+                    asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
+                }
+                else {
+                    asset.setLastInventoryDate(separateSourceCapitalAsset.getLastInventoryDate());
+                }
+                */
                 // set AssetOrganization data
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
@@ -1167,7 +1177,21 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setCalculateEqualSourceAmountsButton(String calculateEqualSourceAmountsButton) {
         this.calculateEqualSourceAmountsButton = calculateEqualSourceAmountsButton;
+    }   
+
+    public String getCalculateSeparateSourceRemainingAmountButton() {
+        return calculateSeparateSourceRemainingAmountButton;
     }
 
+    public void setCalculateSeparateSourceRemainingAmountButton(String calculateSeparateSourceRemainingAmountButton) {
+        this.calculateSeparateSourceRemainingAmountButton = calculateSeparateSourceRemainingAmountButton;
+    }
 
+    public KualiDecimal getSeparateSourceRemainingAmount() {
+        return separateSourceRemainingAmount;
+    }
+
+    public void setSeparateSourceRemainingAmount(KualiDecimal separateSourceRemainingAmount) {
+        this.separateSourceRemainingAmount = separateSourceRemainingAmount;
+    }
 }

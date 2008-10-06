@@ -289,5 +289,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
+        public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }
 }

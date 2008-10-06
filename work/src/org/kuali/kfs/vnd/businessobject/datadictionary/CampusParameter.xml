@@ -237,6 +237,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="campusPurchasingDirectorTitle" />
         <bean parent="FieldDefinition"
               p:attributeName="campusAccountsPayableEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingInstitutionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingDepartmentName" />              
       </list>
     </property>
     <property name="resultFields" >
@@ -249,6 +253,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="campusPurchasingDirectorTitle" />
         <bean parent="FieldDefinition"
               p:attributeName="campusAccountsPayableEmailAddress" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingInstitutionName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="purchasingDepartmentName" />                                     
       </list>
     </property>
   </bean>

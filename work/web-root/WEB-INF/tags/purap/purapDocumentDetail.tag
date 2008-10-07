@@ -35,7 +35,12 @@
 		<c:set var="readOnlyReceivingRequired" value="true" />
 	</c:if>
 </c:if>
-	
+
+<c:set var="useTaxIndicatorChangeable" value="false" scope="request" />	
+<c:if test="${!empty KualiForm.editingMode['useTaxIndicatorChangeable']}">
+    <c:set var="useTaxIndicatorChangeable" value="true" scope="request" />
+</c:if>
+
 	<h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
@@ -85,6 +90,28 @@
 	            property="document.paymentRequestPositiveApprovalIndicator"
 	            attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}"
 	            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"/>
+	    </td>
+	</tr>  
+
+	<tr>
+		<th align=right valign=middle class="bord-l-b">
+	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
+	    </th>
+	    <td align=left valign=middle class="datacell">
+	        <kul:htmlControlAttribute
+	            property="document.useTaxIndicator"
+	            attributeEntry="${documentAttributes.useTaxIndicator}"
+	            readOnly="${true}"/>
+			<c:if test="${useTaxIndicatorChangeable}">			
+			&nbsp;
+			<html:image property="methodToCall.toggleUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
+			</c:if>
+	    </td>
+	    <th align=right valign=middle class="bord-l-b">
+	        &nbsp;
+	    </th>
+	    <td align=left valign=middle class="datacell">
+			&nbsp;
 	    </td>
 	</tr>  
 	

@@ -113,6 +113,10 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
     
     public List<PurApAccountingLine> getBaselineSourceAccountingLines();
 
+    public List<PurApItemUseTax> getUseTaxItems();
+
+    public void setUseTaxItems(List<PurApItemUseTax> useTaxItems);
+
     public KualiDecimal getItemQuantity();
 
     public void setItemQuantity(KualiDecimal itemQuantity);

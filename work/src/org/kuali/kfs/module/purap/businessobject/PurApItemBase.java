@@ -50,6 +50,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private KualiDecimal extendedPrice; // not currently in DB
     private KualiDecimal itemTaxAmount;
     
+    private List<PurApItemUseTax> useTaxItems;
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
@@ -354,6 +355,14 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
+    }
+
+    public List<PurApItemUseTax> getUseTaxItems() {
+        return useTaxItems;
+    }
+
+    public void setUseTaxItems(List<PurApItemUseTax> useTaxItems) {
+        this.useTaxItems = useTaxItems;
     }
 
     public KualiDecimal getItemQuantity() {

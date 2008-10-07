@@ -17,6 +17,8 @@
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+
+<c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 		
 <tr>
 	<td colspan="10" class="subhead">
@@ -203,7 +205,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemTaxAmount}"
 				        property="document.item[${ctr}].itemTaxAmount"
-				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+				        readOnly="${not(taxAmountChangeable)}" styleClass="amount" />
 			    </div>
 			</td>
 			<td class="infoline">

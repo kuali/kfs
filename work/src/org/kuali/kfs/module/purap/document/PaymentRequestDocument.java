@@ -33,9 +33,11 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
@@ -102,7 +104,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String recurringPaymentTypeCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
-    private boolean useTaxIndicator;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -727,6 +728,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return PaymentRequestItem.class;
     }
 
+    @Override
+    public Class getItemUseTaxClass() {
+        return PaymentRequestItemUseTax.class;
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
@@ -1056,14 +1062,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setCreatedByElectronicInvoice(boolean isCreatedByElectroniInvoice) {
         this.isCreatedByElectronicInvoice = isCreatedByElectroniInvoice;
-    }
-
-    public boolean isUseTaxIndicator() {
-        return useTaxIndicator;
-    }
-
-    public void setUseTaxIndicator(boolean useTaxIndicator) {
-        this.useTaxIndicator = useTaxIndicator;
     }
 
 }

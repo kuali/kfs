@@ -30,6 +30,7 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -77,7 +78,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorPostalCode;
     private String vendorCountryCode;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-
+    private boolean useTaxIndicator;
+    
     // NOT PERSISTED IN DB
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
@@ -85,6 +87,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private transient PurApRelatedViews relatedViews;
     
     // COLLECTIONS
+    private List<PurApItemUseTax> useTaxItems;
     private List<PurApItem> items;
     private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
 
@@ -105,6 +108,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
+        useTaxItems = new TypedArrayList(getItemUseTaxClass());
     }
 
     private GeneralLedgerPendingEntry getFirstPendingGLEntry() {
@@ -164,6 +168,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public abstract Class getItemClass();
 
+    public abstract Class getItemUseTaxClass();
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentIfPossible()
      */
@@ -523,6 +529,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 KualiDecimal totalAmount = item.getTotalAmount();
                 KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
+                
+                //add tax
+                KualiDecimal totalTax = item.getItemTaxAmount();
+                KualiDecimal itemTax = (totalTax != null) ? totalTax : KualiDecimal.ZERO;
+                total = total.add(itemTax);
             }
         }
         return total;
@@ -629,6 +640,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return total;
+    }
+
+    public boolean isUseTaxIndicator() {
+        return useTaxIndicator;
+    }
+
+    public void setUseTaxIndicator(boolean useTaxIndicator) {
+        this.useTaxIndicator = useTaxIndicator;
     }
 
     /**
@@ -740,6 +759,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setItems(List items) {
         this.items = items;
+    }
+
+    public List getUseTaxItems() {
+        return useTaxItems;
+    }
+
+    public void setUseTaxItems(List useTaxItems) {
+        this.useTaxItems = useTaxItems;
     }
 
     public String getVendorCityName() {

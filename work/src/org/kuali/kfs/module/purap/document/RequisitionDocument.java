@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
@@ -87,8 +88,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate3VendorName;
     private String alternate4VendorName;
     private String alternate5VendorName;
-    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    private boolean useTaxIndicator;
+    private KualiDecimal organizationAutomaticPurchaseOrderLimit;    
     
     /**
      * Default constructor.
@@ -476,6 +476,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         return RequisitionItem.class;
     }
 
+    @Override
+    public Class getItemUseTaxClass() {
+        return PurchaseRequisitionItemUseTax.class;
+    }
+
     /**
      * Returns null as requistion has no source document.
      * 
@@ -578,13 +583,5 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return RequisitionCapitalAssetSystem.class;
-    }
-
-    public boolean isUseTaxIndicator() {
-        return useTaxIndicator;
-    }
-
-    public void setUseTaxIndicator(boolean useTaxIndicator) {
-        this.useTaxIndicator = useTaxIndicator;
     }
 }

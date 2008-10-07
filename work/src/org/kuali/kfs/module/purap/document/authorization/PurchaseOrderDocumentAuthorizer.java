@@ -172,7 +172,18 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         if(poDocument.isPendingSplit()) {
             editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION, "TRUE");
         }
-                       
+         
+        //if full entry, and not use tax, allow editing
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && poDocument.isUseTaxIndicator() == false){
+            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
+        }
+
+        //See if purap tax is enabled
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        if(salesTaxInd){
+            editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
+        }
+
         return editModeMap;
     }
 

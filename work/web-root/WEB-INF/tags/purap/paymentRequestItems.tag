@@ -21,6 +21,7 @@
     type="java.lang.Boolean"
     description="show the amount if true else percent" %>
 
+<c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 
 <tr>
 	<td colspan="12" class="subhead">
@@ -152,7 +153,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.itemTaxAmount}"
 				        property="document.item[${ctr}].itemTaxAmount" 
-				        readOnly="${not (fullEntryMode)}" />
+				        readOnly="${not(taxAmountChangeable)}" />
 			    </div>
 			</td>
 			<td class="infoline">

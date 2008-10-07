@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -54,6 +55,8 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
      */
     public Class getItemClass();
 
+    public Class getItemUseTaxClass();
+    
     /**
      * Returns the source of this Purchasing Accounts Payable Document if exists.
      * 
@@ -194,6 +197,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public List<PurApItem> getItems();
 
     public void setItems(List items);
+
+    public List<PurApItemUseTax> getUseTaxItems();
+
+    public void setUseTaxItems(List useTaxItems);
 
     public String getVendorNumber();
 

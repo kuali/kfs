@@ -46,9 +46,11 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
@@ -123,7 +125,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer contractManagerCode;
     private Date purchaseOrderQuoteInitializationDate;
     private Date purchaseOrderQuoteAwardedDate;
-    private boolean useTaxIndicator;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -1045,6 +1046,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return PurchaseOrderItem.class;
     }
 
+    @Override
+    public Class getItemUseTaxClass() {
+        return PurchaseOrderItemUseTax.class;
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
@@ -1311,13 +1317,5 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     @Override
     public Class getPurchasingCapitalAssetSystemClass() {
         return PurchaseOrderCapitalAssetSystem.class;
-    }
-
-    public boolean isUseTaxIndicator() {
-        return useTaxIndicator;
-    }
-
-    public void setUseTaxIndicator(boolean useTaxIndicator) {
-        this.useTaxIndicator = useTaxIndicator;
     }
 }

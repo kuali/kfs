@@ -30,6 +30,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ALLOW_ITEM_ENTRY = "allowItemEntry";
         public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
         public static final String LOCK_ADDRESS_TO_VENDOR = "lockAddressToVendor";
+        public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
+        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";        
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
@@ -42,6 +44,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
         public static final String SPLITTING_ITEM_SELECTION = "splittingItemSelection";
         public static final String UNORDERED_ITEM_ACCOUNT_ENTRY = "unorderedItemAccountEntry";
+        public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
+        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
     }
 
     public static class PaymentRequestEditMode extends EditMode {
@@ -50,12 +54,16 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
         public static final String SHOW_AMOUNT_ONLY = "showAmountOnly";
         public static final String EDIT_PRE_EXTRACT = "editPreExtract";
+        public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
+        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
     }
 
     public static class CreditMemoEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
+        public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
+        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
     }
 
     public static class ReceivingLineEditMode extends EditMode {
@@ -75,4 +83,6 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
     public static class CamsEditMode extends EditMode {
         public static final String LOCK_CAMS_ENTRY = "lockCamsEntry";
     }
+    
+    public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
 }

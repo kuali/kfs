@@ -57,6 +57,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String ENABLE_DEFAULT_CONTRACT_MANAGER_IND = "ENABLE_DEFAULT_CONTRACT_MANAGER_IND";
     public static final String AUTO_CLOSE_RECURRING_PO_DATE = "AUTO_CLOSE_RECURRING_PO_DATE";
     public static final String AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES = "AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES";
+   
+    public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
     
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";

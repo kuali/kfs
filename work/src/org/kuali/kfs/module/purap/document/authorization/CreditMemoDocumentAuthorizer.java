@@ -34,6 +34,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -96,6 +97,23 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
         if (user.isMember(apGroup) && (creditMemoDocument.getExtractedDate() == null) && (! workflowDocument.isAdHocRequested())) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
+        }
+
+        //Use tax indicator editing is enabled
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)){
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE, "TRUE");
+        }
+        
+        //if full entry, and not use tax, allow editing
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && creditMemoDocument.isUseTaxIndicator() == false &&
+           creditMemoDocument.isSourceDocumentPaymentRequest() == false){
+            editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
+        }
+
+        //See if purap tax is enabled
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        if(salesTaxInd){
+            editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
         }
 
         return editModeMap;

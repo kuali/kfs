@@ -29,6 +29,7 @@
 <c:set var="unorderedItemAccountEntry"	value="${(not empty KualiForm.editingMode['unorderedItemAccountEntry'])}" />
 <c:set var="amendmentEntryWithUnpaidPreqOrCM" value="${(amendmentEntry && (KualiForm.document.containsUnpaidPaymentRequestsOrCreditMemos))}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 
 <c:choose>
     <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
@@ -154,7 +155,7 @@
 				</td>
 				<td class="infoline">
  				    <div align="right">
- 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="true" />
+ 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="not(taxAmountChangeable)" />
 					</div>
 				</td>
 				<td class="infoline">
@@ -364,7 +365,7 @@
 					    <div align="right">
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.itemTaxAmount}"
-						        property="document.item[${ctr}].itemTaxAmount" readOnly="${true}" />
+						        property="document.item[${ctr}].itemTaxAmount" readOnly="${not(taxAmountChangeable)}" />
 					    </div>
 					</td>
 					<td class="infoline">

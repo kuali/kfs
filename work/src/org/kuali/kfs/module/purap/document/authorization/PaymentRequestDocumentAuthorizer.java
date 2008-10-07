@@ -40,6 +40,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.GroupNotFoundException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -146,6 +147,23 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         if (ObjectUtils.isNotNull(paymentRequestDocument.getVendorHeaderGeneratedIdentifier())) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         }
+        
+        //Use tax indicator editing is enabled
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)){
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE, "TRUE");
+        }
+        
+        //if full entry, and not use tax, allow editing
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && paymentRequestDocument.isUseTaxIndicator() == false){
+            editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
+        }
+
+        //See if purap tax is enabled
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        if(salesTaxInd){
+            editModeMap.put(PurapAuthorizationConstants.PURAP_TAX_ENABLED, "TRUE");
+        }
+
         return editModeMap;
     }
 

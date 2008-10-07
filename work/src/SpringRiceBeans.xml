@@ -32,7 +32,7 @@
 	</property>
 	<property name="knsConfigurer">
         <bean class="org.kuali.rice.kns.config.KNSConfigurer">
-          <property name="loadDataDictionary" value="true"></property>
+          <property name="suppressAutoModuleConfiguration" value="true"></property>
         </bean>
 	</property>
 	<property name="kimConfigurer">

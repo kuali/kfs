@@ -14,7 +14,7 @@
     <property name="rootResourceLoader" ref="kfsRootResourceLoader" />
     <property name="knsConfigurer">
         <bean class="org.kuali.rice.kns.config.KNSConfigurer">
-          <property name="loadDataDictionary" value="true"></property>
+          <property name="suppressAutoModuleConfiguration" value="true"></property>
         </bean>
     </property>
   </bean>

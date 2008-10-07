@@ -18,6 +18,8 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this tag's fields." %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="isPaymentRequest" required="false" description="True if the document is a PaymentRequest" %>
+<%@ attribute name="isCreditMemo" required="false" description="True if the document is a CreditMemo" %>
 
 <kul:tab tabTitle="Account Summary" defaultOpen="false" tabErrorKey="${PurapConstants.ACCOUNT_SUMMARY_TAB_ERRORS}">
 	<div class="tab-container" align="center" valign="middle">
@@ -103,7 +105,9 @@
             
                                 <tr>
                                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
-                                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+                                    <c:if test="${not (isPaymentRequest or isCreditMemo)}">
+                                    	<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
+                                    </c:if>
                                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
                                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.estimatedEncumberanceAmount}" />
                                 </tr>   
@@ -113,12 +117,14 @@
                                             <td class="datacell center">
                                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemLineNumber" readOnly="true" />&nbsp;
                                             </td>
-                                            <td class="datacell center">
-                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" 
-                                                	property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode"
-                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemType.itemTypeDescription" 
-                                                	readOnly="true" />&nbsp;
-                                            </td>
+                                            <c:if test="${not (isPaymentRequest or isCreditMemo)}">
+	                                            <td class="datacell center">
+	                                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" 
+	                                                	property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode"
+	                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemType.itemTypeDescription" 
+	                                                	readOnly="true" />&nbsp;
+	                                            </td>
+	                                        </c:if>
                                             <td class="datacell center">
                                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="summaryAccounts[${ctr}].items[${ctrItem}].itemDescription" readOnly="true" />&nbsp;
                                             </td>

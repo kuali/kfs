@@ -71,7 +71,8 @@
 		   
 	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.PaymentRequestItem.attributes}"
-    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" 
+    	    isPaymentRequest="true"/>  
 	
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	

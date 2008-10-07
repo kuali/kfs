@@ -52,7 +52,8 @@
 	  
 	    <purap:summaryaccounts
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
-    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
+    	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" 
+    	    isCreditMemo="true"/>  
     	    	
 		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	

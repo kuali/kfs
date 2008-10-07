@@ -17,15 +17,13 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -33,15 +31,13 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.service.impl.PersistenceServiceStructureImplBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
@@ -192,6 +188,23 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         
     }
     
+    public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc) {        
+        
+        VendorDetail vendor = purDoc.getVendorDetail();
+        if(vendor!=null) {
+            String vendorStateCode = vendor.getDefaultAddressStateCode();
+            String billingStateCode = purDoc.getBillingStateCode();
+            if(!StringUtils.equals(vendorStateCode, billingStateCode) &&
+              (!vendor.isTaxableIndicator())) { 
+                return true;
+            }
+        } else {
+            //don't set use tax if no vendor on req
+            return false;
+        }
+
+        return false;
+    }    
     
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         return parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);

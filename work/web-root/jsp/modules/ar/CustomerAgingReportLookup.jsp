@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+
 <kul:page lookup="true" showDocumentInfo="false"
 	htmlFormAction="arCustomerAgingReportLookup"
 	headerMenuBar="${KualiForm.lookupable.htmlMenuBar}"
@@ -77,7 +79,7 @@
 				</tr>
 			</table>
 			</div>
-			 
+			
 
 			<div class="right"><logic-el:present name="KualiForm"
 				property="formKey">
@@ -89,6 +91,8 @@
 				</c:if>
 			</logic-el:present></div>
 			
+
+			
 			<c:if test="${!empty reqSearchResultsSize }">
 			<c:set var="offset" value="0" />
 			<display:table class="datatable-100" 
@@ -96,13 +100,14 @@
 				export="true" pagesize="100" offset="${offset}"
 				requestURI="arCustomerAgingReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
-					<display:column class="${(column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'inofocell'}" 
-						title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">
+					<display:column class="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'numbercell' }" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">					
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">
+<!-- <c:out value="*************	${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" /> -->
 								<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>
 							</c:when>
 							<c:otherwise>
+<!-- <c:out value="*************${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }************************* ${column.formatter.implementationClass}" /> -->
 								<c:out value="${column.propertyValue}" />
 							</c:otherwise>
 						</c:choose>
@@ -112,12 +117,12 @@
 
 				<display:footer>
 					<th> <span class="grid">TOTALS:</span> </th>
-					<td class="infocell">&nbsp; 5 customers </td>
-					<td class="infocell">&nbsp; $54,000 </td>
-					<td class="infocell">&nbsp; $40,000 </td>
-					<td class="infocell">&nbsp; $30,000 </td>
-					<td class="infocell">&nbsp; $20,000 </td>
-					<td class="infocell">&nbsp; $10,000 </td>
+					<td class="infocell">&nbsp; <c:out value="${reqSearchResultsSize}"/> customers </td>
+					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total0to30}" /> </td>
+					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total31to60}" /> </td>
+					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total61to90}" /> </td>
+					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total91toSYSPR}" /> </td>
+					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.totalSYSPRplus1orMore}" /> </td>
 				</display:footer>
 			
 			</display:table>

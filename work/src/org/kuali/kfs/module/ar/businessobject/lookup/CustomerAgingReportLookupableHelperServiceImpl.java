@@ -41,6 +41,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -87,6 +88,12 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String cutoffdate120Label;
     private String cutoffdate365Label;
     
+    private KualiDecimal total0to30 = KualiDecimal.ZERO;
+    private KualiDecimal total31to60 = KualiDecimal.ZERO;
+    private KualiDecimal total61to90 = KualiDecimal.ZERO;
+    private KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
+    private KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
+    
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
@@ -95,8 +102,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
     private String cutoffdate91toSYSPRlabel = "91-"+nbrDaysForLastBucket+" days"; 
     private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+"+ days";
-    
 
+             
     /**
      * Get the search results that meet the input search criteria.
      * 
@@ -108,7 +115,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
-        
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
@@ -118,6 +124,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         
         Collection<CustomerInvoiceDetail> invoiceDetailsSubset = null;
         Collection<CustomerInvoiceDocument> invoices = null;
+        Collection invoiceTotalsRow = null;
         CustomerInvoiceDetail invoicedetail = null;
 
         if (reportOption.equalsIgnoreCase("PROCESSING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
@@ -169,7 +176,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
-
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;
@@ -201,22 +207,30 @@ LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
 LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             if (approvalDate.before(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
                 custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
+                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
+                
                 LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
+                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
             }
             if (approvalDate.before(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
+                total31to60 = total31to60.add(custDetail.getUnpaidBalance31to60());
                 LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
             if (approvalDate.before(cutoffdate60) && approvalDate.after(cutoffdate90)) {
-                custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90()));   
+                custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
+                total61to90 = total61to90.add(custDetail.getUnpaidBalance61to90());
                 LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
             if (approvalDate.before(cutoffdate90) && approvalDate.after(cutoffdate120)) {
-                custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR()));   
+                custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
+                total91toSYSPR = total91toSYSPR.add(custDetail.getUnpaidBalance91toSYSPR());
                 LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
             }
             if (approvalDate.before(cutoffdate120)) {
                 custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
+                totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(custDetail.getUnpaidBalanceSYSPRplus1orMore());
                 LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
             }            
             
@@ -224,18 +238,28 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
 
         } // end for loop
        
-     LOG.info("\n\n\n\n");   
-     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
-     for (Object obj : knownCustomers.values().toArray()) {
-        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
-        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
-     } 
+     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
 
+//     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
+//     for (Object obj : knownCustomers.values().toArray()) {
+//        CustomerAgingReportDetail cdetail = (CustomerAgingReportDetail)obj;        
+//        LOG.info("\t\t"+cdetail.getCustomerNumber()+"\t\t"+cdetail.getUnpaidBalance0to30()+"\t\t"+cdetail.getUnpaidBalance31to60()+"\t\t"+cdetail.getUnpaidBalance61to90()+"\t\t"+cdetail.getUnpaidBalance91toSYSPR()+"\t\t"+cdetail.getUnpaidBalanceSYSPRplus1orMore());       
+//     } 
+
+        
         List results = new ArrayList();
         for (Object detail : knownCustomers.values()) {
             results.add(detail);
         }
-
+        
+//        if(knownCustomers.size() > 0) {
+//        results.add(total0to30);
+//        results.add(total31to60);
+//        results.add(total61to90);
+//        results.add(total91toSYSPR);
+//        results.add(totalSYSPRplus1orMore);
+//        }
 
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
@@ -425,7 +449,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
                 }
 
       
-                    // do not add link to the values in column "Customer Name"
+                    // add correct label for sysparam
                     if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
                         col.setColumnTitle(cutoffdate91toSYSPRlabel);
                     if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
@@ -445,9 +469,17 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             }
             resultTable.add(row);
         }
-
+        
         lookupForm.setHasReturnableRow(hasReturnableRow);
 
+        if (displayList.size() != 0) {
+        ((CustomerAgingReportForm) lookupForm).setTotal0to30(total0to30.toString());
+        ((CustomerAgingReportForm) lookupForm).setTotal31to60(total31to60.toString());
+        ((CustomerAgingReportForm) lookupForm).setTotal61to90(total61to90.toString());
+        ((CustomerAgingReportForm) lookupForm).setTotal91toSYSPR(total91toSYSPR.toString());
+        ((CustomerAgingReportForm) lookupForm).setTotalSYSPRplus1orMore(totalSYSPRplus1orMore.toString());
+        }
+        
         return displayList;
     }
     
@@ -505,6 +537,86 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the total0to30 attribute. 
+     * @return Returns the total0to30.
+     */
+    public KualiDecimal getTotal0to30() {
+        return total0to30;
+    }
+
+    /**
+     * Sets the total0to30 attribute value.
+     * @param total0to30 The total0to30 to set.
+     */
+    public void setTotal0to30(KualiDecimal total0to30) {
+        this.total0to30 = total0to30;
+    }
+
+    /**
+     * Gets the total31to60 attribute. 
+     * @return Returns the total31to60.
+     */
+    public KualiDecimal getTotal31to60() {
+        return total31to60;
+    }
+
+    /**
+     * Sets the total31to60 attribute value.
+     * @param total31to60 The total31to60 to set.
+     */
+    public void setTotal31to60(KualiDecimal total31to60) {
+        this.total31to60 = total31to60;
+    }
+
+    /**
+     * Gets the total61to90 attribute. 
+     * @return Returns the total61to90.
+     */
+    public KualiDecimal getTotal61to90() {
+        return total61to90;
+    }
+
+    /**
+     * Sets the total61to90 attribute value.
+     * @param total61to90 The total61to90 to set.
+     */
+    public void setTotal61to90(KualiDecimal total61to90) {
+        this.total61to90 = total61to90;
+    }
+
+    /**
+     * Gets the total91toSYSPR attribute. 
+     * @return Returns the total91toSYSPR.
+     */
+    public KualiDecimal getTotal91toSYSPR() {
+        return total91toSYSPR;
+    }
+
+    /**
+     * Sets the total91toSYSPR attribute value.
+     * @param total91toSYSPR The total91toSYSPR to set.
+     */
+    public void setTotal91toSYSPR(KualiDecimal total91toSYSPR) {
+        this.total91toSYSPR = total91toSYSPR;
+    }
+
+    /**
+     * Gets the totalSYSPRplus1orMore attribute. 
+     * @return Returns the totalSYSPRplus1orMore.
+     */
+    public KualiDecimal getTotalSYSPRplus1orMore() {
+        return totalSYSPRplus1orMore;
+    }
+
+    /**
+     * Sets the totalSYSPRplus1orMore attribute value.
+     * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
+     */
+    public void setTotalSYSPRplus1orMore(KualiDecimal totalSYSPRplus1orMore) {
+        this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
 
 

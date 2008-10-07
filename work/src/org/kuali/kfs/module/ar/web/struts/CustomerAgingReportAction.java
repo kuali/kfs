@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -79,13 +80,16 @@ public class CustomerAgingReportAction extends KualiAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
-        Lookupable lookupable = lookupForm.getLookupable();
+        Lookupable lookupable = lookupForm.getLookupable();    
 
         if (lookupable == null) {
             LOG.error("Lookupable is null.");
             throw new RuntimeException("Lookupable is null.");
         }
 
+        
+        
+        LookupableHelperService lookupablehelper =  lookupable.getLookupableHelperService();
         Collection displayList = new ArrayList();
         List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
@@ -101,24 +105,20 @@ public class CustomerAgingReportAction extends KualiAction {
 
             CollectionIncomplete incompleteDisplayList = (CollectionIncomplete) displayList;
             Long totalSize = ((CollectionIncomplete) displayList).getActualSizeIfTruncated();
+ //           Long resultsSize = totalSize - 5;
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
 
-            if (true) {
+            request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
+           
+//            request.setAttribute("total0to30", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal0to30());
+//            request.setAttribute("total31to60", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal31to60());
+//            request.setAttribute("total61to90", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal61to90());
+//            request.setAttribute("total91toSYSPR", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotal91toSYSPR());
+//            request.setAttribute("totalSYSPRplus1orMore", ((CustomerAgingReportLookupableHelperServiceImpl) lookupablehelper).getTotalSYSPRplus1orMore());
+//
+//            
 
-                request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
-
-
-
-            }
-            else {
-
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("search(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse) - in FIRST ELSE - lookupable=" + lookupable);
-                }
- request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
-
-            }
 
             if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));

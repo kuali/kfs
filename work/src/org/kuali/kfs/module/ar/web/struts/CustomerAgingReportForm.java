@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.ui.Field;
@@ -59,6 +60,12 @@ public class CustomerAgingReportForm extends LookupForm {
     private Lookupable lookupable;
     private Lookupable pendingEntryLookupable;
     private boolean hideReturnLink = false;
+    
+    private String total0to30;
+    private String total31to60;
+    private String total61to90;
+    private String total91toSYSPR;
+    private String totalSYSPRplus1orMore;
 
 
     /**
@@ -346,6 +353,86 @@ public class CustomerAgingReportForm extends LookupForm {
      */
     public Lookupable getPendingEntryLookupable() {
         return this.pendingEntryLookupable;
+    }
+
+    /**
+     * Gets the total0to30 attribute. 
+     * @return Returns the total0to30.
+     */
+    public String getTotal0to30() {
+        return total0to30;
+    }
+
+    /**
+     * Sets the total0to30 attribute value.
+     * @param total0to30 The total0to30 to set.
+     */
+    public void setTotal0to30(String total0to30) {
+        this.total0to30 = total0to30;
+    }
+
+    /**
+     * Gets the total31to60 attribute. 
+     * @return Returns the total31to60.
+     */
+    public String getTotal31to60() {
+        return total31to60;
+    }
+
+    /**
+     * Sets the total31to60 attribute value.
+     * @param total31to60 The total31to60 to set.
+     */
+    public void setTotal31to60(String total31to60) {
+        this.total31to60 = total31to60;
+    }
+
+    /**
+     * Gets the total61to90 attribute. 
+     * @return Returns the total61to90.
+     */
+    public String getTotal61to90() {
+        return total61to90;
+    }
+
+    /**
+     * Sets the total61to90 attribute value.
+     * @param total61to90 The total61to90 to set.
+     */
+    public void setTotal61to90(String total61to90) {
+        this.total61to90 = total61to90;
+    }
+
+    /**
+     * Gets the total91toSYSPR attribute. 
+     * @return Returns the total91toSYSPR.
+     */
+    public String getTotal91toSYSPR() {
+        return total91toSYSPR;
+    }
+
+    /**
+     * Sets the total91toSYSPR attribute value.
+     * @param total91toSYSPR The total91toSYSPR to set.
+     */
+    public void setTotal91toSYSPR(String total91toSYSPR) {
+        this.total91toSYSPR = total91toSYSPR;
+    }
+
+    /**
+     * Gets the totalSYSPRplus1orMore attribute. 
+     * @return Returns the totalSYSPRplus1orMore.
+     */
+    public String getTotalSYSPRplus1orMore() {
+        return totalSYSPRplus1orMore;
+    }
+
+    /**
+     * Sets the totalSYSPRplus1orMore attribute value.
+     * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
+     */
+    public void setTotalSYSPRplus1orMore(String totalSYSPRplus1orMore) {
+        this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
 
 

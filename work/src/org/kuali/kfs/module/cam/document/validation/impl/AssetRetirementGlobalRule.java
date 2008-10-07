@@ -28,10 +28,12 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.gl.AssetRetirementGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -40,6 +42,7 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -53,6 +56,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
     private PersistableBusinessObject bo;
+
 
     /**
      * Constructs a AssetLocationGlobalRule
@@ -286,7 +290,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         valid &= validateRequiredSharedInfoFields(assetRetirementGlobal);
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
             valid &= validateMergeTargetAsset(assetRetirementGlobal);
-        }
+        } 
         valid &= validateRetirementDetails(assetRetirementGlobal);
         valid &= checkRetireMultipleAssets(assetRetirementGlobal.getRetirementReasonCode(), assetRetirementGlobal.getAssetRetirementGlobalDetails(), new Integer(1));
 
@@ -323,7 +327,14 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
                 valid = false;
             }
         }
-
+        
+        //Validating the mergeAssetDescription is not blank
+        if (!checkEmptyValue(assetRetirementGlobal.getMergedTargetCapitalAssetDescription())) {
+            String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(AssetRetirementGlobal.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC).getLabel();            
+            putFieldError(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_DESC, KFSKeyConstants.ERROR_REQUIRED,label);
+            valid = false;            
+        }
+        
         return valid;
     }
 

@@ -41,14 +41,13 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
-import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -64,6 +63,9 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
     private static AssetRetirementService assetRetirementService = SpringContext.getBean(AssetRetirementService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
+    
+    private static DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+
     private static final Map<String, String[]> NON_VIEWABLE_SECTION_MAP = new HashMap<String, String[]>();
     static {
         NON_VIEWABLE_SECTION_MAP.put(CamsConstants.AssetRetirementReasonCode.EXTERNAL_TRANSFER, new String[] { CamsConstants.AssetRetirementGlobal.SECTION_ID_AUCTION_OR_SOLD, CamsConstants.AssetRetirementGlobal.SECTION_ID_THEFT });
@@ -281,12 +283,12 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         // all approvals have been processed, the retirement date is set to the approval date
         if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
             assetRetirementGlobal.setRetirementDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            
-            assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
-            //asset.setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());
-            
             SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal);
-            SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
+
+            if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
+                assetRetirementGlobal.getMergedTargetCapitalAsset().setCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAssetDescription());                        
+                SpringContext.getBean(BusinessObjectService.class).save(assetRetirementGlobal.getMergedTargetCapitalAsset());
+            }
         }
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).handleRouteStatusChange(assetRetirementGlobal.getGeneralLedgerPendingEntries());
 

@@ -73,7 +73,7 @@
          <bean parent="MaintainableFieldDefinition"
               p:name="mergedTargetCapitalAssetDescription"
               p:readOnly="false"
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="mergedTargetCapitalAsset.organizationOwnerAccount.organizationCode"
               p:readOnly="true" 

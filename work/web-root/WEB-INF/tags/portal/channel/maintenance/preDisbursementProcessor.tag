@@ -27,6 +27,14 @@
 	  </li>
 	  <li><portal:portalLink displayTitle="true" title="Payment Type" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PaymentType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 	  </li>
+	  <li><portal:portalLink displayTitle="true" title="Disbursement Type" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.DisbursementType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+	  </li>
+	  <li><portal:portalLink displayTitle="true" title="Accounting Change Code" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.AccountingChangeCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+	  </li>
+	  <li><portal:portalLink displayTitle="true" title="Payment Change" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PaymentChangeCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+	  </li>
+	  <li><portal:portalLink displayTitle="true" title="Payment Status" url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.pdp.businessobject.PaymentStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+	  </li>
       <li><portal:portalLink displayTitle="true" title="Format Checks/ACH" url="pdp/formatselection.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Format Summary Review" url="pdp/formatsummary.do"/></li>
       <li><portal:portalLink displayTitle="true" title="Format Summary Review Rice" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.pdp.businessobject.ProcessSummary&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>

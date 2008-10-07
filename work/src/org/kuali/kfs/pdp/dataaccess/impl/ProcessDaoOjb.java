@@ -63,7 +63,6 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         p.setProcessTimestamp(now);
 
         getPersistenceBrokerTemplate().store(p);
-        p.setExtractedInd("Y");
         
         return p;
     }
@@ -77,7 +76,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         PaymentProcess p = new PaymentProcess();
         p.setProcessTimestamp(now);
         p.setId(procId);
-        p.setExtractedInd("N");
+        p.setExtractedInd(false);
         
         getPersistenceBrokerTemplate().store(p);
         
@@ -86,13 +85,13 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
     
     public List<PaymentProcess> getAllExtractsToRun() {
         Criteria c = new Criteria();
-        c.addEqualTo("extractedInd", "N");
+        c.addEqualTo("extractedInd", false);
 
         return (List<PaymentProcess>) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentProcess.class, c));
     }
     
     public void setExtractProcessAsComplete(PaymentProcess paymentProcess) {
-        paymentProcess.setExtractedInd("Y");
+        paymentProcess.setExtractedInd(true);
         getPersistenceBrokerTemplate().store(paymentProcess);
     }
     

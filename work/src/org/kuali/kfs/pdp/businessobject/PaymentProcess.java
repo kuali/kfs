@@ -43,10 +43,11 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     private String campus;
     private String processUserId;
     private UniversalUser processUser;
-    private String extractedInd;
+    private boolean extractedInd;
     
     public PaymentProcess() {
         super();
+        this.setExtractedInd(false);
     }
 
     public void updateUser(UniversalUserService userService) throws UserNotFoundException {
@@ -113,11 +114,22 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public String getExtractedInd() {
+    /**
+     * 
+     * returns extractedInd
+     * @return
+     */
+    public boolean isExtractedInd() {
         return extractedInd;
     }
-
-    public void setExtractedInd(String extractedInd) {
+    
+    /**
+     * 
+     * Sets extractedInd
+     * @param extractedInd
+     */
+    public void setExtractedInd(boolean extractedInd) {
         this.extractedInd = extractedInd;
     }
+
 }

@@ -1,0 +1,121 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PaymentChangeCode" parent="PaymentChangeCode-parentBean" />
+
+  <bean id="PaymentChangeCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentChangeCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentChangeCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="PaymentChangeCode-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="Payment Change" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentChangeCode-code" />
+        <ref bean="PaymentChangeCode-name" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PaymentChangeCode-code" parent="PaymentChangeCode-code-parentBean" />
+
+  <bean id="PaymentChangeCode-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Change Code" />
+    <property name="shortLabel" value="Payment Change" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+  </bean>
+  <bean id="PaymentChangeCode-name" parent="PaymentChangeCode-name-parentBean" />
+
+  <bean id="PaymentChangeCode-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Payment Change Name" />
+    <property name="shortLabel" value="Name" />
+    <property name="maxLength" value="25" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="25" />
+    </property>
+  </bean>
+ 
+ 
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PaymentChangeCode-inquiryDefinition" parent="PaymentChangeCode-inquiryDefinition-parentBean" />
+
+  <bean id="PaymentChangeCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Payment Change Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="code" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="name" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PaymentChangeCode-lookupDefinition" parent="PaymentChangeCode-lookupDefinition-parentBean" />
+
+  <bean id="PaymentChangeCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payment Change Code Lookup" />
+    <property name="instructions" value="Lookup a Payment Change Code Record" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="code" />
+        <bean parent="FieldDefinition"
+              p:attributeName="name" />
+      </list>
+    </property>
+  </bean>
+</beans>

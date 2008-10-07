@@ -40,7 +40,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     private Integer id; // PMT_ACCT_HIST_ID
 
     private String accountingChangeCode;
-    private AccountingChange accountingChange; // ACCTG_CHG_CD
+    private AccountingChangeCode accountingChange; // ACCTG_CHG_CD
 
     private String acctAttributeName; // ACCT_ATTRIB_NM
     private String acctAttributeOrigValue; // ACCT_ATTRIB_ORIG_VAL
@@ -106,7 +106,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.many-to-one column="ACCTG_CHG_CD" class="edu.iu.uis.pdp.bo.AccountingChange"
      */
-    public AccountingChange getAccountingChange() {
+    public AccountingChangeCode getAccountingChange() {
         return accountingChange;
     }
 
@@ -142,7 +142,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     /**
      * @param string
      */
-    public void setAccountingChange(AccountingChange ac) {
+    public void setAccountingChange(AccountingChangeCode ac) {
         accountingChange = ac;
     }
 

@@ -346,7 +346,7 @@ public class FormatServiceImpl implements FormatService {
     private void triggerExtract(Integer procId) {
         LOG.debug("triggerExtract() started");
 
-        saveProcessId(procId);
+        //saveProcessId(procId);
         String emailAddress = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
         schedulerService.runJob("pdpExtractChecksJob", emailAddress);
     }
@@ -370,7 +370,7 @@ public class FormatServiceImpl implements FormatService {
         businessObjectService.save(processParam);*/
         
         //KFSMI-236
-        this.processDao.createProcessToRun(id);
+        //this.processDao.createProcessToRun(id);
     }
 
     private List convertProcessSummary2FormatResult(List processSummaryResults) {

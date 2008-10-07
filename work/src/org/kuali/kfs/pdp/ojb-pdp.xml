@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-  <class-descriptor class="org.kuali.kfs.pdp.businessobject.AccountingChange" table="PDP_ACCTG_CHG_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" table="PDP_ACCTG_CHG_CD_T">
     <field-descriptor name="code" column="ACCTG_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="name" column="ACCTG_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -269,12 +269,12 @@
       <foreignkey field-ref="paymentAccountDetailId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="accountingChange" class-ref="org.kuali.kfs.pdp.businessobject.AccountingChange" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="accountingChange" class-ref="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="accountingChangeCode"/>
     </reference-descriptor>
   </class-descriptor>
 
-  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentChange" table="PDP_PMT_CHG_CD_T">
+  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentChangeCode" table="PDP_PMT_CHG_CD_T">
     <field-descriptor name="code" column="PMT_CHG_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="name" column="PMT_CHG_CD_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -420,7 +420,7 @@
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentChange" class-ref="org.kuali.kfs.pdp.businessobject.PaymentChange" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentChange" class-ref="org.kuali.kfs.pdp.businessobject.PaymentChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentChangeCode"/>
     </reference-descriptor>
 
@@ -466,7 +466,7 @@
     <field-descriptor name="campus" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processTimestamp" column="PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="processUserId" column="PROC_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="extractedInd" column="EXTRACTED_IND" jdbc-type="VARCHAR"/>
+    <field-descriptor name="extractedInd" column="EXTRACTED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>

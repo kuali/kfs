@@ -36,9 +36,9 @@ import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.gl.businessobject.OriginEntrySource;
 import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory;
-import org.kuali.kfs.pdp.businessobject.AccountingChange;
+import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
-import org.kuali.kfs.pdp.businessobject.PaymentChange;
+import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.dataaccess.KualiCodeDao;
@@ -71,9 +71,9 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         codeColumns.put(ProjectCode.class, "code");
         codeColumns.put(RestrictedStatus.class, "accountRestrictedStatusCode");
         codeColumns.put(PaymentStatus.class, "code");
-        codeColumns.put(AccountingChange.class, "code");
+        codeColumns.put(AccountingChangeCode.class, "code");
         codeColumns.put(DisbursementType.class, "code");
-        codeColumns.put(PaymentChange.class, "code");
+        codeColumns.put(PaymentChangeCode.class, "code");
         // can't add entry for CashDetailTypeCode since the table doesn't yet exist
     }
 
@@ -94,9 +94,9 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
         nameColumns.put(ProjectCode.class, "name");
         nameColumns.put(RestrictedStatus.class, "accountRestrictedStatusName");
         nameColumns.put(PaymentStatus.class, "code");
-        nameColumns.put(AccountingChange.class, "code");
+        nameColumns.put(AccountingChangeCode.class, "code");
         nameColumns.put(DisbursementType.class, "code");
-        nameColumns.put(PaymentChange.class, "code");
+        nameColumns.put(PaymentChangeCode.class, "code");
         // can't add entry for CashDetailTypeCode since the table doesn't yet exist
     }
 

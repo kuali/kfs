@@ -21,9 +21,9 @@ package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.rice.kns.bo.KualiCodeBase;
 
-public class PaymentChange extends KualiCodeBase {
+public class AccountingChangeCode extends KualiCodeBase {
     
-    public PaymentChange() {
+    public AccountingChangeCode() {
     }
     
 }

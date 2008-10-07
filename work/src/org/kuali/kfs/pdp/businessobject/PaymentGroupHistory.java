@@ -65,7 +65,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private PaymentProcess paymentProcess;
 
     private String paymentChangeCode;
-    private PaymentChange paymentChange; // PMT_CHG_CD VARCHAR2 4
+    private PaymentChangeCode paymentChange; // PMT_CHG_CD VARCHAR2 4
 
     private Integer paymentGroupId;
     private PaymentGroup paymentGroup; // PMT_GRP_ID
@@ -103,7 +103,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.many-to-one column="PMT_CHG_CD" class="edu.iu.uis.pdp.bo.PaymentChange"
      */
-    public PaymentChange getPaymentChange() {
+    public PaymentChangeCode getPaymentChange() {
         return paymentChange;
     }
 
@@ -198,7 +198,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     /**
      * @param string
      */
-    public void setPaymentChange(PaymentChange pc) {
+    public void setPaymentChange(PaymentChangeCode pc) {
         paymentChange = pc;
     }
 

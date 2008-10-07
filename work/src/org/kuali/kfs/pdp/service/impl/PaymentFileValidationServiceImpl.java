@@ -37,7 +37,7 @@ import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.AccountingChange;
+import org.kuali.kfs.pdp.businessobject.AccountingChangeCode;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountHistory;
@@ -311,7 +311,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             if (account == null) {
                 addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr());
 
-                KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChange.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
+                KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
                 replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
             }
             else {
@@ -321,7 +321,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subAccount == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getSubAccountNbr());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChange.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
+                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_ACCOUNT_DB_COLUMN_NAME, KFSConstants.getDashSubAccountNumber(), paymentAccountDetail.getSubAccountNbr(), objChangeCd));
 
                         paymentAccountDetail.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
@@ -333,7 +333,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (objectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getFinObjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChange.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
+                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
                     replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
                 }
 
@@ -343,7 +343,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subObjectCode == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getFinObjectCode(), paymentAccountDetail.getFinSubObjectCode());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChange.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
+                        KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_OBJECT_DB_COLUMN_NAME, KFSConstants.getDashFinancialSubObjectCode(), paymentAccountDetail.getFinSubObjectCode(), objChangeCd));
 
                         paymentAccountDetail.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -357,7 +357,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (projectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_PROJECT, paymentAccountDetail.getProjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChange.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
+                    KualiCodeBase objChangeCd = (KualiCodeBase) kualiCodeService.getByCode(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
                     changeRecords.add(newAccountHistory(PdpPropertyConstants.PROJECT_DB_COLUMN_NAME, KFSConstants.getDashProjectCode(), paymentAccountDetail.getProjectCode(), objChangeCd));
                     paymentAccountDetail.setProjectCode(KFSConstants.getDashProjectCode());
                 }
@@ -417,7 +417,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         paymentAccountHistory.setAcctAttributeNewValue(newValue);
         paymentAccountHistory.setAcctAttributeOrigValue(oldValue);
         paymentAccountHistory.setAcctChangeDate(dateTimeService.getCurrentTimestamp());
-        paymentAccountHistory.setAccountingChange((AccountingChange) changeCode);
+        paymentAccountHistory.setAccountingChange((AccountingChangeCode) changeCode);
 
         return paymentAccountHistory;
     }

@@ -26,7 +26,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.PaymentChange;
+import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -79,8 +79,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
-        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
+        paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
@@ -95,8 +95,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user, PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
-        KualiCode cd = this.kualiCodeService.getByCode(PaymentChange.class, changeStatus);
-        paymentGroupHistory.setPaymentChange((PaymentChange) cd);
+        KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
+        paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);

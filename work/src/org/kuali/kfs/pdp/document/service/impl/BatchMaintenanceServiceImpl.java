@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
-import org.kuali.kfs.pdp.businessobject.PaymentChange;
+import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
@@ -60,7 +60,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
-        PaymentChange paymentChange = (PaymentChange) kualiCodeService.getByCode(PaymentChange.class, changeStatus);
+        PaymentChangeCode paymentChange = (PaymentChangeCode) kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
 
         paymentGroupHistory.setPaymentChange(paymentChange);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());

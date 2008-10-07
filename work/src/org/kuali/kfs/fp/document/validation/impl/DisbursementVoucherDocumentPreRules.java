@@ -99,13 +99,13 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
             PaymentReasonValuesFinder payReasonValues = new PaymentReasonValuesFinder();
             List<KeyLabelPair> reasons = payReasonValues.getKeyValues();
             String nonEmplTravReasonStr = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-
+            
             List<String> travelNonEmplPaymentReasonCodes = SpringContext.getBean(ParameterService.class).getParameterValues(DisbursementVoucherDocument.class, NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
-
+            
             for (KeyLabelPair r : reasons) {
                 // TODO: warren: what if there are multiple codes?, I think this code's under the assumption that there's only one
                 // non-employee travel payment reason
-                if (r.getKey().equals(travelNonEmplPaymentReasonCodes.get(0))) {
+                if (!travelNonEmplPaymentReasonCodes.isEmpty() && r.getKey().equals(travelNonEmplPaymentReasonCodes.get(0))) {
                     nonEmplTravReasonStr = r.getLabel();
                 }
             }

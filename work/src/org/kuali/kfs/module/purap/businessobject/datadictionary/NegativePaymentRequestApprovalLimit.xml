@@ -23,6 +23,7 @@
         <ref bean="NegativePaymentRequestApprovalLimit-chartOfAccountsCode" />
         <ref bean="NegativePaymentRequestApprovalLimit-accountNumber" />
         <ref bean="NegativePaymentRequestApprovalLimit-organizationCode" />
+        <ref bean="NegativePaymentRequestApprovalLimit-activeIndicator" />
       </list>
     </property>
   </bean>
@@ -76,6 +77,11 @@
   <bean id="NegativePaymentRequestApprovalLimit-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
     <property name="required" value="false" />
   </bean>
+  
+  <bean id="NegativePaymentRequestApprovalLimit-activeIndicator" parent="NegativePaymentRequestApprovalLimit-activeIndicator-parentBean" />
+  
+  <bean id="NegativePaymentRequestApprovalLimit-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"  />
+  	
 
 <!-- Business Object Inquiry Definition -->
 
@@ -99,6 +105,8 @@
                     p:attributeName="accountNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="negativePaymentRequestApprovalLimitAmount" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="activeIndicator"  />
             </list>
           </property>
         </bean>
@@ -128,6 +136,8 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="negativePaymentRequestApprovalLimitAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -140,6 +150,8 @@
               p:attributeName="accountNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="negativePaymentRequestApprovalLimitAmount" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
   </bean>

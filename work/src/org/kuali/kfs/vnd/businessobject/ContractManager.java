@@ -36,6 +36,15 @@ public class ContractManager extends PersistableBusinessObjectBase {
     private String contractManagerFaxNumber;
     private KualiDecimal contractManagerDelegationDollarLimit;
     private String contractManagerSignatureImageLocationDescription;
+    private boolean activeIndicator;
+
+    public boolean isActiveIndicator() {
+        return activeIndicator;
+    }
+
+    public void setActiveIndicator(boolean activeIndicator) {
+        this.activeIndicator = activeIndicator;
+    }
 
     /**
      * Default constructor.

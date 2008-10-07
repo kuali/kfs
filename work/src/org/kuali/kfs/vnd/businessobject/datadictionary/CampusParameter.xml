@@ -32,6 +32,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CampusParameter-purchasingDepartmentStateCode" />
         <ref bean="CampusParameter-purchasingDepartmentZipCode" />
         <ref bean="CampusParameter-purchasingDepartmentCountryCode" />
+        <ref bean="CampusParameter-activeIndicator" />
       </list>
     </property>
     <property name="relationships" >
@@ -169,6 +170,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="purchasingDepartmentCountryCode" />
     <property name="required" value="false" />
   </bean>
+  
+  <bean id="CampusParameter-activeIndicator" parent="CampusParameter-activeIndicator-parentBean" />
+  
+  <bean id="CampusParameter-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
 
 <!-- Business Object Inquiry Definition -->
 
@@ -208,6 +213,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="purchasingDepartmentZipCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="purchasingDepartmentCountryCode" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="activeIndicator"  />
             </list>
           </property>
         </bean>
@@ -240,7 +247,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="purchasingInstitutionName" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchasingDepartmentName" />              
+              p:attributeName="purchasingDepartmentName" />  
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />            
       </list>
     </property>
     <property name="resultFields" >
@@ -256,7 +265,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="purchasingInstitutionName" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchasingDepartmentName" />                                     
+              p:attributeName="purchasingDepartmentName" />  
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />                                  
       </list>
     </property>
   </bean>

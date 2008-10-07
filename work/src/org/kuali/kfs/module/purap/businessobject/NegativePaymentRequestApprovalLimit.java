@@ -35,6 +35,7 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
     private String organizationCode;
     private String accountNumber;
     private KualiDecimal negativePaymentRequestApprovalLimitAmount;
+    private boolean activeIndicator;
 
     private Chart chartOfAccounts;
     private Account account;
@@ -129,5 +130,13 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
             m.put("negativePaymentRequestApprovalLimitIdentifier", this.negativePaymentRequestApprovalLimitIdentifier.toString());
         }
         return m;
+    }
+
+    public boolean isActiveIndicator() {
+        return activeIndicator;
+    }
+
+    public void setActiveIndicator(boolean activeIndicator) {
+        this.activeIndicator = activeIndicator;
     }
 }

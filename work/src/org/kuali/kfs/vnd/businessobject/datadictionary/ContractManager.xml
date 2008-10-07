@@ -25,6 +25,7 @@
         <ref bean="ContractManager-contractManagerPhoneNumber" />
         <ref bean="ContractManager-contractManagerSignatureImageLocationDescription" />
         <ref bean="ContractManager-contractManagerUserIdentifier" />
+        <ref bean="ContractManager-activeIndicator" />
       </list>
     </property>
   </bean>
@@ -148,6 +149,10 @@
             p:size="13" />
     </property>
   </bean>
+  
+  <bean id="ContractManager-activeIndicator"  parent="ContractManager-activeIndicator-parentBean" />
+  
+  <bean id="ContractManager-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
 
 <!-- Business Object Inquiry Definition -->
 
@@ -175,6 +180,8 @@
                     p:attributeName="contractManagerFaxNumber" />
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerDelegationDollarLimit" />
+               <bean parent="FieldDefinition"
+              		p:attributeName="activeIndicator"  />
             </list>
           </property>
         </bean>
@@ -210,6 +217,8 @@
               p:attributeName="contractManagerDelegationDollarLimit" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerSignatureImageLocationDescription" />
+         <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -228,6 +237,8 @@
               p:attributeName="contractManagerDelegationDollarLimit" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerSignatureImageLocationDescription" />
+         <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
   </bean>

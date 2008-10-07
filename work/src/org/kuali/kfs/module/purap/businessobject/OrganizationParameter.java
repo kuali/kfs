@@ -34,6 +34,15 @@ public class OrganizationParameter extends PersistableBusinessObjectBase {
 
     private Chart chartOfAccounts;
     private Org organization;
+    private boolean activeIndicator;
+
+    public boolean isActiveIndicator() {
+        return activeIndicator;
+    }
+
+    public void setActiveIndicator(boolean activeIndicator) {
+        this.activeIndicator = activeIndicator;
+    }
 
     /**
      * Default constructor.

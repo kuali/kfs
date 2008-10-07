@@ -22,6 +22,7 @@
         <ref bean="PurchaseOrderQuoteList-purchaseOrderQuoteListName" />
         <ref bean="PurchaseOrderQuoteList-contractManagerCode" />
         <ref bean="PurchaseOrderQuoteList-contractManagerName" />
+        <ref bean="PurchaseOrderQuoteList-activeIndicator" />
       </list>
     </property>
   </bean>
@@ -77,6 +78,10 @@
   <bean id="PurchaseOrderQuoteList-contractManagerName-parentBean" abstract="true" parent="ContractManager-contractManagerName">
   </bean>
   
+  <bean id="PurchaseOrderQuoteList-activeIndicator" parent="PurchaseOrderQuoteList-activeIndicator-parentBean" />
+  
+  <bean id="PurchaseOrderQuoteList-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" />
+  
 
 <!-- Business Object Inquiry Definition -->
 
@@ -96,6 +101,8 @@
                     p:attributeName="purchaseOrderQuoteListName" />
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerCode" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="activeIndicator"  />
             </list>
           </property>
         </bean>
@@ -150,6 +157,8 @@
               p:attributeName="purchaseOrderQuoteListName" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
     <property name="resultFields" >
@@ -158,6 +167,8 @@
               p:attributeName="purchaseOrderQuoteListName" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerName" />
+        <bean parent="FieldDefinition"
+              p:attributeName="activeIndicator"  />
       </list>
     </property>
   </bean>

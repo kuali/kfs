@@ -97,8 +97,6 @@ public interface CapitalAssetBuilderModuleService {
      * @param capitalAssetManagementAsset data to be validated
      * @return validation succeeded or errors present
      */
-    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset);
-
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation);
 
     // Methods moved from PurchasingDocumentRuleBase

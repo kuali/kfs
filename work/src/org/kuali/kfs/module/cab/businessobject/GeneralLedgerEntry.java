@@ -781,7 +781,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         if (absAmount == null) {
             return null;
         }
-        return KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode()) ? absAmount.multiply(new KualiDecimal(-1)) : absAmount;
+        return KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode()) ? absAmount.negated() : absAmount;
     }
 
     /**
@@ -809,7 +809,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      */
     public KualiDecimal getAbsAmount() {
         if (getTransactionLedgerEntryAmount() != null && KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode())) {
-            setAbsAmount(getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)));
+            setAbsAmount(getTransactionLedgerEntryAmount().negated());
         }
         else {
             setAbsAmount(getTransactionLedgerEntryAmount());
@@ -827,7 +827,8 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the transactionLedgerSubmitAmount attribute. 
+     * Gets the transactionLedgerSubmitAmount attribute.
+     * 
      * @return Returns the transactionLedgerSubmitAmount.
      */
     public KualiDecimal getTransactionLedgerSubmitAmount() {
@@ -836,11 +837,12 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionLedgerSubmitAmount attribute value.
+     * 
      * @param transactionLedgerSubmitAmount The transactionLedgerSubmitAmount to set.
      */
     public void setTransactionLedgerSubmitAmount(KualiDecimal transactionLedgerSubmitAmount) {
         this.transactionLedgerSubmitAmount = transactionLedgerSubmitAmount;
     }
-    
-    
+
+
 }

@@ -243,7 +243,7 @@ public class GlLineServiceImpl implements GlLineService {
         detail.setFinancialObjectCode(replaceFiller(entry.getFinancialObjectCode()));
         detail.setProjectCode(replaceFiller(entry.getProjectCode()));
         detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
-        detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? entry.getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)) : entry.getTransactionLedgerEntryAmount());
+        detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? entry.getTransactionLedgerEntryAmount().negated() : entry.getTransactionLedgerEntryAmount());
         detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
         detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
         detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));

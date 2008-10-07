@@ -22,7 +22,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Base account line group class which assist in easy group by clause
  */
 public abstract class AccountLineGroup {
-    protected static final KualiDecimal NEGATIVE_ONE = new KualiDecimal(-1);
     protected Integer universityFiscalYear;
     protected String chartOfAccountsCode;
     protected String accountNumber;

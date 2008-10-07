@@ -63,7 +63,7 @@ public class PurApLineAction extends KualiAction {
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApLineForm = (PurApLineForm) form;
-        if (StringUtils.isEmpty(purApLineForm.getPurchaseOrderIdentifier())) {
+        if (purApLineForm.getPurchaseOrderIdentifier() == null) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_EMPTY);
         }
         else {
@@ -78,8 +78,8 @@ public class PurApLineAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    private void createPurApLineSession(String purchaseOrderIdentifier) {
-        GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier), new PurApLineSession());
+    private void createPurApLineSession(Integer purchaseOrderIdentifier) {
+        GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()), new PurApLineSession());
     }
 
     /**
@@ -90,10 +90,9 @@ public class PurApLineAction extends KualiAction {
     protected void buildPurApDocList(PurApLineForm purApLineForm) {
         Map<String, Object> cols = new HashMap<String, Object>();
         cols.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, purApLineForm.getPurchaseOrderIdentifier());
-        //Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
-        Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatching(PurchasingAccountsPayableDocument.class, cols);
+        Collection<PurchasingAccountsPayableDocument> purApDocs = SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(PurchasingAccountsPayableDocument.class, cols, CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, true);
         if (purApDocs == null || purApDocs.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier());
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, CabKeyConstants.ERROR_PO_ID_INVALID, purApLineForm.getPurchaseOrderIdentifier().toString());
         }
         else {
             for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
@@ -156,8 +155,8 @@ public class PurApLineAction extends KualiAction {
      * 
      * @param purApLineForm
      */
-    private void removePurApLineSession(String purchaseOrderIdentifier) {
-        GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier));
+    private void removePurApLineSession(Integer purchaseOrderIdentifier) {
+        GlobalVariables.getUserSession().removeObject(CabConstants.CAB_PURAP_SESSION.concat(purchaseOrderIdentifier.toString()));
     }
 
 
@@ -198,10 +197,10 @@ public class PurApLineAction extends KualiAction {
      * @return
      */
     private PurApLineSession retrievePurApLineSession(PurApLineForm purApForm) {
-        PurApLineSession purApLineSession = (PurApLineSession) GlobalVariables.getUserSession().retrieveObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier()));
+        PurApLineSession purApLineSession = (PurApLineSession) GlobalVariables.getUserSession().retrieveObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier().toString()));
         if (purApLineSession == null) {
             purApLineSession = new PurApLineSession();
-            GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier()), purApLineSession);
+            GlobalVariables.getUserSession().addObject(CabConstants.CAB_PURAP_SESSION.concat(purApForm.getPurchaseOrderIdentifier().toString()), purApLineSession);
         }
         return purApLineSession;
     }
@@ -282,7 +281,7 @@ public class PurApLineAction extends KualiAction {
      * 
      * @param mergeLines
      */
-    private Pretag checkForPreTagging(List<PurchasingAccountsPayableItemAsset> mergeLines, String purchaseOrderIdentifier) {
+    private Pretag checkForPreTagging(List<PurchasingAccountsPayableItemAsset> mergeLines, Integer purchaseOrderIdentifier) {
         Pretag preTag = null;
         Pretag findingPreTag = null;
         for (PurchasingAccountsPayableItemAsset item : mergeLines) {

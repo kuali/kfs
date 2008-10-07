@@ -27,16 +27,38 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.gl.dataaccess.impl.BalanceDaoOjb;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
+import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseOjb implements PurchasingAccountsPayableReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableReportDaoOjb.class);
 
+    public Collection findPurchasingAccountsPayableDocuments(Map fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new PurchasingAccountsPayableDocument());
+        QueryByCriteria query = QueryFactory.newQuery(PurchasingAccountsPayableDocument.class, criteria);
+        OJBUtility.limitResultSize(query);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    public Collection findGeneralLedgerCollection(Map fieldValues) {
+     // set document type code criteria
+        Collection docTypeCodes = getDocumentType(fieldValues);
+        
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new GeneralLedgerEntry());
+        
+        criteria.addIn(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE, docTypeCodes);
+        
+        QueryByCriteria query = QueryFactory.newQuery(GeneralLedgerEntry.class, criteria);
+        
+        OJBUtility.limitResultSize(query);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
     /**
      * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findGeneralLedgers(java.util.Map)
      */
@@ -126,10 +148,10 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT_CODE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER);
+        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DEBIT_CREDIT_CODE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.REFERENCE_FINANCIAL_DOCUMENT_NUMBER);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DATE);
-        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DEBIT_CREDIT_CODE);
         return attributeList;
     }
 }

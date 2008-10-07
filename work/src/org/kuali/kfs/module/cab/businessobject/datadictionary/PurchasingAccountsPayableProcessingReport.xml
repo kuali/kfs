@@ -172,7 +172,7 @@
 
   <bean id="PurchasingAccountsPayableProcessingReport-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition" >
     <property name="name" value="purapDocumentIdentifier" />
-  	<property name="label" value="Invoice" />
+  	<property name="label" value="PREQ/CM ID" />
     <property name="shortLabel" value="Invoice" />
     <property name="forceUppercase" value="true" />
     <property name="maxLength" value="8" />
@@ -218,8 +218,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialDocumentTypeCode" 
               p:noLookup="true"/>
-        <!-- bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" /> -->
+        <bean parent="FieldDefinition"
+              p:attributeName="purapDocumentIdentifier" /> 
         <bean parent="FieldDefinition"
               p:attributeName="documentNumber"  />
         <bean parent="FieldDefinition"

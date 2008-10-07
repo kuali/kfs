@@ -56,6 +56,7 @@
 <html:hidden property="${assetItemStr}.capitalAssetManagementDocumentNumber" />
 <html:hidden property="${assetItemStr}.createAssetIndicator" />
 <html:hidden property="${assetItemStr}.applyPaymentIndicator" />
+<html:hidden property="${assetItemStr}.purchaseOrderItemIdentifier" />
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${itemLine.active && !itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
@@ -94,7 +95,11 @@
 		</c:otherwise>
 		</c:choose>
 	</td>
-	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/></td>
+	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/>
+		<c:forEach items="${itemLine.capitalAssetNumbers}" var="capitalAssetNumber" >
+			${capitalAssetNumber} <br></br>
+		</c:forEach>
+	</td>
 	<c:choose>
 	<c:when test="${itemLine.itemAssignedToTradeInIndicator}">
 		<td class="infoline">Y

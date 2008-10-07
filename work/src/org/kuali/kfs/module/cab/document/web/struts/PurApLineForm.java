@@ -30,7 +30,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class PurApLineForm extends KualiForm {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
-    private String purchaseOrderIdentifier;
+    private Integer purchaseOrderIdentifier;
     private String purApContactEmailAddress;
     private String purApContactPhoneNumber;
 
@@ -211,21 +211,19 @@ public class PurApLineForm extends KualiForm {
 
 
     /**
-     * Gets the purchaseOrderIdentifier attribute.
-     * 
+     * Gets the purchaseOrderIdentifier attribute. 
      * @return Returns the purchaseOrderIdentifier.
      */
-    public String getPurchaseOrderIdentifier() {
+    public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
     }
 
 
     /**
      * Sets the purchaseOrderIdentifier attribute value.
-     * 
      * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
      */
-    public void setPurchaseOrderIdentifier(String purchaseOrderIdentifier) {
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 

@@ -154,7 +154,7 @@ public interface PurApLineService {
      * @param lineItemNumber
      * @return
      */
-    Pretag getPreTagLineItem(String purchaseOrderIdentifier, Integer lineItemNumber);
+    Pretag getPreTagLineItem(Integer purchaseOrderIdentifier, Integer lineItemNumber);
 
     /**
      * In-activate document when all the associated items are inactive.

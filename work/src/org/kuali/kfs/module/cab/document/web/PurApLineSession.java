@@ -18,17 +18,37 @@ package org.kuali.kfs.module.cab.document.web;
 import java.util.List;
 
 import org.kuali.kfs.module.cab.CabPropertyConstants.Pretag;
+import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class PurApLineSession {
     private List<PurchasingAccountsPayableActionHistory> actionsTakenHistory;
-    private List<Pretag> preTagList;
+    private List<GeneralLedgerEntry> glEntryUpdateList;
 
     public PurApLineSession() {
         actionsTakenHistory = new TypedArrayList(PurchasingAccountsPayableActionHistory.class);
-        preTagList = new TypedArrayList(Pretag.class);
+        glEntryUpdateList = new TypedArrayList(GeneralLedgerEntry.class);
     }
+
+    
+    /**
+     * Gets the glEntryList attribute. 
+     * @return Returns the glEntryList.
+     */
+    public List<GeneralLedgerEntry> getGlEntryUpdateList() {
+        return glEntryUpdateList;
+    }
+
+
+    /**
+     * Sets the glEntryList attribute value.
+     * @param glEntryList The glEntryList to set.
+     */
+    public void setGlEntryUpdateList(List<GeneralLedgerEntry> glEntryList) {
+        this.glEntryUpdateList = glEntryList;
+    }
+
 
     /**
      * Gets the actionsTakenHistory attribute.
@@ -47,22 +67,4 @@ public class PurApLineSession {
     public void setActionsTakenHistory(List<PurchasingAccountsPayableActionHistory> actionsTakenHistory) {
         this.actionsTakenHistory = actionsTakenHistory;
     }
-
-    /**
-     * Gets the preTagList attribute. 
-     * @return Returns the preTagList.
-     */
-    public List<Pretag> getPreTagList() {
-        return preTagList;
-    }
-
-    /**
-     * Sets the preTagList attribute value.
-     * @param preTagList The preTagList to set.
-     */
-    public void setPreTagList(List<Pretag> preTagList) {
-        this.preTagList = preTagList;
-    }
-
-    
 }

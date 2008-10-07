@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.cab.document.service.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -60,10 +63,10 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         newDocument.getDocumentHeader().setDocumentDescription(CabConstants.NEW_ASSET_DOCUMENT_DESC);
         // set assetPaymentDetail list
         createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
-        
+
         // TODO: createAssetPaymentAssetDetails() for capitalAssetNumber entered from PurAp.
-        createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(),selectedItem, purApForm.getRequisitionIdentifier());
-        
+        createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(), selectedItem, purApForm.getRequisitionIdentifier());
+
         documentService.saveDocument(newDocument);
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
@@ -71,7 +74,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     }
 
     private void createAssetPaymentAssetDetails(List assetPaymentAssetDetail, PurchasingAccountsPayableItemAsset selectedItem, Integer requisitionIdentifier) {
-        
+
     }
 
     /**
@@ -114,9 +117,14 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     private void postProcessCreatingDocument(PurchasingAccountsPayableItemAsset selectedItem, PurApLineForm purApForm, PurApLineSession purApLineSession, String documentNumber) {
         // save CAMS document number in CAB
         selectedItem.setCapitalAssetManagementDocumentNumber(documentNumber);
-        // in-activate selected Item
-        selectedItem.setActive(false);
-        // in-active document if all the associated items are inactive.
+
+        // in-activate item, item account and glEntry(conditionally)
+        inActivateItem(selectedItem, purApLineSession.getGlEntryUpdateList());
+
+        // update submit amount in the associated general ledger entries.
+        updateGlEntrySubmitAmount(selectedItem);
+
+        // in-activate document if all the associated items are inactive.
         if (ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
             // link reference from item to document should be set in PurApLineAction.getSelectedLineItem().
             purApLineService.inActivateDocument(selectedItem.getPurchasingAccountsPayableDocument());
@@ -125,27 +133,23 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         setFormActiveItemIndicator(purApForm);
         // persistent to the table
         purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
-        
-        // TODO: below code won't work either???
-        // In-activate GeneralLedgerEntry
-        /*
-        for (PurchasingAccountsPayableLineAssetAccount account: selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            boolean glActive = false;
-            account.refreshReferenceObject("generalLedgerEntry");
-            
-            GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
-            for (PurchasingAccountsPayableLineAssetAccount acct: glEntry.getPurApLineAssetAccounts()) {
-                if (acct.isActive()) {
-                    glActive = true;
-                    break;
-                }
-            }
-            if (!glActive) {
-            glEntry.setActive(glActive);
-            businessObjectService.save(glEntry);
+    }
+
+
+    /**
+     * Update transactionLedgerSubmitAmount in the associated generalLedgerEntry for each item account.
+     * 
+     * @param selectedItem
+     */
+    private void updateGlEntrySubmitAmount(PurchasingAccountsPayableItemAsset selectedItem) {
+        GeneralLedgerEntry glEntry = null;
+        for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            glEntry = account.getGeneralLedgerEntry();
+
+            if (ObjectUtils.isNotNull(glEntry)) {
+                glEntry.setTransactionLedgerSubmitAmount(glEntry.getTransactionLedgerSubmitAmount().add(account.getItemAccountTotalAmount()));
             }
         }
-        */
     }
 
     /**
@@ -254,55 +258,83 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         int seq = 1;
 
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            account.refreshReferenceObject("generalLedgerEntry");
+            account.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
             GeneralLedgerEntry glEntry = account.getGeneralLedgerEntry();
-            AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
-            // initialize payment detail fields
-            assetPaymentDetail.setDocumentNumber(documentNumber);
-            assetPaymentDetail.setSequenceNumber(new Integer(seq++));
-            assetPaymentDetail.setChartOfAccountsCode(glEntry.getChartOfAccountsCode());
-            assetPaymentDetail.setAccountNumber(replaceFiller(glEntry.getAccountNumber()));
-            assetPaymentDetail.setSubAccountNumber(replaceFiller(glEntry.getSubAccountNumber()));
-            assetPaymentDetail.setFinancialObjectCode(replaceFiller(glEntry.getFinancialObjectCode()));
-            assetPaymentDetail.setFinancialSubObjectCode(replaceFiller(glEntry.getFinancialSubObjectCode()));
-            assetPaymentDetail.setProjectCode(replaceFiller(glEntry.getProjectCode()));
-            assetPaymentDetail.setOrganizationReferenceId(glEntry.getOrganizationReferenceId());
-            assetPaymentDetail.setPostingYear(glEntry.getUniversityFiscalYear());
-            assetPaymentDetail.setPostingPeriodCode(glEntry.getUniversityFiscalPeriodCode());
-            assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(replaceFiller(glEntry.getFinancialSystemOriginationCode()));
-            assetPaymentDetail.setExpenditureFinancialDocumentNumber(glEntry.getDocumentNumber());
-            assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(replaceFiller(glEntry.getFinancialDocumentTypeCode()));
-            assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(glEntry.getTransactionPostingDate());
-            assetPaymentDetail.setAmount(account.getItemAccountTotalAmount());
-            assetPaymentDetail.setPurchaseOrderNumber(replaceFiller(glEntry.getReferenceFinancialDocumentNumber()));
-            assetPaymentDetail.setRequisitionNumber(requisitionIdentifier.toString());
-            assetPaymentDetail.setTransferPaymentIndicator(false);
 
-            // in-active account.
-            account.setActive(false);
+            if (ObjectUtils.isNotNull(glEntry)) {
+                AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
+                // initialize payment detail fields
+                assetPaymentDetail.setDocumentNumber(documentNumber);
+                assetPaymentDetail.setSequenceNumber(new Integer(seq++));
+                assetPaymentDetail.setChartOfAccountsCode(glEntry.getChartOfAccountsCode());
+                assetPaymentDetail.setAccountNumber(replaceFiller(glEntry.getAccountNumber()));
+                assetPaymentDetail.setSubAccountNumber(replaceFiller(glEntry.getSubAccountNumber()));
+                assetPaymentDetail.setFinancialObjectCode(replaceFiller(glEntry.getFinancialObjectCode()));
+                assetPaymentDetail.setFinancialSubObjectCode(replaceFiller(glEntry.getFinancialSubObjectCode()));
+                assetPaymentDetail.setProjectCode(replaceFiller(glEntry.getProjectCode()));
+                assetPaymentDetail.setOrganizationReferenceId(glEntry.getOrganizationReferenceId());
+                assetPaymentDetail.setPostingYear(glEntry.getUniversityFiscalYear());
+                assetPaymentDetail.setPostingPeriodCode(glEntry.getUniversityFiscalPeriodCode());
+                assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(replaceFiller(glEntry.getFinancialSystemOriginationCode()));
+                assetPaymentDetail.setExpenditureFinancialDocumentNumber(glEntry.getDocumentNumber());
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(replaceFiller(glEntry.getFinancialDocumentTypeCode()));
+                assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(glEntry.getTransactionPostingDate());
+                assetPaymentDetail.setAmount(account.getItemAccountTotalAmount());
+                assetPaymentDetail.setPurchaseOrderNumber(replaceFiller(glEntry.getReferenceFinancialDocumentNumber()));
+                assetPaymentDetail.setRequisitionNumber(requisitionIdentifier.toString());
+                assetPaymentDetail.setTransferPaymentIndicator(false);
 
-            // in-activate generalLedgerEnter if needed
-            inActivateGLEntry(glEntry, account);
 
-            assetPaymentList.add(assetPaymentDetail);
+                assetPaymentList.add(assetPaymentDetail);
+            }
         }
     }
 
 
     /**
+     * In-activate item, item Account and generalLedgerEntry active indicator.
+     * 
+     * @param selectedItem
+     * @param glEntryList
+     */
+    private void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem, List glEntryUpdateList) {
+        for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            // in-activate GeneralLedgerEntry
+            inActivateGlEntry(glEntryUpdateList, selectedAccount);
+
+            // in-active account.
+            selectedAccount.setActive(false);
+
+        }
+
+        // in-activate selected Item
+        selectedItem.setActive(false);
+    }
+
+    /**
      * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.
      * 
+     * @param glEntryList
+     * @param selectedAccount
      * @param glEntry
      */
-    private void inActivateGLEntry(GeneralLedgerEntry glEntry, PurchasingAccountsPayableLineAssetAccount currentAccount) {
-
+    private void inActivateGlEntry(List glEntryList, PurchasingAccountsPayableLineAssetAccount selectedAccount) {
+        GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
+        boolean glEntryHasActiveAccount = false;
+        glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
         for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
-            if (!(account.getDocumentNumber().equalsIgnoreCase(currentAccount.getDocumentNumber()) && account.getAccountsPayableLineItemIdentifier().equals(currentAccount.getAccountsPayableLineItemIdentifier()) && account.getCapitalAssetBuilderLineNumber().equals(currentAccount.getCapitalAssetBuilderLineNumber()) && account.getGeneralLedgerAccountIdentifier().equals(currentAccount.getGeneralLedgerAccountIdentifier())) && account.isActive()) {
-                // if one account shows active, return without modification.
-                return;
+            // check if all accounts are inactive status excluding the selected account.
+            if (!(selectedAccount.getDocumentNumber().equalsIgnoreCase(account.getDocumentNumber()) && selectedAccount.getAccountsPayableLineItemIdentifier().equals(account.getAccountsPayableLineItemIdentifier()) && selectedAccount.getCapitalAssetBuilderLineNumber().equals(account.getCapitalAssetBuilderLineNumber())) && account.isActive()) {
+                glEntryHasActiveAccount = true;
+                break;
             }
         }
-        glEntry.setActive(false);
+
+        // if one account shows active, won't in-activate this general ledger entry.
+        if (!glEntryHasActiveAccount) {
+            glEntry.setActive(false);
+            glEntryList.add(glEntry);
+        }
     }
 
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.dataaccess;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,4 +30,8 @@ public interface PurchasingAccountsPayableReportDao {
      * @return
      */
     Iterator findGeneralLedgers(Map fieldValues);
+    
+    Collection findPurchasingAccountsPayableDocuments(Map fieldValues);
+    
+    Collection findGeneralLedgerCollection(Map fieldValues);
 }

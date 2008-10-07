@@ -65,26 +65,16 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private VendorService vendorService;
 
 
-//    private B2BInformation getB2bShoppingConfigurationInformation() {
-//        B2BInformation b2b = new B2BInformation();
-//        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
-//        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
-//        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
-//        b2b.setUserAgent(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
-//        b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
-//        return b2b;
-//    }
-
-    //FIXME hard coding values for now (hjs)
     private B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
-        b2b.setPunchoutURL("http://usertest.sciquest.com/apps/Router/ExternalAuth/cXML/KualiDemo");
-        b2b.setPunchbackURL("http://localhost:8080/kuali-dev/b2b.do?methodToCall=returnFromShopping");
-        b2b.setEnvironment("test");
-        b2b.setUserAgent("kfs");
-        b2b.setPassword("c#m1");
+        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
+        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
+        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
+        b2b.setUserAgent(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
+        b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
         return b2b;
     }
+
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.kfs.sys.businessobject.FinancialSystemUser)

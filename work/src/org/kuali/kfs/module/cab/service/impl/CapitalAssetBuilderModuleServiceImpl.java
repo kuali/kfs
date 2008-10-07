@@ -52,7 +52,6 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
@@ -64,9 +63,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -78,7 +75,6 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -880,26 +876,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *      org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
     public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetInformation capitalAssetInformation) {
-        CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
-
-        if (capitalAssetManagementAsset != null) {
-            // TODO: to enable the following statement if ready
-            // return this.validateFinancialProcessingData(accountingLines, capitalAssetManagementAsset);
-        }
-        return true;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateFinancialProcessingData(java.util.List,
-     *      org.kuali.kfs.integration.cam.CapitalAssetManagementAsset)
-     */
-    public boolean validateFinancialProcessingData(List<SourceAccountingLine> accountingLines, CapitalAssetManagementAsset capitalAssetManagementAsset) {
         boolean valid = true;
 
         // Check if we need to collect cams data
         boolean dataEntryExpected = false;
-        if (this.getParameterService().parameterExists(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
-            List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(Document.class, CabConstants.Parameters.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
+            List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
             for (SourceAccountingLine sourceAccountingLine : accountingLines) {
                 if (financialProcessingCapitalObjectSubTypes.contains(sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
                     dataEntryExpected = true;
@@ -908,11 +890,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         } // else leave dataEntryExpected on false
 
+        CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
         if (!dataEntryExpected) {
-            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
+            if ((capitalAssetManagementAsset != null) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTagNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetSerialNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription()) || ObjectUtils.isNotNull(capitalAssetInformation.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingRoomNumber())
+                    || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingSubRoomNumber())) {
                 // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
-
                 return false;
             }
             else {
@@ -921,145 +904,181 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
 
-        if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber())) {
+        if (capitalAssetManagementAsset != null) {
+            // Update Asset
+            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetNumber())) {
 
-            // New Asset
+                // error out if data exists on adding asset
+                if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetSerialNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription()) || ObjectUtils.isNotNull(capitalAssetInformation.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getBuildingSubRoomNumber())) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
+                }
 
-            if (ObjectUtils.isNotNull(capitalAssetManagementAsset.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getVendorName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerName()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getSerialNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getCampusCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingCode()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingRoomNumber()) || ObjectUtils.isNotNull(capitalAssetManagementAsset.getBuildingSubRoomNumber())) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_NEW_OR_UPDATE_ONLY);
-            }
-
-            Map<String, String> params = new HashMap<String, String>();
-            params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
-            Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
-
-            if (ObjectUtils.isNull(asset)) {
-                valid = false;
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-            }
-            else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
-                // TODO Put previous blurb in system parameter (doesn't just affect this code but also whoever else uses those
-                // constants)
-                valid = false;
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
+                valid = validateCapitalAssetManagementAsset(capitalAssetManagementAsset);
             }
         }
         else {
-
-            // Update Asset
-
-            if (capitalAssetManagementAsset.getQuantity() == null || capitalAssetManagementAsset.getQuantity() <= 0) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
+            // New Asset
+            valid = checkCapitalAssetFeildsExist(capitalAssetInformation);
+            if (valid) {
+                valid = validateCapitalAssetFields(capitalAssetInformation);
             }
+        }
+        return valid;
+    }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getVendorName())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
+    /**
+     * To validate if the asset is active
+     * 
+     * @param capitalAssetManagementAsset the asset to be validated
+     * @return boolean false if the asset is not active
+     */
+    private boolean validateCapitalAssetManagementAsset(CapitalAssetManagementAsset capitalAssetManagementAsset) {
+        boolean valid = true;
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetTypeCode())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-            else {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
-                AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetManagementAsset.getCapitalAssetNumber().toString());
+        Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
-                if (ObjectUtils.isNull(assetType)) {
-                    valid = false;
-                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                }
-            }
+        if (ObjectUtils.isNull(asset)) {
+            valid = false;
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
+        else if (!(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE.equals(asset.getInventoryStatusCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_NON_ACCESSIBLE.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION.equals(asset.getCapitalAssetTypeCode()) || CamsConstants.InventoryStatusCode.CAPITAL_ASSET_SURPLUS_EQUIPEMENT.equals(asset.getCapitalAssetTypeCode()))) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED);
+        }
+        return valid;
+    }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getManufacturerName())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.MANUFACTURER_NAME);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
+    /**
+     * Check if all required fields exist
+     * 
+     * @param capitalAssetInformation the fields of add asset to be checked
+     * @return boolean false if a required field is not active
+     */
+    private boolean checkCapitalAssetFeildsExist(CapitalAssetInformation capitalAssetInformation) {
+        boolean valid = true;
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getCapitalAssetDescription())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
+        if (capitalAssetInformation.getCapitalAssetQuantity() == null || capitalAssetInformation.getCapitalAssetQuantity() <= 0) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.QUANTITY);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.QUANTITY, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getCampusTagNumber())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-            else {
-                if (!this.getAssetService().findActiveAssetsMatchingTagNumber(capitalAssetManagementAsset.getCampusTagNumber()).isEmpty()) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, capitalAssetManagementAsset.getCampusTagNumber());
-                    valid = false;
-                }
-            }
+        if (StringUtils.isBlank(capitalAssetInformation.getVendorNumber())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.VENDOR_NAME);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getCampusCode())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-            else {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
-                Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, params);
+        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTypeCode())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-                if (ObjectUtils.isNull(campus)) {
-                    valid = false;
-                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                }
-            }
+        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.MANUFACTURER_NAME);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.MANUFACTURER_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingCode())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-            else {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
-                params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
-                Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
+        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetDescription())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAPITAL_ASSET_DESCRIPTION, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-                if (ObjectUtils.isNull(building)) {
-                    valid = false;
-                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
-                }
-            }
+        /*
+         * Tag number is not required on Add Asset if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
+         * String label = this.getDataDictionaryService().getAttributeLabel(Asset.class,
+         * CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
+         * GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED,
+         * label); valid = false; }
+         */
+        if (StringUtils.isBlank(capitalAssetInformation.getCampusCode())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAMPUS_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-            if (StringUtils.isBlank(capitalAssetManagementAsset.getBuildingRoomNumber())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
-            }
-            else {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(CamsPropertyConstants.Asset.CAMPUS_CODE, capitalAssetManagementAsset.getCampusCode());
-                params.put(CamsPropertyConstants.Asset.BUILDING_CODE, capitalAssetManagementAsset.getBuildingCode());
-                params.put(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, capitalAssetManagementAsset.getBuildingRoomNumber());
-                Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
+        if (StringUtils.isBlank(capitalAssetInformation.getBuildingCode())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
-                if (ObjectUtils.isNull(room)) {
-                    valid = false;
-                    String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-                }
-            }
+        if (StringUtils.isBlank(capitalAssetInformation.getBuildingRoomNumber())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.Asset.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
         }
 
         return valid;
     }
+
+    /**
+     * To check if the data is valid
+     * 
+     * @param capitalAssetInformation the information of add asset to be validated
+     * @return boolean false if data is incorrect
+     */
+    private boolean validateCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
+        boolean valid = true;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, capitalAssetInformation.getCapitalAssetTypeCode().toString());
+        AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
+
+        if (ObjectUtils.isNull(assetType)) {
+            valid = false;
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, CamsPropertyConstants.Asset.CAPITAL_ASSET_TYPE_CODE);
+            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
+
+        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
+            if (!this.getAssetService().findActiveAssetsMatchingTagNumber(capitalAssetInformation.getCapitalAssetTagNumber()).isEmpty()) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, capitalAssetInformation.getCapitalAssetTagNumber());
+                valid = false;
+            }
+        }
+
+        params = new HashMap<String, String>();
+        params.put(KFSPropertyConstants.CAMPUS_CODE, capitalAssetInformation.getCampusCode());
+        Campus campus = (Campus) this.getBusinessObjectService().findByPrimaryKey(Campus.class, params);
+        if (ObjectUtils.isNull(campus)) {
+            valid = false;
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, KFSPropertyConstants.CAMPUS_CODE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
+
+
+        params = new HashMap<String, String>();
+        params.put(KFSPropertyConstants.CAMPUS_CODE, capitalAssetInformation.getCampusCode());
+        params.put(KFSPropertyConstants.BUILDING_CODE, capitalAssetInformation.getBuildingCode());
+        Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
+        if (ObjectUtils.isNull(building)) {
+            valid = false;
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, KFSPropertyConstants.BUILDING_CODE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
+
+        params = new HashMap<String, String>();
+        params.put(KFSPropertyConstants.CAMPUS_CODE, capitalAssetInformation.getCampusCode());
+        params.put(KFSPropertyConstants.BUILDING_CODE, capitalAssetInformation.getBuildingCode());
+        params.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, capitalAssetInformation.getBuildingRoomNumber());
+        Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
+        if (ObjectUtils.isNull(room)) {
+            valid = false;
+            String label = this.getDataDictionaryService().getAttributeLabel(Asset.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+        }
+
+        return valid;
+    }
+
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,

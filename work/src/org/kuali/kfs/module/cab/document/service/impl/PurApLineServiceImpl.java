@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cab.document.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,8 +44,8 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.exception.PurError;
@@ -903,8 +902,8 @@ public class PurApLineServiceImpl implements PurApLineService {
             setOneSystemFromPurAp(poId, purApLineForm.getPurApDocs());
 
         }
-        else if (CabConstants.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)){
-            setMultipleSystemFromPurAp(poId,purApLineForm.getPurApDocs());
+        else if (CabConstants.MULTIPLE_SYSTEMS.equalsIgnoreCase(capitalAssetSystemTypeCode)) {
+            setMultipleSystemFromPurAp(poId, purApLineForm.getPurApDocs());
         }
     }
 
@@ -919,10 +918,10 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (ObjectUtils.isNotNull(capitalAssetSystems)) {
             // TODO: currently PurAp multiple system in fact return one system.
             CapitalAssetSystem capitalAssetSystem = capitalAssetSystems.get(0);
-            if (ObjectUtils.isNotNull(capitalAssetSystem ))  {
+            if (ObjectUtils.isNotNull(capitalAssetSystem)) {
                 List<Long> capitalAssetNumbers = getAssetNumbersFromItemCapitalAssets(capitalAssetSystem.getItemCapitalAssets());
                 String capitalAssetTransactionType = getCapitalAssetTransTypeForOneSystem(poId);
-                
+
                 if (StringUtils.isNotBlank(capitalAssetTransactionType) || (capitalAssetNumbers != null && !capitalAssetNumbers.isEmpty())) {
                     for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
                         for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
@@ -932,7 +931,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                     }
                 }
             }
-                
+
         }
     }
 
@@ -1175,10 +1174,11 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (item.getPurapDocument() != null) {
             PurchaseOrderItem poi = null;
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                List<PurApItem> purApItems = item.getPurapDocument().getItems();
+                PurchasingAccountsPayableDocumentBase purapDocument = item.getPurapDocument();
+                List<PurApItem> purApItems = purapDocument.getItems();
                 if (ObjectUtils.isNotNull(purApItems)) {
                     if (purApItems.size() > (item.getItemLineNumber().intValue() - 1)) {
-                       return (PurchaseOrderItem)purApItems.get(item.getItemLineNumber().intValue() - 1);
+                        return (PurchaseOrderItem) purApItems.get(item.getItemLineNumber().intValue() - 1);
                     }
                 }
             }

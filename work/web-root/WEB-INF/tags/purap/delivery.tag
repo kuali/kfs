@@ -184,7 +184,9 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCountryCode}" 
-                    	property="document.deliveryCountryName" readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                    	property="document.deliveryCountryCode" 
+                    	extraReadOnlyProperty="document.deliveryCountryName"
+                    	readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>
 			</tr>
         </table>

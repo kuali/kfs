@@ -837,6 +837,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             depreciationPaymentAmount = payment.getAmount();
             if (ObjectUtils.isNotNull(payment.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(payment.getObjectCode().getFinancialObjectSubTypeCode())) {
                 isDepreciablePayment = true;
+                actualDepreciationAmount = depreciationPaymentAmount.divide(new KualiDecimal(newAssetCount));
             }
 
             // Distribute Asset Payments from AssetPaymentDetails to AssetPayment
@@ -877,10 +878,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 }
                 else {
                     if (isDepreciablePayment) {
-                        actualDepreciationAmount = depreciationPaymentAmount.divide(new KualiDecimal(newAssetCount));
-                        assetPayment.setAccountChargeAmount(actualDepreciationAmount);
-                        depreciationPaymentAmount = depreciationPaymentAmount.subtract(actualDepreciationAmount);
-                        newAssetCount -= 1;
+                        if (newAssetCount == 1){
+                            assetPayment.setAccountChargeAmount(depreciationPaymentAmount);  
+                            depreciationPaymentAmount = KualiDecimal.ZERO;
+                        }
+                        else {
+                            assetPayment.setAccountChargeAmount(actualDepreciationAmount);
+                            depreciationPaymentAmount = depreciationPaymentAmount.subtract(actualDepreciationAmount);
+                            newAssetCount -= 1;
+                        }
                     }
                     else {
                         assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);

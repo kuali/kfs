@@ -38,6 +38,7 @@
 	<field name="mismatchedGLEntries" class="java.util.List"/>
 	<field name="success" class="java.lang.Boolean"/>
 	<field name="errorMessage" class="java.lang.String"/>
+	<field name="statusMessage" class="java.lang.String"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -333,7 +334,7 @@
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{success}== true?"Success":$F{errorMessage}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{statusMessage}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>

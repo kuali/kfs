@@ -216,7 +216,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (needValidation) {
             if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
                 return validateCapitalAssetLocationAddressFieldsOneOrMultipleSystemType(capitalAssetSystems);
-            }          
+            }
             String mappedName = PurapConstants.CAMS_REQUIREDNESS_FIELDS.REQUIREDNESS_FIELDS_BY_PARAMETER_NAMES.get(parameterName);
             if (mappedName != null) {
                 // Check the availability matrix here, if this field doesn't exist according to the avail. matrix, then no need
@@ -392,7 +392,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
         Class<? extends CapitalAssetBuilderAssetTransactionType> assetTransactionTypeClass = this.getKualiModuleService().getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).getExternalizableBusinessObjectImplementation(CapitalAssetBuilderAssetTransactionType.class);
-        
+
         return (List<CapitalAssetBuilderAssetTransactionType>) this.getBusinessObjectService().findAll(assetTransactionTypeClass);
     }
 
@@ -658,18 +658,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return A HashSet containing the distinct Object Code Sub-types
      */
     // TODO: - delete this method, I think it's unused.
-//    private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
-//        HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
-//        HashMap<String, String> dummyMap = new HashMap<String, String>();
-//        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
-//        for (CapitalAssetTransactionTypeRule relation : allRelations) {
-//            // Add sub-type codes if not already there.
-//            objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
-//        }
-//
-//        return objectCodeSubtypesInTable;
-//    }
-
+    // private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
+    // HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
+    // HashMap<String, String> dummyMap = new HashMap<String, String>();
+    // List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>)
+    // SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
+    // for (CapitalAssetTransactionTypeRule relation : allRelations) {
+    // // Add sub-type codes if not already there.
+    // objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
+    // }
+    //
+    // return objectCodeSubtypesInTable;
+    // }
     /**
      * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to the threshold for
      * becoming a Capital Asset, and the object code has one of a list of levels related to capital assets, and indicating the
@@ -724,33 +724,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     // TODO: - delete commented code below
     public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier, boolean quantityBasedItem) {
         boolean valid = true;
-//        HashMap<String, String> tranTypeMap = new HashMap<String, String>();
-//        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
-//        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
+        // HashMap<String, String> tranTypeMap = new HashMap<String, String>();
+        // tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE,
+        // capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+        // List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>)
+        // SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
         String[] objectCodeSubTypes = {};
-        
-        
-        if(quantityBasedItem) {
-            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText(),";");
-        } else {
-            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText(),";");
+
+
+        if (quantityBasedItem) {
+            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText(), ";");
         }
-        
+        else {
+            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText(), ";");
+        }
+
         boolean found = false;
         for (String subType : objectCodeSubTypes) {
             if (StringUtils.equals(subType, objectCode.getFinancialObjectSubTypeCode())) {
-              found = true;
-              break;
-          }
+                found = true;
+                break;
+            }
         }
-        
-        
-//        for (CapitalAssetTransactionTypeRule relation : relevantRelations) {
-//            if (StringUtils.equals(relation.getFinancialObjectSubTypeCode(), objectCode.getFinancialObjectSubTypeCode())) {
-//                found = true;
-//                break;
-//            }
-//        }
+
+
+        // for (CapitalAssetTransactionTypeRule relation : relevantRelations) {
+        // if (StringUtils.equals(relation.getFinancialObjectSubTypeCode(), objectCode.getFinancialObjectSubTypeCode())) {
+        // found = true;
+        // break;
+        // }
+        // }
         if (!found) {
             if (warn) {
                 String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE);
@@ -1086,6 +1089,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+                generalLedgerEntry.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
                 generalLedgerEntry.setActive(true);
                 this.getBusinessObjectService().save(generalLedgerEntry);
                 this.getBusinessObjectService().delete(generalLedgerEntryAsset);
@@ -1115,6 +1119,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     assetAccount.setActive(true);
                     this.getBusinessObjectService().save(assetAccount);
                     GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
+                    // TODO, payment amount is negative or positive depending on the credit/debit code and document type
+                    KualiDecimal submitAmount = generalLedgerEntry.getTransactionLedgerSubmitAmount();
+                    if (submitAmount == null) {
+                        submitAmount = KualiDecimal.ZERO;
+                    }
+                    if (CabConstants.PREQ.equals(generalLedgerEntry.getFinancialDocumentTypeCode())) {
+                        if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerEntry.getTransactionDebitCreditCode())) {
+                            submitAmount = submitAmount.add(assetAccount.getItemAccountTotalAmount());
+                        }
+                        else {
+                            submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
+                        }
+                    }
+                    else if (CabConstants.CM.equals(generalLedgerEntry.getFinancialDocumentTypeCode())) {
+                        if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerEntry.getTransactionDebitCreditCode())) {
+                            submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
+                        }
+                        else {
+                            submitAmount = submitAmount.add(assetAccount.getItemAccountTotalAmount());
+                        }
+                    }
+                    generalLedgerEntry.setTransactionLedgerSubmitAmount(submitAmount);
                     generalLedgerEntry.setActive(true);
                     this.getBusinessObjectService().save(generalLedgerEntry);
                 }
@@ -1126,18 +1152,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         for (PurApItem purapItem : purapItems) {
             if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if (!doesItemNeedCapitalAsset(purapItem)){
-                    PurchasingCapitalAssetItem camsItem = ((PurchasingItem)purapItem).getPurchasingCapitalAssetItem();
+                if (!doesItemNeedCapitalAsset(purapItem)) {
+                    PurchasingCapitalAssetItem camsItem = ((PurchasingItem) purapItem).getPurchasingCapitalAssetItem();
                     if (camsItem != null && !camsItem.isEmpty()) {
                         valid = false;
                         GlobalVariables.getErrorMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_ITEM_NOT_CAMS_ELIGIBLE, "in line item # " + purapItem.getItemLineNumber());
                     }
                 }
             }
-        }        
+        }
         return valid;
     }
-    
+
     public boolean doesItemNeedCapitalAsset(PurApItem item) {
         for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
             accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
@@ -1148,66 +1174,66 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         return false;
     }
-    
+
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset) {
         boolean valid = true;
         if (asset.getCapitalAssetNumber() == null) {
             valid = false;
         }
         else {
-            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase)asset);
+            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase) asset);
         }
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getErrorMap().putError(propertyName, errorKey);
         }
-        
+
         return valid;
     }
-    
+
     public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList) {
         for (PurApItem item : itemList) {
             if (doesItemNeedCapitalAsset(item)) {
-                //If the item needs capital asset, we cannnot have an APO, so return false.
+                // If the item needs capital asset, we cannnot have an APO, so return false.
                 return false;
             }
         }
         return true;
     }
-        
+
     public boolean validateCapitalAssetLocationAddressFieldsOneOrMultipleSystemType(List<CapitalAssetSystem> capitalAssetSystems) {
         boolean valid = true;
         int systemCount = 0;
-        for(CapitalAssetSystem system : capitalAssetSystems) {
+        for (CapitalAssetSystem system : capitalAssetSystems) {
             List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
             StringBuffer errorKey = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_SYSTEMS + "[" + new Integer(systemCount++) + "].");
             errorKey.append("capitalAssetLocations");
             int locationCount = 0;
-            for(CapitalAssetLocation location : capitalAssetLocations) {
+            for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + locationCount++ + "].");
                 valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
             }
         }
         return valid;
     }
-    
+
     public boolean validateCapitalAssetLocationAddressFieldsForIndividualSystemType(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
-        for(PurchasingCapitalAssetItem item : capitalAssetItems) {
+        for (PurchasingCapitalAssetItem item : capitalAssetItems) {
             CapitalAssetSystem system = item.getPurchasingCapitalAssetSystem();
             List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
             StringBuffer errorKey = new StringBuffer("document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + new Integer(item.getPurchasingItem().getItemLineNumber().intValue() - 1) + "].");
             errorKey.append("purchasingCapitalAssetSystem.capitalAssetLocations");
             int i = 0;
-            for(CapitalAssetLocation location : capitalAssetLocations) {
+            for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + i++ + "].");
                 valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
-            } 
+            }
         }
         return valid;
     }
-    
+
     private boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, StringBuffer errorKey) {
         boolean valid = true;
         if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
@@ -1219,36 +1245,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid &= false;
         }
         if (StringUtils.isBlank(location.getCapitalAssetCountryCode())) {
-            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY);          
+            GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY);
             valid &= false;
         }
         else if (location.getCapitalAssetCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
             if (StringUtils.isBlank(location.getCapitalAssetStateCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE);          
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getCapitalAssetPostalCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);          
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
                 valid &= false;
             }
         }
         if (!location.isOffCampusIndicator()) {
             if (StringUtils.isBlank(location.getCampusCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);  
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getBuildingCode())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);          
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
                 valid &= false;
             }
             if (StringUtils.isBlank(location.getBuildingRoomNumber())) {
-                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);          
+                GlobalVariables.getErrorMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
         }
         return valid;
     }
-    
+
     /**
      * Gets the parameterService attribute.
      * 

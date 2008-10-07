@@ -34,6 +34,7 @@ public class ExtractProcessLog {
     private Integer totalGlCount;
     private Integer nonPurApGlCount;
     private Integer purApGlCount;
+    private String statusMessage;
 
     /**
      * Gets the ignoredGLEntries attribute.
@@ -303,6 +304,27 @@ public class ExtractProcessLog {
      */
     public void setPurApGlCount(Integer purApGlCount) {
         this.purApGlCount = purApGlCount;
+    }
+
+    /**
+     * Gets the statusMessage attribute.
+     * 
+     * @return Returns the statusMessage.
+     */
+    public String getStatusMessage() {
+        if (this.statusMessage == null) {
+            return success ? "Success" : this.errorMessage == null ? "" : this.errorMessage;
+        }
+        return statusMessage;
+    }
+
+    /**
+     * Sets the statusMessage attribute value.
+     * 
+     * @param statusMessage The statusMessage to set.
+     */
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
 

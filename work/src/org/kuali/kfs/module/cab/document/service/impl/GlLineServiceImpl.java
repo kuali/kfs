@@ -81,6 +81,7 @@ public class GlLineServiceImpl implements GlLineService {
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
         documentService.saveDocument(document);
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
+            generalLedgerEntry.setTransactionLedgerSubmitAmount(generalLedgerEntry.getTransactionLedgerEntryAmount());
             generalLedgerEntry.setActive(false);
             createGeneralLedgerEntryAsset(generalLedgerEntry, document);
             getBusinessObjectService().save(generalLedgerEntry);
@@ -193,6 +194,7 @@ public class GlLineServiceImpl implements GlLineService {
         documentService.saveDocument(document);
         for (GeneralLedgerEntry generalLedgerEntry : entries) {
             // de-activate the entry
+            generalLedgerEntry.setTransactionLedgerSubmitAmount(generalLedgerEntry.getTransactionLedgerEntryAmount());
             generalLedgerEntry.setActive(false);
             createGeneralLedgerEntryAsset(generalLedgerEntry, document);
             getBusinessObjectService().save(generalLedgerEntry);

@@ -1138,7 +1138,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     assetAccount.setActive(true);
                     this.getBusinessObjectService().save(assetAccount);
                     GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
-                    // TODO, payment amount is negative or positive depending on the credit/debit code and document type
                     KualiDecimal submitAmount = generalLedgerEntry.getTransactionLedgerSubmitAmount();
                     if (submitAmount == null) {
                         submitAmount = KualiDecimal.ZERO;

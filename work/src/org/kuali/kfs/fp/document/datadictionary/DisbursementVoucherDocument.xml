@@ -414,6 +414,7 @@
   <bean id="DisbursementVoucherDocument-disbVchrPdpBankCode-parentBean" abstract="true" parent="Bank-bankCode">
     <property name="name" value="disbVchrPdpBankCode" />
     <property name="label" value="Pre-Disbursement Bank Code" />
+    <property name="required" value="false" />
   </bean>
 
 <!-- Exported Workflow Properties -->

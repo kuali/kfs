@@ -37,18 +37,10 @@ public class BankChangeHistoryLookupableHelperServiceImpl extends KualiLookupabl
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // retrieve payment group history records for bank code changes
-        fieldValues.put(PdpPropertyConstants.PAYMENT_CHANGE_CODE, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
-        List<PaymentGroupHistory> resultsForPaymentGroupHistory = (List<PaymentGroupHistory>) getLookupService().findCollectionBySearchHelper(PaymentGroupHistory.class, fieldValues, false);
+        // add criteria for bank change history records
+        fieldValues.put(PdpPropertyConstants.PAYMENT_GROUP + "." + PdpPropertyConstants.PAYMENT_GROUP_HISTORY + "." + PdpPropertyConstants.PAYMENT_CHANGE_CODE, PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
 
-        List<BankChangeHistory> bankHistoryResults = new ArrayList<BankChangeHistory>();
-        for (PaymentGroupHistory paymentGroupHistory : resultsForPaymentGroupHistory) {
-            BankChangeHistory bankChangeHistory = new BankChangeHistory();
-
-
-        }
-
-        return new CollectionIncomplete(bankHistoryResults, new Long(0));
+        return super.getSearchResults(fieldValues);
     }
 
 }

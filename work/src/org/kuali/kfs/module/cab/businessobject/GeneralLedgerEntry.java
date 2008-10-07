@@ -52,6 +52,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private Integer transactionLedgerEntrySequenceNumber;
     private String transactionLedgerEntryDescription;
     private KualiDecimal transactionLedgerEntryAmount;
+    private KualiDecimal transactionLedgerSubmitAmount;
     private String organizationReferenceId;
     private String referenceFinancialSystemOriginationCode;
     private String referenceFinancialDocumentNumber;
@@ -824,4 +825,22 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     public void setAbsAmount(KualiDecimal absAmount) {
         this.absAmount = absAmount;
     }
+
+    /**
+     * Gets the transactionLedgerSubmitAmount attribute. 
+     * @return Returns the transactionLedgerSubmitAmount.
+     */
+    public KualiDecimal getTransactionLedgerSubmitAmount() {
+        return transactionLedgerSubmitAmount;
+    }
+
+    /**
+     * Sets the transactionLedgerSubmitAmount attribute value.
+     * @param transactionLedgerSubmitAmount The transactionLedgerSubmitAmount to set.
+     */
+    public void setTransactionLedgerSubmitAmount(KualiDecimal transactionLedgerSubmitAmount) {
+        this.transactionLedgerSubmitAmount = transactionLedgerSubmitAmount;
+    }
+    
+    
 }

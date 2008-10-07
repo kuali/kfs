@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.cab.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     // non persistent fields
     private Integer itemLineNumber;
-    private String capitalAssetTransactionTypeCode;
     private boolean additionalChargeNonTradeInIndicator;
     private boolean tradeInAllowance;
     private boolean itemAssignedToTradeInIndicator;
@@ -35,6 +35,10 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private KualiDecimal splitQty;
     private boolean selectedValue;
     private String itemTypeCode;
+    // used for Capital Asset Transaction
+    private String capitalAssetTransactionTypeCode;
+    private List<Long> capitalAssetNumbers;
+    private Integer purchaseOrderItemIdentifier;
     // used to control "create asset" and "apply payment" button display
     private boolean createAssetIndicator;
     private boolean applyPaymentIndicator;
@@ -59,9 +63,47 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.selectedValue = false;
         this.createAssetIndicator = initialItemAsset.isCreateAssetIndicator();
         this.applyPaymentIndicator = initialItemAsset.isApplyPaymentIndicator();
+        this.purchaseOrderItemIdentifier = initialItemAsset.getPurchaseOrderItemIdentifier();
+        this.capitalAssetTransactionTypeCode = initialItemAsset.getCapitalAssetTransactionTypeCode();
+        this.capitalAssetNumbers = initialItemAsset.getCapitalAssetNumbers();
     }
 
     
+
+    /**
+     * Gets the purchaseOrderItemIdentifier attribute. 
+     * @return Returns the purchaseOrderItemIdentifier.
+     */
+    public Integer getPurchaseOrderItemIdentifier() {
+        return purchaseOrderItemIdentifier;
+    }
+
+    /**
+     * Sets the purchaseOrderItemIdentifier attribute value.
+     * @param purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
+     */
+    public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
+        this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
+    }
+
+    /**
+     * Gets the capitalAssetNumbers attribute. 
+     * @return Returns the capitalAssetNumbers.
+     */
+    public List<Long> getCapitalAssetNumbers() {
+        if (capitalAssetNumbers == null) {
+            this.capitalAssetNumbers = new ArrayList<Long>();
+        }
+        return capitalAssetNumbers;
+    }
+
+    /**
+     * Sets the capitalAssetNumbers attribute value.
+     * @param capitalAssetNumbers The capitalAssetNumbers to set.
+     */
+    public void setCapitalAssetNumbers(List<Long> capitalAssetNumbers) {
+        this.capitalAssetNumbers = capitalAssetNumbers;
+    }
 
     /**
      * Gets the createAssetIndicator attribute. 

@@ -248,6 +248,7 @@
 	<bean id="purApLineService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="purApLineDao" ref="purApLineDao" />
+		<property name="purchaseOrderService" ref="purchaseOrderService" />
 	</bean>  
 	<bean id="purApLineDocumentService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />

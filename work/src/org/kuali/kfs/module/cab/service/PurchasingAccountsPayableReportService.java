@@ -15,10 +15,15 @@
  */
 package org.kuali.kfs.module.cab.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 public interface PurchasingAccountsPayableReportService {
 
     Iterator findGeneralLedgers(Map<String, String> fieldValues);
+    
+    Collection findGeneralLedgerCollection(Map<String, String> fieldValues);
+    
+    Collection findPurchasingAccountsPayableDocuments(Map<String, String> fieldValues);
 }

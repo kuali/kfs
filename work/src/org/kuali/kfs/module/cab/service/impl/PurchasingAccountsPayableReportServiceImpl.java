@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.service.impl;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -31,6 +32,17 @@ public class PurchasingAccountsPayableReportServiceImpl implements PurchasingAcc
         LOG.debug("findGeneralLedgers() started");
 
         return purApReportDao.findGeneralLedgers(fieldValues);
+    }
+
+    public Collection findGeneralLedgerCollection(Map<String, String> fieldValues) {
+        LOG.debug("findGeneralLedgerCollection() started");
+        return purApReportDao.findGeneralLedgerCollection(fieldValues);
+    }
+
+    public Collection findPurchasingAccountsPayableDocuments(Map<String, String> fieldValues) {
+        LOG.debug("findPurchasingAccountsPayableDocuments() started");
+
+        return purApReportDao.findPurchasingAccountsPayableDocuments(fieldValues);
     }
 
     /**

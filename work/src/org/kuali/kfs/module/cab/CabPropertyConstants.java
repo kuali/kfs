@@ -37,6 +37,7 @@ public class CabPropertyConstants {
         public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
         public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
         public static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
+        public static final String PURAP_LINE_ASSET_ACCOUNTS = "purApLineAssetAccounts";
     }
 
     public static class Parameter {
@@ -63,6 +64,7 @@ public class CabPropertyConstants {
         public static final String PURCHASEING_ACCOUNTS_PAYABLE_ITEM_ASSETS = "purchasingAccountsPayableItemAssets";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+        public static final String PURAP_DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
     }
 
     public static class PurchasingAccountsPayableItemAsset {
@@ -143,5 +145,9 @@ public class CabPropertyConstants {
 
     public static class CapitalAssetInformation {
         public static final String DOCUMENT_NUMBER = "documentNumber";
+    }
+    
+    public static class PurchasingAccountsPayableProcessingReport {
+        public static final String PURAP_DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
     }
 }

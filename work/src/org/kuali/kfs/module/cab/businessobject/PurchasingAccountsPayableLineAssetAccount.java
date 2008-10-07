@@ -19,11 +19,11 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     private boolean active;
 
     // References
-    GeneralLedgerEntry generalLedgerEntry;
-    PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset;
+    private GeneralLedgerEntry generalLedgerEntry;
+    private PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset;
 
     public PurchasingAccountsPayableLineAssetAccount() {
-        
+
     }
 
     public PurchasingAccountsPayableLineAssetAccount(PurchasingAccountsPayableItemAsset itemAsset, Long generalLedgerAccountIdentifier) {
@@ -31,10 +31,10 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
         this.accountsPayableLineItemIdentifier = itemAsset.getAccountsPayableLineItemIdentifier();
         this.capitalAssetBuilderLineNumber = itemAsset.getCapitalAssetBuilderLineNumber();
         this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
-        this.purchasingAccountsPayableItemAsset  = itemAsset;
+        this.purchasingAccountsPayableItemAsset = itemAsset;
         this.setActive(true);
     }
-    
+
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -82,15 +82,15 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
     public void setGeneralLedgerEntry(GeneralLedgerEntry generalLedgerEntry) {
         this.generalLedgerEntry = generalLedgerEntry;
     }
-    
+
     public boolean isActive() {
         return active;
     }
-    
+
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
 
     public PurchasingAccountsPayableItemAsset getPurchasingAccountsPayableItemAsset() {
         return purchasingAccountsPayableItemAsset;

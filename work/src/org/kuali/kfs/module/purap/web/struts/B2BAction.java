@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.service.B2BService;
+import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.document.web.struts.RequisitionForm;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.exception.MissingContractIdError;
@@ -39,11 +39,11 @@ public class B2BAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(B2BAction.class);
 
     public ActionForward shopCatalogs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        B2BForm b2bForm = (B2BForm)form;
-        String url = SpringContext.getBean(B2BService.class).getPunchOutUrl(GlobalVariables.getUserSession().getFinancialSystemUser());
+        B2BForm b2bForm = (B2BForm) form;
+        String url = SpringContext.getBean(B2BShoppingService.class).getPunchOutUrl(GlobalVariables.getUserSession().getFinancialSystemUser());
 
         if (ObjectUtils.isNull(url)) {
-            //FIXME blow up
+            // FIXME blow up
         }
 
         b2bForm.setShopUrl(url);
@@ -54,43 +54,34 @@ public class B2BAction extends KualiAction {
         String cXml = request.getParameter("cxml-urlencoded");
         LOG.info("executeLogic() cXML returned in PunchoutOrderMessage:\n" + cXml);
 
-        try {
-            B2BShoppingCartParser cart = new B2BShoppingCartParser(cXml);
+        B2BShoppingCartParser cart = new B2BShoppingCartParser(cXml);
 
-            if (cart.isSuccess()) {
-                List requisitions = SpringContext.getBean(B2BService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getFinancialSystemUser());
-                LOG.debug("executeLogic() REQS RETURNED TO ACTION");
-                if (requisitions.size() > 1) {
-                    request.setAttribute("forward", "/requisition/listRequisitions.jsp");
-                    request.getSession().setAttribute("requisitions", requisitions);
-                }
-                else {
-                    request.setAttribute("forward", "/requisition.do");
-                    // need to create a new instance of reqForm to clear session
-                    RequisitionForm formBean = new RequisitionForm();
-                    String docId = ((RequisitionDocument) requisitions.get(0)).getDocumentNumber();
-                    formBean.setDocId(docId);
-                    formBean.setRequisitionDocument((RequisitionDocument) requisitions.get(0));
-                    request.setAttribute("RequisitionForm", formBean);
-                    request.getSession().setAttribute("docId", formBean.getDocId());
-                }
+        if (cart.isSuccess()) {
+            List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getFinancialSystemUser());
+            LOG.debug("executeLogic() REQS RETURNED TO ACTION");
+            if (requisitions.size() > 1) {
+                request.setAttribute("forward", "/requisition/listRequisitions.jsp");
+                request.getSession().setAttribute("requisitions", requisitions);
             }
             else {
-                LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful.");
-                GlobalVariables.getErrorMap().putError("errorkey", "errors.b2b.nocart");
+                request.setAttribute("forward", "/requisition.do");
+                // need to create a new instance of reqForm to clear session
+//                RequisitionForm formBean = new RequisitionForm();
+//                String docId = ((RequisitionDocument) requisitions.get(0)).getDocumentNumber();
+//                formBean.setDocId(docId);
+//                formBean.setRequisitionDocument((RequisitionDocument) requisitions.get(0));
+//                request.setAttribute("RequisitionForm", formBean);
+//                request.getSession().setAttribute("docId", formBean.getDocId());
+//                       RequisitionForm formBean = new RequisitionForm();
+//                formBean.setRequisitionDocument((RequisitionDocument) requisitions.get(0));
+//                request.setAttribute("RequisitionForm", formBean);
+                request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
             }
         }
-        catch (CxmlParseError e) {
-            LOG.error("executeLogic() CxmlParseException occurred while retrieving shopping cart.", e);
-            GlobalVariables.getErrorMap().putError("error.blank.msg", e.getMessage());
-        }
-        catch (MissingContractIdError mcie) {
-            LOG.error("executeLogic() ", mcie);
-            GlobalVariables.getErrorMap().putError("error.blank.msg", mcie.getMessage());
-        }
-        catch (IllegalArgumentException duns) {
-            LOG.error("executeLogic() ", duns);
-            GlobalVariables.getErrorMap().putError("error.blank.msg", duns.getMessage());
+        else {
+            LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful.");
+            GlobalVariables.getErrorMap().putError("errorkey", "errors.b2b.nocart");
+            //FIXME goto error page
         }
 
         return (mapping.findForward("gotoRequisition"));

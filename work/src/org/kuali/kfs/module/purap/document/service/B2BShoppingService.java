@@ -26,7 +26,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 /**
  * These items will allow a user to punch out for shopping and will create requisitions from an order.
  */
-public interface B2BService {
+public interface B2BShoppingService {
 
     /**
      * Get URL to punch out to
@@ -45,12 +45,5 @@ public interface B2BService {
      */
     public List createRequisitionsFromCxml(B2BShoppingCartParser message, FinancialSystemUser user) throws WorkflowException;
 
-    /**
-     * Send the Purchase Order
-     * 
-     * @param po
-     * @return Response
-     */
-    public Collection sendPurchaseOrder(PurchaseOrderDocument po, FinancialSystemUser user);
 
 }

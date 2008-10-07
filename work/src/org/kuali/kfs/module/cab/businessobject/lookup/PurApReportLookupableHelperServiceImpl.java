@@ -79,9 +79,13 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        String purapDocumentIdentifier = getAndRemoveSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
+        String purapDocumentIdentifier = getSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
 
-        String active = getAndRemoveSelectedField(fieldValues, "active");
+        // get the user active selection, if the user did not select "active", ignore it as search criteria.
+        String active = getSelectedField(fieldValues, CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
+        if (!KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
+            fieldValues.remove(CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
+        }
         // search for GeneralLedgerEntry BO.
         Iterator searchResultIterator = purApReportService.findGeneralLedgers(fieldValues);
         // create PurchasingAccountsPayableProcessingReport search result collection.
@@ -165,7 +169,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param searchResultIterator
      * @return
      */
-    private Collection buildGlEntrySearchResultCollection(Iterator searchResultIterator, String active) {
+    private Collection buildGlEntrySearchResultCollection(Iterator searchResultIterator, String activeSelection) {
         Collection purApReportCollection = new ArrayList();
 
         while (searchResultIterator.hasNext()) {
@@ -194,17 +198,35 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 i++;
                 newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
                 i++;
-                newReport.setActive(KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(columnValues[i].toString())? true: false);
-                
-                // set report amount
-                if (newReport.getTransactionLedgerEntryAmount() != null) {
-                    setReportAmount(active, newReport);
-                }
+                newReport.setActive("true".equalsIgnoreCase(columnValues[i].toString())? true:false);
 
-                purApReportCollection.add(newReport);
+                if (!excludeFromSearchResults(newReport, activeSelection)) {
+                    // set report amount
+                    if (newReport.getTransactionLedgerEntryAmount() != null) {
+                        setReportAmount(activeSelection, newReport);
+                    }
+
+                    purApReportCollection.add(newReport);
+                }
             }
         }
         return purApReportCollection;
+    }
+
+    /**
+     * To decide if the the given newReport should be added to the search result collection.
+     * 
+     * @param newReport
+     * @param activeSelection
+     * @return
+     */
+    private boolean excludeFromSearchResults(PurchasingAccountsPayableProcessingReport newReport, String activeSelection) {
+        // If the user selects active and the generalLedgerEntry is inactive, we should exclude it from search result.
+        // Or if the user selects inactive and the generalLedgerEntry has no submit amount, exclude it from search result.
+        if (((KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection)) && !newReport.isActive()) || (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -241,13 +263,11 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param fieldName
      * @return
      */
-    private String getAndRemoveSelectedField(Map fieldValues, String fieldName) {
+    private String getSelectedField(Map fieldValues, String fieldName) {
         String fieldValue = null;
 
         if (fieldValues.containsKey(fieldName)) {
             fieldValue = (String) fieldValues.get(fieldName);
-            // truncate the non-property filed
-            fieldValues.remove(fieldName);
         }
         return fieldValue == null ? "" : fieldValue;
     }

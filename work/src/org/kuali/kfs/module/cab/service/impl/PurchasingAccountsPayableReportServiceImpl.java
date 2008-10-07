@@ -34,11 +34,6 @@ public class PurchasingAccountsPayableReportServiceImpl implements PurchasingAcc
         return purApReportDao.findGeneralLedgers(fieldValues);
     }
 
-    public Collection findGeneralLedgerCollection(Map<String, String> fieldValues) {
-        LOG.debug("findGeneralLedgerCollection() started");
-        return purApReportDao.findGeneralLedgerCollection(fieldValues);
-    }
-
     public Collection findPurchasingAccountsPayableDocuments(Map<String, String> fieldValues) {
         LOG.debug("findPurchasingAccountsPayableDocuments() started");
 

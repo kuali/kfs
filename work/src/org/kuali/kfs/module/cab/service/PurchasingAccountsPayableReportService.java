@@ -20,10 +20,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 public interface PurchasingAccountsPayableReportService {
-
+    /**
+     * Search for GeneralLedgerEntry.
+     * 
+     * @param fieldValues
+     * @return
+     */
     Iterator findGeneralLedgers(Map<String, String> fieldValues);
     
-    Collection findGeneralLedgerCollection(Map<String, String> fieldValues);
-    
+    /**
+     * Search for PurchasingAccountsPayableDocument
+     * 
+     * @param fieldValues
+     * @return
+     */
     Collection findPurchasingAccountsPayableDocuments(Map<String, String> fieldValues);
 }

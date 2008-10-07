@@ -33,5 +33,4 @@ public interface PurchasingAccountsPayableReportDao {
     
     Collection findPurchasingAccountsPayableDocuments(Map fieldValues);
     
-    Collection findGeneralLedgerCollection(Map fieldValues);
 }

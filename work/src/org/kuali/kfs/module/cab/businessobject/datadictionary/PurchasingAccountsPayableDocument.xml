@@ -13,9 +13,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="inquiryDefinition" >
       <ref bean="PurchasingAccountsPayableDocument-inquiryDefinition" />
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="PurchasingAccountsPayableDocument-lookupDefinition" />
-    </property>
     <property name="objectLabel" value="Purchasing Accounts Payable Document" />
     <property name="attributes" >
       <list>
@@ -115,49 +112,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
 
 <!-- Business Object Lookup Definition -->
-
-  <bean id="PurchasingAccountsPayableDocument-lookupDefinition" parent="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" />
-
-  <bean id="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="CAB Purchasing Accounts Payable Document Lookup" />
-    <property name="lookupableID" value="cabPurApDocumentLookupable" />
-    <property name="instructions" value="Lookup Purchasing Accounts Payable Document" />
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-        <property name="attributeNames" >
-          <list>
-            <value>purapDocumentIdentifier</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="purchaseOrderIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purapDocumentIdentifier" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="documentNumber"  />
-        <bean parent="FieldDefinition"
-              p:attributeName="active" />
-      </list>
-    </property>
-  </bean>
 </beans>

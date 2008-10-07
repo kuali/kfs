@@ -204,15 +204,6 @@
 	<!-- END Pre-Asset tagging extract job beans -->
 	
 <!-- **** Begin of Lookupable beans **** -->
-	<bean id="purApDocumentLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApDocumentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
-    </bean>
-
-    <bean id="cabPurApDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
-        <property name="lookupableHelperService">
-            <ref bean="purApDocumentLookupableHelperService" />
-        </property>
-    </bean>
-
     <bean id="purApReportLookupableHelperService" class="org.kuali.kfs.module.cab.businessobject.lookup.PurApReportLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
         <property name="purApReportService">
             <ref bean="purchasingAccountsPayableReportService" />

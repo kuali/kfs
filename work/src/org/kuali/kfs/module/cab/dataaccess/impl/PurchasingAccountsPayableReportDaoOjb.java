@@ -43,21 +43,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
-    
-    public Collection findGeneralLedgerCollection(Map fieldValues) {
-     // set document type code criteria
-        Collection docTypeCodes = getDocumentType(fieldValues);
-        
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new GeneralLedgerEntry());
-        
-        criteria.addIn(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE, docTypeCodes);
-        
-        QueryByCriteria query = QueryFactory.newQuery(GeneralLedgerEntry.class, criteria);
-        
-        OJBUtility.limitResultSize(query);
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }
     
     /**
      * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findGeneralLedgers(java.util.Map)

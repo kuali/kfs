@@ -77,7 +77,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts;
     // non-db fields
     private boolean selected;
-    private KualiDecimal absAmount;
+    private KualiDecimal amount;
 
     public GeneralLedgerEntry() {
         this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
@@ -803,27 +803,27 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the absAmount attribute.
+     * Gets the amount attribute.
      * 
-     * @return Returns the absAmount.
+     * @return Returns the amount.
      */
-    public KualiDecimal getAbsAmount() {
+    public KualiDecimal getAmount() {
         if (getTransactionLedgerEntryAmount() != null && KFSConstants.GL_CREDIT_CODE.equals(getTransactionDebitCreditCode())) {
-            setAbsAmount(getTransactionLedgerEntryAmount().negated());
+            setAmount(getTransactionLedgerEntryAmount().negated());
         }
         else {
-            setAbsAmount(getTransactionLedgerEntryAmount());
+            setAmount(getTransactionLedgerEntryAmount());
         }
-        return absAmount;
+        return amount;
     }
 
     /**
-     * Sets the absAmount attribute value.
+     * Sets the amount attribute value.
      * 
-     * @param absAmount The absAmount to set.
+     * @param amount The amount to set.
      */
-    public void setAbsAmount(KualiDecimal absAmount) {
-        this.absAmount = absAmount;
+    public void setAmount(KualiDecimal absAmount) {
+        this.amount = absAmount;
     }
 
     /**

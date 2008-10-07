@@ -107,7 +107,7 @@
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationReferenceId}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
 		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.absAmount}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.amount}" hideRequiredAsterisk="true" scope="col"/>
 				</tr>
 		<html:hidden property="listSize"/>
 		<html:hidden property="primaryGlAccountId"/>
@@ -172,8 +172,8 @@
 				attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" readOnly="true"/>&nbsp;</td>
 				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].referenceFinancialDocumentNumber" 
 				attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>&nbsp;</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].absAmount" 
-				attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" readOnly="true"/></td>
+				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntries[${pos}].amount" 
+				attributeEntry="${entryAttributes.amount}" readOnly="true"/></td>
 			</tr>
 		</c:forEach>   			
     	</table>

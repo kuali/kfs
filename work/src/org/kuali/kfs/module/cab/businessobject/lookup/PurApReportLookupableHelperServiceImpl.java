@@ -199,14 +199,14 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
                 i++;
                 newReport.setActive("true".equalsIgnoreCase(columnValues[i].toString())? true:false);
-
+                
                 if (!excludeFromSearchResults(newReport, activeSelection)) {
-                    // set report amount
-                    if (newReport.getTransactionLedgerEntryAmount() != null) {
+                // set report amount
+                if (newReport.getTransactionLedgerEntryAmount() != null) {
                         setReportAmount(activeSelection, newReport);
-                    }
+                }
 
-                    purApReportCollection.add(newReport);
+                purApReportCollection.add(newReport);
                 }
             }
         }
@@ -225,7 +225,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         // Or if the user selects inactive and the generalLedgerEntry has no submit amount, exclude it from search result.
         if (((KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection)) && !newReport.isActive()) || (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activeSelection) && (newReport.getTransactionLedgerSubmitAmount() == null || newReport.getTransactionLedgerSubmitAmount().isZero()))) {
             return true;
-        }
+    }
         return false;
     }
 
@@ -238,7 +238,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     private void setReportAmount(String active, PurchasingAccountsPayableProcessingReport newReport) {
         if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
             // Active: set report amount by transactionLedgerSubmitAmount excluding submitted amount
-            KualiDecimal reportAmount = newReport.getAbsAmount();
+            KualiDecimal reportAmount = newReport.getAmount();
             if (reportAmount != null && newReport.getTransactionLedgerSubmitAmount() != null) {
                 newReport.setReportAmount(reportAmount.subtract(newReport.getTransactionLedgerSubmitAmount()));
             }
@@ -252,7 +252,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
         else {
             // both active and inactive: set report amount as transactional amount
-            newReport.setReportAmount(newReport.getAbsAmount());
+            newReport.setReportAmount(newReport.getAmount());
         }
     }
 

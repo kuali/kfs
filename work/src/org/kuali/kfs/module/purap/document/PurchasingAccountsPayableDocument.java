@@ -258,6 +258,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public Integer getVendorAddressGeneratedIdentifier();
 
     public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
+    
+    public boolean isUseTaxIndicator();
+    
+    public void setUseTaxIndicator(boolean useTaxIndicator);
 
     public void fixItemReferences();
 }

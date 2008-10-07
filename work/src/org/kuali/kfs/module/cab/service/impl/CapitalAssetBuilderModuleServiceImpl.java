@@ -580,6 +580,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean validateItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItemBase item, boolean warn) {
         boolean valid = true;
         String itemIdentifier = item.getItemIdentifierString();
+        boolean quantityBased = item.getItemType().isQuantityBasedGeneralLedgerIndicator();
         KualiDecimal itemQuantity = item.getItemQuantity();
         HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
 
@@ -610,7 +611,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
             // Do the checks involving capital asset transaction type.
             if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-                valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
+                valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier, quantityBased);
             }
         }
         // These checks do not depend on Accounting Line information, but do depend on transaction type.
@@ -656,18 +657,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * 
      * @return A HashSet containing the distinct Object Code Sub-types
      */
-    // TODO: - when tran type rules are moved into tran type maint. table
-    private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
-        HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
-        HashMap<String, String> dummyMap = new HashMap<String, String>();
-        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
-        for (CapitalAssetTransactionTypeRule relation : allRelations) {
-            // Add sub-type codes if not already there.
-            objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
-        }
-
-        return objectCodeSubtypesInTable;
-    }
+    // TODO: - delete this method, I think it's unused.
+//    private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
+//        HashSet<String> objectCodeSubtypesInTable = new HashSet<String>();
+//        HashMap<String, String> dummyMap = new HashMap<String, String>();
+//        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
+//        for (CapitalAssetTransactionTypeRule relation : allRelations) {
+//            // Add sub-type codes if not already there.
+//            objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
+//        }
+//
+//        return objectCodeSubtypesInTable;
+//    }
 
     /**
      * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to the threshold for
@@ -720,21 +721,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param itemIdentifier
      * @return
      */
-    // TODO: - rule lookup class . The CapitalAssetTransactionTypeRule will be moved/removed, will obtain the rule from
-    // CapitalAssetTransactionType in the future (Dave's other jira).
-    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier) {
+    // TODO: - delete commented code below
+    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier, boolean quantityBasedItem) {
         boolean valid = true;
-        HashMap<String, String> tranTypeMap = new HashMap<String, String>();
-        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
-        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
-
-        boolean found = false;
-        for (CapitalAssetTransactionTypeRule relation : relevantRelations) {
-            if (StringUtils.equals(relation.getFinancialObjectSubTypeCode(), objectCode.getFinancialObjectSubTypeCode())) {
-                found = true;
-                break;
-            }
+//        HashMap<String, String> tranTypeMap = new HashMap<String, String>();
+//        tranTypeMap.put(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE, capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+//        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>) SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
+        String[] objectCodeSubTypes = {};
+        
+        
+        if(quantityBasedItem) {
+            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText(),";");
+        } else {
+            objectCodeSubTypes = StringUtils.split(capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText(),";");
         }
+        
+        boolean found = false;
+        for (String subType : objectCodeSubTypes) {
+            if (StringUtils.equals(subType, objectCode.getFinancialObjectSubTypeCode())) {
+              found = true;
+              break;
+          }
+        }
+        
+        
+//        for (CapitalAssetTransactionTypeRule relation : relevantRelations) {
+//            if (StringUtils.equals(relation.getFinancialObjectSubTypeCode(), objectCode.getFinancialObjectSubTypeCode())) {
+//                found = true;
+//                break;
+//            }
+//        }
         if (!found) {
             if (warn) {
                 String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE);

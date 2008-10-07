@@ -106,8 +106,15 @@
     </c:choose>
 	
     <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-    
-    <c:set var="itemActive" value="${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
+	    
+	
+    <c:if test="${not isPurchaseOrder}">
+    	<c:set var="itemActive" value="true"/>
+    </c:if>    
+	
+	<c:if test="${isPurchaseOrder}">
+    	<c:set var="itemActive" value="${KualiForm.document.purchasingCapitalAssetItems[ctr].purchasingItem.itemActiveIndicator}"/>
+    </c:if>
     
 	<tr>
 	<td class="infoline" valign="middle" colspan="10">

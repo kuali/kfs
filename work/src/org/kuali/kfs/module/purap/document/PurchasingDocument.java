@@ -204,6 +204,8 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setDeliveryPostalCode(String deliveryPostalCode);
 
     public String getDeliveryCountryCode();
+    
+    public String getDeliveryCountryName();
 
     public void setDeliveryCountryCode(String deliveryCountryCode);
 

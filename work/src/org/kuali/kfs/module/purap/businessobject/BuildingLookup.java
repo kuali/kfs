@@ -34,6 +34,7 @@ public class BuildingLookup extends PersistableBusinessObjectBase {
     private String buildingLookupAddressCityName;
     private String buildingLookupAddressStateCode;
     private String buildingLookupAddressZipCode;
+    private String buildingLookupAddressCountryCode;
 
     private Campus campus;
     private Building building;
@@ -107,6 +108,14 @@ public class BuildingLookup extends PersistableBusinessObjectBase {
 
     public void setBuildingLookupAddressZipCode(String buildingLookupAddressZipCode) {
         this.buildingLookupAddressZipCode = buildingLookupAddressZipCode;
+    }
+    
+    public String getBuildingLookupAddressCountryCode() {
+        return buildingLookupAddressCountryCode;
+    }
+
+    public void setBuildingLookupAddressCountryCode(String buildingLookupAddressCountryCode) {
+        this.buildingLookupAddressCountryCode = buildingLookupAddressCountryCode;
     }
 
     public Campus getCampus() {

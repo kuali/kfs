@@ -46,7 +46,9 @@ import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificSer
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
+import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -542,10 +544,20 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return deliveryCountryCode;
     }
 
+    public String getDeliveryCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        if (country == null)
+            country = SpringContext.getBean(CountryService.class).getDefaultCountry();
+        if (country != null)
+            return country.getPostalCountryName();
+        return null;
+    }
+
     public void setDeliveryCountryCode(String deliveryCountryCode) {
         this.deliveryCountryCode = deliveryCountryCode;
     }
 
+    
     public String getDeliveryInstructionText() {
         return deliveryInstructionText;
     }

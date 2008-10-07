@@ -49,7 +49,7 @@
                     <c:if test="${(notOtherDeliveryBuilding && (fullEntryMode or amendmentEntry)) && not(deliveryReadOnly)}">
                     	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                     		lookupParameters="document.deliveryCampusCode:campusCode"
-                    		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
+                    		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode,buildingAddressCountryCode:document.deliveryCountryCode"/>
                     </c:if>
                 </td>           
                 <th align=right valign=middle class="bord-l-b">
@@ -176,6 +176,15 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
                     	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                </td>
+			</tr>
+			<tr>
+				<th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryCountryCode}"/></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCountryCode}" 
+                    	property="document.deliveryCountryName" readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>
 			</tr>
         </table>

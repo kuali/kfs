@@ -383,7 +383,13 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (StringUtils.isNotBlank(po.getDeliveryBuildingLine2Address())) {
             shipToInfo.append("     " + po.getDeliveryBuildingLine2Address() + "\n");
         }
-        shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n\n");
+        shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n");
+        if (StringUtils.isNotBlank(po.getDeliveryCountryName()) && !KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getDeliveryCountryName())) {
+            shipToInfo.append("     " + po.getDeliveryCountryName() + "\n\n");
+        }
+        else {
+            shipToInfo.append("\n\n");
+        }
         p = new Paragraph();
         p.add(new Chunk("  Shiping Address", ver_5_normal));
         p.add(new Chunk(shipToInfo.toString(), cour_10_normal));

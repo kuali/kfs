@@ -155,7 +155,7 @@
 				</td>
 				<td class="infoline">
  				    <div align="right">
- 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="not(taxAmountChangeable)" />
+ 				        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTaxAmount}" property="newPurchasingItemLine.itemTaxAmount" readOnly="true" />
 					</div>
 				</td>
 				<td class="infoline">

@@ -48,7 +48,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private String externalOrganizationB2bProductTypeName;
     private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; // not currently in DB
-    private KualiDecimal itemTaxAmount;
+    private KualiDecimal itemSalesTaxAmount;
     
     private List<PurApItemUseTax> useTaxItems;
     private List<PurApAccountingLine> sourceAccountingLines;
@@ -204,11 +204,45 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public KualiDecimal getItemTaxAmount() {
-        return itemTaxAmount;
+        KualiDecimal taxAmount = KualiDecimal.ZERO;
+
+        if(purapDocument == null){
+            this.refreshReferenceObject("purapDocument");
+        }
+
+        if(purapDocument.isUseTaxIndicator() == false){
+            taxAmount = this.itemSalesTaxAmount;
+        }else{
+            //sum use tax item tax amounts
+            for(PurApItemUseTax useTaxItem : this.getUseTaxItems()){
+                taxAmount = taxAmount.add( useTaxItem.getTaxAmount() );
+            }
+        }
+        
+        return taxAmount;
     }
 
     public void setItemTaxAmount(KualiDecimal itemTaxAmount) {
-        this.itemTaxAmount = itemTaxAmount;
+        
+        if(purapDocument == null){
+            this.refreshReferenceObject("purapDocument");
+        }
+        
+        //if sales tax, set sales tax field
+        if(purapDocument.isUseTaxIndicator() == false){
+            this.itemSalesTaxAmount = itemTaxAmount;
+        }
+        
+    }
+
+    @Deprecated
+    protected final KualiDecimal getItemSalesTaxAmount() {
+        return itemSalesTaxAmount;
+    }
+
+    @Deprecated
+    protected final void setItemSalesTaxAmount(KualiDecimal itemSalesTaxAmount) {
+        this.itemSalesTaxAmount = itemSalesTaxAmount;
     }
 
     public KualiDecimal getExtendedPrice() {
@@ -226,7 +260,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             taxAmount = KualiDecimal.ZERO;
         }
         
-        totalAmount.add(taxAmount);
+        totalAmount = totalAmount.add(taxAmount);
         
         return totalAmount;
     }

@@ -529,11 +529,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 KualiDecimal totalAmount = item.getTotalAmount();
                 KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
-                
-                //add tax
-                KualiDecimal totalTax = item.getItemTaxAmount();
-                KualiDecimal itemTax = (totalTax != null) ? totalTax : KualiDecimal.ZERO;
-                total = total.add(itemTax);
             }
         }
         return total;

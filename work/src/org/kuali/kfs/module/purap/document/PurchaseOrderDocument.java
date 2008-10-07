@@ -1192,6 +1192,38 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return total;
     }
 
+    
+    @Override
+    public KualiDecimal getTotalTaxAmount() {
+        // return total without inactive and with below the line
+        return getTotalTaxAmount(false, true);
+    }
+
+    @Override
+    public KualiDecimal getTotalTaxAmountAboveLineItems() {
+        return getTotalTaxAmount(false, false);
+    }
+
+    /**
+     * Gets the tax total amount for this Purchase Order.
+     * 
+     * @param includeInactive indicates whether inactive items shall be included.
+     * @param includeBelowTheLine indicates whether below the line items shall be included.
+     * @return the total dollar amount for this Purchase Order.
+     */
+    public KualiDecimal getTotalTaxAmount(boolean includeInactive, boolean includeBelowTheLine) {
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+            ItemType it = item.getItemType();
+            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+                KualiDecimal taxAmount = item.getItemTaxAmount();
+                KualiDecimal itemTotal = (taxAmount != null) ? taxAmount : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+        return total;
+    }
+
     /**
      * Returns true if this Purchase Order contains unpaid items in the Payment Request or Credit Memo.
      * 

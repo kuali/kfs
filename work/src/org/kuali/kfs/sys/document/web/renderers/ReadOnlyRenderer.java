@@ -36,6 +36,7 @@ import org.kuali.rice.kns.web.ui.KeyLabelPair;
  */
 public class ReadOnlyRenderer extends FieldRendererBase {
     private HiddenTag persistingTag = new HiddenTag();
+    private boolean shouldRenderInquiry = true;
     
     private final static String APPLICATION_URL_PROPERTY = "application.url";
 
@@ -158,9 +159,17 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return true if the inquiry link should be rendered, false otherwise
      */
     protected boolean shouldRenderInquiryLink() {
-        return !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue());
+        return !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue())  && shouldRenderInquiry;
     }
     
+    /**
+     * Sets the shouldRenderInquiry attribute value.
+     * @param shouldRenderInquiry The shouldRenderInquiry to set.
+     */
+    public void setShouldRenderInquiry(boolean shouldRenderInquiry) {
+        this.shouldRenderInquiry = shouldRenderInquiry;
+    }
+
     /**
      * Dropdowns are typically fields with codes, which may be close to meaningless, with more explanative labels.  Therefore,
      * fields which are drop downs should display the label instead

@@ -212,6 +212,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
             out.write(buildNonBreakingSpace());
             overrideFieldRenderer =  readOnly ? new ReadOnlyRenderer() : SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
             if (overrideFieldRenderer instanceof ReadOnlyRenderer) {
+                ((ReadOnlyRenderer)overrideFieldRenderer).setShouldRenderInquiry(false);
                 out.write(": "); // add a colon to make it prettier
                 // populate the field again
                 getField().setPropertyValue(storedFieldValue);

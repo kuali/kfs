@@ -1143,22 +1143,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     if (submitAmount == null) {
                         submitAmount = KualiDecimal.ZERO;
                     }
-                    if (CabConstants.PREQ.equals(generalLedgerEntry.getFinancialDocumentTypeCode())) {
-                        if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerEntry.getTransactionDebitCreditCode())) {
-                            submitAmount = submitAmount.add(assetAccount.getItemAccountTotalAmount());
-                        }
-                        else {
-                            submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
-                        }
-                    }
-                    else if (CabConstants.CM.equals(generalLedgerEntry.getFinancialDocumentTypeCode())) {
-                        if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerEntry.getTransactionDebitCreditCode())) {
-                            submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
-                        }
-                        else {
-                            submitAmount = submitAmount.add(assetAccount.getItemAccountTotalAmount());
-                        }
-                    }
+                    submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
                     generalLedgerEntry.setTransactionLedgerSubmitAmount(submitAmount);
                     generalLedgerEntry.setActive(true);
                     this.getBusinessObjectService().save(generalLedgerEntry);

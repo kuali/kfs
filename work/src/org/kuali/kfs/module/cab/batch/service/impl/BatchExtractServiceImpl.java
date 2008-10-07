@@ -337,7 +337,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         assetAccount.setAccountsPayableLineItemIdentifier(itemAsset.getAccountsPayableLineItemIdentifier());
         assetAccount.setCapitalAssetBuilderLineNumber(itemAsset.getCapitalAssetBuilderLineNumber());
         assetAccount.setGeneralLedgerAccountIdentifier(generalLedgerEntry.getGeneralLedgerAccountIdentifier());
-        assetAccount.setItemAccountTotalAmount(purApAccountingLine.getAmount());
+        if (CabConstants.CM.equals(generalLedgerEntry.getFinancialDocumentTypeCode())) {
+            assetAccount.setItemAccountTotalAmount(purApAccountingLine.getAmount().negated());
+        }
+        else {
+            assetAccount.setItemAccountTotalAmount(purApAccountingLine.getAmount());
+        }
         assetAccount.setActive(true);
         assetAccount.setVersionNumber(0L);
         return assetAccount;

@@ -31,7 +31,6 @@ import org.kuali.kfs.module.cab.sql.SqlDigester;
 import org.kuali.kfs.module.cab.sql.SqlFileParser;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.database.XAPoolDataSource;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -153,7 +152,7 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     private Connection getConnection() throws SQLException {
-        DataSource dataSource = SpringContext.getBean(XAPoolDataSource.class);
+        DataSource dataSource = SpringContext.getBean(DataSource.class);
         Connection connection = dataSource.getConnection();
         return connection;
     }

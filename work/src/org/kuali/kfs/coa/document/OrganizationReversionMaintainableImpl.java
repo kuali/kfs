@@ -27,7 +27,6 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -60,9 +59,8 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
      */
-    @Override
-    public Map populateBusinessObject(Map fieldValues, MaintenanceDocument maintenanceDocument) {
-        Map result = super.populateBusinessObject(fieldValues, maintenanceDocument);
+    public Map populateBusinessObject(Map fieldValues) {
+        Map result = super.populateBusinessObject(fieldValues);
         return result;
     }
 

@@ -30,6 +30,7 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDocumentRule;
@@ -297,6 +298,11 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return  True if a Split a PO document can be created.
      */
     public boolean canSplitPo() {
+        // A document can't be split that has already been split.
+        if (purchaseOrder instanceof PurchaseOrderSplitDocument) {
+            return false;
+        }
+        
         // Can't initiate another split during the splitting process.
         if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
             return false;

@@ -36,6 +36,7 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DATE = "transactionDate";
         public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
         public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
+        public static final String TRANSACTION_LEDGER_SUBMIT_AMOUNT = "transactionLedgerSubmitAmount";
         public static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
         public static final String PURAP_LINE_ASSET_ACCOUNTS = "purApLineAssetAccounts";
     }

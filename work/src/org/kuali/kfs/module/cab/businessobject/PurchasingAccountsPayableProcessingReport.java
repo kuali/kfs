@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.cab.businessobject;
 
+import org.kuali.rice.kns.util.KualiDecimal;
+
 public class PurchasingAccountsPayableProcessingReport extends GeneralLedgerEntry {
     private Integer purapDocumentIdentifier;
+    private KualiDecimal reportAmount;
 
     /**
      * Gets the purapDocumentIdentifier attribute. 
@@ -32,6 +35,22 @@ public class PurchasingAccountsPayableProcessingReport extends GeneralLedgerEntr
      */
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
+    }
+
+    /**
+     * Gets the reportAmount attribute. 
+     * @return Returns the reportAmount.
+     */
+    public KualiDecimal getReportAmount() {
+        return reportAmount;
+    }
+
+    /**
+     * Sets the reportAmount attribute value.
+     * @param reportAmount The reportAmount to set.
+     */
+    public void setReportAmount(KualiDecimal reportAmount) {
+        this.reportAmount = reportAmount;
     }
     
     

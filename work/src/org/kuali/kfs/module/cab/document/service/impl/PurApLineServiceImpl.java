@@ -44,6 +44,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
+import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -1172,15 +1173,10 @@ public class PurApLineServiceImpl implements PurApLineService {
         // ideally we should do this a different way - maybe move it all into the service or save this info somehow (make sure and
         // update though)
         if (item.getPurapDocument() != null) {
+            PurchaseOrderDocument po = ((CreditMemoDocument)item.getPurapDocument()).getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase) item.getPurapDocument();
-                List<PurApItem> purApItems = purapDocument.getItems();
-                if (ObjectUtils.isNotNull(purApItems)) {
-                    if (purApItems.size() > (item.getItemLineNumber().intValue() - 1)) {
-                        return (PurchaseOrderItem) purApItems.get(item.getItemLineNumber().intValue() - 1);
-                    }
-                }
+                poi = (PurchaseOrderItem) po.getItem(item.getItemLineNumber().intValue() - 1);
             }
             else {
                 poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(item.getPurapDocument(), item.getItemType());

@@ -147,7 +147,12 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             glEntry = account.getGeneralLedgerEntry();
 
             if (ObjectUtils.isNotNull(glEntry)) {
-                glEntry.setTransactionLedgerSubmitAmount(glEntry.getTransactionLedgerSubmitAmount().add(account.getItemAccountTotalAmount()));
+                if (glEntry.getTransactionLedgerSubmitAmount() != null) {
+                    glEntry.setTransactionLedgerSubmitAmount(glEntry.getTransactionLedgerSubmitAmount().add(account.getItemAccountTotalAmount()));
+                }
+                else {
+                    glEntry.setTransactionLedgerSubmitAmount(new KualiDecimal(account.getItemAccountTotalAmount().toString()));
+                }
             }
         }
     }

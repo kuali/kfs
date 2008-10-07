@@ -81,12 +81,11 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         String purapDocumentIdentifier = getAndRemoveSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
 
+        String active = getAndRemoveSelectedField(fieldValues, "active");
         // search for GeneralLedgerEntry BO.
         Iterator searchResultIterator = purApReportService.findGeneralLedgers(fieldValues);
         // create PurchasingAccountsPayableProcessingReport search result collection.
-        Collection purApReportCollection = buildGlEntrySearchResultCollection(searchResultIterator);
-        
-//        Collection purApReportCollection = purApReportService.findGeneralLedgerCollection(fieldValues);
+        Collection purApReportCollection = buildGlEntrySearchResultCollection(searchResultIterator, active);
 
         // purapDocumentIdentifier is the attribute in PurchasingAccountsPayableDocument. We need to generate a new lookup for that
         // BO, then join search results with the generalLedgerCollection to get the correct search result collection.
@@ -101,18 +100,6 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
             updatePurApReportCollectionByPurApDocs(purApReportCollection, purApDocNumbers);
         }
 
-
-//        String active = getAndRemoveSelectedField(fieldValues, "active");
-
-//        if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
-            // update transaction amount to exclude amount submitted to CAMS for "active"
-//            updateTransactionAmountForActiveOnly(purApReportCollection);
-//        }
-//        else if (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
-            // include inactive amount from an active generalLedgerEntry due to partial inactive generalLedgerEntry amount.
-//            addInactiveAccountGeneralLedgerEntry(purApReportCollection, fieldValues);
-//        }
-
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
         Long matchingResultsCount = Long.valueOf(purApReportCollection.size());
         if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
@@ -121,59 +108,6 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         return new CollectionIncomplete(purApReportCollection, matchingResultsCount);
     }
 
-
-    /**
-     * Add active GeneralLedgerEntry into search results if it has partial inactive amount.
-     * 
-     * @param purApReportCollection
-     * @param fieldValues
-     */
-    private void addInactiveAccountGeneralLedgerEntry(Collection purApReportCollection, Map<String, String> fieldValues) {
-        fieldValues.put("active", KFSConstants.ACTIVE_INDICATOR);
-
-        // Get all active GeneralLedgerEntry BO.
-        Iterator searchResultIterator = purApReportService.findGeneralLedgers(fieldValues);
-        // create search result collection.
-        Collection newPurApReportCollection = buildGlEntrySearchResultCollection(searchResultIterator);
-
-        // iterate the new search result collection and identify such partial inactive amount.
-        for (Iterator iterator = newPurApReportCollection.iterator(); iterator.hasNext();) {
-            PurchasingAccountsPayableProcessingReport newReport = (PurchasingAccountsPayableProcessingReport) iterator.next();
-            newReport.refreshReferenceObject("purApLineAssetAccounts");
-
-            KualiDecimal partialInActiveAmount = KualiDecimal.ZERO;
-
-            for (PurchasingAccountsPayableLineAssetAccount account : newReport.getPurApLineAssetAccounts()) {
-                if (!account.isActive()) {
-                    partialInActiveAmount = partialInActiveAmount.add(account.getItemAccountTotalAmount());
-                }
-            }
-
-            if (partialInActiveAmount.isNonZero()) {
-                purApReportCollection.add(newReport);
-            }
-        }
-
-    }
-
-    /**
-     * For an active GL entry, filter out the inactive partial amount if exists.
-     * 
-     * @param purApReportCollection
-     */
-    private void updateTransactionAmountForActiveOnly(Collection purApReportCollection) {
-        for (Iterator iterator = purApReportCollection.iterator(); iterator.hasNext();) {
-            PurchasingAccountsPayableProcessingReport report = (PurchasingAccountsPayableProcessingReport) iterator.next();
-            report.refreshReferenceObject("purApLineAssetAccounts");
-            KualiDecimal transactionAmount = KualiDecimal.ZERO;
-            for (PurchasingAccountsPayableLineAssetAccount account : report.getPurApLineAssetAccounts()) {
-                if (account.isActive()) {
-                    transactionAmount = transactionAmount.add(account.getItemAccountTotalAmount());
-                }
-            }
-            report.setTransactionLedgerEntryAmount(transactionAmount);
-        }
-    }
 
     /**
      * Build a HashMap for documentNumbers from the PurchasingAccountsPayableDocument search results
@@ -231,7 +165,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      * @param searchResultIterator
      * @return
      */
-    private Collection buildGlEntrySearchResultCollection(Iterator searchResultIterator) {
+    private Collection buildGlEntrySearchResultCollection(Iterator searchResultIterator, String active) {
         Collection purApReportCollection = new ArrayList();
 
         while (searchResultIterator.hasNext()) {
@@ -250,18 +184,54 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
                 newReport.setFinancialObjectCode(columnValues[i++].toString());
                 newReport.setFinancialDocumentTypeCode(columnValues[i++].toString());
                 newReport.setDocumentNumber(columnValues[i++].toString());
-                newReport.setTransactionDebitCreditCode(columnValues[i++].toString());
-                newReport.setTransactionLedgerEntryAmount(new KualiDecimal(columnValues[i++].toString()));
-                if (KFSConstants.GL_CREDIT_CODE.equalsIgnoreCase(newReport.getTransactionDebitCreditCode())) {
-                    newReport.getTransactionLedgerEntryAmount().negated();
+                newReport.setTransactionDebitCreditCode(columnValues[i] == null ? null : columnValues[i].toString());
+                i++;
+                newReport.setTransactionLedgerEntryAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
+                i++;
+                newReport.setReferenceFinancialDocumentNumber(columnValues[i] == null ? null : columnValues[i].toString());
+                i++;
+                newReport.setTransactionDate(columnValues[i] == null ? null : Date.valueOf(columnValues[i].toString()));
+                i++;
+                newReport.setTransactionLedgerSubmitAmount(columnValues[i] == null ? null : new KualiDecimal(columnValues[i].toString()));
+                i++;
+                newReport.setActive(KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(columnValues[i].toString())? true: false);
+                
+                // set report amount
+                if (newReport.getTransactionLedgerEntryAmount() != null) {
+                    setReportAmount(active, newReport);
                 }
-                newReport.setReferenceFinancialDocumentNumber(columnValues[i++].toString());
-                newReport.setTransactionDate(Date.valueOf(columnValues[i++].toString()));
 
                 purApReportCollection.add(newReport);
             }
         }
         return purApReportCollection;
+    }
+
+    /**
+     * set report amount
+     * 
+     * @param active
+     * @param newReport
+     */
+    private void setReportAmount(String active, PurchasingAccountsPayableProcessingReport newReport) {
+        if (KFSConstants.ACTIVE_INDICATOR.equalsIgnoreCase(active)) {
+            // Active: set report amount by transactionLedgerSubmitAmount excluding submitted amount
+            KualiDecimal reportAmount = newReport.getAbsAmount();
+            if (reportAmount != null && newReport.getTransactionLedgerSubmitAmount() != null) {
+                newReport.setReportAmount(reportAmount.subtract(newReport.getTransactionLedgerSubmitAmount()));
+            }
+            else {
+                newReport.setReportAmount(reportAmount);
+            }
+        }
+        else if ((KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(active))) {
+            // Inactive: set report amount as submitted amount
+            newReport.setReportAmount(newReport.getTransactionLedgerSubmitAmount());
+        }
+        else {
+            // both active and inactive: set report amount as transactional amount
+            newReport.setReportAmount(newReport.getAbsAmount());
+        }
     }
 
     /**

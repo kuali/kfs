@@ -83,11 +83,6 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         ReportQueryByCriteria query = QueryFactory.newReportQuery(GeneralLedgerEntry.class, criteria);
 
         List attributeList = buildAttributeList(false);
-        List groupByList = buildGroupByList();
-
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
 
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
@@ -129,18 +124,8 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      * @return
      */
     private List<String> buildAttributeList(boolean isExtended) {
-        List attributeList = this.buildGroupByList();
-        return attributeList;
-    }
-
-    /**
-     * This method builds group by attribute list
-     * 
-     * @return List an group by attribute list
-     */
-    private List<String> buildGroupByList() {
         List attributeList = new ArrayList();
-
+        
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_YEAR);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_PERIOD_CODE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.CHART_OF_ACCOUNTS_CODE);
@@ -152,6 +137,9 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.REFERENCE_FINANCIAL_DOCUMENT_NUMBER);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DATE);
+        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_SUBMIT_AMOUNT);
+        attributeList.add(CabPropertyConstants.GeneralLedgerEntry.ACTIVE);
         return attributeList;
     }
+
 }

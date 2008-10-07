@@ -161,10 +161,11 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
             maxTargetSequenceNo = retirementService.generateNewPaymentForTarget(mergedTargetCapitalAsset, sourceAsset, persistables, maxTargetSequenceNo, detail.getDocumentNumber());
 
         }
-
+        KualiDecimal mergedTargetSalvageAmount = (mergedTargetCapitalAsset.getSalvageAmount() != null ? mergedTargetCapitalAsset.getSalvageAmount() : KualiDecimal.ZERO);
+        
         // update merget target asset
         mergedTargetCapitalAsset.setTotalCostAmount(totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(mergedTargetCapitalAsset)));
-        mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetCapitalAsset.getSalvageAmount()));
+        mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetSalvageAmount));
         persistables.add(mergedTargetCapitalAsset);
     }
 

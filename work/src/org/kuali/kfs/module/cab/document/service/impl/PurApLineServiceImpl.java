@@ -1174,7 +1174,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (item.getPurapDocument() != null) {
             PurchaseOrderItem poi = null;
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                PurchasingAccountsPayableDocumentBase purapDocument = item.getPurapDocument();
+                PurchasingAccountsPayableDocumentBase purapDocument = (PurchasingAccountsPayableDocumentBase) item.getPurapDocument();
                 List<PurApItem> purApItems = purapDocument.getItems();
                 if (ObjectUtils.isNotNull(purApItems)) {
                     if (purApItems.size() > (item.getItemLineNumber().intValue() - 1)) {

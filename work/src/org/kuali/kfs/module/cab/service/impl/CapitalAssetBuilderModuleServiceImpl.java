@@ -1038,7 +1038,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetType.CAPITAL_ASSET_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
         }
 
-        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
+        if (StringUtils.isNotBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
             if (!this.getAssetService().findActiveAssetsMatchingTagNumber(capitalAssetInformation.getCapitalAssetTagNumber()).isEmpty()) {
                 GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, capitalAssetInformation.getCapitalAssetTagNumber());
                 valid = false;

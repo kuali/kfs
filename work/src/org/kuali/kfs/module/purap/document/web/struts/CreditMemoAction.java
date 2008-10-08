@@ -27,6 +27,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
@@ -146,7 +147,7 @@ public class CreditMemoAction extends AccountsPayableActionBase {
      * @param apDoc An AccountsPayableDocument
      */
     @Override
-    protected void customCalculate(AccountsPayableDocument apDoc) {
+    protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
 
         // call service method to finish up calculation

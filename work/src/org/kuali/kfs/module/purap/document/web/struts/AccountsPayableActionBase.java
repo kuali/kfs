@@ -133,15 +133,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * An overridable area to do calculate-specific tasks.
-     * 
-     * @param apDoc An AccountsPayableDocument
-     */
-    protected void customCalculate(AccountsPayableDocument apDoc) {
-        // do nothing by default
-    }
-
-    /**
      * Checks if calculation is required. Currently it is required when it has not already been calculated and full document entry
      * status has not already passed.
      * 

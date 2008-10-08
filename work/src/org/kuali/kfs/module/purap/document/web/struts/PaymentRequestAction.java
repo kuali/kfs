@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
@@ -274,7 +275,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * @param apDoc The AccountsPayableDocument
      */
     @Override
-    protected void customCalculate(AccountsPayableDocument apDoc) {
+    protected void customCalculate(PurchasingAccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         // set amounts on any empty
         preqDoc.updateExtendedPriceOnItems();

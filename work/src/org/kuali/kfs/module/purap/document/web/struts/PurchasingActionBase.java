@@ -1003,6 +1003,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
+        customCalculate(purDoc);
         
         return super.calculate(mapping, form, request, response);
     }

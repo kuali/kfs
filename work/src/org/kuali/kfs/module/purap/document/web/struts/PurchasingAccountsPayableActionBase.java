@@ -384,8 +384,11 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
      * @return An ActionForward
      */
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //for now this doesn't do anything, a future refactor could move the Pur and AP logic 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    protected void customCalculate(PurchasingAccountsPayableDocument purapDoc) {
+        // do nothing by default
     }
     
     

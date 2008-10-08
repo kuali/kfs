@@ -175,7 +175,6 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean result = super.processCustomSaveDocumentBusinessRules(document);
-        LOG.info("==============================>>>>>" + result);
         
         result &= validateForEvent(new AttributedSaveDocumentEvent(document));
         
@@ -186,7 +185,6 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      * @see org.kuali.kfs.sys.document.validation.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        LOG.info("==============================>>>>> processAddAccountingLineBusinessRules");
         return validateForEvent(new AttributedAddAccountingLineEvent("", financialDocument, accountingLine));
     }
 

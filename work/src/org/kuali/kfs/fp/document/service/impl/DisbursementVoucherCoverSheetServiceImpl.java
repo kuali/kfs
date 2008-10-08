@@ -29,15 +29,12 @@ import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
-import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -73,12 +70,10 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param templateName The name of the cover sheet template to be used to build the cover sheet.
      * @param document The DisbursementVoucher the cover sheet will be populated from.
      * @param outputStream The stream the cover sheet file will be written to.
-     * 
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#generateDisbursementVoucherCoverSheet(java.lang.String,
      *      java.lang.String, org.kuali.kfs.fp.document.DisbursementVoucherDocument, java.io.OutputStream)
      */
     public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
-        DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
         if (this.isCoverSheetPrintable(document)) {
             String attachment = "";
             String handling = "";
@@ -114,9 +109,13 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
                 alien = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
                 lines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
+            
             // determine if non-employee travel payment reasons
-            DisbursementVoucherDocumentRule dvDocRule = (DisbursementVoucherDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(document, DisbursementVoucherDocumentRule.class);
-            if (dvDocRule.isTravelNonEmplPaymentReason(document)) {
+            String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+            ParameterEvaluator travelNonEmplPaymentReasonEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, paymentReasonCode);
+            boolean isTravelNonEmplPaymentReason = travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
+
+            if (isTravelNonEmplPaymentReason) {
                 bar = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
                 rlines = parameterService.getParameterValue(DisbursementVoucherDocument.class, DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
             }
@@ -156,24 +155,18 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
         }
 
     }
-    
+
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#isCoverSheetPrintable(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     public boolean isCoverSheetPrintable(DisbursementVoucherDocument document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        return !(workflowDocument.stateIsCanceled() || 
-                 workflowDocument.stateIsInitiated() || 
-                 workflowDocument.stateIsDisapproved() || 
-                 workflowDocument.stateIsException() || 
-                 workflowDocument.stateIsDisapproved() || 
-                 workflowDocument.stateIsSaved());
+        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
 
     /**
-     * This method is used to retrieve business objects that have a single primary key field without hard-coding 
-     * the key field name.
+     * This method is used to retrieve business objects that have a single primary key field without hard-coding the key field name.
      * 
      * @param clazz The class type that will be used to retrieve the primary key field names.
      * @param keyValue The primary key value to be used to lookup the object by.
@@ -211,7 +204,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     /**
      * This method contains logic to determine the address the cover sheet should be sent to.
      * 
-     * @param docLocCd A key used to retrieve the document location.  
+     * @param docLocCd A key used to retrieve the document location.
      * @return The address the cover sheet will be sent to or empty string if no location is found.
      */
     private String retrieveAddress(String docLocCd) {
@@ -230,6 +223,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -238,6 +232,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     /**
      * Sets the persistenceStructureService attribute value.
+     * 
      * @param persistenceStructureService The persistenceService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
@@ -246,6 +241,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {

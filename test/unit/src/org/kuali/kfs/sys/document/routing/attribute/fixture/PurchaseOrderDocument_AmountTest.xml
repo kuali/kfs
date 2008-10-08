@@ -1192,7 +1192,9 @@
       <contractManagerDelegationDollarLimit>
         <value>100000.00</value>
       </contractManagerDelegationDollarLimit>
+	  <!--
       <contractManagerSignatureImageLocationDescription>M</contractManagerSignatureImageLocationDescription>
+      -->
       <versionNumber>1</versionNumber>
       <objectId>AD4E4B3C-2352-0460-2FEF-C2A588D8BF72</objectId>
       <newCollectionRecord>false</newCollectionRecord>

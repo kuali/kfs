@@ -35,7 +35,7 @@ public class ContractManager extends PersistableBusinessObjectBase {
     private String contractManagerPhoneNumber;
     private String contractManagerFaxNumber;
     private KualiDecimal contractManagerDelegationDollarLimit;
-    private String contractManagerSignatureImageLocationDescription;
+    //private String contractManagerSignatureImageLocationDescription;
     private boolean activeIndicator;
 
     public boolean isActiveIndicator() {
@@ -45,7 +45,7 @@ public class ContractManager extends PersistableBusinessObjectBase {
     public void setActiveIndicator(boolean activeIndicator) {
         this.activeIndicator = activeIndicator;
     }
-
+    
     /**
      * Default constructor.
      */
@@ -107,6 +107,7 @@ public class ContractManager extends PersistableBusinessObjectBase {
         this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
     }
 
+    /*
     public String getContractManagerSignatureImageLocationDescription() {
 
         return contractManagerSignatureImageLocationDescription;
@@ -115,7 +116,8 @@ public class ContractManager extends PersistableBusinessObjectBase {
     public void setContractManagerSignatureImageLocationDescription(String contractManagerSignatureImageLocationDescription) {
         this.contractManagerSignatureImageLocationDescription = contractManagerSignatureImageLocationDescription;
     }
-
+    */
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

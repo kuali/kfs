@@ -390,7 +390,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         itemAsset.setAccountsPayableLineItemIdentifier(apItem.getItemIdentifier());
         itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
         itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
-        itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity());
+        itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity() == null ? new KualiDecimal(1) : apItem.getItemQuantity());
         itemAsset.setActive(true);
         itemAsset.setVersionNumber(0L);
         return itemAsset;

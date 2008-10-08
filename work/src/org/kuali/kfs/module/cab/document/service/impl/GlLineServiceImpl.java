@@ -65,6 +65,7 @@ public class GlLineServiceImpl implements GlLineService {
         MaintenanceDocument document = (MaintenanceDocument) documentService.getNewDocument(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT);
         // create asset global
         AssetGlobal assetGlobal = createAssetGlobal(primary, document);
+        assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
         assetGlobal.setAcquisitionTypeCode(CamsConstants.ACQUISITION_TYPE_CODE_N);
         updatePreTagInformation(primary, document, assetGlobal);
         int seq = 0;
@@ -181,6 +182,7 @@ public class GlLineServiceImpl implements GlLineService {
         // initiate a new document
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(CabConstants.ASSET_PAYMENT_DOCUMENT);
+        document.setCapitalAssetBuilderOriginIndicator(true);
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getGeneralLedgerAccountIdentifier());
         updatePreTagInformation(primaryGlEntry, document);
         // Asset Payment Detail

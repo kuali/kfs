@@ -199,6 +199,9 @@
 		<property name="accountingLineRuleUtil">
 			<ref bean="accountingLineRuleHelperService" />
 		</property>
+		<property name="capitalAssetBuilderModuleService">
+			<ref bean="capitalAssetBuilderModuleService" />
+		</property>
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardLoadTransactionsServiceImpl">

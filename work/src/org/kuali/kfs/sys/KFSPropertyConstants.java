@@ -1205,4 +1205,5 @@ public class KFSPropertyConstants {
     public static final String VENDOR_NUMBER = "vendorNumber";
     public static final String CAPITAL_ASSET_MANAGEMENT_ASSET_TYPE = "capitalAssetManagementAssetType";
     public static final String POSTAL_COUNTRY_RESTRICTED_INDICATOR = "postalCountryRestrictedIndicator";
+    public static final String CAPITAL_ASSET_INFORMATION = "capitalAssetInformation";
 }

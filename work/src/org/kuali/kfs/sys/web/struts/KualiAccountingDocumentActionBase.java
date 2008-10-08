@@ -1384,11 +1384,13 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     protected void applyCapitalAssetInformation(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
         LOG.debug("applyCapitalAssetInformation() - start");
 
+        // do nothing if the given document is not required to have capital asset collection
         AccountingDocument financialDocument = kualiAccountingDocumentFormBase.getFinancialDocument();
         if (!(financialDocument instanceof CapitalAssetEditable)) {
             return;
         }
 
+        // do nothing if there exists capital asset information associated with the current document
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
         if (capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
@@ -1397,11 +1399,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
         CapitalAssetInformation newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
-        List<SourceAccountingLine> sourceAccountingLine = financialDocument.getSourceAccountingLines();
+        List<SourceAccountingLine> sourceAccountingLines = financialDocument.getSourceAccountingLines();
         CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
-        boolean isValidFinancialProcessingData = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, newCapitalAssetInformation);
-        if (isValidFinancialProcessingData) {
+        // apply capitalAsset information if there is at least one movable object code associated with the source accounting lines
+        boolean isCapitalAssetInformationNeeded = capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(sourceAccountingLines);
+        if(isCapitalAssetInformationNeeded) {
             newCapitalAssetInformation.setDocumentNumber(financialDocument.getDocumentNumber());
             capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
         }

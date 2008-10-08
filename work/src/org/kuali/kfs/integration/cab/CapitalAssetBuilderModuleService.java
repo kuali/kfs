@@ -135,4 +135,12 @@ public interface CapitalAssetBuilderModuleService {
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
     
     public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList);
+    
+    /**
+     * determine whether there is any object code of the given source accounting lines with a capital asset object sub type
+     * 
+     * @param accountingLines the given source accounting lines
+     * @return true if there is at least one object code of the given source accounting lines with a capital asset object sub type; otherwise, false
+     */
+    public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines);
 }

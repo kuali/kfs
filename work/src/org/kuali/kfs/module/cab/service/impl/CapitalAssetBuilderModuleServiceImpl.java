@@ -879,16 +879,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
 
         // Check if we need to collect cams data
-        boolean dataEntryExpected = false;
-        if (this.getParameterService().parameterExists(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES)) {
-            List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
-            for (SourceAccountingLine sourceAccountingLine : accountingLines) {
-                if (financialProcessingCapitalObjectSubTypes.contains(sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
-                    dataEntryExpected = true;
-                    break;
-                }
-            }
-        } // else leave dataEntryExpected on false
+        boolean dataEntryExpected = this.hasCapitalAssetObjectSubType(accountingLines);
 
         CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
         if (!dataEntryExpected) {
@@ -925,6 +916,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         return valid;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(java.util.List)
+     */
+    public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines) {
+        List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        boolean hasCapitalAssetObjectSubType = false;
+        
+        for (SourceAccountingLine sourceAccountingLine : accountingLines) {
+            String objectSubTypeCode = sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode();
+            if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
+                hasCapitalAssetObjectSubType = true;
+                break;
+            }
+        }
+        
+        return hasCapitalAssetObjectSubType;
     }
 
     /**

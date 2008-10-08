@@ -46,7 +46,9 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.fp.businessobject.ProcurementCardVendor;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
@@ -90,6 +92,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private DateTimeService dateTimeService;
     private WorkflowDocumentService workflowDocumentService;
     private AccountingLineRuleHelperService accountingLineRuleUtil;
+    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
 
 
     /**
@@ -240,9 +243,15 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (String pcardDocumentId: documentIdList) {
             try {
                 ProcurementCardDocument pcardDocument = (ProcurementCardDocument)documentService.getByDocumentHeaderId(pcardDocumentId);
-                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
+                
+                // prevent PCard documents from auto approving if they have capital asset info to collect
+                List<SourceAccountingLine> accountingLines = pcardDocument.getSourceAccountingLines();
+                if(capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(accountingLines)) {
+                    continue;
+                }
 
                 // if number of days in route is passed the allowed number, call doc service for super user approve
+                Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
                 if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
                     // update document description to reflect the auto approval
                     pcardDocument.getDocumentHeader().setDocumentDescription("Auto Approved On " + dateTimeService.toDateTimeString(currentDate) + ".");
@@ -761,6 +770,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public void setAccountingLineRuleUtil(AccountingLineRuleHelperService accountingLineRuleUtil) {
         this.accountingLineRuleUtil = accountingLineRuleUtil;
+    }
+
+    /**
+     * Sets the capitalAssetBuilderModuleService attribute value.
+     * @param capitalAssetBuilderModuleService The capitalAssetBuilderModuleService to set.
+     */
+    public void setCapitalAssetBuilderModuleService(CapitalAssetBuilderModuleService capitalAssetBuilderModuleService) {
+        this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 
 }

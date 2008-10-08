@@ -20,11 +20,14 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class...
@@ -55,7 +58,15 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
 
         if (capitalAssetInformation != null) {
-            return capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, capitalAssetInformation);
+            ErrorMap errors = GlobalVariables.getErrorMap();
+            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+            errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
+            
+            boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(sourceAccountingLine, capitalAssetInformation);
+            
+            errors.removeFromErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
+            errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+            return isValid;
         }
 
         return true;

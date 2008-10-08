@@ -182,7 +182,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if ((difference.compareTo(potentialSlushAccount.getAccountLinePercent())) < 0) {
                     // the difference amount is less than the current accounts percent... use this account
                     // the 'potentialSlushAccount' technically is now the true 'Slush Account'
-                    potentialSlushAccount.setAccountLinePercent((potentialSlushAccount.getAccountLinePercent().subtract(difference)).stripTrailingZeros());
+                    potentialSlushAccount.setAccountLinePercent(potentialSlushAccount.getAccountLinePercent().subtract(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
                     foundAccountToUse = true;
                     break;
                 }
@@ -208,7 +208,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 LOG.debug(methodName + " Rounding down by " + difference);
             }
             PurApAccountingLine slushAccount = (PurApAccountingLine) newAccounts.get(newAccounts.size() - 1);
-            slushAccount.setAccountLinePercent((slushAccount.getAccountLinePercent().add(difference)).stripTrailingZeros());
+            slushAccount.setAccountLinePercent(slushAccount.getAccountLinePercent().add(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
         }
         if ( LOG.isDebugEnabled() ) {
             LOG.debug(methodName + " ended");
@@ -231,7 +231,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         // find the total percent and strip trailing zeros
         BigDecimal totalPercentValue = BigDecimal.ZERO;
         for (PurApAccountingLine accountingLine : accounts) {
-            totalPercentValue = (totalPercentValue.add(accountingLine.getAccountLinePercent())).stripTrailingZeros();
+            totalPercentValue = totalPercentValue.add(accountingLine.getAccountLinePercent()).movePointLeft(2).stripTrailingZeros().movePointRight(2);
         }
 
         if ((BigDecimal.ZERO.compareTo(totalPercentValue.remainder(ONE_HUNDRED))) != 0) {

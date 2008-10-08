@@ -277,6 +277,8 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void setBillingCountryCode(String billingCountryCode);
 
+    public String getBillingCountryName();
+    
     public String getBillingPhoneNumber();
 
     public void setBillingPhoneNumber(String receivingPhoneNumber);
@@ -306,6 +308,8 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setReceivingPostalCode(String receivingPostalCode);
 
     public String getReceivingCountryCode();
+
+    public String getReceivingCountryName();
 
     public void setReceivingCountryCode(String receivingCountryCode);
 

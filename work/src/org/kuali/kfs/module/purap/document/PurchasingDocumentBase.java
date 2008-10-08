@@ -356,6 +356,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.billingCountryCode = billingCountryCode;
     }
 
+    public String getBillingCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getBillingCountryCode());
+        //if (country == null)
+        //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
+        if (country != null)
+            return country.getPostalCountryName();
+        return null;
+    }
+   
     public String getBillingLine1Address() {
         return billingLine1Address;
     }
@@ -418,6 +427,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setReceivingCountryCode(String receivingCountryCode) {
         this.receivingCountryCode = receivingCountryCode;
+    }
+
+    public String getReceivingCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getReceivingCountryCode());
+        //if (country == null)
+        //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
+        if (country != null)
+            return country.getPostalCountryName();
+        return null;
     }
 
     public String getReceivingLine1Address() {

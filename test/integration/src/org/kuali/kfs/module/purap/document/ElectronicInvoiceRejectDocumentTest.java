@@ -122,7 +122,9 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertMatch(eirDoc, result);
         
-        SpringContext.getBean(ElectronicInvoiceHelperService.class).createPaymentRequest(eirDoc); 
+        boolean docCreated = SpringContext.getBean(ElectronicInvoiceHelperService.class).createPaymentRequest(eirDoc); 
+        
+        assertTrue(docCreated);
     }
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)

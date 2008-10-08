@@ -80,16 +80,29 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean processValidation(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        // validate if both loan return date and expected loan return date are valid
+        // validate campus tag number
+        valid &= validateTagNumber(equipmentLoanOrReturnDocument);
+        
+        // validate both loan return date and expected loan return date
         valid &= validateLoanDate(equipmentLoanOrReturnDocument);
-        // validate if borrower id is valid
-        // valid &= validBorrowerId(equipmentLoanOrReturnDocument);
-        // validate if borrower and storage state codes are avlid
+        
+        // validate borrower and storage state codes
         valid &= validStateZipCode(equipmentLoanOrReturnDocument);
 
         return valid;
     }
-
+    
+    
+    protected boolean validateTagNumber(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
+        boolean valid = true;
+        if (equipmentLoanOrReturnDocument.getCampusTagNumber() == null) {
+            valid &= false;
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.CAMPUS_TAG_NUMBER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_CAMPUS_TAG_NUMBER_REQUIRED);
+        }
+        
+        return valid;
+    }
+    
     /**
      * Implementation of the rule that if a document has a valid expect loan date and loan return date, the both dates should come
      * before the 2 years limit.
@@ -138,20 +151,6 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         return valid;
     }
-
-    /**
-     * Implementation of the rule that if borrower id is valid
-     * 
-     * @param equipmentLoanOrReturnDocument the equipmentLoanOrReturn document to be validated
-     * @return boolean false if the borrower id does not exist. private boolean validBorrowerId(EquipmentLoanOrReturnDocument
-     *         equipmentLoanOrReturnDocument) { boolean valid = false; if
-     *         (StringUtils.isBlank(equipmentLoanOrReturnDocument.getBorrowerUniversalIdentifier())) {
-     *         GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +
-     *         CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_UNIVERSAL_USER + "." +
-     *         KFSPropertyConstants.PERSON_USER_IDENTIFIER, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ID); }
-     *         else { valid = true; } return valid; }
-     */
-
 
     /**
      * Implementation of the rule that if borrower and storage state codes are valid

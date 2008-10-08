@@ -258,6 +258,7 @@ public class CamsPropertyConstants {
         public static final String BORROWER_STAORAGE_COUNTRY_CODE = "borrowerStorageCountryCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
         public static final String DOCUMENT_HEADER = "documentHeader";
+        public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
     }
 
     public static class AssetGlobal {

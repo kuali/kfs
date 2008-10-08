@@ -218,4 +218,11 @@ public interface PurapService {
     * @return  List of Parameters that match the criteria.
     */
    public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues);
+   
+   /**
+    * Calculates sales or use tax for each item if sales tax enabled and item is taxable.
+    * 
+    * @param purapDocument
+    */
+   public void calculateTax(PurchasingAccountsPayableDocument purapDocument);
 }

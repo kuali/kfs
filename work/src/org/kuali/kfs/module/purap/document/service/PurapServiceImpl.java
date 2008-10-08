@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -44,6 +45,7 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -59,6 +61,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -652,4 +655,53 @@ public class PurapServiceImpl implements PurapService {
     public List<Parameter> getParametersGivenLikeCriteria(Map<String, String> fieldValues) {
         return parameterDao.getParametersGivenLikeCriteria(fieldValues);
     }    
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#calculateTax(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    public void calculateTax(PurchasingAccountsPayableDocument purapDocument){
+        
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        boolean useTaxIndicator = false;
+        String deliveryState = null;
+        String deliveryPostalCode = null;
+        Date transactionTaxDate = null;
+        
+        //calculate if sales tax enabled for purap
+        if( salesTaxInd ){
+            //iterate over items and calculate tax if taxable
+            for(PurApItem item : purapDocument.getItems()){
+                if( isTaxable(useTaxIndicator, deliveryState, item) ){
+                    calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item);
+                }
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param useTaxIndicator
+     * @param deliveryState
+     * @param item
+     * @return
+     */
+    private boolean isTaxable(boolean useTaxIndicator, String deliveryState,
+            PurApItem item){
+        
+        boolean taxable = false;
+        
+        return taxable;
+    }
+    
+    /**
+     *      
+     * @param useTaxIndicator
+     * @param deliveryPostalCode
+     * @param transactionTaxDate
+     * @param item
+     */
+    private void calculateItemTax(boolean useTaxIndicator, String deliveryPostalCode, 
+            Date transactionTaxDate, PurApItem item){
+        
+    }
 }

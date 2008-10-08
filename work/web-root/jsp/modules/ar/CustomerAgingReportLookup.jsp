@@ -104,7 +104,7 @@
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">
 <!-- <c:out value="*************	${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" /> -->
-								<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>
+								<a href="$<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>
 							</c:when>
 							<c:otherwise>
 <!-- <c:out value="*************${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }************************* ${column.formatter.implementationClass}" /> -->

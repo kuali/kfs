@@ -519,7 +519,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         pretag = new Pretag();
                         pretag.setPurchaseOrderNumber(poId.toString());
                         pretag.setItemLineNumber(itemLineNumber);
-                        KualiDecimal quantity = purapItem.getItemInvoicedTotalQuantity();
+                        KualiDecimal quantity = purapItem.getItemQuantity();
                         pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());
                         pretag.setAssetTopsDescription(purapItem.getItemDescription());

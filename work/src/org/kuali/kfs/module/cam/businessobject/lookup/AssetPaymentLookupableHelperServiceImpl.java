@@ -20,18 +20,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
- * This class overrides the base getActionUrls method for Asset Payment. Even though it's a payment lookup
- * screen we are maintaining assets.
+ * This class overrides the base getActionUrls method for Asset Payment. Even though it's a payment lookup screen we are maintaining
+ * assets.
  */
 public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -39,7 +44,8 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, List pkNames)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -49,17 +55,39 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetPayment.getCapitalAssetNumber());
         Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, primaryKeys);
-        
+
         List assetPrimaryKey = new ArrayList();
         assetPrimaryKey.add(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER);
-        
-        
+
+
         assetLookupableHelperService.setBusinessObjectClass(Asset.class);
-        return assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
+
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+
+        anchorHtmlDataList = assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
+        anchorHtmlDataList.add(getPaymentUrl(asset));
+
+        return anchorHtmlDataList;
+
+        // return assetLookupableHelperService.getCustomActionUrls(asset, assetPrimaryKey);
     }
+
+    private HtmlData getPaymentUrl(Asset asset) {
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData("", "", CamsConstants.AssetActions.PAYMENT);
+
+        // Only active capital assets will have the payment link.
+        if (SpringContext.getBean(AssetService.class).isCapitalAsset(asset) && !SpringContext.getBean(AssetService.class).isAssetRetired(asset)) {
+            String href = "../camsAssetPayment.do?methodToCall=docHandler&command=initiate&docTypeName=AssetPaymentDocument&capitalAssetNumber=" + asset.getCapitalAssetNumber();
+            anchorHtmlData = new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.PAYMENT);
+        }
+
+        return anchorHtmlData;
+    }
+
 
     /**
      * Gets the assetLookupableHelperService attribute.
+     * 
      * @return Returns the assetLookupableHelperService.
      */
     public LookupableHelperService getAssetLookupableHelperService() {
@@ -68,6 +96,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
 
     /**
      * Sets the assetLookupableHelperService attribute value.
+     * 
      * @param assetLookupableHelperService The assetLookupableHelperService to set.
      */
     public void setAssetLookupableHelperService(LookupableHelperService assetLookupableHelperService) {
@@ -76,6 +105,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
 
     /**
      * Gets the businessObjectService attribute.
+     * 
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -84,6 +114,7 @@ public class AssetPaymentLookupableHelperServiceImpl extends KualiLookupableHelp
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

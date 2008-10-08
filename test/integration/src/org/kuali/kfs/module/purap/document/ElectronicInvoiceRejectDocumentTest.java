@@ -101,25 +101,28 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     }
 
     public final void testSaveDocumentWithMatchingPO() throws Exception {
-//        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
-//        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
-//        boService.save(eils);
-//
-//        changeCurrentUser(PARKE);
-//        Integer poId = routePO();
-//        changeCurrentUser(APPLETON);
-//        
-//        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
-//        eirDoc.setPurchaseOrderIdentifier(poId);
-//        eirDoc.prepareForSave();
-//        
-//        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-//        saveDocument(eirDoc, "saving copy source document", documentService);
-//        Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-//        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
-//        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-//        assertMatch(eirDoc, result);
+        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
+        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
+        boService.save(eils);
+
+        changeCurrentUser(PARKE);
+        Integer poId = routePO();
+        changeCurrentUser(APPLETON);
+        
+        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
+        eirDoc.setPurchaseOrderIdentifier(poId);
+        eirDoc.setInvoicePurchaseOrderNumber(""+poId);
+        eirDoc.prepareForSave();
+        
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        saveDocument(eirDoc, "saving copy source document", documentService);
+        Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
+        assertMatch(eirDoc, result);
+        
+        SpringContext.getBean(ElectronicInvoiceHelperService.class).createPaymentRequest(eirDoc); 
     }
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)

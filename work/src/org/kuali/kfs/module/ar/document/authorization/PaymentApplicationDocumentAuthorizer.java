@@ -15,10 +15,19 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.Document;
 
 public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    
-    
+
+    @Override
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        FinancialSystemTransactionalDocumentActionFlags flags = 
+            super.getDocumentActionFlags(document, user);
+        flags.setCanCancel(false);
+        return flags;
+    }
 
 }

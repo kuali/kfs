@@ -41,16 +41,25 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
+        
         ErrorMap errors = GlobalVariables.getErrorMap();
+        LOG.info("===========" + errors.getErrorPath());
 
         // validate document required fields
         SpringContext.getBean(DictionaryValidationService.class).validateDocument(document);
+        LOG.info("===========" + errors.getErrorPath());
 
         // validate payee fields
         errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
+        LOG.info("===========" + errors.getErrorPath());
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvPayeeDetail());
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
+        
+        LOG.info("===========" + errors.getErrorPath());
+        
         if (!errors.isEmpty()) {
             return false;
         }
@@ -61,19 +70,21 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
                 errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_SPECHAND_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING);
             }
         }
+        
+        boolean hasNoNotes = this.hasNoNotes(document);
 
         /* if no documentation is selected, must be a note explaining why */
-        if (DisbursementVoucherRuleConstants.NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes(document)) {
+        if (DisbursementVoucherRuleConstants.NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes) {
             errors.putError(KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KFSKeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
         }
 
         /* if special handling indicated, must be a note explaining why */
-        if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes(document)) {
+        if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
         }
 
         /* if exception attached indicated, must be a note explaining why */
-        if (document.isExceptionIndicator() && hasNoNotes(document)) {
+        if (document.isExceptionIndicator() && hasNoNotes) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
         }
 
@@ -86,7 +97,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @param document submitted disbursement voucher document
      * @return whether the given document has no notes
      */
-    private static boolean hasNoNotes(DisbursementVoucherDocument document) {
+    private boolean hasNoNotes(DisbursementVoucherDocument document) {
         ArrayList<Note> notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(document.getDocumentNumber());
         return (notes == null || notes.size() == 0);
     }
@@ -98,5 +109,13 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

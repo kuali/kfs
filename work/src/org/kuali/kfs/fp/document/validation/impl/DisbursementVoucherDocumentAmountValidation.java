@@ -38,7 +38,9 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
         boolean isValid = true;
 
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
+        
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         /* check total cannot be negative or zero */
         if (!disbursementVoucherDocument.getDisbVchrCheckTotalAmount().isPositive()) {
@@ -57,6 +59,8 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
             isValid = false;
         }
+        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return isValid;
     }
@@ -68,6 +72,14 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

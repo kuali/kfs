@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -47,6 +48,9 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = disbursementVoucherDocument.getDvNonEmployeeTravel();
+        
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // check non employee travel company exists
         int index = 0;
@@ -56,7 +60,7 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
 
             if (ObjectUtils.isNull(travelCompanyCode)) {
                 String fullPropertyName = this.buildFullPropertyName(DV_NON_EMPLOYEE_EXPENSES_PROPERTY_PATH, index, KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(fullPropertyName, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
+                errors.putErrorWithoutFullErrorPath(fullPropertyName, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
                 isValid = false;
             }
 
@@ -71,7 +75,7 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
 
             if (ObjectUtils.isNull(travelCompanyCode)) {
                 String fullPropertyName = this.buildFullPropertyName(DV_PRE_PAID_EMPLOYEE_EXPENSES_PROPERTY_PATH, index, KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME);
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(fullPropertyName, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
+                errors.putErrorWithoutFullErrorPath(fullPropertyName, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
             }
 
             index++;
@@ -102,5 +106,13 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

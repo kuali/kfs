@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class DisbursementVoucherPrePaidTravelValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPrePaidTravelValidation.class);
 
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private ParameterService parameterService;
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -50,6 +50,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         }
         
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         errors.addToErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(preConferenceDetail, 1);
@@ -72,6 +73,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return errors.isEmpty();
     }
@@ -94,5 +96,21 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

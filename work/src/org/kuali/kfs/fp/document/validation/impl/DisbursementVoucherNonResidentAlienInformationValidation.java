@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class DisbursementVoucherNonResidentAlienInformationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonResidentAlienInformationValidation.class);
 
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);;
+    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -55,6 +55,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         }
         
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
 
         /* income class code required */
@@ -121,6 +122,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return errors.isEmpty();
     }
@@ -132,6 +134,22 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Sets the disbursementVoucherWorkGroupService attribute value.
+     * @param disbursementVoucherWorkGroupService The disbursementVoucherWorkGroupService to set.
+     */
+    public void setDisbursementVoucherWorkGroupService(DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService) {
+        this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

@@ -50,7 +50,9 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
         }
         
         UniversalUser employee = retrieveEmployee(payeeDetail.getDisbVchrEmployeeIdNumber());
+        
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // check existence of employee
         if (employee == null) { // If employee is not found, report existence error
@@ -64,6 +66,8 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             // If employee is found, then check that employee is active
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
         }
+        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         
         return errors.isEmpty();
     }
@@ -90,6 +94,14 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

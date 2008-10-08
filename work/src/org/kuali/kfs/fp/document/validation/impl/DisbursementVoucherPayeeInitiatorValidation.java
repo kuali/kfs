@@ -46,6 +46,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         String uuid = "";
         // If payee is a vendor, then look up SSN and look for SSN in the employee table
@@ -72,6 +73,8 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
             }
         }
+        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         
         return errors.isEmpty();
     }
@@ -127,6 +130,14 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

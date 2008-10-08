@@ -22,6 +22,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherBankCodeValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherBankCodeValidation.class);
@@ -34,7 +36,9 @@ public class DisbursementVoucherBankCodeValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
-        return BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
+        boolean isValid = BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
+        
+        return isValid;
     }
 
     /**
@@ -43,5 +47,13 @@ public class DisbursementVoucherBankCodeValidation extends GenericValidation {
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

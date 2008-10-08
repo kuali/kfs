@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class DisbursementVoucherAccountingLineValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineValidation.class);
 
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private ParameterService parameterService;
 
     private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
@@ -191,6 +191,30 @@ public class DisbursementVoucherAccountingLineValidation extends GenericValidati
      */
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingLineForValidation attribute. 
+     * @return Returns the accountingLineForValidation.
+     */
+    public AccountingLine getAccountingLineForValidation() {
+        return accountingLineForValidation;
     }
 
 }

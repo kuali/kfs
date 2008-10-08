@@ -30,6 +30,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Validates an accounting line that, if the line is not a correction document, the line amount is a positive amount
  */
 public class AccountingLineAmountPositiveValidation extends GenericValidation {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAmountPositiveValidation.class);
+    
     private AccountingDocument accountingDocumentForValidation;
     private AccountingLine accountingLineForValidation;
     

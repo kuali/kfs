@@ -28,7 +28,9 @@ import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
-    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService = SpringContext.getBean(DisbursementVoucherWorkGroupService.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
+    
+    private DisbursementVoucherWorkGroupService disbursementVoucherWorkGroupService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -58,9 +60,11 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
                     return false;
                 }
             }
+            
+            return true;
         }
         
-        return true;
+        return super.validate(event);
     }
     
     // determine whether the current user is a member of the specified work groups

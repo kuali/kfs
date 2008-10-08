@@ -41,6 +41,7 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
         }
 
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
 
         /* currency type code required */
@@ -54,6 +55,7 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return errors.isEmpty();
     }
@@ -65,5 +67,13 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

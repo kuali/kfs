@@ -63,7 +63,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
  * A rule that uses the accounting rule engine to perform rule validations.
  */
 public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule, AddAccountingLineRule, DeleteAccountingLineRule, UpdateAccountingLineRule, ReviewAccountingLineRule, AddPurchasingAccountsPayableItemRule, AddCheckRule, DeleteCheckRule, UpdateCheckRule {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingRuleEngineRuleBase.class);
+    
     /**
      * @see org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule#validateForEvent(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
@@ -76,7 +77,15 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
         } else {
             String beanName = validationMap.get(event.getClass());
             Map<String, Validation> validationBeans = SpringContext.getBeansOfType(Validation.class);
-            return validationBeans.get(beanName).stageValidation(event);
+            
+            LOG.info("======================================class: " + event.getClass());
+            LOG.info("======================================beanName: " + beanName);
+            
+            boolean isvalid = validationBeans.get(beanName).stageValidation(event);
+            
+            LOG.info("======================================isvalid: " + isvalid);
+            
+            return isvalid;
         }
     }
     
@@ -148,7 +157,14 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean result = super.processCustomRouteDocumentBusinessRules(document);
         
-        result &= validateForEvent(new AttributedRouteDocumentEvent(document));
+        LOG.info("==============================>>>>>" + result);
+        AttributedRouteDocumentEvent event = new AttributedRouteDocumentEvent(document);
+        
+        LOG.info("==============================>>>>>" + event);
+        
+        result &= validateForEvent(event);
+        
+        LOG.info("==============================>>>>>" + result);
         
         return result;
     }
@@ -159,6 +175,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean result = super.processCustomSaveDocumentBusinessRules(document);
+        LOG.info("==============================>>>>>" + result);
         
         result &= validateForEvent(new AttributedSaveDocumentEvent(document));
         
@@ -169,6 +186,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
      * @see org.kuali.kfs.sys.document.validation.AddAccountingLineRule#processAddAccountingLineBusinessRules(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
     public boolean processAddAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        LOG.info("==============================>>>>> processAddAccountingLineBusinessRules");
         return validateForEvent(new AttributedAddAccountingLineEvent("", financialDocument, accountingLine));
     }
 

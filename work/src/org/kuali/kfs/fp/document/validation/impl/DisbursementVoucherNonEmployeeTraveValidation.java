@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherNonEmployeeTraveValidation.class);
 
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private ParameterService parameterService;
     private AccountingDocument accountingDocumentForValidation;
     
     /**
@@ -53,6 +53,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         }
         
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
 
         /* check that vendor is no an employee, and if they are, then report error and stop validation */
@@ -129,6 +130,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return errors.isEmpty();
     }
@@ -244,5 +246,21 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

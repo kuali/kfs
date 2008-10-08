@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class DisbursementVoucherDocumentLocationValidation extends GenericValidation implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentLocationValidation.class);
 
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private ParameterService parameterService;
     private AccountingDocument accountingDocumentForValidation;
 
     /**
@@ -48,6 +48,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
 
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // payment reason restrictions
         if (ObjectUtils.isNotNull(payeeDetail.getDisbVchrPaymentReasonCode())) {
@@ -65,6 +66,8 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         // initiator campus code restrictions
         parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+        
         return errors.isEmpty();
     }
 
@@ -93,5 +96,21 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 }

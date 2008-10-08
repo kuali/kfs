@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -38,23 +39,30 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
+        DisbursementVoucherWireTransfer wireTransfer = document.getDvWireTransfer();
 
         if (!PAYMENT_METHOD_WIRE.equals(document.getDisbVchrPaymentMethodCode())) {
             return true;
         }
 
         ErrorMap errors = GlobalVariables.getErrorMap();
-
+        LOG.info("===================" + errors.getErrorPath());
+        
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
-        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvWireTransfer());
+        
+        LOG.info("===================" + errors.getErrorPath());
+        
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(wireTransfer);
 
-        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(wireTransfer.getDisbVchrBankCountryCode()) && StringUtils.isBlank(wireTransfer.getDisbVchrBankRoutingNumber())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KFSKeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
         }
 
-        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(wireTransfer.getDisbVchrBankCountryCode()) && StringUtils.isBlank(wireTransfer.getDisbVchrBankStateCode())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Bank State");
         }
 
@@ -75,6 +83,14 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

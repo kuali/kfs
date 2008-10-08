@@ -36,13 +36,15 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherRuleConstants{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
 
-    private ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+    private ParameterService parameterService;
     private AccountingDocument accountingDocumentForValidation;
     
     public static final String DV_PAYMENT_REASON_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
-    
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail dvPayeeDetail = document.getDvPayeeDetail();
@@ -52,6 +54,8 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
 
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        
         String paymentReasonCode = dvPayeeDetail.getDisbVchrPaymentReasonCode();
 
         // restrictions on payment reason when alien indicator is checked
@@ -113,6 +117,8 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
             }
         }
         
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+        
         return errors.isEmpty();
     }
     
@@ -135,4 +141,19 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
+    }
 }

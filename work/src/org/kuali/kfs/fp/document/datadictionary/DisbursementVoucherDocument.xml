@@ -6,7 +6,7 @@
 
   <bean id="DisbursementVoucherDocument" parent="DisbursementVoucherDocument-parentBean" />
 
-  <bean id="DisbursementVoucherDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+  <bean id="DisbursementVoucherDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="label" value="Disbursement Voucher" />
     <property name="shortLabel" value="Disbursement Voucher" />
     <property name="summary" value="&amp;nbsp;" />
@@ -16,7 +16,13 @@
     </property>
     <property name="documentTypeName" value="DisbursementVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
+
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule" />
+   
+    <!-- 
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+	-->
+    
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />
     <property name="documentTypeCode" value="DV" />
@@ -65,6 +71,8 @@
         <ref bean="DisbursementVoucherDocument-disbVchrPdpBankCode" />
       </list>
     </property>
+    
+    <property name="validationMap" ref="DisbursementVoucherDocument-validations" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -442,4 +450,45 @@
       </list>
     </property>
   </bean>
+  
+  <!-- validations -->  
+  <bean id="DisbursementVoucherDocument-validations" parent="DisbursementVoucherDocument-validations-parentBean" /> 
+  <bean id="DisbursementVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>DisbursementVoucher-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>DisbursementVoucher-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>DisbursementVoucher-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>DisbursementVoucher-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEvent</value></key>
+				<value>DisbursementVoucher-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent</value></key>
+				<value>DisbursementVoucher-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent</value></key>
+				<value>DisbursementVoucher-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedReviewAccountingLineEvent</value></key>
+				<value>DisbursementVoucher-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>  
 </beans>

@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -33,10 +34,13 @@ public class DisbursementVoucherAccountingLineCountValidation extends GenericVal
      */
     public boolean validate(AttributedDocumentEvent event) {
         ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         if (accountingDocumentForValidation.getSourceAccountingLines().size() < 1) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NO_ACCOUNTING_LINES);
         }
+        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return errors.isEmpty();
     }
@@ -48,6 +52,14 @@ public class DisbursementVoucherAccountingLineCountValidation extends GenericVal
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
+    }
+
+    /**
+     * Gets the accountingDocumentForValidation attribute. 
+     * @return Returns the accountingDocumentForValidation.
+     */
+    public AccountingDocument getAccountingDocumentForValidation() {
+        return accountingDocumentForValidation;
     }
 
 }

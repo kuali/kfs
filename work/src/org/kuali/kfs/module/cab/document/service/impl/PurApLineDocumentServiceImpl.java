@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.core.proxy.ProxyHelper;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -35,11 +34,16 @@ import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cab.document.web.PurApLineSession;
 import org.kuali.kfs.module.cab.document.web.struts.PurApLineForm;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
+import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -64,8 +68,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         // set assetPaymentDetail list
         createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
 
-        // TODO: createAssetPaymentAssetDetails() for capitalAssetNumber entered from PurAp.
-        createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(), selectedItem, purApForm.getRequisitionIdentifier());
+        // If PurAp user entered capitalAssetNumbers, include them in the Asset Payment Document.
+        if (selectedItem.getCapitalAssetNumbers() != null && !selectedItem.getCapitalAssetNumbers().isEmpty()) {
+            createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(), selectedItem, newDocument.getDocumentNumber());
+
+        }
 
         documentService.saveDocument(newDocument);
 
@@ -73,9 +80,53 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         return newDocument.getDocumentNumber();
     }
 
-    private void createAssetPaymentAssetDetails(List assetPaymentAssetDetail, PurchasingAccountsPayableItemAsset selectedItem, Integer requisitionIdentifier) {
 
+    /**
+     * Create AssetPaymentAssetDetail List for assetPaymentDocument.
+     * 
+     * @param assetPaymentAssetDetails
+     * @param selectedItem
+     * @param documentNumber
+     */
+    private void createAssetPaymentAssetDetails(List assetPaymentAssetDetails, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber) {
+        for (Long capitalAssetNumber : selectedItem.getCapitalAssetNumbers()) {
+            // check if capitalAssetNumber is a valid value or not.
+            if (isAssetNumberValid(capitalAssetNumber)) {
+                AssetPaymentAssetDetail assetDetail = new AssetPaymentAssetDetail();
+
+                assetDetail.setCapitalAssetNumber(capitalAssetNumber);
+                assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
+                assetDetail.setDocumentNumber(documentNumber);
+
+                AssetService assetService = SpringContext.getBean(AssetService.class);
+                Asset candidateAsset = assetDetail.getAsset();  
+                // asset must be an active & not retired. Duplication check is done during feeding asset numbers from PurAp. 
+                if (ObjectUtils.isNotNull(candidateAsset) && assetService.isCapitalAsset(candidateAsset) && !assetService.isAssetRetired(candidateAsset)) {
+                    assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
+                    assetPaymentAssetDetails.add(assetDetail);
+                }
+
+            }
+        }
     }
+
+
+    /**
+     * Check the asset table if given capitalAssetNumber is valid or not.
+     * 
+     * @param capitalAssetNumber
+     * @return
+     */
+    private boolean isAssetNumberValid(Long capitalAssetNumber) {
+        Map pKeys = new HashMap<String, Object>();
+
+        pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, capitalAssetNumber);
+
+        Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);
+
+        return ObjectUtils.isNull(asset);
+    }
+
 
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processCreateAsset(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
@@ -289,7 +340,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 assetPaymentDetail.setRequisitionNumber(requisitionIdentifier.toString());
                 assetPaymentDetail.setTransferPaymentIndicator(false);
 
-
+                // add to payment list
                 assetPaymentList.add(assetPaymentDetail);
             }
         }

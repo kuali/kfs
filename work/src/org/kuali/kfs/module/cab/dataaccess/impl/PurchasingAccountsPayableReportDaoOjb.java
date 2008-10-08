@@ -36,6 +36,9 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseOjb implements PurchasingAccountsPayableReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableReportDaoOjb.class);
 
+    /**
+     * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findPurchasingAccountsPayableDocuments(java.util.Map)
+     */
     public Collection findPurchasingAccountsPayableDocuments(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new PurchasingAccountsPayableDocument());
         QueryByCriteria query = QueryFactory.newQuery(PurchasingAccountsPayableDocument.class, criteria);
@@ -44,7 +47,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
-    
+
     /**
      * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findGeneralLedgers(java.util.Map)
      */
@@ -111,7 +114,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
      */
     private List<String> buildAttributeList(boolean isExtended) {
         List attributeList = new ArrayList();
-        
+
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_YEAR);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_PERIOD_CODE);
         attributeList.add(CabPropertyConstants.GeneralLedgerEntry.CHART_OF_ACCOUNTS_CODE);

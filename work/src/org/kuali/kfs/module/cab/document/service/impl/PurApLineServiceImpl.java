@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.ExistsCriteria;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
@@ -992,7 +993,7 @@ public class PurApLineServiceImpl implements PurApLineService {
             capitalAssetNumbers = getAssetNumbersFromItemCapitalAssets(purchasingCapitalAssetItem.getPurchasingCapitalAssetSystem().getItemCapitalAssets());
             capitalAssetTransactionTypeCode = purchasingCapitalAssetItem.getCapitalAssetTransactionTypeCode();
 
-            // set capitalAssetTransactionTypeCode and capitalAssetNumbers.
+            // set capitalAssetTransactionTypeCode and capitalAssetNumbers for each matching item
             for (PurchasingAccountsPayableItemAsset itemAsset : matchingItems) {
                 itemAsset.setCapitalAssetTransactionTypeCode(capitalAssetTransactionTypeCode);
                 itemAsset.setCapitalAssetNumbers(capitalAssetNumbers);
@@ -1010,11 +1011,27 @@ public class PurApLineServiceImpl implements PurApLineService {
         List<Long> assetNumbers = new ArrayList<Long>();
 
         for (ItemCapitalAsset asset : itemCapitalAssets) {
-            if (asset.getCapitalAssetNumber() != null) {
+            if (asset.getCapitalAssetNumber() != null && !isAssetNumberDuplicate(asset.getCapitalAssetNumber(),assetNumbers)) {
                 assetNumbers.add(asset.getCapitalAssetNumber());
             }
         }
         return assetNumbers;
+    }
+
+    /**
+     * Check if given capitalAssetNumber is an duplicate number in assetNumbers list.
+     * 
+     * @param capitalAssetNumber
+     * @param assetNumbers
+     * @return
+     */
+    private boolean isAssetNumberDuplicate(Long candidateNumber, List<Long> assetNumbers) {
+        for(Long existingNumber: assetNumbers) {
+            if (existingNumber.equals(candidateNumber)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

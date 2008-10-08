@@ -30,7 +30,13 @@ public interface PurchasingAccountsPayableReportDao {
      * @return
      */
     Iterator findGeneralLedgers(Map fieldValues);
-    
+
+    /**
+     * Get PurchasingAccountsPayableDocument collection from given query fields.
+     * 
+     * @param fieldValues
+     * @return
+     */
     Collection findPurchasingAccountsPayableDocuments(Map fieldValues);
-    
+
 }

@@ -28,12 +28,18 @@ public class PurchasingAccountsPayableReportServiceImpl implements PurchasingAcc
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableReportServiceImpl.class);
     protected PurchasingAccountsPayableReportDao purApReportDao;
 
+    /**
+     * @see org.kuali.kfs.module.cab.service.PurchasingAccountsPayableReportService#findGeneralLedgers(java.util.Map)
+     */
     public Iterator findGeneralLedgers(Map<String, String> fieldValues) {
         LOG.debug("findGeneralLedgers() started");
 
         return purApReportDao.findGeneralLedgers(fieldValues);
     }
 
+    /**
+     * @see org.kuali.kfs.module.cab.service.PurchasingAccountsPayableReportService#findPurchasingAccountsPayableDocuments(java.util.Map)
+     */
     public Collection findPurchasingAccountsPayableDocuments(Map<String, String> fieldValues) {
         LOG.debug("findPurchasingAccountsPayableDocuments() started");
 

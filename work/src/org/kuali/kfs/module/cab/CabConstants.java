@@ -55,8 +55,8 @@ public class CabConstants extends JSTLConstants {
         public static final String MERGE = "merge";
         public static final String MERGE_ALL = "merge all";
         public static final String ALLOCATE = "allocate";
-        public static final String CREATE_NEW = "create new assets";
-        public static final String ADD_PAYMENTS = "add payments";
+        public static final String CREATE_ASSET = "createAsset";
+        public static final String APPLY_PAYMENT = "applyPayment";
         public static final String PERCENT_PAYMENT = "percent payment";
     }
 
@@ -68,6 +68,7 @@ public class CabConstants extends JSTLConstants {
     }
 
     public static final String TRADE_IN_INDICATOR_QUESTION = "TradeInIndicatorConfirmation";
+    public static final String SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION = "SkipAssetNumbersToAssetGlobalConfirmation";
     public static final String CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW = "NEW";
     public static final String PO_STATUS_CODE_OPEN = "OPEN";
 

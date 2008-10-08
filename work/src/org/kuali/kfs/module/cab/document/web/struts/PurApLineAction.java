@@ -43,6 +43,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -55,6 +56,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.kns.web.struts.pojo.ArrayUtils;
 
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -276,8 +278,8 @@ public class PurApLineAction extends KualiAction {
     }
 
     /**
-     * If to be merged items have: (1) No Pretag data: No problem; (2) 1 Pretag data entry: Associate this one with the new item created
-     * after merge;(3) 1+ Pretag data entries: Display error, user has to manually fix data
+     * If to be merged items have: (1) No Pretag data: No problem; (2) 1 Pretag data entry: Associate this one with the new item
+     * created after merge;(3) 1+ Pretag data entries: Display error, user has to manually fix data
      * 
      * @param mergeLines
      */
@@ -492,7 +494,7 @@ public class PurApLineAction extends KualiAction {
         }
         if (selectedLine.isItemAssignedToTradeInIndicator()) {
             // TI indicator exists, bring up a warning message to confirm this action.
-            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.APPLY_PAYMENT, "");
         }
         // create CAMS asset payment global document.
         if ((documentNumber = purApLineDocumentService.processApplyPayment(selectedLine, purApForm, purApLineSession)) != null) {
@@ -513,12 +515,18 @@ public class PurApLineAction extends KualiAction {
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                // create CAMS asset global document.
-                if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
-                    // forward link to asset global
-                    String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
-                    return new ActionForward(forwardUrl, true);
+
+                // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm
+                // using
+                // Asset Global document.
+                if (selectedLine.getCapitalAssetNumbers() != null && !selectedLine.getCapitalAssetNumbers().isEmpty()) {
+                    return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
                 }
+
+                return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
+            }
+            else if (CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -527,16 +535,29 @@ public class PurApLineAction extends KualiAction {
         checkCreateAssetValid(selectedLine);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
+            // TI indicator exists, bring up a warning message to confirm this action.
             if (selectedLine.isItemAssignedToTradeInIndicator()) {
-                // TI indicator exists, bring up a warning message to confirm this action.
-                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.ALLOCATE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.TRADE_IN_INDICATOR_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_TRADE_IN_INDICATOR_EXISTING), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
-            // create CAMS asset global document.
-            if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
-                // forward link to asset global
-                String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
-                return new ActionForward(forwardUrl, true);
+
+            // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm using
+            // Asset Global document.
+            if (selectedLine.getCapitalAssetNumbers() != null && !selectedLine.getCapitalAssetNumbers().isEmpty()) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
+            return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    private ActionForward createAssetGlobalDocument(ActionMapping mapping, PurApLineForm purApForm, PurchasingAccountsPayableItemAsset selectedLine, PurApLineSession purApLineSession) throws WorkflowException {
+        String documentNumber;
+        // create CAMS asset global document.
+        if ((documentNumber = purApLineDocumentService.processCreateAsset(selectedLine, purApForm, purApLineSession)) != null) {
+            // forward link to asset global
+            String forwardUrl = getDocHandlerForwardLink(CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT, documentNumber);
+            return new ActionForward(forwardUrl, true);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

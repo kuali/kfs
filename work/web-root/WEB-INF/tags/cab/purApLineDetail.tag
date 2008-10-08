@@ -96,9 +96,11 @@
 		</c:choose>
 	</td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/>
-		<c:forEach items="${itemLine.capitalAssetNumbers}" var="capitalAssetNumber" >
-			${capitalAssetNumber} <br></br>
-		</c:forEach>
+		<c:if test="${itemLine.active }">
+			<c:forEach items="${itemLine.capitalAssetNumbers}" var="capitalAssetNumber" >
+				${capitalAssetNumber} <br></br>
+			</c:forEach>
+		</c:if>
 	</td>
 	<c:choose>
 	<c:when test="${itemLine.itemAssignedToTradeInIndicator}">

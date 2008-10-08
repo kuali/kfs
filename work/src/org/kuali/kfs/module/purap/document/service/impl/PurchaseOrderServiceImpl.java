@@ -819,6 +819,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 newDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
                 
+                //fix references before saving
+                fixItemReferences(newDocument);
+                
                 saveDocumentWithoutValidation(newDocument);
                                    
                 return newDocument;
@@ -1849,6 +1852,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return null;
     }
 
-
+    /**
+     * This method fixes the item references in this document
+     */
+    private void fixItemReferences(PurchaseOrderDocument po) {
+        //fix item and account references in case this is a new doc (since they will be lost)
+        for (PurApItem item : (List<PurApItem>)po.getItems()) {
+            item.setPurapDocument(po);
+            item.fixAccountReferences();
+        }
+    }
 
 }

@@ -66,6 +66,7 @@ public enum AmountsLimitsFixture {
         items.add(item);
         po.setItems(items);
         po.setPurchaseOrderTotalLimit(this.poLimit);
+        po.fixItemReferences();
         return po;
     }
 }

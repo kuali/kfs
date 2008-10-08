@@ -30,6 +30,7 @@
     <field-descriptor name="purchasingDepartmentStateCode" column="PUR_DEPT_ST_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
     <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
@@ -528,6 +529,7 @@
     <field-descriptor name="contractManagerPhoneNumber" column="CONTR_MGR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerDelegationDollarLimit" column="CONTR_MGR_DLGN_DLR_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
 	<!--
     <field-descriptor name="contractManagerSignatureImageLocationDescription" column="CONTR_MGR_SIG_IMG_LOC_DESC" jdbc-type="VARCHAR"/>
     -->

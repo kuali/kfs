@@ -74,6 +74,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerDelegationDollarLimit"
               p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="activeIndicator"
+              p:required="true" />                 
 		<!--
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerSignatureImageLocationDescription"

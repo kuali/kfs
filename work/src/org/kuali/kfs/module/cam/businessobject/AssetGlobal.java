@@ -934,7 +934,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.getAssetLocations().add(offCampusLocation);
         }
 
-        offCampusLocation.setAssetLocationContactName(detail.getAssetRepresentative().getPersonName());
+        offCampusLocation.setAssetLocationContactName(detail.getOffCampusName());
         offCampusLocation.setAssetLocationContactIdentifier(detail.getRepresentativeUniversalIdentifier());
         offCampusLocation.setAssetLocationInstitutionName(detail.getAssetRepresentative().getPrimaryDepartmentCode());
         offCampusLocation.setAssetLocationPhoneNumber(null);

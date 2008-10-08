@@ -52,11 +52,17 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         }
         else {
             setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
-            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, true);
+            // If asset global document is created from CAB, disallow add payment to collection.
+            boolean allowAddPaymentToCollection = true;
+            if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+                allowAddPaymentToCollection = false;
+            }
+            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, allowAddPaymentToCollection);
         }
 
         return auths;
     }
+
 
     /**
      * Sets Asset Global Details fields to read only
@@ -104,7 +110,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX + "." + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
-                                                                                                                                                                                                                                                                                        // (Long)
+            // (Long)
 
             // hide it for the existing lines
             int j = 0;
@@ -116,7 +122,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.ORGANIZATION_TEXT); // organizationText
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.MANUFACTURER_MODEL_NUMBER); // manufacturerModelNumber
                 auths.addHiddenAuthField(CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + i + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + j + "]." + CamsPropertyConstants.AssetGlobalDetail.SEPARATE_SOURCE_AMOUNT); // separateSourceAmount
-                                                                                                                                                                                                                                                                    // (Long)
+                // (Long)
                 j++;
             }
 
@@ -134,7 +140,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
         // do not include payment add section within the payment details collection
         MaintainableCollectionDefinition maintCollDef = SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getMaintainableCollection("AssetGlobalMaintenanceDocument", "assetPaymentDetails");
         maintCollDef.setIncludeAddLine(bool);
-        
+
         // set all payment detail fields to read only
         int i = 0;
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {

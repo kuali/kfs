@@ -73,7 +73,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(), selectedItem, newDocument.getDocumentNumber());
 
         }
-
+        // set origin code in the Asset Payment Document
+        newDocument.setCapitalAssetBuilderOriginIndicator(true);
         documentService.saveDocument(newDocument);
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
@@ -413,6 +414,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
+        // set origin code in the Asset Payment Document
+        assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
 
         // feeding data from pre-asset tagging table.
         if (preTag != null) {

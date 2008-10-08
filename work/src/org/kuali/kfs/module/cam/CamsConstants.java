@@ -27,7 +27,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
  */
 public class CamsConstants extends JSTLConstants {
     // public static final String SYSTEM_NAME = "Capital Assets Management System";
-
+    public static final String ASSET_GLOBAL_MAINTENANCE_DOCUMENT = "AssetGlobalMaintenanceDocument";
     public static final int ASSET_MAXIMUM_NUMBER_OF_PAYMENT_DISPLAY = 10;
 
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE = "SV";

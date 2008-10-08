@@ -125,14 +125,16 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                 if (StringUtils.isNotBlank(detail.getBuildingSubRoomNumber())) {
                     asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
                 }
-                
-                if (StringUtils.isNotBlank(detail.getCampusTagNumber())) {
-                    if (!StringUtils.equalsIgnoreCase(detail.getCampusTagNumber(), asset.getCampusTagNumber())) {
-                        asset.setOldTagNumber(asset.getCampusTagNumber());
-                        asset.setCampusTagNumber(detail.getCampusTagNumber());
-                    }
+
+                // set tag number to null if no data in field
+                if (StringUtils.isNotBlank(detail.getCampusTagNumber()) && !StringUtils.equalsIgnoreCase(detail.getCampusTagNumber(), asset.getCampusTagNumber())) {
+                    asset.setOldTagNumber(asset.getCampusTagNumber());
+                    asset.setCampusTagNumber(detail.getCampusTagNumber());
                 }
-                
+                else {
+                    asset.setCampusTagNumber(null);
+                }
+
                 persistables.add(asset);
             }
         }

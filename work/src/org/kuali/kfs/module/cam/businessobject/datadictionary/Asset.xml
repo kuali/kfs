@@ -214,14 +214,14 @@
         </dd:relationship>
       </list>
     </property>
-    <property name="inactivationBlockingDefinitions">
+    <!-- property name="inactivationBlockingDefinitions">
       <list>
         <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="building"/>
         <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="buildingRoom"/>
       </list>
-    </property>
+    </property -->
   </bean>
 
 <!-- Attribute Definitions -->    

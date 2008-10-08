@@ -30,7 +30,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class PurApAccountLineGroup extends AccountLineGroup {
     private Logger LOG = Logger.getLogger(PurApAccountLineGroup.class);
-    private PurApAccountingLineBase targetEntry;
     private List<PurApAccountingLineBase> sourceEntries = new ArrayList<PurApAccountingLineBase>();
 
     /**
@@ -55,7 +54,6 @@ public class PurApAccountLineGroup extends AccountLineGroup {
         setFinancialObjectCode(entry.getFinancialObjectCode());
         setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
         this.sourceEntries.add(entry);
-        this.targetEntry = entry;
         if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
             setAmount(entry.getAmount().negated());
         }
@@ -88,26 +86,8 @@ public class PurApAccountLineGroup extends AccountLineGroup {
         else {
             this.amount = this.amount.add(newEntry.getAmount());
         }
-        this.targetEntry.setAmount(this.targetEntry.getAmount().add(newEntry.getAmount()));
     }
 
-    /**
-     * Gets the targetEntry attribute.
-     * 
-     * @return Returns the targetEntry
-     */
-    public PurApAccountingLineBase getTargetEntry() {
-        return targetEntry;
-    }
-
-    /**
-     * Sets the targetEntry attribute.
-     * 
-     * @param targetEntry The targetEntry to set.
-     */
-    public void setTargetEntry(PurApAccountingLineBase targetGlEntry) {
-        this.targetEntry = targetGlEntry;
-    }
 
     /**
      * Gets the sourceEntries attribute.

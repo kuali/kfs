@@ -36,6 +36,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.CustomerLoadBatchErrors;
 import org.kuali.kfs.module.ar.batch.CustomerLoadStep;
+import org.kuali.kfs.module.ar.batch.report.Reporter;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterAdapter;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
@@ -61,19 +62,20 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerLoadServiceImpl implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
     private static final String DOC_TYPE_NAME = "CustomerMaintenanceDocument";
     private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
+    private static final String NA = "-- N/A --";
     
     private BatchInputFileService batchInputFileService;
     private CustomerService customerService;
@@ -84,6 +86,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private FinancialSystemUserService fsUserService;
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
+    private DateTimeService dateTimeService;
     
     private BatchInputFileType batchInputFileType;
     private CustomerDigesterAdapter adapter;
@@ -152,32 +155,48 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return false;
     }
     
+    private void flushReporter(Reporter reporter) {
+        //TODO Write out to the LOG and the Report
+    }
+    
     public boolean loadFiles() {
         
         boolean result = true;
+        Reporter reporter = new Reporter();
+        reporter.setDateTimeService(dateTimeService);
         
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
         
         //  fail if null returned by batchInputFileService
         if (fileNamesToLoad == null) {
+            reporter.addErrorEntry(NA, NA, "BatchInputFileService.listInputFileNamesWithDoneFile(" + 
+                    batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
+            flushReporter(reporter);
             throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
         }
         
-        List<String> processedFiles = new TypedArrayList(String.class);
+        //  create the logging/reporting structure 
+        
+        List<String> processedFiles = new ArrayList<String>();
         for (String inputFileName : fileNamesToLoad) {
             
             //  filenames returned should never be blank/empty/null
             if (StringUtils.isBlank(inputFileName)) {
+                reporter.addErrorEntry(NA, NA, "One of the file names returned as ready to process [" + inputFileName + 
+                        "] was blank.  This should not happen, so throwing an error to investigate.");
+                flushReporter(reporter);
                 throw new RuntimeException("One of the file names returned as ready to process [" + inputFileName + 
                         "] was blank.  This should not happen, so throwing an error to investigate.");
             }
             
-            if (loadFile(inputFileName)) {
+            if (loadFile(inputFileName, reporter)) {
                 result &= true;
+                reporter.addInfoEntry(inputFileName, NA, "File completed processing.");
                 processedFiles.add(inputFileName);
             }
             else {
+                reporter.addErrorEntry(inputFileName, NA, "File failed to process successfully.");
                 result &= false;
             }
         }
@@ -204,6 +223,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String)
      */
     public boolean loadFile(String fileName) {
+        Reporter reporter = new Reporter();
+        reporter.setDateTimeService(dateTimeService);
+        return loadFile(fileName, reporter);
+    }
+    
+    public boolean loadFile(String fileName, Reporter reporter) {
         
         boolean result = true;
         
@@ -214,17 +239,21 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
 
         //  parse the file against the XSD schema and load it into an object
+        reporter.addInfoEntry(fileName, NA, "Attempting to parse the file using Apache Digester.");
         Object parsedObject = null;
         try {
             parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         }
         catch (XMLParseException e) {
-            LOG.error("errors parsing xml " + e.getMessage(), e);
+            reporter.addErrorEntry(fileName, NA, "Error parsing batch file: " + e.getMessage());
+            flushReporter(reporter);
             throw new XMLParseException(e.getMessage());
         }
         
         //  make sure we got the type we expected, then cast it
         if (!(parsedObject instanceof CustomerDigesterVO)) {
+            reporter.addErrorEntry(fileName, NA, "Parsed file was not of the expected type.");
+            flushReporter(reporter);
             throw new RuntimeException("Parsed object was not of the expected type.  " + 
                     "Was: [" + parsedObject.getClass().toString() + "], expected: [" + CustomerDigesterVO.class + "].");
         }
@@ -235,23 +264,24 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         customerVOs.add(customerVO);
         
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
-        result = validateAndPrepare(customerVOs, readyTransientDocs);
+        reporter.addInfoEntry(fileName, NA, "Beginning validation and preparation of batch file.");
+        result = validateAndPrepare(customerVOs, readyTransientDocs, reporter);
         
         //  send the readyDocs into workflow
-        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers);
+        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
         
         return result;
     }
 
-    private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers) {
+    private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers, Reporter reporter) {
         boolean result = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
-            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers);
+            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, reporter);
         }
         return result;
     }
     
-    private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers) {
+    private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers, Reporter reporter) {
         boolean result = true;
         
         //  create a real workflow document
@@ -339,6 +369,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
     
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs) {
+        Reporter reporter = new Reporter();
+        reporter.setDateTimeService(dateTimeService);
+        return validateAndPrepare(customerUploads, customerMaintDocs, reporter);
+    }
+    
+    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, Reporter reporter) {
         
         //TODO Yes I know this method needs to be broken up into some other sub-methods
         
@@ -687,6 +723,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
     public void setBoService(BusinessObjectService boService) {
         this.boService = boService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 }

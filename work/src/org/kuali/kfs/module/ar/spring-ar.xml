@@ -387,6 +387,9 @@
 		<property name="batchInputFileType">
 			<ref bean="customerLoadInputFileType" />
 		</property>					
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>					
 	</bean>
 	
 	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">

@@ -32,6 +32,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.spring.Logged;
 
 public class DisbursementVoucherPaymentReasonValidation extends GenericValidation implements DisbursementVoucherRuleConstants{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonValidation.class);
@@ -46,7 +47,8 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");       
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail dvPayeeDetail = document.getDvPayeeDetail();
@@ -81,9 +83,11 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
                 // If vendor is not a revolving fund vendor, report an error
                 if(!SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
                     errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, dvPayeeDetail.getDisbVchrPaymentReasonCode());
+                    isValid = false;
                 }
             } else {
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, dvPayeeDetail.getDisbVchrPaymentReasonCode());
+                isValid = false;
             }
         }
         
@@ -97,6 +101,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
                 // only vendors who are  individuals can be paid moving expenses
                 if (!OWNERSHIP_TYPE_INDIVIDUAL.equals(vendor.getVendorHeader().getVendorOwnershipCode())) {
                     errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
+                    isValid = false;
                 }
             }
         }
@@ -113,14 +118,16 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
                     if (document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && dvPayeeDetail.isDvPayeeSubjectPaymentCode()) {
                         if(!StringUtils.equals(dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR)) {
                             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+                            isValid = false;
                         }
                     }
                 }
             }
         }
         
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);        
-        return errors.isEmpty();
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);    
+
+        return isValid;
     }
     
     /**

@@ -42,7 +42,8 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPreConferenceDetail preConferenceDetail = document.getDvPreConferenceDetail();
@@ -53,8 +54,8 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-
         errors.addToErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+        
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(preConferenceDetail, 1);
         if (!errors.isEmpty()) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
@@ -65,6 +66,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         /* check conference end date is not before conference start date */
         if (preConferenceDetail.getDisbVchrConferenceEndDate().compareTo(preConferenceDetail.getDisbVchrConferenceStartDate()) < 0) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_CONFERENCE_END_DATE, KFSKeyConstants.ERROR_DV_CONF_END_DATE);
+            isValid = false;
         }
 
         /* total on prepaid travel must equal Check Total */
@@ -73,12 +75,13 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         paidAmount = paidAmount.add(SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(preConferenceDetail.getDisbVchrConferenceTotalAmt()) != 0) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PREPAID_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
+            isValid = false;
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        return errors.isEmpty();
+        return isValid;
     }
     
     /**

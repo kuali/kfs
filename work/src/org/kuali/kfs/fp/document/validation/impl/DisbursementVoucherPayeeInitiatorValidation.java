@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.user.PersonTaxId;
@@ -41,8 +40,12 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
     
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");        
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
@@ -50,7 +53,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        String uuid = "";
+        String uuid = null;
         // If payee is a vendor, then look up SSN and look for SSN in the employee table
         if (StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR) && StringUtils.isNotBlank(payeeDetail.getDisbVchrVendorHeaderIdNumber())) {
             VendorDetail dvVendor = retrieveVendorDetail(payeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), payeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
@@ -73,11 +76,13 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
             UniversalUser initUser = getInitiator(document);
             if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
+                isValid = false;
             }
         }
         
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);      
-        return errors.isEmpty();
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);   
+        
+        return isValid;
     }
 
     /**

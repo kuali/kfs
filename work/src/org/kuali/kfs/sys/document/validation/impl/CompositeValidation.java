@@ -25,6 +25,8 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
  * This validation represents a hiearchy of validations
  */
 public class CompositeValidation implements Validation {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CompositeValidation.class);
+    
     private List<Validation> subValidations;
     private boolean shouldQuitOnFail = false;
 
@@ -43,6 +45,9 @@ public class CompositeValidation implements Validation {
         for (Validation validation: subValidations) {
             currResult = validation.stageValidation(event);
             result &= currResult;
+            
+            LOG.debug(validation.getClass() + " validation result:" + currResult);
+            
             if (!currResult && validation.shouldQuitOnFail()) {
                 break;
             }

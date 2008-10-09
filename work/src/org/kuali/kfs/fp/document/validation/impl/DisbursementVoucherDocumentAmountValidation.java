@@ -35,7 +35,7 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
         
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
@@ -62,6 +62,7 @@ public class DisbursementVoucherDocumentAmountValidation extends GenericValidati
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+
         return isValid;
     }
 

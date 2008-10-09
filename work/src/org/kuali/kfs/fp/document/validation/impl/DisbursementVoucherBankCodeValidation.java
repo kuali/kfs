@@ -21,9 +21,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
-import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class DisbursementVoucherBankCodeValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherBankCodeValidation.class);
@@ -34,12 +31,12 @@ public class DisbursementVoucherBankCodeValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
         
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
         boolean isValid = BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);
-        
+
         return isValid;
     }
 

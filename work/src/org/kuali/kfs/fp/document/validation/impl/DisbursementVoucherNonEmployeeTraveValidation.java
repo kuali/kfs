@@ -45,7 +45,8 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {  
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = document.getDvNonEmployeeTravel();
@@ -69,12 +70,15 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         /* travel from and to state required if country is us */
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(nonEmployeeTravel.getDvTravelFromCountryCode()) && StringUtils.isBlank(nonEmployeeTravel.getDisbVchrTravelFromStateCode())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_TRAVEL_FROM_STATE_CODE, KFSKeyConstants.ERROR_DV_TRAVEL_FROM_STATE);
+            isValid = false;
         }
+        
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(nonEmployeeTravel.getDisbVchrTravelToCountryCode()) && StringUtils.isBlank(nonEmployeeTravel.getDisbVchrTravelToStateCode())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_TRAVEL_TO_STATE_CODE, KFSKeyConstants.ERROR_DV_TRAVEL_TO_STATE);
+            isValid = false;
         }
 
-        if (!errors.isEmpty()) {
+        if (!isValid) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
             errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
@@ -90,6 +94,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         if (perDiemSectionComplete) { // Only validate if per diem section is filled in
             if (nonEmployeeTravel.getDisbVchrPerdiemCalculatedAmt().compareTo(nonEmployeeTravel.getDisbVchrPerdiemActualAmount()) != 0 && StringUtils.isBlank(nonEmployeeTravel.getDvPerdiemChangeReasonText())) {
                 errors.putError(KFSPropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KFSKeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
+                isValid = false;
             }
         }
 
@@ -98,6 +103,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
             KualiDecimal calculatedPerDiem = SpringContext.getBean(DisbursementVoucherTravelService.class).calculatePerDiemAmount(nonEmployeeTravel.getDvPerdiemStartDttmStamp(), nonEmployeeTravel.getDvPerdiemEndDttmStamp(), nonEmployeeTravel.getDisbVchrPerdiemRate());
             if (calculatedPerDiem.compareTo(nonEmployeeTravel.getDisbVchrPerdiemCalculatedAmt()) != 0) {
                 errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
+                isValid = false;
             }
         }
 
@@ -109,6 +115,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         boolean nraTaxCoded = StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getIncomeClassCode()) && StringUtils.equalsIgnoreCase("N", document.getDvNonResidentAlienTax().getIncomeClassCode());
         if (!nraTaxCoded && paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
+            isValid = false;
         }
 
         /* make sure mileage fields have not changed since the mileage amount calculation */
@@ -119,6 +126,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
                 KualiDecimal calculatedMileageAmount = SpringContext.getBean(DisbursementVoucherTravelService.class).calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
                 if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
                     errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
+                    isValid = false;
                 }
 
                 // determine if the rule is flagged off in the parm setting
@@ -127,6 +135,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
                     // if actual amount is greater than calculated amount
                     if (currentCalcAmt.subtract(currentActualAmt).isNegative()) {
                         errors.putError(KFSPropertyConstants.DV_PERSONAL_CAR_AMOUNT, KFSKeyConstants.ERROR_DV_ACTUAL_MILEAGE_TOO_HIGH);
+                        isValid = false;
                     }
                 }
             }
@@ -135,7 +144,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
         errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        return errors.isEmpty();
+        return isValid;
     }
     
     /**

@@ -44,14 +44,15 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
 
         ErrorMap errors = GlobalVariables.getErrorMap();
-        LOG.info("validate start2" + errors.getErrorPath());
+        int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
 
@@ -59,14 +60,12 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         if (ObjectUtils.isNotNull(payeeDetail.getDisbVchrPaymentReasonCode())) {
             ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, payeeDetail.getDisbVchrPaymentReasonCode(), documentationLocationCode);
             parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
-            LOG.info("validate start1" + errors.getErrorPath());
         }
 
         // alien indicator restrictions
         if (payeeDetail.isDisbVchrAlienPaymentCode()) {
             ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode);
             parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
-            LOG.info("validate start2" + errors.getErrorPath());
         }
 
         UniversalUser initiator = getInitiator(document);
@@ -76,11 +75,13 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         // initiator campus code restrictions
         ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
         parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
-        LOG.info("validate start3" + errors.getErrorPath());
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);       
-        return errors.isEmpty();
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);  
+        
+        isValid = initialErrorCount == errors.getErrorCount();
+        
+        return isValid;
     }
 
     /**

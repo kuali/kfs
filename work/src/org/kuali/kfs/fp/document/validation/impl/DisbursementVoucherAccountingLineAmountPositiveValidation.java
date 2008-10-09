@@ -20,9 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAmountPositiveValidation;
 
@@ -34,7 +32,8 @@ public class DisbursementVoucherAccountingLineAmountPositiveValidation extends A
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) this.getAccountingDocumentForValidation();
         DisbursementVoucherNonResidentAlienTax nonResidentAlienTax = document.getDvNonResidentAlienTax();
@@ -47,6 +46,9 @@ public class DisbursementVoucherAccountingLineAmountPositiveValidation extends A
                 return true;
             }
         }
-        return super.validate(event);
+        
+        isValid = super.validate(event);
+
+        return isValid;
     }
 }

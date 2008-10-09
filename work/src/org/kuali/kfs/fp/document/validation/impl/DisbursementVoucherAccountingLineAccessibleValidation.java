@@ -43,7 +43,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
         
         FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         AccountingDocument accountingDocumentForValidation = this.getAccountingDocumentForValidation();
@@ -73,7 +73,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, personUserIdentifier);
         }
-
+       
         return isAccessible;
     }
 

@@ -41,7 +41,8 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;        
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
@@ -63,6 +64,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         if (document.isDisbVchrSpecialHandlingCode()) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) || StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr())) {
                 errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_SPECHAND_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING);
+                isValid = false;
             }
         }
         
@@ -71,19 +73,22 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         /* if no documentation is selected, must be a note explaining why */
         if (DisbursementVoucherRuleConstants.NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes) {
             errors.putError(KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KFSKeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
+            isValid = false;
         }
 
         /* if special handling indicated, must be a note explaining why */
         if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
+            isValid = false;
         }
 
         /* if exception attached indicated, must be a note explaining why */
         if (document.isExceptionIndicator() && hasNoNotes) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
+            isValid = false;
         }
 
-        return errors.isEmpty();
+        return isValid;
     }
 
     /**

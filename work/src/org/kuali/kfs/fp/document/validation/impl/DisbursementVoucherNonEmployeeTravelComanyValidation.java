@@ -45,7 +45,7 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
         
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
@@ -78,12 +78,14 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
             if (ObjectUtils.isNull(travelCompanyCode)) {
                 String fullPropertyName = this.buildFullPropertyName(DV_PRE_PAID_EMPLOYEE_EXPENSES_PROPERTY_PATH, index, KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME);
                 errors.putErrorWithoutFullErrorPath(fullPropertyName, KFSKeyConstants.ERROR_EXISTENCE, "Company ");
+                isValid = false;
             }
 
             index++;
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+        
         return isValid;
     }
 

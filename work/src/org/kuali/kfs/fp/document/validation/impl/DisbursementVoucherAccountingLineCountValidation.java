@@ -33,18 +33,20 @@ public class DisbursementVoucherAccountingLineCountValidation extends GenericVal
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         if (accountingDocumentForValidation.getSourceAccountingLines().size() < 1) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NO_ACCOUNTING_LINES);
+            isValid = false;
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        return errors.isEmpty();
+        return isValid;
     }
 
     /**

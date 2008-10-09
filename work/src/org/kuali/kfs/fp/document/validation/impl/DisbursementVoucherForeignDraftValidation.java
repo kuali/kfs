@@ -34,7 +34,8 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         if (!PAYMENT_METHOD_DRAFT.equals(document.getDisbVchrPaymentMethodCode())) {
@@ -48,17 +49,19 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
         /* currency type code required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeCode())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+            isValid = false;
         }
 
         /* currency type name required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeName())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+            isValid = false;
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        return errors.isEmpty();
+        return isValid;
     }
 
     /**

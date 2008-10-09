@@ -45,8 +45,12 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
 
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
@@ -89,6 +93,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
                     ParameterEvaluator travelPrepaidPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, PREPAID_TRAVEL_PAY_REASONS_PARM_NM, payeeDetail.getDisbVchrPaymentReasonCode());
                     if (travelPrepaidPaymentReasonCodeEvaluator.evaluationSucceeds()) {
                         errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
+                        isValid = false;
                     }
 
                 }
@@ -101,13 +106,15 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
                     /* If vendor is type employee, vendor record must be flagged as paid outside of payroll */
                     if (!SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(vendor.getVendorHeaderGeneratedIdentifier())) {
                         errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_EMPLOYEE_PAID_OUTSIDE_PAYROLL);
+                        isValid = false;
                     }
                 }
             }
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        return false;
+        
+        return isValid;
     }
 
     /**

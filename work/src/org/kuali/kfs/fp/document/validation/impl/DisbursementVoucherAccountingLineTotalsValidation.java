@@ -37,7 +37,8 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
@@ -66,7 +67,9 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
             return true;
         }
         
-        return super.validate(event);
+        isValid = super.validate(event);
+
+        return isValid;
     }
     
     // determine whether the current user is a member of the specified work groups

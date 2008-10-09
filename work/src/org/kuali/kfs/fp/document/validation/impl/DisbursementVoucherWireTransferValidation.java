@@ -39,41 +39,41 @@ public class DisbursementVoucherWireTransferValidation extends GenericValidation
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
-        LOG.info("validate start");
+        LOG.debug("validate start");
+        boolean isValid = true;
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         DisbursementVoucherWireTransfer wireTransfer = document.getDvWireTransfer();
 
         if (!PAYMENT_METHOD_WIRE.equals(document.getDisbVchrPaymentMethodCode())) {
-            return true;
+            return isValid;
         }
 
-        ErrorMap errors = GlobalVariables.getErrorMap();
-        LOG.info("===================" + errors.getErrorPath());
-        
+        ErrorMap errors = GlobalVariables.getErrorMap();        
         errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
-        
-        LOG.info("===================" + errors.getErrorPath());
         
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(wireTransfer);
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(wireTransfer.getDisbVchrBankCountryCode()) && StringUtils.isBlank(wireTransfer.getDisbVchrBankRoutingNumber())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KFSKeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
+            isValid = false;
         }
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(wireTransfer.getDisbVchrBankCountryCode()) && StringUtils.isBlank(wireTransfer.getDisbVchrBankStateCode())) {
             errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Bank State");
+            isValid = false;
         }
 
         /* cannot have attachment checked for wire transfer */
         if (document.isDisbVchrAttachmentCode()) {
             errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_ATTACHMENT_CODE, KFSKeyConstants.ERROR_DV_WIRE_ATTACHMENT);
+            isValid = false;
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
-
-        return errors.isEmpty();
+        
+        return isValid;
     }
 
     /**

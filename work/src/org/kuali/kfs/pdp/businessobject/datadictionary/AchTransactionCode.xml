@@ -1,0 +1,116 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AchTransactionCode" parent="AchTransactionCode-parentBean" />
+
+  <bean id="AchTransactionCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchTransactionCode" />
+    <property name="inquiryDefinition" >
+      <ref bean="AchTransactionCode-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="AchTransactionCode-lookupDefinition" />
+    </property>
+    <property name="objectLabel" value="ACH Transaction Code" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AchTransactionCode-transactionCode" />
+        <ref bean="AchTransactionCode-description" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AchTransactionCode-transactionCode" parent="AchTransactionCode-transactionCode-parentBean" />
+
+  <bean id="AchTransactionCode-transactionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="transactionCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ach Transaction Code" />
+    <property name="shortLabel" value="Ach Transaction Type" />
+    <property name="maxLength" value="2" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+  </bean>
+  <bean id="AchTransactionCode-description" parent="AchTransactionCode-description-parentBean" />
+
+  <bean id="AchTransactionCode-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Ach Transaction Code description" />
+    <property name="shortLabel" value="Ach Transaction Code description" />
+    <property name="maxLength" value="100" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="100" />
+    </property>
+  </bean>
+ 
+ 
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AchTransactionCode-inquiryDefinition" parent="AchTransactionCode-inquiryDefinition-parentBean" />
+
+  <bean id="AchTransactionCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Ach Transaction Code Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="transactionCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="description" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AchTransactionCode-lookupDefinition" parent="AchTransactionCode-lookupDefinition-parentBean" />
+
+  <bean id="AchTransactionCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Ach Transaction Code Lookup" />
+    <property name="instructions" value="Lookup an Ach Transaction Code" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>transactionCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="transactionCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="description" />
+      </list>
+    </property>
+  </bean>
+</beans>

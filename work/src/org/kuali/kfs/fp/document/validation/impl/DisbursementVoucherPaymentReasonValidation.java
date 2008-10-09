@@ -52,16 +52,16 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail dvPayeeDetail = document.getDvPayeeDetail();
+        String paymentReasonCode = dvPayeeDetail.getDisbVchrPaymentReasonCode();
         
-        /* check payment reason is allowed for payee type */
-        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), dvPayeeDetail.getDisbVchrPaymentReasonCode());
-        paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
-
         ErrorMap errors = GlobalVariables.getErrorMap();
+        int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         
-        String paymentReasonCode = dvPayeeDetail.getDisbVchrPaymentReasonCode();
-
+        /* check payment reason is allowed for payee type */
+        ParameterEvaluator paymentReasonsByTypeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, DisbursementVoucherRuleConstants.INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM, dvPayeeDetail.getDisbursementVoucherPayeeTypeCode(), paymentReasonCode);
+        paymentReasonsByTypeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
+       
         // restrictions on payment reason when alien indicator is checked
         if (dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
             ParameterEvaluator alienPaymentReasonsEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_PAYMENT_REASONS_PARM_NM, paymentReasonCode);
@@ -71,7 +71,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         /* for vendors with a payee type of revolving fund, the payment reason must be a revolving fund payment reason */
         if(dvPayeeDetail.isVendor()) {
             if(SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
-                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAY_REASONS_PARM_NM, dvPayeeDetail.getDisbVchrPaymentReasonCode());
+                ParameterEvaluator revolvingFundPaymentReasonCodeEvaluator = parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, REVOLVING_FUND_PAY_REASONS_PARM_NM, paymentReasonCode);
                 revolvingFundPaymentReasonCodeEvaluator.evaluateAndAddError(document.getClass(), DV_PAYMENT_REASON_PROPERTY_PATH);
             }
         }
@@ -82,11 +82,11 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
             if(dvPayeeDetail.isVendor()) {
                 // If vendor is not a revolving fund vendor, report an error
                 if(!SpringContext.getBean(VendorService.class).isRevolvingFundCodeVendor(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger())) {
-                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, dvPayeeDetail.getDisbVchrPaymentReasonCode());
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
                     isValid = false;
                 }
             } else {
-                errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, dvPayeeDetail.getDisbVchrPaymentReasonCode());
+                errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
                 isValid = false;
             }
         }
@@ -126,7 +126,8 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);    
-
+        
+        isValid = initialErrorCount == errors.getErrorCount();
         return isValid;
     }
     

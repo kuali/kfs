@@ -52,9 +52,11 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         SpringContext.getBean(DictionaryValidationService.class).validateDocument(document);
 
         // validate payee fields
+        errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
         errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(document.getDvPayeeDetail());
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         
         if (!errors.isEmpty()) {
             return false;

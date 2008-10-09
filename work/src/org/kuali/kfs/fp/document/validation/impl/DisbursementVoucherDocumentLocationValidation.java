@@ -54,7 +54,6 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         ErrorMap errors = GlobalVariables.getErrorMap();
         int initialErrorCount = errors.getErrorCount();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-        errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
 
         // payment reason restrictions
         if (ObjectUtils.isNotNull(payeeDetail.getDisbVchrPaymentReasonCode())) {
@@ -76,11 +75,9 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
         parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
-        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);  
         
-        isValid = initialErrorCount == errors.getErrorCount();
-        
+        isValid = initialErrorCount == errors.getErrorCount();        
         return isValid;
     }
 

@@ -137,17 +137,6 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AssetPayment-fiscalPeriodValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="accountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 				<bean parent="AssetPayment-objectCodeSubtypeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -180,7 +169,12 @@
 	<bean id="AssetPayment-updateAccountingLineValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+  			  			
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -191,8 +185,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-
-				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+				<bean parent="AssetPayment-postingDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -237,17 +230,6 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AssetPayment-fiscalPeriodValidation" scope="prototype">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
-								<property name="targetValidationProperty" value="accountingLineForValidation" />
-							</bean>
-						</list>
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
 				<bean parent="AssetPayment-objectCodeSubtypeValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -258,11 +240,6 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>
-
-				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
-					<property name="accountingDocumentParameterPropertyName" value="document" />
-					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
 				</bean>
 			</list>
   		</property>

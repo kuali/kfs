@@ -1,7 +1,9 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -14,6 +16,8 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -183,27 +187,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
 
-
-//    public DocumentHeader getDocumentHeader() {
-//        return documentHeader;
-//    }
-//
-//
-//    public void setDocumentHeader(DocumentHeader documentHeader) {
-//        this.documentHeader = documentHeader;
-//    }
-//
-//
-//    public DocumentHeader getExpenditureFinancialDocument() {
-//        return expenditureFinancialDocument;
-//    }
-//    
-//
-//    public void setExpenditureFinancialDocument(DocumentHeader expenditureFinancialDocument) {
-//        this.expenditureFinancialDocument = expenditureFinancialDocument;
-//    }
-
-    
     public DocumentType getExpenditureFinancialDocumentType() {
         return expenditureFinancialDocumentType;
     }
@@ -231,4 +214,17 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#getValuesMap()
+     */
+    @Override
+    public Map getValuesMap() {
+        Map simpleValues = super.getValuesMap();
+        simpleValues.put(CamsPropertyConstants.AssetPaymentDetail.ORIGINATION_CODE, getExpenditureFinancialSystemOriginationCode());
+        simpleValues.put(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_DATE,getExpenditureFinancialDocumentPostedDate());
+
+        return simpleValues;
+    }    
 }

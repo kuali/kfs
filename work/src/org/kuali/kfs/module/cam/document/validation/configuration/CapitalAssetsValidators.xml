@@ -39,16 +39,10 @@
 		<property name="assetPaymentService" ref="assetPaymentService" />
 	</bean>	
 	
-	<bean id="AssetPayment-fiscalPeriodValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentFiscalPeriodValidation" abstract="true">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
-	</bean> 
-		
 	<bean id="AssetPayment-orginCodeValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentOrginCodeValidation" abstract="true">
 		<property name="originationCodeService" ref="originationCodeService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>	
-	
 	
 	<bean id="AssetPayment-zeroAmountValidation" class="org.kuali.kfs.module.cam.document.validation.impl.AssetPaymentZeroAmountValidation" abstract="true"/>
 	

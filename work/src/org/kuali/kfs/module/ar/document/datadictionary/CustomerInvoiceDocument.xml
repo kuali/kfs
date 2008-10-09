@@ -85,6 +85,10 @@
 		<ref bean="CustomerInvoiceDocument-shippingInternationalMailCode" />
 		<ref bean="CustomerInvoiceDocument-shippingEmailAddress" />
 		<ref bean="CustomerInvoiceDocument-shippingAddressTypeCode" />
+		<ref bean="CustomerInvoiceDocument-billingLine1StreetAddress" />
+		<ref bean="CustomerInvoiceDocument-billingLine2StreetAddress" />
+		<ref bean="CustomerInvoiceDocument-shippingLine1StreetAddress" />
+		<ref bean="CustomerInvoiceDocument-shippingLine2StreetAddress" />
       </list>
     </property>
     <property name="validationMap" ref="CustomerInvoiceDocument-validations" />
@@ -637,6 +641,29 @@
 		<property name="name" value="shippingAddressTypeCode" />
 	</bean>
 				
+	<bean id="CustomerInvoiceDocument-billingLine1StreetAddress" parent="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean" />
+	
+	<bean id="CustomerInvoiceDocument-billingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress" >
+		<property name="name" value="billingLine1StreetAddress" />
+	</bean>
+	
+	<bean id="CustomerInvoiceDocument-billingLine2StreetAddress" parent="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean" />
+	
+	<bean id="CustomerInvoiceDocument-billingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress" >
+		<property name="name" value="billingLine2StreetAddress" />
+	</bean>
+	
+	<bean id="CustomerInvoiceDocument-shippingLine1StreetAddress" parent="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean" />
+	
+	<bean id="CustomerInvoiceDocument-shippingLine1StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine1StreetAddress" >
+		<property name="name" value="shippingLine1StreetAddress" />
+	</bean>
+	
+	<bean id="CustomerInvoiceDocument-shippingLine2StreetAddress" parent="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean" />
+	
+	<bean id="CustomerInvoiceDocument-shippingLine2StreetAddress-parentBean" abstract="true" parent="CustomerAddress-customerLine2StreetAddress" >
+		<property name="name" value="shippingLine2StreetAddress" />
+	</bean>
 	  
   <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean" />
   

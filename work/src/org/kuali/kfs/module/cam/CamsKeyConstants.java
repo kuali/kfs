@@ -171,6 +171,7 @@ public class CamsKeyConstants {
     public static class AssetGlobal {
         public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
+        public static final String ERROR_PAYMENT_ACCT_NOT_VALID = "error.asset.payment.account.not.valid";
         public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
         public static final String MIN_ONE_PAYMENT_REQUIRED = "error.document.min.one.payment.required";
         public static final String ERROR_VENDOR_NAME_REQUIRED = "error.capital.asset.vendor.name.required";

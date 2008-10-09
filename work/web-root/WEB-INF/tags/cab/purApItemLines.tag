@@ -14,18 +14,25 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<%@ attribute name="activeIndicator" required="true" description="The display active/inactive line item indicator"%>
+<%@ attribute name="title" required="true" description="tab title"%>
+<%@ attribute name="defaultOpen" required="true" description="tab title"%>
 <script language="JavaScript" type="text/javascript" src="scripts/cab/selectCheckBox.js"></script>
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<kul:tab tabTitle="Line Items" defaultOpen="true" tabErrorKey="purApDocs*,merge*">
+<kul:tab tabTitle="${title}" defaultOpen="${defaultOpen}" tabErrorKey="purApDocs*,merge*">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
 	<tr>
 		<td class="tab-subhead"  width="100%" colspan="17">Line Items</td>
 	</tr>	
 	<tr>
-		<th class="grid" align="center"><input type="checkbox" id="all" name="all" onclick="selectSources(this);" >Select</th>
+		<th class="grid" align="center">
+		<c:if test="${activeIndicator=='true'}">
+			<input type="checkbox" id="all" name="all" onclick="selectSources(this);" >Select
+		</c:if>
+		</th>
   		<kul:htmlAttributeHeaderCell attributeEntry="${purApDocumentAttributes.purapDocumentIdentifier}"/>
   		<th class="grid" align="center">Doc Type
   		<th class="grid" align="center">Invoice Status
@@ -51,15 +58,16 @@
     	<html:hidden property="purApDocs[${docPos-1}].documentTypeCode" />
     	<c:forEach items="${purApDoc.purchasingAccountsPayableItemAssets}" var="assetLine" >
 	    	<c:set var="linePos" value="${linePos+1}" />
-		    <c:set var="seq" value="${seq+1}" />				    
-	    	<cab:purApLineDetail seq="${seq}" chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}">
-	    	</cab:purApLineDetail>
+	    	<c:if test="${(assetLine.active && activeIndicator=='true') || (!assetLine.active && activeIndicator == 'false')}">
+	    		<cab:purApLineDetail chkcount="${chkcount}" docPos="${docPos}" linePos="${linePos}" itemLine="${assetLine}" >
+	    		</cab:purApLineDetail>
 	    	<c:if test="${!assetLine.additionalChargeNonTradeInIndicator}">
 				<c:set var="chkcount" value="${chkcount+1}" />
 			</c:if>
+	    	</c:if>
 		</c:forEach>
 	</c:forEach>
-	<c:if test="${KualiForm.activeItemExist }">
+	<c:if test="${KualiForm.activeItemExist && activeIndicator=='true'}">
 	<tr>
 		<th class="grid" align="right" colspan="6">Merge Qty</th>
 		<td class="infoline" colspan="2"><kul:htmlControlAttribute property="mergeQty" attributeEntry="${purApItemAssetAttributes.accountsPayableItemQuantity}"/></td>

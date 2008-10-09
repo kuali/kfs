@@ -43,8 +43,8 @@
 		</div>
 	</kul:tabTop>
 
-	<cab:purApItemLines>
-	</cab:purApItemLines>
+	<cab:purApItemLines activeIndicator="true" title="Active Line Items" defaultOpen="true"/>
+	<cab:purApItemLines activeIndicator="false" title="Submitted Line Items" defaultOpen="false"/>
 	
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">

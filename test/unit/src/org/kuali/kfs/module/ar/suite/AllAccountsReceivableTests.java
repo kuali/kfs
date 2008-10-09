@@ -18,7 +18,9 @@ package org.kuali.kfs.module.ar.suite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.kuali.kfs.module.ar.batch.CustomerLoadBusinessRulesTest;
 import org.kuali.kfs.module.ar.batch.CustomerLoadDigesterTest;
+import org.kuali.kfs.module.ar.batch.CustomerLoadXMLSchemaTest;
 import org.kuali.kfs.module.ar.batch.vo.CustomerLoadDigesterConverterTest;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocumentGeneralLedgerPostingTest;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocumentTest;
@@ -108,6 +110,8 @@ public class AllAccountsReceivableTests {
         //  customer batch load tests
         suite.addTestSuite(CustomerLoadDigesterTest.class);
         suite.addTestSuite(CustomerLoadDigesterConverterTest.class);
+        suite.addTestSuite(CustomerLoadBusinessRulesTest.class);
+        suite.addTestSuite(CustomerLoadXMLSchemaTest.class);
         return suite;
     }
 

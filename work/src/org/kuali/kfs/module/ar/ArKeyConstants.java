@@ -157,6 +157,7 @@ public class ArKeyConstants {
 
     public static class PaymentApplicationDocumentErrors {
         public static final String AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING = "error.document.paymentApplication.amountToBeAppliedExceedsAmountOutstanding";
+        public static final String FULL_AMOUNT_NOT_APPLIED = "error.document.paymentApplication.fullAmountNotApplied";
     }
     
 }

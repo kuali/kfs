@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -43,19 +45,42 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Custom action urls for Asset.
-     *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, List pkNames)
+     * 
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+        Asset asset = (Asset) bo;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-
-        anchorHtmlDataList.add(getUrlData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
-        anchorHtmlDataList.add(getLoanUrl(bo));
-        anchorHtmlDataList.add(getMergeUrl(bo));
-        anchorHtmlDataList.add(getSeparateUrl(bo));        anchorHtmlDataList.add(getTransferUrl(bo));
+        
+        // For retired asset, all action link will be hidden.
+        if (assetService.isAssetRetired(asset)) {
+            anchorHtmlDataList.add(getViewAssetUrl(bo));
+        }
+        else {
+            anchorHtmlDataList.add(getUrlData(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            anchorHtmlDataList.add(getLoanUrl(bo));
+            anchorHtmlDataList.add(getMergeUrl(bo));
+            anchorHtmlDataList.add(getSeparateUrl(bo));
+            anchorHtmlDataList.add(getTransferUrl(bo));
+        }
 
         return anchorHtmlDataList;
+    }
+
+    private HtmlData getViewAssetUrl(BusinessObject bo) {
+        Asset asset = (Asset) bo;
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.Actions.START);
+        parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CapitalAssetManagementAsset.class.getName());
+
+        String href = UrlFactory.parameterizeUrl(CamsConstants.INQUIRY_URL, parameters);
+        
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CamsConstants.AssetActions.VIEW);
+        anchorHtmlData.setTarget("blank");
+        return anchorHtmlData;
     }
 
     protected HtmlData getMergeUrl(BusinessObject bo) {
@@ -67,7 +92,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         parameters.put(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
         parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
-        
+
         String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
         return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
@@ -77,19 +102,19 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Asset asset = (Asset) bo;
         AnchorHtmlData anchorHtmlData = null;
         List<HtmlData> childURLDataList = new ArrayList<HtmlData>();
-        
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.EQUIPMENT_LOAN_OR_RETURN);
-        
-        if (getAssetService().isAssetLoaned(asset)){
+
+        if (getAssetService().isAssetLoaned(asset)) {
             anchorHtmlData = new AnchorHtmlData("", "", "");
-            
+
             AnchorHtmlData childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
             childURLDataList.add(childURLData);
-            
+
             parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN_RENEW);
             String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
             childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN_RENEW);
@@ -100,22 +125,23 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
             childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN_RETURN);
             childURLDataList.add(childURLData);
-            
+
             anchorHtmlData.setChildUrlDataList(childURLDataList);
-        } else {
+        }
+        else {
             anchorHtmlData = new AnchorHtmlData("", "", "");
-            
+
             parameters.put(CamsConstants.AssetActions.LOAN_TYPE, CamsConstants.AssetActions.LOAN);
             String childHref = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.EQUIPMENT_LOAN_OR_RETURN, parameters);
             AnchorHtmlData childURLData = new AnchorHtmlData(childHref, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.LOAN);
             childURLDataList.add(childURLData);
-            
+
             childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RENEW);
             childURLDataList.add(childURLData);
-            
+
             childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN_RETURN);
             childURLDataList.add(childURLData);
-            
+
             anchorHtmlData.setChildUrlDataList(childURLDataList);
         }
 
@@ -139,15 +165,15 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     protected HtmlData getTransferUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
-        
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.DOC_HANDLER_METHOD);
         parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
         parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.TRANSFER);
-        
+
         String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.TRANSFER, parameters);
-        
+
         return new AnchorHtmlData(href, KNSConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.TRANSFER);
     }
 

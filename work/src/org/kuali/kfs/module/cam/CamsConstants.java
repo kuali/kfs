@@ -46,6 +46,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String RETIRE = "retire";
         public static final String SEPARATE = "separate";
         public static final String TRANSFER = "transfer";
+        public static final String VIEW = "view";
     }
 
     public static class StrutsActions {
@@ -291,4 +292,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
         public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }
+    
+    public static final String INQUIRY_URL = "inquiry.do";
 }

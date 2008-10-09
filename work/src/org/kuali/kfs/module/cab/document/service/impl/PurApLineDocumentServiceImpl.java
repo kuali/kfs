@@ -100,8 +100,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 assetDetail.setDocumentNumber(documentNumber);
 
                 AssetService assetService = SpringContext.getBean(AssetService.class);
-                Asset candidateAsset = assetDetail.getAsset();  
-                // asset must be an active & not retired. Duplication check is done during feeding asset numbers from PurAp. 
+                Asset candidateAsset = assetDetail.getAsset();
+                // asset must be an active & not retired. Duplication check is done during feeding asset numbers from PurAp.
                 if (ObjectUtils.isNotNull(candidateAsset) && assetService.isCapitalAsset(candidateAsset) && !assetService.isAssetRetired(candidateAsset)) {
                     assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
                     assetPaymentAssetDetails.add(assetDetail);
@@ -171,10 +171,10 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         selectedItem.setCapitalAssetManagementDocumentNumber(documentNumber);
 
         // in-activate item, item account and glEntry(conditionally)
-        inActivateItem(selectedItem, purApLineSession.getGlEntryUpdateList());
+        inActivateItem(selectedItem);
 
         // update submit amount in the associated general ledger entries.
-        updateGlEntrySubmitAmount(selectedItem);
+        updateGlEntrySubmitAmount(selectedItem, purApLineSession.getGlEntryUpdateList());
 
         // in-activate document if all the associated items are inactive.
         if (ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
@@ -193,7 +193,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * 
      * @param selectedItem
      */
-    private void updateGlEntrySubmitAmount(PurchasingAccountsPayableItemAsset selectedItem) {
+    private void updateGlEntrySubmitAmount(PurchasingAccountsPayableItemAsset selectedItem, List glEntryList) {
         GeneralLedgerEntry glEntry = null;
         for (PurchasingAccountsPayableLineAssetAccount account : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             glEntry = account.getGeneralLedgerEntry();
@@ -206,6 +206,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                     glEntry.setTransactionLedgerSubmitAmount(new KualiDecimal(account.getItemAccountTotalAmount().toString()));
                 }
             }
+            // add to the session for persistence
+            glEntryList.add(glEntry);
         }
     }
 
@@ -354,10 +356,10 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param selectedItem
      * @param glEntryList
      */
-    private void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem, List glEntryUpdateList) {
+    private void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem) {
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
             // in-activate GeneralLedgerEntry
-            inActivateGlEntry(glEntryUpdateList, selectedAccount);
+            inActivateGlEntry(selectedAccount);
 
             // in-active account.
             selectedAccount.setActive(false);
@@ -375,7 +377,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param selectedAccount
      * @param glEntry
      */
-    private void inActivateGlEntry(List glEntryList, PurchasingAccountsPayableLineAssetAccount selectedAccount) {
+    private void inActivateGlEntry(PurchasingAccountsPayableLineAssetAccount selectedAccount) {
         GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
         boolean glEntryHasActiveAccount = false;
         glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
@@ -390,7 +392,6 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         // if one account shows active, won't in-activate this general ledger entry.
         if (!glEntryHasActiveAccount) {
             glEntry.setActive(false);
-            glEntryList.add(glEntry);
         }
     }
 

@@ -118,7 +118,6 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);
     }
 
-    @RelatesTo(JiraIssue.KULPURAP2944)
     @ConfigureContext(session = APPLETON, shouldCommitTransactions=false)
     public final void testRouteDocumentToFinal() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);

@@ -60,6 +60,7 @@ public class PendingGlAccountLineGroupTest extends KualiTestBase {
         assertEquals(new KualiDecimal(100), first.getAmount());
 
         List<GeneralLedgerPendingEntry> sourceEntries = first.getSourceEntries();
+        assertEquals(5, sourceEntries.size());
         KualiDecimal srcAmount = KualiDecimal.ZERO;
         for (GeneralLedgerPendingEntry entry : sourceEntries) {
             if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {

@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurApAccountLineGroupTest extends KualiTestBase {
-    private class PurApAccountLineGroupTestable extends PurApAccountLineGroup {
+    public static class PurApAccountLineGroupTestable extends PurApAccountLineGroup {
         public PurApAccountLineGroupTestable(PurApAccountingLineBase entry, String docNum, String refDocNum) {
             setDocumentNumber(docNum);
             setReferenceFinancialDocumentNumber(refDocNum);

@@ -59,6 +59,7 @@ public class GlAccountLineGroupTest extends KualiTestBase {
         assertEquals(new KualiDecimal(100), first.getAmount());
 
         List<Entry> sourceEntries = first.getSourceEntries();
+        assertEquals(5, sourceEntries.size());
         KualiDecimal srcAmount = KualiDecimal.ZERO;
         for (Entry entry : sourceEntries) {
             if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {

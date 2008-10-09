@@ -19,21 +19,28 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AccountLineGroupTest extends KualiTestBase {
 
     @Override
+    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
+        super.setUp();
     }
 
     public void testEquals() throws Exception {
         // test reflexive
         GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
-        PendingGlAccountLineGroup second = createPendingAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C");
-        GlAccountLineGroup third = createAccountLineGroup(2008, "BL", new String("BL002323"), "--", "7000", null, "01", "1001", null, "D");
+        PendingGlAccountLineGroup second = createPendingAccountLineGroup(2008, "BL", "BL002323", "------", "7000", null, "01", "1001", null, "C");
+        PurApAccountLineGroup third = createPurApAccountLineGroup(2008, "BL", "BL002323", "---", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        // equals all
         assertTrue(first.equals(first));
         assertTrue(first.equals(second));
         assertTrue(second.equals(first));
@@ -42,9 +49,10 @@ public class AccountLineGroupTest extends KualiTestBase {
         assertTrue(first.equals(third));
         assertTrue(third.equals(first));
 
+        // first and third equals
         first = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, "C");
         second = createPendingAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
-        third = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, "C");
+        third = createPurApAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -55,7 +63,7 @@ public class AccountLineGroupTest extends KualiTestBase {
 
         first = createAccountLineGroup(2008, "BA", "BL002323", "X", "7000", null, "01", "1001", null, "C");
         second = createPendingAccountLineGroup(2008, "BA", "BL002323", "XXX", "7000", null, "01", "1001", null, "D");
-        third = createAccountLineGroup(2008, "BA", "BL002323", "XXXX", "7000", null, "01", "1001", null, "C");
+        third = createPurApAccountLineGroup(2008, "BL", "BL002323", "X", "7001", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -110,5 +118,31 @@ public class AccountLineGroupTest extends KualiTestBase {
         entry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         PendingGlAccountLineGroup first = new PendingGlAccountLineGroup(entry);
         return first;
+    }
+
+    private PurApAccountLineGroup createPurApAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, KualiDecimal amount, Class<? extends PurApAccountingLineBase> clazz) {
+        PurApAccountingLineBase entry = createEntry(i, chartCode, acctNum, subAcctNum, objCd, subObjCd, fiscalPrd, docNum, refDocNum, amount, clazz);
+        PurApAccountLineGroup first = new PurApAccountLineGroupTest.PurApAccountLineGroupTestable(entry, docNum, refDocNum);
+        return first;
+    }
+
+    private PurApAccountingLineBase createEntry(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, KualiDecimal amount, Class<? extends PurApAccountingLineBase> clazz) {
+        PurApAccountingLineBase entry = null;
+        try {
+            entry = (PurApAccountingLineBase) clazz.newInstance();
+        }
+        catch (Exception e) {
+            fail(e.toString());
+        }
+        entry.setPostingYear(i);
+        entry.setChartOfAccountsCode(chartCode);
+        entry.setAccountNumber(acctNum);
+        entry.setSubAccountNumber(subAcctNum);
+        entry.setFinancialObjectCode(objCd);
+        entry.setFinancialSubObjectCode(subObjCd);
+        entry.setPostingPeriodCode(fiscalPrd);
+        entry.setDocumentNumber(docNum);
+        entry.setAmount(amount);
+        return entry;
     }
 }

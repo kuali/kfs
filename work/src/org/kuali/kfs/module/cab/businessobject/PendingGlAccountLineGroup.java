@@ -91,5 +91,26 @@ public class PendingGlAccountLineGroup extends AccountLineGroup {
         if (KFSConstants.GL_CREDIT_CODE.equals(targetDebitCreditCode)) {
             setAmount(targetAmount.negated());
         }
+        else {
+            setAmount(targetAmount);
+        }
+    }
+
+    /**
+     * Gets the targetEntry attribute.
+     * 
+     * @return Returns the targetEntry.
+     */
+    public GeneralLedgerPendingEntry getTargetEntry() {
+        return targetEntry;
+    }
+
+    /**
+     * Sets the targetEntry attribute value.
+     * 
+     * @param targetEntry The targetEntry to set.
+     */
+    public void setTargetEntry(GeneralLedgerPendingEntry targetEntry) {
+        this.targetEntry = targetEntry;
     }
 }

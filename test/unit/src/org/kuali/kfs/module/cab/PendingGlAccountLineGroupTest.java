@@ -15,55 +15,55 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.kfs.gl.businessobject.Entry;
-import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
+import org.kuali.kfs.module.cab.businessobject.PendingGlAccountLineGroup;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class GlAccountLineGroupTest extends KualiTestBase {
+public class PendingGlAccountLineGroupTest extends KualiTestBase {
 
     @Override
     protected void setUp() throws Exception {
     }
 
     public void testCombineEntry() throws Exception {
-        GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(100));
-        Entry second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(200));
-        assertTrue(first.equals(new GlAccountLineGroup(second)));
+        PendingGlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(100));
+        GeneralLedgerPendingEntry second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(200));
+        assertTrue(first.equals(new PendingGlAccountLineGroup(second)));
         first.combineEntry(second);
         assertEquals("D", first.getTargetEntry().getTransactionDebitCreditCode());
         assertEquals(new KualiDecimal(300), first.getTargetEntry().getTransactionLedgerEntryAmount());
         assertEquals(new KualiDecimal(300), first.getAmount());
-        Entry third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C", new KualiDecimal(200));
-        assertTrue(first.equals(new GlAccountLineGroup(third)));
+        GeneralLedgerPendingEntry third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C", new KualiDecimal(200));
+        assertTrue(first.equals(new PendingGlAccountLineGroup(third)));
         first.combineEntry(third);
         assertEquals("D", first.getTargetEntry().getTransactionDebitCreditCode());
         assertEquals(new KualiDecimal(100), first.getTargetEntry().getTransactionLedgerEntryAmount());
         assertEquals(new KualiDecimal(100), first.getAmount());
 
-        Entry fourth = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C", new KualiDecimal(200));
-        assertTrue(first.equals(new GlAccountLineGroup(fourth)));
+        GeneralLedgerPendingEntry fourth = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "C", new KualiDecimal(200));
+        assertTrue(first.equals(new PendingGlAccountLineGroup(fourth)));
         first.combineEntry(fourth);
         assertEquals("C", first.getTargetEntry().getTransactionDebitCreditCode());
         assertEquals(new KualiDecimal(100), first.getTargetEntry().getTransactionLedgerEntryAmount());
         assertEquals(new KualiDecimal(-100), first.getAmount());
 
-        Entry fifth = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(200));
-        assertTrue(first.equals(new GlAccountLineGroup(fifth)));
+        GeneralLedgerPendingEntry fifth = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D", new KualiDecimal(200));
+        assertTrue(first.equals(new PendingGlAccountLineGroup(fifth)));
         first.combineEntry(fifth);
         assertEquals("D", first.getTargetEntry().getTransactionDebitCreditCode());
         assertEquals(new KualiDecimal(100), first.getTargetEntry().getTransactionLedgerEntryAmount());
         assertEquals(new KualiDecimal(100), first.getAmount());
     }
 
-    private GlAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
-        Entry entry = createEntry(i, chartCode, acctNum, subAcctNum, objCd, subObjCd, fiscalPrd, docNum, refDocNum, dbtCrdtCode, amount);
-        GlAccountLineGroup first = new GlAccountLineGroup(entry);
+    private PendingGlAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
+        GeneralLedgerPendingEntry entry = createEntry(i, chartCode, acctNum, subAcctNum, objCd, subObjCd, fiscalPrd, docNum, refDocNum, dbtCrdtCode, amount);
+        PendingGlAccountLineGroup first = new PendingGlAccountLineGroup(entry);
         return first;
     }
 
-    private Entry createEntry(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
-        Entry entry = new Entry();
+    private GeneralLedgerPendingEntry createEntry(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
+        GeneralLedgerPendingEntry entry = new GeneralLedgerPendingEntry();
         entry.setUniversityFiscalYear(i);
         entry.setChartOfAccountsCode(chartCode);
         entry.setAccountNumber(acctNum);

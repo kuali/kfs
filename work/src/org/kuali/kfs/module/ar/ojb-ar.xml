@@ -251,7 +251,30 @@
 	<field-descriptor name="printDate" column="AR_PRNT_DT" jdbc-type="DATE"/>	
 	<field-descriptor name="stateTaxPercent" column="AR_ST_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="localTaxPercent" column="AR_LOC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-
+	
+	<field-descriptor name="customerName" column="CUST_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingAddressName" column="BILL_ADDR_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingLine1StreetAddress" column="BILL_LINE_1_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingLine2StreetAddress" column="BILL_LINE_2_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingCityName" column="BILL_CITY_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingStateCode" column="BILL_STATE_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingZipCode" column="BILL_ZIP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingAddressInternationalProvinceName" column="BILL_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingInternationalMailCode" column="BILL_INTL_MAIL_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingEmailAddress" column="BILL_EMAIL_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="billingAddressTypeCode" column="BILL_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingAddressName" column="SHIP_ADDR_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingLine1StreetAddress" column="SHIP_LINE_1_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingLine2StreetAddress" column="SHIP_LINE_2_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingCityName" column="SHIP_CITY_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingStateCode" column="SHIP_STATE_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingZipCode" column="SHIP_ZIP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingCountryCode" column="SHIP_CNTRY_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingAddressInternationalProvinceName" column="SHIP_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingInternationalMailCode" column="SHIP_INTL_MAIL_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
+	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -502,6 +525,7 @@
 	<field-descriptor name="customerZipCode" column="CUST_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="customerCountryCode" column="CUST_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="customerAddressInternationalProvinceName" column="CUST_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="customerInternationalMailCode" column="CUST_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerAddressEndDate" column="CUST_ADDR_END_DT" jdbc-type="DATE"/>

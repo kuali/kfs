@@ -88,6 +88,25 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private KualiDecimal stateTaxPercent;
     private KualiDecimal localTaxPercent;
     private Integer age;
+    private  String customerName;
+    private  String billingAddressName;
+    private  String billingCityName;
+    private  String billingStateCode;
+    private  String billingZipCode;
+    private  String billingCountryCode;
+    private  String billingAddressInternationalProvinceName;
+    private  String billingInternationalMailCode;
+    private  String billingEmailAddress;
+    private  String billingAddressTypeCode;
+    private  String shippingAddressName;
+    private  String shippingCityName;
+    private  String shippingStateCode;
+    private  String shippingZipCode;
+    private  String shippingCountryCode;
+    private  String shippingAddressInternationalProvinceName;
+    private  String shippingInternationalMailCode;
+    private  String shippingEmailAddress;
+    private  String shippingAddressTypeCode;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Chart billByChartOfAccount;
@@ -1432,6 +1451,158 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     
     public KualiDecimal getTotalDollarAmount() {
         return getSourceTotal();
+    }
+
+    public String getBillingAddressInternationalProvinceName() {
+        return billingAddressInternationalProvinceName;
+    }
+
+    public void setBillingAddressInternationalProvinceName(String billingAddressInternationalProvinceName) {
+        this.billingAddressInternationalProvinceName = billingAddressInternationalProvinceName;
+    }
+
+    public String getBillingAddressName() {
+        return billingAddressName;
+    }
+
+    public void setBillingAddressName(String billingAddressName) {
+        this.billingAddressName = billingAddressName;
+    }
+
+    public String getBillingAddressTypeCode() {
+        return billingAddressTypeCode;
+    }
+
+    public void setBillingAddressTypeCode(String billingAddressTypeCode) {
+        this.billingAddressTypeCode = billingAddressTypeCode;
+    }
+
+    public String getBillingCityName() {
+        return billingCityName;
+    }
+
+    public void setBillingCityName(String billingCityName) {
+        this.billingCityName = billingCityName;
+    }
+
+    public String getBillingCountryCode() {
+        return billingCountryCode;
+    }
+
+    public void setBillingCountryCode(String billingCountryCode) {
+        this.billingCountryCode = billingCountryCode;
+    }
+
+    public String getBillingEmailAddress() {
+        return billingEmailAddress;
+    }
+
+    public void setBillingEmailAddress(String billingEmailAddress) {
+        this.billingEmailAddress = billingEmailAddress;
+    }
+
+    public String getBillingInternationalMailCode() {
+        return billingInternationalMailCode;
+    }
+
+    public void setBillingInternationalMailCode(String billingInternationalMailCode) {
+        this.billingInternationalMailCode = billingInternationalMailCode;
+    }
+
+    public String getBillingStateCode() {
+        return billingStateCode;
+    }
+
+    public void setBillingStateCode(String billingStateCode) {
+        this.billingStateCode = billingStateCode;
+    }
+
+    public String getBillingZipCode() {
+        return billingZipCode;
+    }
+
+    public void setBillingZipCode(String billingZipCode) {
+        this.billingZipCode = billingZipCode;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getShippingAddressInternationalProvinceName() {
+        return shippingAddressInternationalProvinceName;
+    }
+
+    public void setShippingAddressInternationalProvinceName(String shippingAddressInternationalProvinceName) {
+        this.shippingAddressInternationalProvinceName = shippingAddressInternationalProvinceName;
+    }
+
+    public String getShippingAddressName() {
+        return shippingAddressName;
+    }
+
+    public void setShippingAddressName(String shippingAddressName) {
+        this.shippingAddressName = shippingAddressName;
+    }
+
+    public String getShippingAddressTypeCode() {
+        return shippingAddressTypeCode;
+    }
+
+    public void setShippingAddressTypeCode(String shippingAddressTypeCode) {
+        this.shippingAddressTypeCode = shippingAddressTypeCode;
+    }
+
+    public String getShippingCityName() {
+        return shippingCityName;
+    }
+
+    public void setShippingCityName(String shippingCityName) {
+        this.shippingCityName = shippingCityName;
+    }
+
+    public String getShippingCountryCode() {
+        return shippingCountryCode;
+    }
+
+    public void setShippingCountryCode(String shippingCountryCode) {
+        this.shippingCountryCode = shippingCountryCode;
+    }
+
+    public String getShippingEmailAddress() {
+        return shippingEmailAddress;
+    }
+
+    public void setShippingEmailAddress(String shippingEmailAddress) {
+        this.shippingEmailAddress = shippingEmailAddress;
+    }
+
+    public String getShippingInternationalMailCode() {
+        return shippingInternationalMailCode;
+    }
+
+    public void setShippingInternationalMailCode(String shippingInternationalMailCode) {
+        this.shippingInternationalMailCode = shippingInternationalMailCode;
+    }
+
+    public String getShippingStateCode() {
+        return shippingStateCode;
+    }
+
+    public void setShippingStateCode(String shippingStateCode) {
+        this.shippingStateCode = shippingStateCode;
+    }
+
+    public String getShippingZipCode() {
+        return shippingZipCode;
+    }
+
+    public void setShippingZipCode(String shippingZipCode) {
+        this.shippingZipCode = shippingZipCode;
     }
 }
 

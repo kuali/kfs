@@ -65,7 +65,8 @@
 									<tr><td>Organization Code:</td><td><c:out value="${param.orgCode}" /></td>
 								</c:otherwise>
 							 </c:choose>
-							<tr><td>Report Run Date:</td><td><c:out value="${param.reportRunDate}" /> &nbsp;&nbsp; <c:out value="${param.columnTitle}" /> </td>
+							<tr><td>Report Run Date:</td><td><c:out value="${param.reportRunDate}" /></td>
+							<tr><td>Report Age:</td><td><c:out value="${param.columnTitle}" /></td>
 						</table> <br><br>
 					</c:if>
 				  

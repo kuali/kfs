@@ -113,7 +113,9 @@ public enum CreditMemoDocumentFixture {
         doc.setItemMiscellaneousCreditDescription(this.itemMiscellaneousCreditDescription);
         doc.setPurchaseOrderEndDate(this.purchaseOrderEndDate);
         doc.setAccountsPayableProcessorIdentifier(this.accountsPayableProcessorIdentifier);
-         
+        //manually set bank for now
+        doc.setBankCode("TEST");   
+        
         for (CreditMemoItemFixture creditMemoItemFixture : creditMemoItemFixtures) { 
             creditMemoItemFixture.addTo(doc);
         }

@@ -34,7 +34,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
-import org.kuali.kfs.module.purap.util.PurApOjbCollectionHelper;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.Country;
@@ -49,7 +48,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.dao.impl.DocumentDaoOjb;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -100,7 +98,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public transient String[] belowTheLineTypes;
 
     // workaround for purapOjbCollectionHelper - remove when merged into rice
-    public boolean allowDeleteAwareCollection = false;
+    public boolean allowDeleteAwareCollection = true;
     
 
     /**
@@ -277,18 +275,18 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         // These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         // But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         // merge into Rice. KULPURAP-1370 is the related jira.
-        this.allowDeleteAwareCollection = true;
-        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
-        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase) docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
-        if (retrievedDocument != null) {
-            retrievedDocument.allowDeleteAwareCollection = true;
-        }
-
-        SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
-        this.allowDeleteAwareCollection = false;
-        if (retrievedDocument != null) {
-            retrievedDocument.allowDeleteAwareCollection = false;
-        }
+//        this.allowDeleteAwareCollection = true;
+//        DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
+//        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase) docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
+//        if (retrievedDocument != null) {
+//            retrievedDocument.allowDeleteAwareCollection = true;
+//        }
+//
+//        SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
+//        this.allowDeleteAwareCollection = false;
+//        if (retrievedDocument != null) {
+//            retrievedDocument.allowDeleteAwareCollection = false;
+//        }
     }
 
     /**
@@ -337,6 +335,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         List managedLists = super.buildListOfDeletionAwareLists();
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getItems());
+            List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
+            for (PurApItem item : (List<PurApItem>)this.getItems()) {
+                accounts.addAll(item.getSourceAccountingLines());
+            }
+            managedLists.add(accounts);
         }
         return managedLists;
     }

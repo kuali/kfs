@@ -323,6 +323,8 @@ public enum PaymentRequestDocumentFixture {
         doc.setPurchaseOrderNotes(this.purchaseOrderNotes);
         doc.setRecurringPaymentTypeCode(this.recurringPaymentTypeCode);
         doc.setPostingYear(2008);
+        //manually set bankCode for now
+        doc.setBankCode("TEST");
         
         for (PaymentRequestItemFixture paymentRequestItemFixture : paymentRequestItemFixtures) {
             paymentRequestItemFixture.addTo(doc);

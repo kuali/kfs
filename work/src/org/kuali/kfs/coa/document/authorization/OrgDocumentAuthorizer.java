@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.document;
+package org.kuali.kfs.coa.document.authorization;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Org;

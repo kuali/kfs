@@ -16,7 +16,7 @@
     </property>
     <property name="documentTypeName" value="CorrectionDocument" />
     <property name="documentClass" value="org.kuali.kfs.gl.document.CorrectionDocument" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.CorrectionDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.gl.document.authorization.CorrectionDocumentAuthorizer" />
     <property name="documentTypeCode" value="GLCP" />
     <property name="workflowProperties" >
       <ref bean="CorrectionDocument-workflowProperties" />

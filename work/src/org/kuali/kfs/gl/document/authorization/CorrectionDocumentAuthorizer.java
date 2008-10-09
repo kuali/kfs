@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.gl.document;
+package org.kuali.kfs.gl.document.authorization;
 
 import java.util.HashMap;
 import java.util.Map;

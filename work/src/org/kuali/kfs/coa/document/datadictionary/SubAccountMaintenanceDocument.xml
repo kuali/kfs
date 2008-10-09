@@ -56,7 +56,7 @@
     </property>
     <property name="documentTypeName" value="SubAccountMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule" />
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.SubAccountDocumentAuthorizer" />
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.SubAccountDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules" />
     <property name="documentTypeCode" value="SACC" />
     <property name="webScriptFiles" >

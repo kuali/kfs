@@ -995,6 +995,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
+        
+        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
+            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+            valid = false;
+        }
 
         if (StringUtils.isBlank(capitalAssetInformation.getBuildingCode())) {
             String label = this.getDataDictionaryService().getAttributeLabel(Building.class, KFSPropertyConstants.BUILDING_CODE);

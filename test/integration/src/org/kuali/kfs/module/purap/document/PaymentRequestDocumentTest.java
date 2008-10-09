@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -47,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -109,10 +112,9 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
     }
     
-    @RelatesTo(JiraIssue.KULPURAP2949)
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions=false)
     public final void testRouteDocument() throws Exception {
-        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, false);
+        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
         AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);

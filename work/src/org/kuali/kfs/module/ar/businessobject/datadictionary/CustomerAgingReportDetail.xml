@@ -93,13 +93,13 @@
 <bean id="CustomerAgingReportDetail-unpaidBalance91toSYSPR" parent="CustomerAgingReportDetail-unpaidBalance91toSYSPR-parentBean" />
 <bean id="CustomerAgingReportDetail-unpaidBalance91toSYSPR-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="unpaidBalance91toSYSPR" />
-    <property name="label" value="91-??? days" />
+    <property name="label" value="91-120 days" />
 </bean>
 
 <bean id="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore" parent="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore-parentBean" />
 <bean id="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="unpaidBalanceSYSPRplus1orMore" />
-    <property name="label" value="???+ days" />
+    <property name="label" value="121+ days" />
 </bean>
 
 

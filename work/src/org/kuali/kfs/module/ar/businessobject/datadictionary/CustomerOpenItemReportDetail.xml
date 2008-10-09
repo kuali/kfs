@@ -17,6 +17,7 @@
 	<ref bean="CustomerOpenItemReportDetail-documentType" />          
     <ref bean="CustomerOpenItemReportDetail-documentNumber" />
 	<ref bean="CustomerOpenItemReportDetail-documentDescription" />
+	<ref bean="CustomerOpenItemReportDetail-billingDate" />
 	<ref bean="CustomerOpenItemReportDetail-dueApprovedDate" />
 	<ref bean="CustomerOpenItemReportDetail-documentPaymentAmount" />
 	<ref bean="CustomerOpenItemReportDetail-unpaidUnappliedAmount" />
@@ -45,6 +46,12 @@
 
 <bean id="CustomerOpenItemReportDetail-documentDescription" parent="CustomerOpenItemReportDetail-documentDescription-parentBean" />
 <bean id="CustomerOpenItemReportDetail-documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription"></bean>
+
+<bean id="CustomerOpenItemReportDetail-billingDate" parent="CustomerOpenItemReportDetail-billingDate-parentBean" />
+<bean id="CustomerOpenItemReportDetail-billingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="billingDate" />
+    <property name="label" value="Billing Date" />
+</bean>
 
 <bean id="CustomerOpenItemReportDetail-dueApprovedDate" parent="CustomerOpenItemReportDetail-dueApprovedDate-parentBean" />
 <bean id="CustomerOpenItemReportDetail-dueApprovedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -85,6 +92,8 @@
               <bean parent="FieldDefinition"
                     p:attributeName="documentDescription" />
               <bean parent="FieldDefinition"
+                    p:attributeName="billingDate" />
+              <bean parent="FieldDefinition"
                     p:attributeName="dueApprovedDate" />
               <bean parent="FieldDefinition"
                     p:attributeName="documentPaymentAmount" />
@@ -114,6 +123,8 @@
                 p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
                 p:attributeName="documentDescription" />
+        <bean parent="FieldDefinition"
+                p:attributeName="billingDate" />
         <bean parent="FieldDefinition"
                 p:attributeName="dueApprovedDate" />
         <bean parent="FieldDefinition"

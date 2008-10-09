@@ -46,6 +46,8 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail dvPayeeDetail = document.getDvPayeeDetail();
         
@@ -117,8 +119,7 @@ public class DisbursementVoucherPaymentReasonValidation extends GenericValidatio
             }
         }
         
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);        
         return errors.isEmpty();
     }
     

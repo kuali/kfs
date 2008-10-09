@@ -25,6 +25,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -43,31 +44,42 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
 
         ErrorMap errors = GlobalVariables.getErrorMap();
+        LOG.info("validate start2" + errors.getErrorPath());
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
 
         // payment reason restrictions
         if (ObjectUtils.isNotNull(payeeDetail.getDisbVchrPaymentReasonCode())) {
-            parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, payeeDetail.getDisbVchrPaymentReasonCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+            ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, payeeDetail.getDisbVchrPaymentReasonCode(), documentationLocationCode);
+            parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+            LOG.info("validate start1" + errors.getErrorPath());
         }
 
         // alien indicator restrictions
         if (payeeDetail.isDisbVchrAlienPaymentCode()) {
-            parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+            ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode);
+            parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+            LOG.info("validate start2" + errors.getErrorPath());
         }
 
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(getInitiator(document), KFSConstants.Modules.CHART);
+        UniversalUser initiator = getInitiator(document);
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(initiator, KFSConstants.Modules.CHART);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions
-        parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+        ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
+        parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+        LOG.info("validate start3" + errors.getErrorPath());
 
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);       
         return errors.isEmpty();
     }
 

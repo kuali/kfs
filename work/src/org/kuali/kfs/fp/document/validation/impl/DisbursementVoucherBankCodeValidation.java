@@ -34,6 +34,8 @@ public class DisbursementVoucherBankCodeValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         
         boolean isValid = BankCodeValidation.validate(dvDocument.getDisbVchrBankCode(), KFSPropertyConstants.DISB_VCHR_BANK_CODE, false, true);

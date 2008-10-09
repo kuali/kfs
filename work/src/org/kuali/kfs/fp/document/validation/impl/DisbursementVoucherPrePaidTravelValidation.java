@@ -42,6 +42,8 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPreConferenceDetail preConferenceDetail = document.getDvPreConferenceDetail();
         
@@ -56,6 +58,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(preConferenceDetail, 1);
         if (!errors.isEmpty()) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 

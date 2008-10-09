@@ -33,6 +33,8 @@ public class DisbursementVoucherAccountingLineCountValidation extends GenericVal
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 

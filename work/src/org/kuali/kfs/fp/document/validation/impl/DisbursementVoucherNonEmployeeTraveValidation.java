@@ -44,7 +44,9 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
-    public boolean validate(AttributedDocumentEvent event) {        
+    public boolean validate(AttributedDocumentEvent event) {  
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = document.getDvNonEmployeeTravel();
         
@@ -74,6 +76,7 @@ public class DisbursementVoucherNonEmployeeTraveValidation extends GenericValida
 
         if (!errors.isEmpty()) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+            errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 

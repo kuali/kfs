@@ -45,6 +45,8 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         boolean isValid = true;
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonEmployeeTravel nonEmployeeTravel = disbursementVoucherDocument.getDvNonEmployeeTravel();
@@ -80,7 +82,8 @@ public class DisbursementVoucherNonEmployeeTravelComanyValidation extends Generi
 
             index++;
         }
-
+        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
         return isValid;
     }
 

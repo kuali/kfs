@@ -37,6 +37,8 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
         FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         

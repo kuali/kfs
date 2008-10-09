@@ -17,12 +17,12 @@
     <property name="documentTypeName" value="DisbursementVoucherDocument" />
     <property name="documentClass" value="org.kuali.kfs.fp.document.DisbursementVoucherDocument" />
 
+	<!-- 
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentRule" />
-   
-    <!-- 
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 	-->
-    
+	   
+    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherDocumentPreRules" />
     <property name="documentTypeCode" value="DV" />
@@ -73,6 +73,7 @@
     </property>
     
     <property name="validationMap" ref="DisbursementVoucherDocument-validations" />
+    <property name="maxDictionaryValidationDepth" value="0"/>
   </bean>
 
 <!-- Attribute Definitions -->

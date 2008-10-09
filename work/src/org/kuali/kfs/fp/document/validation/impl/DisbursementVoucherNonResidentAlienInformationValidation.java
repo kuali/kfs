@@ -45,6 +45,8 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+       
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherNonResidentAlienTax nonResidentAlienTax = document.getDvNonResidentAlienTax();
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();

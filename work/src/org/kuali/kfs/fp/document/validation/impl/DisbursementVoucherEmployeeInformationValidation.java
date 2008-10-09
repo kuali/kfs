@@ -42,6 +42,8 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
@@ -49,26 +51,23 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             return true;
         }
         
-        UniversalUser employee = retrieveEmployee(payeeDetail.getDisbVchrEmployeeIdNumber());
+        UniversalUser employee = SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(payeeDetail.getDisbVchrEmployeeIdNumber());
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         // check existence of employee
         if (employee == null) { // If employee is not found, report existence error
-            errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
-            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EXISTENCE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
-            errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
-            return false;
+            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER);
+            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EXISTENCE, label);
         } 
-
-        if(!KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode())) {
+        else if(!KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode())) {
             // If employee is found, then check that employee is active
-            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
+            String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER);
+            errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, label);
         }
         
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);        
         return errors.isEmpty();
     }
     
@@ -79,12 +78,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
      * @return <code>UniversalUser</code>
      */
     private UniversalUser retrieveEmployee(String uuid) {
-        try {
-            return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByAuthenticationUserId(uuid);
-        }
-        catch (UserNotFoundException unfe) {
-            return null; // an error will be given if the employee is null, so no need to rethrow the exception
-        }
+            return SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(uuid);
     }
 
     /**

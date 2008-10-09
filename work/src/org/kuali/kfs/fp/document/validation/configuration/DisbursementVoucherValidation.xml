@@ -34,7 +34,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>			
 				<bean parent="DisbursementVoucher-documentFieldValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -45,7 +44,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-bankCodeValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -56,7 +54,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-paymentReasonValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -67,7 +64,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-payeeInitiatorValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -78,7 +74,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-vendorInformationValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -89,7 +84,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-employeeInformationValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -100,7 +94,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>				
 				<bean parent="DisbursementVoucher-wireTransferValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -111,7 +104,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-foreignDraftValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -122,7 +114,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-nonResidentAlienInformationValidation" scope="prototype">
 					<property name="parameterProperties">
@@ -133,7 +124,6 @@
 							</bean>
 						</list>
 					</property>
-					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="DisbursementVoucher-nonEmployeeTraveValidation" scope="prototype">
 					<property name="parameterProperties">

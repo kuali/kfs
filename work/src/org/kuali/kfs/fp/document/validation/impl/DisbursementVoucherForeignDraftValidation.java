@@ -34,8 +34,9 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
-
         if (!PAYMENT_METHOD_DRAFT.equals(document.getDisbVchrPaymentMethodCode())) {
             return true;
         }
@@ -46,12 +47,12 @@ public class DisbursementVoucherForeignDraftValidation extends GenericValidation
 
         /* currency type code required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeCode())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
         }
 
         /* currency type name required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeName())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
         }
 
         errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);

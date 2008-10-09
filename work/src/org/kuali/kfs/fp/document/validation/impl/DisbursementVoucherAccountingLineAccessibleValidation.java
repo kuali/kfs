@@ -43,6 +43,8 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         AccountingDocument accountingDocumentForValidation = this.getAccountingDocumentForValidation();
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();

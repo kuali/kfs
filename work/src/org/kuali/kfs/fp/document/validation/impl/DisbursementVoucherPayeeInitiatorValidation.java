@@ -42,6 +42,8 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
@@ -74,8 +76,7 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
             }
         }
         
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);      
         return errors.isEmpty();
     }
 

@@ -30,6 +30,7 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
     private Map<String, AccountingLineGroupDefinition> accountingLineGroups;
     private Class<? extends AccountingLineParser> importedLineParserClass;
     private List<String> routingDataGenerators;
+    private Integer maxDictionaryValidationDepth;
 
     /**
      * Gets the validationMap attribute. 
@@ -93,6 +94,22 @@ public class FinancialSystemTransactionalDocumentEntry extends TransactionalDocu
      */
     public void setRoutingDataGenerators(List<String> routingDataGenerators) {
         this.routingDataGenerators = routingDataGenerators;
+    }
+
+    /**
+     * Gets the maxDictionaryValidationDepth attribute. 
+     * @return Returns the maxDictionaryValidationDepth.
+     */
+    public Integer getMaxDictionaryValidationDepth() {
+        return maxDictionaryValidationDepth;
+    }
+
+    /**
+     * Sets the maxDictionaryValidationDepth attribute value.
+     * @param maxDictionaryValidationDepth The maxDictionaryValidationDepth to set.
+     */
+    public void setMaxDictionaryValidationDepth(Integer maxDictionaryValidationDepth) {
+        this.maxDictionaryValidationDepth = maxDictionaryValidationDepth;
     }
     
 }

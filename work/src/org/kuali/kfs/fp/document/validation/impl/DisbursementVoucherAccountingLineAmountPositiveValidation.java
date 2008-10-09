@@ -34,6 +34,8 @@ public class DisbursementVoucherAccountingLineAmountPositiveValidation extends A
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) this.getAccountingDocumentForValidation();
         DisbursementVoucherNonResidentAlienTax nonResidentAlienTax = document.getDvNonResidentAlienTax();
 

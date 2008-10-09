@@ -46,6 +46,8 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
     public static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
 
     public boolean validate(AttributedDocumentEvent event) {
+        LOG.info("validate start");
+        
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
 
@@ -65,12 +67,14 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         /* Retrieve Vendor */
         if (vendor == null) {
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_EXISTENCE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
+            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 
         /* DV Vendor Detail must be active */
         if (!vendor.isActiveIndicator()) {
             errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_INACTIVE, SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER));
+            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;
         }
 
@@ -103,7 +107,6 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         }
         
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-
         return false;
     }
 

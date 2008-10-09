@@ -109,18 +109,18 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 continue;
             }
 
-            // populate Document Type
+            // Document Type
             String documentType = workflowDocument.getDocumentType();
             detail.setDocumentType(documentType);
 
-            // populate Document Number
+            // Document Number
             String documentNumber = documentHeader.getDocumentNumber();
             detail.setDocumentNumber(documentNumber);
 
             if (documentType.equals("CustomerInvoiceDocument"))
                 invoiceIds.add(documentNumber);
             else {
-                // populate Approved Date -> for invoices Due Date, for all other documents Approved Date
+                // Approved Date -> for invoices Due Date, for all other documents Approved Date
                 detail.setDueApprovedDate(approvedDate);
 
                 if (documentType.equals("PaymentApplicationDocument"))
@@ -163,7 +163,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
             CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
 
-            // populate Document Description
+            // Document Description
             String documentDescription = invoice.getInvoiceDescription();
             if (ObjectUtils.isNotNull(documentDescription) && StringUtils.isNotEmpty(documentDescription))
                 detail.setDocumentDescription(documentDescription);
@@ -174,14 +174,16 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 else
                     detail.setDocumentDescription("");
             }
+            // Billing Date
+            detail.setBillingDate(invoice.getBillingDate());
 
-            // populate Due/Approved Date -> for invoice it is Due Date, and for all other documents Approved Date
+            // Due/Approved Date -> for invoice it is Due Date, and for all other documents Approved Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
 
-            // populate Document Payment Amount
+            // Document Payment Amount
             detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
 
-            // populate Unpaid/Unapplied Amount
+            // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
 
             results.add(detail);
@@ -330,8 +332,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         try {
             reportRunDate = dateFormat.parse(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_RUN_DATE))[0]);
             if (!StringUtils.equals(columnTitle, KFSConstants.CustomerOpenItemReport.ALL_DAYS)) {
-                beginDate = dateFormat.parse(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE))[0]);
                 endDate = dateFormat.parse(((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_END_DATE))[0]);
+                String strBeginDate = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_BEGIN_DATE))[0];
+                if (StringUtils.isNotEmpty(strBeginDate))
+                    beginDate = dateFormat.parse(strBeginDate);
             }
         }
         catch (ParseException e) {
@@ -361,8 +365,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // 4. billbyOrganizationCode = orgCode
             else {
                 for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()) )
-                        selectedInvoices.add(invoice);
+                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && StringUtils.equals(chartCode, invoice.getBillByChartOfAccountCode()) && StringUtils.equals(orgCode, invoice.getBilledByOrganizationCode()) )
+                        if ( (ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())) )
+                            selectedInvoices.add(invoice);
                 }
             }
         } 
@@ -382,8 +387,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // 2. beginDate <= invoice billing date <= endDate
             else {
                 for (CustomerInvoiceDocument invoice:invoices) {
-                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate()) )
-                        selectedInvoices.add(invoice);
+                    if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()))
+                        if ( (ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())) )
+                            selectedInvoices.add(invoice);
                 }  
             }
         }
@@ -504,6 +510,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 else
                     detail.setDocumentDescription("");
             }
+            // Billing Date
+            detail.setBillingDate(invoice.getBillingDate());
             // Due Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
             // Document Payment Amount
@@ -532,6 +540,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 else
                     detail.setDocumentDescription("");
             }
+            // Billing Date
+            detail.setBillingDate(invoice.getBillingDate());
             // Due Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
             // Document Payment Amount

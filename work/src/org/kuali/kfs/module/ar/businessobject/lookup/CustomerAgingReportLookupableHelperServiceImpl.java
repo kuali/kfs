@@ -85,8 +85,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String cutoffdate30Label;
     private String cutoffdate60Label;
     private String cutoffdate90Label;
-    private String cutoffdate120Label;
-    private String cutoffdate365Label;
     
     private KualiDecimal total0to30 = KualiDecimal.ZERO;
     private KualiDecimal total31to60 = KualiDecimal.ZERO;
@@ -111,6 +109,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * @return a List of found business objects
      */
     @Override
+
     public List getSearchResults(Map fieldValues) {
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
@@ -190,6 +189,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
                 // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
             }
+         // ok
+         if (ObjectUtils.isNull(approvalDate))
+             continue;
             
          if(custInvoice!=null && customerInvoiceDetailService.getOpenAmount(cid).isNonZero()) {   
             
@@ -269,7 +271,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }
-
+    
     /**
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
      */
@@ -494,8 +496,6 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
         cutoffdate30Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_0_TO_30).getLabel();
         cutoffdate60Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_31_TO_60).getLabel();
         cutoffdate90Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_61_TO_90).getLabel();
-        cutoffdate120Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_91_TO_SYSPR).getLabel();
-        cutoffdate365Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE).getLabel();
     }
 
     private String getCustomerOpenItemReportUrl(BusinessObject bo, String columnTitle) {
@@ -521,17 +521,19 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             href += "&columnTitle=" + KFSConstants.CustomerOpenItemReport.ALL_DAYS;
         }
         else {
-            href += "&columnTitle=" + columnTitle;
             if (StringUtils.equals(columnTitle, cutoffdate30Label))
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -30)).toString() + "&endDate=" + dateFormatter.format(reportRunDate).toString();
             else if (StringUtils.equals(columnTitle, cutoffdate60Label))
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -60)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -31)).toString();
             else if (StringUtils.equals(columnTitle, cutoffdate90Label))
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -90)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -61)).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdate120Label))
+            else if (StringUtils.equals(columnTitle, cutoffdate91toSYSPRlabel))
                 href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -120)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -91)).toString();
-            else if (StringUtils.equals(columnTitle, cutoffdate365Label))
-                href += "&startDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -365)).toString() + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
+            else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
+                href += "&startDate=" + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
+                columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket))+1)+" days and older";
+            }
+            href += "&columnTitle=" + columnTitle;
         }
 
         return href;

@@ -214,7 +214,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         boolean useTaxIndicator = (purapDocument==null) ? false : purapDocument.isUseTaxIndicator();
 
         if(useTaxIndicator == false){
-            taxAmount = this.itemSalesTaxAmount == null ? KualiDecimal.ZERO : this.itemSalesTaxAmount;
+            taxAmount = this.itemSalesTaxAmount;
         }else{
             //sum use tax item tax amounts
             for(PurApItemUseTax useTaxItem : this.getUseTaxItems()){

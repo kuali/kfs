@@ -65,7 +65,9 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
             preRulesOK &= confirmNextFYPriorToApoAllowedDate(purchaseOrderDocument);
         }
         
-        preRulesOK &= checkForTaxRecalculation(purchaseOrderDocument);
+        if (!purchaseOrderDocument.isUseTaxIndicator()){
+            preRulesOK &= checkForTaxRecalculation(purchaseOrderDocument);
+        }
         
         return preRulesOK;
     }
@@ -73,10 +75,6 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
     private boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
         
         PurchaseOrderDocument poDoc = (PurchaseOrderDocument)purapDocument;
-       
-        if (poDoc.isUseTaxIndicator()){
-            return true;
-        }
 
         if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),poDoc.getDeliveryPostalCode())){
             for (PurApItem purApItem : purapDocument.getItems()) {

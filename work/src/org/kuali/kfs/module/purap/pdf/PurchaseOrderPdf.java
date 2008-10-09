@@ -654,7 +654,9 @@ public class PurchaseOrderPdf extends PurapPdf {
                 itemsTable.addCell(tableCell);
                 
                 if (!po.isUseTaxIndicator()){
-                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getItemTaxAmount()) + " ", cour_10_normal));
+                    KualiDecimal taxAmount = poi.getItemTaxAmount();
+                    taxAmount = taxAmount == null ? KualiDecimal.ZERO : taxAmount;
+                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(taxAmount) + " ", cour_10_normal));
                     tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     itemsTable.addCell(tableCell);
                     

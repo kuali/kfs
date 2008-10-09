@@ -58,7 +58,9 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
             preRulesOK &= confirmFixCapitalAssetWarningConditions(purapDocument);
         }
         
-        preRulesOK &= checkForTaxRecalculation(purapDocument);
+        if (!purapDocument.isUseTaxIndicator()){
+            preRulesOK &= checkForTaxRecalculation(purapDocument);
+        }
         
         return preRulesOK;
     }
@@ -67,10 +69,6 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         
         RequisitionDocument reqDoc = (RequisitionDocument)purapDocument;
        
-        if (reqDoc.isUseTaxIndicator()){
-            return true;
-        }
-
         if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),reqDoc.getDeliveryPostalCode())){
             for (PurApItem purApItem : purapDocument.getItems()) {
                 PurchasingItemBase item = (PurchasingItemBase)purApItem;

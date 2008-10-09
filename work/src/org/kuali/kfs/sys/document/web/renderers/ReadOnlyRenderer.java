@@ -159,7 +159,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * @return true if the inquiry link should be rendered, false otherwise
      */
     protected boolean shouldRenderInquiryLink() {
-        return !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue())  && shouldRenderInquiry;
+        return getField().getInquiryURL() != null && !StringUtils.isBlank(((AnchorHtmlData)getField().getInquiryURL()).getHref()) && !StringUtils.isBlank(getField().getPropertyValue())  && shouldRenderInquiry;
     }
     
     /**

@@ -98,7 +98,8 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @param asset
      */
     private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
-        // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS & WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
+        // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
+        // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
         if (ObjectUtils.isNotNull(asset.getCampusTagNumber()) & !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             // Set the Tag Number as view only
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
@@ -146,6 +147,11 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
         Asset asset = (Asset) document.getDocumentBusinessObject();
         if (assetService.isAssetRetired(asset)) {
             GlobalVariables.getErrorMap().putError(MAINTAINABLE_ERROR_PREFIX + ASSET_INVENTORY_STATUS, CamsKeyConstants.ERROR_ASSET_RETIRED_NOEDIT, new String[] {});
+            actionFlags.setCanAdHocRoute(false);
+            actionFlags.setCanApprove(false);
+            actionFlags.setCanBlanketApprove(false);
+            actionFlags.setCanRoute(false);
+            actionFlags.setCanSave(false);
         }
         return actionFlags;
     }

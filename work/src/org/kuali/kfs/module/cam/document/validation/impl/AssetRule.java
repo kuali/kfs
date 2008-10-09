@@ -100,7 +100,8 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= validateAccount();
             valid &= validateLocation();
             valid &= validateFabricationDetails();
-        } else {
+        }
+        else {
             setAssetComponentNumbers(newAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(oldAsset);
             paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
@@ -198,12 +199,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.equalsIgnoreCase(oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode())) {
             valid &= validateInventoryStatusCode();
         }
-        
-//      validate Organization Owner Account Number
+
+        // validate Organization Owner Account Number
         if (!StringUtils.equalsIgnoreCase(oldAsset.getOrganizationOwnerAccountNumber(), newAsset.getOrganizationOwnerAccountNumber())) {
             valid &= validateAccount();
         }
-        
+
         // validate Vendor Name.
         if (!StringUtils.equalsIgnoreCase(oldAsset.getVendorName(), newAsset.getVendorName())) {
             valid &= validateVendorName();
@@ -279,7 +280,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
-            valid &=  parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+            GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+            valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
+            GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
         }
         return valid;
     }
@@ -393,7 +396,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-    
+
     /**
      * Convenience method to append the path prefix
      */

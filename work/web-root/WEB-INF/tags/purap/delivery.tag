@@ -217,7 +217,10 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingPostalCode}" property="document.receivingPostalCode" readOnly="true" />
                    	</c:if>
                    	<c:if test="${! empty KualiForm.document.receivingCountryCode}">                   	
-	            		<br><kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" property="document.receivingCountryName" readOnly="true" />
+	            		<br><kul:htmlControlAttribute attributeEntry="${documentAttributes.receivingCountryCode}" 
+	            			property="document.receivingCountryCode" 
+	            			extraReadOnlyProperty="document.receivingCountryName"
+	            			readOnly="true" />
                    	</c:if>
             	</td>
                 <td align=left valign=middle class="datacell">

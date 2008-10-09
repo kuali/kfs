@@ -114,7 +114,10 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingStateCode}" property="document.billingStateCode" readOnly="true" />&nbsp;&nbsp;
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingPostalCode}" property="document.billingPostalCode" readOnly="true" /><br>
              		<c:if test="${!empty documentAttributes.billingCountryCode}">       
-               			<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingCountryCode}" property="document.billingCountryName" readOnly="true" />
+               			<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingCountryCode}" 
+               				property="document.billingCountryCode" 
+               				extraReadOnlyProperty="document.billingCountryName"                				
+               				readOnly="true" />
             		</c:if>
             	</td>
             </tr>

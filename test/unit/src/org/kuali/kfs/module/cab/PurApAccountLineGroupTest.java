@@ -15,34 +15,109 @@
  */
 package org.kuali.kfs.module.cab;
 
-import org.kuali.kfs.module.cab.businessobject.AccountLineGroup;
+import java.util.List;
+
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PurApAccountLineGroupTest extends KualiTestBase {
-    private class PurApAccountLineGroupTestable extends AccountLineGroup {
-        public PurApAccountLineGroupTestable(PurApAccountingLineBase entry) {
+    private class PurApAccountLineGroupTestable extends PurApAccountLineGroup {
+        public PurApAccountLineGroupTestable(PurApAccountingLineBase entry, String docNum, String refDocNum) {
+            setDocumentNumber(docNum);
+            setReferenceFinancialDocumentNumber(refDocNum);
+            setUniversityFiscalYear(entry.getPostingYear());
+            setUniversityFiscalPeriodCode(entry.getPostingPeriodCode());
+            setChartOfAccountsCode(entry.getChartOfAccountsCode());
+            setAccountNumber(entry.getAccountNumber());
+            setSubAccountNumber(entry.getSubAccountNumber());
+            setFinancialObjectCode(entry.getFinancialObjectCode());
+            setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
+            getSourceEntries().add(entry);
+            if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
+                setAmount(entry.getAmount().negated());
+            }
+            else {
+                setAmount(entry.getAmount());
+            }
         }
     }
 
     @Override
+    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
+        super.setUp();
     }
 
-    public void testCombineEntry() throws Exception {
+    public void testCombineEntry_PREQ() throws Exception {
+        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), PaymentRequestAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(first, "1001", null)));
+        group.combineEntry(first);
+        assertEquals(new KualiDecimal(300), group.getAmount());
+        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), PaymentRequestAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(second, "1001", null)));
+        group.combineEntry(second);
+        assertEquals(new KualiDecimal(200), group.getAmount());
+
+        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), PaymentRequestAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(third, "1001", null)));
+        group.combineEntry(third);
+        assertEquals(new KualiDecimal(0), group.getAmount());
+
+        List<PurApAccountingLineBase> sourceEntries = group.getSourceEntries();
+        assertEquals(4, sourceEntries.size());
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (PurApAccountingLineBase entry : sourceEntries) {
+            totalAmount = totalAmount.add(entry.getAmount());
+        }
+        assertEquals(group.getAmount(), totalAmount);
     }
 
-    private PurApAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
-        PurApAccountingLineBase entry = createEntry(i, chartCode, acctNum, subAcctNum, objCd, subObjCd, fiscalPrd, docNum, refDocNum, dbtCrdtCode, amount);
-        PurApAccountLineGroup first = new PurApAccountLineGroup(entry);
+    public void testCombineEntry_CM() throws Exception {
+        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), CreditMemoAccountHistory.class);
+        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), CreditMemoAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(first, "1001", null)));
+        group.combineEntry(first);
+        assertEquals(new KualiDecimal(-300), group.getAmount());
+        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), CreditMemoAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(second, "1001", null)));
+        group.combineEntry(second);
+        assertEquals(new KualiDecimal(-200), group.getAmount());
+
+        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), CreditMemoAccountHistory.class);
+        assertTrue(group.equals(new PurApAccountLineGroupTestable(third, "1001", null)));
+        group.combineEntry(third);
+        assertEquals(new KualiDecimal(0), group.getAmount());
+
+        List<PurApAccountingLineBase> sourceEntries = group.getSourceEntries();
+        assertEquals(4, sourceEntries.size());
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (PurApAccountingLineBase entry : sourceEntries) {
+            totalAmount = totalAmount.add(entry.getAmount());
+        }
+        assertEquals(group.getAmount(), totalAmount);
+    }
+
+    private PurApAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, KualiDecimal amount, Class<? extends PurApAccountingLineBase> clazz) {
+        PurApAccountingLineBase entry = createEntry(i, chartCode, acctNum, subAcctNum, objCd, subObjCd, fiscalPrd, docNum, refDocNum, amount, clazz);
+        PurApAccountLineGroup first = new PurApAccountLineGroupTestable(entry, docNum, refDocNum);
         return first;
     }
 
-    private PurApAccountingLineBase createEntry(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {
-        PurApAccountingLineBase entry = new PaymentRequestAccountHistory();
+    private PurApAccountingLineBase createEntry(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, KualiDecimal amount, Class<? extends PurApAccountingLineBase> clazz) {
+        PurApAccountingLineBase entry = null;
+        try {
+            entry = (PurApAccountingLineBase) clazz.newInstance();
+        }
+        catch (Exception e) {
+            fail(e.toString());
+        }
         entry.setPostingYear(i);
         entry.setChartOfAccountsCode(chartCode);
         entry.setAccountNumber(acctNum);
@@ -51,9 +126,7 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
         entry.setFinancialSubObjectCode(subObjCd);
         entry.setPostingPeriodCode(fiscalPrd);
         entry.setDocumentNumber(docNum);
-        // entry.setReferenceFinancialDocumentNumber(refDocNum);
-        // entry.setTransactionDebitCreditCode(dbtCrdtCode);
-        // entry.setTransactionLedgerEntryAmount(amount);
+        entry.setAmount(amount);
         return entry;
     }
 

@@ -37,6 +37,10 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      * 
      * @param entry PurApAccountingLineBase Line
      */
+    protected PurApAccountLineGroup() {
+
+    }
+
     public PurApAccountLineGroup(PurApAccountingLineBase entry) {
         if (ObjectUtils.isNotNull((AccountsPayableItem) entry.getPurapItem()) && ObjectUtils.isNotNull(((AccountsPayableItem) entry.getPurapItem()).getPurapDocument())) {
             AccountsPayableDocumentBase document = ((AccountsPayableItem) entry.getPurapItem()).getPurapDocument();

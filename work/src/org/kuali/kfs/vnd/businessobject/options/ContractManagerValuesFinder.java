@@ -17,13 +17,16 @@ package org.kuali.kfs.vnd.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -39,7 +42,9 @@ public class ContractManagerValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(ContractManager.class);
+        Map fieldValues = new HashMap();
+        fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+        Collection codes = boService.findMatching(ContractManager.class, fieldValues);
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {

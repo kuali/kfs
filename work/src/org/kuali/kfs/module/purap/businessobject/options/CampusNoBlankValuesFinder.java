@@ -17,13 +17,16 @@ package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 /**
@@ -37,7 +40,9 @@ public class CampusNoBlankValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
-        Collection codes = boService.findAll(CampusParameter.class);
+        Map fieldValues = new HashMap();
+        fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+        Collection codes = boService.findMatching(CampusParameter.class, fieldValues);
         List labels = new ArrayList();
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             CampusParameter campusParameter = (CampusParameter) iter.next();

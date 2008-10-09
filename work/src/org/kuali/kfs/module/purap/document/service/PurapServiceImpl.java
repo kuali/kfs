@@ -41,7 +41,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -65,6 +64,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -377,6 +377,7 @@ public class PurapServiceImpl implements PurapService {
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
             Map orgParamKeys = persistenceService.getPrimaryKeyFieldValues(organizationParameter);
+            orgParamKeys.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
             organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }

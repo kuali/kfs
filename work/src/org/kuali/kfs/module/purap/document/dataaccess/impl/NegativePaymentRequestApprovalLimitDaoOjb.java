@@ -24,6 +24,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -39,6 +40,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         LOG.debug("Entering findByChart(String)");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
+        criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChart(String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -53,6 +55,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("accountNumber", accountNumber);
+        criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChartAndAccount(String, String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -67,6 +70,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("organizationCode", organizationCode);
+        criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findByChartAndOrganization(String, String)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -79,6 +83,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
         Criteria criteria = new Criteria();
         criteria.addGreaterThan("negativePaymentRequestApprovalLimitAmount", limit);
+        criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findAboveLimit(KualiDecimal)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -91,9 +96,20 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
         LOG.debug("Entering findBelowLimit(KualiDecimal)");
         Criteria criteria = new Criteria();
         criteria.addLessThan("negativePaymentRequestApprovalLimitAmount", limit);
+        criteria.addAndCriteria(buildActiveCriteria());
         Query query = new QueryByCriteria(NegativePaymentRequestApprovalLimit.class, criteria);
         LOG.debug("Leaving findBelowLimit(KualiDecimal)");
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    /**
+     * Builds a Criteria object for activeIndicator field set to true
+     * @return Criteria
+     */
+    private Criteria buildActiveCriteria(){
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+        
+        return criteria;
+    }
 }

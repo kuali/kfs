@@ -116,11 +116,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             PurchaseOrderQuoteList poQuoteList = new PurchaseOrderQuoteList();
             poQuoteList.setPurchaseOrderQuoteListIdentifier(poQuoteListIdentifier);
             poQuoteList = (PurchaseOrderQuoteList) businessObjectService.retrieve(poQuoteList);
-            for (PurchaseOrderQuoteListVendor poQuoteListVendor : poQuoteList.getQuoteListVendors()) {
-                VendorDetail newVendor = poQuoteListVendor.getVendorDetail();
-                if (newVendor.isActiveIndicator() && !newVendor.isVendorDebarred()) {
-                    PurchaseOrderVendorQuote newPOVendorQuote = SpringContext.getBean(PurchaseOrderService.class).populateQuoteWithVendor(newVendor.getVendorHeaderGeneratedIdentifier(), newVendor.getVendorDetailAssignedIdentifier(), document.getDocumentNumber());
-                    document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
+            if (poQuoteList.isActiveIndicator()) {
+                for (PurchaseOrderQuoteListVendor poQuoteListVendor : poQuoteList.getQuoteListVendors()) {
+                    VendorDetail newVendor = poQuoteListVendor.getVendorDetail();
+                    if (newVendor.isActiveIndicator() && !newVendor.isVendorDebarred()) {
+                        PurchaseOrderVendorQuote newPOVendorQuote = SpringContext.getBean(PurchaseOrderService.class).populateQuoteWithVendor(newVendor.getVendorHeaderGeneratedIdentifier(), newVendor.getVendorDetailAssignedIdentifier(), document.getDocumentNumber());
+                        document.getPurchaseOrderVendorQuotes().add(newPOVendorQuote);
+                    }
                 }
             }
         }

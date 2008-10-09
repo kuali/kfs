@@ -32,6 +32,7 @@ import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -91,6 +92,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
             if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
+                fieldValues.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
                 if (SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;

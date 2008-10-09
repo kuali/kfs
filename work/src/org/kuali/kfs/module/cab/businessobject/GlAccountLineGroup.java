@@ -22,6 +22,7 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Accounting line grouped data for GL Line
@@ -47,7 +48,7 @@ public class GlAccountLineGroup extends AccountLineGroup {
         setDocumentNumber(entry.getDocumentNumber());
         setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
         this.sourceEntries.add(entry);
-        this.targetEntry = entry;
+        this.targetEntry = (Entry) ObjectUtils.deepCopy(entry);
 
         KualiDecimal amount = entry.getTransactionLedgerEntryAmount();
         if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {

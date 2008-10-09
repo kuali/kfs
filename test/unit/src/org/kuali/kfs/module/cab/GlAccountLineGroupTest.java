@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.cab;
 
+import java.util.List;
+
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -54,6 +57,19 @@ public class GlAccountLineGroupTest extends KualiTestBase {
         assertEquals("D", first.getTargetEntry().getTransactionDebitCreditCode());
         assertEquals(new KualiDecimal(100), first.getTargetEntry().getTransactionLedgerEntryAmount());
         assertEquals(new KualiDecimal(100), first.getAmount());
+
+        List<Entry> sourceEntries = first.getSourceEntries();
+        KualiDecimal srcAmount = KualiDecimal.ZERO;
+        for (Entry entry : sourceEntries) {
+            if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
+                srcAmount = srcAmount.add(entry.getTransactionLedgerEntryAmount().negated());
+            }
+            else {
+                srcAmount = srcAmount.add(entry.getTransactionLedgerEntryAmount());
+            }
+        }
+        assertEquals(new KualiDecimal(100), srcAmount);
+        assertTrue(first.getAmount().equals(srcAmount));
     }
 
     private GlAccountLineGroup createAccountLineGroup(Integer i, String chartCode, String acctNum, String subAcctNum, String objCd, String subObjCd, String fiscalPrd, String docNum, String refDocNum, String dbtCrdtCode, KualiDecimal amount) {

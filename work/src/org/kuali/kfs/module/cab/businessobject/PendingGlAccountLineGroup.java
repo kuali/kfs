@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Accounting line grouped data for a Pending GL Entry
@@ -45,7 +46,7 @@ public class PendingGlAccountLineGroup extends AccountLineGroup {
         setDocumentNumber(entry.getDocumentNumber());
         setReferenceFinancialDocumentNumber(entry.getReferenceFinancialDocumentNumber());
         this.sourceEntries.add(entry);
-        this.targetEntry = entry;
+        this.targetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(entry);
 
         KualiDecimal amount = entry.getTransactionLedgerEntryAmount();
         if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
@@ -112,5 +113,23 @@ public class PendingGlAccountLineGroup extends AccountLineGroup {
      */
     public void setTargetEntry(GeneralLedgerPendingEntry targetEntry) {
         this.targetEntry = targetEntry;
+    }
+
+    /**
+     * Gets the sourceEntries attribute.
+     * 
+     * @return Returns the sourceEntries.
+     */
+    public List<GeneralLedgerPendingEntry> getSourceEntries() {
+        return sourceEntries;
+    }
+
+    /**
+     * Sets the sourceEntries attribute value.
+     * 
+     * @param sourceEntries The sourceEntries to set.
+     */
+    public void setSourceEntries(List<GeneralLedgerPendingEntry> sourceEntries) {
+        this.sourceEntries = sourceEntries;
     }
 }

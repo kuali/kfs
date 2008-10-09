@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
@@ -125,7 +124,7 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
      */
     @SuppressWarnings("unchecked")
     public Class getUploadWorkgroupParameterComponent() {
-        return ProcurementCardLoadStep.class;
+        return CustomerLoadStep.class;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {

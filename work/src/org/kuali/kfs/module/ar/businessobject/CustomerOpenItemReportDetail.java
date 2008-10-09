@@ -26,9 +26,11 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     private String documentType;
     private String documentNumber;
     private String documentDescription;
+    private Date billingDate;
     private Date dueApprovedDate;
     private KualiDecimal documentPaymentAmount;
     private KualiDecimal unpaidUnappliedAmount;
+    
     
 
     @Override
@@ -64,7 +66,14 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     public void setDocumentDescription(String documentDescription) {
         this.documentDescription = documentDescription;
     }
+    
+    public Date getBillingDate() {
+        return billingDate;
+    }
 
+    public void setBillingDate(Date billingDate) {
+        this.billingDate = billingDate;
+    }
 
     public Date getDueApprovedDate() {
         return dueApprovedDate;
@@ -94,5 +103,4 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     public void setUnpaidUnappliedAmount(KualiDecimal unpaidUnappliedAmount) {
         this.unpaidUnappliedAmount = unpaidUnappliedAmount;
     }
-
 }

@@ -161,6 +161,13 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         }
         editModeMap.put(editMode, "TRUE");
         
+        if (!poDocument.isUseTaxIndicator() &&
+                (poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) || 
+                 poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)||
+                 poDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW))){
+            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES,"TRUE");
+        }
+        
         // Set display modes for Receiving Address according to its parameter value. 
         String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
         String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);

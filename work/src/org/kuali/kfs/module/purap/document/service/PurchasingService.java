@@ -49,4 +49,5 @@ public interface PurchasingService {
      */
     public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc);
     
+    public void clearAllTaxes(PurchasingDocument purDoc);
 }

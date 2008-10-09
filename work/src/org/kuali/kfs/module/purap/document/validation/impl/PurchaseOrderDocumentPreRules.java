@@ -18,9 +18,14 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -60,9 +65,48 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
             preRulesOK &= confirmNextFYPriorToApoAllowedDate(purchaseOrderDocument);
         }
         
+        preRulesOK &= checkForTaxRecalculation(purchaseOrderDocument);
+        
         return preRulesOK;
     }
     
+    private boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
+        
+        PurchaseOrderDocument poDoc = (PurchaseOrderDocument)purapDocument;
+       
+        if (poDoc.isUseTaxIndicator()){
+            return true;
+        }
+
+        if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),poDoc.getDeliveryPostalCode())){
+            for (PurApItem purApItem : purapDocument.getItems()) {
+                PurchasingItemBase item = (PurchasingItemBase)purApItem;
+                
+                if (item.getItemTaxAmount() != null){
+                    
+                    StringBuffer questionTextBuffer = new StringBuffer("");        
+                    questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.msgTd {padding:3px; width:600px; } </style>" );
+                    questionTextBuffer.append("<br/><br/><table class=\"questionTable\" align=\"center\">");
+                    questionTextBuffer.append("<tr><td class=\"msgTd\">" + PurapConstants.TAX_RECALCULATION_QUESTION + "</td></tr></table>");
+                    
+                    Boolean proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.TAX_RECALCULATION_INFO, questionTextBuffer.toString());
+                   
+                    //Set a marker to record that this method has been used.
+                    if (proceed && StringUtils.isBlank(event.getQuestionContext())) {
+                        event.setQuestionContext(PurapConstants.TAX_RECALCULATION_INFO);
+                    }
+
+                    if (!proceed) {
+                        event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+                        return false;
+                    }
+                }
+            }
+        }
+       
+        return true;
+    }
+
     /**
      * Give next FY warning if the PO status is "In Process" or "Awaiting Purchasing Review"
      * 

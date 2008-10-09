@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -559,8 +560,16 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // ***** Items table *****
         LOG.debug("createPdf() items table started.");
-        float[] itemsWidths = { 0.07f, 0.1f, 0.07f, 0.50f, 0.13f, 0.13f };
-        PdfPTable itemsTable = new PdfPTable(6);
+        
+        float[] itemsWidths = { 0.07f, 0.1f, 0.07f, 0.50f, 0.13f, 0.13f};
+        
+        if (!po.isUseTaxIndicator()){
+            itemsWidths = ArrayUtils.add(itemsWidths, 0.13f);    
+            itemsWidths = ArrayUtils.add(itemsWidths, 0.13f);
+        }
+
+        PdfPTable itemsTable = new PdfPTable(itemsWidths.length);
+        
         // itemsTable.setCellsFitPage(false); With this set to true a large cell will
         // skip to the next page. The default Table behaviour seems to be what we want:
         // start the large cell on the same page and continue it to the next.
@@ -587,6 +596,16 @@ public class PurchaseOrderPdf extends PurapPdf {
         tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         itemsTable.addCell(tableCell);
 
+        if (!po.isUseTaxIndicator()){
+            tableCell = new PdfPCell(new Paragraph("Tax Amount", ver_5_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            itemsTable.addCell(tableCell);
+            
+            tableCell = new PdfPCell(new Paragraph("Total Amount", ver_5_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            itemsTable.addCell(tableCell);
+        }
+        
         Collection<PurchaseOrderItem> itemsList = new ArrayList();
         if (isRetransmit) {
             itemsList = retransmitItems;
@@ -633,7 +652,17 @@ public class PurchaseOrderPdf extends PurapPdf {
                 tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getExtendedPrice()) + " ", cour_10_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 itemsTable.addCell(tableCell);
-
+                
+                if (!po.isUseTaxIndicator()){
+                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getItemTaxAmount()) + " ", cour_10_normal));
+                    tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    itemsTable.addCell(tableCell);
+                    
+                    tableCell = new PdfPCell(new Paragraph(numberFormat.format(poi.getTotalAmount()) + " ", cour_10_normal));
+                    tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    itemsTable.addCell(tableCell);
+                }
+                
             }
         }
         // Blank line before totals
@@ -643,10 +672,71 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
+        
+        if (!po.isUseTaxIndicator()){
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+        }
+        
+        //Next Line
+        if (!po.isUseTaxIndicator()){
+            
+            //Print Total Prior to Tax
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            
+            tableCell = new PdfPCell(new Paragraph("Total Prior to Tax: ", ver_10_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            itemsTable.addCell(tableCell);
+            itemsTable.addCell(" ");
+            KualiDecimal totalDollarAmount = new KualiDecimal(BigDecimal.ZERO);
+            if (po instanceof PurchaseOrderRetransmitDocument) {
+                totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalPreTaxDollarAmountForRetransmit();
+            }
+            else {
+                totalDollarAmount = po.getTotalPreTaxDollarAmount();
+            }
+            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_10_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            itemsTable.addCell(tableCell);
+            
+            //Print Total Tax
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+
+            tableCell = new PdfPCell(new Paragraph("Total Tax: ", ver_10_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            itemsTable.addCell(tableCell);
+            itemsTable.addCell(" ");
+            totalDollarAmount = new KualiDecimal(BigDecimal.ZERO);
+            if (po instanceof PurchaseOrderRetransmitDocument) {
+                totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalTaxDollarAmountForRetransmit();
+            }
+            else {
+                totalDollarAmount = po.getTotalTaxAmount();
+            }
+            tableCell = new PdfPCell(new Paragraph(numberFormat.format(totalDollarAmount) + " ", cour_10_normal));
+            tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            itemsTable.addCell(tableCell);
+            
+        }
+        
         // Totals line; first 3 cols empty
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
+        
+        if (!po.isUseTaxIndicator()){
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+        }
+        
         tableCell = new PdfPCell(new Paragraph("Total order amount: ", ver_10_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
@@ -668,7 +758,12 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
-
+        
+        if (!po.isUseTaxIndicator()){
+            itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
+        }
+        
         document.add(itemsTable);
 
         // Contract language.

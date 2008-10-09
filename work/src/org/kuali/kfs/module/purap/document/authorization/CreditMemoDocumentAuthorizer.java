@@ -99,6 +99,12 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
 
+        if (!creditMemoDocument.isUseTaxIndicator() &&
+            !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((CreditMemoDocument) document) &&   
+            user.isMember(apGroup) ) {
+            editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
+        }
+        
         //Use tax indicator editing is enabled
         if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)){
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE, "TRUE");

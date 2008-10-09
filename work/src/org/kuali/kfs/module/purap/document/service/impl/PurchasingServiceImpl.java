@@ -209,4 +209,15 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         return parameterService.getParameterValue(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
     }
+
+    public void clearAllTaxes(PurchasingDocument purDoc) {
+        if (!purDoc.isUseTaxIndicator() && purDoc.getItems() != null){
+            for (int i = 0; i < purDoc.getItems().size(); i++) {
+                PurApItem item = purDoc.getItems().get(i);
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()){
+                    item.setItemTaxAmount(null);
+                }
+            }
+        }
+    }
 }

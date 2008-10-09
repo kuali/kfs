@@ -67,6 +67,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -77,6 +78,7 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 
 /**
@@ -1008,4 +1010,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return super.calculate(mapping, form, request, response);
     }
 
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        PurchasingFormBase formBase = (PurchasingFormBase)kualiDocumentFormBase;
+        if (StringUtils.isEmpty(formBase.getInitialZipCode())){
+            formBase.setInitialZipCode(((PurchasingDocument)formBase.getDocument()).getDeliveryPostalCode());
+        }
+    }
+    
+    @Override
+    public ActionForward clearAllTaxes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
+        PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
+       
+        SpringContext.getBean(PurchasingService.class).clearAllTaxes(purDoc);
+       
+        return super.clearAllTaxes(mapping, form, request, response);
+    }
 }

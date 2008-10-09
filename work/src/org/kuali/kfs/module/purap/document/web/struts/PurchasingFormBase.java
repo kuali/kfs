@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -26,6 +27,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -44,6 +46,8 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     private FormFile itemImportFile; // file from which items can be imported
     private String distributePurchasingCommodityCode;
     private String distributePurchasingCommodityDescription;
+    
+    private String initialZipCode;
     
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
@@ -369,6 +373,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
             if (getAuth().canCalculate()) {
                 addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
             }
+            
         return extraButtons;
     }
 
@@ -388,7 +393,13 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.locationCampusFromLookup = locationCampusFromLookup;
     }
 
+    public String getInitialZipCode() {
+        return initialZipCode;
+    }
 
+    public void setInitialZipCode(String initialZipCode) {
+        this.initialZipCode = initialZipCode;
+    }
 
     public abstract PurchasingDocumentActionAuthorizer getAuth();
 

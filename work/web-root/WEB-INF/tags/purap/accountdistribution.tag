@@ -24,6 +24,7 @@
 
 <html:hidden property="hideDistributeAccounts" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 
 <br />
 <c:if test="${(fullEntryMode or amendmentEntry)}">
@@ -52,9 +53,17 @@
     src="${ConfigProperties.externalizable.images.url}tinybutton-remcomcod.gif"
     alt="remove commodity codes from all items"
     title="remove commodity codes from all items" styleClass="tinybutton" />
-    </div>
 </c:if>
-	
+
+<c:if test="${(fullEntryMode or amendmentEntry) and (clearAllTaxes)}">
+	<html:image 
+	    property="methodToCall.clearAllTaxes" 
+	    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
+	    alt="Clear all tax" 
+	    title="Clear all tax" styleClass="tinybutton" />
+	 </div>
+</c:if>	
+
 <c:if test="${!KualiForm.hideDistributeAccounts}">
 
     <c:choose>

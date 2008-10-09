@@ -28,13 +28,16 @@ import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -55,7 +58,45 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
             preRulesOK &= confirmFixCapitalAssetWarningConditions(purapDocument);
         }
         
+        preRulesOK &= checkForTaxRecalculation(purapDocument);
+        
         return preRulesOK;
+    }
+    
+    private boolean checkForTaxRecalculation(PurchasingAccountsPayableDocument purapDocument){
+        
+        RequisitionDocument reqDoc = (RequisitionDocument)purapDocument;
+       
+        if (reqDoc.isUseTaxIndicator()){
+            return true;
+        }
+
+        if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),reqDoc.getDeliveryPostalCode())){
+            for (PurApItem purApItem : purapDocument.getItems()) {
+                PurchasingItemBase item = (PurchasingItemBase)purApItem;
+                if (item.getItemTaxAmount() != null){
+                
+                    StringBuffer questionTextBuffer = new StringBuffer("");        
+                    questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.msgTd {padding:3px; width:600px; } </style>" );
+                    questionTextBuffer.append("<br/><br/><table class=\"questionTable\" align=\"center\">");
+                    questionTextBuffer.append("<tr><td class=\"msgTd\">" + PurapConstants.TAX_RECALCULATION_QUESTION + "</td></tr></table>");
+                
+                    Boolean proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.TAX_RECALCULATION_INFO, questionTextBuffer.toString());
+                   
+                    //Set a marker to record that this method has been used.
+                    if (proceed && StringUtils.isBlank(event.getQuestionContext())) {
+                        event.setQuestionContext(PurapConstants.TAX_RECALCULATION_INFO);
+                    }
+
+                    if (!proceed) {
+                        event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+                        return false;
+                    }
+                }
+            }
+        }
+       
+        return true;
     }
     
     /**

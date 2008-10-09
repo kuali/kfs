@@ -19,6 +19,7 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
+<c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 		
 <tr>
 	<td colspan="10" class="subhead">
@@ -253,6 +254,18 @@
 	</c:if>
 </logic:iterate>
 
+<c:if test="${(fullEntryMode) and (clearAllTaxes)}">
+	<tr>
+		<th height=30 colspan="14">
+			<html:image 
+			    property="methodToCall.clearAllTaxes" 
+			    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
+			    alt="Clear all tax" 
+			    title="Clear all tax" styleClass="tinybutton" />
+			 </div>
+	 	</th>
+	 </tr>
+</c:if>	
 <tr>
 	<th height=30 colspan="11">&nbsp;</th>
 </tr>

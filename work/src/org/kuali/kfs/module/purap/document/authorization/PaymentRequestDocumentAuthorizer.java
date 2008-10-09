@@ -148,6 +148,13 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.LOCK_VENDOR_ENTRY, "TRUE");
         }
         
+        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        
+        if (!paymentRequestDocument.isUseTaxIndicator() &&
+            !fullDocumentEntryCompleted && user.isMember(apGroup) ) {
+            editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.CLEAR_ALL_TAXES, "TRUE");
+        }
+        
         //Use tax indicator editing is enabled
         if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)){
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.USE_TAX_INDICATOR_CHANGEABLE, "TRUE");

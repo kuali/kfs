@@ -143,6 +143,13 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             editModeMap.put(editMode, "TRUE");
         }
 
+        if (!reqDocument.isUseTaxIndicator() &&
+                (reqDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS) || 
+                 reqDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)||
+                 reqDocument.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW))){
+            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.CLEAR_ALL_TAXES,"TRUE");
+        }
+        
         // Set display modes for Receiving Address and Address to Vendor sections according to their parameter values. 
         String paramName = PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND;
         String paramValue = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PURAP", "Document", paramName);

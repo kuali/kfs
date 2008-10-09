@@ -34,9 +34,12 @@ import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.CancelAccountsPayableEvent;
 import org.kuali.kfs.module.purap.document.validation.event.PreCalculateAccountsPayableEvent;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
@@ -105,6 +108,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase) kualiDocumentFormBase).updateItemCounts();
+        
     }
 
     /**
@@ -132,6 +136,21 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         return super.calculate(mapping, form, request, response);
     }
 
+    @Override
+    public ActionForward clearAllTaxes(ActionMapping mapping, 
+                                       ActionForm form, 
+                                       HttpServletRequest request, 
+                                       HttpServletResponse response) 
+    throws Exception {
+        
+        AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
+        AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
+       
+        SpringContext.getBean(AccountsPayableService.class).clearAllTaxes(apDoc);
+       
+        return super.clearAllTaxes(mapping, form, request, response);
+    }
+    
     /**
      * Checks if calculation is required. Currently it is required when it has not already been calculated and full document entry
      * status has not already passed.

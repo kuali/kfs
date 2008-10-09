@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
@@ -626,8 +627,15 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
     }
     
-
-
-
+    public void clearAllTaxes(AccountsPayableDocument apDoc){
+        if (!apDoc.isUseTaxIndicator() && apDoc.getItems() != null){
+            for (int i = 0; i < apDoc.getItems().size(); i++) {
+                PurApItem item = apDoc.getItems().get(i);
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()){
+                    item.setItemTaxAmount(null);
+                }
+            }
+        }
+    }
 
 }

@@ -387,6 +387,10 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward clearAllTaxes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     protected void customCalculate(PurchasingAccountsPayableDocument purapDoc) {
         // do nothing by default
     }

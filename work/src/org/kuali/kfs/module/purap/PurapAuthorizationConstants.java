@@ -31,7 +31,8 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String DISPLAY_RECEIVING_ADDRESS = "displayReceivingAddress";
         public static final String LOCK_ADDRESS_TO_VENDOR = "lockAddressToVendor";
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
-        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";        
+        public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";   
+        public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
@@ -46,6 +47,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String UNORDERED_ITEM_ACCOUNT_ENTRY = "unorderedItemAccountEntry";
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
+        public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
     }
 
     public static class PaymentRequestEditMode extends EditMode {
@@ -56,6 +58,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String EDIT_PRE_EXTRACT = "editPreExtract";
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
+        public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
     }
 
     public static class CreditMemoEditMode extends EditMode {
@@ -64,6 +67,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ALLOW_FISCAL_ENTRY = "allowFiscalEntry";
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
+        public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
     }
 
     public static class ReceivingLineEditMode extends EditMode {

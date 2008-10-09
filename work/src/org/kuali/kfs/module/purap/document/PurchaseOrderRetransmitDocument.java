@@ -61,6 +61,20 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             if (item.isItemSelectedForRetransmitIndicator()) {
+                KualiDecimal totalAmount = item.getTotalAmount();
+                KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
+
+        return total;
+    }
+   
+    public KualiDecimal getTotalPreTaxDollarAmountForRetransmit() {
+        // We should only add up the amount of the items that were selected for retransmit.
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+            if (item.isItemSelectedForRetransmitIndicator()) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -69,7 +83,21 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
         return total;
     }
+    
+    public KualiDecimal getTotalTaxDollarAmountForRetransmit() {
+        // We should only add up the amount of the items that were selected for retransmit.
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
+            if (item.isItemSelectedForRetransmitIndicator()) {
+                KualiDecimal taxAmount = item.getItemTaxAmount();
+                KualiDecimal itemTotal = (taxAmount != null) ? taxAmount : KualiDecimal.ZERO;
+                total = total.add(itemTotal);
+            }
+        }
 
+        return total;
+    }
+    
     /**
      * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
      * transmit date is updated.

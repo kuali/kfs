@@ -22,6 +22,7 @@
     description="show the amount if true else percent" %>
 
 <c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
+<c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 
 <tr>
 	<td colspan="12" class="subhead">
@@ -202,6 +203,19 @@
 	</c:if>
 </logic:iterate>
 
+<c:if test="${(fullEntryMode) and (clearAllTaxes)}">
+	<tr>
+		<th height=30 colspan="14">
+			<html:image 
+			    property="methodToCall.clearAllTaxes" 
+			    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
+			    alt="Clear all tax" 
+			    title="Clear all tax" styleClass="tinybutton" />
+			 </div>
+	 	</th>
+	 </tr>
+</c:if>	
+		
 <tr>
 	<th height=30 colspan="12">&nbsp;</th>
 </tr>

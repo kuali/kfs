@@ -98,6 +98,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private  String billingInternationalMailCode;
     private  String billingEmailAddress;
     private  String billingAddressTypeCode;
+    private  String billingLine1StreetAddress;
+    private  String billingLine2StreetAddress;
+    private  String shippingLine1StreetAddress;
+    private  String shippingLine2StreetAddress;
     private  String shippingAddressName;
     private  String shippingCityName;
     private  String shippingStateCode;
@@ -1604,6 +1608,39 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void setShippingZipCode(String shippingZipCode) {
         this.shippingZipCode = shippingZipCode;
     }
+
+    public String getBillingLine1StreetAddress() {
+        return billingLine1StreetAddress;
+    }
+
+    public void setBillingLine1StreetAddress(String billingLine1StreetAddress) {
+        this.billingLine1StreetAddress = billingLine1StreetAddress;
+    }
+
+    public String getBillingLine2StreetAddress() {
+        return billingLine2StreetAddress;
+    }
+
+    public void setBillingLine2StreetAddress(String billingLine2StreetAddress) {
+        this.billingLine2StreetAddress = billingLine2StreetAddress;
+    }
+
+    public String getShippingLine1StreetAddress() {
+        return shippingLine1StreetAddress;
+    }
+
+    public void setShippingLine1StreetAddress(String shippingLine1StreetAddress) {
+        this.shippingLine1StreetAddress = shippingLine1StreetAddress;
+    }
+
+    public String getShippingLine2StreetAddress() {
+        return shippingLine2StreetAddress;
+    }
+
+    public void setShippingLine2StreetAddress(String shippingLine2StreetAddress) {
+        this.shippingLine2StreetAddress = shippingLine2StreetAddress;
+    }
+
 }
 
 

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
+import org.apache.commons.lang.StringUtils;
+
 public class CustomerLoadBatchError {
 
     private String customerName;
@@ -62,7 +64,24 @@ public class CustomerLoadBatchError {
     }
 
     public String toString() {
-        return "[" + customerName + "] (" + propertyClass.toString() + ") " + propertyName + ": '" + value + "' - " + description;
+        return "[" + customerName + "] " + 
+                ("class java.lang.Object".equals(propertyClass.toString()) || propertyClass == null ? "" : "(" + propertyClass.toString() + ") ") + 
+                (StringUtils.isBlank(propertyName) ? "" : getPropertyNameLastElement() + ": ") + 
+                (StringUtils.isBlank(value) || "N/A".equalsIgnoreCase(value) ? "" : "'" + value + "' - ") +  
+                description;
+    }
+    
+    public String getPropertyNameLastElement() {
+        if (StringUtils.isBlank(propertyName)) return propertyName;
+        
+        String[] propertyNameElements = propertyName.split("\\.");
+        if (propertyNameElements.length <= 0) {
+            return propertyName;
+        }
+        else {
+            return propertyNameElements[propertyNameElements.length - 1];
+        }
+        
     }
     
     public String getCustomerName() {

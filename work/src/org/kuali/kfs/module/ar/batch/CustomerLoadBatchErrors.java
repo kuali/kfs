@@ -98,12 +98,6 @@ public class CustomerLoadBatchErrors {
         if (StringUtils.isBlank(propertyName)) {
             throw new IllegalArgumentException("Parameter propertyName was empty or null.");
         }
-        if (propertyClass == null) {
-            throw new IllegalArgumentException("Parameter propertyClass was null.");
-        }
-        if (StringUtils.isBlank(value)) {
-            throw new IllegalArgumentException("Parameter value was empty or null.");
-        }
         if (StringUtils.isBlank(description)) {
             throw new IllegalArgumentException("Parameter description was empty or null.");
         }

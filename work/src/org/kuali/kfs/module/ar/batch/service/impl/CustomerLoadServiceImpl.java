@@ -66,6 +66,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerLoadServiceImpl implements CustomerLoadService {
@@ -101,10 +102,17 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
         List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
         
-        //  gather up all chart/org combos we want to search for
         String userChart, userOrg; 
         Map<String,String> pkMap;
         Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
+
+        //  add the user's base org to the list
+        pkMap = new HashMap<String,String>();
+        pkMap.put("chartOfAccountsCode", fsUserOrg.getChartOfAccountsCode());
+        pkMap.put("organizationCode", fsUserOrg.getOrganizationCode());
+        searchOrgs.put(fsUserOrg.getChartOfAccountsCode() + fsUserOrg.getOrganizationCode(), pkMap);
+        
+        //  gather up all chart/org combos we want to search for
         for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
             userChart = userPrimaryOrg.getChartOfAccountsCode();
             userOrg = userPrimaryOrg.getOrganizationCode();
@@ -332,6 +340,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs) {
         
+        //TODO Yes I know this method needs to be broken up into some other sub-methods
+        
         //  fail if empty or null list
         if (customerUploads == null) {
             LOG.error("Null list of Customer upload objects.  This should never happen.");
@@ -374,7 +384,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             
             //  if any errors were generated, add them to the GlobalVariables, and return false
             if (!batchErrors.isEmpty()) {
-                batchErrors.addError(customer.getCustomerName(), "Global", Object.class, "N/A", "This document was not processed due to errors in uploading and conversion.");
+                batchErrors.addError(customer.getCustomerName(), "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
                 addBatchErrorsToGlobalVariables(batchErrors);
                 docSucceeded = false;
                 groupSucceeded &= false;
@@ -403,6 +413,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             //  set the old and new
             transientMaintDoc.getNewMaintainableObject().setBusinessObject(customer);
             transientMaintDoc.getOldMaintainableObject().setBusinessObject(existingCustomer);
+
+            //  set the maintainable actions, so isNew and isEdit on the maint doc return correct values
+            if (isNew) {
+                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
+            }
+            else {
+                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_EDIT_ACTION);
+            }
 
             if (!validateSingle(transientMaintDoc, batchErrors, customer.getCustomerName())) {
                 groupSucceeded &= false;
@@ -554,6 +572,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
         Set<String> errorKeys = errorMap.keySet();
         List<ErrorMessage> errorMessages = null;
+        Object[] messageParams;
         String errorKeyString;
         String errorString;
         
@@ -561,8 +580,15 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
                 errorKeyString = configService.getPropertyString(errorMessage.getErrorKey()); 
-                errorString = MessageFormat.format(errorKeyString, (Object[]) errorMessage.getMessageParameters());
-                batchErrors.addError(customerName, errorProperty, Object.class, "N/A", errorString);
+                messageParams = errorMessage.getMessageParameters();
+                
+                // MessageFormat.format only seems to replace one 
+                // per pass, so I just keep beating on it until all are gone.
+                errorString = errorKeyString;
+                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                    errorString = MessageFormat.format(errorString, messageParams);
+                }
+                batchErrors.addError(customerName, errorProperty, Object.class, "", errorString);
                 result = false;
             }
         }

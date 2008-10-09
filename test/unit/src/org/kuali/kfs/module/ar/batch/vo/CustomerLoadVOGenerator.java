@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.vo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 public class CustomerLoadVOGenerator {
 
+    public static final CustomerDigesterVO generateCustomerVO(Map<String, String> customerFields, Map<String, String> address) {
+        List<Map<String,String>> addresses = new ArrayList<Map<String,String>>();
+        addresses.add(address);
+        return generateCustomerVO(customerFields, addresses);
+    }
+    
     public static final CustomerDigesterVO generateCustomerVO(Map<String, String> customerFields, List<Map<String, String>> addresses) {
         
         CustomerDigesterVO customerVO = new CustomerDigesterVO();
@@ -64,11 +71,11 @@ public class CustomerLoadVOGenerator {
         fields.put("customerTaxTypeCode", "FEIN");
         fields.put("customerTaxNbr", "121231234");
         fields.put("customerActiveIndicator", "Y");
-        fields.put("customerPhoneNumber", "5205551212");
-        fields.put("customer800PhoneNumber", "8005551212");
+        fields.put("customerPhoneNumber", "520-555-1212");
+        fields.put("customer800PhoneNumber", "800-555-1212");
         fields.put("customerContactName", "John Doe");
-        fields.put("customerContactPhoneNumber", "5205551212");
-        fields.put("customerFaxNumber", "5205551213");
+        fields.put("customerContactPhoneNumber", "520-555-1212");
+        fields.put("customerFaxNumber", "520-555-1213");
         fields.put("customerBirthDate", "");
         fields.put("customerTaxExemptIndicator", "Y");
         fields.put("customerCreditLimitAmount", "");
@@ -88,11 +95,11 @@ public class CustomerLoadVOGenerator {
         fields.put("customerTaxTypeCode", "FEIN");
         fields.put("customerTaxNbr", "121231234");
         fields.put("customerActiveIndicator", "Y");
-        fields.put("customerPhoneNumber", "5205551212");
-        fields.put("customer800PhoneNumber", "8005551212");
+        fields.put("customerPhoneNumber", "520-555-1212");
+        fields.put("customer800PhoneNumber", "800-555-1212");
         fields.put("customerContactName", "John Doe");
-        fields.put("customerContactPhoneNumber", "5205551212");
-        fields.put("customerFaxNumber", "5205551213");
+        fields.put("customerContactPhoneNumber", "520-555-1212");
+        fields.put("customerFaxNumber", "520-555-1213");
         fields.put("customerBirthDate", "hello");
         fields.put("customerTaxExemptIndicator", "Y");
         fields.put("customerCreditLimitAmount", "");

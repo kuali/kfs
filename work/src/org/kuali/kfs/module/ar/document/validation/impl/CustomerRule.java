@@ -56,6 +56,8 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
                 isValid &= checkTaxNumber(newCustomer);
             }
 
+            //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
+            //     unless there's some reason not clear why it needs to happen here.
             if (isValid && document.isNew() && newCustomer.getCustomerNumber() == null) {
                 setCustomerNumber();
             }
@@ -68,6 +70,8 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
      * This method sets the new customer number
      */
     private void setCustomerNumber() {
+        //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
+        //     unless there's some reason not clear why it needs to happen here.
         String customerNumber = SpringContext.getBean(CustomerService.class).getNextCustomerNumber(newCustomer);
         newCustomer.setCustomerNumber(customerNumber);
         oldCustomer.setCustomerNumber(newCustomer.getCustomerNumber());

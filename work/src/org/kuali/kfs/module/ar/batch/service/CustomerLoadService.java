@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public interface CustomerLoadService {
 
@@ -48,6 +49,19 @@ public interface CustomerLoadService {
      */
     public boolean validate(List<CustomerDigesterVO> customerUploads);
     
+    /**
+     * 
+     * Performs specific validation on the parsed file contents. If errors were found, method will return false and
+     * GlobalVariables.errorMap will contain the error message. If no errors were encountered the method will return true.
+     * 
+     * @param customerUploads A List of CustomerDigesterVO objects, that are the processed 
+     *        results of the uploaded files.
+     * @param customerMaintDocs A list of the customerMaintDocs that are returned by the validateAndPrepare method.  A valid list 
+     *        should be passed in, and MaintDocs will be added to it.
+     * @return True if no errors were encountered, False otherwise.
+     */
+    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs);
+
     /**
      * 
      * Checks whether a given user is authorized to upload and batch a given File.

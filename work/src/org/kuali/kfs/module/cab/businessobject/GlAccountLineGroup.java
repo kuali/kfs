@@ -106,6 +106,9 @@ public class GlAccountLineGroup extends AccountLineGroup {
         if (KFSConstants.GL_CREDIT_CODE.equals(targetDebitCreditCode)) {
             setAmount(targetAmount.negated());
         }
+        else {
+            setAmount(targetAmount);
+        }
     }
 
     /**

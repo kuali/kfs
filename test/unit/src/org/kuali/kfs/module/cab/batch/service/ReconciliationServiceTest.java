@@ -20,14 +20,18 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
+import org.kuali.kfs.module.cg.businessobject.Purpose;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class tests Cab Reconciliation service
@@ -69,6 +73,34 @@ public class ReconciliationServiceTest extends BatchTestBase {
         assertEquals(0, ignoredEntries.size());
         assertEquals(10, validEntries.size());
         assertEquals(0, mismatchedEntries.size());
+
+        // assert if result amounts are reconciled correctly
+        for (GlAccountLineGroup glAccountLineGroup : validEntries) {
+            KualiDecimal purapAmount = KualiDecimal.ZERO;
+            List<PurApAccountingLineBase> matchedPurApAcctLines = glAccountLineGroup.getMatchedPurApAcctLines();
+            for (PurApAccountingLineBase purApAccountingLineBase : matchedPurApAcctLines) {
+                purapAmount = purapAmount.add(purApAccountingLineBase.getAmount());
+            }
+            Entry targetEntry = glAccountLineGroup.getTargetEntry();
+            KualiDecimal targetAmount = targetEntry.getTransactionLedgerEntryAmount();
+            if (CabConstants.CM.equals(targetEntry.getFinancialDocumentTypeCode())) {
+                assertTrue(glAccountLineGroup.getAmount().equals(purapAmount.negated()));
+            }
+            else {
+                assertTrue(glAccountLineGroup.getAmount().equals(purapAmount));
+            }
+
+            if (KFSConstants.GL_CREDIT_CODE.equals(targetEntry.getTransactionDebitCreditCode())) {
+                targetAmount = targetAmount.negated();
+            }
+            if (CabConstants.CM.equals(targetEntry.getFinancialDocumentTypeCode())) {
+                assertTrue(targetAmount.equals(purapAmount.negated()));
+            }
+            else {
+                assertTrue(targetAmount.equals(purapAmount));
+            }
+            purapAmount = KualiDecimal.ZERO;
+        }
 
     }
 

@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
@@ -44,10 +45,12 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -84,6 +87,7 @@ public class PurapServiceImpl implements PurapService {
     private UniversityDateService universityDateService;
     private VendorService vendorService;
     private ParameterDao parameterDao;
+    private TaxService taxService; 
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -131,6 +135,14 @@ public class PurapServiceImpl implements PurapService {
     
     public void setParameterDao(ParameterDao parameterDao) {
         this.parameterDao = parameterDao;
+    }
+    
+    public TaxService getTaxService() {
+        return taxService;
+    }
+
+    public void setTaxService(TaxService taxService) {
+        this.taxService = taxService;
     }
     
     /**
@@ -673,7 +685,7 @@ public class PurapServiceImpl implements PurapService {
             //iterate over items and calculate tax if taxable
             for(PurApItem item : purapDocument.getItems()){
                 if( isTaxable(useTaxIndicator, deliveryState, item) ){
-                    calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item);
+                    calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item,purapDocument.getItemUseTaxClass());
                 }
             }
         }
@@ -700,9 +712,43 @@ public class PurapServiceImpl implements PurapService {
      * @param deliveryPostalCode
      * @param transactionTaxDate
      * @param item
+     * @param itemUseTaxClass
      */
-    private void calculateItemTax(boolean useTaxIndicator, String deliveryPostalCode, 
-            Date transactionTaxDate, PurApItem item){
+    private void calculateItemTax(boolean useTaxIndicator, 
+                                  String deliveryPostalCode, 
+                                  Date transactionTaxDate, 
+                                  PurApItem item,
+                                  Class itemUseTaxClass){
         
+        if (!useTaxIndicator){
+            KualiDecimal taxAmount = taxService.getTotalSalesTaxAmount(transactionTaxDate, deliveryPostalCode, item.getExtendedPrice());
+            item.setItemTaxAmount(taxAmount);
+        } else {
+            List<TaxDetail> taxDetails = taxService.getUseTaxDetails(transactionTaxDate, deliveryPostalCode, item.getExtendedPrice());
+            List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>(); 
+            if (taxDetails != null){
+                for (TaxDetail taxDetail : taxDetails) {
+                    try {
+                        PurApItemUseTax useTaxitem = (PurApItemUseTax)itemUseTaxClass.newInstance();
+                        useTaxitem.setChartOfAccountsCode(taxDetail.getChartOfAccountsCode());
+                        useTaxitem.setFinancialObjectCode(taxDetail.getFinancialObjectCode());
+                        useTaxitem.setAccountNumber(taxDetail.getAccountNumber());
+                        useTaxitem.setItemIdentifier(item.getItemIdentifier());
+                        useTaxitem.setRateCode(taxDetail.getRateCode());
+                        useTaxitem.setTaxAmount(taxDetail.getTaxAmount());
+                        newUseTaxItems.add(useTaxitem);
+                    }
+                    catch (Exception e) {
+                        /**
+                         * Shallow.. This never happen - InstantiationException/IllegalAccessException
+                         * To be safe, throw a runtime exception
+                         */
+                        throw new RuntimeException(e);
+                    } 
+                }
+            }
+            item.setUseTaxItems(newUseTaxItems);
+        }
     }
+
 }

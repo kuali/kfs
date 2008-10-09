@@ -8,7 +8,7 @@
 
   <bean id="PretagMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.Pretag" />
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+    <property name="maintainableClass" value="org.kuali.kfs.module.cab.document.PreTagMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
         <ref bean="PretagMaintenanceDocument-EditPreAssetTagging" />

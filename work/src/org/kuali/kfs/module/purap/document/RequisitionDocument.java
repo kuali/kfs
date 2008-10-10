@@ -117,8 +117,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
-
-        // set the default funding source
         this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.DEFAULT_FUNDING_SOURCE));
 
         FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
@@ -176,7 +174,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // The allowed copy date is the document creation date plus a set number of days.
             Date createDate = wd.getCreateDate();
             c.setTime(createDate);
-            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2_B_ALLOW_COPY_DAYS);
+            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();
@@ -260,7 +258,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
         }
 
-        SpringContext.getBean(PurapService.class).addBelowLineItems(this);
+        if (!PurapConstants.RequisitionSources.B2B.equals(this.getRequisitionSourceCode())) {
+            SpringContext.getBean(PurapService.class).addBelowLineItems(this);
+        }
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
         clearCapitalAssetFields();
         this.refreshNonUpdateableReferences();

@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -33,9 +30,7 @@ import org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.B2BRemoteError;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
-import org.kuali.kfs.module.purap.exception.ServiceError;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
@@ -59,9 +54,9 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#sendPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#sendPurchaseOrder(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
-    public Collection sendPurchaseOrder(PurchaseOrderDocument purchaseOrder, FinancialSystemUser user) {
+    public String sendPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
         /*
          * IMPORTANT DESIGN NOTE: We need the contract manager's name, phone number, and e-mail address. B2B orders that don’t
          * qualify to become APO's will have contract managers on the PO, and the ones that DO become APO's will not. We decided to
@@ -77,45 +72,21 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
-        UniversalUser initiator = null;
-        try {
-            universalUserService.getUniversalUser(reqWorkflowDoc.getInitiatorNetworkId());
-        }
-        catch (UserNotFoundException e) {
-            LOG.error("getContractManagerEmail(): caught UserNotFoundException, returning null.");
-            return null;
-        }
 
         String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
         String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
         LOG.debug("sendPurchaseOrder(): punchoutUrl is " + punchoutUrl);
 
-        Collection errors;
+        String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
+        if (StringUtils.isEmpty(validateErrors)) {
+            return validateErrors;
+        }
 
-        errors = verifyCxmlPOData(purchaseOrder, initiator, password, contractManager, contractManagerEmail, vendorDuns);
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-        else {
-            errors = new ArrayList();
-        }
+        StringBuffer transmitErrors = new StringBuffer();
 
         try {
-
-            // check for vendor specific code
-            // TODO: See about setting this zero items variable another way
-
-            boolean includeZeroItems = true;
-            /*
-             * String beanId = "purVendorSpecific" + vendorDuns; LOG.debug("sendPurchaseOrder() beanId = " + beanId); if (
-             * beanFactory.containsBean(beanId) ) { VendorSpecificService vendorService =
-             * (VendorSpecificService)beanFactory.getBean(beanId); LOG.debug("getAllVendorItems() Using specific service for " +
-             * vendorService.getVendorName()); includeZeroItems = vendorService.includeZeroItems(); } else {
-             * LOG.debug("getAllVendorItems() No vendor specific service"); }
-             */
-
             LOG.debug("sendPurchaseOrder() Generating cxml");
-            String cxml = getCxml(purchaseOrder, initiator, password, contractManager, contractManagerEmail, vendorDuns, includeZeroItems);
+            String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
 
             LOG.debug("sendPurchaseOrder() Sending cxml");
             String responseCxml = b2bDao.sendPunchOutRequest(cxml, punchoutUrl);
@@ -125,54 +96,45 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             PurchaseOrderResponse poResponse = new PurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
             LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
-            if ((ObjectUtils.isNotNull(statusText)) || (!"success".equals(statusText.trim().toLowerCase()))) {
-                LOG.error("sendPurchaseOrder(): PO cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + " failed sending to SciQuest: " + statusText);
-                ServiceError se = new ServiceError("cxml.response.error", statusText);
-                errors.add(se);
-                // Find error messages other than the status.
+            if ((ObjectUtils.isNotNull(statusText)) || (!"success".equalsIgnoreCase(statusText.trim()))) {
+                LOG.error("sendPurchaseOrder(): PO cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + " failed sending to vendor: " + statusText);
+                transmitErrors.append("Unable to send Purchase Order: " + statusText);
+
+                // find any additional error messages that might have been sent
                 List errorMessages = poResponse.getPOResponseErrorMessages();
-                if (ObjectUtils.isNotNull(errorMessages) || errorMessages.isEmpty()) {
-                    // Not all of the cXML responses have error messages other than the status text error.
-                    LOG.debug("sendPurchaseOrder() Unable to find errors in response other than status, but not all responses have other errors.");
-                }
-                else {
+                if (ObjectUtils.isNotNull(errorMessages) && !errorMessages.isEmpty()) {
                     for (Iterator iter = errorMessages.iterator(); iter.hasNext();) {
                         String errorMessage = (String) iter.next();
-
                         if (ObjectUtils.isNotNull(errorMessage)) {
-                            LOG.error("sendPurchaseOrder(): errorMessage not found.");
-                            return null;
+                            LOG.error("sendPurchaseOrder(): Error message for po number " + purchaseOrder.getPurapDocumentIdentifier() + ": " + errorMessage);
+                            transmitErrors.append("Error sending PO: " + errorMessage);
                         }
-                        LOG.error("sendPurchaseOrder(): SciQuest error message for po number " + purchaseOrder.getPurapDocumentIdentifier() + ": " + errorMessage);
-                        // FIXME (hjs-b2b) is there a way to avoid using ServiceError?
-                        se = new ServiceError("cxml.response.error", errorMessage);
-                        errors.add(se);
                     }
                 }
             }
         }
         catch (B2BRemoteError sqre) {
             LOG.error("sendPurchaseOrder() Error sendng", sqre);
-            errors.add(new ServiceError("cxml.response.error", "Unable to talk to SciQuest"));
+            transmitErrors.append("Connection to vendor failed.");
         }
         catch (CxmlParseError e) {
             LOG.error("sendPurchaseOrder() Error Parsing", e);
-            errors.add(new ServiceError("cxml.response.error", "Unable to read response"));
+            transmitErrors.append("Unable to read cxml returned from vendor.");
         }
         catch (Throwable e) {
             LOG.error("sendPurchaseOrder() Unknown Error", e);
-            errors.add(new ServiceError("cxml.response.error", "Unknown exception: " + e.getMessage()));
+            transmitErrors.append("Unexpected error occurred while attempting to transmit Purchase Order.");
         }
 
-        return errors;
+        return transmitErrors.toString();
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#getCxml(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
      *      org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
-     *      java.lang.String, java.lang.String, boolean)
+     *      java.lang.String, java.lang.String)
      */
-    public String getCxml(PurchaseOrderDocument purchaseOrder, UniversalUser requisitionInitiator, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns, boolean includeZeroItems) {
+    public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
 
         StringBuffer cxml = new StringBuffer();
 
@@ -199,7 +161,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("    <POHeader>\n");
         cxml.append("      <PONumber>").append(purchaseOrder.getPurapDocumentIdentifier()).append("</PONumber>\n");
         cxml.append("      <Requestor>\n");
-        cxml.append("        <UserProfile username=\"").append(requisitionInitiator.getPersonUserIdentifier().toUpperCase()).append("\">\n");
+        cxml.append("        <UserProfile username=\"").append(requisitionInitiatorId.toUpperCase()).append("\">\n");
         cxml.append("        </UserProfile>\n");
         cxml.append("      </Requestor>\n");
         cxml.append("      <Priority>High</Priority>\n");
@@ -294,40 +256,37 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("    </POHeader>\n");
 
         /** *** Items Section **** */
-        Collection detailList = purchaseOrder.getItems();
+        List detailList = purchaseOrder.getItems();
         for (Iterator iter = detailList.iterator(); iter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) iter.next();
-            if ((BigDecimal.ZERO.compareTo(poi.getItemUnitPrice()) < 0) || (includeZeroItems && (BigDecimal.ZERO.compareTo(poi.getItemUnitPrice()) == 0))) {
-
-                if ((ObjectUtils.isNotNull(poi.getItemType())) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
-                    cxml.append("    <POLine linenumber=\"").append(poi.getItemLineNumber()).append("\">\n");
-                    cxml.append("      <Item>\n");
-                    // CatalogNumber - This is a string that the supplier uses to identify the item (i.e., SKU). Optional.
-                    cxml.append("        <CatalogNumber><![CDATA[").append(poi.getItemCatalogNumber()).append("]]></CatalogNumber>\n");
-                    cxml.append("        <Description><![CDATA[").append(poi.getItemDescription()).append("]]></Description>\n"); // Required.
-                    // UnitOfMeasureDimension - If you have 2/PK the 2 would go in Quantity and the PK would go in Dimension.
-                    cxml.append("        <UnitOfMeasureDimension><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></UnitOfMeasureDimension>\n");
-                    // ProductReferenceNumber - Unique id for hosted products in SelectSite
-                    if (poi.getExternalOrganizationB2bProductTypeName().equals("Punchout")) {
-                        cxml.append("        <ProductReferenceNumber>null</ProductReferenceNumber>\n");
-                    }
-                    else {
-                        cxml.append("        <ProductReferenceNumber>").append(poi.getExternalOrganizationB2bProductReferenceNumber()).append("</ProductReferenceNumber>\n");
-                    }
-                    // ProductType - Describes the type of the product or service. Valid values: Catalog, Form, Punchout. Mandatory.
-                    cxml.append("        <ProductType>").append(poi.getExternalOrganizationB2bProductTypeName()).append("</ProductType>\n");
-                    cxml.append("      </Item>\n");
-                    // Quantity - always integers in our system so they can't be decimals.
-                    cxml.append("      <Quantity>").append(poi.getItemQuantity().intValue()).append("</Quantity>\n");
-                    // LineCharges - All the monetary charges for this line, including the price, tax, shipping, and handling.
-                    // Required.
-                    cxml.append("      <LineCharges>\n");
-                    cxml.append("        <UnitPrice>\n");
-                    cxml.append("          <Money currency=\"USD\">").append(poi.getItemUnitPrice()).append("</Money>\n");
-                    cxml.append("        </UnitPrice>\n");
-                    cxml.append("      </LineCharges>\n");
-                    cxml.append("    </POLine>\n");
+            if ((ObjectUtils.isNotNull(poi.getItemType())) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+                cxml.append("    <POLine linenumber=\"").append(poi.getItemLineNumber()).append("\">\n");
+                cxml.append("      <Item>\n");
+                // CatalogNumber - This is a string that the supplier uses to identify the item (i.e., SKU). Optional.
+                cxml.append("        <CatalogNumber><![CDATA[").append(poi.getItemCatalogNumber()).append("]]></CatalogNumber>\n");
+                cxml.append("        <Description><![CDATA[").append(poi.getItemDescription()).append("]]></Description>\n"); // Required.
+                // UnitOfMeasureDimension - If you have 2/PK the 2 would go in Quantity and the PK would go in Dimension.
+                cxml.append("        <UnitOfMeasureDimension><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></UnitOfMeasureDimension>\n");
+                // ProductReferenceNumber - Unique id for hosted products in SelectSite
+                if (poi.getExternalOrganizationB2bProductTypeName().equals("Punchout")) {
+                    cxml.append("        <ProductReferenceNumber>null</ProductReferenceNumber>\n");
                 }
+                else {
+                    cxml.append("        <ProductReferenceNumber>").append(poi.getExternalOrganizationB2bProductReferenceNumber()).append("</ProductReferenceNumber>\n");
+                }
+                // ProductType - Describes the type of the product or service. Valid values: Catalog, Form, Punchout. Mandatory.
+                cxml.append("        <ProductType>").append(poi.getExternalOrganizationB2bProductTypeName()).append("</ProductType>\n");
+                cxml.append("      </Item>\n");
+                // Quantity - always integers in our system so they can't be decimals.
+                cxml.append("      <Quantity>").append(poi.getItemQuantity().intValue()).append("</Quantity>\n");
+                // LineCharges - All the monetary charges for this line, including the price, tax, shipping, and handling.
+                // Required.
+                cxml.append("      <LineCharges>\n");
+                cxml.append("        <UnitPrice>\n");
+                cxml.append("          <Money currency=\"USD\">").append(poi.getItemUnitPrice()).append("</Money>\n");
+                cxml.append("        </UnitPrice>\n");
+                cxml.append("      </LineCharges>\n");
+                cxml.append("    </POLine>\n");
             }
         }
 
@@ -344,167 +303,166 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      *      org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
      *      java.lang.String, java.lang.String)
      */
-    public Collection verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, UniversalUser requisitionInitiator, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
-        List errors = new ArrayList();
+    public String verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
+        StringBuffer errors = new StringBuffer();
 
         if (ObjectUtils.isNull(purchaseOrder)) {
             LOG.error("verifyCxmlPOData()  The Purchase Order is null.");
-            errors.add("Purchase Order");
-            return errors;
+            errors.append("Error occurred retrieving Purchase Order\n");
+            return errors.toString();
         }
         if (ObjectUtils.isNull(contractManager)) {
             LOG.error("verifyCxmlPOData()  The contractManager is null.");
-            errors.add("Contract Manager");
-            return errors;
+            errors.append("Error occurred retrieving Contract Manager\n");
+            return errors.toString();
         }
         if (StringUtils.isEmpty(password)) {
             LOG.error("verifyCxmlPOData()  The B2B PO password is required for the cXML PO but is missing.");
-            errors.add("B2B PO password");
+            errors.append("Missing Data: B2B PO password\n");
         }
         if (ObjectUtils.isNull(purchaseOrder.getPurapDocumentIdentifier())) {
             LOG.error("verifyCxmlPOData()  The purchase order Id is required for the cXML PO but is missing.");
-            errors.add("Purchase Order ID");
+            errors.append("Missing Data: Purchase Order ID\n");
         }
-        if (StringUtils.isEmpty(requisitionInitiator.getPersonUserIdentifier())) {
+        if (StringUtils.isEmpty(requisitionInitiatorId)) {
             LOG.error("verifyCxmlPOData()  The requisition initiator Network Id is required for the cXML PO but is missing.");
-            errors.add("Requisition Initiator NetworkId");
+            errors.append("Missing Data: Requisition Initiator NetworkId\n");
         }
         if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateDate())) {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
-            errors.add("Create Date");
+            errors.append("Create Date\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier())) {
             LOG.error("verifyCxmlPOData()  The External Organization Supplier Id is required for the cXML PO but is missing.");
-            errors.add("External Organization Supplier Id");
+            errors.append("Missing Data: External Organization Supplier Id\n");
         }
         if (StringUtils.isEmpty(vendorDuns)) {
             LOG.error("verifyCxmlPOData()  The Duns Number is required for the cXML PO but is missing.");
-            errors.add("Duns Number");
+            errors.append("Missing Data: Duns Number\n");
         }
         if (StringUtils.isEmpty(contractManager.getContractManagerPhoneNumber())) {
             LOG.error("verifyCxmlPOData()  The contract manager phone number is required for the cXML PO but is missing.");
-            errors.add("Contract Manager Phone Number");
+            errors.append("Missing Data: Contract Manager Phone Number\n");
         }
         if (StringUtils.isEmpty(contractManager.getContractManagerName())) {
             LOG.error("verifyCxmlPOData()  The contract manager name is required for the cXML PO but is missing.");
-            errors.add("Contract Manager Name");
+            errors.append("Missing Data: Contract Manager Name\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryCampusCode())) {
             LOG.error("verifyCxmlPOData()  The Delivery Campus Code is required for the cXML PO but is missing.");
-            errors.add("Delivery Campus Code");
+            errors.append("Missing Data: Delivery Campus Code\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingName())) {
             LOG.error("verifyCxmlPOData()  The Delivery Billing Name is required for the cXML PO but is missing.");
-            errors.add("Delivery Billing Name");
+            errors.append("Missing Data: Delivery Billing Name\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingLine1Address())) {
             LOG.error("verifyCxmlPOData()  The Billing Line 1 Address is required for the cXML PO but is missing.");
-            errors.add("Billing Line 1 Address");
+            errors.append("Missing Data: Billing Line 1 Address\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingLine2Address())) {
             LOG.error("verifyCxmlPOData()  The Billing Line 2 Address is required for the cXML PO but is missing.");
-            errors.add("Billing Line 2 Address");
+            errors.append("Missing Data: Billing Line 2 Address\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingCityName())) {
             LOG.error("verifyCxmlPOData()  The Billing Address City Name is required for the cXML PO but is missing.");
-            errors.add("Billing Address City Name");
+            errors.append("Missing Data: Billing Address City Name\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingStateCode())) {
             LOG.error("verifyCxmlPOData()  The Billing Address State Code is required for the cXML PO but is missing.");
-            errors.add("Billing Address State Code");
+            errors.append("Missing Data: Billing Address State Code\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getBillingPostalCode())) {
             LOG.error("verifyCxmlPOData()  The Billing Address Postal Code is required for the cXML PO but is missing.");
-            errors.add("Billing Address Postal Code");
+            errors.append("Missing Data: Billing Address Postal Code\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryToName())) {
             LOG.error("verifyCxmlPOData()  The Delivery To Name is required for the cXML PO but is missing.");
-            errors.add("Delivery To Name");
+            errors.append("Missing Data: Delivery To Name\n");
         }
         if (StringUtils.isEmpty(contractManagerEmail)) {
             LOG.error("verifyCxmlPOData()  The Contract Manager Email is required for the cXML PO but is missing.");
-            errors.add("Contract Manager Email");
+            errors.append("Missing Data: Contract Manager Email\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryToEmailAddress())) {
             LOG.error("verifyCxmlPOData()  The Requesting Person Email Address is required for the cXML PO but is missing.");
-            errors.add("Requesting Person Email Address");
+            errors.append("Missing Data: Requesting Person Email Address\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryToPhoneNumber())) {
             LOG.error("verifyCxmlPOData()  The Requesting Person Phone Number is required for the cXML PO but is missing.");
-            errors.add("Requesting Person Phone Number");
+            errors.append("Missing Data: Requesting Person Phone Number\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingCode())) {
             LOG.error("verifyCxmlPOData()  The Delivery Building Code is required for the cXML PO but is missing.");
-            errors.add("Delivery Building Code");
+            errors.append("Missing Data: Delivery Building Code\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine1Address())) {
             LOG.error("verifyCxmlPOData()  The Delivery Line 1 Address is required for the cXML PO but is missing.");
-            errors.add("Delivery Line 1 Address");
+            errors.append("Missing Data: Delivery Line 1 Address\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryToName())) {
             LOG.error("verifyCxmlPOData()  The Delivery To Name is required for the cXML PO but is missing.");
-            errors.add("Delivery To Name");
+            errors.append("Missing Data: Delivery To Name\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryCityName())) {
             LOG.error("verifyCxmlPOData()  The Delivery City Name is required for the cXML PO but is missing.");
-            errors.add("Delivery City Name");
+            errors.append("Missing Data: Delivery City Name\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryStateCode())) {
             LOG.error("verifyCxmlPOData()  The Delivery State is required for the cXML PO but is missing.");
-            errors.add("Delivery State");
+            errors.append("Missing Data: Delivery State\n");
         }
         if (StringUtils.isEmpty(purchaseOrder.getDeliveryPostalCode())) {
             LOG.error("verifyCxmlPOData()  The Delivery Postal Code is required for the cXML PO but is missing.");
-            errors.add("Delivery Postal Code");
+            errors.append("Missing Data: Delivery Postal Code\n");
         }
         // FIXME (hjs) Commented out because this is being hard-coded as US.
         // if (StringUtils.isEmpty(purchaseOrder.getDeliveryCountryCode())) {
         // LOG.error("verifyCxmlPOData() The Delivery Country is required for the cXML PO but is missing.");
-        // errors.add("Delivery Country");
+        // errors.append("Missing Data: Delivery Country\n");
         // }
 
         // verify item data
-        Collection detailList = purchaseOrder.getItems();
+        List detailList = purchaseOrder.getItems();
         for (Iterator iter = detailList.iterator(); iter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) iter.next();
             if (ObjectUtils.isNotNull(poi.getItemType()) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
                 if (ObjectUtils.isNull(poi.getItemLineNumber())) {
                     LOG.error("verifyCxmlPOData()  The Item Line Number is required for the cXML PO but is missing.");
-                    errors.add("Item Line Number");
+                    errors.append("Missing Data: Item Line Number\n");
                 }
                 if (StringUtils.isEmpty(poi.getItemCatalogNumber())) {
                     LOG.error("verifyCxmlPOData()  The Catalog Number for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    ServiceError se = new ServiceError("cxmlPOData", "Catalog Number");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - Catalog Number");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Catalog Number\n");
                 }
                 if (StringUtils.isEmpty(poi.getItemDescription())) {
                     LOG.error("verifyCxmlPOData()  The Description for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - Description");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Description\n");
                 }
                 if (StringUtils.isEmpty(poi.getItemUnitOfMeasureCode())) {
                     LOG.error("verifyCxmlPOData()  The Unit Of Measure Code for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - Unit Of Measure");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Unit Of Measure\n");
                 }
                 if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductReferenceNumber())) {
                     LOG.error("verifyCxmlPOData()  The External Org B2B Product Reference Number for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - External Org B2B Product Reference Number");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - External Org B2B Product Reference Number\n");
                 }
                 if (StringUtils.isEmpty(poi.getExternalOrganizationB2bProductTypeName())) {
                     LOG.error("verifyCxmlPOData()  The External Org B2B Product Type Name for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - External Org B2B Product Type Name");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - External Org B2B Product Type Name\n");
                 }
                 if (poi.getItemQuantity() == null) {
                     LOG.error("verifyCxmlPOData()  The Order Quantity for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - Order Quantity");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Order Quantity\n");
                 }
                 if (poi.getItemUnitPrice() == null) {
                     LOG.error("verifyCxmlPOData()  The Unit Price for item number " + poi.getItemLineNumber() + " is required for the cXML PO but is missing.");
-                    errors.add("Item#" + poi.getItemLineNumber() + " - Unit Price");
+                    errors.append("Missing Data: Item#" + poi.getItemLineNumber() + " - Unit Price\n");
                 }
             }
         } // end item looping
 
-        return errors;
+        return errors.toString();
     } 
 
     /**

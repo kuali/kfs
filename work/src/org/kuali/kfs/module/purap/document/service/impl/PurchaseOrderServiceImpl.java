@@ -58,6 +58,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
+import org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.LogicContainer;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PrintService;
@@ -139,7 +140,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private ParameterService parameterService;
     private UniversalUserService universalUserService;
     private MailService mailService;
-    
+    private B2BPurchaseOrderService b2bPurchaseOrderService;
+
+    public void setB2bPurchaseOrderService(B2BPurchaseOrderService purchaseOrderService) {
+        b2bPurchaseOrderService = purchaseOrderService;
+    }
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
@@ -380,7 +386,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             }
         }
 
-        purapService.addBelowLineItems(poDocument);
+        if (!PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+            purapService.addBelowLineItems(poDocument);
+        }
 
         return poDocument;
     }
@@ -883,20 +891,45 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getStatusCode())) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
-        
+        else if (PurchaseOrderStatuses.PENDING_CXML.equals(po.getStatusCode())) {
+            completeB2BPurchaseOrder(po);
+        }
+
         // if unordered items have been added to the PO then send an FYI to all fiscal officers
-        if( hasNewUnorderedItem(po) ){
+        if (hasNewUnorderedItem(po)) {
             sendFyiForNewUnorderedItems(po);
         }
-        
-        //check thresholds to see if receiving is required for purchase order
-        if (!po.isReceivingDocumentRequiredIndicator()){
-        setReceivingRequiredIndicatorForPurchaseOrder(po);
+
+        // check thresholds to see if receiving is required for purchase order
+        if (!po.isReceivingDocumentRequiredIndicator()) {
+            setReceivingRequiredIndicatorForPurchaseOrder(po);
         }
-        
-        //update the vendor record if the commodity code used on the PO is not already
-        //associated with the vendor.
+
+        // update the vendor record if the commodity code used on the PO is not already associated with the vendor.
         updateVendorCommodityCode(po);
+    }
+
+    private void completeB2BPurchaseOrder(PurchaseOrderDocument po) {
+        String errors = b2bPurchaseOrderService.sendPurchaseOrder(po);
+        if (StringUtils.isEmpty(errors)) {
+            //PO sent successfully; change status to OPEN
+            attemptSetupOfInitialOpenOfDocument(po);
+            po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
+        }
+        else {
+            //PO transmission failed; record errors and change status to "cxml failed"
+            try {
+                Note note = documentService.createNoteFromDocument(po, "Unable to transmit the PO for the following reasons:\n" + errors);
+                documentService.addNoteToDocument(po, note);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            
+            purapService.updateStatus(po, PurchaseOrderStatuses.CXML_ERROR);
+            purapService.saveDocumentNoValidation(po);
+            
+        }
     }
 
     public void completePurchaseOrderAmendment(PurchaseOrderDocument poa) {
@@ -1046,7 +1079,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      boolean)
      */
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission) {
-        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
+        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.FAX.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.ELECTRONIC.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
             LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
             purapService.updateStatus(po, newStatusCode);

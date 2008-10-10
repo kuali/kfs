@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.rice.kew.exception.WorkflowException;

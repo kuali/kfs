@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import java.util.Collection;
-
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 
 /**
  * These items will allow a user to send Purchase Orders electronically to vendors
@@ -33,7 +29,7 @@ public interface B2BPurchaseOrderService {
      * @param po
      * @return Response
      */
-    public Collection sendPurchaseOrder(PurchaseOrderDocument po, FinancialSystemUser user);
+    public String sendPurchaseOrder(PurchaseOrderDocument po);
 
     /**
      * Returns the cxml of the Purchase Order for electronic transmission to the vendor
@@ -44,10 +40,9 @@ public interface B2BPurchaseOrderService {
      * @param contractManager       ContractManager - contract manager for the PO
      * @param contractManagerEmail  String - email address for the contract manager
      * @param vendorDuns            String - vendor DUNS number for the PO
-     * @param includeZeroItems      boolean - indicates if zero total items should be sent in the PO transmission
      * @return String which is the cxml of the PO to send to the vendor
      */
-    public String getCxml(PurchaseOrderDocument purchaseOrder, UniversalUser requisitionInitiator, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns, boolean includeZeroItems);
+    public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns);
 
     /**
      * Verifies that each piece of data required for the PO cXML is present.
@@ -60,5 +55,6 @@ public interface B2BPurchaseOrderService {
      * @param vendorDuns
      * @return
      */
-    public Collection verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, UniversalUser requisitionInitiator, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns);
+    public String verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns);
+
 }

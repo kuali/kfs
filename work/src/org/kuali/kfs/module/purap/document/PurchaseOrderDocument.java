@@ -423,7 +423,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setPurchaseOrderTransmissionMethodCode(requisitionDocument.getPurchaseOrderTransmissionMethodCode());
         
         this.setVendorCityName(requisitionDocument.getVendorCityName());
-        this.setVendorContract(requisitionDocument.getVendorContract());
+        this.setVendorContractGeneratedIdentifier(requisitionDocument.getVendorContractGeneratedIdentifier());
         this.setVendorCountryCode(requisitionDocument.getVendorCountryCode());
         this.setVendorCustomerNumber(requisitionDocument.getVendorCustomerNumber());
         this.setVendorDetailAssignedIdentifier(requisitionDocument.getVendorDetailAssignedIdentifier());
@@ -435,9 +435,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setVendorNoteText(requisitionDocument.getVendorNoteText());
         this.setVendorPhoneNumber(requisitionDocument.getVendorPhoneNumber());
         this.setVendorPostalCode(requisitionDocument.getVendorPostalCode());
+        this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setVendorRestrictedIndicator(requisitionDocument.getVendorRestrictedIndicator());
         
-        this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());

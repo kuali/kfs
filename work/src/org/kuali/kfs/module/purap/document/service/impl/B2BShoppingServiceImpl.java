@@ -32,6 +32,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.MissingContractIdError;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
@@ -46,6 +47,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -62,6 +64,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private DocumentService documentService;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
+    private PhoneNumberService phoneNumberService;
+    private PurapService purapService;
     private VendorService vendorService;
 
 
@@ -74,7 +78,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
         return b2b;
     }
-
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
@@ -121,7 +124,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // set b2b contract for vendor
             VendorContract contract = vendorService.getVendorB2BContract(vendor, user.getCampusCode());
             if (ObjectUtils.isNotNull(contract)) {
-                req.setVendorContract(contract);
+                req.setVendorContractGeneratedIdentifier(contract.getVendorContractGeneratedIdentifier());
                 if (ObjectUtils.isNotNull(contract.getPurchaseOrderCostSourceCode())) {
                     // if cost source is set on contract, use it
                     req.setPurchaseOrderCostSourceCode(contract.getPurchaseOrderCostSourceCode());
@@ -145,6 +148,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setDeliveryCampusCode(user.getCampusCode());
             req.setChartOfAccountsCode(user.getChartOfAccountsCode());
             req.setOrganizationCode(user.getOrganizationCode());
+            req.setRequestorPersonName(user.getPersonName());
+            req.setRequestorPersonEmailAddress(user.getPersonEmailAddress());
+            req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPersonLocalPhoneNumber()));
 
             // set defaults that need to be set
             req.setVendorHeaderGeneratedIdentifier(vendor.getVendorHeaderGeneratedIdentifier());
@@ -152,13 +158,15 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setVendorName(vendor.getVendorName());
             req.setVendorRestrictedIndicator(vendor.getVendorRestrictedIndicator());
             req.setItems(itemsForVendor);
+            req.setFundingSourceCode(parameterService.getParameterValue(RequisitionDocument.class, PurapConstants.DEFAULT_FUNDING_SOURCE));
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
             req.setExternalOrganizationB2bSupplierIdentifier(supplierId);
+            req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
 
             // set address
-            VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.PURCHASE_ORDER, user.getCampusCode());
+            VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.PURCHASE_ORDER, user.getCampusCode());
             if (ObjectUtils.isNotNull(vendorAddress)) {
                 req.templateVendorAddress(vendorAddress);
                 req.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
@@ -184,6 +192,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // populate REQ with retrieved billing address
             req.templateBillingAddress(billingAddress);
+
+            // populate receiving address with the default one for the chart/org
+            req.loadReceivingAddress();
 
             // save requisition to database
             requisitionService.saveDocumentWithoutValidation(req);
@@ -323,6 +334,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setB2bDao(B2BDao b2bDao) {
         this.b2bDao = b2bDao;
+    }
+
+    public void setPhoneNumberService(PhoneNumberService phoneNumberService) {
+        this.phoneNumberService = phoneNumberService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
     }
 
 }

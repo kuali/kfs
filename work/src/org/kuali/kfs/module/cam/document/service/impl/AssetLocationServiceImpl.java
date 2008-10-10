@@ -223,6 +223,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             }
         }
 
+/* The postal code is not validate, if it is off campus. KULCAP-690
         if (!isBlank(fieldMap, LocationField.ZIP_CODE, zipCode)) {
             Map assetLocationMap = new HashMap();
             assetLocationMap.put(KFSPropertyConstants.POSTAL_ZIP_CODE, zipCode);
@@ -240,8 +241,8 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                     }
                 }
             }
-        }
-
+*/ 
+        
         if (isCountryUS) {
             if (isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                 putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_OFFCAMPUS_STATE_REQUIRED);

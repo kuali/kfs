@@ -128,8 +128,6 @@ public class AssetRetirementGlobalMaintainableImpl extends KualiGlobalMaintainab
         
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) getBusinessObject();
         if (assetRetirementService.isAssetRetiredByMerged(assetRetirementGlobal)) {
-            //Asset asset = ((AssetRetirementGlobal)document.getNewMaintainableObject().getBusinessObject()).getMergedTargetCapitalAsset();
-            //((AssetRetirementGlobal)document.getNewMaintainableObject().getBusinessObject()).setMergedTargetCapitalAssetDescription(asset.getCapitalAssetDescription());
             assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());            
         }
     }    

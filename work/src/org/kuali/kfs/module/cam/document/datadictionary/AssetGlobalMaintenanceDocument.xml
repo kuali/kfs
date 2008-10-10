@@ -10,6 +10,7 @@
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
+        <ref bean="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation" />
       	<ref bean="AssetGlobalMaintenanceDocument-AssetInformation" />
         <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation" />
         <ref bean="AssetGlobalMaintenanceDocument-CampusLocation" />
@@ -83,6 +84,22 @@
 
 <!-- Maintenance Section Definitions -->
 
+  <bean id="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation" parent="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation-parentBean" />
+  <bean id="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="assetAcquisitionType" />
+    <property name="title" value="Asset Acquisition Type" />
+    <property name="maintainableItems" >
+      <list>
+        <bean parent="MaintainableSubSectionHeaderDefinition"
+              p:name="Acquisition Type" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="acquisitionTypeCode"
+              p:readOnly="true" />
+      </list>
+    </property>
+  </bean>
+
+
   <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" />
   <bean id="AssetGlobalMaintenanceDocument-AssetInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="assetInformation" />
@@ -123,9 +140,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="agencyNumber"
               p:required="false" />
-        <bean parent="MaintainableFieldDefinition"
+        <!-- bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
-              p:required="true" />
+              p:required="true" / -->
         <bean parent="MaintainableFieldDefinition"
               p:name="inventoryStatusCode"
               p:required="true" />
@@ -395,6 +412,9 @@
                     p:name="organizationReferenceId" 
                     p:readOnlyAfterAdd="false" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="expenditureFinancialSystemOriginationCode" 
+                    p:readOnlyAfterAdd="false" />                    
+              <bean parent="MaintainableFieldDefinition"
                     p:name="expenditureFinancialDocumentNumber"
                     p:readOnlyAfterAdd="false"
                     p:required="false" />
@@ -418,7 +438,7 @@
                     p:readOnly="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="postingPeriodCode"
-                    p:readOnly="true" />
+                    p:readOnly="false" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="amount"
                     p:readOnlyAfterAdd="false"
@@ -448,6 +468,7 @@
   </bean>
 
   <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
+
   <bean id="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>

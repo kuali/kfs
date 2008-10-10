@@ -177,10 +177,16 @@
 
     
     <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
-
 	<bean id="assetRetirementReasonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="assetRetirementReasonLookupableHelperService" />
+		</property>
+	</bean>
+
+    <bean id="assetAcquisitionLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService" />
+	<bean id="assetAcquisitionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="assetAcquisitionLookupableHelperService" />
 		</property>
 	</bean>
     

@@ -739,7 +739,20 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
         }
-
+        
+        //Setting the postingYear and month
+        for (AssetPaymentDetail assetPaymentDetail : this.getAssetPaymentDetails()) {
+            if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, getAcquisitionTypeCode())) {
+                UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
+                assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(currentUniversityDate.getUniversityDate());
+                assetPaymentDetail.setPostingYear(currentUniversityDate.getUniversityFiscalYear());
+                assetPaymentDetail.setPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());                
+            } else {
+                assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);
+            }
+            persistables.add(assetPaymentDetail);            
+        }
+                
         // set new asset data
         for (Iterator iterator = assetGlobalDetails.iterator(); iterator.hasNext();) {
 
@@ -859,6 +872,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setFinancialDocumentTypeCode(payment.getExpenditureFinancialDocumentTypeCode());
                 assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
+                
                 if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, acquisitionTypeCode)) {
                     assetPayment.setFinancialDocumentPostingDate(payment.getExpenditureFinancialDocumentPostedDate());
                     assetPayment.setFinancialDocumentPostingYear(payment.getPostingYear());

@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
@@ -77,7 +78,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private Boolean employeeCheck; // CUST_EMP_CHK_IND
     private BigDecimal fileThresholdAmount; // FL_THRSHLD_AMT
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
-    private Integer id; // CUST_ID
+    private KualiInteger id; // CUST_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private String orgCode; // ORG_CD
     private Boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
@@ -402,7 +403,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.id column="CUST_ID" generator-class="sequence"
      * @hibernate.generator-param name="sequence" value="PDP.PDP_CUST_ID_SEQ"
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -750,7 +751,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param id The id to set.
      */
-    public void setId(Integer id) {
+    public void setId(KualiInteger id) {
         this.id = id;
     }
 

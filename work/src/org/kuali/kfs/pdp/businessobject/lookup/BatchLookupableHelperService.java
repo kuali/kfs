@@ -158,7 +158,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         if (businessObject instanceof Batch) {
             UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
             Batch batch = (Batch) businessObject;
-            Integer batchId = batch.getId();
+            Integer batchId = batch.getId().intValue();
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             String linkText = KFSConstants.EMPTY_STRING;
             String url = KFSConstants.EMPTY_STRING;

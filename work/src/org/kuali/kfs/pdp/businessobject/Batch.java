@@ -19,21 +19,17 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -41,14 +37,14 @@ import org.kuali.rice.kns.service.UniversalUserService;
 
 public class Batch extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_BATCH_ID
+    private KualiInteger id; // PMT_BATCH_ID
 
-    private Integer customerId;
+    private KualiInteger customerId;
     private CustomerProfile customerProfile; // CUST_ID
 
     private String paymentFileName; // PMT_FL_NM
     private Timestamp customerFileCreateTimestamp; // CUST_FL_CRTN_TS
-    private Integer paymentCount; // PMT_CNT
+    private KualiInteger paymentCount; // PMT_CNT
     private BigDecimal paymentTotalAmount; // PMT_TOT_AMT
     private UniversalUser submiterUser;
     private String submiterUserId; // SBMTR_USR_ID
@@ -70,7 +66,7 @@ public class Batch extends TimestampedBusinessObjectBase {
      * @hibernate.id column="PMT_BATCH_ID" generator-class="sequence"
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_BATCH_ID_SEQ"
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -86,7 +82,7 @@ public class Batch extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="PMT_CNT"
      */
-    public Integer getPaymentCount() {
+    public KualiInteger getPaymentCount() {
         return paymentCount;
     }
 
@@ -131,14 +127,14 @@ public class Batch extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 
     /**
      * @param integer
      */
-    public void setPaymentCount(Integer integer) {
+    public void setPaymentCount(KualiInteger integer) {
         paymentCount = integer;
     }
 

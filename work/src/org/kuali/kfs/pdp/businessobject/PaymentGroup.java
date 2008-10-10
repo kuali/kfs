@@ -33,11 +33,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentGroup extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
 
-    private Integer id; // PMT_GRP_ID
+    private KualiInteger id; // PMT_GRP_ID
     private String payeeName; // PMT_PAYEE_NM
     private String payeeId; // PAYEE_ID
     private String payeeIdTypeCd; // PAYEE_ID_TYP_CD
@@ -66,7 +67,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private Boolean employeeIndicator; // EMP_IND
     private String creditMemoNbr; // PMT_CRDT_MEMO_NBR
     private BigDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
-    private Integer disbursementNbr; // DISB_NBR
+    private KualiInteger disbursementNbr; // DISB_NBR
     private Timestamp disbursementDate; // DISB_TS
     private String physCampusProcessCd; // PHYS_CMP_PROC_CD
     private String sortValue; // PMT_SORT_ORD_VAL
@@ -75,10 +76,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
     private Timestamp adviceEmailSentDate; // ADV_EMAIL_SNT_TS
 
-    private Integer batchId;
+    private KualiInteger batchId;
     private Batch batch; // PMT_BATCH_ID
 
-    private Integer processId;
+    private KualiInteger processId;
     private PaymentProcess process; // PROC_ID
 
     private String paymentStatusCode;
@@ -203,7 +204,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_GRP_ID_SEQ"
      * @return
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -405,7 +406,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="DISB_NBR" length="9"
      */
-    public Integer getDisbursementNbr() {
+    public KualiInteger getDisbursementNbr() {
         return disbursementNbr;
     }
 
@@ -645,7 +646,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setDisbursementNbr(Integer integer) {
+    public void setDisbursementNbr(KualiInteger integer) {
         disbursementNbr = integer;
     }
 
@@ -659,7 +660,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 
@@ -863,7 +864,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * 
      * @return Returns the batchId.
      */
-    public Integer getBatchId() {
+    public KualiInteger getBatchId() {
         return batchId;
     }
 
@@ -872,7 +873,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * 
      * @param batchId The batchId to set.
      */
-    public void setBatchId(Integer batchId) {
+    public void setBatchId(KualiInteger batchId) {
         this.batchId = batchId;
     }
 
@@ -893,11 +894,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         this.disbursementTypeCode = disbursementTypeCode;
     }
 
-    public Integer getProcessId() {
+    public KualiInteger getProcessId() {
         return processId;
     }
 
-    public void setProcessId(Integer processId) {
+    public void setProcessId(KualiInteger processId) {
         this.processId = processId;
     }
 

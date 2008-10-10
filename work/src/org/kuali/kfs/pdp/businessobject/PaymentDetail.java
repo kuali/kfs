@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -42,7 +43,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static BigDecimal zero = new BigDecimal(0);
 
-    private Integer id; // PMT_DTL_ID
+    private KualiInteger id; // PMT_DTL_ID
     private String invoiceNbr; // INV_NBR
     private Timestamp invoiceDate; // INV_DT
     private String purchaseOrderNbr; // PO_NBR
@@ -62,7 +63,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();
     private List<PaymentNoteText> notes = new ArrayList<PaymentNoteText>();
 
-    private Integer paymentGroupId;
+    private KualiInteger paymentGroupId;
     private PaymentGroup paymentGroup;
 
     public PaymentDetail() {
@@ -192,7 +193,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         PaymentNoteText paymentNoteText = new PaymentNoteText();
 
         paymentNoteText.setCustomerNoteText(paymentText);
-        paymentNoteText.setCustomerNoteLineNbr(this.notes.size() + 1);
+        paymentNoteText.setCustomerNoteLineNbr(new KualiInteger(this.notes.size() + 1));
 
         addNote(paymentNoteText);
     }
@@ -206,7 +207,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_DTL_ID_SEQ"
      * @return
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -315,7 +316,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 
@@ -429,7 +430,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * 
      * @return Returns the paymentGroupId.
      */
-    public Integer getPaymentGroupId() {
+    public KualiInteger getPaymentGroupId() {
         return paymentGroupId;
     }
 
@@ -438,7 +439,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * 
      * @param paymentGroupId The paymentGroupId to set.
      */
-    public void setPaymentGroupId(Integer paymentGroupId) {
+    public void setPaymentGroupId(KualiInteger paymentGroupId) {
         this.paymentGroupId = paymentGroupId;
     }
 

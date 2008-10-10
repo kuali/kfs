@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
@@ -134,7 +135,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         q.addOrderByAscending("paymentGroup.id");
 
         Map<Key, Numbers> summary = new HashMap<Key, Numbers>();
-        Integer lastGroupId = null;
+        KualiInteger lastGroupId = null;
         Iterator i = getPersistenceBrokerTemplate().getIteratorByQuery(q);
         while (i.hasNext()) {
             PaymentDetail d = (PaymentDetail) i.next();

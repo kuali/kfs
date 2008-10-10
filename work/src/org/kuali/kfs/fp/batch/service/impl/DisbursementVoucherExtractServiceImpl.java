@@ -42,7 +42,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
@@ -68,6 +67,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -158,7 +158,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
         }
 
-        batch.setPaymentCount(count);
+        batch.setPaymentCount(new KualiInteger(count));
         batch.setPaymentTotalAmount(totalAmount);
         
         businessObjectService.save(batch);
@@ -354,7 +354,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         int line = 0;
         PaymentNoteText pnt = new PaymentNoteText();
-        pnt.setCustomerNoteLineNbr(line++);
+        pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
         pnt.setCustomerNoteText("Info: " + document.getDisbVchrContactPersonName() + " " + document.getDisbVchrContactPhoneNumber());
         pd.addNote(pnt);
 
@@ -374,31 +374,31 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         if (StringUtils.isNotEmpty(dvSpecialHandlingPersonName)) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Send Check To: " + dvSpecialHandlingPersonName);
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingLine1Address)) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingLine1Address);
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingLine2Address)) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingLine2Address);
             pd.addNote(pnt);
         }
         if (StringUtils.isNotEmpty(dvSpecialHandlingCity)) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText(dvSpecialHandlingCity + ", " + dvSpecialHandlingState + " " + dvSpecialHandlingZip);
             pd.addNote(pnt);
         }
         if (document.isDisbVchrAttachmentCode()) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Attachment Included");
             pd.addNote(pnt);
         }
@@ -407,18 +407,18 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_NONEMPLOYEE.equals(paymentReasonCode) || DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_HONORARIUM.equals(paymentReasonCode)) {
             DisbursementVoucherNonEmployeeTravel dvnet = document.getDvNonEmployeeTravel();
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Reimbursement associated with " + dvnet.getDisbVchrServicePerformedDesc());
             pd.addNote(pnt);
 
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("The total per diem amount for your daily expenses is " + dvnet.getDisbVchrPerdiemCalculatedAmt());
             pd.addNote(pnt);
 
             if (dvnet.getDisbVchrPersonalCarAmount() != null && dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0) {
                 pnt = new PaymentNoteText();
-                pnt.setCustomerNoteLineNbr(line++);
+                pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                 pnt.setCustomerNoteText("The total dollar amount for your vehicle mileage is " + dvnet.getDisbVchrPersonalCarAmount());
                 pd.addNote(pnt);
 
@@ -427,7 +427,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
                     if (line < (maxNoteLines - 8)) {
                         pnt = new PaymentNoteText();
-                        pnt.setCustomerNoteLineNbr(line++);
+                        pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                         pnt.setCustomerNoteText(exp.getDisbVchrExpenseCompanyName() + " " + exp.getDisbVchrExpenseAmount());
                         pd.addNote(pnt);
                     }
@@ -436,7 +436,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
         else if (DisbursementVoucherRuleConstants.PaymentReasonCodes.TRAVEL_PREPAID.equals(paymentReasonCode)) {
             pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(line++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
             pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
             pd.addNote(pnt);
 
@@ -447,7 +447,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
                 if (line < (maxNoteLines - 8)) {
                     pnt = new PaymentNoteText();
-                    pnt.setCustomerNoteLineNbr(line++);
+                    pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                     pnt.setCustomerNoteText(dvpcr.getDvConferenceRegistrantName() + " " + dvpcr.getDisbVchrExpenseAmount());
                     pd.addNote(pnt);
                 }
@@ -460,7 +460,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             for (int i = 0; i < lines.length; i++) {
                 if (line < (maxNoteLines - 3)) {
                     pnt = new PaymentNoteText();
-                    pnt.setCustomerNoteLineNbr(line++);
+                    pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
                     if (lines[i].length() > 90) {
                         pnt.setCustomerNoteText(lines[i].substring(0, 90));
                     }
@@ -499,7 +499,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setSubmiterUser(user);
 
         // Set these for now, we will update them later
-        batch.setPaymentCount(0);
+        batch.setPaymentCount(KualiInteger.ZERO);
         batch.setPaymentTotalAmount(new BigDecimal("0"));
         
         businessObjectService.save(batch);

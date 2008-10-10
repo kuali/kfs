@@ -19,16 +19,13 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * @author delyea
@@ -37,7 +34,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 public class AchAccountNumber extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_GRP_ID Primary Key
+    private KualiInteger id; // PMT_GRP_ID Primary Key
     private String achBankAccountNbr; // ACH_BNK_ACCT_NBR
     
     public AchAccountNumber() {
@@ -86,7 +83,7 @@ public class AchAccountNumber extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.id column="PMT_GRP_ID" generator-class="assigned"
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -100,7 +97,7 @@ public class AchAccountNumber extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 

@@ -19,20 +19,15 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  *
@@ -40,7 +35,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_ACCT_DTL_ID
+    private KualiInteger id; // PMT_ACCT_DTL_ID
     private String finChartCode; // FIN_COA_CD
     private String accountNbr; // ACCOUNT_NBR
     private String subAccountNbr; // SUB_ACCT_NBR
@@ -50,7 +45,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     private String projectCode; // PROJECT_CD
     private BigDecimal accountNetAmount; // ACCT_NET_AMT
 
-    private Integer paymentDetailId;
+    private KualiInteger paymentDetailId;
     private PaymentDetail paymentDetail; // PMT_DTL_ID
 
     private List<PaymentAccountHistory> accountHistory = new ArrayList<PaymentAccountHistory>();
@@ -81,7 +76,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_ACCT_DTL_ID_SEQ"
      * @return
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -202,7 +197,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 
@@ -232,7 +227,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      * 
      * @return Returns the paymentDetailId.
      */
-    public Integer getPaymentDetailId() {
+    public KualiInteger getPaymentDetailId() {
         return paymentDetailId;
     }
 
@@ -241,7 +236,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      * 
      * @param paymentDetailId The paymentDetailId to set.
      */
-    public void setPaymentDetailId(Integer paymentDetailId) {
+    public void setPaymentDetailId(KualiInteger paymentDetailId) {
         this.paymentDetailId = paymentDetailId;
     }
 

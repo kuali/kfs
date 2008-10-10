@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -36,7 +37,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
 
 public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_GRP_HIST_ID
+    private KualiInteger id; // PMT_GRP_HIST_ID
 
     private String changeNoteText; // PMT_CHG_NTE_TXT VARCHAR2 250
     private UniversalUser changeUser;
@@ -45,7 +46,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private Timestamp origPaymentDate; // ORIG_PMT_DT DATE 7
     private String origAchBankRouteNbr; // ORIG_ACH_BNK_RTNG_NBR VARCHAR2 17 0
     private String origAdviceEmail; // ORIG_ADV_EMAIL_ADDR VARCHAR2 50
-    private Integer origDisburseNbr; // ORIG_DISB_NBR NUMBER 9 0
+    private KualiInteger origDisburseNbr; // ORIG_DISB_NBR NUMBER 9 0
     private Timestamp origDisburseDate; // ORIG_DISB_TS DATE 7
     private Boolean origProcessImmediate; // ORIG_PROC_IMD_IND VARCHAR2 1
     private Boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
@@ -61,13 +62,13 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private String paymentStatusCode;
     private PaymentStatus origPaymentStatus; // ORIG_PMT_STAT_CD VARCHAR2 4
 
-    private Integer processId;
+    private KualiInteger processId;
     private PaymentProcess paymentProcess;
 
     private String paymentChangeCode;
     private PaymentChangeCode paymentChange; // PMT_CHG_CD VARCHAR2 4
 
-    private Integer paymentGroupId;
+    private KualiInteger paymentGroupId;
     private PaymentGroup paymentGroup; // PMT_GRP_ID
 
     public PaymentGroupHistory() {
@@ -79,7 +80,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_GRP_HIST_ID_SEQ"
      * @return
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -151,7 +152,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="ORIG_DISB_NBR"
      */
-    public Integer getOrigDisburseNbr() {
+    public KualiInteger getOrigDisburseNbr() {
         return origDisburseNbr;
     }
 
@@ -219,7 +220,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 
@@ -247,7 +248,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setOrigDisburseNbr(Integer integer) {
+    public void setOrigDisburseNbr(KualiInteger integer) {
         origDisburseNbr = integer;
     }
 
@@ -476,7 +477,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * 
      * @return Returns the paymentGroupId.
      */
-    public Integer getPaymentGroupId() {
+    public KualiInteger getPaymentGroupId() {
         return paymentGroupId;
     }
 
@@ -485,7 +486,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
      * 
      * @param paymentGroupId The paymentGroupId to set.
      */
-    public void setPaymentGroupId(Integer paymentGroupId) {
+    public void setPaymentGroupId(KualiInteger paymentGroupId) {
         this.paymentGroupId = paymentGroupId;
     }
 
@@ -510,11 +511,11 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public Integer getProcessId() {
+    public KualiInteger getProcessId() {
         return processId;
     }
 
-    public void setProcessId(Integer processId) {
+    public void setProcessId(KualiInteger processId) {
         this.processId = processId;
     }
 

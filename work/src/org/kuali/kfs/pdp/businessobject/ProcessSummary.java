@@ -19,34 +19,27 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
  */
 public class ProcessSummary extends TimestampedBusinessObjectBase {
-    private Integer id;
-    private Integer customerId;
+    private KualiInteger id;
+    private KualiInteger customerId;
     private String disbursementTypeCode;
-    private Integer processId;
+    private KualiInteger processId;
     private String sortGroupId;
-    private Integer beginDisbursementNbr;
-    private Integer endDisbursementNbr;
+    private KualiInteger beginDisbursementNbr;
+    private KualiInteger endDisbursementNbr;
     private BigDecimal processTotalAmount;
-    private Integer processTotalCount;
+    private KualiInteger processTotalCount;
     
     private DisbursementType disbursementType;
     private PaymentProcess process;
@@ -63,11 +56,11 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.sortGroupId = sortGroupId;
     }
 
-    public Integer getBeginDisbursementNbr() {
+    public KualiInteger getBeginDisbursementNbr() {
         return beginDisbursementNbr;
     }
 
-    public void setBeginDisbursementNbr(Integer beginDisbursementNbr) {
+    public void setBeginDisbursementNbr(KualiInteger beginDisbursementNbr) {
         this.beginDisbursementNbr = beginDisbursementNbr;
     }
 
@@ -87,19 +80,19 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.disbursementType = disbursementType;
     }
 
-    public Integer getEndDisbursementNbr() {
+    public KualiInteger getEndDisbursementNbr() {
         return endDisbursementNbr;
     }
 
-    public void setEndDisbursementNbr(Integer endDisbursementNbr) {
+    public void setEndDisbursementNbr(KualiInteger endDisbursementNbr) {
         this.endDisbursementNbr = endDisbursementNbr;
     }
 
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(KualiInteger id) {
         this.id = id;
     }
 
@@ -119,11 +112,11 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.processTotalAmount = processTotalAmount;
     }
 
-    public Integer getProcessTotalCount() {
+    public KualiInteger getProcessTotalCount() {
         return processTotalCount;
     }
 
-    public void setProcessTotalCount(Integer processTotalCount) {
+    public void setProcessTotalCount(KualiInteger processTotalCount) {
         this.processTotalCount = processTotalCount;
     }
 
@@ -143,11 +136,11 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
 
-    public Integer getCustomerId() {
+    public KualiInteger getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(KualiInteger customerId) {
         this.customerId = customerId;
     }
 
@@ -159,11 +152,11 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.disbursementTypeCode = disbursementTypeCode;
     }
 
-    public Integer getProcessId() {
+    public KualiInteger getProcessId() {
         return processId;
     }
 
-    public void setProcessId(Integer processId) {
+    public void setProcessId(KualiInteger processId) {
         this.processId = processId;
     }
 

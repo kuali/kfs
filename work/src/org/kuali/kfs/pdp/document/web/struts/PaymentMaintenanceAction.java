@@ -84,8 +84,8 @@ public class PaymentMaintenanceAction extends BaseAction {
                     // Action Originated from BatchDetail Screen
                     if (buttonPressed.startsWith("btnBatchHold")) {
                         pmf.setAction("batchHold");
-                        if (batchMaintenanceService.doBatchPaymentsHaveOpenStatus(b.getId())) {
-                            pmf.setChangeId(b.getId());
+                        if (batchMaintenanceService.doBatchPaymentsHaveOpenStatus(b.getId().intValue())) {
+                            pmf.setChangeId(b.getId().intValue());
                         }
                         else {
                             actionErrors.add("errors", new ActionMessage("paymentMaintenanceAction.batchStatus.notAllOpen"));
@@ -93,8 +93,8 @@ public class PaymentMaintenanceAction extends BaseAction {
                     }
                     else if (buttonPressed.startsWith("btnBatchCancel")) {
                         pmf.setAction("batchCancel");
-                        if (batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(b.getId())) {
-                            pmf.setChangeId(b.getId());
+                        if (batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(b.getId().intValue())) {
+                            pmf.setChangeId(b.getId().intValue());
                         }
                         else {
                             actionErrors.add("errors", new ActionMessage("paymentMaintenanceAction.batchStatus.notAllOpenOrHeld"));
@@ -102,8 +102,8 @@ public class PaymentMaintenanceAction extends BaseAction {
                     }
                     else if (buttonPressed.startsWith("btnBatchRemoveHold")) {
                         pmf.setAction("batchRemoveHold");
-                        if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(b.getId())) {
-                            pmf.setChangeId(b.getId());
+                        if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(b.getId().intValue())) {
+                            pmf.setChangeId(b.getId().intValue());
                         }
                         else {
                             actionErrors.add("errors", new ActionMessage("paymentMaintenanceAction.batchStatus.notAllHeld"));
@@ -265,8 +265,8 @@ public class PaymentMaintenanceAction extends BaseAction {
                 // ChangeID is set to the Payment Group ID that the payment detail belongs to
                 // Only Payment Groups have actions go against them... a payment detail may not be changed
                 // Payment Detail ID is stored for any EPIC payments/disbursements that might be cancelled
-                pmf.setChangeId(pd.getPaymentGroup().getId());
-                pmf.setPaymentDetailId(pd.getId());
+                pmf.setChangeId(pd.getPaymentGroup().getId().intValue());
+                pmf.setPaymentDetailId(pd.getId().intValue());
                 if (buttonPressed.startsWith("btnCancel")) {
                     pmf.setAction("Cancel");
                 }

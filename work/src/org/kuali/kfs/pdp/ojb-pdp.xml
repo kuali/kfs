@@ -22,7 +22,7 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchAccountNumber" table="PDP_ACH_ACCT_NBR_T">
-    <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="achBankAccountNbr" column="ACH_BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -37,16 +37,16 @@
  </class-descriptor>
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.Batch" table="PDP_FIL_T">
-    <field-descriptor name="id" column="PMT_FIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_FIL_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_FIL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_FIL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="fileProcessTimestamp" column="FL_PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="customerFileCreateTimestamp" column="CUST_FL_CRTN_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="paymentCount" column="PMT_CNT" jdbc-type="INTEGER"/>
+    <field-descriptor name="paymentCount" column="PMT_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="paymentFileName" column="PMT_FL_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentTotalAmount" column="PMT_TOT_AMT" jdbc-type="DECIMAL"/>
     <field-descriptor name="submiterUserId" column="SBMTR_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
     <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
@@ -56,7 +56,7 @@
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.CustomerBank" table="PDP_CUST_BNK_T">
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
    	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -77,7 +77,7 @@
   </class-descriptor>
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.CustomerProfile" table="PDP_CUST_PRFL_T">
-    <field-descriptor name="id" column="CUST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_CUST_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="CUST_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_CUST_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="accountingEditRequired" column="ACCTG_EDIT_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="defaultSubAccountNumber" column="DFLT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="achPaymentDescription" column="ACH_PMT_DESC" jdbc-type="VARCHAR"/>
@@ -175,11 +175,11 @@
     <field-descriptor name="physCampusProcCode" column="PHYS_CMP_PROC_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" primarykey="true"/>
-    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="INTEGER" primarykey="true"/>
-    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" primarykey="true" />
+    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="disbNbrEffectiveDt" column="DISB_NBR_EFF_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="disbNbrExpirationDt" column="DISB_NBR_EXPR_DT" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="lastAssignedDisbNbr" column="LST_ASND_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
       <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -214,10 +214,10 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.GlPendingTransaction" table="PDP_GL_PENDING_ENTRY_T">
-     <field-descriptor name="id" column="GL_PENDING_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_GL_PENDING_ENTRY_ID_SEQ" autoincrement="true"/>
+     <field-descriptor name="id" column="GL_PENDING_ENTRY_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_GL_PENDING_ENTRY_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
      <field-descriptor name="fsOriginCd" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocNbr" column="FDOC_NBR" jdbc-type="VARCHAR"/>
-     <field-descriptor name="sequenceNbr" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER"/>
+     <field-descriptor name="sequenceNbr" column="TRN_ENTR_SEQ_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
      <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="subAccountNumber" column="SUB_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
@@ -248,7 +248,7 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" table="PDP_PMT_ACCT_DTL_T">
-    <field-descriptor name="id" column="PMT_ACCT_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_ACCT_DTL_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_ACCT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_ACCT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountNetAmount" column="ACCT_NET_AMT" jdbc-type="DECIMAL"/>
     <field-descriptor name="finChartCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
@@ -260,8 +260,8 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	
-    <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    
     <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
@@ -273,12 +273,12 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentAccountHistory" table="PDP_PMT_ACCT_HIST_T">
-    <field-descriptor name="id" column="PMT_ACCT_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_ACCT_HIST_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_ACCT_HIST_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_ACCT_HIST_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="acctAttributeName" column="ACCT_ATTRIB_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="acctAttributeNewValue" column="ACCT_ATTRIB_NEW_VAL" jdbc-type="VARCHAR"/>
     <field-descriptor name="acctAttributeOrigValue" column="ACCT_ATTRIB_ORIG_VAL" jdbc-type="VARCHAR"/>
     <field-descriptor name="acctChangeDate" column="ACCT_CHG_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="paymentAccountDetailId" column="PMT_ACCT_DTL_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="paymentAccountDetailId" column="PMT_ACCT_DTL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="accountingChangeCode" column="ACCTG_CHG_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -301,7 +301,7 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroup" table="PDP_PMT_GRP_T">
-    <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_GRP_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_GRP_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="city" column="PMT_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="country" column="PMT_CNTRY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="state" column="PMT_ST_NM" jdbc-type="VARCHAR"/>
@@ -314,7 +314,7 @@
     <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="disbursementDate" column="DISB_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="adviceEmailSentDate" column="ADV_EMAIL_SNT_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
     <field-descriptor name="employeeIndicator" column="EMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="line1Address" column="PMT_LN1_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="line2Address" column="PMT_LN2_ADDR" jdbc-type="VARCHAR"/>
@@ -336,9 +336,9 @@
     <field-descriptor name="sortValue" column="PMT_SORT_ORD_VAL" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="processId" column="PROC_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="processId" column="PROC_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="batchId" column="PMT_FIL_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="batchId" column="PMT_FIL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentStatusCode" column="PMT_STAT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="epicPaymentCancelledExtractedDate" column="PDP_EPIC_PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
@@ -381,7 +381,7 @@
   </class-descriptor>
   
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentDetail" table="PDP_PMT_DTL_T">
-    <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="custPaymentDocNbr" column="CUST_PMT_DOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR"/>
@@ -399,8 +399,8 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="primaryCancelledPayment" column="PDP_PRM_PMT_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     
-    <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="INTEGER"/>
     <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
@@ -416,25 +416,25 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentGroupHistory" table="PDP_PMT_GRP_HIST_T">
-    <field-descriptor name="id" column="PMT_GRP_HIST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_GRP_HIST_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PMT_GRP_HIST_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_GRP_HIST_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="pmtCancelExtractDate" column="PMT_CNCL_EXTRT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="changeNoteText" column="PMT_CHG_NTE_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="changeTime" column="PMT_CHG_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="origAchBankRouteNbr" column="ORIG_ACH_BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="origAdviceEmail" column="ORIG_ADV_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="origDisburseDate" column="ORIG_DISB_TS" jdbc-type="TIMESTAMP"/>
-    <field-descriptor name="origDisburseNbr" column="ORIG_DISB_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="origDisburseNbr" column="ORIG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="origPaymentDate" column="ORIG_PMT_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="origPmtSpecHandling" column="ORIG_PMT_SPCL_HANDLG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="origProcessImmediate" column="ORIG_PROC_IMD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="origProcessImmediate" column="ORIG_PROC_IMD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="pmtCancelExtractStat" column="PMT_CNCL_EXTRT_STAT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="changeUserId" column="PMT_CHG_USR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="paymentChangeCode" column="PMT_CHG_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentStatusCode" column="ORIG_PMT_STAT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="disbursementTypeCode" column="ORIG_DISB_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="origBankCode" column="ORIG_BNK_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="processId" column="ORIG_PROC_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="processId" column="ORIG_PROC_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -466,12 +466,12 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentNoteText" table="PDP_PMT_NTE_TXT_T">
-    <field-descriptor name="id" column="PMT_NTE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PMT_NTE_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="customerNoteLineNbr" column="CUST_NTE_LN_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="id" column="PMT_NTE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_NTE_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="customerNoteLineNbr" column="CUST_NTE_LN_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="customerNoteText" column="CUST_NTE_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
     <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
@@ -487,7 +487,7 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentProcess" table="PDP_PROC_T">
-    <field-descriptor name="id" column="PROC_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PROC_ID_SEQ" autoincrement="true"/>
+    <field-descriptor name="id" column="PROC_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PROC_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="campus" column="PHYS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="processTimestamp" column="PROC_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="processUserId" column="PROC_USR_ID" jdbc-type="VARCHAR"/>
@@ -498,15 +498,15 @@
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.ProcessSummary" table="PDP_PROC_SUM_T">
-    <field-descriptor name="id" column="PROC_SUM_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_PROC_SUM_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="id" column="PROC_SUM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PROC_SUM_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="customerId" column="CUST_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="disbursementTypeCode" column="DISB_TYP_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="processId" column="PROC_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="processId" column="PROC_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="sortGroupId" column="PMT_SORT_ORD_VAL" jdbc-type="VARCHAR"/>
-    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="INTEGER"/>
-    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL"/>
-    <field-descriptor name="processTotalCount" column="PROC_TOT_CNT" jdbc-type="INTEGER"/>
+    <field-descriptor name="processTotalCount" column="PROC_TOT_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -553,15 +553,15 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.pdp.businessobject.PayeeAchAccount" table="PDP_PAYEE_ACH_ACCT_T">
-	<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true"/>
+	<field-descriptor name="achAccountGeneratedIdentifier" column="ACH_ACCT_GNRTD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_ACH_ACCT_GNRTD_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
 	<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
-	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeSocialSecurityNumber" column="PAYEE_SSN_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
 	<field-descriptor name="payeeFederalEmployerIdentificationNumber" column="PAYEE_FEIN_NBR" jdbc-type="VARCHAR"/>

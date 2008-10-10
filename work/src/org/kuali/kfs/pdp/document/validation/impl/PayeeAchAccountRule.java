@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Performs business rules for the Payee ACH Account maintenance document
@@ -70,7 +71,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         boolean validEntry = true;
 
         String payeeIdTypeCd, payeeUserId, feinNumber, dvPayeeId, ssn;
-        Integer vendorGnrtdId, vendorAsndId;
+        KualiInteger vendorGnrtdId, vendorAsndId;
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();

@@ -21,18 +21,18 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
-    private Integer achAccountGeneratedIdentifier;
+    private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
     private String bankAccountNumber;
     private String payeeName;
     private String payeeEmailAddress;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
+    private KualiInteger vendorHeaderGeneratedIdentifier;
+    private KualiInteger vendorDetailAssignedIdentifier;
     private String personUniversalIdentifier;
     private String payeeSocialSecurityNumber;
     private String payeeFederalEmployerIdentificationNumber;
@@ -57,7 +57,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @return Returns the achAccountGeneratedIdentifier
      */
-    public Integer getAchAccountGeneratedIdentifier() {
+    public KualiInteger getAchAccountGeneratedIdentifier() {
         return achAccountGeneratedIdentifier;
     }
 
@@ -66,7 +66,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @param achAccountGeneratedIdentifier The achAccountGeneratedIdentifier to set.
      */
-    public void setAchAccountGeneratedIdentifier(Integer achAccountGeneratedIdentifier) {
+    public void setAchAccountGeneratedIdentifier(KualiInteger achAccountGeneratedIdentifier) {
         this.achAccountGeneratedIdentifier = achAccountGeneratedIdentifier;
     }
 
@@ -152,7 +152,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @return Returns the vendorHeaderGeneratedIdentifier
      */
-    public Integer getVendorHeaderGeneratedIdentifier() {
+    public KualiInteger getVendorHeaderGeneratedIdentifier() {
         return vendorHeaderGeneratedIdentifier;
     }
 
@@ -161,7 +161,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
      */
-    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+    public void setVendorHeaderGeneratedIdentifier(KualiInteger vendorHeaderGeneratedIdentifier) {
         this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
 
@@ -171,7 +171,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @return Returns the vendorDetailAssignedIdentifier
      */
-    public Integer getVendorDetailAssignedIdentifier() {
+    public KualiInteger getVendorDetailAssignedIdentifier() {
         return vendorDetailAssignedIdentifier;
     }
 
@@ -180,7 +180,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
      * 
      * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
      */
-    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+    public void setVendorDetailAssignedIdentifier(KualiInteger vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
     }
 
@@ -375,8 +375,8 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     public String getVendorNumber() {
         // using the code from the VendorDetail to generate the vendor number
         VendorDetail vDUtil = new VendorDetail();
-        vDUtil.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier);
-        vDUtil.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier);
+        vDUtil.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier.intValue());
+        vDUtil.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier.intValue());
         return vDUtil.getVendorNumber();
     }
 
@@ -384,7 +384,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
         // using the code from the VendorDetail to set the 2 component fields of the vendor number
         VendorDetail vDUtil = new VendorDetail();
         vDUtil.setVendorNumber(vendorNumber);
-        setVendorHeaderGeneratedIdentifier(vDUtil.getVendorHeaderGeneratedIdentifier());
-        setVendorDetailAssignedIdentifier(vDUtil.getVendorDetailAssignedIdentifier());
+        setVendorHeaderGeneratedIdentifier(new KualiInteger(vDUtil.getVendorHeaderGeneratedIdentifier()));
+        setVendorDetailAssignedIdentifier(new KualiInteger(vDUtil.getVendorDetailAssignedIdentifier()));
     }
 }

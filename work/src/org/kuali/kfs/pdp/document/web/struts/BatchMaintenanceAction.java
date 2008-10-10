@@ -81,8 +81,8 @@ public class BatchMaintenanceAction extends BaseAction {
                 // Action Originated from BatchDetail Screen
                 if (buttonPressed.startsWith("btnBatchHold")) {
                     pmf.setAction("batchHold");
-                    if (batchMaintenanceService.doBatchPaymentsHaveOpenStatus(b.getId())) {
-                        pmf.setChangeId(b.getId());
+                    if (batchMaintenanceService.doBatchPaymentsHaveOpenStatus(b.getId().intValue())) {
+                        pmf.setChangeId(b.getId().intValue());
                     }
                     else {
                         actionErrors.add("errors", new ActionMessage("batchMaintenanceAction.batchStatus.notAllOpen"));
@@ -90,8 +90,8 @@ public class BatchMaintenanceAction extends BaseAction {
                 }
                 else if (buttonPressed.startsWith("btnBatchCancel")) {
                     pmf.setAction("batchCancel");
-                    if (batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(b.getId())) {
-                        pmf.setChangeId(b.getId());
+                    if (batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(b.getId().intValue())) {
+                        pmf.setChangeId(b.getId().intValue());
                     }
                     else {
                         actionErrors.add("errors", new ActionMessage("batchMaintenanceAction.batchStatus.notAllOpenOrHeld"));
@@ -99,8 +99,8 @@ public class BatchMaintenanceAction extends BaseAction {
                 }
                 else if (buttonPressed.startsWith("btnBatchRemoveHold")) {
                     pmf.setAction("batchRemoveHold");
-                    if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(b.getId())) {
-                        pmf.setChangeId(b.getId());
+                    if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(b.getId().intValue())) {
+                        pmf.setChangeId(b.getId().intValue());
                     }
                     else {
                         actionErrors.add("errors", new ActionMessage("batchMaintenanceAction.batchStatus.notAllHeld"));

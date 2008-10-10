@@ -27,6 +27,7 @@ import java.util.List;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -43,7 +44,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
     private String org;
     private String subUnit;
     private Date creationDate;
-    private Integer batchId;
+    private KualiInteger batchId;
 
     private LoadStatus loadStatus;
     private List<String> warnings;
@@ -118,7 +119,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @return Returns the batchId.
      */
-    public Integer getBatchId() {
+    public KualiInteger getBatchId() {
         return batchId;
     }
 
@@ -127,7 +128,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @param batchId The batchId to set.
      */
-    public void setBatchId(Integer batchId) {
+    public void setBatchId(KualiInteger batchId) {
         this.batchId = batchId;
     }
 

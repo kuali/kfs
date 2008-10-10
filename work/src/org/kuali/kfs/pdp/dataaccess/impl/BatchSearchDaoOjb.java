@@ -33,6 +33,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.BatchSearchDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -51,7 +52,7 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         String dateToSearchOn = "customerFileCreateTimestamp";
         Criteria criteria = new Criteria();
 
-        if ((!(bs.getBatchId() == null)) && (!(bs.getBatchId() == new Integer(0)))) {
+        if ((!(bs.getBatchId() == null)) && (!(bs.getBatchId().equals(KualiInteger.ZERO)))) {
             criteria.addEqualTo("id", bs.getBatchId());
         }
         if ((!(bs.getChartCode() == null)) && (!(bs.getChartCode().equals("")))) {
@@ -63,7 +64,7 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         if ((!(bs.getSubUnitCode() == null)) && (!(bs.getSubUnitCode().equals("")))) {
             criteria.addLike("customerProfile.subUnitCode", "%" + bs.getSubUnitCode() + "%");
         }
-        if ((!(bs.getPaymentCount() == null)) && (!(bs.getPaymentCount() == new Integer(0)))) {
+        if ((!(bs.getPaymentCount() == null)) && (!(bs.getPaymentCount().equals(KualiInteger.ZERO)))) {
             criteria.addEqualTo("paymentCount", bs.getPaymentCount());
         }
         if ((!(bs.getPaymentTotalAmount() == null)) && (!(bs.getPaymentTotalAmount() == new BigDecimal(0.00)))) {

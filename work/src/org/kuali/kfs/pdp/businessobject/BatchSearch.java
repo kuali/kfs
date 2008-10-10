@@ -19,12 +19,12 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -32,8 +32,8 @@ import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 public class BatchSearch extends TransientBusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearch.class);
 
-    private Integer batchId;
-    private Integer paymentCount;
+    private KualiInteger batchId;
+    private KualiInteger paymentCount;
     private BigDecimal paymentTotalAmount;
     private Date beginDate;
     private Date endDate;
@@ -44,7 +44,7 @@ public class BatchSearch extends TransientBusinessObjectBase {
     /**
      * @return Returns the batchId.
      */
-    public Integer getBatchId() {
+    public KualiInteger getBatchId() {
         return batchId;
     }
 
@@ -79,7 +79,7 @@ public class BatchSearch extends TransientBusinessObjectBase {
     /**
      * @return Returns the paymentCount.
      */
-    public Integer getPaymentCount() {
+    public KualiInteger getPaymentCount() {
         return paymentCount;
     }
 
@@ -100,7 +100,7 @@ public class BatchSearch extends TransientBusinessObjectBase {
     /**
      * @param batchId The batchId to set.
      */
-    public void setBatchId(Integer batchId) {
+    public void setBatchId(KualiInteger batchId) {
         this.batchId = batchId;
     }
 
@@ -135,7 +135,7 @@ public class BatchSearch extends TransientBusinessObjectBase {
     /**
      * @param paymentCount The paymentCount to set.
      */
-    public void setPaymentCount(Integer paymentCount) {
+    public void setPaymentCount(KualiInteger paymentCount) {
         this.paymentCount = paymentCount;
     }
 

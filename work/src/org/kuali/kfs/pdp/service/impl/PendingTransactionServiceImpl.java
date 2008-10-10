@@ -19,14 +19,7 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.sys.KFSConstants.BLANK_SPACE;
-import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
-
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,8 +34,6 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
-import org.kuali.kfs.gl.service.SufficientFundsService;
-import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
@@ -53,18 +44,13 @@ import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,7 +116,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         for (PaymentAccountDetail paymentAccountDetail : accountListings) {
             GlPendingTransaction glPendingTransaction = new GlPendingTransaction();
-            glPendingTransaction.setSequenceNbr(new Integer(sequenceHelper.getSequenceCounter()));
+            glPendingTransaction.setSequenceNbr(new KualiInteger(sequenceHelper.getSequenceCounter()));
 
             glPendingTransaction.setFdocRefTypCd(PdpConstants.PDP_FDOC_TYPE_CODE);
             glPendingTransaction.setFsRefOriginCd(PdpConstants.PDP_FDOC_ORIGIN_CODE);
@@ -220,7 +206,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
      */
     protected void populateBankOffsetGeneralLedgerPendingEntry(PaymentGroup paymentGroup, String achFdocTypeCode, String checkFdocTypeCod, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean reversal) {
         GlPendingTransaction glPendingTransaction = new GlPendingTransaction();
-        glPendingTransaction.setSequenceNbr(new Integer(sequenceHelper.getSequenceCounter()));
+        glPendingTransaction.setSequenceNbr(new KualiInteger(sequenceHelper.getSequenceCounter()));
         
         glPendingTransaction.setFdocRefTypCd(PdpConstants.PDP_FDOC_TYPE_CODE);
         glPendingTransaction.setFsRefOriginCd(PdpConstants.PDP_FDOC_ORIGIN_CODE);

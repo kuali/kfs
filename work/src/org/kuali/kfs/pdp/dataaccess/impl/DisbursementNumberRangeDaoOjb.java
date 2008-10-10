@@ -47,22 +47,6 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
         userService = us;
     }
 
-    /*private void updateUser(List l) {
-        for (Iterator iter = l.iterator(); iter.hasNext();) {
-            //updateUser((DisbursementNumberRange) iter.next());
-        }
-    }*/
-
-    /*private void updateUser(DisbursementNumberRange b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            //b.setLastUpdateUser(null);
-        }
-    }*/
-
     public List getAll() {
         LOG.debug("getAll() started");
 
@@ -71,7 +55,7 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
         qbc.addOrderBy("disbursementTypeCode", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        //updateUser(l);
+        
         return l;
     }
 
@@ -82,9 +66,7 @@ public class DisbursementNumberRangeDaoOjb extends PlatformAwareDaoBaseOjb imple
         criteria.addEqualTo("id", id);
 
         DisbursementNumberRange d = (DisbursementNumberRange) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(DisbursementNumberRange.class, criteria));
-        if (d != null) {
-            //updateUser(d);
-        }
+        
         return d;
     }
 

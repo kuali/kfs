@@ -29,6 +29,7 @@ import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -59,20 +60,20 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
         // If it's not in our list, add it
         if (ps == null) {
             ps = new ProcessSummary();
-            ps.setBeginDisbursementNbr(new Integer(0));
+            ps.setBeginDisbursementNbr(KualiInteger.ZERO);
             ps.setCustomer(pg.getBatch().getCustomerProfile());
             ps.setDisbursementType(pg.getDisbursementType());
-            ps.setEndDisbursementNbr(new Integer(0));
+            ps.setEndDisbursementNbr(KualiInteger.ZERO);
             ps.setProcess(pg.getProcess());
             ps.setProcessTotalAmount(new BigDecimal(0));
-            ps.setProcessTotalCount(new Integer(0));
+            ps.setProcessTotalCount(KualiInteger.ZERO);
             ps.setSortGroupId(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
             processSummary.add(ps);
         }
 
         // Update the total & count
         ps.setProcessTotalAmount(ps.getProcessTotalAmount().add(pg.getNetPaymentAmount()));
-        ps.setProcessTotalCount(new Integer(ps.getProcessTotalCount().intValue() + pg.getPaymentDetails().size()));
+        ps.setProcessTotalCount(new KualiInteger(ps.getProcessTotalCount().intValue() + pg.getPaymentDetails().size()));
     }
 
     /**
@@ -111,11 +112,11 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
         ProcessSummary ps = findProcessSummary(pg);
         if (ps != null) {
             if (ps.getBeginDisbursementNbr().intValue() == 0) {
-                ps.setBeginDisbursementNbr(nbr);
-                ps.setEndDisbursementNbr(nbr);
+                ps.setBeginDisbursementNbr(new KualiInteger(nbr));
+                ps.setEndDisbursementNbr(new KualiInteger(nbr));
             }
             else {
-                ps.setEndDisbursementNbr(nbr);
+                ps.setEndDisbursementNbr(new KualiInteger(nbr));
             }
         }
     }

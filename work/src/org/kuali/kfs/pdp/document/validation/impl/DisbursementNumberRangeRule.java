@@ -15,18 +15,13 @@
  */
 package org.kuali.kfs.pdp.document.validation.impl;
 
-import java.util.Collection;
-
-import org.kuali.kfs.module.ec.EffortKeyConstants;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Contains Business Rules for the Effort Certification Report Maintenance Document.
@@ -48,15 +43,15 @@ public class DisbursementNumberRangeRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
         DisbursementNumberRange disbursementNumberRange = (DisbursementNumberRange) document.getNewMaintainableObject().getBusinessObject();
         
-        Integer beginNumber = disbursementNumberRange.getBeginDisbursementNbr();
-        Integer lastAssigned = disbursementNumberRange.getLastAssignedDisbNbr();
-        Integer end = disbursementNumberRange.getEndDisbursementNbr();
-        if (lastAssigned < beginNumber) {
+        KualiInteger beginNumber = disbursementNumberRange.getBeginDisbursementNbr();
+        KualiInteger lastAssigned = disbursementNumberRange.getLastAssignedDisbNbr();
+        KualiInteger end = disbursementNumberRange.getEndDisbursementNbr();
+        if ( lastAssigned.isLessThan(beginNumber) ) {
             putFieldError(PdpPropertyConstants.LAST_ASSIGNED_DISBURSEMENT_NUMBER, PdpKeyConstants.DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_SMALL);
             isValid = false;
         }
         
-        if (lastAssigned > end) {
+        if (lastAssigned.isGreaterThan(end) ) {
             putFieldError(PdpPropertyConstants.LAST_ASSIGNED_DISBURSEMENT_NUMBER, PdpKeyConstants.DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_LARGE);
             isValid = false;
         }

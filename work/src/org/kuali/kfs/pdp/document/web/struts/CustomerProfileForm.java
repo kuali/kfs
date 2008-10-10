@@ -32,6 +32,7 @@ import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -208,7 +209,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setSubUnitCode(cp.getSubUnitCode().toUpperCase());
         this.setVersion(GeneralUtilities.convertLongToString(cp.getVersionNumber()));
         this.setZipCode(cp.getZipCode());
-        this.setId(GeneralUtilities.convertIntegerToString(cp.getId()));
+        this.setId(GeneralUtilities.convertIntegerToString(cp.getId().intValue()));
         this.setAccountingEditRequired(cp.getAccountingEditRequired());
         this.setDefaultSubAccountNumber(cp.getDefaultSubAccountNumber());
         this.setRelieveLiabilities(cp.getRelieveLiabilities());
@@ -264,7 +265,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setSubUnitCode(this.getSubUnitCode().toUpperCase());
         cp.setVersionNumber(GeneralUtilities.convertStringToLong(this.getVersion()));
         cp.setZipCode(this.getZipCode());
-        cp.setId(GeneralUtilities.convertStringToInteger(this.getId()));
+        cp.setId(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getId())));
         cp.setAccountingEditRequired(this.getAccountingEditRequired());
         cp.setRelieveLiabilities(this.getRelieveLiabilities());
 

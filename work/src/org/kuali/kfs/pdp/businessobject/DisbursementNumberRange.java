@@ -22,22 +22,20 @@ package org.kuali.kfs.pdp.businessobject;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class DisbursementNumberRange extends PersistableBusinessObjectBase implements Inactivateable {
    
     private String physCampusProcCode; 
-    private Integer beginDisbursementNbr; 
-    private Integer lastAssignedDisbNbr; 
-    private Integer endDisbursementNbr;
+    private KualiInteger beginDisbursementNbr; 
+    private KualiInteger lastAssignedDisbNbr; 
+    private KualiInteger endDisbursementNbr;
     private Timestamp disbNbrEffectiveDt; 
     private Timestamp disbNbrExpirationDt; 
     private String bankCode;
@@ -81,7 +79,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * @return
      * @hibernate.property column="BEG_DISB_NBR"
      */
-    public Integer getBeginDisbursementNbr() {
+    public KualiInteger getBeginDisbursementNbr() {
         return beginDisbursementNbr;
     }
 
@@ -105,7 +103,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * @return
      * @hibernate.property column="END_DISB_NBR"
      */
-    public Integer getEndDisbursementNbr() {
+    public KualiInteger getEndDisbursementNbr() {
         return endDisbursementNbr;
     }
 
@@ -113,7 +111,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * @return
      * @hibernate.property column="LST_ASND_DISB_NBR"
      */
-    public Integer getLastAssignedDisbNbr() {
+    public KualiInteger getLastAssignedDisbNbr() {
         return lastAssignedDisbNbr;
     }
 
@@ -136,7 +134,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     /**
      * @param integer
      */
-    public void setBeginDisbursementNbr(Integer integer) {
+    public void setBeginDisbursementNbr(KualiInteger integer) {
         beginDisbursementNbr = integer;
     }
 
@@ -157,14 +155,14 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     /**
      * @param integer
      */
-    public void setEndDisbursementNbr(Integer integer) {
+    public void setEndDisbursementNbr(KualiInteger integer) {
         endDisbursementNbr = integer;
     }
 
     /**
      * @param integer
      */
-    public void setLastAssignedDisbNbr(Integer integer) {
+    public void setLastAssignedDisbNbr(KualiInteger integer) {
         lastAssignedDisbNbr = integer;
     }
 

@@ -19,26 +19,22 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
  */
 public class PaymentProcess extends TimestampedBusinessObjectBase {
-    private Integer id;
+    private KualiInteger id;
     private Timestamp processTimestamp;
     private String campus;
     private String processUserId;
@@ -63,11 +59,11 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         this.campus = campus;
     }
 
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(KualiInteger id) {
         this.id = id;
     }
 

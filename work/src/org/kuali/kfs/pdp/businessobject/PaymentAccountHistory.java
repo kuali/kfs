@@ -19,17 +19,13 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -37,7 +33,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_ACCT_HIST_ID
+    private KualiInteger id; // PMT_ACCT_HIST_ID
 
     private String accountingChangeCode;
     private AccountingChangeCode accountingChange; // ACCTG_CHG_CD
@@ -47,7 +43,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     private String acctAttributeNewValue; // ACCT_ATTRIB_NEW_VAL
     private Timestamp acctChangeDate; // ACCT_CHG_TS
     
-    private Integer paymentAccountDetailId;
+    private KualiInteger paymentAccountDetailId;
     private PaymentAccountDetail paymentAccountDetail; // PMT_ACCT_DTL_ID
 
     public PaymentAccountHistory() {
@@ -74,7 +70,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_ACCT_HIST_ID_SEQ"
      * @return Returns the Id.
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
@@ -156,7 +152,7 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setId(Integer integer) {
+    public void setId(KualiInteger integer) {
         id = integer;
     }
 

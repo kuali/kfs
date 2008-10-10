@@ -105,7 +105,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     public Iterator getByProcess(PaymentProcess p) {
         LOG.debug("getByProcess() started");
 
-        return getByProcessId(p.getId());
+        return getByProcessId(p.getId().intValue());
     }
 
     public PaymentGroup get(Integer id) {

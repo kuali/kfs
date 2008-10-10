@@ -54,6 +54,7 @@ import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -159,7 +160,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     if (pd != null) {
                         pd.setPrimaryCancelledPayment(Boolean.TRUE);
                         PaymentNoteText payNoteText = new PaymentNoteText();
-                        payNoteText.setCustomerNoteLineNbr(pd.getNotes().size()+1);
+                        payNoteText.setCustomerNoteLineNbr(new KualiInteger(pd.getNotes().size()+1));
                         payNoteText.setCustomerNoteText(note);
                         pd.addNote(payNoteText);
                     }
@@ -308,7 +309,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
-                List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr());
+                List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
@@ -358,7 +359,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
-                List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr());
+                List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();

@@ -109,7 +109,7 @@ public class PaymentDetailAction extends BaseAction {
             else if (buttonPressed.startsWith("btnUpdate")) {
                 // Update Payment Detail in Session after action has been performed
                 // (status might have changed)
-                detailId = pd.getId();
+                detailId = pd.getId().intValue();
                 pd = paymentDetailService.get(detailId);
 
                 pd.setLastDisbursementActionDate(this.getDisbursementActionExpirationDate(request));
@@ -148,7 +148,7 @@ public class PaymentDetailAction extends BaseAction {
 
     private void getDisbursementPaymentList(HttpSession session, PaymentDetail pd) {
         List paymentDetailList = new ArrayList();
-        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr();
+        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr().intValue();
         session.removeAttribute("disbNbrTotalPayments");
         session.removeAttribute("disbursementDetailsList");
 

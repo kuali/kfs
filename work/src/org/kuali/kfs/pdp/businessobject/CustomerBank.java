@@ -24,11 +24,12 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class CustomerBank extends PersistableBusinessObjectBase implements Inactivateable {
-    private Integer customerId;
+    private KualiInteger customerId;
     private String bankCode;
     private String disbursementTypeCode;
     
@@ -47,7 +48,7 @@ public class CustomerBank extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the customerId.
      */
-    public Integer getCustomerId() {
+    public KualiInteger getCustomerId() {
         return customerId;
     }
 
@@ -56,7 +57,7 @@ public class CustomerBank extends PersistableBusinessObjectBase implements Inact
      * 
      * @param customerId The customerId to set.
      */
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(KualiInteger customerId) {
         this.customerId = customerId;
     }
 

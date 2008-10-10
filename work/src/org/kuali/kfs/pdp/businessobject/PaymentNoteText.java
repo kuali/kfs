@@ -19,17 +19,11 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * 
@@ -37,12 +31,12 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 
 public class PaymentNoteText extends TimestampedBusinessObjectBase {
 
-    private Integer id; // PMT_NTE_ID
+    private KualiInteger id; // PMT_NTE_ID
 
-    private Integer paymentDetailId;
+    private KualiInteger paymentDetailId;
     private PaymentDetail paymentDetail; // PMT_DTL_ID
 
-    private Integer customerNoteLineNbr; // CUST_NTE_LN_NBR
+    private KualiInteger customerNoteLineNbr; // CUST_NTE_LN_NBR
     private String customerNoteText; // CUST_NTE_TXT
     
     public PaymentNoteText() {
@@ -54,14 +48,14 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
      * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_NTE_ID_SEQ"
      * @return Returns the paymentNoteId.
      */
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
     /**
      * @param paymentNoteId The paymentNoteId to set.
      */
-    public void setId(Integer paymentNoteId) {
+    public void setId(KualiInteger paymentNoteId) {
         this.id = paymentNoteId;
     }
 
@@ -69,7 +63,7 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="CUST_NTE_LN_NBR" not-null="true"
      */
-    public Integer getCustomerNoteLineNbr() {
+    public KualiInteger getCustomerNoteLineNbr() {
         return customerNoteLineNbr;
     }
 
@@ -92,7 +86,7 @@ public class PaymentNoteText extends TimestampedBusinessObjectBase {
     /**
      * @param integer
      */
-    public void setCustomerNoteLineNbr(Integer integer) {
+    public void setCustomerNoteLineNbr(KualiInteger integer) {
         customerNoteLineNbr = integer;
     }
 

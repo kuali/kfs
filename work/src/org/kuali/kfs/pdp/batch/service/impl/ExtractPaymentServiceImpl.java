@@ -280,7 +280,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
         for (PaymentProcess extractToRun : extractsToRun) {
-            writeFile(extractToRun, filename, extractToRun.getId());
+            writeFile(extractToRun, filename, extractToRun.getId().intValue());
             this.processDao.setExtractProcessAsComplete(extractToRun);
         }
         

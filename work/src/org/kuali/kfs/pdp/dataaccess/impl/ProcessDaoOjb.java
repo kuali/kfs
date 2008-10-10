@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -33,6 +32,7 @@ import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -75,7 +75,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
 
         PaymentProcess p = new PaymentProcess();
         p.setProcessTimestamp(now);
-        p.setId(procId);
+        p.setId(new KualiInteger(procId));
         p.setExtractedInd(false);
         
         getPersistenceBrokerTemplate().store(p);

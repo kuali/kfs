@@ -94,7 +94,7 @@ public class BatchSearchAction extends BaseAction {
                 Integer bId = null;
                 if (btch != null) {
                     // If we still have the batch then get the payments in it again to update statuses
-                    bId = btch.getId();
+                    bId = btch.getId().intValue();
                     LOG.debug("executeLogic() Batch ID being tested is " + bId);
                     searchResults = batchSearchService.getAllSingleBatchPayments(bId);
                     searchResults = checkList(searchResults, session, "Indiv", actionErrors);
@@ -124,7 +124,7 @@ public class BatchSearchAction extends BaseAction {
                 Integer bId = null;
                 if (btch != null) {
                     // If we still have the batch then get the payments in it again to update statuses
-                    bId = btch.getId();
+                    bId = btch.getId().intValue();
                     LOG.debug("executeLogic() Batch ID being tested is " + bId);
                     searchResults = batchSearchService.getAllSingleBatchPayments(bId);
                     searchResults = checkList(searchResults, session, "Indiv", actionErrors);

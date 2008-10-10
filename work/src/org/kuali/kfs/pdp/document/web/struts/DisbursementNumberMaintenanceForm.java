@@ -27,6 +27,7 @@ import org.kuali.kfs.pdp.DateHandler;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public class DisbursementNumberMaintenanceForm extends ActionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberMaintenanceForm.class);
@@ -54,21 +55,18 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
 
     public void setForm(DisbursementNumberRange dnr) {
         this.setBankCode(dnr.getBank().getBankCode());
-        this.setBeginDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getBeginDisbursementNbr()));
+        this.setBeginDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getBeginDisbursementNbr().intValue()));
         this.setDisbNbrEffectiveDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrEffectiveDt()));
         this.setDisbNbrExpirationDt(GeneralUtilities.convertDateToString(dnr.getDisbNbrExpirationDt()));
-        this.setEndDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getEndDisbursementNbr()));
-        this.setLastAssignedDisbNbr(GeneralUtilities.convertIntegerToString(dnr.getLastAssignedDisbNbr()));
-        //this.setLastUpdate(dnr.getLastUpdate());
-        //this.setLastUpdateUser(dnr.getLastUpdateUser());
-        //this.setLastUpdateUserId(dnr.getLastUpdateUserId());
+        this.setEndDisbursementNbr(GeneralUtilities.convertIntegerToString(dnr.getEndDisbursementNbr().intValue()));
+        this.setLastAssignedDisbNbr(GeneralUtilities.convertIntegerToString(dnr.getLastAssignedDisbNbr().intValue()));
         this.setPhysCampusProcCode(dnr.getPhysCampusProcCode());
         this.setVersion(dnr.getVersionNumber());
     }
 
     public DisbursementNumberRange getDisbursementNumberRange() {
         DisbursementNumberRange dnr = new DisbursementNumberRange();
-        dnr.setBeginDisbursementNbr(GeneralUtilities.convertStringToInteger(this.getBeginDisbursementNbr()));
+        dnr.setBeginDisbursementNbr(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getBeginDisbursementNbr())));
         try {
             dnr.setDisbNbrEffectiveDt(DateHandler.makeStringTimestamp(this.getDisbNbrEffectiveDt()));
         }
@@ -81,11 +79,8 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
         catch (Exception e) {
             // Form Validation Nullifies this
         }
-        dnr.setEndDisbursementNbr(GeneralUtilities.convertStringToInteger(this.getEndDisbursementNbr()));
-        dnr.setLastAssignedDisbNbr(GeneralUtilities.convertStringToInteger(this.getLastAssignedDisbNbr()));
-        //dnr.setLastUpdate(this.getLastUpdate());
-        //dnr.setLastUpdateUser(this.getLastUpdateUser());
-        //dnr.setLastUpdateUserId(this.getLastUpdateUserId());
+        dnr.setEndDisbursementNbr(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getEndDisbursementNbr())));
+        dnr.setLastAssignedDisbNbr(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getLastAssignedDisbNbr())));
         dnr.setPhysCampusProcCode(this.getPhysCampusProcCode().toUpperCase());
         dnr.setVersionNumber(new Long(this.getVersion()));
 

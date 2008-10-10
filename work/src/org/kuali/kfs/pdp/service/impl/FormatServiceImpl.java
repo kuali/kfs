@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -69,9 +68,9 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -307,7 +306,7 @@ public class FormatServiceImpl implements FormatService {
                         if (lastPaymentInfo.equals(pi)) {
                             if (((lastPaymentInfo.noteLines + pi.noteLines) <= maxNoteLines)) {
                                 LOG.debug("performFormat() Combining");
-                                pg.setDisbursementNbr(PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE); // Mark it for later
+                                pg.setDisbursementNbr(new KualiInteger(PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)); // Mark it for later
                                 lastPaymentInfo.noteLines += pi.noteLines;
                                 combine = true;
                             }
@@ -377,7 +376,7 @@ public class FormatServiceImpl implements FormatService {
         List results = new ArrayList();
         for (Iterator iter = processSummaryResults.iterator(); iter.hasNext();) {
             ProcessSummary element = (ProcessSummary) iter.next();
-            FormatResult fr = new FormatResult(element.getProcess().getId(), element.getCustomer());
+            FormatResult fr = new FormatResult(element.getProcess().getId().intValue(), element.getCustomer());
             fr.setSortGroupOverride(element.getSortGroupId());
             fr.setAmount(element.getProcessTotalAmount());
             fr.setPayments(element.getProcessTotalCount().intValue());
@@ -497,7 +496,7 @@ public class FormatServiceImpl implements FormatService {
 
             if ("CHCK".equals(pg.getDisbursementType().getCode())) {
                 if ((pg.getDisbursementNbr() != null) && (pg.getDisbursementNbr().intValue() == PdpConstants.CHECK_NUMBER_PLACEHOLDER_VALUE)) {
-                    pg.setDisbursementNbr(new Integer(checkNumber));
+                    pg.setDisbursementNbr(new KualiInteger(checkNumber));
                 }
                 else {
                     int number = 1 + range.getLastAssignedDisbNbr().intValue();
@@ -507,9 +506,9 @@ public class FormatServiceImpl implements FormatService {
                         LOG.error("pass2() " + err);
                         throw new MissingDisbursementRangeException(err);
                     }
-                    pg.setDisbursementNbr(new Integer(number));
+                    pg.setDisbursementNbr(new KualiInteger(number));
 
-                    range.setLastAssignedDisbNbr(new Integer(number));
+                    range.setLastAssignedDisbNbr(new KualiInteger(number));
 
                     // Update the summary information
                     fps.setDisbursementNumber(pg, new Integer(number));
@@ -522,9 +521,9 @@ public class FormatServiceImpl implements FormatService {
                     LOG.error("pass2() " + err);
                     throw new MissingDisbursementRangeException(err);
                 }
-                pg.setDisbursementNbr(new Integer(number));
+                pg.setDisbursementNbr(new KualiInteger(number));
 
-                range.setLastAssignedDisbNbr(new Integer(number));
+                range.setLastAssignedDisbNbr(new KualiInteger(number));
 
                 // Update the summary information
                 fps.setDisbursementNumber(pg, new Integer(number));

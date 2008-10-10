@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMessage;
 import org.kuali.kfs.pdp.DateHandler;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.BatchSearch;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -54,11 +55,11 @@ public class BatchSearchForm extends ActionForm {
     public BatchSearch getBatchSearch() {
         BatchSearch pds = new BatchSearch();
 
-        pds.setBatchId(GeneralUtilities.convertStringToInteger(this.getBatchId()));
+        pds.setBatchId(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getBatchId())));
         pds.setChartCode(this.getChartCode());
         pds.setOrgCode(this.getOrgCode());
         pds.setSubUnitCode(this.getSubUnitCode());
-        pds.setPaymentCount(GeneralUtilities.convertStringToInteger(this.getPaymentCount()));
+        pds.setPaymentCount(new KualiInteger(GeneralUtilities.convertStringToInteger(this.getPaymentCount())));
         pds.setPaymentTotalAmount(GeneralUtilities.convertStringToBigDecimal(this.getPaymentTotalAmount()));
         pds.setBeginDate(GeneralUtilities.convertStringToDate(this.getBeginDate()));
         pds.setEndDate(GeneralUtilities.convertStringToDate(this.getEndDate()));

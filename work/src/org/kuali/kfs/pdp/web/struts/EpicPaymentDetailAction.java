@@ -99,7 +99,7 @@ public class EpicPaymentDetailAction extends BaseAction {
             else if (buttonPressed.startsWith("btnUpdate")) {
                 // Update Payment Detail in Session after action has been performed
                 // (status might have changed)
-                Integer detailId = pd.getId();
+                Integer detailId = pd.getId().intValue();
                 pd = paymentDetailService.get(detailId);
 
                 pd.setLastDisbursementActionDate(this.getDisbursementActionExpirationDate(request));
@@ -140,7 +140,7 @@ public class EpicPaymentDetailAction extends BaseAction {
 
     public void getDisbursementPaymentList(HttpServletRequest request, PaymentDetail pd) {
         List paymentDetailList = new ArrayList();
-        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr();
+        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr().intValue();
         request.getSession().removeAttribute("disbNbrTotalPayments");
         request.getSession().removeAttribute("disbursementDetailsList");
 

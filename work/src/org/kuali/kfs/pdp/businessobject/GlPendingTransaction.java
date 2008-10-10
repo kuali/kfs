@@ -32,15 +32,16 @@ import org.kuali.kfs.gl.businessobject.FlexibleAccountUpdateable;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  *
  */
 public class GlPendingTransaction extends PersistableBusinessObjectBase implements FlexibleAccountUpdateable {
-    private Integer id; // GL_PENDING_ENTRY_ID NUMBER 8 0
+    private KualiInteger id; // GL_PENDING_ENTRY_ID NUMBER 8 0
     private String fsOriginCd; // FS_ORIGIN_CD VARCHAR2 2
     private String fdocNbr; // FDOC_NBR VARCHAR2 9
-    private Integer sequenceNbr; // TRN_ENTR_SEQ_NBR NUMBER 5 0
+    private KualiInteger sequenceNbr; // TRN_ENTR_SEQ_NBR NUMBER 5 0
     private String chartOfAccountsCode; // FIN_COA_CD VARCHAR2 2
     private String accountNumber; // ACCOUNT_NBR VARCHAR2 7
     private String subAccountNumber; // SUB_ACCOUNT_NBR VARCHAR2 5
@@ -77,7 +78,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
 
         oe.setFinancialSystemOriginationCode(fsOriginCd);
         oe.setDocumentNumber(fdocNbr);
-        oe.setTransactionLedgerEntrySequenceNumber(sequenceNbr);
+        oe.setTransactionLedgerEntrySequenceNumber(sequenceNbr.intValue());
         oe.setChartOfAccountsCode(chartOfAccountsCode);
         oe.setAccountNumber(accountNumber);
         oe.setSubAccountNumber(subAccountNumber);
@@ -254,11 +255,11 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.fsRefOriginCd = fsRefOriginCd;
     }
 
-    public Integer getId() {
+    public KualiInteger getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(KualiInteger id) {
         this.id = id;
     }
 
@@ -294,11 +295,11 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.projectCd = projectCd;
     }
 
-    public Integer getSequenceNbr() {
+    public KualiInteger getSequenceNbr() {
         return sequenceNbr;
     }
 
-    public void setSequenceNbr(Integer sequenceNbr) {
+    public void setSequenceNbr(KualiInteger sequenceNbr) {
         this.sequenceNbr = sequenceNbr;
     }
 

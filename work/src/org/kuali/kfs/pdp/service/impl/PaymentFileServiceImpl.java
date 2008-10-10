@@ -21,12 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -36,9 +33,7 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.dataaccess.PaymentFileLoadDao;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
@@ -51,11 +46,10 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -312,7 +306,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         batch.setCustomerProfile(customer);
         batch.setCustomerFileCreateTimestamp(new Timestamp(paymentFile.getCreationDate().getTime()));
         batch.setFileProcessTimestamp(now);
-        batch.setPaymentCount(new Integer(paymentFile.getPaymentCount()));
+        batch.setPaymentCount(new KualiInteger(paymentFile.getPaymentCount()));
 
         if (fileName.length() > 30) {
             batch.setPaymentFileName(fileName.substring(0, 30));

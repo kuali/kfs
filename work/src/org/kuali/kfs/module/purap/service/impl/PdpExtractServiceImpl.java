@@ -72,6 +72,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -181,7 +182,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             totalAmount = totalAmount.add(t.totalAmount);
         }
 
-        batch.setPaymentCount(count);
+        batch.setPaymentCount(new KualiInteger(count));
         batch.setPaymentTotalAmount(totalAmount);
 
         businessObjectService.save(batch);
@@ -727,38 +728,38 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
             if (prd.getSpecialHandlingInstructionLine1Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
-                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine1Text());
                 pd.addNote(pnt);
             }
             if (prd.getSpecialHandlingInstructionLine2Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
-                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine2Text());
                 pd.addNote(pnt);
             }
             if (prd.getSpecialHandlingInstructionLine3Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
-                pnt.setCustomerNoteLineNbr(count++);
+                pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine3Text());
                 pd.addNote(pnt);
             }
         }
         if (doc.getNoteLine1Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
             pnt.setCustomerNoteText(doc.getNoteLine1Text());
             pd.addNote(pnt);
         }
         if (doc.getNoteLine2Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
             pnt.setCustomerNoteText(doc.getNoteLine2Text());
             pd.addNote(pnt);
         }
         if (doc.getNoteLine3Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(count++);
+            pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
             pnt.setCustomerNoteText(doc.getNoteLine3Text());
             pd.addNote(pnt);
         }
@@ -895,7 +896,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         batch.setSubmiterUser(puser);
 
         // Set these for now, we will update them later
-        batch.setPaymentCount(0);
+        batch.setPaymentCount(KualiInteger.ZERO);
         batch.setPaymentTotalAmount(new BigDecimal("0"));
 
         businessObjectService.save(batch);

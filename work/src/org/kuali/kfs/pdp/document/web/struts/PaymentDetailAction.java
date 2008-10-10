@@ -121,7 +121,7 @@ public class PaymentDetailAction extends KualiAction {
     private void setDisbursementPaymentList(PaymentDetailForm paymentDetailForm) {
         List paymentDetailList = new ArrayList();
         PaymentDetail pd = paymentDetailForm.getPaymentDetail();
-        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr();
+        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr().intValue();
 
         if ((disbNbr != null) && (disbNbr != new Integer(0))) {
             List paymentGroupList = paymentGroupService.getByDisbursementNumber(disbNbr);

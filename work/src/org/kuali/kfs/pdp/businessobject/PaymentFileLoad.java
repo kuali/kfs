@@ -26,14 +26,10 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Represents the parsed contents of an incoming payment file.
@@ -53,7 +49,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     private List<PaymentGroup> paymentGroups;
 
     // load vars
-    private Integer batchId;
+    private KualiInteger batchId;
     private boolean fileThreshold;
     private boolean detailThreshold;
     private boolean taxEmailRequired;
@@ -300,7 +296,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @return Returns the batchId.
      */
-    public Integer getBatchId() {
+    public KualiInteger getBatchId() {
         return batchId;
     }
 
@@ -309,7 +305,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @param batchId The batchId to set.
      */
-    public void setBatchId(Integer batchId) {
+    public void setBatchId(KualiInteger batchId) {
         this.batchId = batchId;
     }
 

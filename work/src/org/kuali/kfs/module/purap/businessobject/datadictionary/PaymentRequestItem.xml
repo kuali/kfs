@@ -107,7 +107,7 @@
     <property name="name" value="itemAssignedToTradeInIndicator" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Item Assigned To Trade In Indicator" />
-    <property name="shortLabel" value="Trade In" />
+    <property name="shortLabel" value="Assigned To Trade In" />
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="CheckboxControlDefinition" />

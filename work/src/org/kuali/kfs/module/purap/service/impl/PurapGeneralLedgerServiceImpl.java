@@ -379,6 +379,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
          */
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(preq.getDocumentNumber()));
 
+        //TODO nothing to change here as long as the tax is always included in the encumbrance (get total should always include tax regardless of sales or use) -hjs
         //when cancelling a PREQ, do not book encumbrances if PO is CLOSED
         if (encumbrances != null && !(CANCEL_PAYMENT_REQUEST.equals(processType) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(preq.getPurchaseOrderDocument().getStatusCode()))) {
             LOG.debug("generateEntriesPaymentRequest() generate encumbrance entries");
@@ -402,6 +403,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
+        //TODO nothing to change here for tax except to make sure you have sent in the summaryAccounts correct (sales - include tax in summaryAccounts; use - do not include tax in summary Accounts) -hjs
         if (ObjectUtils.isNotNull(summaryAccounts) && !summaryAccounts.isEmpty()) {
             LOG.debug("generateEntriesPaymentRequest() now book the actuals");
             preq.setGenerateEncumbranceEntries(false);
@@ -421,6 +423,14 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 sequenceHelper.increment(); // increment for the next line
             }
 
+            //TODO this is where the GL entries should be created for use tax only (hjs) DON'T FORGET TO CREATE YOU OWN OFFSET
+//            for (Iterator iter = OFFSETAccounts.iterator(); iter.hasNext();) {
+//                SummaryAccount summaryAccount = (SummaryAccount)iter.next();
+//                preq.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
+                  //modify offset according to specs (change object code)
+//                sequenceHelper.increment(); // increment for the next line
+//            }
+            
             // Manually save preq summary accounts
             saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
             
@@ -428,6 +438,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             savePaymentRequestAccountHistories(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
         }
 
+        
         // Manually save GL entries for Payment Request and encumbrances
         saveGLEntries(preq.getGeneralLedgerPendingEntries());
 

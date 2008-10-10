@@ -297,7 +297,7 @@
 	
 	<bean id="DisbursementVoucher-nonEmployeeTravelComanyValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelComanyValidation" abstract="true" />
 	
-	<bean id="DisbursementVoucher-nonEmployeeTraveValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTraveValidation" abstract="true">
+	<bean id="DisbursementVoucher-nonEmployeeTravelValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelValidation" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	

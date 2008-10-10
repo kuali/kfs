@@ -125,7 +125,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="DisbursementVoucher-nonEmployeeTraveValidation" scope="prototype">
+				<bean parent="DisbursementVoucher-nonEmployeeTravelValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">

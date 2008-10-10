@@ -55,7 +55,6 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
     private boolean capitalAssetBuilderOriginIndicator;
 
 
-
     public AssetPaymentDocument() {
         super();
         this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));
@@ -149,7 +148,9 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             SpringContext.getBean(MaintenanceDocumentService.class).deleteLocks(this.getDocumentNumber());
         }
 
-        SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(getDocumentHeader().getDocumentNumber(), getDocumentHeader().getFinancialDocumentStatusCode());
+        if (isCapitalAssetBuilderOriginIndicator()) {
+            SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(getDocumentHeader().getDocumentNumber(), getDocumentHeader().getFinancialDocumentStatusCode());
+        }
     }
 
     /**
@@ -193,7 +194,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         KualiDecimal total = new KualiDecimal(0);
         if (this.getAssetPaymentAssetDetail().isEmpty())
             return new KualiDecimal(0);
-        
+
         for (AssetPaymentAssetDetail detail : this.getAssetPaymentAssetDetail()) {
             KualiDecimal amount = (detail.getPreviousTotalCostAmount() == null ? new KualiDecimal(0) : detail.getPreviousTotalCostAmount());
             total = total.add(amount);

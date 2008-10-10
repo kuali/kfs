@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cab.document.validation.impl;
 
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -207,12 +206,12 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
             KualiDecimal totalNumerOfDetails = new KualiDecimal(totalActiveDetails);
 
             if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) < 0) {
-                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString()});
+                GlobalVariables.getErrorMap().putError(CabPropertyConstants.Pretag.CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, new String[] { pretag.getQuantityInvoiced().toString() + "" + " Total number of detail lines " + totalNumerOfDetails.toString() });
                 success &= false;
             }
             else {
                 if ((pretag.getQuantityInvoiced().compareTo(new KualiDecimal(0)) > 0) && (totalActiveDetails == 0)) {
-                    putFieldError(CabPropertyConstants.Pretag.PRETAG_DETAIL_CAMPUS_TAG_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(DOCUMENT_ERROR_PREFIX + CabPropertyConstants.DOCUMENT_NUMBER, CamsKeyConstants.ERROR_NO_DETAIL_LINE);
                     success &= false;
                 }
             }

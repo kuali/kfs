@@ -15,13 +15,15 @@
  */
 package org.kuali.kfs.module.ar.batch.report;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+
 
 public class ReportEntry {
 
     private String filename;
     private String customerName;
     private EntryTypes type;
-    private java.sql.Date timestamp;
+    private java.util.Date timestamp;
     private String message;
     
     public enum EntryTypes { INFO, ERROR, BATCH } 
@@ -37,7 +39,7 @@ public class ReportEntry {
     public String getFilename() { return filename; }
     public String getCustomerName() { return customerName; }
     public EntryTypes getType() { return type; }
-    public java.sql.Date getTimestamp() { return timestamp; }
+    public java.util.Date getTimestamp() { return timestamp; }
     public String getMessage() { return message; }
     
     public String entryTypeString(EntryTypes type) {
@@ -51,7 +53,7 @@ public class ReportEntry {
     }
     
     public String toString() {
-        return "[" + filename + "] {" + customerName + "} " + timestamp + " - " + entryTypeString(type) + " - " + message;
+        return DateFormatUtils.format(timestamp, DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()) + " [" + filename + "] {" + customerName + "} - " + entryTypeString(type) + " - " + message;
     }
     
 }

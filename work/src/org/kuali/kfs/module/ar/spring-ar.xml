@@ -389,7 +389,10 @@
 		</property>					
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>					
+		</property>			
+		<property name="reportsDirectory">
+			<value>${reports.directory}</value>
+		</property>		
 	</bean>
 	
 	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">

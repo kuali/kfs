@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.batch.report;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +43,15 @@ public class Reporter {
     // OUTER: key=fileName   INNER: key=customerName/record, value=List of CustomerLoadReportEntry's
     private Map<String, Map<String, List<ReportEntry>>> entries;
     
+    private List<OutputStream> outStreams;
+    
     private DateTimeService dateTimeService;
     private int status; // 0 = closed, 1 = open
     
     public Reporter() {
         entries = new TreeMap<String, Map<String, List<ReportEntry>>>();
         recordsIndex = new TreeMap<String,String>();
+        outStreams = new ArrayList<OutputStream>();
         status = 1;
     }
     
@@ -112,6 +117,17 @@ public class Reporter {
         //  add the entry
         customerEntries.add(entry);
         
+        //  add to the output stream
+        byte[] bytes = entry.toString().getBytes();
+        for (OutputStream outputStream : outStreams) {
+            try {
+                outputStream.write(bytes);
+            }
+            catch (IOException e) {
+                throw new RuntimeException("IOException occurred while trying to write to the buffer.", e);
+            }
+        }
+        
     }
     
     public void close() {
@@ -123,6 +139,35 @@ public class Reporter {
         addStartEntry();
     }
 
+    /**
+     * 
+     * Adds a writer to the reporter for logging purposes.
+     * @param writer Should be a buffered writer.
+     */
+    public void addOutputStream(OutputStream outputStream) {
+        outStreams.add(outputStream);
+    }
+    
+    /**
+     * 
+     * Adds a list of writers to the reporter for logging purposes.
+     * @param writers Should be buffered writers.
+     */
+    public void addOutputStreams(List<OutputStream> outStreams) {
+        this.outStreams.addAll(outStreams);
+    }
+    
+    public void flush() {
+        for (OutputStream outStream : outStreams) {
+            try {
+                outStream.flush();
+            }
+            catch (IOException e) {
+                throw new RuntimeException("An IOException occurred while trying to flush this writer.", e);
+            }
+        }
+    }
+    
     private java.sql.Date nowTimestamp() {
         return dateTimeService.getCurrentSqlDate();
     }

@@ -90,6 +90,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     private BatchInputFileType batchInputFileType;
     private CustomerDigesterAdapter adapter;
+    private String reportsDirectory;
     
     public CustomerLoadServiceImpl() {
     }
@@ -155,10 +156,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return false;
     }
     
-    private void flushReporter(Reporter reporter) {
-        //TODO Write out to the LOG and the Report
-    }
-    
     public boolean loadFiles() {
         
         boolean result = true;
@@ -171,7 +168,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         if (fileNamesToLoad == null) {
             reporter.addErrorEntry(NA, NA, "BatchInputFileService.listInputFileNamesWithDoneFile(" + 
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
-            flushReporter(reporter);
             throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
         }
@@ -185,7 +181,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             if (StringUtils.isBlank(inputFileName)) {
                 reporter.addErrorEntry(NA, NA, "One of the file names returned as ready to process [" + inputFileName + 
                         "] was blank.  This should not happen, so throwing an error to investigate.");
-                flushReporter(reporter);
                 throw new RuntimeException("One of the file names returned as ready to process [" + inputFileName + 
                         "] was blank.  This should not happen, so throwing an error to investigate.");
             }
@@ -246,14 +241,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
         catch (XMLParseException e) {
             reporter.addErrorEntry(fileName, NA, "Error parsing batch file: " + e.getMessage());
-            flushReporter(reporter);
             throw new XMLParseException(e.getMessage());
         }
         
         //  make sure we got the type we expected, then cast it
         if (!(parsedObject instanceof CustomerDigesterVO)) {
             reporter.addErrorEntry(fileName, NA, "Parsed file was not of the expected type.");
-            flushReporter(reporter);
             throw new RuntimeException("Parsed object was not of the expected type.  " + 
                     "Was: [" + parsedObject.getClass().toString() + "], expected: [" + CustomerDigesterVO.class + "].");
         }
@@ -729,4 +722,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         this.dateTimeService = dateTimeService;
     }
 
+    public void setReportsDirectory(String reportsDirectory) {
+        this.reportsDirectory = reportsDirectory;
+    }
+    
 }

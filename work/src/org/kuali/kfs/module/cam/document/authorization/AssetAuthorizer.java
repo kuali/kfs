@@ -35,7 +35,6 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -100,7 +99,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
         // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
         // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
-        if (ObjectUtils.isNotNull(asset.getCampusTagNumber()) & !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
+        if (asset.isTagged() & !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
             // Set the Tag Number as view only
             auths.addReadonlyAuthField(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER);
             // if was created in a prior fiscal year, set asset type code and description as view only

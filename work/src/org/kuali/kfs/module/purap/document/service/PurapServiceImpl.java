@@ -33,9 +33,12 @@ import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.OrganizationParameter;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
+import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -49,9 +52,11 @@ import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
@@ -692,20 +697,230 @@ public class PurapServiceImpl implements PurapService {
     }
     
     /**
+     * Determines if the item is taxable based on a decision tree.
      * 
      * @param useTaxIndicator
      * @param deliveryState
      * @param item
      * @return
      */
-    private boolean isTaxable(boolean useTaxIndicator, String deliveryState,
-            PurApItem item){
+    private boolean isTaxable(boolean useTaxIndicator, String deliveryState, PurApItem item){
         
         boolean taxable = false;
         
+        if(item.getItemType().isTaxableIndicator() &&
+           ((ObjectUtils.isNull(item.getItemTaxAmount()) && useTaxIndicator == false) || useTaxIndicator) &&
+           (doesCommodityAllowCallToTaxService(item)) &&                      
+           (doesAccountAllowCallToTaxService(deliveryState, item)) ){
+            
+            taxable = true;
+        }
         return taxable;
     }
+
+    /**
+     * Determines if the the tax service should be called due to the commodity code.
+     * 
+     * @param item
+     * @return
+     */
+    private boolean doesCommodityAllowCallToTaxService(PurApItem item){
+        
+        boolean callService = true;
+        
+        if( item instanceof PurchasingItem){
+            
+            PurchasingItemBase purItem = (PurchasingItemBase)item;
+            
+            if(ObjectUtils.isNotNull(purItem.getCommodityCode())){                
+                
+                if(purItem.getCommodityCode().isSalesTaxIndicator() == false){
+                    //not taxable, so don't call service
+                    callService = false;
+                }//if true we want to call service
+                
+            }//if null, return true
+            
+        }//if not a purchasing item, then we skip and still return true
+        
+        return callService;
+    }
+
+    /**
+     * Determines if the delivery state is taxable or not.
+     * 
+     * @param deliveryState
+     * @return
+     */
+    private boolean isDeliveryStateTaxable(String deliveryState){
+        
+        boolean isDeliveryStateTaxable = false;
+        
+        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", deliveryState);
+        
+        //if parm is Allow and delivery state in list, or parm is Denied and delivery state is not in list
+        // then state is taxable
+        if(parmEval.evaluationSucceeds()){            
+            isDeliveryStateTaxable = true;
+        }
+        
+        return isDeliveryStateTaxable;
+    }
     
+    /**
+     * Checks if the account is taxable, based on the delivery state, fund/subfund groups, and object code level/consolidations.
+     * 
+     * @param deliveryState
+     * @param item
+     * @return
+     */
+    private boolean doesAccountAllowCallToTaxService(String deliveryState, PurApItem item){
+        
+        boolean callService = false;
+        boolean deliveryStateTaxable = isDeliveryStateTaxable(deliveryState);
+        String parameterSuffix = null;
+        
+        for(PurApAccountingLine acctLine : item.getSourceAccountingLines()){
+            if(deliveryStateTaxable){
+                parameterSuffix = "FOR_TAXABLE_STATES";
+            }else{
+                parameterSuffix = "FOR_NON_TAXABLE_STATES";
+            }
+        
+            //is account (fund/subfund) and object code (level/consolidation) taxable?
+            if(isAccountTaxable(parameterSuffix, acctLine) && isObjectCodeTaxable(parameterSuffix, acctLine)){
+                callService = true;
+                break;
+            }            
+        }        
+        
+        return callService;
+    }
+    
+    /**
+     * Checks if the account fund/subfund groups are in a set of parameters taking into account allowed/denied constraints and
+     * ultimately determines if taxable.
+     * 
+     * @param parameterSuffix
+     * @param acctLine
+     * @return
+     */
+    private boolean isAccountTaxable(String parameterSuffix, PurApAccountingLine acctLine){
+        
+        boolean isAccountTaxable = false;
+        String fundParam = "TAXABLE_FUND_GROUPS_" + parameterSuffix;
+        String subFundParam = "TAXABLE_SUB_FUND_GROUPS_" + parameterSuffix;
+        ParameterEvaluator fundParamEval = null;
+        ParameterEvaluator subFundParamEval = null;
+        
+        fundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
+        subFundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
+
+        if( (isAllowedFound(fundParamEval) && (isAllowedFound(subFundParamEval) || isAllowedNotFound(subFundParamEval) || isDeniedNotFound(subFundParamEval))) ||
+            (isAllowedNotFound(fundParamEval) && isAllowedFound(subFundParamEval)) ||
+            (isDeniedFound(fundParamEval) && isAllowedFound(subFundParamEval)) ||
+            (isDeniedNotFound(fundParamEval) && (isAllowedFound(subFundParamEval) || isAllowedNotFound(subFundParamEval) || isDeniedNotFound(subFundParamEval))) ){
+            
+            isAccountTaxable = true;
+        }
+        
+        return isAccountTaxable;
+    }
+
+    /**
+     * Checks if the object code level/consolidation groups are in a set of parameters taking into account allowed/denied constraints and
+     * ultimately determines if taxable.
+     * 
+     * @param parameterSuffix
+     * @param acctLine
+     * @return
+     */
+    private boolean isObjectCodeTaxable(String parameterSuffix, PurApAccountingLine acctLine){
+        
+        boolean isObjectCodeTaxable = false;
+        String levelParam = "TAXABLE_OBJECT_LEVELS_" + parameterSuffix;
+        String consolidationParam = "TAXABLE_OBJECT_CONSOLIDATIONS_" + parameterSuffix;
+        ParameterEvaluator levelParamEval = null;
+        ParameterEvaluator consolidationParamEval = null;
+
+        levelParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
+        consolidationParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
+
+        if( (isAllowedFound(levelParamEval) && (isAllowedFound(consolidationParamEval) || isAllowedNotFound(consolidationParamEval) || isDeniedNotFound(consolidationParamEval))) ||
+            (isAllowedNotFound(levelParamEval) && isAllowedFound(consolidationParamEval)) ||
+            (isDeniedFound(levelParamEval) && isAllowedFound(consolidationParamEval)) ||
+            (isDeniedNotFound(levelParamEval) && (isAllowedFound(consolidationParamEval) || isAllowedNotFound(consolidationParamEval) || isDeniedNotFound(consolidationParamEval))) ){
+                
+            isObjectCodeTaxable = true;
+        }
+
+        return isObjectCodeTaxable;
+    }
+
+    /**
+     * Helper method to work with parameter evaluator to find, allowed and found in parameter value.
+     * 
+     * @param eval
+     * @return
+     */
+    private boolean isAllowedFound(ParameterEvaluator eval){
+        boolean exists = false;
+        
+        if(eval.evaluationSucceeds() && eval.constraintIsAllow()){
+            exists = true;
+        }
+        
+        return exists;
+    }
+    
+    /**
+     * Helper method to work with parameter evaluator to find, allowed and not found in parameter value.
+     * 
+     * @param eval
+     * @return
+     */
+    private boolean isAllowedNotFound(ParameterEvaluator eval){
+        boolean exists = false;
+
+        if(eval.evaluationSucceeds() == false && eval.constraintIsAllow()){
+            exists = true;
+        }
+
+        return exists;        
+    }
+    
+    /**
+     * Helper method to work with parameter evaluator to find, denied and found in parameter value.
+     * 
+     * @param eval
+     * @return
+     */
+    private boolean isDeniedFound(ParameterEvaluator eval){
+        boolean exists = false;
+        
+        if(eval.evaluationSucceeds() == false && eval.constraintIsAllow() == false){
+            exists = true;
+        }
+        
+        return exists;
+    }
+    
+    /**
+     * Helper method to work with parameter evaluator to find, denied and not found in parameter value.
+     * 
+     * @param eval
+     * @return
+     */
+    private boolean isDeniedNotFound(ParameterEvaluator eval){
+        boolean exists = false;
+
+        if(eval.evaluationSucceeds() && eval.constraintIsAllow() == false){
+            exists = true;
+        }
+        
+        return exists;        
+    }
+
     /**
      *      
      * @param useTaxIndicator

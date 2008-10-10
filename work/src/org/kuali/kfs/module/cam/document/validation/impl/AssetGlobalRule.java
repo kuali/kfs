@@ -116,11 +116,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        // Check for account
-        assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
-        if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
-            valid = false;
+        // check for account number unless document is Asset Separate
+        if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT);
+            if (StringUtils.isBlank(assetPaymentDetail.getAccountNumber()) || isAccountInvalid(assetPaymentDetail.getAccount())) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.ACCOUNT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_PAYMENT_ACCT_NOT_VALID, new String[] { assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getAccountNumber() });
+                valid = false;
+            }
         }
 
         // Check for ObjectCode
@@ -547,13 +549,15 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         boolean success = true;
         success &= super.processCustomSaveDocumentBusinessRules(document);
-        success &= validateAccount(assetGlobal);
 
         String acquisitionTypeCode = assetGlobal.getAcquisitionTypeCode();
         String statusCode = assetGlobal.getInventoryStatusCode();
 
-        // no need to validate non-editable fields for "Asset Separate" doc
+        // no need to validate specific fields if document is "Asset Separate"
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
+            
+            success &= validateAccount(assetGlobal);
+            
             if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
                 UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
                 if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {

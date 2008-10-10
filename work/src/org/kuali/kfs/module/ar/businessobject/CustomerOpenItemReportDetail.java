@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
@@ -71,8 +71,8 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
         return billingDate;
     }
 
-    public void setBillingDate(Date billingDate) {
-        this.billingDate = billingDate;
+    public void setBillingDate(java.util.Date date) {
+        this.billingDate = date;
     }
 
     public Date getDueApprovedDate() {
@@ -80,8 +80,8 @@ public class CustomerOpenItemReportDetail extends TransientBusinessObjectBase {
     }
 
 
-    public void setDueApprovedDate(Date dueApprovedDate) {
-        this.dueApprovedDate = dueApprovedDate;
+    public void setDueApprovedDate(Date approvedDate) {
+        this.dueApprovedDate = approvedDate;
     }
 
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 

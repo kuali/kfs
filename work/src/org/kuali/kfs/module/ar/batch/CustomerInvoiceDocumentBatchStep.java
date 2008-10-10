@@ -49,13 +49,14 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
 
     // parameter constants and logging
-    private static final int NUMBER_OF_INVOICES_TO_CREATE = 10;
+    private static final int NUMBER_OF_INVOICES_TO_CREATE = 1;
     private static final String CUSTOMER_INVOICE_DOCUMENT_INITIATOR = "KHUNTLEY";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
-    private static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
+// ******************* replaced while testing   private static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
+    private static final String RUN_INDICATOR_PARAMETER_VALUE = "Y"; // doesn't seem to matter that i changed it - it still skips this value
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
-    private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to know because the GenesisBatchJob needs to only be run once after database initialization.";
+    private static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; set to NO because the GenesisBatchJob needs to only be run once after database initialization.";
     private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
     private static final String RUN_INDICATOR_PARAMETER_WORKGROUP = "FP_OPERATIONS";
 
@@ -70,8 +71,24 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         catch (UserNotFoundException nfex) {
         } 
 
-        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
-            createCustomerInvoiceDocumentForFunctionalTesting();
+        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
+            createCustomerInvoiceDocumentForFunctionalTesting("ABB2",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
             Thread.sleep(5000);
         }
         setInitiatedParameter();
@@ -126,7 +143,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
        return (pkMapForParameter);
     }
     
-    public void createCustomerInvoiceDocumentForFunctionalTesting() {
+    public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate) {
+        
         
         CustomerInvoiceDocument customerInvoiceDocument;
         try {
@@ -137,8 +155,10 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
         
         customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
-        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("ADDING CUSTOMER INVOICE DOCUMENT");
-        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber("ABB2");
+        customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");
+        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
+        customerInvoiceDocument.setBillingDate((java.sql.Date) billingDate);
+
         
         for (int i = 0; i < 15; i++) { 
             customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
@@ -161,7 +181,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(10));
-        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(10));
+        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
         customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
         customerInvoiceDetail.setAmount(new KualiDecimal(10));
         return customerInvoiceDetail;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.TaxDetail;

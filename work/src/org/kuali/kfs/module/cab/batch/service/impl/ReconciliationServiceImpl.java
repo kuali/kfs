@@ -83,7 +83,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * continuation account number.
      */
     protected void checkGroupByContinuationAccount() {
-        for (PurApAccountLineGroup purapAcctLineGroup : purapAcctGroupMap.keySet()) {
+        // get the keys first to avoid concurrent modification issues
+        List<PurApAccountLineGroup> purapGroups = new ArrayList<PurApAccountLineGroup>();
+        purapGroups.addAll(purapAcctGroupMap.keySet());
+
+        for (PurApAccountLineGroup purapAcctLineGroup : purapGroups) {
             // if not matched already, check and replace with continuation account
             if (!matchedGroups.contains(purapAcctLineGroup)) {
                 Account account = findAccount(purapAcctLineGroup);
@@ -97,7 +101,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 }
             }
         }
-        for (PendingGlAccountLineGroup pendingGlEntryGroup : pendingGlEntryGroupMap.keySet()) {
+        // get the keys first to avoid concurrent modification issues
+        List<PendingGlAccountLineGroup> pendingGlGroups = new ArrayList<PendingGlAccountLineGroup>();
+        pendingGlGroups.addAll(pendingGlEntryGroupMap.keySet());
+
+        for (PendingGlAccountLineGroup pendingGlEntryGroup : pendingGlGroups) {
             // if not matched already, check and replace with continuation account
             if (!matchedGroups.contains(pendingGlEntryGroup)) {
                 Account account = findAccount(pendingGlEntryGroup);

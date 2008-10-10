@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -12,7 +13,6 @@ import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
-import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -141,6 +141,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private KualiDecimal currentMonthDepreciation;
     private Date depreciationDateCopy;
     private transient Integer quantity;
+    private boolean tagged;
 
     /**
      * Default constructor.
@@ -1908,4 +1909,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public Integer getQuantity() {
         return quantity;
     }
+
+    public boolean isTagged() {
+        return tagged;
+    }
+
+    public void setTagged() {
+        this.tagged = (StringUtils.isBlank(campusTagNumber))? false : true;
+    }
+    
 }

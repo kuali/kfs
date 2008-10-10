@@ -45,6 +45,8 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addNotIn(CabPropertyConstants.Entry.UNIVERSITY_FISCAL_PERIOD_CODE, batchParameters.getExcludedFiscalPeriods());
         criteria.addNotIn(CabPropertyConstants.Entry.FINANCIAL_DOCUMENT_TYPE_CODE, batchParameters.getExcludedDocTypeCodes());
         QueryByCriteria query = new QueryByCriteria(Entry.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.Entry.DOCUMENT_NUMBER);
+        query.addOrderByAscending(CabPropertyConstants.Entry.TRANSACTION_DATE_TIME_STAMP);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
@@ -82,6 +84,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addNotIn(CabPropertyConstants.GeneralLedgerPendingEntry.UNIVERSITY_FISCAL_PERIOD_CODE, batchParameters.getExcludedFiscalPeriods());
         criteria.addIn(CabPropertyConstants.GeneralLedgerPendingEntry.FINANCIAL_DOCUMENT_TYPE_CODE, Arrays.asList(CabConstants.PREQ, CabConstants.CM));
         QueryByCriteria query = new QueryByCriteria(GeneralLedgerPendingEntry.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.GeneralLedgerPendingEntry.DOCUMENT_NUMBER);
         Collection<GeneralLedgerPendingEntry> glPendingList = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return glPendingList;
     }
@@ -97,6 +100,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
         criteria.addIn(CabPropertyConstants.CreditMemoAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
         QueryByCriteria query = new QueryByCriteria(CreditMemoAccountHistory.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_HISTORY_TIMESTAMP);
         Collection<CreditMemoAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return historyRecs;
     }
@@ -111,6 +115,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
         criteria.addIn(CabPropertyConstants.PaymentRequestAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
         QueryByCriteria query = new QueryByCriteria(PaymentRequestAccountHistory.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_HISTORY_TIMESTAMP);
         Collection<PaymentRequestAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return historyRecs;
     }

@@ -126,7 +126,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
-    private AssetGlobal separateHistory;
+    private transient AssetGlobal separateHistory;
     private List<AssetRetirementGlobalDetail> mergeHistory;
     private KualiDecimal federalContribution;
     private AssetRetirementGlobalDetail retirementInfo;
@@ -1131,12 +1131,12 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public void setInventoryScannedCode(String inventoryScannedCode) {
         this.inventoryScannedCode = inventoryScannedCode;
     }
-    
+
     /**
      * Gets the signatureCode attribute.
      * 
      * @return Returns the signatureCode
-     */   
+     */
     public boolean isSignatureCode() {
         return signatureCode;
     }
@@ -1826,7 +1826,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public void setRetirementGlobals(List<AssetRetirementGlobal> retirementGlobals) {
         this.retirementGlobals = retirementGlobals;
     }
-    
+
     public AssetGlobal getSeparateHistory() {
         return separateHistory;
     }
@@ -1901,11 +1901,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     public ContractsAndGrantsAgency getAgency() {
-        return agency = (ContractsAndGrantsAgency)SpringContext.getBean(KualiModuleService.class)
-                            .getResponsibleModuleService(ContractsAndGrantsAgency.class)
-                            .retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
+        return agency = (ContractsAndGrantsAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgency.class).retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
     }
-    
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -1915,7 +1913,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     public void setTagged() {
-        this.tagged = (StringUtils.isBlank(campusTagNumber))? false : true;
+        this.tagged = (StringUtils.isBlank(campusTagNumber)) ? false : true;
     }
-    
+
 }

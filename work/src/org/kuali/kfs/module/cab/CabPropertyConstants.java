@@ -109,17 +109,18 @@ public class CabPropertyConstants {
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String TRANSACTION_ENTRY_PROCESSED_TS = "transactionEntryProcessedTs";
+        public static final String DOCUMENT_NUMBER = "documentNumber";
     }
 
     public static class CreditMemoAccountHistory {
-        public static final Object ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+        public static final String ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
     }
 
     public static class PaymentRequestAccountHistory {
-        public static final Object ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+        public static final String ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
@@ -147,7 +148,7 @@ public class CabPropertyConstants {
     public static class CapitalAssetInformation {
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
-    
+
     public static class PurchasingAccountsPayableProcessingReport {
         public static final String PURAP_DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
     }

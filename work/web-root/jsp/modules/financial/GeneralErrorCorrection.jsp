@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="GeneralErrorCorrectionDocument"
 	htmlFormAction="financialGeneralErrorCorrection" renderMultipart="true"
@@ -23,11 +24,13 @@
 	<kfs:hiddenDocumentFields />
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
-
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
-		extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription" />
+	
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys:accountingLines>
+	</kul:tab>
 	
 	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
 	<fin:capitalAssetEditTab readOnly="${readOnly}"/>	

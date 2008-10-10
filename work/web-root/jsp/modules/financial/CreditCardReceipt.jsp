@@ -19,6 +19,8 @@
 	value="${DataDictionary['CreditCardReceiptDocument'].attributes}" />
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
+	
+<kfs:accountingLineScriptImports />	
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialCreditCardReceipt"
 	documentTypeName="CreditCardReceiptDocument"
@@ -33,15 +35,17 @@
 	    //-->
 	</SCRIPT>
 	<ccr:creditCardReceipts editingMode="${KualiForm.editingMode}" />
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		sourceAccountingLinesOnly="true"
-		extraSourceRowFields="financialDocumentLineDescription" />
+			
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>
+		
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
-	<kfs:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
+	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 </kul:documentPage>

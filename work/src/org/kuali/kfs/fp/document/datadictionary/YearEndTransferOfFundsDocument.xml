@@ -42,6 +42,19 @@
     		<value>subFundGroupRoutingDataGenerator</value>
     	</list>
     </property>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>  
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />     
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -110,4 +123,8 @@
     	</map>
     </property>
   </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean" />  	
+  <bean id="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean" />	
 </beans>

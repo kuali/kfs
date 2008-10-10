@@ -38,7 +38,19 @@
       </list>
     </property>
     <property name="validationMap" ref="ServiceBillingDocument-validations" />
-    
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="ServiceBillingDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="ServiceBillingDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property> 
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />       
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -97,5 +109,53 @@
     	</map>
     </property>
   </bean>
-  
+
+  <!-- accounting line groups -->
+  <bean id="ServiceBillingDocument-sourceAccountingLineGroup" parent="ServiceBillingDocument-sourceAccountingLineGroup-parentBean" /> 
+  <bean id="ServiceBillingDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="ServiceBillingDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="From" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+	
+  <bean id="ServiceBillingDocument-targetAccountingLineGroup" parent="ServiceBillingDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="ServiceBillingDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="ServiceBillingDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="groupLabel" value="To" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+  </bean>
+	
+  <bean id="ServiceBillingDocument-accountingLineView" parent="ServiceBillingDocument-accountingLineView-parent" />
+  <bean id="ServiceBillingDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation" />
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription" />
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field"	p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
+			<bean parent="AccountingLineView-actions" />
+		</list>
+	</property>
+  </bean>  
 </beans>

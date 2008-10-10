@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="PreEncumbranceDocument"
 	htmlFormAction="financialPreEncumbrance" renderMultipart="true"
@@ -23,10 +25,14 @@
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 	<fin:preEncumbranceDetails editingMode="${KualiForm.editingMode}" />
-	<fin:accountingLines
-		extraTargetRowFields="referenceNumber"
-		editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" />
+	
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys:accountingLines>
+	</kul:tab>
+		
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

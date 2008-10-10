@@ -37,7 +37,20 @@
     		<value>subFundGroupTargetOnlyRoutingDataGenerator</value>
     	</list>
     </property>
-     <property name="validationMap" ref="ProcurementCardDocument-validations" />
+    <property name="validationMap" ref="ProcurementCardDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="ProcurementCardDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="ProcurementCardDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>  
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />      
   </bean>
 
 <!-- Exported Workflow Properties -->
@@ -102,6 +115,28 @@
     	</map>
     </property>
   </bean>
-  
+
+  <!-- accounting line groups -->
+  <bean id="ProcurementCardDocument-sourceAccountingLineGroup" parent="ProcurementCardDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="ProcurementCardDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="From" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	
+  <bean id="ProcurementCardDocument-targetAccountingLineGroup" parent="ProcurementCardDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="ProcurementCardDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="groupLabel" value="To" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+  </bean>    
   
 </beans>

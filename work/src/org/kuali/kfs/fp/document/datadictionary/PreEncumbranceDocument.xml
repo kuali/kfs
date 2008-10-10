@@ -43,6 +43,19 @@
       </list>
     </property>
      <property name="validationMap" ref="PreEncumbranceDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="PreEncumbranceDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="PreEncumbranceDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>  
+    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase" />      
   </bean>
 
 <!-- Attribute Definitions -->
@@ -116,5 +129,54 @@
 			</entry>
     	</map>
     </property>
+  </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="PreEncumbranceDocument-sourceAccountingLineGroup" parent="PreEncumbranceDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="PreEncumbranceDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="FinancialProcessing-SalesTax-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Encumbrance" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	
+  <bean id="PreEncumbranceDocument-targetAccountingLineGroup" parent="PreEncumbranceDocument-targetAccountingLineGroup-parentBean" />	
+  <bean id="PreEncumbranceDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="PreEncumbranceDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine" />
+	  <property name="groupLabel" value="Disencumbrance" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="target" />
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
+  </bean>  
+  
+  <bean id="PreEncumbranceDocument-accountingLineView" parent="PreEncumbranceDocument-accountingLineView-parent" />
+  <bean id="PreEncumbranceDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation" />
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription" />
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
+			<bean parent="AccountingLineView-actions" />
+		</list>
+	</property>
   </bean>
 </beans>

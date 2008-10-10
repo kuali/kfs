@@ -124,10 +124,12 @@
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
 		displayHidden="${displayHidden}" />
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		sourceAccountingLinesOnly="true"
-		extraSourceRowFields="financialDocumentLineDescription" />
+		
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>			
 		 
   	<c:set var="readOnly" value="${not empty KualiForm.editingMode['viewOnly']}" />
 	<fin:capitalAssetEditTab readOnly="${readOnly}"/>

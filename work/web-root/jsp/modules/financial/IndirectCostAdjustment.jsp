@@ -15,24 +15,30 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true" documentTypeName="IndirectCostAdjustmentDocument" htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true" showTabButtons="true">
 
-		<kfs:hiddenDocumentFields />
+	<kfs:hiddenDocumentFields />
 
-        <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
+    <kfs:documentOverview editingMode="${KualiForm.editingMode}"/>
+    
+    <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys:accountingLineGroup newLinePropertyName="newTargetLine" collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/>
+		</sys:accountingLines>
+	</kul:tab>
 
-        <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"/>
+	<gl:generalLedgerPendingEntries/>
 
-		<gl:generalLedgerPendingEntries/>
+	<kul:notes/>
+		
+	<kul:adHocRecipients />
+		
+	<kul:routeLog/>
 
-		<kul:notes/>
-			
-		<kul:adHocRecipients />
-			
-		<kul:routeLog/>
+	<kul:panelFooter/>
 
-		<kul:panelFooter/>
-
-		<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
+	<kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

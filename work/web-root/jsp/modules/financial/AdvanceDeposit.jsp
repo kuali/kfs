@@ -33,13 +33,15 @@
 	        }
 	    //-->
 	</SCRIPT>
+	
 	<ad:advanceDeposits editingMode="${KualiForm.editingMode}" />
-		<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-				<sys:accountingLines>
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
 			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
 		</sys:accountingLines>
 	</kul:tab>
-		<gl:generalLedgerPendingEntries />
+	
+	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />

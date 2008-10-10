@@ -174,7 +174,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             // The allowed copy date is the document creation date plus a set number of days.
             Date createDate = wd.getCreateDate();
             c.setTime(createDate);
-            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2B_ALLOW_COPY_DAYS);
+            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2_B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();

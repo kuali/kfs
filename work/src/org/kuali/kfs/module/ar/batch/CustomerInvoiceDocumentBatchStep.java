@@ -157,7 +157,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
-        customerInvoiceDocument.setBillingDate((java.sql.Date) billingDate);
+        customerInvoiceDocument.setBillingDate(billingDate);
 
         
         for (int i = 0; i < 15; i++) { 

@@ -351,5 +351,10 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         KualiDecimal addedPrice = getExtendedPrice().add(addThisValue);
         setExtendedPrice(addedPrice);
     }
+
+    @Override
+    public Class getUseTaxClass() {
+        return PaymentRequestItemUseTax.class;
+    }
     
 }

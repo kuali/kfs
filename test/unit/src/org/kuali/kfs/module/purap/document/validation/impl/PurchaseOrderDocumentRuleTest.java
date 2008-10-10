@@ -89,24 +89,6 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     }
 
     /*
-     * Tests of validateTradeInAndDiscountCoexistence
-     */
-    public void testValidateTradeInAndDiscountCoexistence_WithTradeInWithDiscount() {
-        po = ItemTypesFixture.WITH_TRADEIN_WITH_DISCOUNT.populate();
-        assertFalse(rule.validateTradeInAndDiscountCoexistence(po));
-    }
-
-    public void testValidateTradeInAndDiscountCoexistence_WithTradeInWithMisc() {
-        po = ItemTypesFixture.WITH_TRADEIN_WITH_MISC.populate();
-        assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
-    }
-
-    public void testValidateTradeInAndDiscountCoexistence_WithDiscountWithMisc() {
-        po = ItemTypesFixture.WITH_MISC_WITH_DISCOUNT.populate();
-        assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
-    }
-
-    /*
      * Tests of processVendorStipulationValidation
      */
     public void testProcessVendorStipulationValidation_NotBlank() {

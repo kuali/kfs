@@ -194,16 +194,16 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if(vendor!=null) {
             String vendorStateCode = vendor.getDefaultAddressStateCode();
             String billingStateCode = purDoc.getBillingStateCode();
-            if(!StringUtils.equals(vendorStateCode, billingStateCode) &&
-              (!vendor.isTaxableIndicator())) { 
-                return true;
+            if(StringUtils.equals(vendorStateCode, billingStateCode) ||
+              (vendor.isTaxableIndicator())) { 
+                return false;
             }
         } else {
             //don't set use tax if no vendor on req
-            return false;
+            return true;
         }
 
-        return false;
+        return true;
     }    
     
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {

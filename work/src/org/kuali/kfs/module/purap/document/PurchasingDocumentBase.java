@@ -43,6 +43,7 @@ import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
@@ -322,6 +323,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     @Override
     public void populateDocumentForRouting() {
+        this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
         commodityCodesForRouting = new ArrayList<CommodityCode>();
         for (PurchasingItemBase item : (List<PurchasingItemBase>)this.getItems()) {
             if (item.getCommodityCode() != null) {

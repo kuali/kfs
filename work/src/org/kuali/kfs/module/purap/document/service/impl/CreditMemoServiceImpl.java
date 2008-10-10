@@ -58,6 +58,7 @@ import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -204,6 +205,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             }
         }
 
+        purapService.calculateTax(cmDocument);
+        
         // proration
         if (cmDocument.isSourceVendor()) {
             // no proration on vendor

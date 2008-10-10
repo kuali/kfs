@@ -48,6 +48,10 @@ public class PurApSummaryItem extends PurApItemBase {
         return SourceAccountingLine.class;
     }
 
+    public Class getUseTaxClass() {
+        return SummaryItemUseTax.class;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#isConsideredEntered()
      */

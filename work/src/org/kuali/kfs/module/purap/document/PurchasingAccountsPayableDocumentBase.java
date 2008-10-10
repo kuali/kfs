@@ -33,6 +33,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -205,9 +206,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
+        SpringContext.getBean(PurapServiceImpl.class).calculateTax(this);
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
-
         // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
         // objects) -hjs
         refreshNonUpdateableReferences();

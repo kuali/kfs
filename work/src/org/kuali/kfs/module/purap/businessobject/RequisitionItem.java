@@ -57,5 +57,10 @@ public class RequisitionItem extends PurchasingItemBase {
     public Class getAccountingLineClass() {
         return RequisitionAccount.class;
     }
+
+    @Override
+    public Class getUseTaxClass() {
+        return PurchaseRequisitionItemUseTax.class;
+    }
     
 }

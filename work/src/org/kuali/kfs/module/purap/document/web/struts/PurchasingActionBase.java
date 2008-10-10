@@ -47,6 +47,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
@@ -1003,7 +1004,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
-        // call prorateDiscountTradeIn
+
+        purDoc.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc));
+        SpringContext.getBean(PurapServiceImpl.class).calculateTax(purDoc);
+
+      // call prorateDiscountTradeIn
         SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
         customCalculate(purDoc);
         

@@ -314,4 +314,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public boolean isNewUnorderedItem(){
         return SpringContext.getBean(PurchaseOrderService.class).isNewUnorderedItem(this);
     }
+
+    @Override
+    public Class getUseTaxClass() {
+        return PurchaseOrderItemUseTax.class;
+    }
 }

@@ -152,8 +152,8 @@ public class CreditMemoAction extends AccountsPayableActionBase {
 
         // call service method to finish up calculation
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
-
-        // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
+        
+        // notice we're ignoring the boolean because these are just warnings they shouldn't halt anything
         SpringContext.getBean(KualiRuleService.class).applyRules(new CalculateAccountsPayableEvent(cmDocument));
         // }
     }

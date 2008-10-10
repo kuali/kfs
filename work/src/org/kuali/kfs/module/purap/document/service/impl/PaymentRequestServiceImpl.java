@@ -74,6 +74,7 @@ import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprova
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
@@ -683,6 +684,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (ObjectUtils.isNull(paymentRequest.getPaymentRequestPayDate())) {
             paymentRequest.setPaymentRequestPayDate(calculatePayDate(paymentRequest.getInvoiceDate(), paymentRequest.getVendorPaymentTerms()));
         }
+        
+        purapService.calculateTax(paymentRequest);
 
         if (updateDiscount) {
             calculateDiscount(paymentRequest);

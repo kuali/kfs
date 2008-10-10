@@ -68,6 +68,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         itemTypeCode = PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE;
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
+        useTaxItems = new TypedArrayList(getUseTaxClass());
         resetAccount();
     }
 
@@ -347,6 +348,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public abstract Class getAccountingLineClass();
 
+    public abstract Class getUseTaxClass();
+    
     public void resetAccount() {
         // add a blank accounting line
         PurApAccountingLine purApAccountingLine = getNewAccount();

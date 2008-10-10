@@ -262,4 +262,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     public void setPreqUnitPrice(BigDecimal preqUnitPrice) {
         this.preqUnitPrice = preqUnitPrice;
     }
+
+    @Override
+    public Class getUseTaxClass() {
+        return CreditMemoItemUseTax.class;
+    }
 }

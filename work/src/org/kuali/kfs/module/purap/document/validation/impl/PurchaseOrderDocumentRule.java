@@ -98,7 +98,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument) purapDocument);
 
         return valid;
     }
@@ -163,38 +162,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
         }
 
         return valid;
-    }
-
-    /**
-     * Validates that the purchase order cannot have both trade in and discount item.
-     * 
-     * @param purDocument the purchase order document to be validated
-     * @return boolean false if trade in and discount both exist.
-     */
-    boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
-        boolean discountExists = false;
-        boolean tradeInExists = false;
-
-        for (PurApItem item : purDocument.getItems()) {
-            if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
-                discountExists = true;
-                if (tradeInExists) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
-
-                    return false;
-                }
-            }
-            else if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
-                tradeInExists = true;
-                if (discountExists) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 
     /**

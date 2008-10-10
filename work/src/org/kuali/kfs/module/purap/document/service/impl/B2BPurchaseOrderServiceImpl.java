@@ -138,9 +138,9 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
         StringBuffer cxml = new StringBuffer();
 
-        cxml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        cxml.append("<!DOCTYPE PurchaseOrderMessage SYSTEM \"PurchaseOrder.dtd\">\n");
-        cxml.append("<PurchaseOrderMessage version=\"1.0\">\n");
+        cxml.append("<?xml version=\"1.0\"?>\n");
+        cxml.append("<!DOCTYPE PurchaseOrderMessage SYSTEM \"PO.dtd\">\n");
+        cxml.append("<PurchaseOrderMessage version=\"2.0\">\n");
         cxml.append("  <Header>\n");
 
         // MessageId - can be whatever you would like it to be. Just make it unique.
@@ -153,7 +153,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("    <Timestamp>").append(date.format(d)).append("T").append(time.format(d)).append("+05:30").append("</Timestamp>\n");
 
         cxml.append("    <Authentication>\n");
-        cxml.append("      <Identity>KFS</Identity>\n");
+        cxml.append("      <Identity>KualiDemo</Identity>\n");
         cxml.append("      <SharedSecret>").append(password).append("</SharedSecret>\n");
         cxml.append("    </Authentication>\n");
         cxml.append("  </Header>\n");
@@ -198,18 +198,17 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          <TemplateName>Bill To</TemplateName>\n");
         cxml.append("          <AddressCode>").append(purchaseOrder.getDeliveryCampusCode()).append("</AddressCode>\n");
         // Contact - There can be 0-5 Contact elements. The label attribute is optional.
-        cxml.append("          <Contact label=\"FirstName\" linenumber=\"0\"><![CDATA[Accounts]]></Contact>\n");
+        cxml.append("          <Contact label=\"FirstName\" linenumber=\"1\"><![CDATA[Accounts]]></Contact>\n");
         cxml.append("          <Contact label=\"LastName\" linenumber=\"2\"><![CDATA[Payable]]></Contact>\n");
         cxml.append("          <Contact label=\"Company\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Contact>\n");
         cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingPhoneNumber().trim()).append("]]></Contact>\n");
         // There must be 1-5 AddressLine elements. The label attribute is optional.
-        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"0\"><![CDATA[").append(purchaseOrder.getBillingLine1Address()).append("]]></AddressLine>\n");
-        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getBillingLine2Address()).append("]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getBillingLine1Address()).append("]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getBillingLine2Address()).append("]]></AddressLine>\n");
         cxml.append("          <City><![CDATA[").append(purchaseOrder.getBillingCityName()).append("]]></City>\n"); // Required.
         cxml.append("          <State>").append(purchaseOrder.getBillingStateCode()).append("</State>\n");
         cxml.append("          <PostalCode>").append(purchaseOrder.getBillingPostalCode()).append("</PostalCode>\n"); // Required.
-        // The Country element value is used for informational purposes only, and is not stored; only the ISO code is stored.
-        cxml.append("          <Country isocountrycode=\"US\">US</Country>\n");
+        cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getBillingCountryCode()).append("\">").append(purchaseOrder.getBillingCountryCode()).append("</Country>\n");
         cxml.append("        </Address>\n");
         cxml.append("      </BillTo>\n");
 
@@ -219,38 +218,36 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          <TemplateName>Ship To</TemplateName>\n");
         // AddressCode. A code to identify the address, that is sent to the supplier.
         cxml.append("          <AddressCode>").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("</AddressCode>\n");
-        cxml.append("          <Contact label=\"Name\" linenumber=\"0\"><![CDATA[").append(purchaseOrder.getDeliveryToName().trim()).append("]]></Contact>\n");
-        cxml.append("          <Contact label=\"PurchasingEmail\" linenumber=\"1\"><![CDATA[").append(contractManagerEmail).append("]]></Contact>\n");
+        cxml.append("          <Contact label=\"Name\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryToName().trim()).append("]]></Contact>\n");
+        cxml.append("          <Contact label=\"PurchasingEmail\" linenumber=\"2\"><![CDATA[").append(contractManagerEmail).append("]]></Contact>\n");
         if (ObjectUtils.isNull(purchaseOrder.getInstitutionContactEmailAddress())) {
-            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getDeliveryToEmailAddress()).append("]]></Contact>\n");
+            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getDeliveryToEmailAddress()).append("]]></Contact>\n");
         }
         else {
-            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getInstitutionContactEmailAddress()).append("]]></Contact>\n");
+            cxml.append("          <Contact label=\"ContactEmail\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getInstitutionContactEmailAddress()).append("]]></Contact>\n");
         }
         if (ObjectUtils.isNull(purchaseOrder.getInstitutionContactPhoneNumber())) {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getDeliveryToPhoneNumber()).append("]]></Contact>\n");
+            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getDeliveryToPhoneNumber()).append("]]></Contact>\n");
         }
         else {
-            cxml.append("          <Contact label=\"Phone\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getInstitutionContactPhoneNumber().trim()).append("]]></Contact>\n");
+            cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getInstitutionContactPhoneNumber().trim()).append("]]></Contact>\n");
         }
-        cxml.append("          <Contact label=\"Building\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingCode()).append("]]></Contact>\n");
-        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"0\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
-        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"1\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
+        if (ObjectUtils.isNotNull(purchaseOrder.getDeliveryBuildingCode())) {
+            cxml.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingCode()).append("]]></Contact>\n");
+        }
+        cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
         cxml.append("          <AddressLine label=\"Company\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></AddressLine>\n");
         if (ObjectUtils.isNull(purchaseOrder.getDeliveryBuildingLine2Address())) {
-            cxml.append("          <AddressLine label=\"Street3\" linenumber=\"2\"><![CDATA[").append(" ").append("]]></AddressLine>\n");
+            cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(" ").append("]]></AddressLine>\n");
         }
         else {
-            cxml.append("          <AddressLine label=\"Street3\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address()).append("]]></AddressLine>\n");
+            cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address()).append("]]></AddressLine>\n");
         }
         cxml.append("          <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
         cxml.append("          <State>").append(purchaseOrder.getDeliveryStateCode()).append("</State>\n");
         cxml.append("          <PostalCode>").append(purchaseOrder.getDeliveryPostalCode()).append("</PostalCode>\n");
-        // FIXME (hjs) The Country element value is used for informational purposes only, and is not stored; only the ISO code is
-        // stored.
-        // cxml.append(" <Country
-        // isocountrycode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryCode()).append("</Country>\n");
-        cxml.append("          <Country isocountrycode=\"US\">US</Country>\n");
+        cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryCode()).append("</Country>\n");
         cxml.append("        </Address>\n");
         cxml.append("      </ShipTo>\n");
         cxml.append("    </POHeader>\n");
@@ -264,9 +261,12 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
                 cxml.append("      <Item>\n");
                 // CatalogNumber - This is a string that the supplier uses to identify the item (i.e., SKU). Optional.
                 cxml.append("        <CatalogNumber><![CDATA[").append(poi.getItemCatalogNumber()).append("]]></CatalogNumber>\n");
+                if (ObjectUtils.isNotNull(poi.getItemAuxiliaryPartIdentifier())) {
+                    cxml.append("        <AuxiliaryCatalogNumber><![CDATA[").append(poi.getItemAuxiliaryPartIdentifier()).append("]]></AuxiliaryCatalogNumber>\n");
+                }
                 cxml.append("        <Description><![CDATA[").append(poi.getItemDescription()).append("]]></Description>\n"); // Required.
-                // UnitOfMeasureDimension - If you have 2/PK the 2 would go in Quantity and the PK would go in Dimension.
-                cxml.append("        <UnitOfMeasureDimension><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></UnitOfMeasureDimension>\n");
+                cxml.append("        <ProductUnitOfMeasure type=\"supplier\"><Measurement><MeasurementValue><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></MeasurementValue></Measurement></ProductUnitOfMeasure>\n");
+                cxml.append("        <ProductUnitOfMeasure type=\"system\"><Measurement><MeasurementValue><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></MeasurementValue></Measurement></ProductUnitOfMeasure>\n");
                 // ProductReferenceNumber - Unique id for hosted products in SelectSite
                 if (poi.getExternalOrganizationB2bProductTypeName().equals("Punchout")) {
                     cxml.append("        <ProductReferenceNumber>null</ProductReferenceNumber>\n");

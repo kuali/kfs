@@ -25,7 +25,7 @@
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 
 <tr>
-	<td colspan="12" class="subhead">
+	<td colspan="13" class="subhead">
 		<span class="subhead-left">Items</span>
 	</td>
 </tr>
@@ -43,13 +43,14 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="2"/>
 	</tr>
 </c:if>
 
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
-		<th height=30 colspan="12">No items Payable</th>
+		<th height=30 colspan="13">No items Payable</th>
 	</tr>
 </c:if>
 
@@ -171,6 +172,12 @@
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
 		    </td>
+			<td class="infoline">
+			    <kul:htmlControlAttribute
+				    attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
+				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
+				    readOnly="true" />
+			</td>			    
 			<td class="infoline" colspan="2">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
@@ -196,7 +203,7 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}" itemColSpan="12" />	
+			ctr="${ctr}" itemColSpan="13" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>
@@ -205,7 +212,7 @@
 
 <c:if test="${(fullEntryMode) and (clearAllTaxes)}">
 	<tr>
-		<th height=30 colspan="14">
+		<th height=30 colspan="15">
 			<html:image 
 			    property="methodToCall.clearAllTaxes" 
 			    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
@@ -217,5 +224,5 @@
 </c:if>	
 		
 <tr>
-	<th height=30 colspan="12">&nbsp;</th>
+	<th height=30 colspan="13">&nbsp;</th>
 </tr>

@@ -58,7 +58,7 @@
 		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
 				<td colspan="9" class="subhead"><span class="subhead-left">Add Item</span></td>
-				<td colspan="5" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
+				<td colspan="6" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
 					<SCRIPT type="text/javascript">
                 		<!--
                   		function hideImport() {
@@ -106,7 +106,7 @@
 				<c:if test="${displayRequisitionFields}">
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" nowrap="true" />
 				</c:if>
-				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" nowrap="true"/>
 				<!-- TODO: PHASE 2B -->
 				<kul:htmlAttributeHeaderCell literalLabel="Actions" colspan="2" nowrap="true"/>
 			</tr>
@@ -170,10 +170,11 @@
 						</div>
 					</td>
 				</c:if>
-				<!-- TODO: PHASE 2B -->
-				<!-- td class="infoline"><div align="center"><kul:htmlControlAttribute
-					attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
-					property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></div></td -->
+			    <td class="infoline">
+  					<div align="center">
+  		                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" />
+					</div>
+				</td>				
 				<td class="infoline" colspan="2">
 				    <div align="center">
 				        <html:image property="methodToCall.addItem" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" />
@@ -186,7 +187,7 @@
 
 
 		<tr>
-			<th height=30 colspan="14">
+			<th height=30 colspan="15">
 			    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" 
 			        itemAttributes="${itemAttributes}"/>
 		    </th>
@@ -195,7 +196,7 @@
 
 		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
-			<td colspan="14" class="subhead">
+			<td colspan="15" class="subhead">
 			    <span class="subhead-left">Current Items</span>
 			</td>
 		</tr>
@@ -216,7 +217,7 @@
 				<c:if test="${displayRequisitionFields}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
 				</c:if>
-				<!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
 				<!-- TODO: PHASE 2B -->
 				<c:if test="${isATypeOfPODoc}">
 				    <c:choose>
@@ -237,7 +238,7 @@
 
 		<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
 			<tr>
-				<th height=30 colspan="14">No items added to document</th>
+				<th height=30 colspan="15">No items added to document</th>
 			</tr>
 		</c:if>
 
@@ -276,7 +277,7 @@
 				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 				<tr>
-					<td colspan="14" class="tab-subhead" style="border-right: none;">
+					<td colspan="15" class="tab-subhead" style="border-right: none;">
 					    Item ${ctr+1}
 					</td>
 				</tr>
@@ -385,12 +386,14 @@
 					    </div>
 						</td>
 					</c:if>
-					<!-- TODO: PHASE 2B -->
-					<!-- td class="infoline">
-                            <div align="center">
-                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator))}" />
-                            </div>
-                        </td -->
+				    <td class="infoline">
+				 	    <div align="center">
+						    <kul:htmlControlAttribute
+							    attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
+							    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
+							    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+					    </div>
+					</td>
 					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null))}">
 						<td class="infoline" rowspan="2">
 						    <div align="center">
@@ -447,9 +450,9 @@
 					</c:if>
 				</tr>
 				
-				<c:set var="columnCount" value="10"/>
+				<c:set var="columnCount" value="11"/>
 				<c:if test="${displayRequisitionFields}">
-					<c:set var="columnCount" value="11"/>
+					<c:set var="columnCount" value="12"/>
 				</c:if>
 				<c:choose>
                 <c:when test="${amendmentEntry}">                
@@ -521,18 +524,18 @@
 		</logic:iterate>
 
 		<tr>
-			<th height=30 colspan="14">&nbsp;</th>
+			<th height=30 colspan="15">&nbsp;</th>
 		</tr>
 
 		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="" descriptionFirst="${isATypeofPurDoc}"/>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
-			<th height=30 colspan="14">&nbsp;</th>
+			<th height=30 colspan="15">&nbsp;</th>
 		</tr>
 
 		<tr>
-			<td colspan="14" class="subhead">
+			<td colspan="15" class="subhead">
                 <span class="subhead-left">Totals</span>
                 <span class="subhead-right">&nbsp;</span>
             </td>
@@ -553,7 +556,7 @@
                 </div>
                 <html:hidden property="document.totalPreTaxDollarAmount" />
 			</td>
-			<td colspan=5 class="datacell">&nbsp;</td>
+			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -571,7 +574,7 @@
                 </div>
                 <html:hidden property="document.totalTaxAmount" />
 			</td>
-			<td colspan=5 class="datacell">&nbsp;</td>
+			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -589,7 +592,7 @@
                 </div>
                 <html:hidden property="document.totalDollarAmount" />
 			</td>
-			<td colspan=5 class="datacell">&nbsp;</td>
+			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -625,7 +628,7 @@
                     <html:hidden property="document.internalPurchasingLimit" />
 			    </c:if>
 			</td>
-			<td colspan="5" class="datacell">&nbsp;</td>
+			<td colspan="6" class="datacell">&nbsp;</td>
 		</tr>
 		<!-- END TOTAL SECTION -->
 

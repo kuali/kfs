@@ -154,6 +154,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
     private void initializeAttributes(MaintenanceDocument document) {
         if (newAsset == null) {
             newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+            newAsset.setTagged();
         }
         if (copyAsset == null) {
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();

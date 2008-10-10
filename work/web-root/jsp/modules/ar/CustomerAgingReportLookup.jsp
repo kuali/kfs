@@ -103,11 +103,9 @@
 					<display:column class="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'numbercell' }" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">					
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">
-<!-- <c:out value="*************	${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" /> -->
-								<a href="$<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>
+								<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>
 							</c:when>
 							<c:otherwise>
-<!-- <c:out value="*************${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }************************* ${column.formatter.implementationClass}" /> -->
 								<c:out value="${column.propertyValue}" />
 							</c:otherwise>
 						</c:choose>
@@ -117,7 +115,12 @@
 
 				<display:footer>
 					<th> <span class="grid">TOTALS:</span> </th>
-					<td class="infocell">&nbsp; <c:out value="${reqSearchResultsSize}"/> customers </td>
+					<c:if test="${reqSearchResultsSize == '1'}">
+					<td class="numbercell">&nbsp; <c:out value="${reqSearchResultsSize}"/> customer </td>
+					</c:if>
+					<c:if test="${reqSearchResultsSize != '1'}">
+					<td class="numbercell">&nbsp; <c:out value="${reqSearchResultsSize}"/> customers </td>
+				    </c:if> 
 					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total0to30}" /> </td>
 					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total31to60}" /> </td>
 					<td class="numbercell">&nbsp; $<c:out value="${KualiForm.total61to90}" /> </td>

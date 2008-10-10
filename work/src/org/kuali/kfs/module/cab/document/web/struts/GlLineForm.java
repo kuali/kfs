@@ -18,8 +18,6 @@ package org.kuali.kfs.module.cab.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -50,19 +48,6 @@ public class GlLineForm extends KualiForm {
      */
     public void setRelatedGlEntries(List<GeneralLedgerEntry> relatedGlEntries) {
         this.relatedGlEntries = relatedGlEntries;
-    }
-
-    @Override
-    public void populate(HttpServletRequest request) {
-        // initialize the list to the expected size
-        String size = request.getParameter("listSize");
-        if (size != null) {
-            Integer valueOf = Integer.valueOf(size);
-            for (int i = 0; i < valueOf; i++) {
-                this.relatedGlEntries.add(new GeneralLedgerEntry());
-            }
-        }
-        super.populate(request);
     }
 
     /**
@@ -117,5 +102,18 @@ public class GlLineForm extends KualiForm {
      */
     public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
+    }
+
+    /**
+     * Initialize index for struts
+     * 
+     * @param index current
+     * @return value
+     */
+    public GeneralLedgerEntry getRelatedGlEntry(int index) {
+        while (getRelatedGlEntries().size() <= index) {
+            getRelatedGlEntries().add(new GeneralLedgerEntry());
+        }
+        return (GeneralLedgerEntry) getRelatedGlEntries().get(index);
     }
 }

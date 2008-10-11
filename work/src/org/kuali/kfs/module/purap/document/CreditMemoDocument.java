@@ -625,4 +625,13 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
     }
 
+    public Date getTransactionTaxDate() {
+        return getCreditMemoDate();
+    }
+
+    public <T> T getItem(int pos) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

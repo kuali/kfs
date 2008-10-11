@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
@@ -271,4 +272,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public void setUseTaxIndicator(boolean useTaxIndicator);
 
     public void fixItemReferences();
+    
+    public Date getTransactionTaxDate();
 }

@@ -813,7 +813,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public KualiDecimal getGrandTotal() {
         return this.getTotalDollarAmount();
     }
-
+    
     public KualiDecimal getGrandTotalExcludingDiscount() {
         String[] discountCode = new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE };
         return this.getTotalDollarAmountWithExclusions(discountCode, true);
@@ -1064,4 +1064,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.isCreatedByElectronicInvoice = isCreatedByElectroniInvoice;
     }
 
+    public Date getTransactionTaxDate() {
+        return getInvoiceDate();
+    }
 }
+

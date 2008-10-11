@@ -57,6 +57,7 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1218,6 +1219,10 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
                 }
             }
         }
+    }
+    
+    public Date getTransactionTaxDate() {
+        return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
     }
 
 }

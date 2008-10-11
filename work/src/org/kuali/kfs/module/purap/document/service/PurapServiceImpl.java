@@ -45,6 +45,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -679,22 +680,50 @@ public class PurapServiceImpl implements PurapService {
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument){
         
-        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
-        boolean useTaxIndicator = false;
-        String deliveryState = null;
-        String deliveryPostalCode = null;
-        Date transactionTaxDate = null;
-        
-        //calculate if sales tax enabled for purap
-        if( salesTaxInd ){
-            //iterate over items and calculate tax if taxable
-            for(PurApItem item : purapDocument.getItems()){
-                if( isTaxable(useTaxIndicator, deliveryState, item) ){
-                    calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item,purapDocument.getItemUseTaxClass());
-                }
-            }
-        }
-    }
+          boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+          boolean useTaxIndicator = purapDocument.isUseTaxIndicator();
+          String deliveryState = getDeliveryState(purapDocument);
+          String deliveryPostalCode = getDeliveryPostalCode(purapDocument);
+          Date transactionTaxDate = purapDocument.getTransactionTaxDate();
+          
+          //calculate if sales tax enabled for purap
+          if( salesTaxInd ){
+              //iterate over items and calculate tax if taxable
+              for(PurApItem item : purapDocument.getItems()){
+                  if( isTaxable(useTaxIndicator, deliveryState, item) ){
+                      calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item,purapDocument.getItemUseTaxClass());
+                  }
+              }
+          }
+      }
+      
+      private String getDeliveryState(PurchasingAccountsPayableDocument purapDocument){
+          if (purapDocument instanceof PurchasingDocumentBase){
+              PurchasingDocumentBase docBase = (PurchasingDocumentBase)purapDocument; 
+              return docBase.getDeliveryStateCode();
+          }else if (purapDocument instanceof AccountsPayableDocumentBase){
+              AccountsPayableDocumentBase docBase = (AccountsPayableDocumentBase)purapDocument;
+              if (docBase.getPurchaseOrderDocument() == null){
+                  throw new RuntimeException("PurchaseOrder document does not exists");
+              }
+              return docBase.getPurchaseOrderDocument().getDeliveryStateCode();
+          }
+          return null;
+      }
+      
+      private String getDeliveryPostalCode(PurchasingAccountsPayableDocument purapDocument){
+          if (purapDocument instanceof PurchasingDocumentBase){
+              PurchasingDocumentBase docBase = (PurchasingDocumentBase)purapDocument; 
+              return docBase.getDeliveryPostalCode();
+          }else if (purapDocument instanceof AccountsPayableDocumentBase){
+              AccountsPayableDocumentBase docBase = (AccountsPayableDocumentBase)purapDocument;
+              if (docBase.getPurchaseOrderDocument() == null){
+                  throw new RuntimeException("PurchaseOrder document does not exists");
+              }
+              return docBase.getPurchaseOrderDocument().getDeliveryPostalCode();
+          }
+          return null;
+      }
     
     /**
      * Determines if the item is taxable based on a decision tree.

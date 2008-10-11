@@ -16,11 +16,13 @@
 package org.kuali.kfs.module.ar.batch;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -49,7 +51,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
 
     // parameter constants and logging
-    private static final int NUMBER_OF_INVOICES_TO_CREATE = 1;
+    private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
     private static final String CUSTOMER_INVOICE_DOCUMENT_INITIATOR = "KHUNTLEY";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
@@ -70,9 +72,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
         catch (UserNotFoundException nfex) {
         } 
+        
+        Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
-            createCustomerInvoiceDocumentForFunctionalTesting("ABB2",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
             Thread.sleep(5000);
             createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
             Thread.sleep(5000);
@@ -90,6 +94,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             Thread.sleep(5000);
             createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
             Thread.sleep(5000);
+            billingDate = DateUtils.addDays(billingDate, -30);
         }
         setInitiatedParameter();
         return true;
@@ -144,7 +149,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     }
     
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate) {
-        
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         
         CustomerInvoiceDocument customerInvoiceDocument;
         try {
@@ -155,18 +160,19 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         }
         
         customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
-        customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");
+        //customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");// - BILLING DATE - "+sdf.format(billingDate));
+        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(billingDate);
 
         
-        for (int i = 0; i < 15; i++) { 
+        for (int i = 0; i < 2; i++) { 
             customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
-        }
+        }              
         
         try {
             documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
-            LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+            LOG.info("Submitted customer invoice document " + customerInvoiceDocument.getDocumentNumber()+" for "+customerNumber+" - "+sdf.format(billingDate)+"\n\n");
         } catch (WorkflowException e){
             throw new RuntimeException("Customer Invoice Document routing failed.");
         }

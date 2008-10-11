@@ -1143,7 +1143,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     /**
      * When document is processed do the following:
-     * 1) Set the billingDate to today's date.
+     * 1) Set the billingDate to today's date if not already set
      * 2) If there are discounts, create corresponding invoice paid applied rows
      * 3) If the document is a reversal, in addition to reversing paid applied rows, update the open paid applied indicator
      *
@@ -1153,8 +1153,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void handleRouteStatusChange(){
         super.handleRouteStatusChange();
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (ObjectUtils.isNull(getBillingDate())) {
             setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
-            
+            }
             // apply amounts
             SpringContext.getBean(InvoicePaidAppliedService.class).saveInvoicePaidApplieds(this.getDiscounts(), documentNumber);
             if( this.isInvoiceReversal() ){

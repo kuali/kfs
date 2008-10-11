@@ -135,7 +135,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             invoices = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
             for (CustomerInvoiceDocument ci : invoices) {
                 invoiceDetails.addAll(customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci));                             
-                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString());
+//                LOG.info("\t\t****** PROCESSING ORGANIZATION\t\t"+invoiceDetails.toString());
             }
         }
         if (reportOption.equalsIgnoreCase("BILLING ORGANIZATION") && chartCode.length()!=0 && orgCode.length()!=0) {
@@ -166,11 +166,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         //Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1*Integer.parseInt(nbrDaysForLastBucket));
 
-        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
-        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
-        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
-        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
-        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
+//        LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
+//        LOG.info("\t\t***********************  cutoffdate 30:\t\t"+cutoffdate30.toString());
+//        LOG.info("\t\t***********************  cutoffdate 60:\t\t"+cutoffdate60.toString());
+//        LOG.info("\t\t***********************  cutoffdate 90:\t\t"+cutoffdate90.toString());
+//        LOG.info("\t\t***********************  cutoffdate 120:\t\t"+cutoffdate120.toString());
 
         Map<String, Object> knownCustomers = new HashMap<String, Object>(invoiceDetails.size());
 
@@ -183,12 +183,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;
-            if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
-                approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
-            }else {
+            //if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
+              //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
+            //}else {
                 approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
+                LOG.info("\t\t\t\t\t\t\t\t approval date "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
                 // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
-            }
+            //}
          // ok
          if (ObjectUtils.isNull(approvalDate))
              continue;
@@ -202,23 +203,23 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             
 if (knownCustomers.containsKey(customerNumber)) { 
     custDetail = (CustomerAgingReportDetail) knownCustomers.get(customerNumber);
-    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
+//    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tfound");
 } else {
     custDetail = new CustomerAgingReportDetail();
     custDetail.setCustomerName(customerName);
     custDetail.setCustomerNumber(customerNumber);
     knownCustomers.put(customerNumber, custDetail);
-    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
+//    LOG.info("\n\t\tcustomer:\t\t" + custDetail.getCustomerNumber() + "\tADDED");
 }
-LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
-LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
+//LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
+//LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
             if (approvalDate.before(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
                 custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
 //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
                 total0to30 = total0to30.add(cid.getAmount());
-                LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
-                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
-                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+//                LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
+//                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+//                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
             }
             if (approvalDate.before(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
@@ -245,8 +246,8 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
 
         } // end for loop
        
-     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
-     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+//     LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
+//     LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
 
 //     LOG.info("\t\tCustomer=\t\t0-30\t\t31-60\t\t61-90\t\t91-120\t\t120+\t");        
 //     for (Object obj : knownCustomers.values().toArray()) {
@@ -268,7 +269,7 @@ LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
 //        results.add(totalSYSPRplus1orMore);
 //        }
 
-        LOG.info("\t\t sending results back... \n\n\n");
+//        LOG.info("\t\t sending results back... \n\n\n");
         return new CollectionIncomplete(results, new Long(results.size()));
     }
     

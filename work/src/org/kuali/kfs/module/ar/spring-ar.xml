@@ -260,7 +260,10 @@
 		</property>
 	    <property name="nonAppliedHoldingService">
 			<ref bean="nonAppliedHoldingService" />
-		</property>		
+		</property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
 	</bean>
 	
 	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">

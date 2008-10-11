@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     
@@ -32,8 +38,24 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
     
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (isValid) {
-            
+            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
+            // KULAR-451
+            try {
+                // Check for full amount not being applied only when there's a related cash control document
+                if(null != paymentApplicationDocument.getDocumentHeader().getOrganizationDocumentNumber()) {
+                    if(!KualiDecimal.ZERO.equals(paymentApplicationDocument.getTotalToBeApplied())) {
+                        errorMap.putError(
+                            KNSConstants.GLOBAL_ERRORS,
+                            ArKeyConstants.PaymentApplicationDocumentErrors.FULL_AMOUNT_NOT_APPLIED);
+                        isValid = false;
+                    }
+                }
+            } catch(WorkflowException e) {
+                return false;
+            }
         }
         return isValid;
     }

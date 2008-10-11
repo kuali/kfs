@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -52,7 +53,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
 
-    //private static final String ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER = "ELECTRONIC_FUNDS_ACCOUNTS";
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
     private List<InvoicePaidApplied> appliedPayments;
@@ -80,8 +80,25 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return paymentApplicationDocumentService.getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(this);
     }
 
-    public KualiDecimal getTotalToBeApplied() {
-        return getDocumentHeader().getFinancialDocumentTotalAmount().subtract(getTotalAppliedAmount());
+    public KualiDecimal getDocumentTotal() throws WorkflowException {
+        KualiDecimal amount = null;
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        String documentNumber = getDocumentHeader().getOrganizationDocumentNumber();
+        if(null == documentNumber) {
+            return KualiDecimal.ZERO;
+        } else {
+            Document referenceDocument = documentService.getByDocumentHeaderId(documentNumber);
+            if(referenceDocument instanceof CashControlDocument) {
+                CashControlDocument cashControlDocument = (CashControlDocument) referenceDocument;
+                amount = cashControlDocument.getDocumentHeader().getFinancialDocumentTotalAmount();
+            }
+        }
+        return amount;
+    }
+    
+    public KualiDecimal getTotalToBeApplied() throws WorkflowException {
+        KualiDecimal totalAppliedAmount = getTotalAppliedAmount();
+        return getDocumentTotal().subtract(totalAppliedAmount);
     }
 
     public KualiDecimal getTotalAppliedAmount() {
@@ -182,10 +199,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param ipa
      * @return
      */
-    private SystemInformation getSystemInformation(InvoicePaidApplied ipa) {
-        CustomerInvoiceDetail item = ipa.getInvoiceItem();
-        item.refreshReferenceObject("customerInvoiceDocument");
-        CustomerInvoiceDocument invoice = item.getCustomerInvoiceDocument();
+    private SystemInformation getSystemInformation(InvoicePaidApplied ipa) throws WorkflowException {
+        //CustomerInvoiceDetail item = ipa.getInvoiceItem();
+        //item.refreshReferenceObject("customerInvoiceDocument");
+        CustomerInvoiceDocument invoice = ipa.getCustomerInvoiceDocument();
         String processingOrgCode = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         String processingChartCode = invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         SystemInformation systemInformation = 
@@ -197,7 +214,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param ipa
      * @return
      */
-    private Account getUniversityClearingAccount(InvoicePaidApplied ipa) {
+    private Account getUniversityClearingAccount(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
         Account universityClearingAccount = systemInformation.getUniversityClearingAccount();
         return universityClearingAccount;
@@ -221,7 +238,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param ipa
      * @return
      */
-    public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) {
+    public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         CustomerInvoiceDetail detail = ipa.getInvoiceItem();
         String parameterName = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -237,12 +254,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return objectCode;
     }
     
-    public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) {
+    public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
         return systemInformation.getUniversityClearingObject();
     }
     
-    public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) {
+    public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
         return systemInformation.getCreditCardFinancialObject();
     }
@@ -259,13 +276,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @param sequenceHelper
      * @return
      */
-    private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-        Iterator<InvoicePaidApplied> appliedPayments = this.getAppliedPayments().iterator();
-        for(InvoicePaidApplied ipa : getAppliedPayments()) {
+        //Iterator<InvoicePaidApplied> appliedPayments = this.getAppliedPayments().iterator();
+        List<InvoicePaidApplied> appliedPayments = getAppliedPayments();
+        for(InvoicePaidApplied ipa : appliedPayments) {
             Account clearingAccount = getUniversityClearingAccount(ipa);
             Account billingOrganizationAccount = getBillingOrganizationAccount(ipa);
             ObjectCode cashObjectCode = getCashObjectCode(ipa);
@@ -315,8 +333,8 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         try {
-            CashControlDocument cashControlDocument = 
-                paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
+//            CashControlDocument cashControlDocument = 
+//                paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
             List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
             for(GeneralLedgerPendingEntry entry : entries) {
                 addPendingEntry(entry);
@@ -378,7 +396,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         // generate GLPEs
-        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+        GeneralLedgerPendingEntryService generalLedgerPendingEntryService = 
+            SpringContext.getBean(GeneralLedgerPendingEntryService.class); 
+        if (!generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("general ledger GLPE generation failed");
         }

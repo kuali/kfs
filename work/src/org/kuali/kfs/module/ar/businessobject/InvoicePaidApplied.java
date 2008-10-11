@@ -4,8 +4,12 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -31,7 +35,14 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         
 	}
 
-	/**
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        CustomerInvoiceDocument _customerInvoiceDocument =
+            (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getFinancialDocumentReferenceInvoiceNumber());
+        return _customerInvoiceDocument;
+    }
+
+    /**
 	 * Gets the documentNumber attribute.
 	 * 
 	 * @return Returns the documentNumber

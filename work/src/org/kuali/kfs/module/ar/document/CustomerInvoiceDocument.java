@@ -1409,7 +1409,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         List<CustomerInvoiceDetail> customerInvoiceDetailsWithDiscounts = getSourceAccountingLines();
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithDiscounts) {
            if( !customerInvoiceDetail.isDiscountLine() ){
-               customerInvoiceDetail.setCustomerInvoiceDocument(this);
+               customerInvoiceDetail.setDocumentNumber(getDocumentNumber());
                customerInvoiceDetailsWithoutDiscounts.add(customerInvoiceDetail);
            }
         }
@@ -1429,7 +1429,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         List<CustomerInvoiceDetail> customerInvoiceDetailsWithDiscounts = getSourceAccountingLines();
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetailsWithDiscounts) {
            if( customerInvoiceDetail.isDiscountLine() ){
-               customerInvoiceDetail.setCustomerInvoiceDocument(this);
+               customerInvoiceDetail.setDocumentNumber(getDocumentNumber());
                discounts.add(customerInvoiceDetail);
            }
         }
@@ -1642,5 +1642,3 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
 }
-
-

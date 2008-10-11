@@ -29,16 +29,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface PaymentApplicationDocumentService {
     
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber);
-
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document);
-
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException;
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException;
     public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document);
-
     public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(PaymentApplicationDocument document);
-
     public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber);
-
     public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(PaymentApplicationDocument document);
 
     /**
@@ -60,7 +55,7 @@ public interface PaymentApplicationDocumentService {
      * @param customerInvoiceDocument
      * @return
      */
-    public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument);
+    public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
 
     public void updateAmountAppliedOnDetail(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);
     public void updateCustomerInvoiceDetailAppliedPayments(PaymentApplicationDocument applicationDocument, CustomerInvoiceDetail customerInvoiceDetail);

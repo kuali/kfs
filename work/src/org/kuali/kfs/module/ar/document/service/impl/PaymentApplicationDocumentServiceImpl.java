@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -47,22 +48,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentApplicationDocumentServiceImpl implements PaymentApplicationDocumentService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentServiceImpl.class);;
 
+    private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private NonAppliedHoldingService nonAppliedHoldingService;
 
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) {
-        return getCashControlDocumentForPaymentApplicationDocumentNumber(document.getDocumentNumber());
-    }
-
-    public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) {
-        PaymentApplicationDocument applicationDocument = null;
-        try {
-            applicationDocument =
-                (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getNewDocument(PaymentApplicationDocument.class);
-        } catch(WorkflowException we) {
-            LOG.error("Failed to create payment application document to match invoice.", we);
-            return null;
-        }
+    public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
+        PaymentApplicationDocument applicationDocument = 
+            (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getNewDocument(PaymentApplicationDocument.class);
 
         // KULAR-290
         // This code is basically copied from PaymentApplicationDocumentAction.createDocument
@@ -150,24 +142,19 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return totalUnapplied.subtract(totalApplied);
     }
 
-    @SuppressWarnings("unchecked")
-    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) {
-        if (null == paymentApplicationDocumentNumber) {
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
+        DocumentHeader documentHeader = document.getDocumentHeader();
+        String cashControlDocumentNumber = documentHeader.getOrganizationDocumentNumber();
+        if(null == cashControlDocumentNumber) {
             return null;
         }
-        CashControlDocument document = null;
-        Map criteria = new HashMap();
-        criteria.put("referenceFinancialDocumentNumber", paymentApplicationDocumentNumber);
-
-        Collection matches = businessObjectService.findMatching(CashControlDetail.class, criteria);
-        if (matches.size() > 0) {
-            CashControlDetail detail = (CashControlDetail) matches.iterator().next();
-            Map ccdocCriteria = new HashMap();
-            ccdocCriteria.put("documentNumber", detail.getDocumentNumber());
-            Object ccdoc = businessObjectService.findByPrimaryKey(CashControlDocument.class, ccdocCriteria);
-            document = (CashControlDocument) ccdoc;
-        }
-        return document;
+        CashControlDocument cashControlDocument = (CashControlDocument) documentService.getByDocumentHeaderId(cashControlDocumentNumber);
+        return cashControlDocument;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public CashControlDocument getCashControlDocumentForPaymentApplicationDocumentNumber(String paymentApplicationDocumentNumber) throws WorkflowException {
+        return getCashControlDocumentForPaymentApplicationDocument((PaymentApplicationDocument)documentService.getByDocumentHeaderId(paymentApplicationDocumentNumber));
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -185,10 +172,19 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         InvoicePaidApplied invoicePaidApplied = null;
         boolean found = false;
 
-        if (invoicePaidApplieds != null && invoicePaidApplieds.size() > 0) {
-            for (InvoicePaidApplied pdApp : invoicePaidApplieds) {
-                if (pdApp.getDocumentNumber().equals(applicationDocNbr) && pdApp.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber()) && pdApp.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber())) {
-                    pdApp.setInvoiceItemAppliedAmount(amount);
+        if (invoicePaidApplieds != null && 0 < invoicePaidApplieds.size()) {
+            for (InvoicePaidApplied _invoicePaidApplied : invoicePaidApplieds) {
+                boolean invoicePaidAppliedDocumentNumberEqualsApplicationDocumentNumber = 
+                    _invoicePaidApplied.getDocumentNumber().equals(applicationDocNbr);
+                boolean invoicePaidAppliedFinancialDocumentReferenceInvoiceNumberEqualsCustomerInvoiceDetailDocumentNumber =
+                    _invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(customerInvoiceDetail.getDocumentNumber());
+                boolean invoicePaidAppliedInvoiceItemNumberEqualsCustomerInvoiceDetailSequenceNumber = 
+                    _invoicePaidApplied.getInvoiceItemNumber().equals(customerInvoiceDetail.getSequenceNumber());
+                
+                if (invoicePaidAppliedDocumentNumberEqualsApplicationDocumentNumber 
+                        && invoicePaidAppliedFinancialDocumentReferenceInvoiceNumberEqualsCustomerInvoiceDetailDocumentNumber
+                        && invoicePaidAppliedInvoiceItemNumberEqualsCustomerInvoiceDetailSequenceNumber) {
+                    _invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
                     found = true;
                     break;
                 }
@@ -196,18 +192,19 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
 
         if (!found) {
-
             invoicePaidApplied = new InvoicePaidApplied();
-
+            
+            // set the document number for the invoice paid applied to the payment application document number.
             invoicePaidApplied.setDocumentNumber(applicationDocNbr);
             
+            // Set the invoice paid applied ref doc number to the document number for the customer invoice document
             invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
+            
             invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
             invoicePaidApplied.setInvoiceItemAppliedAmount(amount);
             invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
             invoicePaidApplied.setUniversityFiscalPeriodCode(universityFiscalPeriodCode);
             invoicePaidApplied.setPaidAppliedItemNumber(invoicePaidAppliedItemNbr);
-
         }
 
         return invoicePaidApplied;
@@ -350,4 +347,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
     }
 
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
 }

@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -42,6 +44,7 @@ import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
@@ -108,6 +111,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         loadInvoices(pform);
     }
 
+    private void addFieldError(String propertyName, String errorKey) {
+        GlobalVariables.getErrorMap().putError(propertyName, errorKey);
+    }
+    
+    private void addGlobalError(String errorKey) {
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, errorKey);
+    }
+    
     /**
      * This method applies detail amounts
      * 
@@ -168,13 +179,24 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     customerInvoiceDetail.setAmountToBeApplied(customerInvoiceDetail.getAmount());
                 }
             } else {
+                KualiDecimal invoiceDetailAmountToBeApplied = customerInvoiceDetail.getAmountToBeApplied();
+                KualiDecimal invoiceDetailOpenAmount = customerInvoiceDetail.getOpenAmount();
+                
+                boolean invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount = 
+                    invoiceDetailAmountToBeApplied.isLessEqual(invoiceDetailOpenAmount);
+                if(!invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount) {
+                    addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT);
+                }
+                
+                // TODO This validation should happen when saving, not when adding
+                boolean invoiceDetailAmountToBeAppliedIsPositive = invoiceDetailAmountToBeApplied.isGreaterEqual(KualiDecimal.ZERO);
+                if(!invoiceDetailAmountToBeAppliedIsPositive) {
+                    addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
+                }
+                
                 // if the detail was not selected to apply full amount than check 
-                // if amount to be applied is not zero and different than the total applied amount
-                if (customerInvoiceDetail.getAmountToBeApplied().isNonZero() 
-                        && (customerInvoiceDetail.getAppliedAmount().subtract(
-                            customerInvoiceDetail.getAmountToBeApplied())).isNonZero() 
-                        && customerInvoiceDetail.getAmountToBeApplied().isLessEqual(
-                            customerInvoiceDetail.getOpenAmount())) {
+                // if amount to be applied is not zero and less than or equal to the total applied amount
+                if (invoiceDetailAmountToBeAppliedIsPositive && invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount) {
                     // apply the amount entered to the customer invoice detail
                     InvoicePaidApplied invoicePaidApplied = 
                         paymentApplicationDocumentService.createInvoicePaidAppliedForInvoiceDetail(
@@ -190,11 +212,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     }
                 }
             }
-            //paymentApplicationDocumentService.updateCustomerInvoiceDetailInfo(applicationDocumentForm.getPaymentApplicationDocument(), customerInvoiceDetail);
         }
-
-        //loadInvoice(applicationDocumentForm, applicationDocumentForm.getSelectedInvoiceDocumentNumber());
-
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -261,6 +279,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addNonAr(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         boolean trap = true;
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
@@ -370,7 +396,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
         String currentInvoiceNumber = pform.getSelectedInvoiceDocumentNumber();
         if (currentInvoiceNumber != null && !currentInvoiceNumber.equals("")) {
-
             // set entered invoice number to be the current selected invoice number
             pform.setEnteredInvoiceDocumentNumber(currentInvoiceNumber);
             // load information for the current selected invoice
@@ -386,11 +411,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param currentInvoiceNumber
      */
     private void loadInvoice(PaymentApplicationDocumentForm pform, String currentInvoiceNumber) {
-
         CustomerInvoiceDocument invoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(currentInvoiceNumber);
-
         loadCustomerInvoiceDetails(pform, currentInvoiceNumber);
-
         pform.setSelectedInvoiceDocument(invoice);
         updateInvoiceInfo(pform, invoice);
     }
@@ -514,13 +536,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward setCustomer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * This method...
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -530,10 +549,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      */
     public ActionForward loadInvoices(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm pform = (PaymentApplicationDocumentForm) form;
-
         loadInvoices(pform);
-
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -543,7 +559,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @param applicationDocumentForm
      */
     private void loadCustomerInvoiceDetails(PaymentApplicationDocumentForm applicationDocumentForm, String customerInvoiceDocumentNumber) {
-
         ArrayList<CustomerInvoiceDetail> customerInvoiceDetails = getCustomerInvoiceDetailsForInvoice(applicationDocumentForm, customerInvoiceDocumentNumber);
         applicationDocumentForm.setCustomerInvoiceDetails(customerInvoiceDetails);
     }

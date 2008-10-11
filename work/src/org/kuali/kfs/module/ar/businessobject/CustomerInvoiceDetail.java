@@ -13,6 +13,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -65,14 +67,13 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         invoicePaidApplieds =  new ArrayList<InvoicePaidApplied>();
     }
 
-    public CustomerInvoiceDocument getCustomerInvoiceDocument() {
+    public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
+        DocumentService documentService = (DocumentService) SpringContext.getBean(DocumentService.class);
+        CustomerInvoiceDocument customerInvoiceDocument = 
+            (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         return customerInvoiceDocument;
     }
-
-    public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
-        this.customerInvoiceDocument = customerInvoiceDocument;
-    }    
-
+    
     public KualiDecimal getBalance() {
         return getOpenAmount().subtract(getAppliedAmount());
     }

@@ -629,9 +629,5 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return getCreditMemoDate();
     }
 
-    public <T> T getItem(int pos) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    
 }

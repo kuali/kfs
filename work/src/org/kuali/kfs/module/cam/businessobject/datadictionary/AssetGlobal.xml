@@ -120,7 +120,16 @@
   <bean id="AssetGlobal-agencyNumber-parentBean" abstract="true" parent="Asset-agencyNumber" />
 
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
-  <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode" />
+  <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
+      <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType"
+            p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="true"
+            p:keyAttribute="acquisitionTypeCode"
+            p:labelAttribute="acquisitionTypeName" />
+    </property>
+  </bean>
 
   <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
   <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode" />

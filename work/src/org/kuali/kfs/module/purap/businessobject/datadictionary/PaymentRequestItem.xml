@@ -39,6 +39,7 @@
         <ref bean="PaymentRequestItem-itemQuantity" />
         <ref bean="PaymentRequestItem-itemTaxAmount" />
         <ref bean="PaymentRequestItem-totalAmount" />
+        <ref bean="PaymentRequestItem-capitalAssetTransactionTypeCode" />
       </list>
     </property>
   </bean>
@@ -285,12 +286,26 @@
     <property name="label" value="Tax Amount" />
     <property name="shortLabel" value="Tax Amount" />  	
   </bean>
+  
   <bean id="PaymentRequestItem-totalAmount" parent="PaymentRequestItem-totalAmount-parentBean" />
 
   <bean id="PaymentRequestItem-totalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalAmount" />
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
+  </bean>
+  
+  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode" parent="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" />
+  
+  <bean id="PaymentRequestItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AssetTransactionType-capitalAssetTransactionTypeCode">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
+    <property name="label" value="Capital Asset Transaction Type" />
+    <property name="shortLabel" value="Capital Asset Transaction Type" />
+    <property name="control" >
+          <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
 
 <!-- Business Object Inquiry Definition -->

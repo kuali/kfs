@@ -39,13 +39,14 @@ import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurapEnterableItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ParameterDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -698,29 +699,29 @@ public class PurapServiceImpl implements PurapService {
       }
       
       private String getDeliveryState(PurchasingAccountsPayableDocument purapDocument){
-          if (purapDocument instanceof PurchasingDocumentBase){
-              PurchasingDocumentBase docBase = (PurchasingDocumentBase)purapDocument; 
-              return docBase.getDeliveryStateCode();
-          }else if (purapDocument instanceof AccountsPayableDocumentBase){
-              AccountsPayableDocumentBase docBase = (AccountsPayableDocumentBase)purapDocument;
-              if (docBase.getPurchaseOrderDocument() == null){
+          if (purapDocument instanceof PurchasingDocument){
+              PurchasingDocument document = (PurchasingDocument)purapDocument; 
+              return document.getDeliveryStateCode();
+          }else if (purapDocument instanceof AccountsPayableDocument){
+              AccountsPayableDocument document = (AccountsPayableDocument)purapDocument;
+              if (document.getPurchaseOrderDocument() == null){
                   throw new RuntimeException("PurchaseOrder document does not exists");
               }
-              return docBase.getPurchaseOrderDocument().getDeliveryStateCode();
+              return document.getPurchaseOrderDocument().getDeliveryStateCode();
           }
           return null;
       }
       
       private String getDeliveryPostalCode(PurchasingAccountsPayableDocument purapDocument){
-          if (purapDocument instanceof PurchasingDocumentBase){
-              PurchasingDocumentBase docBase = (PurchasingDocumentBase)purapDocument; 
-              return docBase.getDeliveryPostalCode();
-          }else if (purapDocument instanceof AccountsPayableDocumentBase){
-              AccountsPayableDocumentBase docBase = (AccountsPayableDocumentBase)purapDocument;
-              if (docBase.getPurchaseOrderDocument() == null){
+          if (purapDocument instanceof PurchasingDocument){
+              PurchasingDocument document = (PurchasingDocument)purapDocument; 
+              return document.getDeliveryPostalCode();
+          }else if (purapDocument instanceof AccountsPayableDocument){
+              AccountsPayableDocument document = (AccountsPayableDocument)purapDocument;
+              if (document.getPurchaseOrderDocument() == null){
                   throw new RuntimeException("PurchaseOrder document does not exists");
               }
-              return docBase.getPurchaseOrderDocument().getDeliveryPostalCode();
+              return document.getPurchaseOrderDocument().getDeliveryPostalCode();
           }
           return null;
       }

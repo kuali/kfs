@@ -26,6 +26,7 @@
         <ref bean="CreditMemoItem-itemDescription" />
         <ref bean="CreditMemoItem-itemTaxAmount" />
         <ref bean="CreditMemoItem-totalAmount" />
+        <ref bean="CreditMemoItem-capitalAssetTransactionTypeCode" />
       </list>
     </property>
   </bean>
@@ -178,5 +179,17 @@
     <property name="label" value="Total Amount" />
     <property name="shortLabel" value="Total Amount" />
   </bean>
-  
+
+  <bean id="CreditMemoItem-capitalAssetTransactionTypeCode" parent="CreditMemoItem-capitalAssetTransactionTypeCode-parentBean" />
+
+  <bean id="CreditMemoItem-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AssetTransactionType-capitalAssetTransactionTypeCode">
+    <property name="name" value="capitalAssetTransactionTypeCode" />
+    <property name="label" value="Capital Asset Transaction Type" />
+    <property name="shortLabel" value="Capital Asset Transaction Type" />
+    <property name="control" >
+          <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AssetTransactionTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>  
 </beans>

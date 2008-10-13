@@ -104,7 +104,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         // copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
 //        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
-                
+        
         // set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.setPurapDocument(preq);

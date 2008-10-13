@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,6 +54,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.AvailabilityMatrix;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetTransactionTypeRule;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -136,17 +138,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
         valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
         return valid;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.service.CapitalAssetBuilderModuleService#doesDocumentExceedThreshold(org.kuali.rice.kns.util.KualiDecimal)
-     */
-    public boolean doesDocumentExceedThreshold(KualiDecimal docTotal) {
-        String parameterThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
-        if (docTotal.compareTo(new KualiDecimal(parameterThreshold)) > 0) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -538,7 +529,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<String> previousErrorPath = GlobalVariables.getErrorMap().getErrorPath();
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
-        boolean result = validateItemCapitalAsset(recurringPaymentType, purchasingItem, false);
+        boolean result = validatePurchasingItemCapitalAsset(recurringPaymentType, purchasingItem, false);
 
         // Now that we're done with cams related validations, reset the error path to what it was previously.
         GlobalVariables.getErrorMap().clearErrorPath();
@@ -559,7 +550,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public boolean validateItemCapitalAssetWithWarnings(RecurringPaymentType recurringPaymentType, PurApItem item) {
         PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
-        return validateItemCapitalAsset(recurringPaymentType, purchasingItem, true);
+        return validatePurchasingItemCapitalAsset(recurringPaymentType, purchasingItem, true);
     }
 
     /**
@@ -573,15 +564,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *        validations, rather than errors.
      * @return True if the item passes all Capital Asset validations
      */
-    protected boolean validateItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItemBase item, boolean warn) {
+    protected boolean validatePurchasingItemCapitalAsset(RecurringPaymentType recurringPaymentType, PurchasingItem item, boolean warn) {
         boolean valid = true;
-        String itemIdentifier = item.getItemIdentifierString();
-        boolean quantityBased = item.getItemType().isQuantityBasedGeneralLedgerIndicator();
-        KualiDecimal itemQuantity = item.getItemQuantity();
-        HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
-
         String capitalAssetTransactionTypeCode = "";
         AssetTransactionType capitalAssetTransactionType = null;
+        String itemIdentifier = item.getItemIdentifierString();
 
         if (item.getPurchasingCapitalAssetItem() != null) {
             capitalAssetTransactionTypeCode = item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionTypeCode();
@@ -589,6 +576,28 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             capitalAssetTransactionType = (AssetTransactionType) item.getPurchasingCapitalAssetItem().getCapitalAssetTransactionType();
         }
 
+        // These checks do not depend on Accounting Line information, but do depend on transaction type.
+        if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+            valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);
+        }
+        return valid &= validatePurapItemCapitalAsset(item, warn, capitalAssetTransactionType);
+    }
+
+    /**
+     * This method validated purapItem giving a transtype
+     * @param recurringPaymentType
+     * @param item
+     * @param warn
+     * @return
+     */
+    protected boolean validatePurapItemCapitalAsset(PurApItem item, boolean warn, AssetTransactionType capitalAssetTransactionType) {
+        boolean valid = true;
+        String itemIdentifier = item.getItemIdentifierString();
+        boolean quantityBased = item.getItemType().isQuantityBasedGeneralLedgerIndicator();
+        KualiDecimal itemQuantity = item.getItemQuantity();
+        HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
+
+      
         // Do the checks that depend on Accounting Line information.
         for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
             // Because of ObjectCodeCurrent, we had to refresh this.
@@ -598,21 +607,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
 
             valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, warn, itemIdentifier, objectCode);
-            if (warn) {
-                valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
-            }
-            else {
-                validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
-            }
+            //TODO: Chris - revisit this logic, I think it may be incorrect (i.e. not using unit price, wrong parameter, always should be warning)
+//            if (warn) {
+//                valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+//            }
+//            else {
+//                validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+//            }
 
             // Do the checks involving capital asset transaction type.
-            if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+            if (capitalAssetTransactionType!=null) {
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier, quantityBased);
             }
-        }
-        // These checks do not depend on Accounting Line information, but do depend on transaction type.
-        if (!StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
-            valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);
         }
         return valid;
     }
@@ -1349,5 +1355,30 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     public KualiModuleService getKualiModuleService() {
         return SpringContext.getBean(KualiModuleService.class);
+    }
+    
+    protected boolean validateAccountsPayableItem(AccountsPayableItem apItem) {
+        boolean valid = true;
+        valid &=validatePurapItemCapitalAsset(apItem,false,(AssetTransactionType) apItem.getCapitalAssetTransactionType());
+        return valid;
+    }
+
+    public boolean doesUnitCostExceedThreshold(BigDecimal unitCost) {
+        String parameterThreshold = this.getParameterService().getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
+        if (unitCost.compareTo(new BigDecimal(parameterThreshold)) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validateAccountsPayableItems(List<? extends AccountsPayableItem> apItems) {
+        boolean valid = true;
+        for (AccountsPayableItem accountsPayableItem : apItems) {
+            //only run on ap items that were cams items
+            if(StringUtils.isNotEmpty(accountsPayableItem.getCapitalAssetTransactionTypeCode())) {
+                valid &= validateAccountsPayableItem(accountsPayableItem);
+            }
+        }
+        return valid;
     }
 }

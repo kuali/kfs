@@ -71,7 +71,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoUnitPrice(poItem.getItemUnitPrice());
         setPoTotalAmount(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
-
+        
         if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
@@ -92,7 +92,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         if (getPoTotalAmount() == null) {
             setPoTotalAmount(KualiDecimal.ZERO);
         }
-
+        
         for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
             PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
 
@@ -111,49 +111,52 @@ public class CreditMemoItem extends AccountsPayableItemBase {
      * @param poItem the Purchase Order Item to copy from.
      */
     public CreditMemoItem(CreditMemoDocument cmDocument, PaymentRequestItem preqItem, PurchaseOrderItem poItem) {
-        super();
-
-        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
-        setItemLineNumber(preqItem.getItemLineNumber());
-
-        // take invoiced quantities from the lower of the preq and po if different
-        if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
-            setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
-            setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
-        }
-        else {
-            setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
-            setPreqTotalAmount(preqItem.getTotalAmount());
-        }
-
-        setPreqUnitPrice(preqItem.getItemUnitPrice());
-        setItemTypeCode(preqItem.getItemTypeCode());
-
-        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
-            // setting unit price to be null to be more consistent with other below the line
-            this.setItemUnitPrice(null);
-        }
-        else {
-            setItemUnitPrice(preqItem.getItemUnitPrice());
-        }
-
-        setItemCatalogNumber(preqItem.getItemCatalogNumber());
-        setItemDescription(preqItem.getItemDescription());
-
-        if (getPreqInvoicedTotalQuantity() == null) {
-            setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);
-        }
-        if (getPreqUnitPrice() == null) {
-            setPreqUnitPrice(BigDecimal.ZERO);
-        }
-        if (getPreqTotalAmount() == null) {
-            setPreqTotalAmount(KualiDecimal.ZERO);
-        }
-
-        for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
-            PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
-            getSourceAccountingLines().add(new CreditMemoAccount(account));
-        }
+        this(cmDocument, preqItem, poItem, new HashMap<String, ExpiredOrClosedAccountEntry>());
+        //FIXME: delete this after verifying that we don't need anything from this in the other constructor
+//
+//        setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
+//        setItemLineNumber(preqItem.getItemLineNumber());
+//
+//        // take invoiced quantities from the lower of the preq and po if different
+//        if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
+//            setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
+//            setPreqTotalAmount(poItem.getItemInvoicedTotalAmount());
+//        }
+//        else {
+//            setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
+//            setPreqTotalAmount(preqItem.getTotalAmount());
+//        }
+//
+//        setPreqUnitPrice(preqItem.getItemUnitPrice());
+//        setItemTypeCode(preqItem.getItemTypeCode());
+//
+//        setCapitalAssetTransactionTypeCode(preqItem.getCapitalAssetTransactionTypeCode());
+//        
+//        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+//            // setting unit price to be null to be more consistent with other below the line
+//            this.setItemUnitPrice(null);
+//        }
+//        else {
+//            setItemUnitPrice(preqItem.getItemUnitPrice());
+//        }
+//
+//        setItemCatalogNumber(preqItem.getItemCatalogNumber());
+//        setItemDescription(preqItem.getItemDescription());
+//
+//        if (getPreqInvoicedTotalQuantity() == null) {
+//            setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);
+//        }
+//        if (getPreqUnitPrice() == null) {
+//            setPreqUnitPrice(BigDecimal.ZERO);
+//        }
+//        if (getPreqTotalAmount() == null) {
+//            setPreqTotalAmount(KualiDecimal.ZERO);
+//        }
+//
+//        for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
+//            PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
+//            getSourceAccountingLines().add(new CreditMemoAccount(account));
+//        }
     }
 
     /**
@@ -186,6 +189,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setItemUnitPrice(preqItem.getItemUnitPrice());
         setItemCatalogNumber(preqItem.getItemCatalogNumber());
         setItemDescription(preqItem.getItemDescription());
+        
+        setCapitalAssetTransactionTypeCode(preqItem.getCapitalAssetTransactionTypeCode());
 
         if (getPreqInvoicedTotalQuantity() == null) {
             setPreqInvoicedTotalQuantity(KualiDecimal.ZERO);

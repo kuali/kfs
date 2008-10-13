@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.integration.cab;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
@@ -69,14 +70,6 @@ public interface CapitalAssetBuilderModuleService {
      * @return
      */
     public boolean validateMultipleSystemsCapitalAssetSystemFromPurchasing(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType);
-
-    /**
-     * Retrieve the threshold amount from system parameter and return true if docTotal exceeds value from parameter.
-     * 
-     * @param docTotal The amount in KualiDecimal from the document to be verified.
-     * @return boolean true if the amount to be verified is greater than the threshold amount from system parameter.
-     */
-    public boolean doesDocumentExceedThreshold(KualiDecimal docTotal);
 
     /**
      * Validates whether transaction type is allowed for the given subtypes. Validates that the object codes must be either all
@@ -131,7 +124,9 @@ public interface CapitalAssetBuilderModuleService {
     public boolean doesItemNeedCapitalAsset(PurApItem item);
     
     public boolean validateUpdateCAMSView(List<PurApItem> purapItems);
-
+    
+    public boolean validateAccountsPayableItems(List<? extends AccountsPayableItem> apItems);
+    
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
     
     public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList);
@@ -143,4 +138,6 @@ public interface CapitalAssetBuilderModuleService {
      * @return true if there is at least one object code of the given source accounting lines with a capital asset object sub type; otherwise, false
      */
     public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines);
+    
+    public boolean doesUnitCostExceedThreshold(BigDecimal unitCost);
 }

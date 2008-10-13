@@ -2963,6 +2963,12 @@
     <field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" /> 
     <field-descriptor name="itemSalesTaxAmount" column="ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>
+    
+    
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
+    </reference-descriptor> 
     
     <reference-descriptor name="purapDocument" class-ref="org.kuali.kfs.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purapDocumentIdentifier" />
@@ -3620,7 +3626,13 @@
     <field-descriptor name="preqUnitPrice" column="PMT_RQST_UNT_PRC" jdbc-type="DECIMAL"/>
     <field-descriptor name="itemSalesTaxAmount" column="ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="preqTotalAmount" column="PMT_RQST_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-
+	<field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>
+    
+    
+    <reference-descriptor name="capitalAssetTransactionType" class-ref="org.kuali.kfs.module.cab.businessobject.AssetTransactionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="capitalAssetTransactionTypeCode" />
+    </reference-descriptor> 
+    
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>

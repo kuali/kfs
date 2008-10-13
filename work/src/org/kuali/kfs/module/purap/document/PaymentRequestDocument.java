@@ -38,6 +38,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseRequisitionItemUseTax;
+import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
@@ -510,9 +511,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         AccountsPayableService accountsPayableService = SpringContext.getBean(AccountsPayableService.class);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
-            // check to make sure it's eligible for payment (i.e. active and has encumberance available
+            // check to make sure it's eligible for payment (i.e. active and has encumbrance available
             if (getDocumentSpecificService().poItemEligibleForAp(this, poi)) {
-                this.getItems().add(new PaymentRequestItem(poi, this, expiredOrClosedAccountList));
+                PaymentRequestItem paymentRequestItem = new PaymentRequestItem(poi, this, expiredOrClosedAccountList);
+                this.getItems().add(paymentRequestItem);
+                PurchasingCapitalAssetItem purchasingCAMSItem = po.getPurchasingCapitalAssetItemByItemIdentifier(poi.getItemIdentifier());
+                if(purchasingCAMSItem!=null) {
+                    paymentRequestItem.setCapitalAssetTransactionTypeCode(purchasingCAMSItem.getCapitalAssetTransactionTypeCode());
+                }
             }
         }
         // add missing below the line

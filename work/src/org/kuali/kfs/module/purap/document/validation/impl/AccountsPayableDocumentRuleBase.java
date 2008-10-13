@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.List;
+
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -29,6 +33,7 @@ import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.module.purap.document.validation.PreCalculateAccountsPayableRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -46,7 +51,9 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
 
-        valid &= processApprovalAtAccountsPayableReviewAllowed((AccountsPayableDocument) purapDocument);
+        AccountsPayableDocument apDocument = (AccountsPayableDocument) purapDocument;
+        valid &= processApprovalAtAccountsPayableReviewAllowed(apDocument);
+        valid &= SpringContext.getBean(CapitalAssetBuilderModuleService.class).validateAccountsPayableItems((List<? extends AccountsPayableItem>)apDocument.getItems());
 
         return valid;
     }

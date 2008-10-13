@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -27,7 +28,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
     private KualiDecimal extendedPrice;
-
+    private String capitalAssetTransactionTypeCode;
+    private CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType;
+    
     /**
      * Method defaults to {@link #isConsideredEnteredWithZero()}
      * 
@@ -119,6 +122,22 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         else {
             return super.getSummaryItem();
         }
+    }
+
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
+
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
+
+    public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType() {
+        return capitalAssetTransactionType;
+    }
+
+    public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = capitalAssetTransactionType;
     }
 
 }

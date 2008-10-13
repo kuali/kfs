@@ -101,6 +101,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     public final CreditMemoDocument routeDocument(PaymentRequestDocument preqDocument) throws Exception {
         creditMemoDocument = buildSimpleDocument();
         creditMemoDocument.setPaymentRequestDocument(preqDocument);
+        creditMemoDocument.setPurchaseOrderIdentifier(preqDocument.getPurchaseOrderIdentifier());
         CreditMemoItem cmItem = (CreditMemoItem) creditMemoDocument.getItem(0);
         cmItem.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
         cmItem.setItemQuantity(new KualiDecimal(1));    

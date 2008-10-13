@@ -34,7 +34,6 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
     protected Integer accountHistoryIdentifier;
     private Timestamp accountHistoryTimestamp;
 
-    private CreditMemoAccount creditMemoAccount;
     private AccountingPeriod accountingPeriod;
     
     public AccountingPeriod getAccountingPeriod() {
@@ -78,15 +77,6 @@ public class CreditMemoAccountHistory extends CreditMemoAccount {
 
     public void setAccountHistoryTimestamp(Timestamp accountHistoryTimestamp) {
         this.accountHistoryTimestamp = accountHistoryTimestamp;
-    }
-
-    public CreditMemoAccount getCreditMemoAccount() {
-        return creditMemoAccount;
-    }
-
-    @Deprecated
-    public void setCreditMemoAccount(CreditMemoAccount creditMemoAccount) {
-        this.creditMemoAccount = creditMemoAccount;
     }
 
 }

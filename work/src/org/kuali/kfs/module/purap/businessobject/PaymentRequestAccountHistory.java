@@ -33,7 +33,6 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
     protected Integer accountHistoryIdentifier;
     private Timestamp accountHistoryTimestamp;
 
-    private PaymentRequestAccount paymentRequestAccount;
     private AccountingPeriod accountingPeriod;
     
     public AccountingPeriod getAccountingPeriod() {
@@ -79,15 +78,5 @@ public class PaymentRequestAccountHistory extends PaymentRequestAccount {
     public void setAccountHistoryTimestamp(Timestamp accountHistoryTimestamp) {
         this.accountHistoryTimestamp = accountHistoryTimestamp;
     }
-
-    public PaymentRequestAccount getPaymentRequestAccount() {
-        return paymentRequestAccount;
-    }
-
-    @Deprecated
-    public void setPaymentRequestAccount(PaymentRequestAccount paymentRequestAccount) {
-        this.paymentRequestAccount = paymentRequestAccount;
-    }
-
 
 }

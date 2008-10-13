@@ -315,8 +315,6 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         if (expenditureLine.getFinancialObjectCode().contentEquals(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
             // 2plg record exists
             bcDoc.setContainsTwoPlug(true);
-            // bcDoc.setOld2PLGAmount(expenditureLine.getAccountLineAnnualBalanceAmount());
-
         }
     }
 

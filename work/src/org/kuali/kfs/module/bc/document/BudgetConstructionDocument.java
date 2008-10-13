@@ -86,9 +86,6 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     private boolean isSalarySettingOnly;
     private AccountSalarySettingOnlyCause accountSalarySettingOnlyCause;
     private boolean containsTwoPlug = false;
-//    private KualiInteger old2PLGAmount = KualiInteger.ZERO;
-
-
 
     public BudgetConstructionDocument() {
         super();
@@ -761,22 +758,6 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     public void setContainsTwoPlug(boolean containsTwoPlug) {
         this.containsTwoPlug = containsTwoPlug;
     }
-
-//    /**
-//     * Gets the old2PLGAmount attribute. 
-//     * @return Returns the old2PLGAmount.
-//     */
-//    public KualiInteger getOld2PLGAmount() {
-//        return old2PLGAmount;
-//    }
-//
-//    /**
-//     * Sets the old2PLGAmount attribute value.
-//     * @param old2PLGAmount The old2PLGAmount to set.
-//     */
-//    public void setOld2PLGAmount(KualiInteger old2PLGAmount) {
-//        this.old2PLGAmount = old2PLGAmount;
-//    }
 
     /**
      * the budget construction document never appears in anyone's in-box budget construction controls access by a

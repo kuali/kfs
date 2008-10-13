@@ -1106,7 +1106,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
             // if editing - reload expenditure and check for changes to detail salary lines and 2plg request amount
-            // populate sets the old2PLGAmount before going to salary setting
             boolean diffFound = false;
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.FULL_ENTRY) && !(budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY))) {
 

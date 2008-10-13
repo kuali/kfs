@@ -307,6 +307,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="borrowerZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
+    <property name="required" value="true" />
     <property name="summary" value="borrowerZipCode" />
     <property name="description" value="borrowerZipCode description..." />
   </bean>

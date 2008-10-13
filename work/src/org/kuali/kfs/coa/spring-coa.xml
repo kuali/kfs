@@ -657,4 +657,12 @@
 			<ref bean="universityDateService" />
 		</property>
     </bean>
+    
+    <bean name="chartRoleService" class="org.kuali.kfs.coa.service.impl.ChartRoleTypeServiceImpl">
+    	<property name="acceptedQualificationAttributeNames">
+    		<list>
+    			<value>chartOfAccountsCode</value>
+    		</list>
+    	</property>
+    </bean>
 </beans>

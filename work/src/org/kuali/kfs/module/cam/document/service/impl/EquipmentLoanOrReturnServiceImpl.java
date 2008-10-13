@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,8 +32,10 @@ import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnService {
@@ -59,6 +62,7 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
         updateAsset.setLoanReturnDate(document.getLoanReturnDate());
         updateBorrowerLocation(document, updateAsset);
         updateStoreAtLocation(document, updateAsset);
+        updateAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
         getBusinessObjectService().save((PersistableBusinessObject) updateAsset);
     }

@@ -692,7 +692,7 @@ public class PurapServiceImpl implements PurapService {
               //iterate over items and calculate tax if taxable
               for(PurApItem item : purapDocument.getItems()){
                   if( isTaxable(useTaxIndicator, deliveryState, item) ){
-                      calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item,purapDocument.getItemUseTaxClass());
+                      calculateItemTax(useTaxIndicator, deliveryPostalCode, transactionTaxDate, item, item.getUseTaxClass());
                   }
               }
           }

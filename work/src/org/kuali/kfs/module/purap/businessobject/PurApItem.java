@@ -107,6 +107,8 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
 
     public abstract Class getAccountingLineClass();
 
+    public abstract Class getUseTaxClass();
+    
     public List<PurApAccountingLine> getSourceAccountingLines();
 
     public void setSourceAccountingLines(List<PurApAccountingLine> purapAccountingLines);

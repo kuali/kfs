@@ -211,10 +211,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             this.refreshReferenceObject("purapDocument");
         }
         
-        //TODO: fix this, it was only done to get a unit test to work we shouldn't be defaulting to false
-        boolean useTaxIndicator = (purapDocument==null) ? false : purapDocument.isUseTaxIndicator();
-
-        if(useTaxIndicator == false){
+        if(purapDocument.isUseTaxIndicator() == false){
             taxAmount = this.itemSalesTaxAmount;
         }else{
             //sum use tax item tax amounts
@@ -232,10 +229,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
             this.refreshReferenceObject("purapDocument");
         }
         
-        //TODO: fix this, it was only done to get a unit test to work we shouldn't be defaulting to false
-        boolean useTaxIndicator = (purapDocument==null) ? false : purapDocument.isUseTaxIndicator();
-
-        if(useTaxIndicator == false){
+        if(purapDocument.isUseTaxIndicator() == false){
             this.itemSalesTaxAmount = itemTaxAmount;
         }
         

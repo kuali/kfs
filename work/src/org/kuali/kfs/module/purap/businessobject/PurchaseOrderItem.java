@@ -82,7 +82,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemUnitPrice(ri.getItemUnitPrice());
         this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
         this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
-
+        
+        this.setItemTaxAmount( ri.getItemTaxAmount() );
+        this.setUseTaxItems( ri.getUseTaxItems() );
+        
         this.setExternalOrganizationB2bProductReferenceNumber(ri.getExternalOrganizationB2bProductReferenceNumber());
         this.setExternalOrganizationB2bProductTypeName(ri.getExternalOrganizationB2bProductTypeName());
 

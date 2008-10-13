@@ -30,7 +30,6 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.Status;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
@@ -86,7 +85,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private transient PurApRelatedViews relatedViews;
     
     // COLLECTIONS
-    private List<PurApItemUseTax> useTaxItems;
     private List<PurApItem> items;
     private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
 
@@ -107,7 +105,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
-        useTaxItems = new TypedArrayList(getItemUseTaxClass());
     }
 
     private GeneralLedgerPendingEntry getFirstPendingGLEntry() {
@@ -758,14 +755,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setItems(List items) {
         this.items = items;
-    }
-
-    public List getUseTaxItems() {
-        return useTaxItems;
-    }
-
-    public void setUseTaxItems(List useTaxItems) {
-        this.useTaxItems = useTaxItems;
     }
 
     public String getVendorCityName() {

@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -129,6 +131,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
             asset.setTotalCostAmount(KualiDecimal.ZERO);
             asset.setSalvageAmount(KualiDecimal.ZERO);
         }
+        asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         persistables.add(asset);
     }
 
@@ -166,6 +169,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         // update merget target asset
         mergedTargetCapitalAsset.setTotalCostAmount(totalCostAmount.add(paymentSummaryService.calculatePaymentTotalCost(mergedTargetCapitalAsset)));
         mergedTargetCapitalAsset.setSalvageAmount(salvageAmount.add(mergedTargetSalvageAmount));
+        mergedTargetCapitalAsset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
         persistables.add(mergedTargetCapitalAsset);
     }
 

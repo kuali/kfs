@@ -814,6 +814,15 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public boolean isClosed() {
         return !active;
     }
+    
+    /**
+     * Sets the closed attribute.
+     * 
+     * @param closed The closed to set.
+     */
+    public void setClosed(boolean closed) {
+        this.active = !closed;
+    }
 
     /**
      * Gets the chartOfAccounts attribute.

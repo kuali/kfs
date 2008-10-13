@@ -110,7 +110,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:maintField attributeName="accountStateCode" required="true" />
         <dd:maintField attributeName="accountStreetAddress" required="true" />
         <dd:maintField attributeName="accountOffCampusIndicator" />
-        <dd:maintField attributeName="active" />
+        <dd:maintField attributeName="closed" />
         <dd:maintField attributeName="accountTypeCode" required="true" />
         <dd:maintField attributeName="subFundGroupCode" required="true"
                        javascriptLeaveFieldFunction="onblur_subFundGroup"

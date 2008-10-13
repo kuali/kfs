@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -36,11 +38,13 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     ThreadLocal<FinancialSystemUser> currentUser = new ThreadLocal<FinancialSystemUser>();
+
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
-     *
+     * 
      * @returns links to edit and copy maintenance action for the current maintenance record.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -48,8 +52,8 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         Account theAccount = (Account) businessObject;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         FinancialSystemUser user = currentUser.get();
-        if ( user == null ) {
-            user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser( GlobalVariables.getUserSession().getFinancialSystemUser() );
+        if (user == null) {
+            user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(GlobalVariables.getUserSession().getFinancialSystemUser());
             currentUser.set(user);
         }
         AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
@@ -62,23 +66,30 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         anchorHtmlDataList.add(urlDataCopy);
         return anchorHtmlDataList;
     }
+
     /**
      * Overridden to changed the "closed" parameter to an "active" parameter
+     * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
-        if (parameters.containsKey("closed")) {
-            final String closedValue = parameters.get("closed");
-            if ("Y1T".indexOf(closedValue) > -1) {
-                parameters.put("active", "N");
-            } else if ("N0F".indexOf(closedValue) > -1){
-                parameters.put("active", "Y");
+        if (parameters.containsKey(KFSPropertyConstants.CLOSED)) {
+            final String closedValue = parameters.get(KFSPropertyConstants.CLOSED);
+
+            if (closedValue!= null && closedValue.length() != 0) {
+                if ("Y1T".indexOf(closedValue) > -1) {
+                    parameters.put(KFSPropertyConstants.ACTIVE, "N");
+                }
+                else if ("N0F".indexOf(closedValue) > -1) {
+                    parameters.put(KFSPropertyConstants.ACTIVE, "Y");
+                }
             }
-            parameters.remove("closed");
+
+            parameters.remove(KFSPropertyConstants.CLOSED);
         }
         return super.getSearchResults(parameters);
     }
-    
-    
+
+
 }

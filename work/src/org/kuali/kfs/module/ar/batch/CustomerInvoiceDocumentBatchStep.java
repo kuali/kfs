@@ -78,22 +78,22 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
             createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
-            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
+//            Thread.sleep(5000);
+//            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
+//            Thread.sleep(5000);
             billingDate = DateUtils.addDays(billingDate, -30);
         }
         setInitiatedParameter();
@@ -163,7 +163,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         //customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");// - BILLING DATE - "+sdf.format(billingDate));
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
-        customerInvoiceDocument.setBillingDate(billingDate);
+        customerInvoiceDocument.setBillingDate((java.sql.Date) billingDate);
 
         
         for (int i = 0; i < 2; i++) { 

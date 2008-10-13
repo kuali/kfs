@@ -163,7 +163,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         //customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");// - BILLING DATE - "+sdf.format(billingDate));
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
-        customerInvoiceDocument.setBillingDate((java.sql.Date) billingDate);
+        customerInvoiceDocument.setBillingDate(java.sql.Date.valueOf(sdf.format(billingDate)));
 
         
         for (int i = 0; i < 2; i++) { 

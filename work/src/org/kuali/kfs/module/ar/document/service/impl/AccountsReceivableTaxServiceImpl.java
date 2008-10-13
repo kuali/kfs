@@ -57,7 +57,13 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
             }
         }
         
+        //check item if the taxable indicator is checked
+        if (!customerInvoiceDetail.isTaxableIndicator()) {
+            return false;
+        }
+        
         //check item if item is taxable
+        /*
         if( StringUtils.isNotEmpty(customerInvoiceDetail.getInvoiceItemCode()) ){
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("invoiceItemCode", customerInvoiceDetail.getInvoiceItemCode());
@@ -69,6 +75,7 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
                 return false;
             }
         }
+        */
         
         //if address of billing org's postal code isn't the same as shipping address, return false??? 
         

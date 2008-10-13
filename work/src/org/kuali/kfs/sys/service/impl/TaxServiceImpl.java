@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

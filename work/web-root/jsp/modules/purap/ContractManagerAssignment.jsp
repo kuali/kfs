@@ -22,8 +22,6 @@
 
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
-
     <purap:contractManagerAssignment />
 
 	<kul:notes />

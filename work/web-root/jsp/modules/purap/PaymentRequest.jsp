@@ -26,8 +26,6 @@
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
     
-    <kfs:hiddenDocumentFields excludePostingYear="true" />
-
 	<!--  Display hold message if payment is on hold -->
 	<c:if test="${KualiForm.paymentRequestDocument.holdIndicator}">	
 		<h4>This Payment Request has been Held by <c:out value="${KualiForm.paymentRequestDocument.lastActionPerformedByPersonName}"/></h4>		

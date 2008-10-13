@@ -64,11 +64,6 @@
               currency formatted debit and credit totals.
               As with all boolean tag attributes, if it is not provided, it defaults to false."%>
 
-<%@ attribute name="extraHiddenFields" required="false"
-	description="A comma seperated list of names of any accounting line fields
-              that should be added to the list of normally hidden fields
-              for the existing (but not the new) accounting lines."%>
-
 <%@ attribute name="displayMonthlyAmounts" required="false"
 	description="A boolean whether the monthy amounts table is displayed
               below each accounting line (needed for budget adjustment document).
@@ -121,15 +116,6 @@
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
-<c:forEach items="${editableAccounts}" var="account">
-	<html:hidden property="editableAccounts(${account.key})"
-		value="${account.key}" />
-</c:forEach>
-
-<c:forEach items="${editableFields}" var="field">
-	<html:hidden property="accountingLineEditableFields(${field.key})" />
-</c:forEach>
-
 <c:set var="optionalFieldCount"
 	value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}" />
 <c:set var="columnCountUntilAmount"
@@ -159,7 +145,6 @@
 				editableFields="${editableFields}"
 				debitCreditAmount="${debitCreditAmount}"
 				currentBaseAmount="${currentBaseAmount}"
-				extraHiddenFields="${extraHiddenFields}"
 				useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
 				includeObjectTypeCode="${includeObjectTypeCode}"
 				displayMonthlyAmounts="${displayMonthlyAmounts}"
@@ -181,7 +166,6 @@
 					editableFields="${editableFields}"
 					debitCreditAmount="${debitCreditAmount}"
 					currentBaseAmount="${currentBaseAmount}"
-					extraHiddenFields="${extraHiddenFields}"
 					useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
 					includeObjectTypeCode="${includeObjectTypeCode}"
 					displayMonthlyAmounts="${displayMonthlyAmounts}"

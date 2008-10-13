@@ -22,7 +22,6 @@
 <script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
 
-<html:hidden property="hideDistributeAccounts" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 
@@ -61,9 +60,9 @@
 	    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
 	    alt="Clear all tax" 
 	    title="Clear all tax" styleClass="tinybutton" />
-	 </div>
-</c:if>	
-
+    </div>
+</c:if>
+	
 <c:if test="${!KualiForm.hideDistributeAccounts}">
 
     <c:choose>
@@ -100,9 +99,7 @@
                                 fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>
-                    <div id="distributePurchasingCommodityDescription.div" class="fineprint">
-                        <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
-                    </div>    
+                    <div id="distributePurchasingCommodityDescription.div" class="fineprint"/>
 	        </td>
 	    </tr>
         <tr>

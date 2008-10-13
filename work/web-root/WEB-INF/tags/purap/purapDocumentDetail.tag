@@ -116,7 +116,6 @@
 	</tr>  
 	
 	<c:if test="${purchaseOrder}">
-	   	<html:hidden property="document.purchaseOrderCreateDate" />
 		<tr>
 		   	<th align=right valign=middle class="bord-l-b">
 		        <div align="right">

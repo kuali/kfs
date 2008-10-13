@@ -90,14 +90,6 @@
         <c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
     </c:if>
     
-    <c:forEach items="${editableAccounts}" var="account">
-        <html:hidden property="editableAccounts(${account.key})" value="${account.key}" />
-    </c:forEach>
-    
-    <c:forEach items="${editableFields}" var="field">
-        <html:hidden property="accountingLineEditableFields(${field.key})" />
-    </c:forEach>
-    
     <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}" />
     <c:set var="columnCountUntilAmount" value="${7 + (includeObjectTypeCode ? 1 : 0) + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
     <c:set var="arrHideFields" value="${fn:split(hideFields,',') }" />
@@ -123,8 +115,6 @@
             <c:set var="isOpen" value="${currentTab == 'OPEN'}" />
         </c:when>
     </c:choose>
-	
-    <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 	<tr>
 	<td colspan="${itemColSpan}">
@@ -147,7 +137,7 @@
 	    <tr style="display: none;"  id="tab-${tabKey}-div">
 	</c:if>   
         <th colspan="${columnCount}" style="padding:0;">
-        	<purap:puraccountingLines editingMode="${editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="${sourceAccountingLinesOnly}" optionalFields="${optionalFields}" extraHiddenFields="${extraHiddenFields}"
+        	<purap:puraccountingLines editingMode="${editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="${sourceAccountingLinesOnly}" optionalFields="${optionalFields}"
                 accountingLineAttributes="${accountingLineAttributes}" accountPrefix="${accountPrefix}" hideTotalLine="${hideTotalLine}" hideFields="${hideFields}" accountingAddLineIndex="${accountingAddLineIndex}" >
                 <jsp:attribute name="importRowOverride"/>
             </purap:puraccountingLines>

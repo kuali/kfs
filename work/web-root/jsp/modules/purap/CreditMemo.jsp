@@ -22,9 +22,7 @@
     </c:if>
  
     <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
-     
-    <kfs:hiddenDocumentFields excludePostingYear="true" />
-                
+                     
     <c:if test="${displayInitTab}" > 
     	<purap:creditMemoInit documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" /> 
     	

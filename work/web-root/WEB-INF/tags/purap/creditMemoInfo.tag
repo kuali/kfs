@@ -70,10 +70,6 @@
                         <td align=left valign=middle class="datacell">&nbsp;</td>                
                      <tr>   
                  </c:when>
-                 <c:otherwise>
-                     <!-- make the creditMemoAmount a hidden field -->       
-                     <html:hidden property="document.creditMemoAmount" value="${KualiForm.document.creditMemoAmount}" />  
-                 </c:otherwise>
              </c:choose>
 
              <tr>   

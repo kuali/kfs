@@ -39,20 +39,7 @@
     <c:if test="${!empty KualiForm.editingMode['splittingItemSelection']}">
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
-    
-    <kfs:hiddenDocumentFields excludePostingYear="true" />
-
-    <purap:hiddenPurapFields />
-    <!-- need this for persistence -->
-    <html:hidden property="purchaseOrderIdentifier" />
-    <!-- TODO move this to where? -->
-    <html:hidden property="document.requisitionIdentifier" />
-    <html:hidden property="document.purchaseOrderCurrentIndicator" />
-    <html:hidden property="document.pendingActionIndicator" />
-    <html:hidden property="document.purchaseOrderLastTransmitDate" />
-    <html:hidden property="document.contractManagerCode" />
-    <html:hidden property="document.purchaseOrderAutomaticIndicator" />
- 
+     
 	<c:if test="${splittingItemSelectionMode}">
 		<purap:splitPurchaseOrder
 			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"

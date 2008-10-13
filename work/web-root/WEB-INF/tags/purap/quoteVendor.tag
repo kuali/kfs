@@ -38,9 +38,6 @@
             <td align=left valign=middle class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorName}" property="document.purchaseOrderVendorQuote[${ctr}].vendorName" 
                 readOnly="${isPurchaseOrderAwarded || isSysVendor || !preRouteChangeMode}" />
-			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].documentNumber" />
-			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].purchaseOrderVendorQuoteIdentifier" />
-			    <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].versionNumber" />
             </td>
             <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorNumber}" /></div>
@@ -48,9 +45,6 @@
             <td align=left valign=middle class="datacell">
             	<c:if test="${not isSysVendor}">N/A</c:if>
                 <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorNumber}" property="document.purchaseOrderVendorQuote[${ctr}].vendorNumber" readOnly="true" />
-		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorHeaderGeneratedIdentifier" />
-		        <html:hidden property="document.purchaseOrderVendorQuote[${ctr}].vendorDetailAssignedIdentifier" />
-            </td>
            	<c:if test="${!isPurchaseOrderAwarded && !isTrasnmitted && preRouteChangeMode}">
    	         <td rowspan="10">
    	        	<html:image

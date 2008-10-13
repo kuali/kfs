@@ -35,8 +35,6 @@
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
 
-	<kfs:hiddenDocumentFields excludePostingYear="true" isFinancialDocument="false" isTransactionalDocument="true" />
-
 	<c:if test="${KualiForm.document.invoiceResearchIndicator}">
 		NOTE: This reject document is currently being researched. See the notes below for more detail. The document will not be allowed to be routed until the research is complete.<br /><br />
 	</c:if>
@@ -45,16 +43,13 @@
 		includePostingYear="false" >
     </kfs:documentOverview>
 	
-    <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-    <html:hidden property="document.vendorDetailAssignedIdentifier" />
-
-	<kul:tab tabTitle="Caomparison Data" defaultOpen="TRUE" tabErrorKey="${PurapConstants.REJECT_DOCUMENT_TAB_ERRORS}">
+	<kul:tab tabTitle="Comparison Data" defaultOpen="TRUE" tabErrorKey="${PurapConstants.REJECT_DOCUMENT_TAB_ERRORS}">
 	    <div class="tab-container">
 
 			<div class="error" align="left">Reject Reasons:</div>
 			<ul>
 			<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceRejectReasons" id="reason">
-				<li class="error"><html:hidden write="true" property="document.invoiceRejectReasons[${ctr}].invoiceRejectReasonDescription" /></li>
+				<li class="error">${KualiForm.document.invoiceRejectReasons[ctr].invoiceRejectReasonDescription}</li>
 			</logic:iterate>
 			</ul>
 

@@ -112,14 +112,13 @@
             </th>
             <td align=left valign=middle class="datacell">
             	<c:out value="${newPurchaseOrderVendorQuote.vendorNumber}" />
-		        <html:hidden property="newPurchaseOrderVendorQuote.vendorHeaderGeneratedIdentifier" />
-		        <html:hidden property="newPurchaseOrderVendorQuote.vendorDetailAssignedIdentifier" />
             </td>
-            <td rowspan="8"><html:image
-	property="methodToCall.addVendor"
-	src="${ConfigProperties.externalizable.images.url}tinybutton-addvendor.gif"
-	alt="add vendor" title="add vendor"
-	styleClass="tinybutton" />
+            <td rowspan="6">
+	            <html:image
+					property="methodToCall.addVendor"
+					src="${ConfigProperties.externalizable.images.url}tinybutton-addvendor.gif"
+					alt="add vendor" title="add vendor"
+					styleClass="tinybutton" />
 			</td>
         </tr>
         <tr>

@@ -134,11 +134,7 @@
                         onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" />
                     <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
-                            lookupParameters="'Y':active"/>   
-                            
-                    <div id="newPurchasingItemLine.commodityCode.commodityDescription.div" class="fineprint">
-                        <html:hidden write="true" property="${commodityDescriptionField}"/>&nbsp;        
-                    </div>         
+                            lookupParameters="'Y':active"/>            
                 </td>			    
 				<td class="infoline">
 				   <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" />
@@ -251,11 +247,9 @@
  				    <c:when test="${itemLine.objectId == null}">
  				        <c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
                         <c:set var="tabKey" value="Item-${newObjectId}" />
-                        <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
 				    </c:when>
 				    <c:when test="${itemLine.objectId != null}">
 				        <c:set var="tabKey" value="Item-${itemLine.objectId}" />
-				        <html:hidden property="document.item[${ctr}].objectId" /> 
 				    </c:when>
 				</c:choose>
 				
@@ -273,8 +267,6 @@
 						<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 					</c:when>
 				</c:choose>
-
-				<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 				<tr>
 					<td colspan="15" class="tab-subhead" style="border-right: none;">
@@ -337,9 +329,6 @@
                                 fieldConversions="purchasingCommodityCode:document.item[${ctr}].purchasingCommodityCode"
                                 lookupParameters="'Y':active"/>    
                         </c:if>
-                        <div id="document.item[${ctr}].commodityCode.commodityDescription.div" class="fineprint">
-                            <html:hidden write="true" property="document.item[${ctr}].commodityCode.commodityDescription"/>&nbsp;  
-                        </div>
                     </td>				    
 					<td class="infoline">
 						 <kul:htmlControlAttribute
@@ -387,12 +376,12 @@
 						</td>
 					</c:if>
 				    <td class="infoline">
-				 	    <div align="center">
+                            <div align="center">
 						    <kul:htmlControlAttribute
 							    attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
 							    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 							    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
-					    </div>
+                            </div>
 					</td>
 					<c:if test="${(fullEntryMode or (amendmentEntry and itemLine.itemInvoicedTotalAmount == null))}">
 						<td class="infoline" rowspan="2">
@@ -464,7 +453,6 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -477,7 +465,6 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -493,7 +480,6 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -508,7 +494,6 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-			    		extraHiddenFields=""
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -527,7 +512,7 @@
 			<th height=30 colspan="15">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="" descriptionFirst="${isATypeofPurDoc}"/>
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}"/>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
@@ -554,7 +539,6 @@
                         property="document.totalPreTaxDollarAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
-                <html:hidden property="document.totalPreTaxDollarAmount" />
 			</td>
 			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
@@ -572,7 +556,6 @@
                         property="document.totalTaxAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
-                <html:hidden property="document.totalTaxAmount" />
 			</td>
 			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
@@ -590,7 +573,6 @@
                         property="document.totalDollarAmount"
                         readOnly="true" />&nbsp; </b>
                 </div>
-                <html:hidden property="document.totalDollarAmount" />
 			</td>
 			<td colspan=6 class="datacell">&nbsp;</td>
 		</tr>
@@ -616,7 +598,6 @@
 					        property="document.organizationAutomaticPurchaseOrderLimit"
 					        readOnly="true" />&nbsp;
 					</div>
-				    <html:hidden property="document.organizationAutomaticPurchaseOrderLimit" />
 			    </c:if> 
 			    <c:if test="${!displayRequisitionFields}">
                     <div align="right">
@@ -625,7 +606,6 @@
                             property="document.internalPurchasingLimit"
                             readOnly="true" />&nbsp;
                     </div>
-                    <html:hidden property="document.internalPurchasingLimit" />
 			    </c:if>
 			</td>
 			<td colspan="6" class="datacell">&nbsp;</td>

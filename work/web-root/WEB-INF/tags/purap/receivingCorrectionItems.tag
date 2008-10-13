@@ -48,11 +48,9 @@
 				<c:when test="${itemLine.objectId == null}">
 					<c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
                     <c:set var="tabKey" value="Item-${newObjectId}" />
-                    <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
 			    </c:when>
 			    <c:when test="${itemLine.objectId != null}">
 			        <c:set var="tabKey" value="Item-${itemLine.objectId}" />
-			        <html:hidden property="document.item[${ctr}].objectId" /> 
 			    </c:when>
 			</c:choose>
 			
@@ -70,9 +68,6 @@
 					<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 				</c:when>
 			</c:choose>
-
-			<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
 		<tr>
 			<td colspan="12" class="tab-subhead" style="border-right: none;">				 
 		    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
@@ -100,10 +95,6 @@
 	
 		<tr>				
 			<td class="infoline" nowrap="nowrap">
-			    <html:hidden property="document.item[${ctr}].receivingItemIdentifier" /> 
-				<html:hidden property="document.item[${ctr}].itemTypeCode" />
-			    <html:hidden property="document.item[${ctr}].versionNumber" /> 
-
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemLineNumber}"
 				    property="document.item[${ctr}].itemLineNumber"

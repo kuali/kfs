@@ -30,9 +30,6 @@
 <%@ attribute name="showInvoiced" required="false"
     type="java.lang.Boolean"
     description="post the unitPrice into the extendedPrice field" %>
-<%@ attribute name="extraHiddenItemFields" required="false"
-              description="A comma seperated list of names to be added to the list of normally hidden fields
-              for the existing misc items." %>
 <%@ attribute name="specialItemTotalType" required="false" %>
 <%@ attribute name="specialItemTotalOverride" required="false" fragment="true"
               description="Fragment of code to specify special item total line" %>
@@ -74,8 +71,6 @@
 	</c:when>
 </c:choose>
 	
-<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
-
 <tr>
 	<td colspan="15" class="subhead">
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
@@ -197,7 +192,6 @@
 				editingMode="${KualiForm.accountingLineEditingMode}"
 				editableAccounts="${KualiForm.editableAccounts}"
 				sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
-				extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				hideFields="amount" accountingAddLineIndex="${ctr}" 
@@ -207,18 +201,15 @@
 		<!-- KULPURAP-1500 -->
 		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemUnitPrice)) || (empty KualiForm.editingMode['allowItemEntry']))}">
 		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
-			    <c:set var="optionalFields" value="accountLinePercent" />
-			    <c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
+			    <c:set var="optionalFields" value="accountLinePercent" />			 
 	    	    <c:set var="hideFields" value="amount" />
 			    <c:if test="${showAmount}">
 				    <c:set var="optionalFields" value="" />
-				    <c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
 				    <c:set var="hideFields" value="" />
 			    </c:if>
 			    <purap:purapGeneralAccounting editingMode="${KualiForm.editingMode}"
 				    editableAccounts="${KualiForm.editableAccounts}"
 				    sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
-				    extraHiddenFields="${extraHiddenFields}"
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 

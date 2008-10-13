@@ -23,7 +23,7 @@
 <form name="disabledJavaScriptPrintForm" id="disabledJavaScriptPrintForm" method="post" action="${printPOPDFUrl}">
   <input type="hidden" name="retransmitHeader" value="${KualiForm.document.retransmitHeader}" />
   <input type="hidden" name="selectedItemIndexes" value="${selectedItemIndexes}" />
-  <input type="hidden" name="poDocumentNumberForRetransmit" value="${docId}">
+  <input type="hidden" name="poDocumentNumberForRetransmit" value="${docId}" >
   <noscript>
     Click this button to see the ${purchaseOrderLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" title="View ${purchaseOrderLabel} PDF" value="View ${purchaseOrderLabel} PDF">
   </noscript>

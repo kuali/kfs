@@ -64,11 +64,9 @@
             <c:when test="${itemLine.objectId == null}">
                 <c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
                 <c:set var="tabKey" value="Item-${newObjectId}" />
-                <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
             </c:when>
             <c:when test="${itemLine.objectId != null}">
                 <c:set var="tabKey" value="Item-${itemLine.objectId}" />
-                <html:hidden property="document.item[${ctr}].objectId" /> 
             </c:when>
         </c:choose>
     
@@ -86,8 +84,6 @@
 			<c:set var="isOpen" value="${currentTab == 'OPEN'}" />
 		</c:when>
 		</c:choose>
-
-		<html:hidden property="tabStates(${tabKey})" value="${isOpen}" />
 
 		<tr>
 			<td class="infoline" nowrap="nowrap">
@@ -186,11 +182,9 @@
 			</td>			
 		</tr>
 		<c:set var="optionalFields" value="accountLinePercent" />
-		<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
 		<c:set var="hideFields" value="amount" />
 		<c:if test="${showAmount}">
 			<c:set var="optionalFields" value="" />
-			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
 			<c:set var="hideFields" value="" />
 		</c:if>
 		<purap:purapGeneralAccounting
@@ -198,7 +192,6 @@
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
 			optionalFields="${optionalFields}"
-			extraHiddenFields="${extraHiddenFields}"
 			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 

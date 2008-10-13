@@ -53,13 +53,7 @@
 		                    <kul:htmlControlAttribute 
 		                        attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
 		                        property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationDescription" 
-		                        readOnly="${not (fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" 
-		                    />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationCreateDate" />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationAuthorEmployeeIdentifier" />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].purchaseOrderVendorStipulationIdentifier" />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].documentNumber" />
-                            <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].versionNumber" />
+		                        readOnly="${not (fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" />
 		                </td>
 		                <c:if test="${(fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" >		                
 		                	<td class="infoline"><div align="center"><html:image property="methodToCall.deleteStipulation.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete Stipulation ${ctr+1}" title="Delete Stipulation ${ctr+1}" styleClass="tinybutton"/></div></td>

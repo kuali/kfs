@@ -26,9 +26,7 @@
     <div class="tab-container" align=center>
     
         <h3>Delivery Information</h3>
-        
-		<%--<html:hidden property="document.deliveryBuildingCode" />--%>
-		
+        		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Delivery Section">
         <%-- If PO available, display the delivery information from the PO --%>
         	<c:if test="${isPOAvailable}">

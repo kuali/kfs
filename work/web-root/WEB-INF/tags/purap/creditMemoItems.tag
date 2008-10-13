@@ -75,11 +75,9 @@
             <c:when test="${itemLine.objectId == null}">
                 <c:set var="newObjectId" value="<%= (new org.kuali.rice.kns.util.Guid()).toString()%>" />
                 <c:set var="tabKey" value="Item-${newObjectId}" />
-                <html:hidden property="document.item[${ctr}].objectId" value="${newObjectId}" />
             </c:when>
             <c:when test="${itemLine.objectId != null}">
                 <c:set var="tabKey" value="Item-${itemLine.objectId}" />
-                <html:hidden property="document.item[${ctr}].objectId" /> 
             </c:when>
         </c:choose>
         
@@ -98,8 +96,6 @@
 			<c:set var="isOpen" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 		</c:when>
 		</c:choose>
-
-		<html:hidden property="tabStates(${tabKey})" value="${isOpen}" />
 
 		<tr>
 			<td class="infoline" nowrap="nowrap">
@@ -241,7 +237,6 @@
 			editableAccounts="${KualiForm.editableAccounts}"
 			sourceAccountingLinesOnly="true"
 			optionalFields="accountLinePercent"
-			extraHiddenFields=""
 			accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="amount" 

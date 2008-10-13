@@ -20,11 +20,6 @@
     htmlFormAction="purapReceivingCorrection" renderMultipart="true"
     showTabButtons="true">
 
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
-        
-	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
-	<html:hidden property="document.receivingLineDocumentNumber" />
-
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
     	<c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>

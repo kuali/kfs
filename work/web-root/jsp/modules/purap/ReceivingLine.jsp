@@ -19,8 +19,6 @@
     documentTypeName="ReceivingLineDocument"
     htmlFormAction="purapReceivingLine" renderMultipart="true"
     showTabButtons="true">
-    
-    <kfs:hiddenDocumentFields isFinancialDocument="false" />
     		     		
     <c:choose>
     <c:when test="${!empty KualiForm.editingMode['fullEntry']}">

@@ -22,7 +22,6 @@
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
-    <kfs:hiddenDocumentFields excludePostingYear="true" />
  
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"

@@ -187,8 +187,8 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
 
     @Override
     public void populateDocumentForRouting() {
+        this.setAwaitingPurchaseOrderOpen( SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber()) );
         super.populateDocumentForRouting();
-        this.setAwaitingPurchaseOrderOpen( SpringContext.getBean(ReceivingService.class).isAwaitingPurchaseOrderOpen(this.getDocumentNumber()) );        
     }
 
     public boolean isAwaitingPurchaseOrderOpen() {

@@ -125,7 +125,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             PurApAccountLineGroup purapAccountLineGroup = this.purapAcctGroupMap.get(glAccountLineGroup);
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
             if (purapAccountLineGroup == null || !glAmt.equals(purapAccountLineGroup.getAmount())) {
-                LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a mathcing purchasing account line group");
+                LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
                 misMatchedGroups.add(glAccountLineGroup);
             }
             else {

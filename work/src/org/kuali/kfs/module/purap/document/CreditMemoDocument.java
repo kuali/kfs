@@ -367,7 +367,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
             if (item.getTotalAmount() != null) {
                 // make sure restocking fee is negative
                 if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
-                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                    if( ObjectUtils.isNotNull(item.getExtendedPrice()) ){
+                        item.setExtendedPrice(item.getExtendedPrice().abs().negated());
+                    }else{
+                        item.setExtendedPrice(KualiDecimal.ZERO);
+                    }
                 }
                 grandTotal = grandTotal.add(item.getTotalAmount());
             }

@@ -32,6 +32,7 @@ import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -192,7 +193,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setDefaultPhysicalCampusProcessingCode(cp.getDefaultPhysicalCampusProcessingCode().toUpperCase());
         this.setDefaultSubObjectCode(cp.getDefaultSubObjectCode());
         this.setEmployeeCheck(cp.getEmployeeCheck());
-        this.setFileThresholdAmount(GeneralUtilities.convertBigDecimalToString(cp.getFileThresholdAmount()));
+        this.setFileThresholdAmount(cp.getFileThresholdAmount().toString());
         this.setFileThresholdEmailAddress(cp.getFileThresholdEmailAddress());
         /*this.setLastUpdate(cp.getLastUpdate());
         this.setLastUpdateUser(cp.getLastUpdateUser());
@@ -201,7 +202,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setOrgCode(cp.getOrgCode().toUpperCase());
         this.setOwnershipCodeRequired(cp.getOwnershipCodeRequired());
         this.setPayeeIdRequired(cp.getPayeeIdRequired());
-        this.setPaymentThresholdAmount(GeneralUtilities.convertBigDecimalToString(cp.getPaymentThresholdAmount()));
+        this.setPaymentThresholdAmount(cp.getPaymentThresholdAmount().toString());
         this.setPaymentThresholdEmailAddress(cp.getPaymentThresholdEmailAddress());
         this.setProcessingEmailAddr(cp.getProcessingEmailAddr());
         this.setPsdTransactionCode(cp.getPsdTransactionCode());
@@ -249,7 +250,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setDefaultObjectCode(this.getDefaultObjectCode());
         cp.setDefaultPhysicalCampusProcessingCode(this.getDefaultPhysicalCampusProcessingCode().toUpperCase());
         cp.setEmployeeCheck(this.getEmployeeCheck());
-        cp.setFileThresholdAmount(GeneralUtilities.convertStringToBigDecimal(this.getFileThresholdAmount()));
+        cp.setFileThresholdAmount(new KualiDecimal(this.getFileThresholdAmount()));
         cp.setFileThresholdEmailAddress(this.getFileThresholdEmailAddress());
         //cp.setLastUpdate(this.getLastUpdate());
         //cp.setLastUpdateUser(this.getLastUpdateUser());
@@ -257,7 +258,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setOrgCode(this.getOrgCode().toUpperCase());
         cp.setOwnershipCodeRequired(this.getOwnershipCodeRequired());
         cp.setPayeeIdRequired(this.getPayeeIdRequired());
-        cp.setPaymentThresholdAmount(GeneralUtilities.convertStringToBigDecimal(this.getPaymentThresholdAmount()));
+        cp.setPaymentThresholdAmount(new KualiDecimal(this.getPaymentThresholdAmount()));
         cp.setPaymentThresholdEmailAddress(this.getPaymentThresholdEmailAddress());
         cp.setProcessingEmailAddr(this.getProcessingEmailAddr());
         cp.setPsdTransactionCode(this.getPsdTransactionCode());

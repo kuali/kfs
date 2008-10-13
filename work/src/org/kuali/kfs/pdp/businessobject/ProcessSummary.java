@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -38,7 +39,7 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
     private String sortGroupId;
     private KualiInteger beginDisbursementNbr;
     private KualiInteger endDisbursementNbr;
-    private BigDecimal processTotalAmount;
+    private KualiDecimal processTotalAmount;
     private KualiInteger processTotalCount;
     
     private DisbursementType disbursementType;
@@ -104,11 +105,11 @@ public class ProcessSummary extends TimestampedBusinessObjectBase {
         this.process = process;
     }
 
-    public BigDecimal getProcessTotalAmount() {
+    public KualiDecimal getProcessTotalAmount() {
         return processTotalAmount;
     }
 
-    public void setProcessTotalAmount(BigDecimal processTotalAmount) {
+    public void setProcessTotalAmount(KualiDecimal processTotalAmount) {
         this.processTotalAmount = processTotalAmount;
     }
 

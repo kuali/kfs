@@ -60,6 +60,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -135,7 +136,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         Timestamp now = new Timestamp(paymentFile.getCreationDate().getTime());
 
         CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
-        if (paymentFileLoadDao.isDuplicateBatch(customer, paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount(), now)) {
+        if (paymentFileLoadDao.isDuplicateBatch(customer, paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount().bigDecimalValue(), now)) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_DUPLICATE_BATCH);
         }
     }
@@ -157,7 +158,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             int noteLineCount = 0;
             int detailCount = 0;
 
-            BigDecimal groupTotal = new BigDecimal(0.00);
+            KualiDecimal groupTotal = KualiDecimal.ZERO;
             for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
                 detailCount++;
 
@@ -266,7 +267,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         updateDetailAmounts(paymentDetail);
 
         // Check net payment amount
-        BigDecimal testAmount = paymentDetail.getNetPaymentAmount();
+        KualiDecimal testAmount = paymentDetail.getNetPaymentAmount();
         if (testAmount.compareTo(customer.getPaymentThresholdAmount()) > 0) {
             addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_DETAIL_THRESHOLD, testAmount.toString(), customer.getPaymentThresholdAmount().toString());
             paymentFile.setDetailThreshold(true);
@@ -428,7 +429,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param paymentDetail <code>PaymentDetail</code> to update
      */
     protected void updateDetailAmounts(PaymentDetail paymentDetail) {
-        BigDecimal zero = new BigDecimal(0.00);
+        KualiDecimal zero = KualiDecimal.ZERO;
 
         if (paymentDetail.getInvTotDiscountAmount() == null) {
             paymentDetail.setInvTotDiscountAmount(zero);
@@ -452,7 +453,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         }
 
         if (paymentDetail.getOrigInvoiceAmount() == null) {
-            BigDecimal amt = paymentDetail.getNetPaymentAmount();
+            KualiDecimal amt = paymentDetail.getNetPaymentAmount();
             amt = amt.add(paymentDetail.getInvTotDiscountAmount());
             amt = amt.subtract(paymentDetail.getInvTotShipAmount());
             amt = amt.subtract(paymentDetail.getInvTotOtherDebitAmount());

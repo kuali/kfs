@@ -33,10 +33,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentGroup extends TimestampedBusinessObjectBase {
-    private static BigDecimal zero = new BigDecimal(0);
+    private static KualiDecimal zero = KualiDecimal.ZERO;
 
     private KualiInteger id; // PMT_GRP_ID
     private String payeeName; // PMT_PAYEE_NM
@@ -66,7 +67,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String adviceEmailAddress; // ADV_EMAIL_ADDR
     private Boolean employeeIndicator; // EMP_IND
     private String creditMemoNbr; // PMT_CRDT_MEMO_NBR
-    private BigDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
+    private KualiDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
     private KualiInteger disbursementNbr; // DISB_NBR
     private Timestamp disbursementDate; // DISB_TS
     private String physCampusProcessCd; // PHYS_CMP_PROC_CD
@@ -146,8 +147,8 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * 
      * @return
      */
-    public BigDecimal getNetPaymentAmount() {
-        BigDecimal amt = new BigDecimal(0);
+    public KualiDecimal getNetPaymentAmount() {
+        KualiDecimal amt = KualiDecimal.ZERO;
         for (Iterator iter = this.getPaymentDetails().iterator(); iter.hasNext();) {
             PaymentDetail element = (PaymentDetail) iter.next();
             amt = amt.add(element.getNetPaymentAmount());
@@ -378,7 +379,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="PMT_CRDT_MEMO_AMT" length="14"
      */
-    public BigDecimal getCreditMemoAmount() {
+    public KualiDecimal getCreditMemoAmount() {
         return creditMemoAmount;
     }
 
@@ -618,7 +619,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * @param decimal
      */
-    public void setCreditMemoAmount(BigDecimal decimal) {
+    public void setCreditMemoAmount(KualiDecimal decimal) {
         creditMemoAmount = decimal;
     }
 

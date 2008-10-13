@@ -42,7 +42,7 @@
     <field-descriptor name="customerFileCreateTimestamp" column="CUST_FL_CRTN_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="paymentCount" column="PMT_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="paymentFileName" column="PMT_FL_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="paymentTotalAmount" column="PMT_TOT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="paymentTotalAmount" column="PMT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="submiterUserId" column="SBMTR_USR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -104,10 +104,10 @@
     <field-descriptor name="defaultObjectCode" column="DFLT_OBJ_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="defaultPhysicalCampusProcessingCode" column="DFLT_PHYS_CMP_PROC_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="defaultSubObjectCode" column="DFLT_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="fileThresholdAmount" column="FL_THRSHLD_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="fileThresholdAmount" column="FL_THRSHLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="fileThresholdEmailAddress" column="CUST_FILE_THRSHLD_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="orgCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="paymentThresholdAmount" column="PMT_THRSHLD_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="paymentThresholdAmount" column="PMT_THRSHLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="paymentThresholdEmailAddress" column="CUST_PMT_THRSHLD_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingEmailAddr" column="CUST_PRCS_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
@@ -228,7 +228,7 @@
      <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
      <field-descriptor name="univFiscalPrdCd" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="description" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
-     <field-descriptor name="amount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL"/>
+     <field-descriptor name="amount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
      <field-descriptor name="debitCrdtCd" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="transactionDt" column="TRANSACTION_DT" jdbc-type="TIMESTAMP"/>
      <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
@@ -250,7 +250,7 @@
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" table="PDP_PMT_ACCT_DTL_T">
     <field-descriptor name="id" column="PMT_ACCT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_ACCT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountNetAmount" column="ACCT_NET_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="accountNetAmount" column="ACCT_NET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="finChartCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="finObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="finSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
@@ -387,12 +387,12 @@
     <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="invTotDiscountAmount" column="INV_TOT_DSCT_AMT" jdbc-type="DECIMAL"/>
-    <field-descriptor name="invTotOtherCreditAmount" column="INV_TOT_OTHR_CRDT_AMT" jdbc-type="DECIMAL"/>
-    <field-descriptor name="invTotOtherDebitAmount" column="INV_TOT_OTHR_DEBIT_AMT" jdbc-type="DECIMAL"/>
-    <field-descriptor name="invTotShipAmount" column="INV_TOT_SHP_AMT" jdbc-type="DECIMAL"/>
-    <field-descriptor name="netPaymentAmount" column="NET_PMT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="invTotOtherCreditAmount" column="INV_TOT_OTHR_CRDT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="invTotOtherDebitAmount" column="INV_TOT_OTHR_DEBIT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="invTotShipAmount" column="INV_TOT_SHP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="netPaymentAmount" column="NET_PMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="organizationDocNbr" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
-    <field-descriptor name="origInvoiceAmount" column="ORIG_INV_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="origInvoiceAmount" column="ORIG_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="purchaseOrderNbr" column="PO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="requisitionNbr" column="REQS_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
@@ -505,7 +505,7 @@
     <field-descriptor name="sortGroupId" column="PMT_SORT_ORD_VAL" jdbc-type="VARCHAR"/>
     <field-descriptor name="beginDisbursementNbr" column="BEG_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="endDisbursementNbr" column="END_DISB_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="processTotalCount" column="PROC_TOT_CNT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

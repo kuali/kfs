@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.dataaccess.impl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +46,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
@@ -212,7 +212,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     class Numbers {
-        public BigDecimal amount = new BigDecimal("0");
+        public KualiDecimal amount = KualiDecimal.ZERO;
         public int payments = 0;
         public int payees = 0;
     }

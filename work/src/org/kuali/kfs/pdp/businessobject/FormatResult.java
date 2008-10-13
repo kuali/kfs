@@ -19,14 +19,13 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -39,7 +38,7 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
     private boolean processImmediate;
     private CustomerProfile cust;
     private int payments;
-    private BigDecimal amount;
+    private KualiDecimal amount;
     private DisbursementType disbursementType;
     private int beginDisbursementNbr;
     private int endDisbursementNbr;
@@ -47,14 +46,14 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
 
     public FormatResult() {
         super();
-        amount = new BigDecimal(0);
+        amount = KualiDecimal.ZERO;
         payments = 0;
     }
 
     public FormatResult(Integer p, CustomerProfile c) {
         procId = p;
         cust = c;
-        amount = new BigDecimal(0);
+        amount = KualiDecimal.ZERO;
         payments = 0;
     }
 
@@ -119,11 +118,11 @@ public class FormatResult extends TransientBusinessObjectBase implements Compara
         this.endDisbursementNbr = endDisbursementNbr;
     }
 
-    public BigDecimal getAmount() {
+    public KualiDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
 

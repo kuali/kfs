@@ -37,6 +37,7 @@ import org.kuali.kfs.pdp.businessobject.FormatResult;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
@@ -115,7 +116,7 @@ public class FormatPrepareAction extends BaseAction {
         request.setAttribute("PdpFormatProcessForm", fpf);
 
         int count = 0;
-        BigDecimal amount = new BigDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
 
         for (Iterator iter = results.iterator(); iter.hasNext();) {
             FormatResult element = (FormatResult) iter.next();

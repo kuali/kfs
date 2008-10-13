@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
@@ -76,14 +77,14 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String defaultPhysicalCampusProcessingCode; // DFLT_PHYS_CMP_PROC_CD
     private String defaultSubObjectCode; // DFLT_SUB_OBJ_CD
     private Boolean employeeCheck; // CUST_EMP_CHK_IND
-    private BigDecimal fileThresholdAmount; // FL_THRSHLD_AMT
+    private KualiDecimal fileThresholdAmount; // FL_THRSHLD_AMT
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private KualiInteger id; // CUST_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private String orgCode; // ORG_CD
     private Boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
     private Boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
-    private BigDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
+    private KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
     private String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
     private String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
     private String psdTransactionCode; // PSD_TRN_CD
@@ -386,7 +387,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="FL_THRSHLD_AMT" not-null="false"
      * @return Returns the fileThresholdAmount.
      */
-    public BigDecimal getFileThresholdAmount() {
+    public KualiDecimal getFileThresholdAmount() {
         return fileThresholdAmount;
     }
 
@@ -419,7 +420,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @hibernate.property column="PMT_THRSHLD_AMT" not-null="false"
      * @return Returns the paymentThresholdAmount.
      */
-    public BigDecimal getPaymentThresholdAmount() {
+    public KualiDecimal getPaymentThresholdAmount() {
         return paymentThresholdAmount;
     }
 
@@ -737,7 +738,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param fileThresholdAmount The fileThresholdAmount to set.
      */
-    public void setFileThresholdAmount(BigDecimal fileThresholdAmount) {
+    public void setFileThresholdAmount(KualiDecimal fileThresholdAmount) {
         this.fileThresholdAmount = fileThresholdAmount;
     }
 
@@ -786,7 +787,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     /**
      * @param paymentThresholdAmount The paymentThresholdAmount to set.
      */
-    public void setPaymentThresholdAmount(BigDecimal paymentThresholdAmount) {
+    public void setPaymentThresholdAmount(KualiDecimal paymentThresholdAmount) {
         this.paymentThresholdAmount = paymentThresholdAmount;
     }
 

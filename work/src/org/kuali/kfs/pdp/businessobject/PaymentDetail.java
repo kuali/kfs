@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -41,7 +42,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 
 public class PaymentDetail extends TimestampedBusinessObjectBase {
-    private static BigDecimal zero = new BigDecimal(0);
+    private static KualiDecimal zero = KualiDecimal.ZERO;
 
     private KualiInteger id; // PMT_DTL_ID
     private String invoiceNbr; // INV_NBR
@@ -51,12 +52,12 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private String financialDocumentTypeCode; // FDOC_TYP_CD
     private String requisitionNbr; // REQS_NBR
     private String organizationDocNbr; // ORG_DOC_NBR
-    private BigDecimal origInvoiceAmount; // ORIG_INV_AMT
-    private BigDecimal netPaymentAmount; // NET_PMT_AMT
-    private BigDecimal invTotDiscountAmount; // INV_TOT_DSCT_AMT
-    private BigDecimal invTotShipAmount; // INV_TOT_SHP_AMT
-    private BigDecimal invTotOtherDebitAmount; // INV_TOT_OTHR_DEBIT_AMT
-    private BigDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
+    private KualiDecimal origInvoiceAmount; // ORIG_INV_AMT
+    private KualiDecimal netPaymentAmount; // NET_PMT_AMT
+    private KualiDecimal invTotDiscountAmount; // INV_TOT_DSCT_AMT
+    private KualiDecimal invTotShipAmount; // INV_TOT_SHP_AMT
+    private KualiDecimal invTotOtherDebitAmount; // INV_TOT_OTHR_DEBIT_AMT
+    private KualiDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
     private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
     private Timestamp lastDisbursementActionDate;
 
@@ -74,14 +75,14 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         return (origInvoiceAmount != null) || (invTotDiscountAmount != null) || (invTotShipAmount != null) || (invTotOtherDebitAmount != null) || (invTotOtherCreditAmount != null);
     }
 
-    public BigDecimal getCalculatedPaymentAmount() {
-        BigDecimal orig_invoice_amt = origInvoiceAmount == null ? zero : origInvoiceAmount;
-        BigDecimal invoice_tot_discount_amt = invTotDiscountAmount == null ? zero : invTotDiscountAmount;
-        BigDecimal invoice_tot_ship_amt = invTotShipAmount == null ? zero : invTotShipAmount;
-        BigDecimal invoice_tot_other_debits = invTotOtherDebitAmount == null ? zero : invTotOtherDebitAmount;
-        BigDecimal invoice_tot_other_credits = invTotOtherCreditAmount == null ? zero : invTotOtherCreditAmount;
+    public KualiDecimal getCalculatedPaymentAmount() {
+        KualiDecimal orig_invoice_amt = origInvoiceAmount == null ? zero : origInvoiceAmount;
+        KualiDecimal invoice_tot_discount_amt = invTotDiscountAmount == null ? zero : invTotDiscountAmount;
+        KualiDecimal invoice_tot_ship_amt = invTotShipAmount == null ? zero : invTotShipAmount;
+        KualiDecimal invoice_tot_other_debits = invTotOtherDebitAmount == null ? zero : invTotOtherDebitAmount;
+        KualiDecimal invoice_tot_other_credits = invTotOtherCreditAmount == null ? zero : invTotOtherCreditAmount;
 
-        BigDecimal t = orig_invoice_amt.subtract(invoice_tot_discount_amt);
+        KualiDecimal t = orig_invoice_amt.subtract(invoice_tot_discount_amt);
         t = t.add(invoice_tot_ship_amt);
         t = t.add(invoice_tot_other_debits);
         t = t.subtract(invoice_tot_other_credits);
@@ -111,8 +112,8 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     /**
      * @return total of all account detail amounts
      */
-    public BigDecimal getAccountTotal() {
-        BigDecimal acctTotal = new BigDecimal(0.00);
+    public KualiDecimal getAccountTotal() {
+        KualiDecimal acctTotal = new KualiDecimal(0.00);
 
         for (PaymentAccountDetail paymentAccountDetail : accountDetail) {
             if (paymentAccountDetail.getAccountNetAmount() != null) {
@@ -231,7 +232,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="INV_TOT_DSCT_AMT" length="14"
      */
-    public BigDecimal getInvTotDiscountAmount() {
+    public KualiDecimal getInvTotDiscountAmount() {
         return invTotDiscountAmount;
     }
 
@@ -239,7 +240,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="INV_TOT_OTHR_CRDT_AMT" length="14"
      */
-    public BigDecimal getInvTotOtherCreditAmount() {
+    public KualiDecimal getInvTotOtherCreditAmount() {
         return invTotOtherCreditAmount;
     }
 
@@ -247,7 +248,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="INV_TOT_OTHR_DEBIT_AMT" length="14"
      */
-    public BigDecimal getInvTotOtherDebitAmount() {
+    public KualiDecimal getInvTotOtherDebitAmount() {
         return invTotOtherDebitAmount;
     }
 
@@ -255,7 +256,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="INV_TOT_SHP_AMT" length="14"
      */
-    public BigDecimal getInvTotShipAmount() {
+    public KualiDecimal getInvTotShipAmount() {
         return invTotShipAmount;
     }
 
@@ -263,7 +264,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="NET_PMT_AMT" length="14"
      */
-    public BigDecimal getNetPaymentAmount() {
+    public KualiDecimal getNetPaymentAmount() {
         return netPaymentAmount;
     }
 
@@ -279,7 +280,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="ORIG_INV_AMT" length="14"
      */
-    public BigDecimal getOrigInvoiceAmount() {
+    public KualiDecimal getOrigInvoiceAmount() {
         return origInvoiceAmount;
     }
 
@@ -330,35 +331,35 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     /**
      * @param decimal
      */
-    public void setInvTotDiscountAmount(BigDecimal decimal) {
+    public void setInvTotDiscountAmount(KualiDecimal decimal) {
         invTotDiscountAmount = decimal;
     }
 
     /**
      * @param decimal
      */
-    public void setInvTotOtherCreditAmount(BigDecimal decimal) {
+    public void setInvTotOtherCreditAmount(KualiDecimal decimal) {
         invTotOtherCreditAmount = decimal;
     }
 
     /**
      * @param decimal
      */
-    public void setInvTotOtherDebitAmount(BigDecimal decimal) {
+    public void setInvTotOtherDebitAmount(KualiDecimal decimal) {
         invTotOtherDebitAmount = decimal;
     }
 
     /**
      * @param decimal
      */
-    public void setInvTotShipAmount(BigDecimal decimal) {
+    public void setInvTotShipAmount(KualiDecimal decimal) {
         invTotShipAmount = decimal;
     }
 
     /**
      * @param decimal
      */
-    public void setNetPaymentAmount(BigDecimal decimal) {
+    public void setNetPaymentAmount(KualiDecimal decimal) {
         netPaymentAmount = decimal;
     }
 
@@ -372,7 +373,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     /**
      * @param decimal
      */
-    public void setOrigInvoiceAmount(BigDecimal decimal) {
+    public void setOrigInvoiceAmount(KualiDecimal decimal) {
         origInvoiceAmount = decimal;
     }
 

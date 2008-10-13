@@ -149,13 +149,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Batch batch = createBatch(campusCode, user, processRunDate);
         Integer count = 0;
-        BigDecimal totalAmount = new BigDecimal("0");
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherRuleConstants.DocumentStatusCodes.APPROVED, campusCode);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate);
             count++;
-            totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
+            totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
         }
 
         batch.setPaymentCount(new KualiInteger(count));
@@ -307,12 +307,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
         pd.setCustPaymentDocNbr(document.getDocumentNumber());
         pd.setInvoiceDate(new Timestamp(processRunDate.getTime()));
-        pd.setOrigInvoiceAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
-        pd.setInvTotDiscountAmount(new BigDecimal("0"));
-        pd.setInvTotOtherCreditAmount(new BigDecimal("0"));
-        pd.setInvTotOtherDebitAmount(new BigDecimal("0"));
-        pd.setInvTotShipAmount(new BigDecimal("0"));
-        pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
+        pd.setOrigInvoiceAmount(document.getDisbVchrCheckTotalAmount());
+        pd.setInvTotDiscountAmount(KualiDecimal.ZERO);
+        pd.setInvTotOtherCreditAmount(KualiDecimal.ZERO);
+        pd.setInvTotOtherDebitAmount(KualiDecimal.ZERO);
+        pd.setInvTotShipAmount(KualiDecimal.ZERO);
+        pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount());
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
         pd.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
 
@@ -345,7 +345,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             else {
                 pad.setProjectCode(KFSConstants.getDashProjectCode());
             }
-            pad.setAccountNetAmount(sal.getAmount().bigDecimalValue());
+            pad.setAccountNetAmount(sal.getAmount());
             pd.addAccountDetail(pad);
         }
 
@@ -500,7 +500,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         // Set these for now, we will update them later
         batch.setPaymentCount(KualiInteger.ZERO);
-        batch.setPaymentTotalAmount(new BigDecimal("0"));
+        batch.setPaymentTotalAmount(KualiDecimal.ZERO);
         
         businessObjectService.save(batch);
 

@@ -19,10 +19,11 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class DailyReport extends TransientBusinessObjectBase {
     private String customer;
-    private BigDecimal amount;
+    private KualiDecimal amount;
     private Integer payments;
     private Integer payees;
     
@@ -31,7 +32,7 @@ public class DailyReport extends TransientBusinessObjectBase {
     public DailyReport() {
         payments = 0;
         payees = 0;
-        amount = new BigDecimal("0");
+        amount = KualiDecimal.ZERO;
     }
 
     public DailyReport(DailyReport dr) {
@@ -39,7 +40,7 @@ public class DailyReport extends TransientBusinessObjectBase {
         customer = dr.customer;
     }
 
-    public DailyReport(String c, BigDecimal a, Integer pm, Integer py, PaymentGroup paymentGroup) {
+    public DailyReport(String c, KualiDecimal a, Integer pm, Integer py, PaymentGroup paymentGroup) {
         this();
         customer = c;
         amount = a;
@@ -59,11 +60,11 @@ public class DailyReport extends TransientBusinessObjectBase {
         amount = amount.add(r.amount);
     }
 
-    public BigDecimal getAmount() {
+    public KualiDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
 

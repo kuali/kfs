@@ -183,7 +183,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
 
         batch.setPaymentCount(new KualiInteger(count));
-        batch.setPaymentTotalAmount(totalAmount);
+        batch.setPaymentTotalAmount(new KualiDecimal(totalAmount));
 
         businessObjectService.save(batch);
         paymentFileEmailService.sendLoadEmail(batch);
@@ -256,7 +256,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                     }
 
                     t.count++;
-                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
 
                     // mark the CMs and PREQs as processed
                     for (CreditMemoDocument cm : cmds) {
@@ -299,7 +299,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 }
 
                 t.count = t.count + pg.getPaymentDetails().size();
-                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
             }
         }
 
@@ -389,7 +389,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
 
             t.count = t.count + pg.getPaymentDetails().size();
-            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount());
+            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
         }
 
         return t;
@@ -549,19 +549,19 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         pd.setFinancialDocumentTypeCode("CM");
         pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
-        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().bigDecimalValue().negate());
+        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().negated());
 
-        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue().negate());
+        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
-        BigDecimal shippingAmount = new BigDecimal("0");
-        BigDecimal discountAmount = new BigDecimal("0");
-        BigDecimal creditAmount = new BigDecimal("0");
-        BigDecimal debitAmount = new BigDecimal("0");
+        KualiDecimal shippingAmount = KualiDecimal.ZERO;
+        KualiDecimal discountAmount = KualiDecimal.ZERO;
+        KualiDecimal creditAmount = KualiDecimal.ZERO;
+        KualiDecimal debitAmount = KualiDecimal.ZERO;
         for (Iterator iter = cmd.getItems().iterator(); iter.hasNext();) {
             CreditMemoItem item = (CreditMemoItem) iter.next();
-            BigDecimal itemAmount = new BigDecimal("0");
+            KualiDecimal itemAmount = KualiDecimal.ZERO;
             if (item.getExtendedPrice() != null) {
-                itemAmount = item.getExtendedPrice().bigDecimalValue();
+                itemAmount = item.getExtendedPrice();
             }
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode())) {
                 discountAmount = discountAmount.subtract(itemAmount);
@@ -573,7 +573,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 debitAmount = debitAmount.subtract(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode())) {
-                if (itemAmount.compareTo(new BigDecimal("0")) < 0) {
+                if (itemAmount.compareTo(KualiDecimal.ZERO) < 0) {
                     creditAmount = creditAmount.subtract(itemAmount);
                 }
                 else {
@@ -623,19 +623,19 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         pd.setFinancialDocumentTypeCode("PREQ");
         pd.setInvoiceDate(new Timestamp(prd.getInvoiceDate().getTime()));
-        pd.setOrigInvoiceAmount(prd.getVendorInvoiceAmount().bigDecimalValue());
+        pd.setOrigInvoiceAmount(prd.getVendorInvoiceAmount());
 
-        pd.setNetPaymentAmount(prd.getDocumentHeader().getFinancialDocumentTotalAmount().bigDecimalValue());
+        pd.setNetPaymentAmount(prd.getDocumentHeader().getFinancialDocumentTotalAmount());
 
-        BigDecimal shippingAmount = new BigDecimal("0");
-        BigDecimal discountAmount = new BigDecimal("0");
-        BigDecimal creditAmount = new BigDecimal("0");
-        BigDecimal debitAmount = new BigDecimal("0");
+        KualiDecimal shippingAmount = KualiDecimal.ZERO;
+        KualiDecimal discountAmount = KualiDecimal.ZERO;
+        KualiDecimal creditAmount = KualiDecimal.ZERO;
+        KualiDecimal debitAmount = KualiDecimal.ZERO;
         for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
             PaymentRequestItem item = (PaymentRequestItem) iter.next();
-            BigDecimal itemAmount = new BigDecimal("0");
+            KualiDecimal itemAmount = KualiDecimal.ZERO;
             if (item.getExtendedPrice() != null) {
-                itemAmount = item.getExtendedPrice().bigDecimalValue();
+                itemAmount = item.getExtendedPrice();
             }
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode())) {
                 discountAmount = discountAmount.add(itemAmount);
@@ -683,13 +683,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 PurApAccountingLine account = (PurApAccountingLine) iterator.next();
                 AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(), account.getAccountNumber(), account.getSubAccountNumber(), account.getFinancialObjectCode(), account.getFinancialSubObjectCode(), account.getOrganizationReferenceId(), account.getProjectCode());
 
-                BigDecimal amt = account.getAmount().bigDecimalValue();
+                KualiDecimal amt = account.getAmount();
                 if ("CM".equals(documentType)) {
-                    amt = amt.negate();
+                    amt = amt.negated();
                 }
 
                 if (accounts.containsKey(ai)) {
-                    BigDecimal total = amt.add((BigDecimal) accounts.get(ai));
+                    KualiDecimal total = amt.add((KualiDecimal) accounts.get(ai));
                     accounts.put(ai, total);
                 }
                 else {
@@ -702,7 +702,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             AccountingInfo ai = (AccountingInfo) iter.next();
             PaymentAccountDetail pad = new PaymentAccountDetail();
             pad.setAccountNbr(ai.account);
-            pad.setAccountNetAmount((BigDecimal) accounts.get(ai));
+            pad.setAccountNetAmount((KualiDecimal) accounts.get(ai));
             pad.setFinChartCode(ai.chart);
             pad.setFinObjectCode(ai.objectCode);
             pad.setFinSubObjectCode(ai.subObjectCode);
@@ -897,7 +897,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         // Set these for now, we will update them later
         batch.setPaymentCount(KualiInteger.ZERO);
-        batch.setPaymentTotalAmount(new BigDecimal("0"));
+        batch.setPaymentTotalAmount(KualiDecimal.ZERO);
 
         businessObjectService.save(batch);
 

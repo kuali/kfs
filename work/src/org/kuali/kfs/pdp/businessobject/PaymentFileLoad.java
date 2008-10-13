@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -43,7 +43,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
 
     // trailer fields
     private int paymentCount;
-    private BigDecimal paymentTotalAmount;
+    private KualiDecimal paymentTotalAmount;
 
     // data
     private List<PaymentGroup> paymentGroups;
@@ -86,8 +86,8 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     /**
      * @return total amount of all payments
      */
-    public BigDecimal getCalculatedPaymentTotalAmount() {
-        BigDecimal totalAmount = new BigDecimal(0);
+    public KualiDecimal getCalculatedPaymentTotalAmount() {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         for (PaymentGroup paymentGroup : paymentGroups) {
             for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
@@ -214,7 +214,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @return Returns the paymentTotalAmount.
      */
-    public BigDecimal getPaymentTotalAmount() {
+    public KualiDecimal getPaymentTotalAmount() {
         return paymentTotalAmount;
     }
 
@@ -223,7 +223,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      * 
      * @param paymentTotalAmount The paymentTotalAmount to set.
      */
-    public void setPaymentTotalAmount(BigDecimal paymentTotalAmount) {
+    public void setPaymentTotalAmount(KualiDecimal paymentTotalAmount) {
         this.paymentTotalAmount = paymentTotalAmount;
     }
 

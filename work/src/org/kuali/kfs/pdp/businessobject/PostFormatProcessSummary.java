@@ -29,6 +29,7 @@ import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +66,7 @@ public class PostFormatProcessSummary extends TransientBusinessObjectBase {
             ps.setDisbursementType(pg.getDisbursementType());
             ps.setEndDisbursementNbr(KualiInteger.ZERO);
             ps.setProcess(pg.getProcess());
-            ps.setProcessTotalAmount(new BigDecimal(0));
+            ps.setProcessTotalAmount(KualiDecimal.ZERO);
             ps.setProcessTotalCount(KualiInteger.ZERO);
             ps.setSortGroupId(String.valueOf(SpringContext.getBean(PaymentGroupService.class).getSortGroupId(pg)));
             processSummary.add(ps);

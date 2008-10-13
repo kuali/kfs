@@ -52,7 +52,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     private Integer universityFiscalYear; // UNIV_FISCAL_YR NUMBER 4 0
     private String univFiscalPrdCd; // UNIV_FISCAL_PRD_CD VARCHAR2 2
     private String description; // TRN_LDGR_ENTR_DESC VARCHAR2 40
-    private BigDecimal amount; // TRN_LDGR_ENTR_AMT NUMBER 19 2
+    private KualiDecimal amount; // TRN_LDGR_ENTR_AMT NUMBER 19 2
     private String debitCrdtCd; // TRN_DEBIT_CRDT_CD VARCHAR2 1
     private Timestamp transactionDt; // TRANSACTION_DT DATE 7
     private String financialDocumentTypeCode; // FDOC_TYP_CD VARCHAR2 4
@@ -90,7 +90,7 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         oe.setUniversityFiscalPeriodCode(univFiscalPrdCd);
         oe.setTransactionLedgerEntryDescription(description);
         if (amount != null) {
-            oe.setTransactionLedgerEntryAmount(new KualiDecimal(amount));
+            oe.setTransactionLedgerEntryAmount(amount);
         }
         oe.setTransactionDebitCreditCode(debitCrdtCd);
         if (transactionDt != null) {
@@ -127,11 +127,11 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.acctSfFinObjCd = acctSfFinObjCd;
     }
 
-    public BigDecimal getAmount() {
+    public KualiDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
 

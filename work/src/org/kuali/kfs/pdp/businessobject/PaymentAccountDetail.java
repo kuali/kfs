@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -43,7 +44,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     private String finSubObjectCode; // FIN_SUB_OBJ_CD
     private String orgReferenceId; // ORG_REFERENCE_ID
     private String projectCode; // PROJECT_CD
-    private BigDecimal accountNetAmount; // ACCT_NET_AMT
+    private KualiDecimal accountNetAmount; // ACCT_NET_AMT
 
     private KualiInteger paymentDetailId;
     private PaymentDetail paymentDetail; // PMT_DTL_ID
@@ -100,7 +101,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="ACCT_NET_AMT" length="14"
      */
-    public BigDecimal getAccountNetAmount() {
+    public KualiDecimal getAccountNetAmount() {
         return accountNetAmount;
     }
 
@@ -162,7 +163,7 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     /**
      * @param string
      */
-    public void setAccountNetAmount(BigDecimal bigdecimal) {
+    public void setAccountNetAmount(KualiDecimal bigdecimal) {
         accountNetAmount = bigdecimal;
     }
 

@@ -156,7 +156,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
             glPendingTransaction.setProjectCd(paymentAccountDetail.getProjectCode());
 
-            if (paymentAccountDetail.getAccountNetAmount().signum() >= 0) {
+            if (paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() >= 0) {
                 glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
             }
             else {
@@ -250,7 +250,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         glPendingTransaction.setFsOriginCd(PdpConstants.PDP_FDOC_ORIGIN_CODE);
         glPendingTransaction.setFdocNbr(paymentGroup.getDisbursementNbr().toString());
         
-        if (paymentGroup.getNetPaymentAmount().signum() > 0) {
+        if (paymentGroup.getNetPaymentAmount().bigDecimalValue().signum() > 0) {
             glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         }
         else {

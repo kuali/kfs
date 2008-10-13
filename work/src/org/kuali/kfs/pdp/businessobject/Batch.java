@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -45,7 +46,7 @@ public class Batch extends TimestampedBusinessObjectBase {
     private String paymentFileName; // PMT_FL_NM
     private Timestamp customerFileCreateTimestamp; // CUST_FL_CRTN_TS
     private KualiInteger paymentCount; // PMT_CNT
-    private BigDecimal paymentTotalAmount; // PMT_TOT_AMT
+    private KualiDecimal paymentTotalAmount; // PMT_TOT_AMT
     private UniversalUser submiterUser;
     private String submiterUserId; // SBMTR_USR_ID
     private Timestamp fileProcessTimestamp; // FL_PROC_TS
@@ -98,7 +99,7 @@ public class Batch extends TimestampedBusinessObjectBase {
      * @return
      * @hibernate.property column="PMT_TOT_AMT"
      */
-    public BigDecimal getPaymentTotalAmount() {
+    public KualiDecimal getPaymentTotalAmount() {
         return paymentTotalAmount;
     }
 
@@ -148,7 +149,7 @@ public class Batch extends TimestampedBusinessObjectBase {
     /**
      * @param decimal
      */
-    public void setPaymentTotalAmount(BigDecimal decimal) {
+    public void setPaymentTotalAmount(KualiDecimal decimal) {
         paymentTotalAmount = decimal;
     }
 

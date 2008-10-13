@@ -27,6 +27,7 @@ import java.util.List;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -39,7 +40,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
     }
 
     private int detailCount;
-    private BigDecimal detailTotal;
+    private KualiDecimal detailTotal;
     private String chart;
     private String org;
     private String subUnit;
@@ -54,7 +55,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
         super();
     }
 
-    public LoadPaymentStatus(List<String> w, int d, BigDecimal dt) {
+    public LoadPaymentStatus(List<String> w, int d, KualiDecimal dt) {
         warnings = w;
         detailCount = d;
         detailTotal = dt;
@@ -101,7 +102,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @return Returns the detailTotal.
      */
-    public BigDecimal getDetailTotal() {
+    public KualiDecimal getDetailTotal() {
         return detailTotal;
     }
 
@@ -110,7 +111,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @param detailTotal The detailTotal to set.
      */
-    public void setDetailTotal(BigDecimal detailTotal) {
+    public void setDetailTotal(KualiDecimal detailTotal) {
         this.detailTotal = detailTotal;
     }
 

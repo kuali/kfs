@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,6 +44,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @see org.kuali.kfs.pdp.service.PaymentFileEmailService
@@ -315,7 +315,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
      * 
      * @param body <code>StringBuffer</code>
      */
-    protected void addPaymentFieldsToBody(StringBuffer body, Integer batchId, String chart, String org, String subUnit, Date createDate, int paymentCount, BigDecimal paymentTotal) {
+    protected void addPaymentFieldsToBody(StringBuffer body, Integer batchId, String chart, String org, String subUnit, Date createDate, int paymentCount, KualiDecimal paymentTotal) {
         String batchIdLabel = dataDictionaryService.getAttributeLabel(PaymentFileLoad.class, PdpPropertyConstants.BATCH_ID);
         body.append(batchIdLabel + ": " + batchId + "\n");
 

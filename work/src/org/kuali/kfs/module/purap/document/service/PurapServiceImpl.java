@@ -717,11 +717,11 @@ public class PurapServiceImpl implements PurapService {
               PurchasingDocument document = (PurchasingDocument)purapDocument; 
               return document.getDeliveryPostalCode();
           }else if (purapDocument instanceof AccountsPayableDocument){
-              AccountsPayableDocument document = (AccountsPayableDocument)purapDocument;
-              if (document.getPurchaseOrderDocument() == null){
+              AccountsPayableDocument docBase = (AccountsPayableDocument)purapDocument;
+              if (docBase.getPurchaseOrderDocument() == null){
                   throw new RuntimeException("PurchaseOrder document does not exists");
               }
-              return document.getPurchaseOrderDocument().getDeliveryPostalCode();
+              return docBase.getPurchaseOrderDocument().getDeliveryPostalCode();
           }
           return null;
       }

@@ -355,5 +355,6 @@ public class CamsPropertyConstants {
     public static class AssetAcquisitionType {
         public final static String ACQUISITION_TYPE_CODE = "acquisitionTypeCode";
     }
-
+    
+    public static final String HIDDEN_FIELD_FOR_ERROR="hiddenFieldForError"; 
 }

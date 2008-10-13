@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
@@ -136,7 +137,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
                 valid = validateOffCampusLocation(fieldMap, contactName, streetAddress, cityName, stateCode, zipCode, countryCode);
             }
             else if (assetType.isMovingIndicator() || assetType.isRequiredBuildingIndicator()) {
-                putError(fieldMap, LocationField.LOCATION_TAB_KEY, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.HIDDEN_FIELD_FOR_ERROR, CamsKeyConstants.AssetLocation.ERROR_LOCATION_INFO_REQUIRED);
                 valid &= false;
             }
         }

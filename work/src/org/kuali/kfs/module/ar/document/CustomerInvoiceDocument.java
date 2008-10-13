@@ -1,8 +1,8 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;

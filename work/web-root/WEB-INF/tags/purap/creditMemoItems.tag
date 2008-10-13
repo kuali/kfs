@@ -182,12 +182,17 @@
 				</div>
 			</td>
 			<td class="infoline">
-			    <div align="right">
-			        <kul:htmlControlAttribute
-				        attributeEntry="${itemAttributes.itemUnitPrice}"
-				        property="document.item[${ctr}].itemUnitPrice"
-				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
-				</div>
+                   <c:if test="${itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
+                    <div align="right">
+	                    <kul:htmlControlAttribute
+	                        attributeEntry="${itemAttributes.itemUnitPrice}"
+	                        property="document.item[${ctr}].itemUnitPrice"
+	                        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+                     </div>     
+                   </c:if>
+                   <c:if test="${!itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
+                     &nbsp;
+                   </c:if>  
 			</td>
 			<td class="infoline">
 			    <div align="right">

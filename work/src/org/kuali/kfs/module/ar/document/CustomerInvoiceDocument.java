@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.ar.document;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,7 +22,9 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerProcessingType;
+import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.businessobject.PrintInvoiceOptions;
 import org.kuali.kfs.module.ar.businessobject.ReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.SalesTaxCustomerInvoiceDetail;
@@ -42,10 +45,15 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -125,6 +133,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     private PrintInvoiceOptions printInvoiceOption;
     private CustomerAddress customerShipToAddress;
     private CustomerAddress customerBillToAddress;
+    private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
 
     /**
 	 * Default constructor.
@@ -1169,6 +1178,48 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }                
             }
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getWorkgroupName()) &&
+                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier())) {
+            }
+            else {
+                try{
+                    //set new user session to recurrence initiator
+                    String initiator = this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserPersonUserIdentifier();
+                    GlobalVariables.setUserSession(new UserSession(initiator));
+                    
+                    //populate InvoiceRecurrence business object
+                    InvoiceRecurrence newInvoiceRecurrence = new InvoiceRecurrence();
+                    newInvoiceRecurrence.setInvoiceNumber(this.getCustomerInvoiceRecurrenceDetails().getInvoiceNumber());
+                    newInvoiceRecurrence.setCustomerNumber(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber());
+                    newInvoiceRecurrence.setDocumentRecurrenceBeginDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
+                    newInvoiceRecurrence.setDocumentRecurrenceEndDate(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
+                    newInvoiceRecurrence.setDocumentRecurrenceIntervalCode(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode());
+                    newInvoiceRecurrence.setDocumentTotalRecurrenceNumber(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber());
+                    newInvoiceRecurrence.setWorkgroupName(this.getCustomerInvoiceRecurrenceDetails().getWorkgroupName());
+                    newInvoiceRecurrence.setDocumentInitiatorUserIdentifier(this.getCustomerInvoiceRecurrenceDetails().getDocumentInitiatorUserIdentifier());
+                    newInvoiceRecurrence.setActive(this.getCustomerInvoiceRecurrenceDetails().isActive());
+                    
+                    //create a new InvoiceRecurrenceMaintenanceDocument
+                    MaintenanceDocument invoiceRecurrenceMaintDoc = (MaintenanceDocument)KNSServiceLocator.getDocumentService().getNewDocument("InvoiceRecurrenceMaintenanceDocument");
+                    invoiceRecurrenceMaintDoc.getDocumentHeader().setDocumentDescription("Automatically created from Invoice");
+                    invoiceRecurrenceMaintDoc.getNewMaintainableObject().setBusinessObject(newInvoiceRecurrence);
+
+                    //route InvoiceRecurrenceMaintenanceDocument
+                    KNSServiceLocator.getDocumentService().routeDocument(invoiceRecurrenceMaintDoc, null, null);
+                    
+                } 
+                catch (WorkflowException e){
+                    throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                }
+                catch (UserNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
     
@@ -1181,6 +1232,73 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     public void prepareForSave(){
         if( this.isInvoiceReversal() ){
             setOpenInvoiceIndicator(false);
+        }
+        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber())) {
+            this.getCustomerInvoiceRecurrenceDetails().setCustomerNumber(this.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        }
+        if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) &&  
+            ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
+            
+            Calendar beginCalendar = Calendar.getInstance();
+            beginCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate());
+            Date beginDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate();
+            Calendar endCalendar = Calendar.getInstance();
+
+            endCalendar.setTime(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate());
+            Date endDate = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate();
+            Calendar nextCalendar = Calendar.getInstance();
+            Date nextDate = beginDate;
+                    
+            int totalRecurrences = 0;
+            int addCounter = 0;
+            String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
+            if (intervalCode.equals("M")) {
+                addCounter = 1;
+            }
+            if (intervalCode.equals("Q")) {
+                addCounter = 3;
+            }
+            /* perform this loop while begin_date is less than or equal to end_date */
+            while (!(beginDate.after(endDate))){
+                beginCalendar.setTime(beginDate);
+                beginCalendar.add(Calendar.MONTH, addCounter);
+                beginDate = new Date(beginCalendar.getTime().getTime());
+                totalRecurrences++;
+
+                nextDate = beginDate;
+                nextCalendar.setTime(nextDate);
+                nextCalendar.add(Calendar.MONTH, addCounter);
+                nextDate = new Date(nextCalendar.getTime().getTime());
+                if (endDate.after(beginDate) && endDate.before(nextDate)) {
+                    totalRecurrences++;
+                    break;
+                }
+            }
+            if (totalRecurrences > 0) {
+                this.getCustomerInvoiceRecurrenceDetails().setDocumentTotalRecurrenceNumber(totalRecurrences);
+            }
+        }    
+        if (ObjectUtils.isNotNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) &&  
+            ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate())) {
+            
+            Calendar beginCalendar = Calendar.getInstance();
+            beginCalendar.setTime(new Timestamp(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate().getTime()));
+            Calendar endCalendar = Calendar.getInstance();
+            endCalendar = beginCalendar;
+            
+            int addCounter = 0;
+            Integer documentTotalRecurrenceNumber = this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber();
+            String intervalCode = this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode();
+            if (intervalCode.equals("M")) {
+                addCounter = -1;
+                addCounter += documentTotalRecurrenceNumber * 1;
+            }
+            if (intervalCode.equals("Q")) {
+                addCounter = -3;
+                addCounter += documentTotalRecurrenceNumber * 3;
+            }
+            endCalendar.add(Calendar.MONTH, addCounter);
+            this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(new Date(endCalendar.getTime().getTime())));
         }
     }
 
@@ -1324,6 +1442,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
         //remove discount line
         getSourceAccountingLines().remove(discountLineIndex);
+    }
+
+    public CustomerInvoiceRecurrenceDetails getCustomerInvoiceRecurrenceDetails() {
+        return customerInvoiceRecurrenceDetails;
+    }
+
+    public void setCustomerInvoiceRecurrenceDetails(CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails) {
+        this.customerInvoiceRecurrenceDetails = customerInvoiceRecurrenceDetails;
     }
 
     public CustomerAddress getCustomerShipToAddress() {

@@ -104,4 +104,9 @@
    			<ref bean="universityDateService"/>
    		</property>   		
    	</bean>   	
+   	
+   	<bean id="CustomerInvoice-recurrenceBeginDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceBeginDateValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-recurrenceEndDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-maximumNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceMaximumNumberOfRecurrencesValidation" abstract="true"/>
+   	<bean id="CustomerInvoice-bothEndDateAndTotalRecurrenceNumberValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBothEndDateAndTotalRecurrenceNumberValidation" abstract="true"/>
 </beans>

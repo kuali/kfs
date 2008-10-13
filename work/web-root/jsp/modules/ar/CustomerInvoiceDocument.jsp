@@ -26,6 +26,9 @@
 	
     <ar:customerInvoiceOrganization documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"  editingMode="${KualiForm.editingMode}"/>	
 	
+    <ar:customerInvoiceRecurrenceDetails
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />
+        
     <ar:customerInvoiceGeneral
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" editingMode="${KualiForm.editingMode}" />
         

@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
@@ -73,6 +74,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private NonInvoicedDistributionService nonInvoicedDistributionService;
     private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
@@ -278,9 +280,16 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         setupBasicDefaultValuesForCustomerInvoiceDocument(document);
 
         // set up the default values for the AR DOC Header
+        
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
+        // set up the primary key for AR_INV_RCURRNC_DTL_T
+        CustomerInvoiceRecurrenceDetails recurrenceDetails = new CustomerInvoiceRecurrenceDetails();
+        recurrenceDetails.setInvoiceNumber(document.getDocumentNumber());
+        // recurrenceDetails.setCustomerNumber(document.getCustomer().getCustomerNumber());
+        document.setCustomerInvoiceRecurrenceDetails(recurrenceDetails);
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
@@ -335,6 +344,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         accountsReceivableDocumentHeader.setCustomerNumber(customerNumber);
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
+        // set up the primary key for AR_INV_RCURRNC_DTL_T
+        CustomerInvoiceRecurrenceDetails recurrenceDetails = new CustomerInvoiceRecurrenceDetails();
+        recurrenceDetails.setInvoiceNumber(document.getDocumentNumber());
+        // recurrenceDetails.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        document.setCustomerInvoiceRecurrenceDetails(recurrenceDetails);
 
         // make open invoice indicator to true
         document.setOpenInvoiceIndicator(true);

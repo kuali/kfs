@@ -303,17 +303,21 @@
       </list>
     </property>
   </bean>
-
+  
   <bean id="AssetRetirementGlobalMaintenanceDocument-workflowProperties" parent="AssetRetirementGlobalMaintenanceDocument-workflowProperties-parentBean" />
 
   <bean id="AssetRetirementGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
-      <list>
+       <list>
         <bean parent="WorkflowPropertyGroup">
-          <property name="workflowProperties" >
+        <property name="workflowProperties" >
             <list>
               <bean parent="WorkflowProperty"
                     p:path="newMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.assetRetirementGlobalDetails.asset.organizationOwnerAccount" />
             </list>
           </property>
         </bean>

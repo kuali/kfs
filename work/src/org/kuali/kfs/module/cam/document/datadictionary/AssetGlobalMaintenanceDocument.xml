@@ -60,7 +60,7 @@
     <property name="documentTypeCode" value="AA" />
     <property name="workflowProperties" >
       <ref bean="AssetGlobalMaintenanceDocument-workflowProperties" />
-    </property>
+    </property> 
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/AccountService.js</value>
@@ -468,7 +468,6 @@
   </bean>
 
   <bean id="AssetGlobalMaintenanceDocument-workflowProperties" parent="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" />
-
   <bean id="AssetGlobalMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
     <property name="workflowPropertyGroups" >
       <list>
@@ -477,10 +476,14 @@
             <list>
               <bean parent="WorkflowProperty"
                     p:path="newMaintainableObject.businessObject" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.organizationOwnerAccount" />
+              <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.assetGlobalDetails" />
             </list>
           </property>
         </bean>
       </list>
     </property>
-  </bean>
+  </bean>  
 </beans>

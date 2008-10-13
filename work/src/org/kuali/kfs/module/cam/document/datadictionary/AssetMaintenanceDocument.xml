@@ -118,11 +118,11 @@
               p:name="organizationOwnerAccount.organizationCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="agencyNumber" />              
+              p:name="agencyNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="acquisitionTypeCode"
               p:readOnly="false"
-              p:defaultValue="C" />              
+              p:defaultValue="C" />
         <bean parent="MaintainableFieldDefinition"
               p:name="inventoryStatusCode"
               p:required="true" p:defaultValue="U" />
@@ -801,8 +801,11 @@
             <list>
               <bean parent="WorkflowProperty"
                     p:path="oldMaintainableObject.businessObject" />
+                    
               <bean parent="WorkflowProperty"
                     p:path="newMaintainableObject.businessObject" />
+               <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.organizationOwnerAccount" />     
             </list>
           </property>
         </bean>

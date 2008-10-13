@@ -25,6 +25,8 @@
             <list>
               <bean parent="WorkflowProperty"
                     p:path="newMaintainableObject.businessObject" />
+                <bean parent="WorkflowProperty"
+                    p:path="newMaintainableObject.businessObject.organizationOwnerAccount" />    
             </list>
           </property>
         </bean>

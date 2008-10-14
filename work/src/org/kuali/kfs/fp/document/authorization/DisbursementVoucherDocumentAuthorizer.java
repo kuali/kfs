@@ -77,7 +77,9 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && workflowDocument.userIsInitiator(user)) {
             editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE, "TRUE");
-        } else if(workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+            setDVWorkgroupEditModes(editModeMap, document, user);
+        } 
+        else if(workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             if(editModeMap.containsKey(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY)) {
                 editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_EDIT_MODE, "TRUE");
             } else {

@@ -393,7 +393,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 // itemType description and a dash to the purchase order item description.
                 if (StringUtils.isNotBlank(poi.getItemDescription())) {
                     if (poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
-                        description = poi.getItemDescription() + " - " + description;
+                        description = poi.getItemType().getItemTypeDescription() + " - " + description;
                     }
                 }
 

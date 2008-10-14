@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.codehaus.xfire.plexus.config.ConfigurationService;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -43,7 +41,6 @@ import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
@@ -56,6 +53,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
 import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -347,8 +345,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("ClosePO started.");
         String operation = "Close ";
-
-        return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
+        PurchaseOrderDocument po = ((PurchaseOrderForm)form).getPurchaseOrderDocument();
+        PurchaseOrderDocumentRule rule = (PurchaseOrderDocumentRule)SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchaseOrderDocumentRule.class);
+        if (rule.validateCanClosePOForTradeIn(po)) {
+            return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
+        }
+        else {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
     }
 
     /**
@@ -599,7 +603,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An ActionForward
      */
     public ActionForward firstTransmitPrintPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String poDocId = request.getParameter("docId");
+        String poDocId = ((PurchaseOrderForm)form).getDocId();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             SpringContext.getBean(PurchaseOrderService.class).performPurchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);

@@ -75,6 +75,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS = "error.capitalAsset.trans.type.not.allowing.non.quantity.items";
     public static final String ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL="errors.item.capitalAsset.assetNumber.must.be.longValue.notNull";
     public static final String ERROR_CAPITAL_ASSET_ITEM_NOT_CAMS_ELIGIBLE="error.capitalAsset.item.not.cams.eligible";
+    public static final String ERROR_CAPITAL_ASSET_TRANSACTION_TYPE_MUST_BE_ASSET_GIVEN_TRADE_IN = "error.capitalAsset.trans.type.must.be.asset.given.tradein";
     
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
@@ -239,9 +240,11 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE = "errors.item.capitalAsset.objectCodeSubtype.requires.tranType";
     public static final String ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.quantity.objectCodeSubtype";
     public static final String ERROR_ITEM_TRAN_TYPE_REQUIRES_ASSET_NUMBER = "errors.item.capitalAsset.tranType.requires.assetNumber";
-public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
+    public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
     public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
-
+    public static final String ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE = "errors.item.tradeIn.outstanding.encumbered.amount.negative";
+    public static final String WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED = "warning.item.tradeIn.amount.unused";
+    
     // Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
     public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";

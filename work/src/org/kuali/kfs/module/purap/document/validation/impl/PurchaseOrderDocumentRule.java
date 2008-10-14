@@ -387,4 +387,21 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }
+    
+    /**
+     * Validates whether we can indeed close the PO. Return false and give error if 
+     * the outstanding encumbrance amount of the trade in item is less than 0.
+     * 
+     * @param po
+     * @return
+     */
+    public boolean validateCanClosePOForTradeIn (PurchaseOrderDocument po) {
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE) && item.getItemOutstandingEncumberedAmount().isLessThan(new KualiDecimal(0))) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE, "amend the PO");
+                return false;
+            }
+        }
+        return true;
+    }
 }

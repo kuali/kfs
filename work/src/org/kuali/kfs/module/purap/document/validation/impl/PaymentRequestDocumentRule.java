@@ -564,6 +564,31 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
 
     /**
+     * Checks whether there exists trade in item with outstanding amount less than 0,
+     * if there is a line item that is assigned to trade in. Only checks this if
+     * the fullDocumentEntry is not yet completed.
+     * 
+     * @param document
+     * @return
+     */
+    public boolean validateWarningTradeIn(PaymentRequestDocument document) {
+        if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
+            for (PurApItem item : (List<PurApItem>) document.getItems()) {
+                if (item.getItemType().isLineItemIndicator() && item.getItemAssignedToTradeInIndicator()) {
+                    PaymentRequestItem tradeInItem = (PaymentRequestItem) document.getTradeInItem();
+                    if (ObjectUtils.isNotNull(tradeInItem)) {
+                        if (ObjectUtils.isNull(tradeInItem.getItemUnitPrice()) && tradeInItem.getPoOutstandingAmount().isLessThan(new KualiDecimal(0))) {
+                            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED);
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;        
+    }
+    
+    /**
      * Validates above the line items.
      * 
      * @param item - payment request item

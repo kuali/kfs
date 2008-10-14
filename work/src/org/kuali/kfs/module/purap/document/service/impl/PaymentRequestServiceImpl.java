@@ -1235,7 +1235,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             return false;
         }
         else { // not quantity based
-            if (poi.getItemOutstandingEncumberedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+            //As long as it contains a number (whether it's 0, negative or positive number), we'll
+            //have to return true. This is so that the OutstandingEncumberedAmount and the
+            //Original Amount from PO column would appear on the page for Trade In.
+            if (poi.getItemOutstandingEncumberedAmount() != null) {
                 return true;
             }
             return false;

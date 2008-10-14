@@ -28,10 +28,13 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.CalculateAccountsPayableEvent;
+import org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestDocumentRule;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule;
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -312,6 +315,24 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 document, document.getOriginalVendorHeaderGeneratedIdentifier(), document.getOriginalVendorDetailAssignedIdentifier());
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward route (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
+        
+        if (preq.isClosePurchaseOrderIndicator()) {
+            PurchaseOrderDocument po = preq.getPurchaseOrderDocument();
+            PurchaseOrderDocumentRule rule = (PurchaseOrderDocumentRule) SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchaseOrderDocumentRule.class);
+            if (rule.validateCanClosePOForTradeIn(po)) {
+                return super.route(mapping, form, request, response);
+            }
+            else {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+        else {
+            return super.route(mapping, form, request, response);
+        }
     }
 
 }

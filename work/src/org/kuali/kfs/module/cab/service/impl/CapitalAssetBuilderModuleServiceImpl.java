@@ -104,7 +104,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         // potential validation '
         // against CAMS data (for example, asset # exist in CAMS)
         valid &= validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers(capitalAssetItems);
-        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
+        valid &= validateNonQuantityDrivenAllowedIndicatorAndTradeIn(capitalAssetItems);
         return valid;
     }
 
@@ -120,7 +120,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
-        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
+        valid &= validateNonQuantityDrivenAllowedIndicatorAndTradeIn(capitalAssetItems);
         return valid;
     }
 
@@ -136,7 +136,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String capitalAssetTransactionType = capitalAssetItems.get(0).getCapitalAssetTransactionTypeCode();
         String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[0].";
         valid &= validatePurchasingTransactionTypesAllowingAssetNumbers(capitalAssetSystems.get(0), capitalAssetTransactionType, prefix);
-        valid &= validateNonQuantityDrivenAllowedIndicator(capitalAssetItems);
+        valid &= validateNonQuantityDrivenAllowedIndicatorAndTradeIn(capitalAssetItems);
         return valid;
     }
 
@@ -454,6 +454,27 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
+     * 
+     * This method validates that if the purchasing item is assigned to trade in then the capital asset
+     * transaction type code must be "Asset Given In Trade" (TDIN). If that's not the transaction type code
+     * then return false.
+     * 
+     * @param item
+     * @param prefix
+     * @return false if the purchasing item is assigned to trade in and the capital asset transaction
+     *         type code is not TDIN.
+     */
+    private boolean validationForTradeIn(PurchasingCapitalAssetItem item, String prefix) {
+        String capitalAssetTransactionType = item.getCapitalAssetTransactionTypeCode();
+        if (item.getPurchasingItem().getItemAssignedToTradeInIndicator() && !StringUtils.equals(capitalAssetTransactionType, PurapConstants.CapitalAssetTransactionTypes.ASSET_GIVEN_IN_TRADE)) {
+            String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
+            GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANSACTION_TYPE_MUST_BE_ASSET_GIVEN_TRADE_IN, capitalAssetTransactionType);
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * Generic validation that if the capitalAssetTransactionTypeCode does not match the system parameter
      * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets contain a non-null
      * capitalAssetNumber then return false. This method is used by one system and multiple system types as well as being used as a
@@ -490,22 +511,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetItems The List of PurchasingCapitalAssetItem to be validated.
      * @return false if the indicator is false and there is at least one non quantity items on the list.
      */
-    private boolean validateNonQuantityDrivenAllowedIndicator(List<PurchasingCapitalAssetItem> capitalAssetItems) {
+    private boolean validateNonQuantityDrivenAllowedIndicatorAndTradeIn(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
         int count = 0;
         for (PurchasingCapitalAssetItem capitalAssetItem : capitalAssetItems) {
+            String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";
             if (StringUtils.isNotBlank(capitalAssetItem.getCapitalAssetTransactionTypeCode())) {
 
                 ((PurchasingCapitalAssetItemBase) capitalAssetItem).refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE);
 
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
-                        String prefix = "document." + PurapPropertyConstants.PURCHASING_CAPITAL_ASSET_ITEMS + "[" + count + "].";
+                        
                         String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
                         GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS, capitalAssetItem.getCapitalAssetTransactionTypeCode());
                         valid &= false;
                     }
                 }
+                valid &= validationForTradeIn(capitalAssetItem, prefix);
             }
             count++;
         }

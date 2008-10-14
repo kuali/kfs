@@ -54,6 +54,9 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
             if (!confirmPayDayNotOverThresholdDaysAway(preq)) {
                 return false;
             }
+            if (!confirmUnusedTradeIn(preq)) {
+                return false;
+            }
         }
         preRulesOK &= super.doRules(document);
         return preRulesOK;
@@ -72,7 +75,9 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         if (questionText.contains("{")) {
             questionText = prepareQuestionText(questionType, questionText);
         }
-
+        else {
+            questionText = PurapConstants.PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION;
+        }
         boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(questionType, questionText);
 
         if (!confirmOverride) {
@@ -112,6 +117,14 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         return true;
     }
 
+    public boolean confirmUnusedTradeIn(PaymentRequestDocument preq) {
+        PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
+        if (!rule.validateWarningTradeIn(preq)) {
+            return askForConfirmation(PREQDocumentsStrings.UNUSED_TRADE_IN_QUESTION, PurapKeyConstants.WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED);
+        }
+        return true;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.validation.impl.AccountsPayableDocumentPreRulesBase#getDocumentName()
      */

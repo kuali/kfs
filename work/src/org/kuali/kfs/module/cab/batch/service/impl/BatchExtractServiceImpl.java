@@ -523,7 +523,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         pretag.setQuantityInvoiced(quantity != null ? quantity : new KualiDecimal(1));
                         pretag.setVendorName(purchaseOrder.getVendorName());
                         pretag.setAssetTopsDescription(purapItem.getItemDescription());
-                        pretag.setPretagCreateDate(dateTimeService.getCurrentSqlDate());
+                        pretag.setPretagCreateDate(purchaseOrder.getPurchaseOrderInitialOpenDate());
                         pretag.setChartOfAccountsCode(purchaseOrder.getChartOfAccountsCode());
                         pretag.setOrganizationCode(purchaseOrder.getOrganizationCode());
                         pretag.setActive(true);

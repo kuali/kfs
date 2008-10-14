@@ -56,7 +56,7 @@ public class PurchaseOrderResponse extends CxmlParser {
   public String getStatusText() {
     LOG.debug("getStatusText() started");
 
-    Node statusTextNode = getXMLNode(document, "PurchaseOrder/ResponseMessage/Status/StatusText");
+    Node statusTextNode = getXMLNode(document, "PurchaseOrderMessage/ResponseMessage/Status/StatusText");
     if (statusTextNode == null) {
       LOG.debug("getStatusText() statusTextNode not found");
       return null;

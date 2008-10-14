@@ -41,6 +41,11 @@
     <c:set var="useTaxIndicatorChangeable" value="true" scope="request" />
 </c:if>
 
+<c:set var="useTaxIndicatorButton" value="changeusetax" scope="request" />
+<c:if test="${KualiForm.document.useTaxIndicator}">
+	<c:set var="useTaxIndicatorButton" value="changesalestax" scope="request" />
+</c:if>
+
 	<h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
@@ -104,7 +109,7 @@
 	            readOnly="${true}"/>
 			<c:if test="${useTaxIndicatorChangeable}">			
 			&nbsp;
-			<html:image property="methodToCall.toggleUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-change.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
+			<html:image property="methodToCall.toggleUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
 			</c:if>
 	    </td>
 	    <th align=right valign=middle class="bord-l-b">

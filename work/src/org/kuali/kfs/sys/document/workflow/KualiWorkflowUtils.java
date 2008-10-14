@@ -34,6 +34,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.WorkflowUtils;
@@ -146,19 +148,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     public static final boolean isMaintenanceDocument(DocumentType documentType) {
-        LOG.info("started isMaintenanceDocument: " + documentType.getName());
-        boolean isMaintenanceDocument = false;
-        DocumentType currentDocumentType = documentType.getParentDocType();
-        while ((currentDocumentType != null) && !isMaintenanceDocument) {
-            if (MAINTENANCE_DOC_TYPE.equals(currentDocumentType.getName())) {
-                isMaintenanceDocument = true;
-            }
-            else {
-                currentDocumentType = currentDocumentType.getParentDocType();
-            }
-        }
-        LOG.info(new StringBuffer("finished isMaintenanceDocument: ").append(documentType.getName()).append(" - ").append(isMaintenanceDocument));
-        return isMaintenanceDocument;
+        DocumentEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentType.getName());
+        return MaintenanceDocument.class.isAssignableFrom(entry.getDocumentClass());
     }
 
 

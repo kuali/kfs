@@ -51,6 +51,12 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
         } else {
+            // If asset global document is created from CAB, disallow add payment to collection.
+            boolean allowAddPaymentToCollection = true;
+            if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
+                allowAddPaymentToCollection = false;
+            }
+            
             setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, true);
 

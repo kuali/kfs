@@ -69,7 +69,8 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         
         RequisitionDocument reqDoc = (RequisitionDocument)purapDocument;
        
-        if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),reqDoc.getDeliveryPostalCode())){
+        String initialZipCode = ((PurchasingFormBase)form).getInitialZipCode();
+        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,reqDoc.getDeliveryPostalCode())){
             for (PurApItem purApItem : purapDocument.getItems()) {
                 PurchasingItemBase item = (PurchasingItemBase)purApItem;
                 if (item.getItemTaxAmount() != null){

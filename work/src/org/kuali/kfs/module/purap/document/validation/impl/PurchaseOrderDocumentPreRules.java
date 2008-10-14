@@ -76,7 +76,8 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
         
         PurchaseOrderDocument poDoc = (PurchaseOrderDocument)purapDocument;
 
-        if (!StringUtils.equals(((PurchasingFormBase)form).getInitialZipCode(),poDoc.getDeliveryPostalCode())){
+        String initialZipCode = ((PurchasingFormBase)form).getInitialZipCode();
+        if (StringUtils.isNotEmpty(initialZipCode) && !StringUtils.equals(initialZipCode,poDoc.getDeliveryPostalCode())){
             for (PurApItem purApItem : purapDocument.getItems()) {
                 PurchasingItemBase item = (PurchasingItemBase)purApItem;
                 

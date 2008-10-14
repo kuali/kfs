@@ -49,7 +49,7 @@ public class PurapConstants extends JSTLConstants {
 
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
 
-    public static final String B2_B_ALLOW_COPY_DAYS = "B2_B_ALLOW_COPY_DAYS";
+    public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
 

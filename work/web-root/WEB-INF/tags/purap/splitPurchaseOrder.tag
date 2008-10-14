@@ -52,7 +52,7 @@
 	            			</tr>
 	            			<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 	            				<c:choose>
-        							<c:when test="${itemLine.itemType.itemTypeAboveTheLineIndicator == false}">
+        							<c:when test="${itemLine.itemType.additionalChargeIndicator == true}">
         								<tr>
         									<td class="datacell">
 											    <kul:htmlControlAttribute
@@ -93,7 +93,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
         	</tr>
         	<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
-        		<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
+        		<c:if test="${itemLine.itemType.lineItemIndicator == true}">
        				<tr>
 			        	<td class="datacell">
 			        		<div align="center">

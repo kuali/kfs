@@ -130,7 +130,7 @@
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"
 	id="itemLine">
 	<%-- to ensure order this should pull out items from APC instead of this--%>
-	<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
+	<c:if test="${itemLine.itemType.additionalChargeIndicator == true}">
 		<c:if test="${not empty specialItemTotalType and itemLine.itemTypeCode == specialItemTotalType }">
 			  <c:if test="${!empty specialItemTotalOverride}">
       			<jsp:invoke fragment="specialItemTotalOverride"/>

@@ -356,7 +356,7 @@
 							</tr>
 
 							<logic:iterate indexId="ctr" name="KualiForm" property="document.currentPurchaseOrderDocument.items" id="itemLine">
-								<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
+								<c:if test="${itemLine.itemType.lineItemIndicator == true}">
 								<tr>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
@@ -399,7 +399,7 @@
 							</logic:iterate>
 
 						<logic:iterate indexId="ctr" name="KualiForm" property="document.currentPurchaseOrderDocument.items" id="itemLine">
-							<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
+							<c:if test="${itemLine.itemType.lineItemIndicator != true}">
 									<tr>
 										<td colspan="4">&nbsp;</td>
 										<th align="right">

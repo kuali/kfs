@@ -82,7 +82,7 @@
                     <th width=141 align=center><b>Extended Cost</b></th>
                 </tr>
                 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
-                    <c:if test="${ ((!itemLine.itemType.itemTypeAboveTheLineIndicator and (not empty itemLine.itemDescription)) or (itemLine.itemType.itemTypeAboveTheLineIndicator and itemLine.itemActiveIndicator)) }" >
+                    <c:if test="${ ((itemLine.itemType.additionalChargeIndicator and (not empty itemLine.itemDescription)) or (itemLine.itemType.lineItemIndicator and itemLine.itemActiveIndicator)) }" >
                         <tr>
 			
                             <kul:htmlAttributeHeaderCell scope="row">

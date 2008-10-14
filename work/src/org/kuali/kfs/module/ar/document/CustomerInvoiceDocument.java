@@ -1178,8 +1178,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     throw new RuntimeException("Cannot find customer invoice document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }                
             }
-            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getCustomerNumber()) &&
-                ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
+            if (ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceBeginDate()) &&
                 ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceEndDate()) &&
                 ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentRecurrenceIntervalCode()) &&
                 ObjectUtils.isNull(this.getCustomerInvoiceRecurrenceDetails().getDocumentTotalRecurrenceNumber()) &&

@@ -1217,7 +1217,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     throw new RuntimeException("Cannot find Invoice Recurrence Maintenance Document with id " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
                 }
                 catch (UserNotFoundException e) {
-                    throw new RuntimeException(e);
+//                    throw new RuntimeException(e);
                 }
             }
         }

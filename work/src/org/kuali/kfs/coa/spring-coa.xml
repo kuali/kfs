@@ -677,4 +677,31 @@
 			<ref bean="organizationService" />
 		</property>
     </bean>
+
+    <bean name="campusRoleService" class="org.kuali.kfs.coa.service.impl.CampusRoleTypeServiceImpl">
+    	<property name="acceptedQualificationAttributeNames">
+    		<list>
+				<value>chartOfAccountsCode</value>
+				<value>organizationCode</value>
+				<value>campusCode</value>
+    		</list>
+    	</property>
+    	<property name="kimAttributesTranslators">
+    		<list>
+				<bean class="org.kuali.kfs.coa.service.impl.CampusAttributesTranslator">
+					<property name="supportedAttributeNames">
+						<list>
+							<value>chartOfAccountsCode</value>
+							<value>organizationCode</value>
+						</list>
+					</property>
+					<property name="resultAttributeNames">
+						<list>
+							<value>campusCode</value>
+						</list>
+					</property>
+			    </bean>
+    		</list>
+    	</property>
+    </bean>
 </beans>

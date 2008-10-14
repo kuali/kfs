@@ -159,7 +159,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.totalAmount}"
 				        property="document.item[${ctr}].totalAmount" 
-				        readOnly="${not (fullEntryMode)}" />
+				        readOnly="true" />
 			    </div>
 			</td>
 			<td class="infoline">

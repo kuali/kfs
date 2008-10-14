@@ -421,6 +421,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setRequisitionIdentifier(requisitionDocument.getPurapDocumentIdentifier());
         this.setPurchaseOrderTotalLimit(requisitionDocument.getPurchaseOrderTotalLimit());
         this.setPurchaseOrderTransmissionMethodCode(requisitionDocument.getPurchaseOrderTransmissionMethodCode());
+        this.setUseTaxIndicator( requisitionDocument.isUseTaxIndicator() );
         
         this.setVendorCityName(requisitionDocument.getVendorCityName());
         this.setVendorContractGeneratedIdentifier(requisitionDocument.getVendorContractGeneratedIdentifier());

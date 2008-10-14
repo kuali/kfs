@@ -665,4 +665,16 @@
     		</list>
     	</property>
     </bean>
+    
+     <bean name="organizationHierarchyRoleTypeService" class="org.kuali.kfs.coa.service.impl.OrganizationHierarchyRoleTypeServiceImpl">
+    	<property name="acceptedQualificationAttributeNames">
+    		<list>
+    			<value>chartOfAccountsCode</value>
+    			<value>organizationCode</value>
+    		</list>
+    	</property>
+    	<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
+    </bean>
 </beans>

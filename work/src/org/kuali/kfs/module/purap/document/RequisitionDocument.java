@@ -118,7 +118,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
         this.setFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.DEFAULT_FUNDING_SOURCE));
-
+        this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
+            
         FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId("purap");
         this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());

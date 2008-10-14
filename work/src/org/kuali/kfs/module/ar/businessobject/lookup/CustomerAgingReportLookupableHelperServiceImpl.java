@@ -187,7 +187,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
               //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
             //}else {
                 approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
-                LOG.info("\t\t\t\t\t\t\t\t approval date "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
+                LOG.info("\t\t\t\t\t\t\t\t approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
                 // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
             //}
          // ok
@@ -213,7 +213,7 @@ if (knownCustomers.containsKey(customerNumber)) {
 }
 //LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
 //LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
-            if (approvalDate.before(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
+            if (!approvalDate.after(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
                 custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
 //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
                 total0to30 = total0to30.add(cid.getAmount());
@@ -221,22 +221,22 @@ if (knownCustomers.containsKey(customerNumber)) {
 //                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
 //                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
             }
-            if (approvalDate.before(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
+            if (!approvalDate.after(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
                 total31to60 = total31to60.add(cid.getAmount());
                 LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
-            if (approvalDate.before(cutoffdate60) && approvalDate.after(cutoffdate90)) {
+            if (!approvalDate.after(cutoffdate60) && approvalDate.after(cutoffdate90)) {
                 custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
                 total61to90 = total61to90.add(cid.getAmount());
                 LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
-            if (approvalDate.before(cutoffdate90) && approvalDate.after(cutoffdate120)) {
+            if (!approvalDate.after(cutoffdate90) && approvalDate.after(cutoffdate120)) {
                 custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
                 total91toSYSPR = total91toSYSPR.add(cid.getAmount());
                 LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
             }
-            if (approvalDate.before(cutoffdate120)) {
+            if (!approvalDate.after(cutoffdate120)) {
                 custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
                 totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmount());
                 LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());

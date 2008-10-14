@@ -40,6 +40,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
@@ -52,7 +53,6 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
 
     // parameter constants and logging
     private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
-    private static final String CUSTOMER_INVOICE_DOCUMENT_INITIATOR = "KHUNTLEY";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
 // ******************* replaced while testing   private static final String RUN_INDICATOR_PARAMETER_VALUE = "N";
@@ -66,7 +66,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         
         GlobalVariables.clear();
         try {
-            GlobalVariables.setUserSession(new UserSession(CUSTOMER_INVOICE_DOCUMENT_INITIATOR));
+            GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
         }
         catch (WorkflowException wfex) {
         }
@@ -78,22 +78,22 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
             createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
             Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
-//            Thread.sleep(5000);
-//            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
-//            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
+            Thread.sleep(5000);
+            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
+            Thread.sleep(5000);
             billingDate = DateUtils.addDays(billingDate, -30);
         }
         setInitiatedParameter();
@@ -163,8 +163,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         //customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");// - BILLING DATE - "+sdf.format(billingDate));
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
-        customerInvoiceDocument.setBillingDate(java.sql.Date.valueOf(sdf.format(billingDate)));
-
+        customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
         
         for (int i = 0; i < 2; i++) { 
             customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));

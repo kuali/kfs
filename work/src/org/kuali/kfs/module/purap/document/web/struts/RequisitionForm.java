@@ -110,11 +110,9 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
-        //setup auth first if necessary
-        if (auth == null) {
-            RequisitionDocument req = (RequisitionDocument) this.getDocument();
-            auth = new RequisitionDocumentActionAuthorizer(req, getEditingMode());
-        }
+        RequisitionDocument req = (RequisitionDocument) this.getDocument();
+        auth = new RequisitionDocumentActionAuthorizer(req, getEditingMode());
+
         //add buttons from purapformbase
         return super.getExtraButtons();
     }

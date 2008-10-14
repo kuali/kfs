@@ -37,6 +37,7 @@ import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDoc
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.GroupNotFoundException;
 import org.kuali.rice.kns.service.KualiGroupService;
@@ -289,7 +290,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
         if (editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION)) {
             return false;
         }
-        return (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS)||purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW));
+        return (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.IN_PROCESS)||purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.AWAIT_PURCHASING_REVIEW)) && this.editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY);
     }
     
     /**

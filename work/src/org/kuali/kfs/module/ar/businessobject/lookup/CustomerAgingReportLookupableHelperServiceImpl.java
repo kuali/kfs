@@ -187,7 +187,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
               //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
             //}else {
                 approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
-                LOG.info("\t\t\t\t\t\t\t\t approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
+                //LOG.info("\t\t\t\t\t\t\t\t approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
                 // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
             //}
          // ok
@@ -224,22 +224,22 @@ if (knownCustomers.containsKey(customerNumber)) {
             if (!approvalDate.after(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
                 total31to60 = total31to60.add(cid.getAmount());
-                LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
+                //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
             if (!approvalDate.after(cutoffdate60) && approvalDate.after(cutoffdate90)) {
                 custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
                 total61to90 = total61to90.add(cid.getAmount());
-                LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
+                //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
             if (!approvalDate.after(cutoffdate90) && approvalDate.after(cutoffdate120)) {
                 custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
                 total91toSYSPR = total91toSYSPR.add(cid.getAmount());
-                LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
+                //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
             }
             if (!approvalDate.after(cutoffdate120)) {
                 custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
                 totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmount());
-                LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
+                //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
             }            
             
 }        
@@ -291,7 +291,7 @@ if (knownCustomers.containsKey(customerNumber)) {
         List returnKeys;
         // if (fieldConversions != null && !fieldConversions.isEmpty()) {
         returnKeys = new ArrayList(fieldConversions.keySet());
-        LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (GETRETURNKEYS)... \n\n\n");
+        //LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (GETRETURNKEYS)... \n\n\n");
         // }
         // else {
         // returnKeys = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
@@ -364,7 +364,7 @@ if (knownCustomers.containsKey(customerNumber)) {
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList;
-        LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (performLookup)... \n\n\n");
+        //LOG.info("\n\n\t\t THIS OVERRIDE IS WORKING (performLookup)... \n\n\n");
         // call search method to get results
         if (bounded) {
             displayList = getSearchResults(lookupForm.getFieldsForLookup());

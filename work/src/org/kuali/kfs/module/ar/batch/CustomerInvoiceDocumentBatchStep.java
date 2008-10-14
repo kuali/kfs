@@ -78,21 +78,21 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
             createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",jobRunDate);
+            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",billingDate);
             Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",jobRunDate);            
+            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",billingDate);            
             Thread.sleep(5000);
             billingDate = DateUtils.addDays(billingDate, -30);
         }
@@ -165,7 +165,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
         
-        for (int i = 0; i < 2; i++) { 
+        int accountlines = (int) (Math.random()*5); // add up to 5
+        if (accountlines==0) accountlines=1; // add at least one
+        for (int i = 0; i < accountlines; i++) { 
             customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
         }              
         
@@ -178,6 +180,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     }
     
     protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
+        BigDecimal quantity = new BigDecimal(1);//8*Math.random()); // random number 0 to 8 total items      // <-- was causing rule errors because can't have more than 9 total (sourclines*quantity) items
+        KualiDecimal unitprice = new KualiDecimal(100*Math.random()); // 0.00 to 100.00 dollars per item
+        KualiDecimal amount = new KualiDecimal(quantity).multiply(unitprice); // setAmount has to be set explicitly below; so we calculate it here
+        LOG.info("\n\n\n\n\t\t\t\t randomquantity="+quantity.toPlainString()+"\t\t\t\tunitprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString());
+        
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         customerInvoiceDetail.setChartOfAccountsCode("BL");
@@ -185,10 +192,10 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setFinancialObjectCode("1500");
         customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
-        customerInvoiceDetail.setInvoiceItemUnitPrice(new KualiDecimal(10));
-        customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
+        customerInvoiceDetail.setInvoiceItemUnitPrice(unitprice);
+        customerInvoiceDetail.setInvoiceItemQuantity(quantity);
         customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
-        customerInvoiceDetail.setAmount(new KualiDecimal(10));
+        customerInvoiceDetail.setAmount(amount);
         return customerInvoiceDetail;
     }  
     

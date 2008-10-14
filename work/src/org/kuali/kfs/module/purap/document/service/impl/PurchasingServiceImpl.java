@@ -77,7 +77,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         List<PurchasingCapitalAssetItem> newCamsItemsList = new TypedArrayList(purDoc.getPurchasingCapitalAssetItemClass());
         
         for (PurApItem purapItem : purDoc.getItems()) {
-            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (purapItem.getItemType().isLineItemIndicator()) {
                 if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = getItemIfAlreadyInCamsItemsList(purapItem, camsItemsList);
                     //If either the camsItem is null or if its system is null and the document's system type is IND (this is
@@ -214,7 +214,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if (!purDoc.isUseTaxIndicator() && purDoc.getItems() != null){
             for (int i = 0; i < purDoc.getItems().size(); i++) {
                 PurApItem item = purDoc.getItems().get(i);
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()){
+                if (item.getItemType().isLineItemIndicator()){
                     item.setItemTaxAmount(null);
                 }
             }

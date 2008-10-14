@@ -417,7 +417,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         KualiDecimal quantity = null;
         
         for (PaymentRequestItem pri : (List<PaymentRequestItem>) preq.getItems()) {
-            if( pri.getItemType().isItemTypeAboveTheLineIndicator() ){
+            if( pri.getItemType().isLineItemIndicator() ){
                 if(pri.getItemType().isQuantityBasedGeneralLedgerIndicator()){
                     
                     //if within range of passed in quantities

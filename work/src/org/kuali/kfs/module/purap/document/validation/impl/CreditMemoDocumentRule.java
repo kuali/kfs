@@ -254,7 +254,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 String errorKeyPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "].";
 
                 valid &= validateItemQuantity(cmDocument, item, errorKeyPrefix + PurapPropertyConstants.QUANTITY);

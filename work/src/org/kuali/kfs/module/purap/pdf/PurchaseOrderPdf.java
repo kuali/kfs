@@ -614,7 +614,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             itemsList = po.getItems();
         }
         for (PurchaseOrderItem poi : itemsList) {
-            if ((poi.getItemType() != null) && (poi.getItemType().isItemTypeAboveTheLineIndicator() || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) && lineItemDisplaysOnPdf(poi)) {
+            if ((poi.getItemType() != null) && (poi.getItemType().isLineItemIndicator() || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) && lineItemDisplaysOnPdf(poi)) {
 
                 String description = (poi.getItemCatalogNumber() != null) ? poi.getItemCatalogNumber().trim() + " - " : "";
                 description = description + ((poi.getItemDescription() != null) ? poi.getItemDescription().trim() : "");
@@ -626,7 +626,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 }
 
                 // Above the line item types items display the line number; other types don't.
-                if (poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (poi.getItemType().isLineItemIndicator()) {
                     tableCell = new PdfPCell(new Paragraph(poi.getItemLineNumber().toString(), cour_10_normal));
                 }
                 else {
@@ -894,7 +894,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + ". Unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
             return false;
         }
-        else if ((poi.getItemType() != null) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+        else if ((poi.getItemType() != null) && poi.getItemType().isLineItemIndicator()) {
             if (poi.getItemQuantity() == null && poi.getItemUnitPrice() == null) {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity and unit price are both null. Display on pdf.");
                 return true;

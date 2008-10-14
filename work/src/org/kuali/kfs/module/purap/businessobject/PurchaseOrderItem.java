@@ -265,7 +265,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
         ItemType iT = this.getItemType();
         // if service add the po outstanding amount to outstanding amount
-        if (!iT.isQuantityBasedGeneralLedgerIndicator()) {
+        if (iT.isAmountBasedGeneralLedgerIndicator()) {
             outstandingAmount = outstandingAmount.add(this.getItemOutstandingEncumberedAmount());
         }
         else {

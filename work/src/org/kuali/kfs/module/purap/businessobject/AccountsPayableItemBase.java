@@ -62,7 +62,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @return true if the item is considered entered false otherwise
      */
     private boolean isConsideredEntered(boolean allowsZero) {
-        if (getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (getItemType().isLineItemIndicator()) {
             if ((getItemType().isQuantityBasedGeneralLedgerIndicator())) {
                 if ((ObjectUtils.isNull(getItemQuantity())) && (ObjectUtils.isNull(getExtendedPrice()) || (allowsZero && getExtendedPrice().isZero()))) {
                     return false;
@@ -95,7 +95,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      */
     @Override
     public KualiDecimal getExtendedPrice() {
-        if (ObjectUtils.isNotNull(this.getItemUnitPrice()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+        if (ObjectUtils.isNotNull(this.getItemUnitPrice()) && this.getItemType().isAmountBasedGeneralLedgerIndicator()) {
             extendedPrice = new KualiDecimal(this.getItemUnitPrice().toString());
         }
         return extendedPrice;

@@ -574,7 +574,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 }
                 if (needToDistributeCommodityCode) {
                     // only the above the line items need the commodity code.
-                    if (item.getItemType().isItemTypeAboveTheLineIndicator() && StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive) {
+                    if (item.getItemType().isLineItemIndicator() && StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive) {
                         // Ideally we should invoke rules to check whether the commodity code is valid (active, not restricted,
                         // not missing, etc), probably somewhere here or invoke the rule class from here.
 
@@ -592,7 +592,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     BigDecimal zero = new BigDecimal(0);
                     // We should be distributing accounting lines to above the line items all the time;
                     // but only to the below the line items when there is a unit cost.
-                    boolean unitCostNotZeroForBelowLineItems = item.getItemType().isItemTypeAboveTheLineIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
+                    boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
                     if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && itemIsActive) {
                         item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
                         performedAccountDistribution = true;

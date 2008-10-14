@@ -77,7 +77,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      */
     public String getItemIdentifierString() {
         String itemLineNumberString = (getItemLineNumber() != null ? getItemLineNumber().toString() : "");
-        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + itemLineNumberString : getItemType().getItemTypeDescription());
+        String identifierString = (getItemType().isLineItemIndicator() ? "Item " + itemLineNumberString : getItemType().getItemTypeDescription());
         return identifierString;
     }
 
@@ -272,7 +272,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public KualiDecimal calculateExtendedPrice() {
         KualiDecimal extendedPrice = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(itemUnitPrice)) {
-            if (!this.itemType.isQuantityBasedGeneralLedgerIndicator()) {
+            if (this.itemType.isAmountBasedGeneralLedgerIndicator()) {
                 // SERVICE ITEM: return unit price as extended price
                 extendedPrice = new KualiDecimal(this.itemUnitPrice.toString());
             }

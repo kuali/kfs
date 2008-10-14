@@ -653,7 +653,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             KualiDecimal itemAmount = null;
-            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 LOG.debug("generateEntriesClosePurchaseOrder() " + logItmNbr + " Calculate based on amounts");
                 itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
             }
@@ -718,7 +718,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             KualiDecimal itemAmount = null;
-            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 LOG.debug("generateEntriesReopenPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
                 itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
             }
@@ -783,7 +783,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
 
             KualiDecimal itemAmount = null;
-            if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
                 itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
             }
@@ -1441,7 +1441,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         LOG.debug("getPoItem() started");
         for (Iterator iter = po.getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem element = (PurchaseOrderItem) iter.next();
-            if (itemType.isItemTypeAboveTheLineIndicator()) {
+            if (itemType.isLineItemIndicator()) {
                 if (ObjectUtils.isNotNull(nbr) && ObjectUtils.isNotNull(element.getItemLineNumber()) && (nbr.compareTo(element.getItemLineNumber()) == 0)) {
                     return element;
                 }

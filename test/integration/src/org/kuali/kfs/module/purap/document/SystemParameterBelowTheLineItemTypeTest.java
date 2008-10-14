@@ -335,13 +335,13 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
         List<String> allowNegativeTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_NEGATIVE");
 
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
-            if (theItem.getTotalAmount().isNegative() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isNegative() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertTrue(allowNegativeTypes.contains(theItemType));
             }
         }
         for (PurApItemBase theItem :(List<PurApItemBase>)invalidDocument.getItems()) {
-            if (theItem.getTotalAmount().isNegative() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isNegative() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertFalse(allowNegativeTypes.contains(theItemType));
             }
@@ -365,13 +365,13 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
         List<String> allowPositiveTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_POSITIVE");
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
-            if (theItem.getTotalAmount().isPositive() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isPositive() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertTrue(allowPositiveTypes.contains(theItemType));
             }
         }
         for (PurApItemBase theItem :(List<PurApItemBase>)invalidDocument.getItems()) {
-            if (theItem.getTotalAmount().isPositive() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isPositive() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertFalse(allowPositiveTypes.contains(theItemType));
             }
@@ -395,13 +395,13 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
         List<String> allowZeroTypes = parameterService.getParameterValues(documentClass, "ITEM_TYPES_ALLOWING_ZERO");
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
-            if (theItem.getTotalAmount().isZero() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isZero() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertTrue(allowZeroTypes.contains(theItemType));
             }
         }
         for (PurApItemBase theItem :(List<PurApItemBase>)invalidDocument.getItems()) {
-            if (theItem.getTotalAmount().isZero() && ! theItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (theItem.getTotalAmount().isZero() && theItem.getItemType().isAdditionalChargeIndicator()) {
                 String theItemType = theItem.getItemTypeCode();
                 assertFalse(allowZeroTypes.contains(theItemType));
             }

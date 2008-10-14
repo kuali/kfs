@@ -43,7 +43,7 @@ public class ItemTypeValuesFinder extends KeyValuesBase {
         for (Object code : codes) {
             ItemType it = (ItemType) code;
             //exclude certain item types from the list
-            if (it.isItemTypeAboveTheLineIndicator() && !PurapConstants.ItemTypeCodes.EXCLUDED_ITEM_TYPES.contains(it.getItemTypeCode()) ) {
+            if (it.isLineItemIndicator() && !PurapConstants.ItemTypeCodes.EXCLUDED_ITEM_TYPES.contains(it.getItemTypeCode()) ) {
                 labels.add(new KeyLabelPair(it.getItemTypeCode(), it.getItemTypeDescription()));
             }
         }

@@ -82,7 +82,7 @@ public class ReceivingLineDocument extends ReceivingDocumentBase {
             //TODO: Refactor this check into a service call. route FYI during submit
             if(poi.isItemActiveIndicator() && 
                poi.getItemType().isQuantityBasedGeneralLedgerIndicator() && 
-               poi.getItemType().isItemTypeAboveTheLineIndicator() ){
+               poi.getItemType().isLineItemIndicator() ){
                 this.getItems().add(new ReceivingLineItem(poi, this));
             }
         }

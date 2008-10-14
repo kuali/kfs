@@ -469,7 +469,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 List<PaymentRequestItem> items = cm.getPaymentRequestDocument().getItems();
                 for (PaymentRequestItem preqItem : items) {
                     // skip inactive and below the line
-                    if (!preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    if (preqItem.getItemType().isAdditionalChargeIndicator()) {
                         continue;
                     }
                     PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
@@ -486,7 +486,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 // iterate through the above the line poItems to find matching
                 for (PurchaseOrderItem purchaseOrderItem : poItems) {
                     // skip inactive and below the line
-                    if (!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    if (purchaseOrderItem.getItemType().isAdditionalChargeIndicator()) {
                         continue;
                     }
 
@@ -530,7 +530,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             // iterate through the above the line poItems to find matching
             for (PurchaseOrderItem purchaseOrderItem : poItems) {
                 // skip below the line
-                if (!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (purchaseOrderItem.getItemType().isAdditionalChargeIndicator()) {
                     continue;
                 }
                 PaymentRequestItem preqItem = (PaymentRequestItem) preq.getAPItemFromPOItem(purchaseOrderItem);
@@ -631,7 +631,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (!apDoc.isUseTaxIndicator() && apDoc.getItems() != null){
             for (int i = 0; i < apDoc.getItems().size(); i++) {
                 PurApItem item = apDoc.getItems().get(i);
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()){
+                if (item.getItemType().isLineItemIndicator()){
                     item.setItemTaxAmount(null);
                 }
             }

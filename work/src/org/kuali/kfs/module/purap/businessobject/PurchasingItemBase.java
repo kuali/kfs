@@ -43,7 +43,7 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
                 return false;
             }
         }
-        if (!getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (getItemType().isAdditionalChargeIndicator()) {
             if ((ObjectUtils.isNull(getItemUnitPrice())) && (StringUtils.isBlank(getItemDescription())) && (getSourceAccountingLines().isEmpty())) {
                 return false;
             }

@@ -256,7 +256,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         List detailList = purchaseOrder.getItems();
         for (Iterator iter = detailList.iterator(); iter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) iter.next();
-            if ((ObjectUtils.isNotNull(poi.getItemType())) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if ((ObjectUtils.isNotNull(poi.getItemType())) && poi.getItemType().isLineItemIndicator()) {
                 cxml.append("    <POLine linenumber=\"").append(poi.getItemLineNumber()).append("\">\n");
                 cxml.append("      <Item>\n");
                 // CatalogNumber - This is a string that the supplier uses to identify the item (i.e., SKU). Optional.
@@ -426,7 +426,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         List detailList = purchaseOrder.getItems();
         for (Iterator iter = detailList.iterator(); iter.hasNext();) {
             PurchaseOrderItem poi = (PurchaseOrderItem) iter.next();
-            if (ObjectUtils.isNotNull(poi.getItemType()) && poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (ObjectUtils.isNotNull(poi.getItemType()) && poi.getItemType().isLineItemIndicator()) {
                 if (ObjectUtils.isNull(poi.getItemLineNumber())) {
                     LOG.error("verifyCxmlPOData()  The Item Line Number is required for the cXML PO but is missing.");
                     errors.append("Missing Data: Item Line Number\n");

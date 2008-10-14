@@ -90,7 +90,7 @@ public class ReceivingLineItem extends ReceivingItemBase {
         if (getReceivingLineDocument() != null) {
             PurchaseOrderDocument po = getReceivingLineDocument().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
-            if (this.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (this.getItemType().isLineItemIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
                 // throw error if line numbers don't match
             }

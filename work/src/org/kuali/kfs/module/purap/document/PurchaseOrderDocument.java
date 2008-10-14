@@ -1147,7 +1147,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
                 KualiDecimal totalAmount = item.getTotalAmount();
                 KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -1184,7 +1184,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -1216,7 +1216,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && (includeInactive || item.isItemActiveIndicator())) {
                 KualiDecimal taxAmount = item.getItemTaxAmount();
                 KualiDecimal itemTotal = (taxAmount != null) ? taxAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -1261,7 +1261,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         for( PurchaseOrderItem item : items ) {
             if ((item != null) &&
                 (item.getItemType() != null) && 
-                (item.getItemType().isItemTypeBelowTheLineIndicator()) && 
+                (item.getItemType().isAdditionalChargeIndicator()) && 
                 (item.getExtendedPrice() != null) && 
                 (!KualiDecimal.ZERO.equals(item.getExtendedPrice()))) {
                 return true;

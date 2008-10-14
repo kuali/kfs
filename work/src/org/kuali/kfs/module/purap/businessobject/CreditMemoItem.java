@@ -72,7 +72,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoTotalAmount(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
         
-        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+        if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
         }

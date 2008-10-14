@@ -218,7 +218,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
             if (item.isConsideredEntered()) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
                 // only do this check for below the line items
-                if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (item.getItemType().isAdditionalChargeIndicator()) {
                     valid &= validateBelowTheLineValues(documentType, item);
                 }
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
@@ -289,7 +289,7 @@ public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumen
      */
     public boolean newIndividualItemValidation(PurchasingAccountsPayableDocument purapDocument, String documentType, PurApItem item) {
         boolean valid = true;
-        if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (item.getItemType().isAdditionalChargeIndicator()) {
             valid &= validateBelowTheLineValues(documentType, item);
             return valid;
         }

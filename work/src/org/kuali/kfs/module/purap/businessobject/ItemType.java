@@ -28,7 +28,8 @@ public class ItemType extends PersistableBusinessObjectBase {
     private String itemTypeCode;
     private String itemTypeDescription;
     private boolean quantityBasedGeneralLedgerIndicator;
-    private boolean itemTypeAboveTheLineIndicator;
+    private boolean lineItemIndicator; //removing once field is renamed
+    private boolean additionalChargeIndicator; //new name
     private boolean active;
     private boolean taxableIndicator;
 
@@ -49,7 +50,6 @@ public class ItemType extends PersistableBusinessObjectBase {
         this.taxableIndicator = taxableIndicator;
     }
 
-
     public String getItemTypeCode() {
         return itemTypeCode;
     }
@@ -66,6 +66,13 @@ public class ItemType extends PersistableBusinessObjectBase {
         this.itemTypeDescription = itemTypeDescription;
     }
 
+    /**
+     * @return Returns the opposite of quantityBasedGeneralLedgerIndicator.
+     */
+    public boolean isAmountBasedGeneralLedgerIndicator() {
+        return !quantityBasedGeneralLedgerIndicator;
+    }
+
     public boolean isQuantityBasedGeneralLedgerIndicator() {
         return quantityBasedGeneralLedgerIndicator;
     }
@@ -74,16 +81,23 @@ public class ItemType extends PersistableBusinessObjectBase {
         this.quantityBasedGeneralLedgerIndicator = quantityBasedGeneralLedgerIndicator;
     }
 
-    public boolean isItemTypeBelowTheLineIndicator() {
-        return !itemTypeAboveTheLineIndicator;
+    public boolean isLineItemIndicator() {
+        return lineItemIndicator;
     }
 
-    public boolean isItemTypeAboveTheLineIndicator() {
-        return itemTypeAboveTheLineIndicator;
+    public void setLineItemIndicator(boolean lineItemIndicator) {
+        this.lineItemIndicator = lineItemIndicator;
     }
 
-    public void setItemTypeAboveTheLineIndicator(boolean itemTypeAboveTheLineIndicator) {
-        this.itemTypeAboveTheLineIndicator = itemTypeAboveTheLineIndicator;
+    public boolean isAdditionalChargeIndicator() {
+        return !lineItemIndicator;
+        //FIXME change once field has changed names
+//        return itemTypeAdditionalChargeIndicator;
+    }
+
+
+    public void setAdditionalChargeIndicator(boolean additionalChargeIndicator) {
+        this.additionalChargeIndicator = additionalChargeIndicator;
     }
 
     public boolean isActive() {
@@ -92,13 +106,6 @@ public class ItemType extends PersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * @return Returns the opposite of quantityBasedGeneralLedgerIndicator.
-     */
-    public boolean isAmountBasedGeneralLedgerIndicator() {
-        return !quantityBasedGeneralLedgerIndicator;
     }
 
     /**

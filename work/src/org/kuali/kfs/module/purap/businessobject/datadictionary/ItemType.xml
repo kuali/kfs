@@ -21,7 +21,7 @@
         <ref bean="ItemType-itemTypeCode" />
         <ref bean="ItemType-itemTypeDescription" />
         <ref bean="ItemType-quantityBasedGeneralLedgerIndicator" />
-        <ref bean="ItemType-itemTypeAboveTheLineIndicator" />
+        <ref bean="ItemType-lineItemIndicator" />
         <ref bean="ItemType-active" />
         <ref bean="ItemType-taxableIndicator" />
       </list>
@@ -70,12 +70,12 @@
     <property name="label" value="Quantity Based General Ledger Indicator" />
     <property name="shortLabel" value="Quantity Based" />
   </bean>
-  <bean id="ItemType-itemTypeAboveTheLineIndicator" parent="ItemType-itemTypeAboveTheLineIndicator-parentBean" />
+  <bean id="ItemType-lineItemIndicator" parent="ItemType-lineItemIndicator-parentBean" />
 
-  <bean id="ItemType-itemTypeAboveTheLineIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="itemTypeAboveTheLineIndicator" />
-    <property name="label" value="Item Type Above The Line Indicator" />
-    <property name="shortLabel" value="Above Line" />
+  <bean id="ItemType-lineItemIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="lineItemIndicator" />
+    <property name="label" value="Line Item Indicator" />
+    <property name="shortLabel" value="Line Item" />
   </bean>
   <bean id="ItemType-active" parent="ItemType-active-parentBean" />
 
@@ -111,7 +111,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="quantityBasedGeneralLedgerIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="itemTypeAboveTheLineIndicator" />
+                    p:attributeName="lineItemIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -142,7 +142,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="quantityBasedGeneralLedgerIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemTypeAboveTheLineIndicator" />
+              p:attributeName="lineItemIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -156,7 +156,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="quantityBasedGeneralLedgerIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="itemTypeAboveTheLineIndicator" />
+              p:attributeName="lineItemIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

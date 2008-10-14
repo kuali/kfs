@@ -66,7 +66,7 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     private boolean validateContainsAtLeastOneActiveItem(PurchasingAccountsPayableDocument purapDocument) {
         List<PurApItem> items = purapDocument.getItems();
         for (PurApItem item : items) {
-            if (((PurchaseOrderItem) item).isItemActiveIndicator() && (!((PurchaseOrderItem) item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator())) {
+            if (((PurchaseOrderItem) item).isItemActiveIndicator() && (!((PurchaseOrderItem) item).isEmpty() && item.getItemType().isLineItemIndicator())) {
                 return true;
             }
         }

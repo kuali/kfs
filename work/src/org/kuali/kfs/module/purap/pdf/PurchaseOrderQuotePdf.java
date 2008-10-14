@@ -383,7 +383,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
 
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
-            if ((poi.getItemType() != null) && (StringUtils.isNotBlank(poi.getItemDescription())) && (poi.getItemType().isItemTypeAboveTheLineIndicator() || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE))) {
+            if ((poi.getItemType() != null) && (StringUtils.isNotBlank(poi.getItemDescription())) && (poi.getItemType().isLineItemIndicator() || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE))) {
                 // "ITEM"s display the line number; other types don't.
                 String description = "";
                 description = (StringUtils.isNotBlank(poi.getItemCatalogNumber())) ? poi.getItemCatalogNumber().trim() + " - " : "";
@@ -399,7 +399,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
                 // We can do the normal table now because description is not too long.
                 String itemLineNumber = new String();
-                if (poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (poi.getItemType().isLineItemIndicator()) {
                     itemLineNumber = poi.getItemLineNumber().toString();
                 }
                 else {

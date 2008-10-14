@@ -237,7 +237,7 @@ public class PurapServiceImpl implements PurapService {
         // sort existing below the line if any
         for (int i = 0; i < existingItems.size(); i++) {
             PurApItem purApItem = existingItems.get(i);
-            if (!purApItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (purApItem.getItemType().isAdditionalChargeIndicator()) {
                 belowTheLine.add(existingItems.get(i));
             }
         }
@@ -317,7 +317,7 @@ public class PurapServiceImpl implements PurapService {
 
         PurApItem belowTheLineItem = null;
         for (PurApItem item : (List<PurApItem>) document.getItems()) {
-            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isAdditionalChargeIndicator()) {
                 if (StringUtils.equals(iT.getItemTypeCode(), item.getItemType().getItemTypeCode())) {
                     belowTheLineItem = item;
                     break;

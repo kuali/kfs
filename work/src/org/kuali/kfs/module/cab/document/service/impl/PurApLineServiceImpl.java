@@ -1145,8 +1145,8 @@ public class PurApLineServiceImpl implements PurApLineService {
             PaymentRequestItem item = (PaymentRequestItem) businessObjectService.findByPrimaryKey(PaymentRequestItem.class, pKeys);
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
-                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
-                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isAdditionalChargeIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
                 purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
@@ -1160,8 +1160,8 @@ public class PurApLineServiceImpl implements PurApLineService {
             CreditMemoItem item = (CreditMemoItem) businessObjectService.findByPrimaryKey(CreditMemoItem.class, pKeys);
             purchasingAccountsPayableItemAsset.setItemLineNumber(item.getItemLineNumber());
             if (item.getItemType() != null) {
-                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isItemTypeBelowTheLineIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
-                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isItemTypeBelowTheLineIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setAdditionalChargeNonTradeInIndicator(item.getItemType().isAdditionalChargeIndicator() & !CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
+                purchasingAccountsPayableItemAsset.setTradeInAllowance(item.getItemType().isAdditionalChargeIndicator() & CabConstants.TRADE_IN_TYPE_CODE.equalsIgnoreCase(item.getItemTypeCode()));
                 purchasingAccountsPayableItemAsset.setItemTypeCode(item.getItemTypeCode());
             }
             purchasingAccountsPayableItemAsset.setItemAssignedToTradeInIndicator(item.getItemAssignedToTradeInIndicator());
@@ -1192,7 +1192,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         if (item.getPurapDocument() != null) {
             PurchaseOrderDocument po = ((CreditMemoDocument)item.getPurapDocument()).getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(item.getItemLineNumber().intValue() - 1);
             }
             else {

@@ -163,7 +163,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             PurchaseOrderItem poItem = (PurchaseOrderItem) iter.next();
 
             // only items of type above the line can be considered for being invoiced
-            if (!poItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (poItem.getItemType().isAdditionalChargeIndicator()) {
                 continue;
             }
 
@@ -191,7 +191,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
             // update unit price for service items
-            if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getItemType().isLineItemIndicator() && item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                 if(item.getExtendedPrice()!=null) {
                     item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
                 }
@@ -216,7 +216,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
 
             // skip above the line
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 continue;
             }
 

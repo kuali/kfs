@@ -220,7 +220,7 @@ public class RequisitionServiceImpl implements RequisitionService {
                 return "Requisition contains an item that is marked as restricted.";
             }
             //We only need to check the commodity codes if this is an above the line item.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 String commodityCodesReason = "";
                 List<VendorCommodityCode> vendorCommodityCodes = commodityCodeRequired ? requisition.getVendorDetail().getVendorCommodities() : null;
                 commodityCodesReason = checkAPORulesPerItemForCommodityCodes(item, vendorCommodityCodes, commodityCodeRequired);

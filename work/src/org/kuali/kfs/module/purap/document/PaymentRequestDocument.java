@@ -797,7 +797,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getPurchaseOrderDocument().getItems()) {
             ItemType it = item.getItemType();
-            if (includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) {
+            if (includeBelowTheLine || it.isLineItemIndicator()) {
                 total = total.add(item.getItemEncumbranceRelievedAmount());
             }
         }
@@ -856,7 +856,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         KualiDecimal total = KualiDecimal.ZERO;
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getPurchaseOrderDocument().getItems()) {
             ItemType iT = item.getItemType();
-            if (iT.isItemTypeAboveTheLineIndicator()) {
+            if (iT.isLineItemIndicator()) {
                 KualiDecimal itemPaid = item.getItemPaidAmount();
                 total = total.add(itemPaid);
             }

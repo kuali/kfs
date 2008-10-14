@@ -1188,7 +1188,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean validateUpdateCAMSView(List<PurApItem> purapItems) {
         boolean valid = true;
         for (PurApItem purapItem : purapItems) {
-            if (purapItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (purapItem.getItemType().isLineItemIndicator()) {
                 if (!doesItemNeedCapitalAsset(purapItem)) {
                     PurchasingCapitalAssetItem camsItem = ((PurchasingItem) purapItem).getPurchasingCapitalAssetItem();
                     if (camsItem != null && !camsItem.isEmpty()) {

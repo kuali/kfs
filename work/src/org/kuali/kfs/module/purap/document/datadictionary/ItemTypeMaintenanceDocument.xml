@@ -63,7 +63,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="quantityBasedGeneralLedgerIndicator" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="itemTypeAboveTheLineIndicator" />
+              p:name="lineItemIndicator" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />

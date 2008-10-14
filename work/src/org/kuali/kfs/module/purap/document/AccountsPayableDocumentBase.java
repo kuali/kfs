@@ -488,7 +488,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>) this.getItems()) {
-            if (preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (preqItem.getItemType().isLineItemIndicator()) {
                 if (preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber()) == 0) {
                     return preqItem;
                 }

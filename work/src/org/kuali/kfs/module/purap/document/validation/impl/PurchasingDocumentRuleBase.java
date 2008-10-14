@@ -164,7 +164,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid &= validateItemUnitPrice(item);
             
             // This validation is applicable to the above the line items only.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 valid &= validateItemQuantity(item);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
                     commodityCodeRequired = true;   
@@ -183,9 +183,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
              * Receiving required can not be set in on a req/po with all non-qty based items
              */
             if (!isNonQuantityItemFound){
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (item.getItemType().isLineItemIndicator()) {
                     if (((PurchasingDocument)purapDocument).isReceivingDocumentRequiredIndicator()){
-                        if (!item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
+                        if (item.getItemType().isAmountBasedGeneralLedgerIndicator()){
                             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_RECEIVING_REQUIRED);
                             valid &= false;
                             isNonQuantityItemFound = true; 
@@ -218,7 +218,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             GlobalVariables.getErrorMap().clearErrorPath();
             GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
             // This validation is applicable to the above the line items only.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
                 valid &= validateCommodityCodes(item, commodityCodeIsRequired());
             }
@@ -263,7 +263,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= validateUnitOfMeasure(item);       
         valid &= validateItemUnitPrice(item);      
         
-        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (item.getItemType().isLineItemIndicator()) {
             valid &= validateItemDescription(item);
             valid &= validateItemQuantity(item);
             valid &= validateCommodityCodes(item, commodityCodeIsRequired());           
@@ -313,7 +313,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
         for (PurApItem item : purDocument.getItems()) {
-            if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isLineItemIndicator()) {
 
                 return true;
             }
@@ -354,7 +354,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     public boolean validateItemUnitPrice(PurApItem item) {
         boolean valid = true;
-        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (item.getItemType().isLineItemIndicator()) {
             if (ObjectUtils.isNull(item.getItemUnitPrice())) {
                 valid = false;
                 String attributeLabel = SpringContext.getBean(DataDictionaryService.class).
@@ -393,7 +393,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         GlobalVariables.getErrorMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_ITEM_LINE);
         valid &= validateItemUnitPrice(item);
         valid &= validateUnitOfMeasure(item);
-        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (item.getItemType().isLineItemIndicator()) {
             valid &= validateItemDescription(item);
             valid &= validateItemQuantity(item);
             valid &= validateCommodityCodes(item, commodityCodeIsRequired());
@@ -414,7 +414,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     public boolean processImportItemBusinessRules(AccountingDocument financialDocument, PurApItem item) {
         boolean valid = super.processImportItemBusinessRules(financialDocument, item);
         GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
-        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+        if (item.getItemType().isLineItemIndicator()) {
             valid &= validateItemDescription(item);
         }
         valid &= validateItemUnitPrice(item);

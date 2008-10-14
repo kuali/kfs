@@ -124,7 +124,7 @@
     <field-descriptor name="itemTypeDescription" column="ITM_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="quantityBasedGeneralLedgerIndicator" column="QTY_BSD_GL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <field-descriptor name="itemTypeAboveTheLineIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="lineItemIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="taxableIndicator" column="TAXABLE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 

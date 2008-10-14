@@ -91,12 +91,12 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         // clear amount and desc on below the line - we probably don't need that null
         // itemType check but it's there just in case remove if it causes problems
         // also do this if of type service, kulpurap - 1242
-        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+        if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
 
             // if below the line item
-            if (!this.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (this.getItemType().isAdditionalChargeIndicator()) {
                 this.setItemDescription("");
             }
         }
@@ -127,7 +127,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         if (getPaymentRequest() != null) {
             PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
-            if (this.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (this.getItemType().isLineItemIndicator()) {
                 poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
                 // throw error if line numbers don't match
             }

@@ -762,7 +762,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             List<SourceAccountingLine> summaryAccounts = null;
 
             // skip above the line
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 continue;
             }
 

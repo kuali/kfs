@@ -156,7 +156,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
      */
     boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
-        if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
+        if (item.getItemType().isLineItemIndicator() && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }

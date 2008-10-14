@@ -109,7 +109,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                         PaymentRequestItem item = (PaymentRequestItem) iter.next();
                         lineList.addAll(item.getSourceAccountingLines());
                         // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
-                        if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.getSourceAccountingLines().size() == 0) {
+                        if (item.getItemType().isLineItemIndicator() && item.getSourceAccountingLines().size() == 0) {
                             editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
                             editModeMap.put(KfsAuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY, "TRUE");
                         }

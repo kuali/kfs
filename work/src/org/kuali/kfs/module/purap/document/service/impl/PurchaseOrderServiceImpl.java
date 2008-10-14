@@ -1036,7 +1036,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         VendorDetail vendor = (VendorDetail)ObjectUtils.deepCopy(po.getVendorDetail());
         for (PurchaseOrderItem item : (List<PurchaseOrderItem>)po.getItems()) {
             //Only check on commodity codes if the item is active and is above the line item type.
-            if (item.getItemType().isItemTypeAboveTheLineIndicator() && item.isItemActiveIndicator()) {
+            if (item.getItemType().isLineItemIndicator() && item.isItemActiveIndicator()) {
                 CommodityCode cc = item.getCommodityCode();
                 if (cc != null && !result.contains(cc)) {
                     List<VendorCommodityCode> vendorCommodityCodes = po.getVendorDetail().getVendorCommodities();
@@ -1350,7 +1350,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         for(PurchaseOrderItem poItem: (List<PurchaseOrderItem>)po.getItems()){
             //only check, active, above the line, unordered items
-            if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+            if (poItem.isItemActiveIndicator() && poItem.getItemType().isLineItemIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
                 
                 //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
                 if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){
@@ -1368,7 +1368,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         boolean itemAdded = false;
         
         //only check, active, above the line, unordered items
-        if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+        if (poItem.isItemActiveIndicator() && poItem.getItemType().isLineItemIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
             
             //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
             if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(poItem.getPurchaseOrder().getPurapDocumentIdentifier()) )){
@@ -1418,7 +1418,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         for(PurchaseOrderItem poItem: (List<PurchaseOrderItem>)po.getItems()){
             //only check, active, above the line, unordered items
-            if (poItem.isItemActiveIndicator() && poItem.getItemType().isItemTypeAboveTheLineIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
+            if (poItem.isItemActiveIndicator() && poItem.getItemType().isLineItemIndicator() && PurapConstants.ItemTypeCodes.ITEM_TYPE_UNORDERED_ITEM_CODE.equals(poItem.getItemTypeCode()) ) {
                 
                 //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
                 if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(po.getPurapDocumentIdentifier()) )){

@@ -396,7 +396,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (int i = start; i < items.size(); i++) {
             PurApItem item = (PurApItem) items.get(i);
             // only set the item line number for above the line items
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 item.setItemLineNumber(new Integer(i + 1));
             }
         }
@@ -427,7 +427,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public int getItemLinePosition() {
         int belowTheLineCount = 0;
         for (PurApItem item : items) {
-            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isAdditionalChargeIndicator()) {
                 belowTheLineCount++;
             }
         }
@@ -526,7 +526,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (PurApItem item : (List<PurApItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal totalAmount = item.getTotalAmount();
                 KualiDecimal itemTotal = (totalAmount != null) ? totalAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -591,7 +591,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (PurApItem item : (List<PurApItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -629,7 +629,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (PurApItem item : (List<PurApItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
-            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
+            if ((includeBelowTheLine || it.isLineItemIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal taxAmount = item.getItemTaxAmount();
                 KualiDecimal itemTotal = (taxAmount != null) ? taxAmount : KualiDecimal.ZERO;
                 total = total.add(itemTotal);

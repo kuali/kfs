@@ -109,7 +109,7 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         boolean valid = true;                                     
         for (PurApItem purApItem : purapDocument.getItems()) {
             PurchasingItemBase item = (PurchasingItemBase)purApItem;
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 if (capitalAssetWarningConditionsExist(purapDocument, item)) {
                     
                     valid &= false;

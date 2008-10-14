@@ -314,7 +314,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) document.getItems()) {
             // Quantity-based items
-            if (poi.getItemType().isItemTypeAboveTheLineIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (poi.getItemType().isLineItemIndicator() && poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
                 if (encumberedQuantity.compareTo(zero) == 1) {
                     zeroDollar = false;
@@ -322,7 +322,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 }
             }
             // Service Items or Below-the-line Items
-            else if (poi.getItemType().isAmountBasedGeneralLedgerIndicator() || !poi.getItemType().isItemTypeAboveTheLineIndicator()) {
+            else if (poi.getItemType().isAmountBasedGeneralLedgerIndicator() || poi.getItemType().isAdditionalChargeIndicator()) {
                 KualiDecimal encumberedAmount = poi.getItemOutstandingEncumberedAmount() == null ? zero : poi.getItemOutstandingEncumberedAmount();
                 if (encumberedAmount.compareTo(zero) == 1) {
                     zeroDollar = false;
@@ -553,7 +553,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         // only run item validations if before full entry
         if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (item.getItemType().isLineItemIndicator()) {
                 valid &= validateAboveTheLineItems(item, identifierString);
             }
             valid &= validateItemWithoutAccounts(item, identifierString);
@@ -725,7 +725,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             BigDecimal total = BigDecimal.ZERO;
             LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
 
-            if (((item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || (((item.getTotalAmount() != null) && (item.getTotalAmount().isNonZero())) && (!item.getItemType().isItemTypeAboveTheLineIndicator()))) {
+            if (((item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) && item.getItemType().isLineItemIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() != null && item.getPoOutstandingAmount().isNonZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null && item.getPoOutstandingQuantity().isNonZero())))) || (((item.getTotalAmount() != null) && (item.getTotalAmount().isNonZero())) && (item.getItemType().isAdditionalChargeIndicator()))) {
                 // OK TO VALIDATE because we have total amount and an open encumberance on the PO item
                 super.processItemValidation(paymentRequest);
                 // This is calling the validations which in EPIC are located in validateFormatters, but in Kuali they should be
@@ -733,7 +733,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
                 // within the processItemValidation of this class.
                 validateEachItem(paymentRequest, item);
             }
-            else if ((item.getTotalAmount() != null && item.getTotalAmount().isNonZero() && item.getItemType().isItemTypeAboveTheLineIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
+            else if ((item.getTotalAmount() != null && item.getTotalAmount().isNonZero() && item.getItemType().isLineItemIndicator() && ((item.getItemType().isAmountBasedGeneralLedgerIndicator() && (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero())) || (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() == null || item.getPoOutstandingQuantity().isZero()))))) {
                 // ERROR because we have total amount and no open encumberance on the PO item
                 // this error should have been caught at an earlier level
                 if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
@@ -748,7 +748,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             else {
                 // not validating but ok
                 String error = "Payment Request " + paymentRequest.getPurapDocumentIdentifier() + ", " + identifier + " has total amount '" + item.getTotalAmount() + "'";
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (item.getItemType().isLineItemIndicator()) {
                     if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
                         error = error + " with outstanding encumbered amount " + item.getPoOutstandingAmount();
                     }

@@ -150,7 +150,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         // Check renumbering.
         int i = 0;
         for (PurchaseOrderItem splitPOItem : splitPOItems ) {
-            if (splitPOItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (splitPOItem.getItemType().isLineItemIndicator()) {
                     assertTrue(splitPOItem.getItemLineNumber().intValue() == ++i);
             }
         }

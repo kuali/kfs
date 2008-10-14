@@ -90,8 +90,8 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         boolean valid = super.processItemValidation(purapDocument);
 
         for (PurApItem item : purapDocument.getItems()) {
-            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            String identifierString = (item.getItemType().isLineItemIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            if (item.getItemType().isLineItemIndicator()) {
                 valid &= validateAboveTheLineItems((PaymentRequestItem) item, identifierString);
             }
         }

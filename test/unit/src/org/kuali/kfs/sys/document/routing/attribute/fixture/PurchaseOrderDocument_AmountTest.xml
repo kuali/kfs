@@ -1330,7 +1330,7 @@
           <itemTypeDescription>ITEM</itemTypeDescription>
           <active>true</active>
           <quantityBasedGeneralLedgerIndicator>true</quantityBasedGeneralLedgerIndicator>
-          <itemTypeAboveTheLineIndicator>true</itemTypeAboveTheLineIndicator>
+          <lineItemIndicator>true</lineItemIndicator>
           <versionNumber>2</versionNumber>
           <objectId>F7C44E14-1128-60C6-71BA-151F4E113733</objectId>
           <newCollectionRecord>false</newCollectionRecord>
@@ -1372,7 +1372,7 @@
           <itemTypeDescription>FREIGHT</itemTypeDescription>
           <active>true</active>
           <quantityBasedGeneralLedgerIndicator>false</quantityBasedGeneralLedgerIndicator>
-          <itemTypeAboveTheLineIndicator>false</itemTypeAboveTheLineIndicator>
+          <lineItemIndicator>false</lineItemIndicator>
           <versionNumber>1</versionNumber>
           <objectId>F9DCA11A-CD24-F961-EE26-12B1C31D0360</objectId>
           <newCollectionRecord>false</newCollectionRecord>
@@ -1413,7 +1413,7 @@
           <itemTypeDescription>SHIPPING AND HANDLING</itemTypeDescription>
           <active>true</active>
           <quantityBasedGeneralLedgerIndicator>false</quantityBasedGeneralLedgerIndicator>
-          <itemTypeAboveTheLineIndicator>false</itemTypeAboveTheLineIndicator>
+          <lineItemIndicator>false</lineItemIndicator>
           <versionNumber>1</versionNumber>
           <objectId>15BD285E-34F7-5AF4-5B73-0E99840CE750</objectId>
           <newCollectionRecord>false</newCollectionRecord>

@@ -316,57 +316,23 @@
 	</bean>
 			
 	<bean id="purchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-        <property name="purapService">
-            <ref bean="purapService" />
-        </property>
-        <property name="noteService">
-            <ref bean="noteService" />
-        </property>
-		<property name="purchaseOrderDao">
-			<ref bean="purchaseOrderDao" />
-		</property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
-        <property name="printService">
-            <ref bean="printService" />
-        </property>	
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>	        
-        <property name="kualiRuleService">
-            <ref bean="kualiRuleService" />
-        </property>	        
-        <property name="vendorService">
-            <ref bean="vendorService" />
-        </property>
-        <property name="purapWorkflowIntegrationService">
-            <ref bean="purapWorkflowIntegrationService" />
-        </property>    
-        <property name="workflowInfoService">
-            <ref bean="workflowInfoService" />
-        </property>  
-        <property name="maintenanceDocumentService">
-            <ref bean="maintenanceDocumentService" />
-        </property>  
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>  
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
-        </property>  
-        <property name="mailService">
-            <ref bean="mailService" />
-        </property>          
+        <property name="b2bPurchaseOrderService" ref="b2bPurchaseOrderService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="documentService" ref="documentService" />
+        <property name="purapService" ref="purapService" />
+        <property name="noteService" ref="noteService" />
+        <property name="purchaseOrderDao" ref="purchaseOrderDao" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="kualiRuleService" ref="kualiRuleService" />
+        <property name="vendorService" ref="vendorService" />
+        <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
+        <property name="workflowInfoService" ref="workflowInfoService" />
+        <property name="maintenanceDocumentService" ref="maintenanceDocumentService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="universalUserService" ref="universalUserService" />
+        <property name="mailService" ref="mailService" />
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 
@@ -398,10 +364,12 @@
         <property name="documentService" ref="documentService"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
+        <property name="phoneNumberService" ref="phoneNumberService"/>
+        <property name="purapService" ref="purapService"/>
         <property name="vendorService" ref="vendorService"/>
 	</bean>
 
-    <bean id="b2bPurchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderServiceImpl">
+    <bean id="b2bPurchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl">
         <property name="b2bDao" ref="b2bDao"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>

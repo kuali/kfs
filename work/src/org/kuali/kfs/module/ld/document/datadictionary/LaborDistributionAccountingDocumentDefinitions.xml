@@ -23,55 +23,55 @@
 				<bean parent="AccountingLineView-field"
 					p:name="documentNumber" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true"
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true" p:readOnly="true"  
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
 				<bean parent="AccountingLineView-field"
-					p:name="accountNumber" p:required="true" p:useShortLabel="true"
+					p:name="accountNumber" p:required="true" p:useShortLabel="true" p:readOnly="true" 
 					p:webUILeaveFieldFunction="loadAccountInfo"
 					p:dynamicLabelProperty="account.accountName">
 					<property name="overrideFields">
 						<list>
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="accountExpiredOverride" />
+								p:name="accountExpiredOverride"  p:readOnly="true" />
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="nonFringeAccountOverride" />
+								p:name="nonFringeAccountOverride"  p:readOnly="true" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field" 
-					p:name="subAccountNumber" p:useShortLabel="true"
+					p:name="subAccountNumber" p:useShortLabel="true" p:readOnly="true" 
 					p:webUILeaveFieldFunction="loadSubAccountInfo"
 					p:dynamicLabelProperty="subAccount.subAccountName" />
 				<bean parent="AccountingLineView-field"
-					p:name="financialObjectCode" p:required="true" p:useShortLabel="true"
+					p:name="financialObjectCode" p:required="true" p:useShortLabel="true" p:readOnly="true" 
 					p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
 					<property name="overrideFields">
 						<list>
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="objectBudgetOverride" />
+								p:name="objectBudgetOverride"  p:readOnly="true" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="AccountingLineView-field"
-					p:name="financialSubObjectCode" p:useShortLabel="true"
+					p:name="financialSubObjectCode" p:useShortLabel="true" p:readOnly="true" 
 					p:webUILeaveFieldFunction="loadSubObjectInfo"
 					p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
 				<bean parent="AccountingLineView-field"
-					p:name="projectCode"  p:useShortLabel="true"
+					p:name="projectCode"  p:useShortLabel="true" p:readOnly="true" 
 				    p:webUILeaveFieldFunction="loadProjectInfo"
 					p:dynamicLabelProperty="project.projectDescription" />
 				<bean parent="AccountingLineView-field"
-					p:name="organizationReferenceId" p:useShortLabel="true"/>
+					p:name="organizationReferenceId" p:useShortLabel="true" p:readOnly="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="positionNumber" p:required="true" p:useShortLabel="true" />
+					p:name="positionNumber" p:required="true" p:useShortLabel="true" p:readOnly="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollEndDateFiscalYear" p:useShortLabel="true" />
+					p:name="payrollEndDateFiscalYear" p:useShortLabel="true"  p:readOnly="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" />
+					p:name="payrollEndDateFiscalPeriodCode" p:useShortLabel="true" p:readOnly="true" />
 				<bean parent="AccountingLineView-field"
 					p:name="payrollTotalHours" p:useShortLabel="true" />
 			</list>
@@ -99,7 +99,7 @@
 				<bean parent="AccountingLineView-field"
 					p:name="documentNumber" p:hidden="true" />
 				<bean parent="AccountingLineView-field"
-					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true"
+					p:name="chartOfAccountsCode" p:required="true" p:useShortLabel="true"   
 					p:webUILeaveFieldFunction="loadChartInfo"
 					p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
 				<bean parent="AccountingLineView-field"

@@ -84,22 +84,24 @@
 	    </tr>
 	    <tr>
 	        <th align=right valign=middle class="bord-l-b">
-	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemAttributes.commodityCode}" /></div>
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemAttributes.purchasingCommodityCode}" /></div>
 	        </th>
 	        <td align=left valign=middle class="datacell">
-                    <c:set var="commodityCodeField"  value="distributePurchasingCommodityCode" />
-                    <c:set var="commodityDescriptionField"  value="distributePurchasingCommodityDescription" />	        
-	                        <kul:htmlControlAttribute 
-	                            attributeEntry="${itemAttributes.commodityCode}" 
-	                            property="distributePurchasingCommodityCode"
-	                            readOnly="${not (fullEntryMode or amendmentEntry)}"
-	                            onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
-                        <c:if test="${fullEntryMode}">   
-                            <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
-                                fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode"
+                <c:set var="commodityCodeField"  value="distributePurchasingCommodityCode" />
+                <c:set var="commodityDescriptionField"  value="distributePurchasingCommodityDescription" />
+	            <kul:htmlControlAttribute 
+	            	attributeEntry="${itemAttributes.purchasingCommodityCode}" 
+	                property="distributePurchasingCommodityCode"
+	                readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+	            <!--  onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/> -->
+                <c:if test="${fullEntryMode}">   
+                	<kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
+                                fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode,commodityDescription:distributePurchasingCommodityDescription"
                                 lookupParameters="'Y':active"/>    
-                        </c:if>
-                    <div id="distributePurchasingCommodityDescription.div" class="fineprint"/>
+                </c:if>
+                <div id="distributePurchasingCommodityDescription.div" class="fineprint">
+                	<bean:write name="KualiForm" property="distributePurchasingCommodityDescription"/>&nbsp; 
+                </div>
 	        </td>
 	    </tr>
         <tr>

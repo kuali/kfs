@@ -307,15 +307,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY, "TRUE");
         }
 
-        // check for special case where account reports mapping is missing for the document
-        // and the user is a root approver having ability to cancel the document
-        if (!budgetDocumentService.isAccountReportsExist(chartOfAccountsCode, accountNumber)) {
-            if (SpringContext.getBean(PermissionService.class).isRootApprover(universalUser)) {
-                editModeMap.put(KfsAuthorizationConstants.BudgetConstructionEditMode.DOCUMENT_CANCEL_ONLY, "TRUE");
-            }
-        }
-
-
         GlobalVariables.getUserSession().removeObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY);
         GlobalVariables.getUserSession().addObject(BCConstants.BC_DOC_EDIT_MODE_SESSIONKEY, editModeMap);
 

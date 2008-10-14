@@ -10,16 +10,6 @@
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="poItemInactive" required="false" description="True if the item this is part of is inactive."%>
 
-<html:hidden property="${camsAssetSystemProperty}.capitalAssetSystemIdentifier" />
-<html:hidden property="${camsAssetSystemProperty}.versionNumber" />
-<html:hidden property="${camsAssetSystemProperty}.objectId" />
-
-<c:if test="${isRequisition}">
-	<html:hidden property="${camsAssetSystemProperty}.purapDocumentIdentifier" />
-</c:if>
-<c:if test="${isPurchaseOrder}">
-	<html:hidden property="${camsAssetSystemProperty}.documentNumber" />
-</c:if>
 
 <c:set var="lockCamsEntry"	value="${(not empty KualiForm.editingMode['lockCamsEntry'])}" /> 
 	
@@ -50,13 +40,9 @@
 	      <kul:htmlAttributeHeaderCell attributeEntry="${camsAssetAttributes.capitalAssetNumber}" align="right"/>
 	      <td class="datacell" valign="top" colspan="3">
 			<logic:iterate indexId="idx" name="KualiForm" property="${camsAssetSystemProperty}.itemCapitalAssets" id="asset">
-			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].itemCapitalAssetIdentifier" />
-			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].versionNumber" />
-			    <html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].objectId" />
 	 			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].capitalAssetNumber" readOnly="true" />
-  				<html:hidden property="${camsAssetSystemProperty}.itemCapitalAssets[${idx}].itemCapitalAssetIdentifier" />
   				<html:image property="${deleteItemAssetUrl}.((#${idx}#))" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Delete an Asset Number" title="Delete an Asset Number" styleClass="tinybutton" />
-				  <br/>
+			    <br/>
 			</logic:iterate>
 		  </td>
 	    </tr>

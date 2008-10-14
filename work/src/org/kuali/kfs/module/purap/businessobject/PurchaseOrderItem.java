@@ -84,7 +84,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
         
         this.setItemTaxAmount( ri.getItemTaxAmount() );
-        this.setUseTaxItems( ri.getUseTaxItems() );
+        
+        //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
+        for(PurApItemUseTax useTaxItem : ri.getUseTaxItems()){
+            PurApItemUseTax copyUseTaxItem = useTaxItem;
+            copyUseTaxItem.setUseTaxId(null);
+            copyUseTaxItem.setItemIdentifier(null);
+            this.getUseTaxItems().add(copyUseTaxItem);
+        }
         
         this.setExternalOrganizationB2bProductReferenceNumber(ri.getExternalOrganizationB2bProductReferenceNumber());
         this.setExternalOrganizationB2bProductTypeName(ri.getExternalOrganizationB2bProductTypeName());

@@ -23,9 +23,6 @@
         <ref bean="ContractManager-contractManagerFaxNumber" />
         <ref bean="ContractManager-contractManagerName" />
         <ref bean="ContractManager-contractManagerPhoneNumber" />
-        <!-- 
-        <ref bean="ContractManager-contractManagerSignatureImageLocationDescription" />
-        -->
         <ref bean="ContractManager-contractManagerUserIdentifier" />
         <ref bean="ContractManager-activeIndicator" />
       </list>
@@ -119,26 +116,6 @@
             p:size="47" />
     </property>
   </bean>
-  
-  <!--
-  <bean id="ContractManager-contractManagerSignatureImageLocationDescription" parent="ContractManager-contractManagerSignatureImageLocationDescription-parentBean" />
-
-  <bean id="ContractManager-contractManagerSignatureImageLocationDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractManagerSignatureImageLocationDescription" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Contract Manager Signature Image Location Description" />
-    <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="45" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="47" />
-    </property>
-  </bean>
-  -->
-    
   <bean id="ContractManager-contractManagerUserIdentifier" parent="ContractManager-contractManagerUserIdentifier-parentBean" />
 
   <bean id="ContractManager-contractManagerUserIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -221,10 +198,6 @@
               p:attributeName="contractManagerFaxNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerDelegationDollarLimit" />
-		<!--
-        <bean parent="FieldDefinition"
-              p:attributeName="contractManagerSignatureImageLocationDescription" />
-        -->
         <bean parent="FieldDefinition"
               p:attributeName="activeIndicator"  />
       </list>
@@ -243,10 +216,6 @@
               p:attributeName="contractManagerFaxNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="contractManagerDelegationDollarLimit" />
-		<!--
-        <bean parent="FieldDefinition"
-              p:attributeName="contractManagerSignatureImageLocationDescription" />
-        -->
         <bean parent="FieldDefinition"
               p:attributeName="activeIndicator"  />
       </list>

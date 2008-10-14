@@ -1,6 +1,7 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobal.class);
-    
+
     private String documentNumber;
     private String acquisitionTypeCode;
     private String capitalAssetDescription;
@@ -70,7 +71,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Asset separateSourceCapitalAsset;
     private Integer separateSourcePaymentSequenceNumber;
     private boolean capitalAssetBuilderOriginIndicator;
-    
+
     // Not Persisted
     private Date lastInventoryDate;
     private ContractsAndGrantsAgency agency;
@@ -727,9 +728,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist() becomes an asset
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
-        
-        //LOG.info("called generateGlobalChangesToPersist()....");
-        
+
+        // LOG.info("called generateGlobalChangesToPersist()....");
+
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         String financialObjectSubTypeCode = null;
         int newAssetCount = 0;
@@ -742,26 +743,27 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
         if (!assetPaymentDetails.isEmpty() && ObjectUtils.isNotNull(assetPaymentDetails.get(0).getObjectCode())) {
             financialObjectSubTypeCode = assetPaymentDetails.get(0).getObjectCode().getFinancialObjectSubTypeCode();
-            //LOG.info("financialObjectSubTypeCode: '" + financialObjectSubTypeCode + "'");
+            // LOG.info("financialObjectSubTypeCode: '" + financialObjectSubTypeCode + "'");
         }
-        
-        //LOG.info("set payment detail data...");
-        //Setting the postingYear and month
+
+        // LOG.info("set payment detail data...");
+        // Setting the postingYear and month
         for (AssetPaymentDetail assetPaymentDetail : this.getAssetPaymentDetails()) {
-            //LOG.info("in assetPaymentDetail loop: key: '" + assetPaymentDetail.getAccountKey() + "'");
-            //LOG.info("in assetPaymentDetail loop: amt: '" + assetPaymentDetail.getAmount() + "'");
+            // LOG.info("in assetPaymentDetail loop: key: '" + assetPaymentDetail.getAccountKey() + "'");
+            // LOG.info("in assetPaymentDetail loop: amt: '" + assetPaymentDetail.getAmount() + "'");
             if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, getAcquisitionTypeCode())) {
                 UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
                 assetPaymentDetail.setExpenditureFinancialDocumentPostedDate(currentUniversityDate.getUniversityDate());
                 assetPaymentDetail.setPostingYear(currentUniversityDate.getUniversityFiscalYear());
-                assetPaymentDetail.setPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());                
-            } else {
+                assetPaymentDetail.setPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
+            }
+            else {
                 assetPaymentService.extractPostedDatePeriod(assetPaymentDetail);
             }
-            persistables.add(assetPaymentDetail);            
+            persistables.add(assetPaymentDetail);
         }
-        
-        //LOG.info("set asset global detail data...");
+
+        // LOG.info("set asset global detail data...");
         // set new asset data
         for (Iterator iterator = assetGlobalDetails.iterator(); iterator.hasNext();) {
 
@@ -773,7 +775,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             Asset asset = new Asset();
             // AssetPayment assetPayment = new AssetPayment();
             // newAssetGlobalDetail = (AssetGlobalDetail) ObjectUtils.deepCopy(locationDetail);
-            //LOG.info("in assetGlobalDetail loop: asset number: '" + detail.getCapitalAssetNumber() + "'");
+            // LOG.info("in assetGlobalDetail loop: asset number: '" + detail.getCapitalAssetNumber() + "'");
             asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
             asset.setCapitalAssetDescription(capitalAssetDescription);
             asset.setInventoryStatusCode(inventoryStatusCode);
@@ -809,7 +811,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setGovernmentTagNumber(detail.getGovernmentTagNumber());
             asset.setCampusTagNumber(detail.getCampusTagNumber());
             asset.setNationalStockNumber(detail.getNationalStockNumber());
-
+            asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
             // set specific values for new asset if document is Asset Separate
             // capitalAssetTypeCode is over written from above
             if (assetGlobalService.isAssetSeparateDocument(this)) {
@@ -818,21 +820,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
                 asset.setManufacturerName(detail.getManufacturerName());
                 asset.setManufacturerModelNumber(detail.getManufacturerModelNumber());
-                /* TODO ??
-                if (separateSourceCapitalAsset.getLastInventoryDate() == null) {
-                    asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
-                }
-                else {
-                    asset.setLastInventoryDate(separateSourceCapitalAsset.getLastInventoryDate());
-                }
-                */
                 // set AssetOrganization data
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
                 assetOrganization.setOrganizationText(detail.getOrganizationText());
                 assetOrganization.setOrganizationAssetTypeIdentifier(detail.getOrganizationAssetTypeIdentifier());
                 asset.setAssetOrganization(assetOrganization);
-            } else {
+            }
+            else {
                 // set AssetOrganization data, this time from the main object though since it's not coming from separate
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
@@ -853,20 +848,20 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             }
         }
 
-        //LOG.info("setup asset payment detail....");
+        // LOG.info("setup asset payment detail....");
         // set new AssetPayment(s) from each AssetPaymentDetails
         for (AssetPaymentDetail payment : assetPaymentDetails) {
             newAssetCount = assetGlobalDetails.size();
-            //LOG.info("in assetPaymentDetail loop: newAssetCount: '" + newAssetCount + "'");
+            // LOG.info("in assetPaymentDetail loop: newAssetCount: '" + newAssetCount + "'");
             isDepreciablePayment = false;
             depreciationPaymentAmount = payment.getAmount();
-            //LOG.info("in assetPaymentDetail loop: depreciationPaymentAmount: '" + depreciationPaymentAmount + "'");
+            // LOG.info("in assetPaymentDetail loop: depreciationPaymentAmount: '" + depreciationPaymentAmount + "'");
             if (ObjectUtils.isNotNull(payment.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(payment.getObjectCode().getFinancialObjectSubTypeCode())) {
                 isDepreciablePayment = true;
                 actualDepreciationAmount = depreciationPaymentAmount.divide(new KualiDecimal(newAssetCount));
             }
 
-            //LOG.info("setup location detail....");
+            // LOG.info("setup location detail....");
             // Distribute asset payments from AssetPaymentDetails to AssetPayment
             // Divide each payment to records in Asset AssetGlobalDetails
             for (AssetGlobalDetail location : assetGlobalDetails) {
@@ -875,7 +870,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setCapitalAssetNumber(location.getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(payment.getSequenceNumber());
                 assetPayment.setChartOfAccountsCode(payment.getChartOfAccountsCode());
-                //LOG.info("in location loop: account: '" + payment.getAccountNumber() + "'");
+                // LOG.info("in location loop: account: '" + payment.getAccountNumber() + "'");
                 assetPayment.setAccountNumber(payment.getAccountNumber());
                 assetPayment.setSubAccountNumber(payment.getSubAccountNumber());
                 assetPayment.setFinancialObjectCode(payment.getFinancialObjectCode());
@@ -887,7 +882,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 assetPayment.setFinancialDocumentTypeCode(payment.getExpenditureFinancialDocumentTypeCode());
                 assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
                 assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
-                
+
                 if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, acquisitionTypeCode)) {
                     assetPayment.setFinancialDocumentPostingDate(payment.getExpenditureFinancialDocumentPostedDate());
                     assetPayment.setFinancialDocumentPostingYear(payment.getPostingYear());
@@ -899,11 +894,11 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setFinancialDocumentPostingYear(currentUniversityDate.getUniversityFiscalYear());
                     assetPayment.setFinancialDocumentPostingPeriodCode(currentUniversityDate.getUniversityFiscalAccountingPeriod());
                 }
-                
-                
+
+
                 // !!!! don't modify existing asset payments !!!!!
                 // new payment is created for each existing payment containing the new separate source amount
-                
+
                 /* ORIGINAL - 10/13/08
                 // set specific values for new assets if document is Asset Separate
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
@@ -912,24 +907,24 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                     assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 }
                 else {
-                */
+                 */
                 // LEO - needed for Asset Global doc
-                    if (isDepreciablePayment) {
-                        if (newAssetCount == 1){
-                            assetPayment.setAccountChargeAmount(depreciationPaymentAmount);  
-                            depreciationPaymentAmount = KualiDecimal.ZERO;
-                        }
-                        else {
-                            assetPayment.setAccountChargeAmount(actualDepreciationAmount);
-                            depreciationPaymentAmount = depreciationPaymentAmount.subtract(actualDepreciationAmount);
-                            newAssetCount -= 1;
-                        }
+                if (isDepreciablePayment) {
+                    if (newAssetCount == 1) {
+                        assetPayment.setAccountChargeAmount(depreciationPaymentAmount);
+                        depreciationPaymentAmount = KualiDecimal.ZERO;
                     }
                     else {
-                        assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);
+                        assetPayment.setAccountChargeAmount(actualDepreciationAmount);
+                        depreciationPaymentAmount = depreciationPaymentAmount.subtract(actualDepreciationAmount);
+                        newAssetCount -= 1;
                     }
-                    assetPayment.setPrimaryDepreciationBaseAmount(assetPayment.getAccountChargeAmount());
-                /*}*/
+                }
+                else {
+                    assetPayment.setAccountChargeAmount(KualiDecimal.ZERO);
+                }
+                assetPayment.setPrimaryDepreciationBaseAmount(assetPayment.getAccountChargeAmount());
+                /* } */
 
                 persistables.add(assetPayment);
             }
@@ -951,8 +946,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 persistables.add(offsetAssetPayment);
             }
         }
-        */
-        
+         */
+
         /* LEO - 10/13/08
         //LOG.info("setup original asset....");
         // if doc is Asset Separate, modify the original asset amount and add all payments from new assets
@@ -981,9 +976,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 }
             }
         }
-        */
-        
-        //LOG.info("finished generateGlobalChangesToPersist()....");
+         */
+
+        // LOG.info("finished generateGlobalChangesToPersist()....");
         return persistables;
     }
 
@@ -1034,7 +1029,12 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the lastInventoryDate.
      */
     public Date getLastInventoryDate() {
-        return lastInventoryDate;
+        if (lastInventoryDate != null) {
+            return lastInventoryDate;
+        }
+        else {
+            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        }
     }
 
     /**
@@ -1140,9 +1140,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the agency.
      */
     public ContractsAndGrantsAgency getAgency() {
-        return agency = (ContractsAndGrantsAgency)SpringContext.getBean(KualiModuleService.class)
-                        .getResponsibleModuleService(ContractsAndGrantsAgency.class)
-                        .retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
+        return agency = (ContractsAndGrantsAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgency.class).retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
     }
 
     /**
@@ -1223,9 +1221,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public Date getSeparateDocumentHeaderFinalDate() {
         if (ObjectUtils.isNull(documentHeader)) {
             return null;
-        } else {
+        }
+        else {
             AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-            
+
             return assetGlobalService.isAssetSeparateDocument(this) ? documentHeader.getDocumentFinalDate() : null;
         }
     }
@@ -1254,7 +1253,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      */
     public void setCalculateEqualSourceAmountsButton(String calculateEqualSourceAmountsButton) {
         this.calculateEqualSourceAmountsButton = calculateEqualSourceAmountsButton;
-    }   
+    }
 
     public String getCalculateSeparateSourceRemainingAmountButton() {
         return calculateSeparateSourceRemainingAmountButton;

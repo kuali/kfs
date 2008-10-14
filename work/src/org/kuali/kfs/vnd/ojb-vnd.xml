@@ -530,9 +530,6 @@
     <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="contractManagerDelegationDollarLimit" column="CONTR_MGR_DLGN_DLR_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
-	<!--
-    <field-descriptor name="contractManagerSignatureImageLocationDescription" column="CONTR_MGR_SIG_IMG_LOC_DESC" jdbc-type="VARCHAR"/>
-    -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.vnd.businessobject.PaymentTermType" table="PUR_PMT_TERM_TYP_T">

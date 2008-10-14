@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.batch.CustomerLoadBatchErrors;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadBatchErrors;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.ConfigureContext;

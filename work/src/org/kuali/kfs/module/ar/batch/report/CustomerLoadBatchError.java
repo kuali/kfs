@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.batch;
+package org.kuali.kfs.module.ar.batch.report;
 
 import org.apache.commons.lang.StringUtils;
 

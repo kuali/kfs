@@ -15,12 +15,16 @@
  */
 package org.kuali.kfs.module.ar.batch.service.impl;
 
+import java.awt.Color;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,10 +37,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.batch.CustomerLoadBatchErrors;
 import org.kuali.kfs.module.ar.batch.CustomerLoadStep;
-import org.kuali.kfs.module.ar.batch.report.Reporter;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadBatchErrors;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadResult;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadResult.ResultCode;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterAdapter;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
@@ -70,12 +77,23 @@ import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
 public class CustomerLoadServiceImpl implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
     private static final String DOC_TYPE_NAME = "CustomerMaintenanceDocument";
     private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     private static final String NA = "-- N/A --";
+    private static final String WORKFLOW_DOC_ID_PREFIX = " - WITH WORKFLOW DOCID: ";
     
     private BatchInputFileService batchInputFileService;
     private CustomerService customerService;
@@ -95,110 +113,71 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     public CustomerLoadServiceImpl() {
     }
     
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
-        FinancialSystemUser fsUser = fsUserService.getFinancialSystemUser(user.getPersonUniversalIdentifier());
-        return isUserInArBillingOrProcessingOrg(fsUser);
-    }
-
-    private boolean isUserInArBillingOrProcessingOrg(FinancialSystemUser fsUser) {
-        
-        Org fsUserOrg = fsUser.getOrganization();
-        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
-        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
-        
-        String userChart, userOrg; 
-        Map<String,String> pkMap;
-        Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
-
-        //  add the user's base org to the list
-        pkMap = new HashMap<String,String>();
-        pkMap.put("chartOfAccountsCode", fsUserOrg.getChartOfAccountsCode());
-        pkMap.put("organizationCode", fsUserOrg.getOrganizationCode());
-        searchOrgs.put(fsUserOrg.getChartOfAccountsCode() + fsUserOrg.getOrganizationCode(), pkMap);
-        
-        //  gather up all chart/org combos we want to search for
-        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
-            userChart = userPrimaryOrg.getChartOfAccountsCode();
-            userOrg = userPrimaryOrg.getOrganizationCode();
-            if (!searchOrgs.containsKey(userChart + userOrg)) {
-                pkMap = new HashMap<String,String>();
-                pkMap.put("chartOfAccountsCode", userChart);
-                pkMap.put("organizationCode", userOrg);
-                searchOrgs.put(userChart + userOrg, pkMap);
-            }
-        }
-        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
-            userChart = userOrgSecurity.getChartOfAccountsCode();
-            userOrg = userOrgSecurity.getOrganizationCode();
-            if (!searchOrgs.containsKey(userChart + userOrg)) {
-                pkMap = new HashMap<String,String>();
-                pkMap.put("chartOfAccountsCode", userChart);
-                pkMap.put("organizationCode", userOrg);
-                searchOrgs.put(userChart + userOrg, pkMap);
-            }
-        }
-        
-        OrganizationOptions orgOpts = null;
-        SystemInformation sysInfo = null;
-        for (String searchOrgKey : searchOrgs.keySet()) {
-            pkMap = searchOrgs.get(searchOrgKey);
-            userChart = pkMap.get("chartOfAccountsCode");
-            userOrg = pkMap.get("organizationCode");
-
-            //  see if there is an OrgOpt (Billing Org) belonging to this person's orgs
-            orgOpts = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, pkMap);
-            if (orgOpts != null) return true; 
-            
-            //  see if there is a SystemInformation (ProcessingOrg) belonging to this person's orgs
-            sysInfo = sysInfoService.getByProcessingChartAndOrg(userChart, userOrg);
-            if (sysInfo != null) return true;
-        }
-        return false;
-    }
-    
     public boolean loadFiles() {
         
-        boolean result = true;
-        Reporter reporter = new Reporter();
-        reporter.setDateTimeService(dateTimeService);
+        LOG.info("Beginning processing of all available files for AR Customer Batch Upload.");
         
+        boolean result = true;
+        List<CustomerLoadFileResult> fileResults = new ArrayList<CustomerLoadFileResult>();
+        CustomerLoadFileResult reporter = null;
+        
+        //  create a list of the files to process
+        List<String> fileNamesToLoad = getListOfFilesToProcess();
+        LOG.info("Found " + fileNamesToLoad.size() + " file(s) to process.");
+        
+        //  process each file in turn
+        List<String> processedFiles = new ArrayList<String>();
+        for (String inputFileName : fileNamesToLoad) {
+            
+            LOG.info("Beginning processing of filename: " + inputFileName + ".");
+            
+            //  setup the results reporting
+            reporter = new CustomerLoadFileResult(inputFileName);
+            fileResults.add(reporter);
+            
+            if (loadFile(inputFileName, reporter)) {
+                result &= true;
+                reporter.addFileInfoMessage("File successfully completed processing.");
+                processedFiles.add(inputFileName);
+            }
+            else {
+                reporter.addFileErrorMessage("File failed to process successfully.");
+                result &= false;
+            }
+        }
+
+        //  remove done files
+        removeDoneFiles(processedFiles);
+        
+        //  write report PDF
+        writeReportPDF(fileResults);
+        
+        return result;
+    }
+    
+    private List<String> getListOfFilesToProcess() {
+        
+        //  create a list of the files to process
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
         
-        //  fail if null returned by batchInputFileService
         if (fileNamesToLoad == null) {
-            reporter.addErrorEntry(NA, NA, "BatchInputFileService.listInputFileNamesWithDoneFile(" + 
+            LOG.error("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
             throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
                     batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
         }
         
-        //  create the logging/reporting structure 
-        
-        List<String> processedFiles = new ArrayList<String>();
+        //  filenames returned should never be blank/empty/null
         for (String inputFileName : fileNamesToLoad) {
-            
-            //  filenames returned should never be blank/empty/null
             if (StringUtils.isBlank(inputFileName)) {
-                reporter.addErrorEntry(NA, NA, "One of the file names returned as ready to process [" + inputFileName + 
+                LOG.error("One of the file names returned as ready to process [" + inputFileName + 
                         "] was blank.  This should not happen, so throwing an error to investigate.");
                 throw new RuntimeException("One of the file names returned as ready to process [" + inputFileName + 
                         "] was blank.  This should not happen, so throwing an error to investigate.");
             }
-            
-            if (loadFile(inputFileName, reporter)) {
-                result &= true;
-                reporter.addInfoEntry(inputFileName, NA, "File completed processing.");
-                processedFiles.add(inputFileName);
-            }
-            else {
-                reporter.addErrorEntry(inputFileName, NA, "File failed to process successfully.");
-                result &= false;
-            }
         }
-
-        removeDoneFiles(processedFiles);
         
-        return result;
+        return fileNamesToLoad;
     }
     
     /**
@@ -218,15 +197,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String)
      */
     public boolean loadFile(String fileName) {
-        Reporter reporter = new Reporter();
-        reporter.setDateTimeService(dateTimeService);
-        return loadFile(fileName, reporter);
+        return loadFile(fileName, new CustomerLoadFileResult(fileName));
     }
     
-    public boolean loadFile(String fileName, Reporter reporter) {
+    public boolean loadFile(String fileName, CustomerLoadFileResult reporter) {
         
         boolean result = true;
         
+        //TODO move up to the loadFiles() method
         List<String> routedDocumentNumbers = new ArrayList<String>();
         List<String> failedDocumentNumbers = new ArrayList<String>();
         
@@ -234,21 +212,22 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
 
         //  parse the file against the XSD schema and load it into an object
-        reporter.addInfoEntry(fileName, NA, "Attempting to parse the file using Apache Digester.");
+        LOG.info("Attempting to parse the file using Apache Digester.");
         Object parsedObject = null;
         try {
             parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         }
         catch (XMLParseException e) {
-            reporter.addErrorEntry(fileName, NA, "Error parsing batch file: " + e.getMessage());
+            LOG.error("Error parsing batch file: " + e.getMessage());
+            reporter.addFileErrorMessage("Error parsing batch file: " + e.getMessage());
             throw new XMLParseException(e.getMessage());
         }
         
         //  make sure we got the type we expected, then cast it
         if (!(parsedObject instanceof CustomerDigesterVO)) {
-            reporter.addErrorEntry(fileName, NA, "Parsed file was not of the expected type.");
-            throw new RuntimeException("Parsed object was not of the expected type.  " + 
-                    "Was: [" + parsedObject.getClass().toString() + "], expected: [" + CustomerDigesterVO.class + "].");
+            LOG.error("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
+            reporter.addFileErrorMessage("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
+            throw new RuntimeException("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
         }
         CustomerDigesterVO customerVO = (CustomerDigesterVO) parsedObject;
         
@@ -257,24 +236,26 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         customerVOs.add(customerVO);
         
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
-        reporter.addInfoEntry(fileName, NA, "Beginning validation and preparation of batch file.");
+        LOG.info("Beginning validation and preparation of batch file.");
         result = validateAndPrepare(customerVOs, readyTransientDocs, reporter);
         
         //  send the readyDocs into workflow
-        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
+        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, customerVO.getCustomerName(), reporter);
         
         return result;
     }
 
-    private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers, Reporter reporter) {
+    private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, 
+            List<String> failedDocumentNumbers, String customerName, CustomerLoadFileResult reporter) {
         boolean result = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
-            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, reporter);
+            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, customerName, reporter);
         }
         return result;
     }
     
-    private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers, Reporter reporter) {
+    private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, 
+            List<String> failedDocumentNumbers, String customerName, CustomerLoadFileResult reporter) {
         boolean result = true;
         
         //  create a real workflow document
@@ -283,6 +264,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             realMaintDoc = (MaintenanceDocument) docService.getNewDocument(DOC_TYPE_NAME);
         }
         catch (WorkflowException e) {
+            LOG.error("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);
             throw new RuntimeException("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);
         }
         
@@ -293,8 +275,19 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             docService.routeDocument(realMaintDoc, "Routed from CustomerLoad Batch Process", null);
         }
         catch (WorkflowException e) {
-            LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.");
+            LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.", e);
+            reporter.addCustomerErrorMessage(customerName, "WorkflowException occurred while trying to route a new MaintenanceDocument: " + e.getMessage());
             result = false;
+        }
+        
+        if (result == true) {
+            reporter.setCustomerSuccessResult(customerName);
+            reporter.setCustomerWorkflowDocId(customerName, realMaintDoc.getDocumentNumber());
+            routedDocumentNumbers.add(realMaintDoc.getDocumentNumber());
+        }
+        else {
+            reporter.setCustomerFailureResult(customerName);
+            failedDocumentNumbers.add(realMaintDoc.getDocumentNumber());
         }
         return result;
     }
@@ -308,6 +301,13 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         for (String errorMessage : errorMessages) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, 
                     KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, errorMessage);
+        }
+    }
+    
+    private void addBatchErrorstoCustomerLoadResult(CustomerLoadBatchErrors batchErrors, CustomerLoadResult result) {
+        Set<String> errorMessages = batchErrors.getErrorStrings();
+        for (String errorMessage : errorMessages) {
+            result.addErrorMessage(errorMessage);
         }
     }
     
@@ -362,12 +362,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
     
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs) {
-        Reporter reporter = new Reporter();
-        reporter.setDateTimeService(dateTimeService);
-        return validateAndPrepare(customerUploads, customerMaintDocs, reporter);
+        return validateAndPrepare(customerUploads, customerMaintDocs, new CustomerLoadFileResult());
     }
     
-    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, Reporter reporter) {
+    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter) {
         
         //TODO Yes I know this method needs to be broken up into some other sub-methods
         
@@ -387,10 +385,13 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         //  check to make sure the input file doesnt have more docs than we allow in one batch file
         String maxRecordsString = parameterService.getParameterValue(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
         if (StringUtils.isBlank(maxRecordsString) || !StringUtils.isNumeric(maxRecordsString)) {
+            LOG.error("Expected 'Max Records Per Document' System Parameter is not available.");
             throw new RuntimeException("Expected 'Max Records Per Document' System Parameter is not available.");
         }
         Integer maxRecords = new Integer(maxRecordsString);
         if (customerUploads.size() > maxRecords.intValue()) {
+            LOG.error("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
+            reporter.addFileErrorMessage("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
             return false;
         }
@@ -400,21 +401,32 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         Customer customer = null;
         CustomerLoadBatchErrors batchErrors = null;
+        String customerName;
         if (adapter == null) adapter = new CustomerDigesterAdapter();
         for (CustomerDigesterVO customerDigesterVO : customerUploads) {
             
             docSucceeded = true;
+            customerName = customerDigesterVO.getCustomerName();
+            
+            //  setup logging and reporting
+            LOG.info("Beginning conversion and validation for [" + customerName + "].");
+            reporter.addCustomerInfoMessage(customerName, "Beginning conversion and validation.");
+            CustomerLoadResult result = reporter.getCustomer(customerName);
             
             //  start a new ErrorMap for each Customer
             batchErrors = new CustomerLoadBatchErrors();
             
             //  convert the VO to a BO
+            LOG.info("Beginning conversion from VO to BO.");
             customer = adapter.convert(customerDigesterVO, batchErrors);
             
             //  if any errors were generated, add them to the GlobalVariables, and return false
             if (!batchErrors.isEmpty()) {
-                batchErrors.addError(customer.getCustomerName(), "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
+                LOG.info("The customer [" + customerName + "] was not processed due to errors in uploading and conversion.");
+                batchErrors.addError(customerName, "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
                 addBatchErrorsToGlobalVariables(batchErrors);
+                addBatchErrorstoCustomerLoadResult(batchErrors, result);
+                reporter.setCustomerFailureResult(customerName);
                 docSucceeded = false;
                 groupSucceeded &= false;
                 continue;
@@ -451,15 +463,30 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_EDIT_ACTION);
             }
 
-            if (!validateSingle(transientMaintDoc, batchErrors, customer.getCustomerName())) {
+            //  report whether the customer is an Add or an Edit
+            if (isNew) {
+                reporter.addCustomerInfoMessage(customerName, "Customer record batched is a New Customer.");
+            }
+            else {
+                reporter.addCustomerInfoMessage(customerName, "Customer record batched is an Update to an existing Customer.");
+            }
+            
+            //  validate the batched customer
+            if (!validateSingle(transientMaintDoc, batchErrors, customerName)) {
                 groupSucceeded &= false;
                 docSucceeded = false;
+                reporter.setCustomerFailureResult(customerName);
             }
             
             //  put any errors back in global vars
             addBatchErrorsToGlobalVariables(batchErrors);
+            addBatchErrorstoCustomerLoadResult(batchErrors, result);
             
-            if (docSucceeded) customerMaintDocs.add(transientMaintDoc);
+            //  if the doc succeeded then add it to the list to be routed, and report it as successful
+            if (docSucceeded) {
+                customerMaintDocs.add(transientMaintDoc);
+                reporter.setCustomerSuccessResult(customerName);
+            }
             
         }
         
@@ -678,6 +705,215 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
+    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+        FinancialSystemUser fsUser = fsUserService.getFinancialSystemUser(user.getPersonUniversalIdentifier());
+        return isUserInArBillingOrProcessingOrg(fsUser);
+    }
+
+    private boolean isUserInArBillingOrProcessingOrg(FinancialSystemUser fsUser) {
+        
+        Org fsUserOrg = fsUser.getOrganization();
+        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
+        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
+        
+        String userChart, userOrg; 
+        Map<String,String> pkMap;
+        Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
+
+        //  add the user's base org to the list
+        pkMap = new HashMap<String,String>();
+        pkMap.put("chartOfAccountsCode", fsUserOrg.getChartOfAccountsCode());
+        pkMap.put("organizationCode", fsUserOrg.getOrganizationCode());
+        searchOrgs.put(fsUserOrg.getChartOfAccountsCode() + fsUserOrg.getOrganizationCode(), pkMap);
+        
+        //  gather up all chart/org combos we want to search for
+        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
+            userChart = userPrimaryOrg.getChartOfAccountsCode();
+            userOrg = userPrimaryOrg.getOrganizationCode();
+            if (!searchOrgs.containsKey(userChart + userOrg)) {
+                pkMap = new HashMap<String,String>();
+                pkMap.put("chartOfAccountsCode", userChart);
+                pkMap.put("organizationCode", userOrg);
+                searchOrgs.put(userChart + userOrg, pkMap);
+            }
+        }
+        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
+            userChart = userOrgSecurity.getChartOfAccountsCode();
+            userOrg = userOrgSecurity.getOrganizationCode();
+            if (!searchOrgs.containsKey(userChart + userOrg)) {
+                pkMap = new HashMap<String,String>();
+                pkMap.put("chartOfAccountsCode", userChart);
+                pkMap.put("organizationCode", userOrg);
+                searchOrgs.put(userChart + userOrg, pkMap);
+            }
+        }
+        
+        OrganizationOptions orgOpts = null;
+        SystemInformation sysInfo = null;
+        for (String searchOrgKey : searchOrgs.keySet()) {
+            pkMap = searchOrgs.get(searchOrgKey);
+            userChart = pkMap.get("chartOfAccountsCode");
+            userOrg = pkMap.get("organizationCode");
+
+            //  see if there is an OrgOpt (Billing Org) belonging to this person's orgs
+            orgOpts = (OrganizationOptions) boService.findByPrimaryKey(OrganizationOptions.class, pkMap);
+            if (orgOpts != null) return true; 
+            
+            //  see if there is a SystemInformation (ProcessingOrg) belonging to this person's orgs
+            sysInfo = sysInfoService.getByProcessingChartAndOrg(userChart, userOrg);
+            if (sysInfo != null) return true;
+        }
+        return false;
+    }
+    
+    private void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
+        
+        //  setup the PDF business
+        Document pdfDoc = new Document(PageSize.LETTER, 54, 54, 72, 72);
+        getPdfWriter(pdfDoc);
+        pdfDoc.open();
+        
+        CustomerLoadResult result;
+        String customerResultLine;
+        for (CustomerLoadFileResult fileResult : fileResults) {
+            
+            //  file name title
+            writeFileNameSectionTitle(pdfDoc, fileResult.getFilename().toUpperCase());
+            
+            //  write any file-general messages
+            writeMessageEntryLines(pdfDoc, fileResult.getMessages());
+            
+            //  walk through each customer included in this file
+            for (String customerName : fileResult.getCustomerNames()) {
+                result = fileResult.getCustomer(customerName);
+                
+                //  write the customer title
+                writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
+                
+                //  write a success/failure results line for this customer
+                customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
+                writeCustomerSectionResult(pdfDoc, result.getResultString());
+                
+                //  write any customer messages 
+                writeMessageEntryLines(pdfDoc, result.getMessages());
+            }
+        }
+        
+        pdfDoc.close();
+    }
+    
+    private void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
+        Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
+        
+        Paragraph paragraph = new Paragraph();
+        paragraph.setAlignment(Element.ALIGN_LEFT);
+        Chunk chunk = new Chunk(filenameLine, font);
+        chunk.setBackground(Color.LIGHT_GRAY, 5, 5, 5, 5);
+        paragraph.add(chunk);
+        
+        //  blank line
+        paragraph.add(new Chunk("", font));
+        
+        try {
+            pdfDoc.add(paragraph);
+        }
+        catch (DocumentException e) {
+            LOG.error("iText DocumentException thrown when trying to write content.", e);
+            throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
+        }
+    }
+    
+    private void writeCustomerSectionTitle(Document pdfDoc, String customerNameLine) {
+        Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD + Font.UNDERLINE);
+        
+        Paragraph paragraph = new Paragraph();
+        paragraph.setAlignment(Element.ALIGN_LEFT);
+        paragraph.add(new Chunk(customerNameLine, font));
+
+        //  blank line
+        paragraph.add(new Chunk("", font));
+        
+        try {
+            pdfDoc.add(paragraph);
+        }
+        catch (DocumentException e) {
+            LOG.error("iText DocumentException thrown when trying to write content.", e);
+            throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
+        }
+    }
+    
+    private void writeCustomerSectionResult(Document pdfDoc, String resultLine) {
+        Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
+        
+        Paragraph paragraph = new Paragraph();
+        paragraph.setAlignment(Element.ALIGN_LEFT);
+        paragraph.add(new Chunk(resultLine, font));
+
+        //  blank line
+        paragraph.add(new Chunk("", font));
+        
+        try {
+            pdfDoc.add(paragraph);
+        }
+        catch (DocumentException e) {
+            LOG.error("iText DocumentException thrown when trying to write content.", e);
+            throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
+        }
+    }
+    
+    private void writeMessageEntryLines(Document pdfDoc, List<String[]> messageLines) {
+        Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
+        
+        Paragraph paragraph;
+        String messageEntry;
+        for (String[] messageLine : messageLines) {
+            paragraph = new Paragraph();
+            paragraph.setAlignment(Element.ALIGN_LEFT);
+            messageEntry = StringUtils.rightPad(messageLine[0], (12 - messageLine[0].length()), " ") + " - " + messageLine[1].toUpperCase();
+            paragraph.add(new Chunk(messageEntry, font));
+
+            //  blank line
+            paragraph.add(new Chunk("", font));
+            
+            try {
+                pdfDoc.add(paragraph);
+            }
+            catch (DocumentException e) {
+                LOG.error("iText DocumentException thrown when trying to write content.", e);
+                throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
+            }
+        }
+    }
+    
+    private void getPdfWriter(Document pdfDoc) {
+        
+        String reportDirectory = configService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) + "/" + 
+                ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
+        String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +  
+            new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(dateTimeService.getCurrentDate()) + ".pdf";
+       
+        //  setup the writer
+        File reportFile = new File(reportsDirectory + fileName);
+        FileOutputStream fileOutStream;
+        try {
+            fileOutStream = new FileOutputStream(reportFile);
+        }
+        catch (IOException e) {
+            LOG.error("IOException thrown when trying to open the FileOutputStream.", e);
+            throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
+        }
+        BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
+        
+        try {
+            PdfWriter.getInstance(pdfDoc, buffOutStream);
+        }
+        catch (DocumentException e) {
+            LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
+            throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
+        }
+        
+    }
+
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
         this.batchInputFileService = batchInputFileService;
     }

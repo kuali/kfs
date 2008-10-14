@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.batch.vo;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.batch.CustomerLoadBatchErrors;
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadBatchErrors;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,6 +71,7 @@ public class CustomerDigesterAdapter {
         
         //  the whole error system is keyed of customerName, so if we dont get one of those, we cant even proceed.
         if (StringUtils.isBlank(customerDigesterVO.getCustomerName())) {
+            LOG.error("CustomerName can never be empty-string or null.");
             addError("customerName", String.class, customerDigesterVO.getCustomerName(), "CustomerName can never be empty-string or null.");
             return null;
         }
@@ -79,9 +80,11 @@ public class CustomerDigesterAdapter {
         customerName = this.customerDigesterVO.getCustomerName();
         
         if (errors == null) {
+            LOG.error("Passed in CustomerLoadBatchErrors must not be null.");
             throw new IllegalArgumentException("Passed in CustomerLoadBatchErrors must not be null.");
         }
         else if (!errors.isEmpty()) {
+            LOG.error("Passed in CustomerLoadBatchErrors must be empty.");
             throw new IllegalArgumentException("Passed in CustomerLoadBatchErrors must be empty.");
         }
         this.errors = errors;
@@ -311,6 +314,7 @@ public class CustomerDigesterAdapter {
         //  apply the default value from DD if exists
         String defaultValue = maintDocDDService.getFieldDefaultValue(BO_CLASS, propertyName);
         if (incomingValue == null && StringUtils.isNotBlank(defaultValue)) {
+            LOG.info("Applied DD default value of '" + defaultValue + "' to field [" + propertyName + "].");
             return defaultValue;
         }
         else {
@@ -319,6 +323,7 @@ public class CustomerDigesterAdapter {
     }
     
     private void addError(String propertyName, Class<?> propertyClass, String origValue, String description) {
+        LOG.error("Failed conversion on field [" + propertyName + "] with value: '" + origValue + "': " + description);
         errors.addError(customerName, propertyName, propertyClass, origValue, description);
     }
     

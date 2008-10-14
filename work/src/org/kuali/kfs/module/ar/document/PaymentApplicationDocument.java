@@ -294,7 +294,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             debitGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             debitGLPE_1.setAccount(clearingAccount);
+            debitGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
+            debitGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
             debitGLPE_1.setFinancialObject(unappliedCashObjectCode);
+            debitGLPE_1.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
             entries.add(debitGLPE_1);
             sequenceHelper.increment();
             
@@ -303,7 +306,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_1.setAccount(clearingAccount);
+            creditGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
+            creditGLPE_1.setAccountNumber(clearingAccount.getAccountNumber());
             creditGLPE_1.setFinancialObject(cashObjectCode);
+            creditGLPE_1.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
             entries.add(creditGLPE_1);
             sequenceHelper.increment();
             
@@ -311,7 +317,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             debitGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             debitGLPE_2.setAccount(billingOrganizationAccount);
+            debitGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
+            debitGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
             debitGLPE_2.setFinancialObject(cashObjectCode);
+            debitGLPE_2.setFinancialObjectCode(cashObjectCode.getFinancialObjectCode());
             entries.add(debitGLPE_2);
             sequenceHelper.increment();
 
@@ -320,7 +329,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             creditGLPE_2.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_2.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());
             creditGLPE_2.setAccount(billingOrganizationAccount);
+            creditGLPE_2.setAccountNumber(billingOrganizationAccount.getAccountNumber());
+            creditGLPE_2.setChartOfAccountsCode(billingOrganizationAccount.getChartOfAccountsCode());
             creditGLPE_2.setFinancialObject(accountsReceivableObjectCode);
+            creditGLPE_2.setFinancialObjectCode(accountsReceivableObjectCode.getFinancialObjectCode());
             entries.add(creditGLPE_2);
             sequenceHelper.increment();
         }
@@ -333,8 +345,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      */
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         try {
-//            CashControlDocument cashControlDocument = 
-//                paymentApplicationDocumentService.getCashControlDocumentForPaymentApplicationDocument(this);
             List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
             for(GeneralLedgerPendingEntry entry : entries) {
                 addPendingEntry(entry);

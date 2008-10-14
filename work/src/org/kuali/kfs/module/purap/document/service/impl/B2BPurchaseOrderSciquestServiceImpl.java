@@ -138,7 +138,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
         StringBuffer cxml = new StringBuffer();
 
-        cxml.append("<?xml version=\"1.0\"?>\n");
+        cxml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         cxml.append("<!DOCTYPE PurchaseOrderMessage SYSTEM \"PO.dtd\">\n");
         cxml.append("<PurchaseOrderMessage version=\"2.0\">\n");
         cxml.append("  <Header>\n");
@@ -237,7 +237,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         }
         cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
         cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
-        cxml.append("          <AddressLine label=\"Company\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></AddressLine>\n");
+        cxml.append("          <AddressLine label=\"Company\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></AddressLine>\n");
         if (ObjectUtils.isNull(purchaseOrder.getDeliveryBuildingLine2Address())) {
             cxml.append("          <AddressLine label=\"Street3\" linenumber=\"3\"><![CDATA[").append(" ").append("]]></AddressLine>\n");
         }

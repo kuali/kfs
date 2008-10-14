@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.businessobject.RequisitionSource;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
@@ -56,7 +57,9 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -324,7 +327,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     @Override
     public void populateDocumentForRouting() {
-        this.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this));
         commodityCodesForRouting = new ArrayList<CommodityCode>();
         for (PurchasingItemBase item : (List<PurchasingItemBase>)this.getItems()) {
             if (item.getCommodityCode() != null) {
@@ -1218,6 +1220,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
                     camsItem.setPurchasingCapitalAssetSystem(null);
                 }
             }
+        }
+        if (event instanceof RouteDocumentEvent || event instanceof ApproveDocumentEvent) {
+
+            boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(this);
+            SpringContext.getBean(PurapService.class).updateUseTaxIndicator(this, defaultUseTaxIndicatorValue);
         }
     }
     

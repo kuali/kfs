@@ -677,6 +677,34 @@ public class PurapServiceImpl implements PurapService {
     }    
     
     /**
+     * 
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#clearTax(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    public void clearTax(PurchasingAccountsPayableDocument purapDocument, boolean useTax){
+        for (PurApItem item : purapDocument.getItems()) {
+            if(item.getItemType().isLineItemIndicator()) {
+                //FIXME: only do above the line right now, if we tax below the line we need to change this
+
+                if(useTax) {
+                    item.getUseTaxItems().clear();
+                } else {
+                    item.setItemTaxAmount(null);
+                }
+                
+            }
+        }
+    }
+    
+    public void updateUseTaxIndicator(PurchasingAccountsPayableDocument purapDocument, boolean newUseTaxIndicatorValue) {
+        boolean currentUseTaxIndicator = purapDocument.isUseTaxIndicator();
+        if(currentUseTaxIndicator!=newUseTaxIndicatorValue) {
+            //i.e. if the indicator changed clear out the tax
+            clearTax(purapDocument, currentUseTaxIndicator);
+        }
+        purapDocument.setUseTaxIndicator(newUseTaxIndicatorValue);
+    }
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#calculateTax(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument){

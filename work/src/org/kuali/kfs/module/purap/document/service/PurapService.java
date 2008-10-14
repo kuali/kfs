@@ -225,4 +225,18 @@ public interface PurapService {
     * @param purapDocument
     */
    public void calculateTax(PurchasingAccountsPayableDocument purapDocument);
+   
+   /**
+    * Clears the tax from a document.  Useful when changing from use to sales
+    * @param purapDocument document
+    * @param useTax the whether to clear use or sales
+    */
+   public void clearTax(PurchasingAccountsPayableDocument purapDocument, boolean useTax);
+   
+   /**
+    * Updates the use tax field, clearing old values if it has changed
+    * @param purapDocument document
+    * @param newUseTaxIndicatorValue useTaxIndicator to change to
+    */
+   public void updateUseTaxIndicator(PurchasingAccountsPayableDocument purapDocument, boolean newUseTaxIndicatorValue);
 }

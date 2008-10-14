@@ -47,7 +47,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
-import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AddPurchasingAccountsPayableItemEvent;
@@ -1005,8 +1005,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
 
-        purDoc.setUseTaxIndicator(SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc));
-        SpringContext.getBean(PurapServiceImpl.class).calculateTax(purDoc);
+        boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc);
+        SpringContext.getBean(PurapService.class).updateUseTaxIndicator(purDoc, defaultUseTaxIndicatorValue);
+        SpringContext.getBean(PurapService.class).calculateTax(purDoc);
 
       // call prorateDiscountTradeIn
         SpringContext.getBean(PurchasingService.class).prorateForTradeInAndFullOrderDiscount(purDoc);

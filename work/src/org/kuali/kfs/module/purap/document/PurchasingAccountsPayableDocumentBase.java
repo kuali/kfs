@@ -48,7 +48,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -203,7 +205,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public void populateDocumentForRouting() {
-        SpringContext.getBean(PurapServiceImpl.class).calculateTax(this);
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
         // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
@@ -270,6 +271,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         // Need this here so that it happens before the GL work is done
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
 
+        if (event instanceof RouteDocumentEvent || event instanceof ApproveDocumentEvent) {
+            SpringContext.getBean(PurapServiceImpl.class).calculateTax(this);
+        }
         // These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
         // But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
         // merge into Rice. KULPURAP-1370 is the related jira.

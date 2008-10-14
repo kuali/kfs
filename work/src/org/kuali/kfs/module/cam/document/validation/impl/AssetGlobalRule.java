@@ -170,33 +170,6 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    /**
-     * This explicit check needs to be done, else DB constraint will fail when "SAVE" button is clicked with invalid chart and
-     * account values
-     * 
-     * @param assetGlobal Asset Global
-     * @return true if values are valid
-     */
-    private boolean checkReferenceExists(AssetGlobal assetGlobal) {
-        boolean valid = true;
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerChartOfAccountsCode())) {
-            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART);
-            if (ObjectUtils.isNull(assetGlobal.getOrganizationOwnerChartOfAccounts())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS, CamsKeyConstants.AssetGlobal.ERROR_OWNER_CHART_INVALID, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode() });
-                valid &= false;
-            }
-        }
-        if (StringUtils.isNotBlank(assetGlobal.getOrganizationOwnerAccountNumber())) {
-            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-            if (ObjectUtils.isNull(assetGlobal.getOrganizationOwnerAccount())) {
-                putFieldError(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCT_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_OWNER_ACCT_NUMBER_INVALID, new String[] { assetGlobal.getOrganizationOwnerChartOfAccountsCode(), assetGlobal.getOrganizationOwnerAccountNumber() });
-                valid &= false;
-            }
-        }
-
-        return valid;
-    }
 
     private boolean isCapitalStatus(AssetGlobal assetGlobal) {
         return parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.CAPITAL_ASSET_STATUS_CODES).contains(assetGlobal.getInventoryStatusCode());
@@ -555,9 +528,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // no need to validate specific fields if document is "Asset Separate"
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
-            
+
             success &= validateAccount(assetGlobal);
-            
+
             if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
                 UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
                 if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
@@ -631,10 +604,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     public boolean processSaveDocument(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         AssetGlobal assetGlobal = (AssetGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        if (!checkReferenceExists(assetGlobal)) {
-            return false;
-        }
-        return super.processSaveDocument(document);
+        GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
+        boolean valid = getDictionaryValidationService().validateDefaultExistenceChecks(assetGlobal);
+        GlobalVariables.getErrorMap().removeFromErrorPath(MAINTAINABLE_ERROR_PATH);
+        return valid && super.processSaveDocument(document);
     }
 
     private boolean validateAccount(AssetGlobal assetGlobal) {

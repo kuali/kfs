@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
@@ -71,7 +72,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
     private static AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
     private static AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
-    private static DateTimeService dateTimeService= SpringContext.getBean(DateTimeService.class);
+    private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
     private Set<RoutingData> routingInfo;
 
@@ -359,8 +360,8 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
 
     /**
-     * 
      * Sets the default values in some of the fields of the asset payment section
+     * 
      * @param collectionName
      * @param assetGlobal
      */
@@ -372,7 +373,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode())) {
                 assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
-				assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);                
+                assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
         }
     }
@@ -404,7 +405,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
 
     /**
-     * 
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#prepareForSave()
      */
     @Override
@@ -440,7 +440,17 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
 
         if (assetGlobal.getCapitalAssetTypeCode() != null) {
-            computeDepreciationDate(assetGlobal);
+            assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
+            AssetType capitalAssetType = assetGlobal.getCapitalAssetType();
+            if (ObjectUtils.isNotNull(capitalAssetType)) {
+                if (capitalAssetType.getDepreciableLifeLimit() != null && capitalAssetType.getDepreciableLifeLimit().intValue() != 0) {
+                    assetGlobal.setCapitalAssetInServiceDate(assetGlobal.getCreateDate() == null ? SpringContext.getBean(DateTimeService.class).getCurrentSqlDate() : assetGlobal.getCreateDate());
+                }
+                else {
+                    assetGlobal.setCapitalAssetInServiceDate(null);
+                }
+                computeDepreciationDate(assetGlobal);
+            }
         }
         assetGlobal.getAssetGlobalDetails().clear();
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
@@ -448,34 +458,31 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         assetGlobal.setPrimaryDepreciationBaseAmount(assetGlobalService.totalNonFederalPaymentByAsset(assetGlobal));
     }
 
-   /**
-     * 
+    /**
      * computes depreciation date
+     * 
      * @param assetGlobal
      */
     private void computeDepreciationDate(AssetGlobal assetGlobal) {
-        Date inServiceDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        assetGlobal.setCapitalAssetInServiceDate(inServiceDate);
-
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         if (assetPaymentDetails != null && !assetPaymentDetails.isEmpty()) {
+
             LOG.debug("Compute depreciation date based on asset type, depreciation convention and in-service date");
             AssetPaymentDetail firstAssetPaymentDetail = assetPaymentDetails.get(0);
             ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(firstAssetPaymentDetail.getPostingYear(), firstAssetPaymentDetail.getChartOfAccountsCode(), firstAssetPaymentDetail.getFinancialObjectCode());
             if (ObjectUtils.isNotNull(objectCode)) {
-                assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
                 Map<String, String> primaryKeys = new HashMap<String, String>();
                 primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
                 AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
-                Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, inServiceDate);
+                Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, assetGlobal.getCapitalAssetInServiceDate());
                 assetGlobal.setCapitalAssetDepreciationDate(depreciationDate);
             }
         }
     }
 
     /**
-     * 
      * Deletes existing asset glogal detail records
+     * 
      * @param assetGlobal
      */
     private void deleteExistingAssetGlobalDetailRecords(AssetGlobal assetGlobal) {
@@ -487,7 +494,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processAfterRetrieve()
      */
     @Override
@@ -634,7 +640,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     }
 
     /**
-     * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#handleRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override

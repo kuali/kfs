@@ -389,6 +389,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (!PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
             purapService.addBelowLineItems(poDocument);
         }
+        poDocument.fixItemReferences();
 
         return poDocument;
     }

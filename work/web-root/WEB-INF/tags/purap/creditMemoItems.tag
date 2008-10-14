@@ -22,7 +22,7 @@
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
 		
 <tr>
-	<td colspan="10" class="subhead">
+	<td colspan="11" class="subhead">
 		<span class="subhead-left">Items</span>
 	</td>
 </tr>
@@ -215,7 +215,7 @@
 			        <kul:htmlControlAttribute
 				        attributeEntry="${itemAttributes.totalAmount}"
 				        property="document.item[${ctr}].totalAmount"
-				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
+				        readOnly="true" styleClass="amount" />
 			    </div>
 			</td>
 			<td class="infoline">

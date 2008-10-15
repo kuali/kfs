@@ -16,7 +16,14 @@
 package org.kuali.kfs.module.purap.fixture;
 
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.fixture.TaxFixture.TaxTestCaseFixture;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 
 public enum RequisitionDocumentFixture {
 
@@ -555,4 +562,69 @@ public enum RequisitionDocumentFixture {
         return doc;
     }
 
+    public RequisitionDocument createRequisitionDocumentForTax(TaxTestCaseFixture taxTestCaseFixture) {
+        
+        RequisitionDocument doc = createRequisitionDocument();
+        
+        doc.getItem(0).getItemType().setTaxableIndicator(taxTestCaseFixture.isItemTypeTaxable());
+        
+        doc.setDeliveryStateCode("IN"); 
+        
+        if (taxTestCaseFixture.isItemTaxAmountNull()){
+            doc.getItem(0).setItemTaxAmount(null);
+        }else{
+            doc.getItem(0).setItemTaxAmount(new KualiDecimal(100));
+        }
+        
+        doc.setUseTaxIndicator(taxTestCaseFixture.isUseTax());
+        
+        if (taxTestCaseFixture.iscommodityCodeNull()){
+            ((RequisitionItem)doc.getItem(0)).setPurchasingCommodityCode(null);
+            ((RequisitionItem)doc.getItem(0)).setCommodityCode(null);
+        }else{
+            ((RequisitionItem)doc.getItem(0)).setCommodityCode(CommodityCodeFixture.COMMODITY_CODE_BASIC_ACTIVE.createCommodityCode());
+        }
+        
+        String INVALID_VALUE = "XX";
+        
+        String fundGroupCode = doc.getItem(0).getSourceAccountingLines().get(0).getAccount().getSubFundGroup().getFundGroupCode();
+        String subFundGroupCode = doc.getItem(0).getSourceAccountingLines().get(0).getAccount().getSubFundGroup().getSubFundGroupCode();
+        String objectLevelCode = doc.getItem(0).getSourceAccountingLines().get(0).getObjectCode().getFinancialObjectLevelCode();
+        String consolidationObjectCode = doc.getItem(0).getSourceAccountingLines().get(0).getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
+        
+        String parameterSuffix;
+        
+        if (taxTestCaseFixture.isDeliveryStateTaxable()){
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", doc.getDeliveryStateCode());
+            parameterSuffix = "FOR_TAXABLE_STATES";
+        }else{
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_DELIVERY_STATES", INVALID_VALUE);                
+            parameterSuffix = "FOR_NON_TAXABLE_STATES";
+        }
+        
+        if (taxTestCaseFixture.isFundGroupCodeTaxable()){
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_FUND_GROUPS_" + parameterSuffix, fundGroupCode);
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_SUB_FUND_GROUPS_" + parameterSuffix, subFundGroupCode);
+        }else{
+           //Just put some invalid value
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_FUND_GROUPS_" + parameterSuffix, INVALID_VALUE);
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_SUB_FUND_GROUPS_" + parameterSuffix, INVALID_VALUE);
+        }
+        
+        if (taxTestCaseFixture.isObjectCodeTaxable()){
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_OBJECT_LEVELS_" + parameterSuffix, objectLevelCode);
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_OBJECT_CONSOLIDATIONS_" + parameterSuffix, consolidationObjectCode);
+        }else{
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_OBJECT_LEVELS_" + parameterSuffix, INVALID_VALUE);
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, "TAXABLE_OBJECT_CONSOLIDATIONS_" + parameterSuffix, INVALID_VALUE);
+        }
+        
+        if (taxTestCaseFixture.isSalesTaxEnabled()){
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND,"Y");
+        }else{
+            SpringContext.getBean(ParameterService.class).setParameterForTesting(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND,"N");
+        }
+        
+        return doc;
+    }
 }

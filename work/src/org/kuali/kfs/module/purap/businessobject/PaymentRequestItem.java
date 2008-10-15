@@ -76,6 +76,17 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         // copy base attributes w/ extra array of fields not to be copied
         PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
 
+        //copy tax info
+        this.setItemTaxAmount( poi.getItemTaxAmount() );
+        
+        //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
+        for(PurApItemUseTax useTaxItem : poi.getUseTaxItems()){
+            PurApItemUseTax copyUseTaxItem = useTaxItem;
+            copyUseTaxItem.setUseTaxId(null);
+            copyUseTaxItem.setItemIdentifier(null);
+            this.getUseTaxItems().add(copyUseTaxItem);
+        }
+
         // set up accounts
         List accounts = new ArrayList();
         for (PurApAccountingLine account : poi.getSourceAccountingLines()) {

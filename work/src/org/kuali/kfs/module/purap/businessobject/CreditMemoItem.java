@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -71,6 +72,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoUnitPrice(poItem.getItemUnitPrice());
         setPoTotalAmount(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
+        
+        //recalculate tax
+        SpringContext.getBean(PurapService.class).calculateTax(cmDocument);
         
         if ((ObjectUtils.isNotNull(this.getItemType()) && this.getItemType().isAmountBasedGeneralLedgerIndicator())) {
             // setting unit price to be null to be more consistent with other below the line
@@ -173,7 +177,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setPurapDocumentIdentifier(cmDocument.getPurapDocumentIdentifier());
         setItemLineNumber(preqItem.getItemLineNumber());
-
+        this.setPurapDocument(cmDocument);
+        
         // take invoiced quantities from the lower of the preq and po if different
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
             setPreqInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity());
@@ -182,6 +187,16 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         else {
             setPreqInvoicedTotalQuantity(preqItem.getItemQuantity());
             setPreqTotalAmount(preqItem.getTotalAmount());
+        }
+
+        this.setItemTaxAmount( preqItem.getItemTaxAmount() );
+        
+        //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
+        for(PurApItemUseTax useTaxItem : preqItem.getUseTaxItems()){
+            PurApItemUseTax copyUseTaxItem = useTaxItem;
+            copyUseTaxItem.setUseTaxId(null);
+            copyUseTaxItem.setItemIdentifier(null);
+            this.getUseTaxItems().add(copyUseTaxItem);
         }
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());

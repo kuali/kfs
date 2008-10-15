@@ -452,6 +452,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
         this.setPostingYear(po.getPostingYear());
         this.setReceivingDocumentRequiredIndicator(po.isReceivingDocumentRequiredIndicator());
+        this.setUseTaxIndicator(po.isUseTaxIndicator());
         this.setPaymentRequestPositiveApprovalIndicator(po.isPaymentRequestPositiveApprovalIndicator());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         if (po.getPurchaseOrderCostSource() != null) {

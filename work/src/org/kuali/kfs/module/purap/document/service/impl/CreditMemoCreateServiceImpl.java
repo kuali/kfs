@@ -105,7 +105,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.getDocumentHeader().setOrganizationDocumentNumber(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
         cmDocument.setPaymentRequestDocument(paymentRequestDocument);
         cmDocument.setPurchaseOrderDocument(paymentRequestDocument.getPurchaseOrderDocument());
-
+        cmDocument.setUseTaxIndicator(paymentRequestDocument.isUseTaxIndicator());
+        
         // credit memo address taken directly from payment request
         cmDocument.setVendorHeaderGeneratedIdentifier(paymentRequestDocument.getVendorHeaderGeneratedIdentifier());
         cmDocument.setVendorDetailAssignedIdentifier(paymentRequestDocument.getVendorDetailAssignedIdentifier());
@@ -141,6 +142,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         // add below the line items
         purapService.addBelowLineItems(cmDocument);
+        
+        cmDocument.fixItemReferences();
     }
 
     /**
@@ -152,7 +155,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(cmDocument.getPurchaseOrderIdentifier());
         cmDocument.setPurchaseOrderDocument(purchaseOrderDocument);
         cmDocument.getDocumentHeader().setOrganizationDocumentNumber(purchaseOrderDocument.getDocumentHeader().getOrganizationDocumentNumber());
-
+        cmDocument.setUseTaxIndicator(cmDocument.isUseTaxIndicator());
+        
         cmDocument.setVendorHeaderGeneratedIdentifier(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier());
         cmDocument.setVendorDetailAssignedIdentifier(purchaseOrderDocument.getVendorDetailAssignedIdentifier());
         cmDocument.setVendorCustomerNumber(purchaseOrderDocument.getVendorCustomerNumber());
@@ -199,6 +203,8 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         // add below the line items
         purapService.addBelowLineItems(cmDocument);
+        
+        cmDocument.fixItemReferences();
     }
 
     /**
@@ -212,7 +218,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
         VendorDetail vendorDetail = vendorService.getVendorDetail(vendorHeaderId, vendorDetailId);
         cmDocument.setVendorDetail(vendorDetail);
-
+        
         cmDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
         cmDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
         cmDocument.setVendorCustomerNumber(vendorDetail.getVendorNumber());
@@ -231,7 +237,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.templateVendorAddress(vendorAddress);
 
         // add below the line items
-        purapService.addBelowLineItems(cmDocument);
+        purapService.addBelowLineItems(cmDocument);        
     }
 
     /**

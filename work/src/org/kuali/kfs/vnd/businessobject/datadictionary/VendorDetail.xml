@@ -1038,7 +1038,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="vendorContractName" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="purchaseOrderCostSourceCode" />
+                          p:attributeName="vendorB2bIndicator" />
                     <bean parent="FieldDefinition"
                           p:attributeName="vendorContractDescription" />
                     <bean parent="FieldDefinition"
@@ -1059,6 +1059,8 @@
                           p:attributeName="contractManagerCode" />
                     <bean parent="FieldDefinition"
                           p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="purchaseOrderCostSourceCode" />
                     <bean parent="FieldDefinition"
                           p:attributeName="active" />
                   </list>

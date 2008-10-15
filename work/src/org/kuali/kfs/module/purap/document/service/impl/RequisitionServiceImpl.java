@@ -39,7 +39,9 @@ import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -67,6 +69,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private PurapService purapService;
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
+    private VendorService vendorService;
 
 
     /**
@@ -143,13 +146,12 @@ public class RequisitionServiceImpl implements RequisitionService {
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
             }
-            LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
 
+            LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
             return false;
         }
 
         LOG.debug("isAutomaticPurchaseOrderAllowed() You made it!  Your REQ can become an APO; return true.");
-
         return true;
     }
 
@@ -170,53 +172,59 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         LOG.debug("isAPO() reqId = " + requisition.getPurapDocumentIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
         if (apoLimit == null) {
-
             return "APO limit is empty.";
         }
         else {
             if (reqTotal.compareTo(apoLimit) == 1) {
-
                 return "Requisition total is greater than the APO limit.";
             }
         }
 
         if (reqTotal.compareTo(KualiDecimal.ZERO) <= 0) {
-
             return "Requisition total is not greater than zero.";
         }
 
         LOG.debug("isAPO() vendor #" + requisition.getVendorHeaderGeneratedIdentifier() + "-" + requisition.getVendorDetailAssignedIdentifier());
         if (requisition.getVendorHeaderGeneratedIdentifier() == null || requisition.getVendorDetailAssignedIdentifier() == null) {
-
             return "Vendor was not selected from the vendor database.";
         }
         else {
-            VendorDetail vendorDetail = new VendorDetail();
-            vendorDetail.setVendorHeaderGeneratedIdentifier(requisition.getVendorHeaderGeneratedIdentifier());
-            vendorDetail.setVendorDetailAssignedIdentifier(requisition.getVendorDetailAssignedIdentifier());
-            vendorDetail = (VendorDetail) businessObjectService.retrieve(vendorDetail);
+            VendorDetail vendorDetail = vendorService.getVendorDetail(requisition.getVendorHeaderGeneratedIdentifier(), requisition.getVendorDetailAssignedIdentifier());
             if (vendorDetail == null) {
-
                 return "Error retrieving vendor from the database.";
             }
 
             requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
-
                 return "Selected vendor is marked as restricted.";
             }
             requisition.setVendorDetail(vendorDetail);
+
+            if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
+              //FIXME after KIM is done, fix this to retrieve the REQ initiator's campus for the lookup
+//                          UniversalUser initiator = null;
+//                          try {
+//                              initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+//                          }
+//                          catch (UserNotFoundException e) {
+//                              throw new RuntimeException("Document Initiator not found " + e.getMessage());
+//                          }
+//                          VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, initiator.getCampusCode());
+                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, requisition.getDeliveryCampusCode());
+                if (b2bContract != null) {
+                    return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
+                }
+            }
         }
         
-        //These are needed for commodity codes. They are put in here so that
-        //we don't have to loop through items too many times.
+        // These are needed for commodity codes. They are put in here so that
+        // we don't have to loop through items too many times.
         String purchaseOrderRequiresCommodityCode = parameterService.getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         boolean commodityCodeRequired = purchaseOrderRequiresCommodityCode.equals("Y");
         
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
             RequisitionItem item = (RequisitionItem) iter.next();
             if (item.isItemRestrictedIndicator()) {
-
                 return "Requisition contains an item that is marked as restricted.";
             }
             //We only need to check the commodity codes if this is an above the line item.
@@ -253,24 +261,20 @@ public class RequisitionServiceImpl implements RequisitionService {
 //    }
 
         if (StringUtils.isNotEmpty(requisition.getRecurringPaymentTypeCode())) {
-
             return "Payment type is marked as recurring.";
         }
 
         if ((requisition.getPurchaseOrderTotalLimit() != null) && (KualiDecimal.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
             LOG.debug("isAPO() po total limit is not null and not equal to zero; return false.");
-
             return "The 'PO not to exceed' amount has been entered.";
         }
 
         if (StringUtils.isNotEmpty(requisition.getAlternate1VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate2VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate3VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate4VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
-
             return "Requisition contains alternate vendor names.";
         }
         
         if (!ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {
-            
             return "Requisition has failed Capital Asset rules.";
         }
         
@@ -361,5 +365,9 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
     }
 }

@@ -680,6 +680,10 @@
                     p:name="purchaseOrderCostSourceCode"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
+                    p:name="vendorB2bIndicator"
+                    p:required="true" 
+                    p:defaultValue="false" />
+              <bean parent="MaintainableFieldDefinition"
                     p:name="vendorPaymentTermsCode"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"

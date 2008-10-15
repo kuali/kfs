@@ -272,17 +272,19 @@
               <bean parent="FieldDefinition"
                     p:attributeName="contractManagerCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="vendorPaymentTermsCode" />
+                    p:attributeName="purchaseOrderCostSourceCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="vendorContractExtensionDate" />
+                    p:attributeName="vendorB2bIndicator" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="vendorPaymentTermsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorShippingPaymentTermsCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorShippingTitleCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationAutomaticPurchaseOrderLimit" />
+                    p:attributeName="vendorContractExtensionDate" />
               <bean parent="FieldDefinition"
-                    p:attributeName="purchaseOrderCostSourceCode" />
+                    p:attributeName="organizationAutomaticPurchaseOrderLimit" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorContractGeneratedIdentifier" />
               <bean parent="FieldDefinition"
@@ -324,6 +326,8 @@
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderCostSourceCode" />
         <bean parent="FieldDefinition"
+              p:attributeName="vendorB2bIndicator" />
+        <bean parent="FieldDefinition"
               p:attributeName="vendorPaymentTermsCode" />
         <bean parent="FieldDefinition"
               p:attributeName="vendorShippingPaymentTermsCode" />
@@ -344,6 +348,8 @@
               p:attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
         <bean parent="FieldDefinition"
               p:attributeName="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="vendorB2bIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

@@ -287,6 +287,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String NON_NEW_ACQUISITION_CODE_GROUP = "G;T;S;F";
         public static final String ADD_ASSET_DOCUMENT_TYPE_CODE = "AA";
         public static final String NEW_ACQUISITION_TYPE_CODE = "N";
+        public static final String PRE_TAGGING_ACQUISITION_TYPE_CODE = "P";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";

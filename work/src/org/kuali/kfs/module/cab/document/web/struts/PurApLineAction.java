@@ -519,7 +519,7 @@ public class PurApLineAction extends KualiAction {
                 // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm
                 // using
                 // Asset Global document.
-                if (selectedLine.getCapitalAssetNumbers() != null && !selectedLine.getCapitalAssetNumbers().isEmpty()) {
+                if (selectedLine.getPurApItemAssets() != null && !selectedLine.getPurApItemAssets().isEmpty()) {
                     return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
                 }
 
@@ -542,7 +542,7 @@ public class PurApLineAction extends KualiAction {
 
             // If PurAp user set capitalAssetNumbers for apply Asset Payment document, bring up a warning message to confirm using
             // Asset Global document.
-            if (selectedLine.getCapitalAssetNumbers() != null && !selectedLine.getCapitalAssetNumbers().isEmpty()) {
+            if (selectedLine.getPurApItemAssets() != null && !selectedLine.getPurApItemAssets().isEmpty()) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, CabConstants.SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL_QUESTION, KNSServiceLocator.getKualiConfigurationService().getPropertyString(CabKeyConstants.QUESTION_SKIP_ASSET_NUMBERS_TO_ASSET_GLOBAL), KNSConstants.CONFIRMATION_QUESTION, CabConstants.Actions.CREATE_ASSET, "");
             }
             return createAssetGlobalDocument(mapping, purApForm, selectedLine, purApLineSession);

@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -43,6 +45,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetSystem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -69,7 +73,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         createAssetPaymentDetails(newDocument.getSourceAccountingLines(), selectedItem, newDocument.getDocumentNumber(), purApForm.getRequisitionIdentifier());
 
         // If PurAp user entered capitalAssetNumbers, include them in the Asset Payment Document.
-        if (selectedItem.getCapitalAssetNumbers() != null && !selectedItem.getCapitalAssetNumbers().isEmpty()) {
+        if (selectedItem.getPurApItemAssets() != null && !selectedItem.getPurApItemAssets().isEmpty()) {
             createAssetPaymentAssetDetails(newDocument.getAssetPaymentAssetDetail(), selectedItem, newDocument.getDocumentNumber());
 
         }
@@ -90,12 +94,12 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param documentNumber
      */
     private void createAssetPaymentAssetDetails(List assetPaymentAssetDetails, PurchasingAccountsPayableItemAsset selectedItem, String documentNumber) {
-        for (Long capitalAssetNumber : selectedItem.getCapitalAssetNumbers()) {
+        for (ItemCapitalAsset capitalAssetNumber : selectedItem.getPurApItemAssets()) {
             // check if capitalAssetNumber is a valid value or not.
-            if (isAssetNumberValid(capitalAssetNumber)) {
+            if (isAssetNumberValid(capitalAssetNumber.getCapitalAssetNumber())) {
                 AssetPaymentAssetDetail assetDetail = new AssetPaymentAssetDetail();
 
-                assetDetail.setCapitalAssetNumber(capitalAssetNumber);
+                assetDetail.setCapitalAssetNumber(capitalAssetNumber.getCapitalAssetNumber());
                 assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
                 assetDetail.setDocumentNumber(documentNumber);
 
@@ -125,7 +129,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);
 
-        return ObjectUtils.isNull(asset);
+        return ObjectUtils.isNotNull(asset);
     }
 
 
@@ -151,7 +155,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
 
-        if (preTag != null) {
+        if (ObjectUtils.isNotNull(preTag)) {
             businessObjectService.save(preTag);
         }
         return newDocument.getDocumentNumber();
@@ -233,9 +237,10 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param newDocument
      * @param assetGlobal
      */
-    private void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag) {
-        // build assetGlobalDetail list
+    private void setAssetGlobalDetails(PurchasingAccountsPayableItemAsset selectedItem, AssetGlobal assetGlobal, Pretag preTag, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
+        // build assetGlobalDetail list( unique details list)
         List<AssetGlobalDetail> assetDetailsList = assetGlobal.getAssetGlobalDetails();
+        // shared location details list
         List<AssetGlobalDetail> sharedDetails = assetGlobal.getAssetSharedDetails();
         for (int i = 0; i < selectedItem.getAccountsPayableItemQuantity().intValue(); i++) {
             AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
@@ -249,11 +254,68 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
             sharedDetails.add(sharedDetail);
         }
 
-        // feeding data from pre-tag details into assetGlobalDetail List
-        if (preTag != null) {
-            setAssetGlobalDetailFromPreTag(preTag, assetDetailsList);
+        // feeding data from pre-tag details into shared location details list and unique detail list
+        if (ObjectUtils.isNotNull(preTag)) {
+            setAssetDetailFromPreTag(preTag, sharedDetails, assetDetailsList);
+        }
+        else if (ObjectUtils.isNotNull(capitalAssetSystem)) {
+            // feeding data from PurAp user input into assetGlobalDetail List (the list of asset global unique details reference)
+            setAssetGlobalDetailFromPurAp(capitalAssetSystem, sharedDetails);
         }
     }
+
+    /**
+     * Set asset global detail location information from PurAp input. In this method, no grouping for shared location because
+     * AssetGlobalMaintainableImpl.processAfterRetrieve() will group the shared location anyway.
+     * 
+     * @param capitalAssetSystem
+     * @param assetDetailsList
+     */
+    private void setAssetGlobalDetailFromPurAp(PurchaseOrderCapitalAssetSystem capitalAssetSystem, List<AssetGlobalDetail> assetSharedDetail) {
+        capitalAssetSystem.refreshReferenceObject(PurapPropertyConstants.CAPITAL_ASSET_LOCATIONS);
+        List<CapitalAssetLocation> capitalAssetLocations = capitalAssetSystem.getCapitalAssetLocations();
+
+        if (ObjectUtils.isNotNull(capitalAssetLocations) && !capitalAssetLocations.isEmpty()) {
+            Iterator<CapitalAssetLocation> locationIterator = capitalAssetLocations.iterator();
+            int locationQuantity = 0;
+            CapitalAssetLocation assetLocation = null;
+            for (AssetGlobalDetail assetDetail : assetSharedDetail) {
+                // Each line item can have multiple locations and each location can have a quantity value with it.
+                if (locationQuantity <= 0 && locationIterator.hasNext()) {
+                    assetLocation = locationIterator.next();
+                    if (assetLocation.getItemQuantity() != null) {
+                        locationQuantity = assetLocation.getItemQuantity().intValue();
+                    }
+                    else {
+                        // if Purap not set item quantity, CAB batch should set it to default value 1. So we set location quantity the same value. 
+                        locationQuantity = 1;
+                    }
+                }
+                else if (locationQuantity <= 0 && !locationIterator.hasNext()) {
+                    break;
+                }
+
+                assetDetail.setCampusCode(assetLocation.getCampusCode());
+                if (assetLocation.isOffCampusIndicator()) {
+                    // off-campus
+                    assetDetail.setOffCampusCityName(assetLocation.getCapitalAssetCityName());
+                    assetDetail.setOffCampusAddress(assetLocation.getCapitalAssetLine1Address());
+                    assetDetail.setOffCampusCountryCode(assetLocation.getCapitalAssetCountryCode());
+                    assetDetail.setOffCampusStateCode(assetLocation.getCapitalAssetStateCode());
+                    assetDetail.setOffCampusZipCode(assetLocation.getCapitalAssetPostalCode());
+                }
+                else {
+                    // on-campus
+                    assetDetail.setBuildingCode(assetLocation.getBuildingCode());
+                    assetDetail.setBuildingRoomNumber(assetLocation.getBuildingRoomNumber());
+                }
+
+                locationQuantity--;
+            }
+        }
+
+    }
+
 
     /**
      * Feeding data into assetGlobalDetail list from preTagDetail
@@ -261,29 +323,35 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      * @param preTag
      * @param assetDetailsList
      */
-    private void setAssetGlobalDetailFromPreTag(Pretag preTag, List<AssetGlobalDetail> assetDetailsList) {
-        preTag.refreshReferenceObject(CabPropertyConstants.Pretag.PRE_TAG_DETAIS);
+    private void setAssetDetailFromPreTag(Pretag preTag, List<AssetGlobalDetail> assetSharedDetails, List<AssetGlobalDetail> assetUniqueDetails) {
+        // preTag.refreshReferenceObject(CabPropertyConstants.Pretag.PRE_TAG_DETAIS);
 
-        List<PretagDetail> preTagDetails = preTag.getPretagDetails();
-        if (ObjectUtils.isNotNull(preTagDetails) && !preTagDetails.isEmpty()) {
-            Iterator<PretagDetail> preTagIterator = preTagDetails.iterator();
-            for (AssetGlobalDetail assetDetail : assetDetailsList) {
-                if (preTagIterator.hasNext()) {
-                    PretagDetail preTagDetail = preTagIterator.next();
-                    assetDetail.setBuildingCode(preTagDetail.getBuildingCode());
-                    assetDetail.setBuildingRoomNumber(preTagDetail.getBuildingRoomNumber());
-                    assetDetail.setBuildingSubRoomNumber(preTagDetail.getBuildingSubRoomNumber());
-                    assetDetail.setGovernmentTagNumber(preTagDetail.getGovernmentTagNumber());
-                    assetDetail.setNationalStockNumber(preTagDetail.getNationalStockNumber());
-                    assetDetail.setCampusCode(preTagDetail.getCampusCode());
-                    assetDetail.setCampusTagNumber(preTagDetail.getCampusTagNumber());
-                    preTagDetail.setActive(false);
-                }
-                assetDetail.setOrganizationInventoryName(preTag.getOrganizationInventoryName());
+        Iterator<AssetGlobalDetail> sharedDetailsIterator = assetSharedDetails.iterator();
+        Iterator<AssetGlobalDetail> uniqueDetailsIterator = assetUniqueDetails.iterator();
+        for (PretagDetail preTagDetail : preTag.getPretagDetails()) {
+            if (sharedDetailsIterator.hasNext()) {
+                // set shared location details
+                AssetGlobalDetail sharedDetail = sharedDetailsIterator.next();
+                sharedDetail.setBuildingCode(preTagDetail.getBuildingCode());
+                sharedDetail.setBuildingRoomNumber(preTagDetail.getBuildingRoomNumber());
+                sharedDetail.setBuildingSubRoomNumber(preTagDetail.getBuildingSubRoomNumber());
+                sharedDetail.setCampusCode(preTagDetail.getCampusCode());
+                // in-activate pre-tagging detail
+                preTagDetail.setActive(false);
             }
-            // In-activate preTag if possible.
-            inActivatePreTag(preTag);
+            if (uniqueDetailsIterator.hasNext()) {
+                // set asset unique detail
+                AssetGlobalDetail uniqueDetail = uniqueDetailsIterator.next();
+                uniqueDetail.setGovernmentTagNumber(preTagDetail.getGovernmentTagNumber());
+                uniqueDetail.setNationalStockNumber(preTagDetail.getNationalStockNumber());
+                uniqueDetail.setCampusTagNumber(preTagDetail.getCampusTagNumber());
+                uniqueDetail.setOrganizationInventoryName(preTag.getOrganizationInventoryName());
+                // in-activate pre-tagging detail
+                preTagDetail.setActive(false);
+            }
         }
+        // In-activate preTag if possible.
+        inActivatePreTag(preTag);
     }
 
     /**
@@ -301,7 +369,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         }
         // if the number of inactive preTagDetail is equal or greater than (when quantityInvoiced is decimal) quantityInvoiced,
         // in-activate the preTag active field.
-        if (preTag.getQuantityInvoiced().isLessThan(new KualiDecimal(inActiveCounter))) {
+        if (preTag.getQuantityInvoiced().isLessEqual(new KualiDecimal(inActiveCounter))) {
             preTag.setActive(false);
         }
     }
@@ -415,22 +483,95 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setConditionCode(CamsConstants.CONDITION_CODE_E);
         assetGlobal.setPrimaryDepreciationMethodCode(CamsConstants.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
         assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE);
+        assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
         // set origin code in the Asset Payment Document
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
 
+        PurchaseOrderCapitalAssetSystem capitalAssetSystem = null;
         // feeding data from pre-asset tagging table.
-        if (preTag != null) {
+        if (ObjectUtils.isNotNull(preTag)) {
             setAssetGlobalFromPreTag(preTag, assetGlobal);
+        }
+        else if (selectedItem.getCapitalAssetSystemIdentifier() != null) {
+            // check and set if purAp has new asset information
+            capitalAssetSystem = findCapitalAssetSystem(selectedItem.getCapitalAssetSystemIdentifier());
+            if (ObjectUtils.isNotNull(capitalAssetSystem)) {
+                setAssetGlobalFromPurAp(assetGlobal, capitalAssetSystem);
+            }
         }
 
         // set asset global detail list
-        setAssetGlobalDetails(selectedItem, assetGlobal, preTag);
+        setAssetGlobalDetails(selectedItem, assetGlobal, preTag, capitalAssetSystem);
 
         // build payments list for asset global
         createAssetPaymentDetails(assetGlobal.getAssetPaymentDetails(), selectedItem, documentNumber, requisitionIdentifier);
 
+        // set total cost
+        setAssetGlobalTotalCost(assetGlobal);
+        // Set Asset Global organization owner account
+        setAssetGlobalOrgOwnerAccount(assetGlobal);
+
         return assetGlobal;
     }
+
+
+    /**
+     * Set asset information from PurAp PurchaseOrderCapitalAssetSystem.
+     * 
+     * @param assetGlobal
+     * @param capitalAssetSystem
+     */
+    private void setAssetGlobalFromPurAp(AssetGlobal assetGlobal, PurchaseOrderCapitalAssetSystem capitalAssetSystem) {
+        assetGlobal.setManufacturerName(capitalAssetSystem.getCapitalAssetManufacturerName());
+        assetGlobal.setManufacturerModelNumber(capitalAssetSystem.getCapitalAssetModelDescription());
+        assetGlobal.setCapitalAssetTypeCode(capitalAssetSystem.getCapitalAssetTypeCode());
+    }
+
+
+    private PurchaseOrderCapitalAssetSystem findCapitalAssetSystem(Integer capitalAssetSystemIdentifier) {
+        Map pKeys = new HashMap<String, Object>();
+
+        pKeys.put(PurapPropertyConstants.CAPITAL_ASSET_SYSTEM_IDENTIFIER, capitalAssetSystemIdentifier);
+        return (PurchaseOrderCapitalAssetSystem) businessObjectService.findByPrimaryKey(PurchaseOrderCapitalAssetSystem.class, pKeys);
+    }
+
+
+    /**
+     * Set Asset Global org owner account and chart code. It's assigned by selecting the account that contributed the most dollars
+     * on the payment request.
+     * 
+     * @param assetGlobal
+     */
+    private void setAssetGlobalOrgOwnerAccount(AssetGlobal assetGlobal) {
+        AssetPaymentDetail maxCostPayment = null;
+
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            if (maxCostPayment == null || assetPaymentDetail.getAmount().isGreaterThan(maxCostPayment.getAmount())) {
+                maxCostPayment = assetPaymentDetail;
+            }
+        }
+
+        if (maxCostPayment != null) {
+            assetGlobal.setOrganizationOwnerAccountNumber(maxCostPayment.getAccountNumber());
+            assetGlobal.setOrganizationOwnerChartOfAccountsCode(maxCostPayment.getChartOfAccountsCode());
+        }
+    }
+
+
+    /**
+     * Set Asset Global total cost amount.
+     * 
+     * @param assetGlobal
+     */
+    private void setAssetGlobalTotalCost(AssetGlobal assetGlobal) {
+        KualiDecimal totalCost = KualiDecimal.ZERO;
+        for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
+            totalCost = totalCost.add(assetPaymentDetail.getAmount());
+        }
+
+        assetGlobal.setTotalCostAmount(totalCost);
+    }
+
 
     /**
      * Feeding data from preTag and set into asset global for shared information.
@@ -442,10 +583,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         assetGlobal.setManufacturerName(preTag.getManufacturerName());
         assetGlobal.setManufacturerModelNumber(preTag.getManufacturerModelNumber());
         assetGlobal.setCapitalAssetTypeCode(preTag.getCapitalAssetTypeCode());
-        assetGlobal.setOrganizationOwnerChartOfAccountsCode(preTag.getChartOfAccountsCode());
         assetGlobal.setOrganizationText(preTag.getOrganizationText());
         assetGlobal.setRepresentativeUniversalIdentifier(preTag.getRepresentativeUniversalIdentifier());
         assetGlobal.setVendorName(preTag.getVendorName());
+        // acquisition type code is set to "P"(Pre-asset tagging)
+        assetGlobal.setAcquisitionTypeCode(CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_TYPE_CODE);
     }
 
 

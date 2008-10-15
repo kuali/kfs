@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.integration.purap.CapitalAssetSystem;
+import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -37,7 +41,9 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     private String itemTypeCode;
     // used for Capital Asset Transaction
     private String capitalAssetTransactionTypeCode;
-    private List<Long> capitalAssetNumbers;
+    private List<ItemCapitalAsset> purApItemAssets;
+    private Integer capitalAssetSystemIdentifier;
+
     private Integer purchaseOrderItemIdentifier;
     // used to control "create asset" and "apply payment" button display
     private boolean createAssetIndicator;
@@ -48,8 +54,10 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.selectedValue = false;
         this.createAssetIndicator = false;
         this.applyPaymentIndicator = false;
+        this.purApItemAssets = new ArrayList<ItemCapitalAsset>();
     }
 
+    // constructor used for split 
     public PurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset initialItemAsset) {
         this.documentNumber = initialItemAsset.documentNumber;
         this.accountsPayableLineItemIdentifier = initialItemAsset.getAccountsPayableLineItemIdentifier();
@@ -65,13 +73,31 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.applyPaymentIndicator = initialItemAsset.isApplyPaymentIndicator();
         this.purchaseOrderItemIdentifier = initialItemAsset.getPurchaseOrderItemIdentifier();
         this.capitalAssetTransactionTypeCode = initialItemAsset.getCapitalAssetTransactionTypeCode();
-        this.capitalAssetNumbers = initialItemAsset.getCapitalAssetNumbers();
+        this.purApItemAssets = new ArrayList<ItemCapitalAsset>(initialItemAsset.getPurApItemAssets());
+        this.capitalAssetSystemIdentifier = initialItemAsset.getCapitalAssetSystemIdentifier();
     }
 
     
 
     /**
-     * Gets the purchaseOrderItemIdentifier attribute. 
+     * Gets the capitalAssetSystemIdentifier attribute. 
+     * @return Returns the capitalAssetSystemIdentifier.
+     */
+    public Integer getCapitalAssetSystemIdentifier() {
+        return capitalAssetSystemIdentifier;
+    }
+
+    /**
+     * Sets the capitalAssetSystemIdentifier attribute value.
+     * @param capitalAssetSystemIdentifier The capitalAssetSystemIdentifier to set.
+     */
+    public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
+        this.capitalAssetSystemIdentifier = capitalAssetSystemIdentifier;
+    }
+
+    /**
+     * Gets the purchaseOrderItemIdentifier attribute.
+     * 
      * @return Returns the purchaseOrderItemIdentifier.
      */
     public Integer getPurchaseOrderItemIdentifier() {
@@ -80,33 +106,48 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the purchaseOrderItemIdentifier attribute value.
+     * 
      * @param purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
      */
     public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
         this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
     }
 
+
     /**
-     * Gets the capitalAssetNumbers attribute. 
+     * Gets the capitalAssetNumbers attribute.
+     * 
      * @return Returns the capitalAssetNumbers.
      */
-    public List<Long> getCapitalAssetNumbers() {
-        if (capitalAssetNumbers == null) {
-            this.capitalAssetNumbers = new ArrayList<Long>();
-        }
-        return capitalAssetNumbers;
+    public List<ItemCapitalAsset> getPurApItemAssets() {
+        return purApItemAssets;
     }
 
     /**
      * Sets the capitalAssetNumbers attribute value.
+     * 
      * @param capitalAssetNumbers The capitalAssetNumbers to set.
      */
-    public void setCapitalAssetNumbers(List<Long> capitalAssetNumbers) {
-        this.capitalAssetNumbers = capitalAssetNumbers;
+    public void setPurApItemAssets(List<ItemCapitalAsset> capitalAssetNumbers) {
+        this.purApItemAssets = capitalAssetNumbers;
     }
 
     /**
-     * Gets the createAssetIndicator attribute. 
+     * Gets the capitalAssetNumbers attribute.
+     * 
+     * @return Returns the capitalAssetNumbers.
+     */
+    public ItemCapitalAsset getPurApItemAsset(int index) {
+        while (getPurApItemAssets().size() <= index) {
+            getPurApItemAssets().add(new PurchaseOrderItemCapitalAsset());
+        }
+        return (ItemCapitalAsset) getPurApItemAssets().get(index);
+    }
+
+
+    /**
+     * Gets the createAssetIndicator attribute.
+     * 
      * @return Returns the createAssetIndicator.
      */
     public boolean isCreateAssetIndicator() {
@@ -115,6 +156,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the createAssetIndicator attribute value.
+     * 
      * @param createAssetIndicator The createAssetIndicator to set.
      */
     public void setCreateAssetIndicator(boolean createAssetIndicator) {
@@ -122,7 +164,8 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     }
 
     /**
-     * Gets the applyPaymentIndicator attribute. 
+     * Gets the applyPaymentIndicator attribute.
+     * 
      * @return Returns the applyPaymentIndicator.
      */
     public boolean isApplyPaymentIndicator() {
@@ -131,6 +174,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the applyPaymentIndicator attribute value.
+     * 
      * @param applyPaymentIndicator The applyPaymentIndicator to set.
      */
     public void setApplyPaymentIndicator(boolean applyPaymentIndicator) {

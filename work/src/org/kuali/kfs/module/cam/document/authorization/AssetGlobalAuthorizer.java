@@ -51,14 +51,13 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
             setAssetGlobalDetailsFieldsReadOnlyAccessMode(auths, user);
             setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, false);
         } else {
+            setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
             // If asset global document is created from CAB, disallow add payment to collection.
             boolean allowAddPaymentToCollection = true;
             if (assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
                 allowAddPaymentToCollection = false;
             }
-            
-            setAssetGlobalLocationFieldsHidden(assetGlobal, auths, user);
-            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, true);
+            setAssetGlobalPaymentsFieldsReadOnlyAccessMode(assetGlobal, auths, user, allowAddPaymentToCollection);
 
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_YEAR);
             auths.addHiddenAuthField(KFSConstants.ADD_PREFIX+"."+CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "." + CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_POSTING_FISCAL_MONTH);

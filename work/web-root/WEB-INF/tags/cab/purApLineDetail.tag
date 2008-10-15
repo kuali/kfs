@@ -55,6 +55,7 @@
 <html:hidden property="${assetItemStr}.createAssetIndicator" />
 <html:hidden property="${assetItemStr}.applyPaymentIndicator" />
 <html:hidden property="${assetItemStr}.purchaseOrderItemIdentifier" />
+<html:hidden property="${assetItemStr}.capitalAssetSystemIdentifier" />
 <tr style="color:${color}">
 	<c:choose>
 	<c:when test="${itemLine.active && !itemLine.additionalChargeNonTradeInIndicator && !itemLine.tradeInAllowance}">
@@ -94,11 +95,12 @@
 		</c:choose>
 	</td>
 	<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.capitalAssetTransactionTypeCode" attributeEntry="${purApItemAssetAttributes.capitalAssetTransactionTypeCode}" readOnly="true"/>
-		<c:if test="${itemLine.active }">
-			<c:forEach items="${itemLine.capitalAssetNumbers}" var="capitalAssetNumber" >
-				${capitalAssetNumber} <br></br>
-			</c:forEach>
-		</c:if>
+		<br></br>
+		<c:forEach items="${itemLine.purApItemAssets}" var="purApItemAsset">
+		<c:set var="i" value="${i+1}" />
+			${purApItemAsset.capitalAssetNumber}&nbsp;
+			<html:hidden property="purApDocs[${docPos-1}].purchasingAccountsPayableItemAssets[${linePos-1}].purApItemAsset[${i-1}].capitalAssetNumber" />
+		</c:forEach>
 	</td>
 	<c:choose>
 	<c:when test="${itemLine.itemAssignedToTradeInIndicator}">
@@ -130,7 +132,6 @@
 		</c:if>
 	</c:when>
 	<c:otherwise>
-		Submitted to CAMS:<br></br>
 		<a href="${ConfigProperties.application.url}/en/DocHandler.do?command=displayDocSearchView&docId=${itemLine.capitalAssetManagementDocumentNumber}"  target="_blank">
 			<kul:htmlControlAttribute property="${assetItemStr}.capitalAssetManagementDocumentNumber" attributeEntry="${purApItemAssetAttributes.capitalAssetManagementDocumentNumber}" readOnly="true">
 			</kul:htmlControlAttribute>

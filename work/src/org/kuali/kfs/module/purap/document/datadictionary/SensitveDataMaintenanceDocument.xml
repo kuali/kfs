@@ -4,34 +4,34 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="RestrictedMaterialMaintenanceDocument" parent="RestrictedMaterialMaintenanceDocument-parentBean" />
+  <bean id="SensitiveDataMaintenanceDocument" parent="SensitiveDataMaintenanceDocument-parentBean" />
 
-  <bean id="RestrictedMaterialMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
+  <bean id="SensitiveDataMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.SensitiveData" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="RestrictedMaterialMaintenanceDocument-EditRestrictedMaterial" />
+        <ref bean="SensitiveDataMaintenanceDocument-EditSensitiveData" />
       </list>
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>restrictedMaterialCode</value>
+        <value>sensitiveDataCode</value>
       </list>
     </property>
     <property name="label" value="Restricted Material" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
             p:parameterName="RESTRICTED_MATERIAL"
-            p:parameterDetailType="RestrictedMaterial" />
+            p:parameterDetailType="SensitiveData" />
     </property>
     <property name="shortLabel" value="Restricted Material" />
-    <property name="documentTypeName" value="RestrictedMaterialMaintenanceDocument" />
-    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RestrictedMaterialRule" />
+    <property name="documentTypeName" value="SensitiveDataMaintenanceDocument" />
+    <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.RestrictedMaterialRule" /> <!--  FIXME -->
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="PMRM" />
+    <property name="documentTypeCode" value="PMSN" />
     <property name="workflowProperties" >
-      <ref bean="RestrictedMaterialMaintenanceDocument-workflowProperties" />
+      <ref bean="SensitiveDataMaintenanceDocument-workflowProperties" />
     </property>
     <property name="authorizations" >
       <list>
@@ -50,24 +50,18 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="RestrictedMaterialMaintenanceDocument-EditRestrictedMaterial" parent="RestrictedMaterialMaintenanceDocument-EditRestrictedMaterial-parentBean" />
+  <bean id="SensitiveDataMaintenanceDocument-EditSensitiveData" parent="SensitiveDataMaintenanceDocument-EditSensitiveData-parentBean" />
 
-  <bean id="RestrictedMaterialMaintenanceDocument-EditRestrictedMaterial-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="SensitiveDataMaintenanceDocument-EditSensitiveData-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Restricted Material" />
     <property name="title" value="Edit Restricted Material" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="restrictedMaterialCode"
+              p:name="sensitiveDataCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="restrictedMaterialDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="restrictedMaterialDefaultDescription"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="restrictedMaterialWorkgroupName"
+              p:name="sensitiveDataDescription"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
@@ -78,8 +72,8 @@
 <!-- Exported Workflow Properties -->
 
 
-  <bean id="RestrictedMaterialMaintenanceDocument-workflowProperties" parent="RestrictedMaterialMaintenanceDocument-workflowProperties-parentBean" />
+  <bean id="SensitiveDataMaintenanceDocument-workflowProperties" parent="SensitiveDataMaintenanceDocument-workflowProperties-parentBean" />
 
-  <bean id="RestrictedMaterialMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <bean id="SensitiveDataMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>

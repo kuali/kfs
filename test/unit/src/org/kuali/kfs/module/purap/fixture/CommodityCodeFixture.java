@@ -82,7 +82,7 @@ public enum CommodityCodeFixture {
         cc.setCommodityDescription(commodityDescription);
         cc.setSalesTaxIndicator(salesTaxIndicator);
         cc.setRestrictedItemsIndicator(restrictedItemsIndicator);
-        cc.setRestrictedMaterialCode(restrictedMaterialCode);
+        cc.setSensitiveDataCode(restrictedMaterialCode);
         cc.setActive(active);
         cc.refreshNonUpdateableReferences();
         

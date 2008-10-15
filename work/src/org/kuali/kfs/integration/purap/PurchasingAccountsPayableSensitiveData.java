@@ -20,23 +20,18 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 /**
  * An interface that declares methods to retrieve information about Restricted Materials.
  */
-public interface PurchasingAccountsPayableRestrictedMaterial extends ExternalizableBusinessObject {
+public interface PurchasingAccountsPayableSensitiveData extends ExternalizableBusinessObject {
 
     /**
      * Gets the code for this restricted material
      * @return the code for this restricted material
      */
-    public String getRestrictedMaterialCode();
+    public String getSensitiveDataCode();
     
     /**
      * Gets the description for this restricted material
      * @return the description for this restricted material
      */
-    public String getRestrictedMaterialDescription();
-    
-    /**
-     * Gets the default description for this restricted material
-     * @return the default description for this restricted material
-     */
-    public String getRestrictedMaterialDefaultDescription();
+    public String getSensitiveDataDescription();
+   
 }

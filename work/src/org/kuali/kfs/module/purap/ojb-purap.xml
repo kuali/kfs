@@ -3041,16 +3041,45 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" table="PUR_RSTRC_MTRL_T">
-    <field-descriptor name="restrictedMaterialCode" column="RSTRC_MTRL_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveData" table="PUR_SNSTV_DTA_T">
+    <field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="restrictedMaterialDescription" column="RSTRC_MTRL_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="restrictedMaterialDefaultDescription" column="RSTRC_MTRL_DFLT_DESC" jdbc-type="VARCHAR"/>
-    <field-descriptor name="restrictedMaterialWorkgroupName" column="RSTRC_MTRL_WRKGRP_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="sensitiveDataDescription" column="SNSTV_DTA_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData" table="PUR_PO_SNSTV_DTA_T">
+	<field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" table="PUR_SNSTV_DTA_ASGN_T">
+	<field-descriptor name="sensitiveDataAssignmentIdentifier" column="SNSTV_DTA_ASGN_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" />
+	<field-descriptor name="sensitiveDataAssignmentReasonText" column="SNSTV_DTA_ASGN_REAS_TXT" jdbc-type="VARCHAR" />
+	<field-descriptor name="sensitiveDataAssignmentPersonIdentifier" column="SNSTV_DTA_ASGN_CHG_PRSN_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="sensitiveDataAssignmentChangeDate" column="SNSTV_DTA_ASGN_CHG_DT" jdbc-type="DATE" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" table="PUR_SNSTV_DTA_ASGN_DTL_T">
+	<field-descriptor name="sensitiveDataAssignmentIdentifier" column="SNSTV_DTA_ASGN_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="senstiveDataAssignment" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="sensitiveDataAssignmentIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="sensitiveData" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveData" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="sensitiveDataCode" />
+    </reference-descriptor>
+</class-descriptor>
+	
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList" table="PUR_PO_QT_LST_T">
     <field-descriptor name="purchaseOrderQuoteListIdentifier" column="PO_QT_LST_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_QT_LST_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

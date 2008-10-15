@@ -1,0 +1,143 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SensitiveData" parent="SensitiveData-parentBean" />
+
+  <bean id="SensitiveData-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.SensitiveData" />
+     <property name="inquiryDefinition" >
+      <ref bean="SensitiveData-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="SensitiveData-lookupDefinition" />
+    </property>
+    <property name="titleAttribute" value="SensitiveDataCode" />
+    <property name="objectLabel" value="Restricted Material" />
+    <property name="attributes" >
+      <list>
+        <ref bean="SensitiveData-sensitiveDataCode" />
+        <ref bean="SensitiveData-sensitiveDataDescription" />
+        <ref bean="SensitiveData-selected" />
+        <ref bean="SensitiveData-active" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="SensitiveData-sensitiveDataCode" parent="SensitiveData-sensitiveDataCode-parentBean" />
+
+  <bean id="SensitiveData-sensitiveDataCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sensitiveDataCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Sensitive Data Code" />
+    <property name="shortLabel" value="Code" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="6" />
+    </property>
+  </bean>
+  
+  <bean id="SensitiveData-sensitiveDataDescription" parent="SensitiveData-sensitiveDataDescription-parentBean" />
+
+  <bean id="SensitiveData-sensitiveDataDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sensitiveDataDescription" />
+    <property name="label" value="Sensitive Data Description" />
+    <property name="shortLabel" value="Description" />
+    <property name="maxLength" value="45" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="47" />
+    </property>
+  </bean>
+  <bean id="SensitiveData-selected" parent="SensitiveData-selected-parentBean" />
+
+  <bean id="SensitiveData-selected-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="selected" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Is Selected Indicator" />
+    <property name="shortLabel" value="Is Selected" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+      <bean parent="CheckboxControlDefinition" />
+    </property>
+  </bean>
+  <bean id="SensitiveData-active" parent="SensitiveData-active-parentBean" />
+
+  <bean id="SensitiveData-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="SensitiveData-inquiryDefinition" parent="SensitiveData-inquiryDefinition-parentBean" />
+
+  <bean id="SensitiveData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Sensitive Data Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="SensitiveDataCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="SensitiveDataDescription" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SensitiveData-lookupDefinition" parent="SensitiveData-lookupDefinition-parentBean" />
+
+  <bean id="SensitiveData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sensitive Data Lookup" />
+    <property name="instructions" value="Lookup Sensitive Data" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="sensitiveDataCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sensitiveDataDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="sensitiveDataCode" />
+        <bean parent="FieldDefinition"
+              p:attributeName="sensitiveDataDescription" />
+        <bean parent="FieldDefinition"
+              p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+</beans>

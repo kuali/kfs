@@ -29,7 +29,7 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.options.CampusWithBlankValuesFinder;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -69,7 +69,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     
     // defined here so field creation matches rule errors
     private static final Class COMMODITY_CODE_FIELD_CLASS = CommodityCode.class;
-    private static final Class RESTRICTED_MATERIAL_FIELD_CLASS = RestrictedMaterial.class;
+    private static final Class RESTRICTED_MATERIAL_FIELD_CLASS = SensitiveData.class;
     private static final String PURCHASING_COMMODITY_CODE_FIELD_PROPERTY = PurapPropertyConstants.ITEM_COMMODITY_CODE;
     private static final String RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY = PurapPropertyConstants.RESTRICTED_MATERIAL_CODE;
     private static final Class DELIVERY_CAMPUS_CLASS = RequisitionDocument.class;
@@ -282,7 +282,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     private boolean doesRestrictedMaterialCodeExist() {
         Map fieldValues = new HashMap<String, String>();
         fieldValues.put(PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, getRestrictedMaterialCode());
-        int count = SpringContext.getBean(BusinessObjectService.class).countMatching(RestrictedMaterial.class, fieldValues);
+        int count = SpringContext.getBean(BusinessObjectService.class).countMatching(SensitiveData.class, fieldValues);
         if (count > 0) {
             return true;
         }
@@ -344,7 +344,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     return true;
                 }
             }
-            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getRestrictedMaterialCode(), getRestrictedMaterialCode())) ) {
+            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getSensitiveDataCode(), getRestrictedMaterialCode())) ) {
                 return true;
             }
         }

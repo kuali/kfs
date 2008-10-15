@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -36,10 +36,10 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     private String commodityDescription;
     private boolean salesTaxIndicator;
     private boolean restrictedItemsIndicator;
-    private String restrictedMaterialCode;
+    private String sensitiveDataCode;
     private boolean active;
     
-    private PurchasingAccountsPayableRestrictedMaterial restrictedMaterial;
+    private PurchasingAccountsPayableSensitiveData sensitiveData;
     
     private List<CommodityContractManager> commodityContractManagers;
     
@@ -79,15 +79,15 @@ public class CommodityCode extends PersistableBusinessObjectBase {
         this.restrictedItemsIndicator = restrictedItemsIndicator;
     }
     
-    public String getRestrictedMaterialCode() {
-        return restrictedMaterialCode;
+    public String getSensitiveDataCode() {
+        return sensitiveDataCode;
     }
 
-    public void setRestrictedMaterialCode(String restrictedMaterialCode) {
-        this.restrictedMaterialCode = restrictedMaterialCode;
+    public void setSensitiveDataCode(String sensitiveDataCode) {
+        this.sensitiveDataCode = sensitiveDataCode;
     }
 
-    public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterial() {
+    public PurchasingAccountsPayableSensitiveData getSensitiveData() {
         /*if (StringUtils.isBlank(restrictedMaterialCode)) {
             if (restrictedMaterial != null) {
                 restrictedMaterial = null;
@@ -98,9 +98,9 @@ public class CommodityCode extends PersistableBusinessObjectBase {
             }
         }
         return restrictedMaterial;*/
-        return restrictedMaterial = (PurchasingAccountsPayableRestrictedMaterial)SpringContext.getBean(KualiModuleService.class)
-                                .getResponsibleModuleService(PurchasingAccountsPayableRestrictedMaterial.class)
-                                .retrieveExternalizableBusinessObjectIfNecessary(this, restrictedMaterial, "restrictedMaterial");
+        return sensitiveData = (PurchasingAccountsPayableSensitiveData)SpringContext.getBean(KualiModuleService.class)
+                                .getResponsibleModuleService(PurchasingAccountsPayableSensitiveData.class)
+                                .retrieveExternalizableBusinessObjectIfNecessary(this, sensitiveData, "sensitiveData");
     }
 
     public boolean isSalesTaxIndicator() {

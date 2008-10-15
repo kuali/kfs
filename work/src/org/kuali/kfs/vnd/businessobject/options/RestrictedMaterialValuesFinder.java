@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -30,11 +30,11 @@ public class RestrictedMaterialValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<PurchasingAccountsPayableRestrictedMaterial> restrictedMaterials = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getAllRestrictedMaterials();
+        List<PurchasingAccountsPayableSensitiveData> restrictedMaterials = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getAllRestrictedMaterials();
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
-        for (PurchasingAccountsPayableRestrictedMaterial restrictedMaterial : restrictedMaterials) {
-            labels.add(new KeyLabelPair(restrictedMaterial.getRestrictedMaterialCode(), restrictedMaterial.getRestrictedMaterialDescription()));
+        for (PurchasingAccountsPayableSensitiveData restrictedMaterial : restrictedMaterials) {
+            labels.add(new KeyLabelPair(restrictedMaterial.getSensitiveDataCode(), restrictedMaterial.getSensitiveDataDescription()));
         }
 
         return labels;

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.WorkgroupDTO;
@@ -37,8 +37,8 @@ public class RestrictedMaterialRule extends MaintenanceDocumentRuleBase {
      * 
      * @return The new business object that this maintenance doc is creating.
      */
-    private RestrictedMaterial getNewBusinessObject() {
-        return (RestrictedMaterial)getNewBo();
+    private SensitiveData getNewBusinessObject() {
+        return (SensitiveData)getNewBo();
     }
 
     /**
@@ -81,13 +81,13 @@ public class RestrictedMaterialRule extends MaintenanceDocumentRuleBase {
      * @return Whether it exists and is active
      */
     private boolean isValidWorkgroup(Class businessObjectClass) {
-        String name = getNewBusinessObject().getRestrictedMaterialWorkgroupName();
+     /*FIXME   String name = getNewBusinessObject().getRestrictedMaterialWorkgroupName();
         if (StringUtils.isNotBlank(name)) {
             if (!workgroupExistsAndIsActive(name)) {
                 putFieldErrorWithShortLabel(PurapPropertyConstants.WORKGROUP_NAME, KFSKeyConstants.ERROR_EXISTENCE);
                 return false;
             }
-        }
+        } */
         return true;
     }
 

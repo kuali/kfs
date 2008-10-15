@@ -22,8 +22,8 @@
         <ref bean="CommodityCode-commodityDescription" />
         <ref bean="CommodityCode-salesTaxIndicator" />
         <ref bean="CommodityCode-restrictedItemsIndicator" />
-        <ref bean="CommodityCode-restrictedMaterialCode" />
-        <ref bean="CommodityCode-restrictedMaterial.restrictedMaterialDescription" />
+        <ref bean="CommodityCode-sensitiveDataCode" />
+        <ref bean="CommodityCode-sensitiveData.sensitiveDataDescription" />
         <ref bean="CommodityCode-active" />
         <ref bean="CommodityCode-commodityContractManagers.campusCode" />
         <ref bean="CommodityCode-commodityContractManagers.contractManagerCode" />
@@ -100,13 +100,13 @@
       <bean parent="CheckboxControlDefinition" />
     </property>
   </bean>
-  <bean id="CommodityCode-restrictedMaterialCode" parent="CommodityCode-restrictedMaterialCode-parentBean" />
+  <bean id="CommodityCode-sensitiveDataCode" parent="CommodityCode-sensitiveDataCode-parentBean" />
 
-  <bean id="CommodityCode-restrictedMaterialCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="restrictedMaterialCode" />
+  <bean id="CommodityCode-sensitiveDataCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="sensitiveDataCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Restricted Material" />
-    <property name="shortLabel" value="Restricted Material" />
+    <property name="label" value="Sensitive Data" />
+    <property name="shortLabel" value="Sensitive Data" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -117,11 +117,11 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="CommodityCode-restrictedMaterial.restrictedMaterialDescription" parent="CommodityCode-restrictedMaterial.restrictedMaterialDescription-parentBean" />
+  <bean id="CommodityCode-sensitiveData.sensitiveDataDescription" parent="CommodityCode-sensitiveData.sensitiveDataDescription-parentBean" />
 
-  <bean id="CommodityCode-restrictedMaterial.restrictedMaterialDescription-parentBean" abstract="true" parent="RestrictedMaterial-restrictedMaterialDescription">
-    <property name="name" value="restrictedMaterial.restrictedMaterialDescription" />
-    <property name="label" value="Restricted Material" />
+  <bean id="CommodityCode-sensitiveData.sensitiveDataDescription-parentBean" abstract="true" parent="SensitiveData-sensitiveDataDescription">
+    <property name="name" value="sensitiveData.sensitiveDataDescription" />
+    <property name="label" value="Sensitive Data" />
   </bean>
   <bean id="CommodityCode-active" parent="CommodityCode-active-parentBean" />
 
@@ -162,7 +162,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="restrictedItemsIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="restrictedMaterialCode" />
+                    p:attributeName="sensitiveDataCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -217,7 +217,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="restrictedItemsIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="restrictedMaterialCode" />
+              p:attributeName="sensitiveDataCode" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
@@ -237,7 +237,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="restrictedItemsIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="restrictedMaterial.restrictedMaterialDescription" />
+              p:attributeName="sensitiveData.sensitiveDataDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />                      
       </list>

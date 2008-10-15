@@ -65,7 +65,7 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="restrictedItemsIndicator" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="restrictedMaterialCode" />
+              p:name="sensitiveDataCode" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />

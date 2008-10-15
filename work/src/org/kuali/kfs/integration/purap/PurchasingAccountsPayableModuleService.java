@@ -42,13 +42,13 @@ public interface PurchasingAccountsPayableModuleService {
      * @param restrictedMaterialCode the code of the restricted material
      * @return a record of restricted material information
      */
-    public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterialByCode(String restrictedMaterialCode);
+    public PurchasingAccountsPayableSensitiveData getRestrictedMaterialByCode(String restrictedMaterialCode);
     
     /**
      * Returns all restricted materials records known to the module
      * @return a List of all restricted materials known to the module
      */
-    public List<PurchasingAccountsPayableRestrictedMaterial> getAllRestrictedMaterials();
+    public List<PurchasingAccountsPayableSensitiveData> getAllRestrictedMaterials();
     
     /**
      * 

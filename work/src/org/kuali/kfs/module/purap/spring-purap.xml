@@ -59,7 +59,7 @@
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial" value="org.kuali.kfs.module.purap.businessobject.RestrictedMaterial" />
+                <entry key="org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData" value="org.kuali.kfs.module.purap.businessobject.SensitiveData" />
             </map>
         </property> 
 	</bean>
@@ -90,9 +90,9 @@
 		</property>
 	</bean>
 
-    <bean id="workflow-org.kuali.kfs.module.purap.businessobject.RestrictedMaterial-Lookupable" parent="workflowLookupable" singleton="false">
+    <bean id="workflow-org.kuali.kfs.module.purap.businessobject.SensitiveData-Lookupable" parent="workflowLookupable" singleton="false">
         <property name="businessObjectClassName">
-            <value>org.kuali.kfs.module.purap.businessobject.RestrictedMaterial</value>
+            <value>org.kuali.kfs.module.purap.businessobject.SensitiveData</value>
         </property>
     </bean>
     

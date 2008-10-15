@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableRestrictedMaterial;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.businessobject.RestrictedMaterial;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -101,11 +101,11 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getAllRestrictedMaterials()
      */
-    public List<PurchasingAccountsPayableRestrictedMaterial> getAllRestrictedMaterials() {
-        List<PurchasingAccountsPayableRestrictedMaterial> restrictedMaterials = new ArrayList<PurchasingAccountsPayableRestrictedMaterial>();
-        Collection restrictedMaterialsAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(RestrictedMaterial.class);
+    public List<PurchasingAccountsPayableSensitiveData> getAllRestrictedMaterials() {
+        List<PurchasingAccountsPayableSensitiveData> restrictedMaterials = new ArrayList<PurchasingAccountsPayableSensitiveData>();
+        Collection restrictedMaterialsAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
         for (Object rm: restrictedMaterialsAsObjects) {
-            restrictedMaterials.add((PurchasingAccountsPayableRestrictedMaterial)rm);
+            restrictedMaterials.add((PurchasingAccountsPayableSensitiveData)rm);
         }
         return restrictedMaterials;
     }
@@ -113,10 +113,10 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getRestrictedMaterialByCode(java.lang.String)
      */
-    public PurchasingAccountsPayableRestrictedMaterial getRestrictedMaterialByCode(String restrictedMaterialCode) {
+    public PurchasingAccountsPayableSensitiveData getRestrictedMaterialByCode(String restrictedMaterialCode) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("restrictedMaterialCode", restrictedMaterialCode);
-        return (PurchasingAccountsPayableRestrictedMaterial)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(RestrictedMaterial.class, primaryKeys);
+        return (PurchasingAccountsPayableSensitiveData)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
 
     /**

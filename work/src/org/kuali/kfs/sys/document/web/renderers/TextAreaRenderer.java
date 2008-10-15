@@ -20,6 +20,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.TextareaTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders a field as a text area
@@ -53,12 +54,15 @@ public class TextAreaRenderer extends FieldRendererBase {
         tag.setPageContext(pageContext);
         tag.setParent(parentTag);
         tag.setProperty(getFieldName());
-        tag.setValue(getField().getPropertyValue());
+        tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
         tag.setTitle(getAccessibleTitle());
         tag.setRows(Integer.toString(getField().getRows()));
         tag.setCols(Integer.toString(getField().getCols()));
         tag.setStyleClass(getField().getStyleClass());
         tag.setStyleId(getFieldName());
+        if (isShowError()) {
+            tag.setStyle("border-color: red;");
+        }
         
         tag.doStartTag();
         tag.doEndTag();

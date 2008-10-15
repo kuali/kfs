@@ -25,11 +25,11 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renderer which displays a read only field
@@ -69,7 +69,7 @@ public class ReadOnlyRenderer extends FieldRendererBase {
                     if (getField().isSecure()) {
                         persistingTag.setValue(getField().getEncryptedValue());
                     } else {
-                        persistingTag.setValue(getField().getPropertyValue());
+                        persistingTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
                     }
                     persistingTag.doStartTag();
                     persistingTag.doEndTag();

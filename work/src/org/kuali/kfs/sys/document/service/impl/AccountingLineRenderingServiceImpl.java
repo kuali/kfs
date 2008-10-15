@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineAuthorizationTransformer;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
@@ -49,6 +50,7 @@ import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -264,6 +266,30 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         final ValidationPattern validationPattern = attributeDefinition.getValidationPattern();
         if (validationPattern == null) return false; // no validation for sure means we ain't using date validation
         return validationPattern instanceof DateValidationPattern;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#createGenericAccountingLineViewFieldDefinition(org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition)
+     */
+    public AccountingLineViewFieldDefinition createGenericAccountingLineViewFieldDefinition(MaintainableFieldDefinition currentDefinition) {
+        AccountingLineViewFieldDefinition fieldDefinition = new AccountingLineViewFieldDefinition();
+        
+        fieldDefinition.setRequired(currentDefinition.isRequired());
+        fieldDefinition.setReadOnly(currentDefinition.isReadOnly());
+        fieldDefinition.setReadOnlyAfterAdd(currentDefinition.isReadOnlyAfterAdd());
+        fieldDefinition.setNoLookup(currentDefinition.isNoLookup());
+        
+        fieldDefinition.setDefaultValue(currentDefinition.getDefaultValue());
+        fieldDefinition.setTemplate(currentDefinition.getTemplate());
+        fieldDefinition.setDefaultValueFinderClass(currentDefinition.getDefaultValueFinderClass());
+        
+        fieldDefinition.setDisplayEditMode(currentDefinition.getDisplayEditMode());
+        fieldDefinition.setDisplayMask(currentDefinition.getDisplayMask());
+        
+        fieldDefinition.setOverrideLookupClass(currentDefinition.getOverrideLookupClass());
+        fieldDefinition.setOverrideFieldConversions(currentDefinition.getOverrideFieldConversions());
+        
+        return fieldDefinition;
     }
 
     /**

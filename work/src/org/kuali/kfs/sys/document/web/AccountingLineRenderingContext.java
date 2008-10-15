@@ -60,6 +60,12 @@ public interface AccountingLineRenderingContext {
     public abstract boolean isNewLine();
     
     /**
+     * If this is a new line, returns null; if it is a line in a collection, returns the line number within that collection
+     * @return the current line count
+     */
+    public abstract Integer getCurrentLineCount();
+    
+    /**
      * Returns all the field names for the given accounting line, prefixed by the accounting line property path
      * @return a list of properly prefixed field names
      */
@@ -97,4 +103,9 @@ public interface AccountingLineRenderingContext {
      * @return the label of the group this accounting line is part of
      */
     public abstract String getGroupLabel();
+    
+    /**
+     * @return the list of errors on the form
+     */
+    public abstract List getErrors();
 }

@@ -21,6 +21,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.CheckboxTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders a field as a checkbox control
@@ -67,7 +68,10 @@ public class CheckboxRenderer extends FieldRendererBase {
         checkboxTag.setOnblur(this.buildOnBlur());
         checkboxTag.setStyleId(getFieldName());
         if (!StringUtils.isBlank(getField().getPropertyValue())) {
-            checkboxTag.setValue(getField().getPropertyValue());
+            checkboxTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
+        }
+        if (isShowError()) {
+            checkboxTag.setStyle("border-color: red;");
         }
         checkboxTag.setPageContext(pageContext);
         checkboxTag.setParent(parentTag);

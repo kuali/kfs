@@ -96,6 +96,10 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
             radioButton.append(onBlur);
         }
         
+        if (isShowError()) {
+            radioButton.append(" style=\"border-color: red;\"");
+        }
+        
         radioButton.append(" /> ");
         radioButton.append(keyLabelPair.getLabel());
         radioButton.append(" ");

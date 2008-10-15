@@ -63,8 +63,6 @@ public class DropDownRenderer extends FieldRendererBase {
         selectControl.append(getFieldName());
         selectControl.append("\" ");
         
-        selectControl.append(" style=\"\"");
-        
         selectControl.append(" title=\"");
         selectControl.append(getField().getFieldLabel());
         selectControl.append("\"");
@@ -74,6 +72,10 @@ public class DropDownRenderer extends FieldRendererBase {
             selectControl.append(" onblur=\"");
             selectControl.append(onBlur);
             selectControl.append("\"");
+        }
+        
+        if (isShowError()) {
+            selectControl.append(" style=\"background-color: #FFD5D5\"");
         }
         
         selectControl.append(">");

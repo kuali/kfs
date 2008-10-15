@@ -37,6 +37,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
     private String dynamicNameLabel;
     private int arbitrarilyHighTabIndex = -1;
     private String onBlur;
+    private boolean showError;
 
     /**
      * Sets the field to render
@@ -174,6 +175,22 @@ public abstract class FieldRendererBase implements FieldRenderer {
         catch (IOException ioe) {
             throw new JspException("Could not render opening of no-wrap span", ioe);
         }
+    }
+
+    /**
+     * Gets the showError attribute. 
+     * @return Returns the showError.
+     */
+    public boolean isShowError() {
+        return showError;
+    }
+
+    /**
+     * Sets the showError attribute value.
+     * @param showError The showError to set.
+     */
+    public void setShowError(boolean showError) {
+        this.showError = showError;
     }
     
 }

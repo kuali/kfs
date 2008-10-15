@@ -39,6 +39,12 @@ public interface FieldRenderer extends Renderer {
     public abstract void setDynamicNameLabel(String label);
     
     /**
+     * Sets that this renderer should display as in error
+     * @param error true if renderer should display as in error, false otherwise
+     */
+    public abstract void setShowError(boolean error);
+    
+    /**
      * Tells the renderer to render a quickfinder or not
      * @return true if a quick finder should be rendered, false otherwise
      */

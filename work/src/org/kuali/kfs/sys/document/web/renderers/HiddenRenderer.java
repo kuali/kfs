@@ -20,6 +20,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.html.HiddenTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders a hidden field
@@ -51,7 +52,7 @@ public class HiddenRenderer extends FieldRendererBase {
         if (getField().isSecure()) {
             tag.setValue(getField().getEncryptedValue());
         } else {
-            tag.setValue(getField().getPropertyValue());
+            tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
         }
         tag.setStyleId(getFieldName());
         tag.setWrite(false);

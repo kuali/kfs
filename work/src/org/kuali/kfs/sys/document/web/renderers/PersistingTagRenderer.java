@@ -21,6 +21,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * A renderer which renders a String - but also renders a hidden tag to persist the value 
@@ -85,7 +86,7 @@ public class PersistingTagRenderer extends StringRenderer {
             persistingTag.setPageContext(pageContext);
             persistingTag.setParent(parentTag);
             persistingTag.setProperty(persistingProperty);
-            persistingTag.setValue(StringUtils.isBlank(valueToPersist) ? getStringToRender() : valueToPersist);
+            persistingTag.setValue(HtmlUtils.htmlEscape(StringUtils.isBlank(valueToPersist) ? getStringToRender() : valueToPersist));
             persistingTag.doStartTag();
             persistingTag.doEndTag();
         }

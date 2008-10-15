@@ -24,6 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Renders the dynamic label portion of a field
@@ -78,7 +79,7 @@ public class DynamicNameLabelRenderer implements Renderer {
         valuePersistingTag.setPageContext(pageContext);
         valuePersistingTag.setParent(parentTag);
         valuePersistingTag.setProperty(fieldName);
-        valuePersistingTag.setValue(fieldValue);
+        valuePersistingTag.setValue(HtmlUtils.htmlEscape(fieldValue));
         
         valuePersistingTag.doStartTag();
         valuePersistingTag.doEndTag();

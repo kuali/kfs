@@ -23,10 +23,12 @@ import javax.servlet.jsp.PageContext;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.web.AccountingLineTableRow;
 import org.kuali.kfs.sys.document.web.TableJoining;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -81,4 +83,11 @@ public interface AccountingLineRenderingService {
      * @return the field renderer which will properly display this field
      */
     public abstract FieldRenderer getFieldRendererForField(Field field, AccountingLine accountingLineToRender);
+    
+    /**
+     * Begins to create an AccountingLineViewFieldDefinition, based on the information held within the given MaintainableFieldDefinition
+     * @param fieldDefinition the field definition to create a generic accounting line view field version of
+     * @return a basic AccountingLineViewFieldDefinition
+     */
+    public abstract AccountingLineViewFieldDefinition createGenericAccountingLineViewFieldDefinition(MaintainableFieldDefinition fieldDefinition);
 }

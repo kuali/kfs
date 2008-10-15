@@ -21,6 +21,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.TextTag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * Represents a field rendered as a text field
@@ -63,7 +64,10 @@ public class TextRenderer extends FieldRendererBase {
             tag.setOnblur(buildOnBlur());
         }
         tag.setStyleClass(getField().getStyleClass());
-        tag.setValue(getField().getPropertyValue());
+        if (isShowError()) {
+            tag.setStyle("border-color: red;");
+        }
+        tag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
         tag.setStyleId(getFieldName());
         
         tag.doStartTag();

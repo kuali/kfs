@@ -267,7 +267,7 @@ public class AccountingLineGroupTag extends TagSupport {
         List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine);
         List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, getEditModes(), groupDefinition.getGroupLabel());
 
-        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, newLine, groupDefinition.getGroupLabel());
+        return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors());
     }
 
     /**

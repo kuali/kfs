@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document.datadictionary;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.AccountingLineViewCurrentBaseAmount;
 import org.kuali.kfs.sys.document.web.TableJoining;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -77,33 +78,8 @@ public class AccountingLineViewCurrentBaseAmountFieldDefinition extends Maintain
      * @return an appropriately created AccountingLineViewFieldDefinition
      */
     protected AccountingLineViewFieldDefinition createFieldDefinitionForProperty(String propertyName) {
-        AccountingLineViewFieldDefinition fieldDefinition = createGenericAccountingLineViewFieldDefinition();
+        AccountingLineViewFieldDefinition fieldDefinition = SpringContext.getBean(AccountingLineRenderingService.class).createGenericAccountingLineViewFieldDefinition(this);
         fieldDefinition.setName(propertyName);
-        return fieldDefinition;
-    }
-    
-    /**
-     * Begins to create an AccountingLineViewFieldDefinition, based on the information held within this definition
-     * @return a basic AccountingLineViewFieldDefinition
-     */
-    protected AccountingLineViewFieldDefinition createGenericAccountingLineViewFieldDefinition() {
-        AccountingLineViewFieldDefinition fieldDefinition = new AccountingLineViewFieldDefinition();
-        
-        fieldDefinition.setRequired(isRequired());
-        fieldDefinition.setReadOnly(isReadOnly());
-        fieldDefinition.setReadOnlyAfterAdd(isReadOnlyAfterAdd());
-        fieldDefinition.setNoLookup(isNoLookup());
-        
-        fieldDefinition.setDefaultValue(getDefaultValue());
-        fieldDefinition.setTemplate(getTemplate());
-        fieldDefinition.setDefaultValueFinderClass(getDefaultValueFinderClass());
-        
-        fieldDefinition.setDisplayEditMode(getDisplayEditMode());
-        fieldDefinition.setDisplayMask(getDisplayMask());
-        
-        fieldDefinition.setOverrideLookupClass(getOverrideLookupClass());
-        fieldDefinition.setOverrideFieldConversions(getOverrideFieldConversions());
-        
         return fieldDefinition;
     }
     

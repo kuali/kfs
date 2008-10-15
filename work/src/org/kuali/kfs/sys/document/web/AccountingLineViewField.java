@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -26,7 +26,6 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
@@ -145,7 +144,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
-        renderField(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath(), renderingContext.getFieldNamesForAccountingLine());
+        renderField(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath(), renderingContext.getFieldNamesForAccountingLine(), renderingContext.getErrors());
         if (getOverrideFields() != null && getOverrideFields().size() > 0) {
             renderOverrideFields(pageContext, parentTag, renderingContext);
         }
@@ -162,10 +161,13 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param fieldNames the names of all fields on this accounting line
      * @throws JspException thrown if something goes wrong
      */
-    protected void renderField(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) throws JspException {
+    protected void renderField(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames, List errors) throws JspException {
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
         if (renderer != null) {
             prepareFieldRenderer(renderer, getField(), accountingLine, accountingLineProperty, fieldNames);
+            if (fieldInError(errors)) {
+                renderer.setShowError(true);
+            }
             if (!isHidden()) {
                 renderer.openNoWrapSpan(pageContext, parentTag);
             }
@@ -405,4 +407,24 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         this.arbitrarilyHighIndex = reallyHighIndex;
     }
     
+    /**
+     * Determines if this field is among the fields that are in error
+     * @param errors the errors on the form
+     * @return true if this field is in error, false otherwise
+     */
+    protected boolean fieldInError(List errors) {
+        if (errors != null) {
+            String fieldName = getField().getPropertyName();
+            if (!StringUtils.isBlank(getField().getPropertyPrefix())) {
+                fieldName = getField().getPropertyPrefix()+"."+fieldName;
+            }
+            for (Object errorKeyAsObject : errors) {
+                final String errorKey = (String)errorKeyAsObject;
+                if (fieldName.equals(errorKey)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

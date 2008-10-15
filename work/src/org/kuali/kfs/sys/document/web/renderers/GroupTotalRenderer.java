@@ -29,10 +29,9 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 /**
  * The standard renderer of totals for an accounting line group
  */
-public class GroupTotalRenderer implements Renderer, CellCountCurious {
+public class GroupTotalRenderer extends TotalRendererBase {
     private String totalProperty;
     private WriteTag writeTag = new WriteTag();
-    private int cellCount = 0;
     
     private String totalLabelProperty = "accounting.line.group.total.label";
     private String formName = "KualiForm";
@@ -74,22 +73,6 @@ public class GroupTotalRenderer implements Renderer, CellCountCurious {
      */
     public void setTotalLabelProperty(String totalLabelProperty) {
         this.totalLabelProperty = totalLabelProperty;
-    }    
-    
-    /**
-     * Gets the cellCount attribute. 
-     * @return Returns the cellCount.
-     */
-    public int getCellCount() {
-        return cellCount;
-    }
-
-    /**
-     * Sets the cellCount attribute value.
-     * @param cellCount The cellCount to set.
-     */
-    public void setCellCount(int cellCount) {
-        this.cellCount = cellCount;
     }
 
     /**
@@ -97,8 +80,8 @@ public class GroupTotalRenderer implements Renderer, CellCountCurious {
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#clear()
      */
     public void clear() {
+        super.clear();
         totalProperty = null;
-        cellCount = 0;
         
         writeTag.setPageContext(null);
         writeTag.setParent(null);
@@ -116,7 +99,7 @@ public class GroupTotalRenderer implements Renderer, CellCountCurious {
             out.write("<tr>");
             
             out.write("<td  class=\"total-line\" colspan=\"");
-            final int longEmptyCellSpan = cellCount - 2;
+            final int longEmptyCellSpan = getCellCount() - 2;
             out.write(Integer.toString(longEmptyCellSpan));
             out.write("\">&nbsp;</td>");
             

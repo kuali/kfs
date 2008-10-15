@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.rice.kns.web.ui.Field;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * The renderer of an override field
@@ -240,7 +241,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         if (!readOnly && overrideNeededValue.equals("No")) {
             overrideHiddenTag.setValue("No");
         } else {
-            overrideHiddenTag.setValue(getField().getPropertyValue());
+            overrideHiddenTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
         }
         overrideHiddenTag.doStartTag();
         overrideHiddenTag.doEndTag();
@@ -256,7 +257,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         overrideNeededTag.setPageContext(pageContext);
         overrideNeededTag.setParent(parentTag);
         overrideNeededTag.setProperty(overrideNeededProperty);
-        overrideNeededTag.setValue(overrideNeededValue);
+        overrideNeededTag.setValue(HtmlUtils.htmlEscape(overrideNeededValue));
         overrideNeededTag.doStartTag();
         overrideNeededTag.doEndTag();
     }

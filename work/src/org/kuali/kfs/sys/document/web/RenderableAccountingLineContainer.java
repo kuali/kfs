@@ -39,13 +39,14 @@ import org.kuali.rice.kns.web.ui.Field;
 public class RenderableAccountingLineContainer implements RenderableElement, AccountingLineRenderingContext {
     private List<AccountingLineTableRow> rows;
     private List<AccountingLineViewAction> actions;
-    private boolean newLine;
     private AccountingLine accountingLine;
     private String accountingLineProperty;
     private List<Field> fields;
     private List<String> fieldNames;
     private KualiAccountingDocumentFormBase form;
     private String groupLabel;
+    private Integer lineCount;
+    private List errors;
     
     /**
      * Constructs a RenderableAccountingLineContainer
@@ -57,14 +58,15 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @param newLine whether this is a new accounting line or not
      * @param groupLabel the label for the group this accounting line is being rendered part of
      */
-    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, boolean newLine, String groupLabel) {
+    public RenderableAccountingLineContainer(KualiAccountingDocumentFormBase form, AccountingLine accountingLine, String accountingLineProperty, List<AccountingLineTableRow> rows, List<AccountingLineViewAction> actions, Integer lineCount, String groupLabel, List errors) {
         this.form = form;
         this.accountingLine = accountingLine;
         this.accountingLineProperty = accountingLineProperty;
         this.rows = rows;
         this.actions = actions;
-        this.newLine = newLine;
+        this.lineCount = lineCount;
         this.groupLabel = groupLabel;
+        this.errors = errors;
     }
     
     /**
@@ -96,7 +98,14 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * @return Returns the newLine.
      */
     public boolean isNewLine() {
-        return newLine;
+        return lineCount == null;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getCurrentLineCount()
+     */
+    public Integer getCurrentLineCount() {
+        return lineCount;
     }
 
     /**
@@ -310,4 +319,13 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public String getGroupLabel() {
        return this.groupLabel; 
     }
+
+    /**
+     * Gets the errors attribute. 
+     * @return Returns the errors.
+     */
+    public List getErrors() {
+        return errors;
+    }
+    
 }

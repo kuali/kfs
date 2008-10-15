@@ -131,11 +131,6 @@ public class GroupErrorsRenderer implements Renderer {
         
         for (Object keyAsObject : errorPropertyList) {
             String key = (String)keyAsObject;
-            if (key.indexOf("..") > -1) {
-                // there are badly formed keys created by one of the required fields tests (like BO validation or something).  I suppose I could fix it.  This is easier
-                getErrorsRendered().add(key);
-                key = key.replaceAll("\\.\\.", ".");
-            }
             if (matchesGroup(key, keysToMatch)) {
                 matchingErrorKeys.add(key);
             }

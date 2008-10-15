@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.io.Serializable;
+
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -29,7 +31,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * This class determines permissions for a user of the Payment Request document
  */
-public class PaymentRequestDocumentActionAuthorizer {
+public class PaymentRequestDocumentActionAuthorizer implements Serializable {
 
     private String docStatus;
     private boolean requestCancelIndicator;

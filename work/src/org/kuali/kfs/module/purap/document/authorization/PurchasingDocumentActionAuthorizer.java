@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.io.Serializable;
 
-public abstract class PurchasingDocumentActionAuthorizer {
+
+public abstract class PurchasingDocumentActionAuthorizer implements Serializable {
 
     protected String docStatus;
     protected String documentType;

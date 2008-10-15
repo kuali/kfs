@@ -150,13 +150,15 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
                     
         questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
         questionTextBuffer.append("<tr><td class=\"leftTd\">Vendor Invoice Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(preq.getInitialAmount()) + "</td></tr>");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Invoice Total Prior to Additional Charges:</td><td class=\"rightTd\">" + (String)cf.format(preq.getTotalDollarAmountAboveLineItems()) + "</td></tr>");
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Invoice Total Prior to Additional Charges:</td><td class=\"rightTd\">" + (String)cf.format(preq.getTotalPreTaxDollarAmountAboveLineItems()) + "</td></tr>");
 
         //only add this line if payment request has a discount
         if( preq.isDiscount() ){
-            questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotalExcludingDiscount()) + "</td></tr>");
+            questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotalExcludingDiscount()) + "</td></tr>");
         }
         
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotal()) + "</td></tr>");
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTaxAmount()) + "</td></tr>");
         questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotal()) + "</td></tr></table>");
                         
         return questionTextBuffer.toString();

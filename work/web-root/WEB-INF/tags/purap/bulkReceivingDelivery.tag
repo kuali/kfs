@@ -127,7 +127,7 @@
 	                    <c:if test="${notOtherDeliveryBuilding && fullEntryMode}">
 	                    	<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
 	                    		lookupParameters="document.deliveryCampus:campusCode"
-	                    		fieldConversions="buildingCode:document.deliveryBuildingCode,buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
+	                    		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
 	                    </c:if>
 	                </td>           
 	                <th align=right valign=middle class="bord-l-b">

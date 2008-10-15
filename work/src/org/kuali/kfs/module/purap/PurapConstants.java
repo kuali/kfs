@@ -52,7 +52,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
-    
+
     public static final String PDP_PURAP_EXTRACT_FILE_NAME = "extr_fr_purap";
 
     // STANDARD PARAMETER PREFIXES
@@ -523,7 +523,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String INVOICE_NUMBER = "Invoice Number";
         public static final String IN_PROCESS = "In Process";
         public static final String THRESHOLD_DAYS_OVERRIDE_QUESTION = "Threshold Days Override Question";
-        public static final String UNUSED_TRADE_IN_QUESTION = "There is an unused trade in amount from PO that you could apply to line item. Are you sure you want to proceed ?";
+        public static final String UNUSED_TRADE_IN_QUESTION = "There is an unused trade in amount from PO that you could apply to line item; are you sure you want to proceed ?";
         public static final String VENDOR_INVOICE_AMOUNT = "Vendor Invoice Amount";
         public static final String VENDOR_STATE = "State";
         public static final String VENDOR_POSTAL_CODE = "Postal Code";

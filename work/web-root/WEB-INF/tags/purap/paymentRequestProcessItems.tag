@@ -55,7 +55,7 @@
 			    <div align="right"><b>
                     <kul:htmlControlAttribute
                         attributeEntry="${DataDictionary.PaymentRequestDocument.lineItemTotal}"
-                        property="document.lineItemTotal"
+                        property="document.lineItemPreTaxTotal"
                         readOnly="true" />&nbsp; </b>
                 </div>
 			</td>
@@ -82,7 +82,7 @@
 		    		    <div align="right"><b>
                             <kul:htmlControlAttribute
                                 attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
-                                property="document.grandTotalExcludingDiscount"
+                                property="document.grandPreTaxTotalExcludingDiscount"
                                 readOnly="true" />&nbsp; </b>
                         </div>
 					</td>

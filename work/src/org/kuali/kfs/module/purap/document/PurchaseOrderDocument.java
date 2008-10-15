@@ -484,8 +484,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
-        // child classes need to call super, but we don't want to inherit the post-processing done by this PO class
-        if (PurchaseOrderDocument.class.getName().equals(this.getClass().getName())) {
+        // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
+        if (PurchaseOrderDocument.class.getName().equals(this.getClass().getName()) || PurchaseOrderSplitDocument.class.getName().equals(this.getClass().getName())) { 
             try {
                 // DOCUMENT PROCESSED
                 if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {

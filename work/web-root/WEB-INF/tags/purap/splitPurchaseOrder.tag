@@ -87,10 +87,11 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
-				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.commodityCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchasingCommodityCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
         	</tr>
         	<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
         		<c:if test="${itemLine.itemType.lineItemIndicator == true}">
@@ -130,7 +131,7 @@
 					    </td>
 					    <td class="datacell">
 					    	<kul:htmlControlAttribute 
-	                            attributeEntry="${itemAttributes.commodityCode}" 
+	                            attributeEntry="${itemAttributes.purchasingCommodityCode}" 
 	                            property="document.item[${ctr}].purchasingCommodityCode" readOnly="true"/>
 	                    </td>
 						<td class="datacell">
@@ -150,6 +151,13 @@
 						        <kul:htmlControlAttribute
 							        attributeEntry="${itemAttributes.extendedPrice}"
 							        property="document.item[${ctr}].extendedPrice" readOnly="true" />
+						    </div>
+						</td>
+	                    <td class="datacell">
+						    <div align="right">
+						        <kul:htmlControlAttribute
+							        attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
+							        property="document.item[${ctr}].itemAssignedToTradeInIndicator" readOnly="true" />
 						    </div>
 						</td>
 					</tr>					 			        	

@@ -80,6 +80,18 @@ public class CustomerLoadBatchErrors {
         addErrors(errors);
     }
 
+    public void addAll(CustomerLoadBatchErrors otherErrors) {
+        if (otherErrors == null) {
+            throw new IllegalArgumentException("Parameter otherErrors passed in was null.");
+        }
+        for (String customerName : otherErrors.getCompanyNames()) {
+            List<CustomerLoadBatchError> customerErrors = otherErrors.getErrorsByCompany(customerName);
+            for (CustomerLoadBatchError customerLoadBatchError : customerErrors) {
+                addError(customerLoadBatchError);
+            }
+        }
+    }
+    
     public void addError(CustomerLoadBatchError error) {
         if (error == null) {
             throw new IllegalArgumentException("Parameter 'error' passed in was null.");

@@ -43,12 +43,14 @@
 			<list>
 				<value>lockboxJob</value>
 				<value>customerInvoiceDocumentBatchJob</value>
+				<value>customerLoadJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
 				<value>lockboxJobTrigger</value>
 				<value>customerInvoiceDocumentBatchJobTrigger</value>
+				<value>customerLoadJobTrigger</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
@@ -350,6 +352,19 @@
 		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
+	<bean id="customerLoadJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="customerLoadJob" />
+		<property name="cronExpression" value="00 00 22 ? * MON-FRI" />
+	</bean>
+	
+	<bean id="customerLoadJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="customerLoadStep" />
+			</list>
 		</property>
 	</bean>
 	

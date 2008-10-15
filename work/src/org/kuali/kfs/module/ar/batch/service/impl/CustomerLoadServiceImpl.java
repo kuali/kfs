@@ -400,7 +400,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         MaintenanceDocument oneRealMaintDoc = null;
         
         Customer customer = null;
-        CustomerLoadBatchErrors batchErrors = null;
+        CustomerLoadBatchErrors fileBatchErrors = new CustomerLoadBatchErrors();
+        CustomerLoadBatchErrors customerBatchErrors;
         String customerName;
         if (adapter == null) adapter = new CustomerDigesterAdapter();
         for (CustomerDigesterVO customerDigesterVO : customerUploads) {
@@ -412,20 +413,17 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             LOG.info("Beginning conversion and validation for [" + customerName + "].");
             reporter.addCustomerInfoMessage(customerName, "Beginning conversion and validation.");
             CustomerLoadResult result = reporter.getCustomer(customerName);
-            
-            //  start a new ErrorMap for each Customer
-            batchErrors = new CustomerLoadBatchErrors();
+            customerBatchErrors = new CustomerLoadBatchErrors();
             
             //  convert the VO to a BO
             LOG.info("Beginning conversion from VO to BO.");
-            customer = adapter.convert(customerDigesterVO, batchErrors);
+            customer = adapter.convert(customerDigesterVO, customerBatchErrors);
             
             //  if any errors were generated, add them to the GlobalVariables, and return false
-            if (!batchErrors.isEmpty()) {
+            if (!customerBatchErrors.isEmpty()) {
                 LOG.info("The customer [" + customerName + "] was not processed due to errors in uploading and conversion.");
-                batchErrors.addError(customerName, "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
-                addBatchErrorsToGlobalVariables(batchErrors);
-                addBatchErrorstoCustomerLoadResult(batchErrors, result);
+                customerBatchErrors.addError(customerName, "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
+                addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
                 reporter.setCustomerFailureResult(customerName);
                 docSucceeded = false;
                 groupSucceeded &= false;
@@ -472,15 +470,13 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             }
             
             //  validate the batched customer
-            if (!validateSingle(transientMaintDoc, batchErrors, customerName)) {
+            if (!validateSingle(transientMaintDoc, customerBatchErrors, customerName)) {
                 groupSucceeded &= false;
                 docSucceeded = false;
                 reporter.setCustomerFailureResult(customerName);
             }
             
-            //  put any errors back in global vars
-            addBatchErrorsToGlobalVariables(batchErrors);
-            addBatchErrorstoCustomerLoadResult(batchErrors, result);
+            addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
             
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
             if (docSucceeded) {
@@ -488,8 +484,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 reporter.setCustomerSuccessResult(customerName);
             }
             
+            fileBatchErrors.addAll(customerBatchErrors);
         }
         
+        //  put any errors back in global vars
+        addBatchErrorsToGlobalVariables(fileBatchErrors);
+
         return groupSucceeded;
     }
 

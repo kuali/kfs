@@ -83,10 +83,6 @@ public class CustomerDigesterAdapter {
             LOG.error("Passed in CustomerLoadBatchErrors must not be null.");
             throw new IllegalArgumentException("Passed in CustomerLoadBatchErrors must not be null.");
         }
-        else if (!errors.isEmpty()) {
-            LOG.error("Passed in CustomerLoadBatchErrors must be empty.");
-            throw new IllegalArgumentException("Passed in CustomerLoadBatchErrors must be empty.");
-        }
         this.errors = errors;
         
         convertCustomerStringProperties();

@@ -194,7 +194,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setInvoiceItemUnitPrice(unitprice);
         customerInvoiceDetail.setInvoiceItemQuantity(quantity);
-        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0));
+        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.1));
         customerInvoiceDetail.setAmount(amount);
         return customerInvoiceDetail;
     }  

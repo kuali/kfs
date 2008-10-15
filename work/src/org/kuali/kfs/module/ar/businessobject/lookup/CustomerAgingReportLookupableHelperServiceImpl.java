@@ -213,7 +213,7 @@ if (knownCustomers.containsKey(customerNumber)) {
 }
 //LOG.info("\t\t APPROVAL DATE: \t\t" + approvalDate.toString() + "\t");
 //LOG.info("\t\t REPORT DATE: \t\t" + reportRunDate.toString() + "\t");
-            if (!approvalDate.after(reportRunDate) && approvalDate.after(cutoffdate30)) {                                
+            if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
                 custDetail.setUnpaidBalance0to30(cid.getAmount().add(custDetail.getUnpaidBalance0to30())); 
 //                total0to30 = total0to30.add(custDetail.getUnpaidBalance0to30());
                 total0to30 = total0to30.add(cid.getAmount());
@@ -221,17 +221,17 @@ if (knownCustomers.containsKey(customerNumber)) {
 //                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
 //                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
             }
-            if (!approvalDate.after(cutoffdate30) && approvalDate.after(cutoffdate60)) {               
+            if (!approvalDate.after(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
                 total31to60 = total31to60.add(cid.getAmount());
                 //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
-            if (!approvalDate.after(cutoffdate60) && approvalDate.after(cutoffdate90)) {
+            if (!approvalDate.after(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
                 custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
                 total61to90 = total61to90.add(cid.getAmount());
                 //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
-            if (!approvalDate.after(cutoffdate90) && approvalDate.after(cutoffdate120)) {
+            if (!approvalDate.after(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
                 custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
                 total91toSYSPR = total91toSYSPR.add(cid.getAmount());
                 //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());

@@ -581,7 +581,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS + "[" + index + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
             success &= validatePaymentLine(assetGlobal, assetPaymentDetail);
-            GlobalVariables.getErrorMap().remove(errorPath);
+            GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
         }
         return success;

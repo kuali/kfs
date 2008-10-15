@@ -75,6 +75,16 @@ public class CustomerInvoiceAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }   
 
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceForm ciForm = (CustomerInvoiceForm)form;
 
@@ -87,16 +97,17 @@ public class CustomerInvoiceAction extends KualiAction {
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
         if (ciForm.getOrgType() != null && chart != null && org != null) {
-            if (ciForm.getOrgType().equals("B"))
-             
+            if (ciForm.getOrgType().equals("B")) {
                 reports = reportService.generateInvoicesByBillingOrg(chart, org, date);
-            else if (ciForm.getOrgType().equals("P"))
+            }
+            else if (ciForm.getOrgType().equals("P")) {
                 reports = reportService.generateInvoicesByProcessingOrg(chart, org, date);
-
+            }
             fileName.append(chart);
             fileName.append(org);
-            if (date != null)
+            if (date != null) {
                 fileName.append(date);  
+            }
         } else if (ciForm.getUserId() != null) {
             reports = reportService.generateInvoicesByInitiator(ciForm.getUserId());
             fileName.append(ciForm.getUserId());
@@ -109,17 +120,18 @@ public class CustomerInvoiceAction extends KualiAction {
                 int f = 0;
                 Document document = null;
                 PdfCopy  writer = null;
-                for (Iterator itr = reports.iterator(); itr.hasNext();) {
+                for (Iterator<File> itr = reports.iterator(); itr.hasNext();) {
                     // we create a reader for a certain document
-                    String reportName = ((File)itr.next()).getAbsolutePath();
+                    String reportName = itr.next().getAbsolutePath();
                     PdfReader reader = new PdfReader(reportName);
                     reader.consolidateNamedDestinations();
                     // we retrieve the total number of pages
                     int n = reader.getNumberOfPages();
                     List bookmarks = SimpleBookmark.getBookmark(reader);
                     if (bookmarks != null) {
-                        if (pageOffset != 0)
+                        if (pageOffset != 0) {
                             SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
+                        }
                         master.addAll(bookmarks);
                     }
                     pageOffset += n;

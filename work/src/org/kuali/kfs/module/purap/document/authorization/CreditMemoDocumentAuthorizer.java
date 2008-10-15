@@ -111,8 +111,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         }
         
         //if full entry, and not use tax, allow editing
-        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && creditMemoDocument.isUseTaxIndicator() == false &&
-           creditMemoDocument.isSourceDocumentPaymentRequest() == false){
+        if(editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && creditMemoDocument.isUseTaxIndicator() == false){
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.TAX_AMOUNT_CHANGEABLE, "TRUE");
         }
 

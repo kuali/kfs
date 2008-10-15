@@ -109,7 +109,7 @@
 	            readOnly="${true}"/>
 			<c:if test="${useTaxIndicatorChangeable}">			
 			&nbsp;
-			<html:image property="methodToCall.toggleUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
+			<html:image property="methodToCall.changeUseTaxIndicator" src="${ConfigProperties.externalizable.images.url}tinybutton-${useTaxIndicatorButton}.gif" alt="Change Use Tax Indicator" title="Change Use Tax Indicator" styleClass="tinybutton"/>
 			</c:if>
 	    </td>
 	    <th align=right valign=middle class="bord-l-b">

@@ -22,11 +22,13 @@
     description="The DataDictionary entry containing attributes for this row's fields." %>             
 
 <c:set var="amendmentEntry" value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 
 <kul:tab tabTitle="Payment Info" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
     <div class="tab-container" align=center>
-            <h3>Payment Info</h3>
 
+    <c:if test="${!lockB2BEntry}" >
+            <h3>Payment Info</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
             <tr>
                 <th align=right valign=middle class="bord-l-b">
@@ -50,52 +52,49 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
                </td> 
             </tr>
+            <c:if test="${displayPurchaseOrderFields}">
+                <tr>
+                    <th align=left valign=middle colspan="2" class="bord-l-b"> Please provide the following recurring payment information if the type of recurring payment is Fixed Schedule, Fixed Amount</th>
+                </tr> 
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                       <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell"> Amount:
+                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        &nbsp;&nbsp;
+                        First Payment Date:
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        &nbsp;&nbsp;
+                        Frequency:
+                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                    </td> 
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                       <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell"> Amount:
+                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        &nbsp;&nbsp;
+                      Date:
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                   </td> 
+                </tr>
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                       <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell"> Amount:
+                       <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                        &nbsp;&nbsp;
+                      Date:
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                   </td> 
+                </tr>
+            </c:if>
 		</table> 
-		
-		<c:if test="${displayPurchaseOrderFields}">
-			 <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
-	
-	            <tr>
-	            	<th align=left valign=middle colspan="2" class="bord-l-b"> Please provide the following recurring payment information if the type of recurring payment is Fixed Schedule, Fixed Amount</th>
-	            </tr> 
-	            <tr>
-	                <th align=right valign=middle class="bord-l-b">
-	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	                 	&nbsp;&nbsp;
-	                  	First Payment Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	              		&nbsp;&nbsp;
-	              		Frequency:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	                </td> 
-	            </tr>
-	            <tr>
-	                <th align=right valign=middle class="bord-l-b">
-	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	                 	&nbsp;&nbsp;
-	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	               </td> 
-	            </tr>
-	            <tr>
-	                <th align=right valign=middle class="bord-l-b">
-	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	                 	&nbsp;&nbsp;
-	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
-	               </td> 
-	            </tr>
-			</table> 
-		</c:if>
+    </c:if>
 		
 		
            	<h3>Billing Address</h3>

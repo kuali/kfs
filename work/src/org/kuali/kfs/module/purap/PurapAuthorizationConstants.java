@@ -33,6 +33,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";   
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
+        public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
     }
 
     public static class PurchaseOrderEditMode extends EditMode {
@@ -48,6 +49,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String USE_TAX_INDICATOR_CHANGEABLE = "useTaxIndicatorChangeable";
         public static final String TAX_AMOUNT_CHANGEABLE = "taxAmountChangeable";
         public static final String CLEAR_ALL_TAXES = "clearAllTaxes";
+        public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
     }
 
     public static class PaymentRequestEditMode extends EditMode {

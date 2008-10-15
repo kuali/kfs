@@ -85,6 +85,10 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();        
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) d;
         
+        if (PurapConstants.RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+            editModeMap.put(PurapAuthorizationConstants.PurchaseOrderEditMode.LOCK_B2B_ENTRY, "TRUE");
+        }
+
         //By default lock cams tab
         editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
         

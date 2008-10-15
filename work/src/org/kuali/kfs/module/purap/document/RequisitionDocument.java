@@ -166,14 +166,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        if (this.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+        if (PurapConstants.RequisitionSources.B2B.equals(getRequisitionSourceCode())) {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             Calendar c = Calendar.getInstance();
-            DocumentHeader dh = this.getDocumentHeader();
-            KualiWorkflowDocument wd = dh.getWorkflowDocument();
 
             // The allowed copy date is the document creation date plus a set number of days.
-            Date createDate = wd.getCreateDate();
+            Date createDate = getDocumentHeader().getWorkflowDocument().getCreateDate();
             c.setTime(createDate);
             String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));

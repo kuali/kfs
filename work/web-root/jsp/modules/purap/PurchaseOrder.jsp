@@ -28,6 +28,10 @@
 		<c:set var="amendmentEntry" value="true" scope="request" />
 	</c:if>
 
+    <c:if test="${!empty KualiForm.editingMode['lockB2BEntry']}">
+        <c:set var="lockB2BEntry" value="true" scope="request" />
+    </c:if>
+
 	<c:if test="${!empty KualiForm.editingMode['preRouteChangeable']}">
 		<c:set var="preRouteChangeMode" value="true" scope="request" />
 	</c:if>
@@ -83,13 +87,18 @@
 		</c:if>
 	    	 		 
 		<c:if test="${not retransmitMode}" >
+            <purap:delivery
+                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+        
 		    <purap:vendor
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
 		        displayPurchaseOrderFields="true"
 		        purchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
 		
-		    <purap:stipulationsAndInfo
-		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+		    <c:if test="${!lockB2BEntry}">
+		        <purap:stipulationsAndInfo
+		            documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
+		    </c:if>
 		
 		    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
 		        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"
@@ -107,9 +116,6 @@
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" 
 		        displayPurchaseOrderFields="true"/>
 		
-		    <purap:delivery
-		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
-		
 		    <purap:additional
 		        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
 		
@@ -117,10 +123,12 @@
 		        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
 		    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 			
-			<purap:quotes
-                documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
-			    vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
-			    isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+            <c:if test="${!lockB2BEntry}">
+                <purap:quotes
+                    documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+                    vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
+                    isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
+            </c:if>
 		
 		    <purap:relatedDocuments
 		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
@@ -145,12 +153,9 @@
 	
     <kul:panelFooter />
 
-    <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
-  	
     <kfs:documentControls 
         transactionalDocument="true" 
-        extraButtons="${extraButtons}"
-        />
+        extraButtons="${KualiForm.extraButtons}" />
 
 
 </kul:documentPage>

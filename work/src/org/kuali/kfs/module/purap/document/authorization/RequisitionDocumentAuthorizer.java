@@ -66,6 +66,10 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         FinancialSystemUser kfsUser = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(user);
 
+        if (PurapConstants.RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode())) {
+            editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_B2B_ENTRY, "TRUE");
+        }
+
         //by default lock cams tab
         editModeMap.put(PurapAuthorizationConstants.CamsEditMode.LOCK_CAMS_ENTRY, "TRUE");
 

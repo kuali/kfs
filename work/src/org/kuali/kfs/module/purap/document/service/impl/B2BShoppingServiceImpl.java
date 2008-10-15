@@ -33,6 +33,7 @@ import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.exception.MissingContractIdError;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
@@ -65,6 +66,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private RequisitionService requisitionService;
     private ParameterService parameterService;
     private PhoneNumberService phoneNumberService;
+    private PurchasingService purchasingService;
     private PurapService purapService;
     private VendorService vendorService;
 
@@ -151,6 +153,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setRequestorPersonName(user.getPersonName());
             req.setRequestorPersonEmailAddress(user.getPersonEmailAddress());
             req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPersonLocalPhoneNumber()));
+            req.setUseTaxIndicator(purchasingService.getDefaultUseTaxIndicatorValue(req));
 
             // set defaults that need to be set
             req.setVendorHeaderGeneratedIdentifier(vendor.getVendorHeaderGeneratedIdentifier());
@@ -196,6 +199,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // populate receiving address with the default one for the chart/org
             req.loadReceivingAddress();
 
+            req.fixItemReferences();
+            
             // save requisition to database
             requisitionService.saveDocumentWithoutValidation(req);
 
@@ -254,15 +259,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
                 scItems.add(item);
             }
         }
-
-        // Handle vendor specific code
-        // TODO: seems like this just sorts the list, may need to incorporate this.
-        /*
-         * String beanId = "purVendorSpecific" + vendorDuns; if ( beanFactory.containsBean(beanId) ) { VendorSpecificService
-         * vendorService = (VendorSpecificService)beanFactory.getBean(beanId); LOG.debug("getAllVendorItems() Using specific service
-         * for " + vendorService.getVendorName()); scItems = vendorService.sortList(scItems); } else {
-         * LOG.debug("getAllVendorItems() No vendor specific service"); }
-         */
 
         // Now convert them to Requisition items
         int itemLine = 1;
@@ -342,6 +338,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
+    }
+
+    public void setPurchasingService(PurchasingService purchasingService) {
+        this.purchasingService = purchasingService;
     }
 
 }

@@ -34,6 +34,9 @@
 	    	editableFundingSource="true" />
     </kfs:documentOverview>
 
+    <purap:delivery
+        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
+
     <purap:vendor
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}"
         displayRequisitionFields="true" />
@@ -51,9 +54,6 @@
 
 
     <purap:paymentinfo
-        documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
-
-    <purap:delivery
         documentAttributes="${DataDictionary.RequisitionDocument.attributes}" />
 
     <purap:additional

@@ -22,6 +22,7 @@
 
 <c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOther}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:if test="${empty deliveryReadOnly}">
 	<c:set var="deliveryReadOnly" value="false" />
 </c:if>
@@ -109,13 +110,19 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
                     	property="document.deliveryBuildingLine1Address"  readOnly="${notOtherDeliveryBuilding or not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>			
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDate}"/></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDate}" datePicker="true" 
-                    	property="document.deliveryRequiredDate" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
-                </td>
+                <c:if test="${!lockB2BEntry}">
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDate}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDate}" datePicker="true" 
+	                    	property="document.deliveryRequiredDate" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+	                </td>
+	            </c:if>
+                <c:if test="${lockB2BEntry}">
+                    <th align=right valign=middle class="bord-l-b" rowspan="7">&nbsp;</th>
+                    <td align=left valign=middle class="datacell" rowspan="7">&nbsp;</td>
+                </c:if>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
@@ -125,15 +132,17 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
                     	property="document.deliveryBuildingLine2Address" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}" 
-                    	property="document.deliveryRequiredDateReasonCode"
-                    	extraReadOnlyProperty="document.deliveryRequiredDateReason.deliveryRequiredDateReasonDescription" 
-                    	readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
-                </td>
+                <c:if test="${!lockB2BEntry}">
+	                <th align=right valign=middle class="bord-l-b">
+	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>
+	                </th>
+	                <td align=left valign=middle class="datacell">
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}" 
+	                        property="document.deliveryRequiredDateReasonCode"
+	                        extraReadOnlyProperty="document.deliveryRequiredDateReason.deliveryRequiredDateReasonDescription" 
+	                        readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+	                </td>
+                </c:if>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">
@@ -143,13 +152,15 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
                     	property="document.deliveryBuildingRoomNumber" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
                 </td>			
-                <th align=right valign=middle class="bord-l-b" rowspan="4">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
-                </th>
-                <td align=left valign=middle class="datacell"  rowspan="4">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
-                    	property="document.deliveryInstructionText" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
-                </td>
+                <c:if test="${!lockB2BEntry}">
+                    <th align=right valign=middle class="bord-l-b" rowspan="5">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
+                    </th>
+                    <td align=left valign=middle class="datacell"  rowspan="5">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
+                            property="document.deliveryInstructionText" readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}"/>
+                    </td>
+                </c:if>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b">

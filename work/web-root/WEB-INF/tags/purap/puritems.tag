@@ -26,6 +26,7 @@
 <script language="JavaScript" type="text/javascript" src="scripts/vendor/objectInfo.js"></script>
 
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
+<c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="unorderedItemAccountEntry"	value="${(not empty KualiForm.editingMode['unorderedItemAccountEntry'])}" />
 <c:set var="amendmentEntryWithUnpaidPreqOrCM" value="${(amendmentEntry && (KualiForm.document.containsUnpaidPaymentRequestsOrCreditMemos))}" />
 <c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
@@ -55,7 +56,7 @@
 	<div class="tab-container" align=center>
     <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
-		<c:if test="${(fullEntryMode or amendmentEntry)}">
+		<c:if test="${(fullEntryMode or amendmentEntry) and !lockB2BEntry}">
 			<tr>
 				<td colspan="9" class="subhead"><span class="subhead-left">Add Item</span></td>
 				<td colspan="6" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
@@ -190,14 +191,13 @@
 		</tr>
 
 
-		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
 			<td colspan="15" class="subhead">
 			    <span class="subhead-left">Current Items</span>
 			</td>
 		</tr>
 
-		<c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
+        <c:if test="${!((!lockB2BEntry and !(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))) or (lockB2BEntry and !(fn:length(KualiForm.document.items) > 0)))}">
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
@@ -210,7 +210,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" />
-				<c:if test="${displayRequisitionFields}">
+				<c:if test="${displayRequisitionFields and !lockB2BEntry}">
 					<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
 				</c:if>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
@@ -232,7 +232,7 @@
 			</tr>
 		</c:if>
 
-		<c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
+		<c:if test="${(!lockB2BEntry and !(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))) or (lockB2BEntry and !(fn:length(KualiForm.document.items) > 0))}">
 			<tr>
 				<th height=30 colspan="15">No items added to document</th>
 			</tr>
@@ -282,7 +282,7 @@
 				<tr>
 					<td class="infoline" nowrap="nowrap" rowspan="2">	    
 					    &nbsp;<b><bean:write name="KualiForm" property="document.item[${ctr}].itemLineNumber"/></b>&nbsp; 
-					    <c:if test="${fullEntryMode}">
+					    <c:if test="${fullEntryMode and !lockB2BEntry}">
 						    <html:image property="methodToCall.upItem.line${ctr}"
 							    src="${ConfigProperties.externalizable.images.url}purap-up.gif"
 							    alt="Move Item Up" title="Move Item Up" styleClass="tinybutton" />
@@ -297,7 +297,7 @@
 						    attributeEntry="${itemAttributes.itemTypeCode}"
 						    property="document.item[${ctr}].itemTypeCode"
 						    extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null)) or lockB2BEntry}" />
 					</td>
 
 					<td class="infoline">
@@ -310,13 +310,13 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemUnitOfMeasureCode}"
 						    property="document.item[${ctr}].itemUnitOfMeasureCode"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 				    </td>
 					<td class="infoline">
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemCatalogNumber}"
 						    property="document.item[${ctr}].itemCatalogNumber"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 				    </td>
                     <td class="infoline">
                         <kul:htmlControlAttribute 
@@ -334,14 +334,14 @@
 						 <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemDescription}"
 						    property="document.item[${ctr}].itemDescription"
-						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 					</td>
 					<td class="infoline">
 					    <div align="right">
 					        <kul:htmlControlAttribute
 						        attributeEntry="${itemAttributes.itemUnitPrice}"
 						        property="document.item[${ctr}].itemUnitPrice"
-						        readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null))))}" />
+						        readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null)))) or lockB2BEntry}" />
 						</div>
 					</td>
 					<td class="infoline">
@@ -365,7 +365,7 @@
 						        property="document.item[${ctr}].totalAmount" readOnly="${true}" />
 					    </div>
 					</td>
-					<c:if test="${displayRequisitionFields}">
+					<c:if test="${displayRequisitionFields and !lockB2BEntry}">
 						<td class="infoline">
 						<div align="center">
 						    <kul:htmlControlAttribute
@@ -440,7 +440,7 @@
 				</tr>
 				
 				<c:set var="columnCount" value="11"/>
-				<c:if test="${displayRequisitionFields}">
+				<c:if test="${displayRequisitionFields and !lockB2BEntry}">
 					<c:set var="columnCount" value="12"/>
 				</c:if>
 				<c:choose>
@@ -508,11 +508,13 @@
 			</c:if>
 		</logic:iterate>
 
-		<tr>
-			<th height=30 colspan="15">&nbsp;</th>
-		</tr>
+        <c:if test="${!lockB2BEntry}">
+			<tr>
+				<th height=30 colspan="15">&nbsp;</th>
+			</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}"/>
+		    <purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" descriptionFirst="${isATypeofPurDoc}"/>
+		</c:if>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

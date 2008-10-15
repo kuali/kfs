@@ -314,7 +314,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = false;
         for (PurApItem item : purDocument.getItems()) {
             if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isLineItemIndicator()) {
-
                 return true;
             }
         }

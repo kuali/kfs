@@ -366,6 +366,7 @@
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="phoneNumberService" ref="phoneNumberService"/>
+        <property name="purchasingService" ref="purchasingService"/>
         <property name="purapService" ref="purapService"/>
         <property name="vendorService" ref="vendorService"/>
 	</bean>

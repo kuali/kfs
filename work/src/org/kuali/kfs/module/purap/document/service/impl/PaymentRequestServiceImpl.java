@@ -320,11 +320,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @return                     boolean true if the payment request document is eligible for auto approval.
      */
     private boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
+        // Check if vendor is foreign.
+        if (document.getVendorDetail().getVendorHeader().getVendorForeignIndicator().booleanValue()) {
+            return false;
+        }
+        
         // check to make sure the payment request isn't scheduled to stop in tax review.
         if (purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode(document, PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.VENDOR_TAX_REVIEW)) {
             return false;
         }
-
+     
         // Change to not auto approve if positive approval required indicator set to Yes
         if (document.isPaymentRequestPositiveApprovalIndicator()){
             return false;

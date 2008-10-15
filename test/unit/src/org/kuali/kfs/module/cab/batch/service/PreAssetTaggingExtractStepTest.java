@@ -15,17 +15,21 @@
  */
 package org.kuali.kfs.module.cab.batch.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.batch.PreAssetTaggingExtractStep;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class PreAssetTaggingExtractStepTest extends BatchTestBase {
     private PreAssetTaggingExtractStep preAssetTaggingExtractStep;
@@ -38,6 +42,7 @@ public class PreAssetTaggingExtractStepTest extends BatchTestBase {
     }
 
     public void testExecute() throws Exception {
+        java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         preAssetTaggingExtractStep.execute("testPreAssetTaggingExtractStep", new Date());
         Collection<Pretag> match = findByPO("21");
         assertEquals(2, match.size());
@@ -47,6 +52,10 @@ public class PreAssetTaggingExtractStepTest extends BatchTestBase {
 
         match = findByPO("23");
         assertEquals(2, match.size());
+
+        // assert the extract date value
+        SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
+        assertEquals(fmt.format(currentSqlDate), findPretagExtractDateParam().getParameterValue());
     }
 
     private Collection<Pretag> findByPO(String poNumber) {

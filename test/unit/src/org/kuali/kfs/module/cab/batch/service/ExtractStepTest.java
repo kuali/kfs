@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.batch.service;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -29,6 +30,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class tests the extract step involved in CAB Batch job
@@ -78,6 +80,7 @@ public class ExtractStepTest extends BatchTestBase {
     }
 
     public void testExecute() throws Exception {
+        java.sql.Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
 
         extractStep.execute("CabBatchExtractJob", new Date());
 
@@ -96,5 +99,9 @@ public class ExtractStepTest extends BatchTestBase {
         // Count of purap account lines
         Collection<PurchasingAccountsPayableLineAssetAccount> allCabAccts = boService.findAll(PurchasingAccountsPayableLineAssetAccount.class);
         assertEquals(16, allCabAccts.size());
+
+        // assert the extract date value
+        SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
+        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValue().substring(0, 10));
     }
 }

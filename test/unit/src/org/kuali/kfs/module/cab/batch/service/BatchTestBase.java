@@ -53,11 +53,7 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     private void updateLastCabExtractTime() {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("parameterNamespaceCode", CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_BATCH);
-        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_TIME);
-        Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
+        Parameter lastExtractTime = findCabExtractTimeParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(new Date(), -1)));
@@ -68,12 +64,17 @@ public abstract class BatchTestBase extends KualiTestBase {
         }
     }
 
-    private void updateLastPreTagExtractTime() {
+    protected Parameter findCabExtractTimeParam() {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("parameterNamespaceCode", CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_DATE);
+        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_BATCH);
+        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_TIME);
         Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
+        return lastExtractTime;
+    }
+
+    private void updateLastPreTagExtractTime() {
+        Parameter lastExtractTime = findPretagExtractDateParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
             lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(new Date(), -1)));
@@ -82,6 +83,15 @@ public abstract class BatchTestBase extends KualiTestBase {
         else {
             fail("Could not find the parameter LAST_EXTRACT_TIME");
         }
+    }
+
+    protected Parameter findPretagExtractDateParam() {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("parameterNamespaceCode", CabConstants.Parameters.NAMESPACE);
+        primaryKeys.put("parameterDetailTypeCode", CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
+        primaryKeys.put("parameterName", CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
+        return lastExtractTime;
     }
 
     @Override

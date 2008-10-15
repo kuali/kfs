@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
@@ -508,7 +508,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
-    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag) {
+    public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
         PurchasingAccountsPayableItemAsset firstItem = mergeLines.get(0);
         List<PurchasingAccountsPayableLineAssetAccount> firstAccountList = firstItem.getPurchasingAccountsPayableLineAssetAccounts();
         PurchasingAccountsPayableItemAsset item = null;
@@ -535,7 +535,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // update action history, remove lines before merge and clean up the user input
-        postMergeProcess(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
+        postMergeProcess(mergeLines, purApForm, purApLineSession);
     }
 
     /**
@@ -556,7 +556,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param mergeLines
      * @param purApForm
      */
-    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag) {
+    private void postMergeProcess(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession) {
         boolean isMergeAllAction = isMergeAllAction(purApForm);
         boolean existCreateAsset = false;
         boolean existApplyPayment = false;
@@ -576,8 +576,9 @@ public class PurApLineServiceImpl implements PurApLineService {
             }
         }
         // set the target preTag
-        if (mergeTargetPretag != null) {
-            firstItem.setItemLineNumber(mergeTargetPretag.getItemLineNumber());
+        Pretag targetPretag = getTargetPretag(mergeLines, purApForm.getPurchaseOrderIdentifier());
+        if (targetPretag != null) {
+            firstItem.setItemLineNumber(targetPretag.getItemLineNumber());
         }
 
         // set create asset/ apply payment indicator if any of the merged lines has the indicator set.
@@ -588,6 +589,54 @@ public class PurApLineServiceImpl implements PurApLineService {
         resetSelectedValue(purApForm);
         purApForm.setMergeQty(null);
         purApForm.setMergeDesc(null);
+    }
+
+    /**
+     * Get the first pre-tag for given itemLines
+     * 
+     * @param itemLines
+     * @param purchaseOrderIdentifier
+     * @return
+     */
+    private Pretag getTargetPretag(List<PurchasingAccountsPayableItemAsset> itemLines, Integer purchaseOrderIdentifier) {
+        for (PurchasingAccountsPayableItemAsset item : itemLines) {
+            Pretag newTag = getPreTagLineItem(purchaseOrderIdentifier, item.getItemLineNumber());
+
+            if (isPretaggingExisting(newTag))
+                return newTag;
+        }
+
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isPretaggingExisting(org.kuali.kfs.module.cab.businessobject.Pretag)
+     */
+    public boolean isPretaggingExisting(Pretag newTag) {
+        return ObjectUtils.isNotNull(newTag) && newTag.getPretagDetails() != null && !newTag.getPretagDetails().isEmpty();
+    }
+
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isMultipleTagExisting(java.lang.Integer, java.util.Set)
+     */
+    public boolean isMultipleTagExisting(Integer purchaseOrderIdentifier, Set<Integer> itemLineNumbers) {
+        Pretag firstTag = null;
+        for (Iterator iterator = itemLineNumbers.iterator(); iterator.hasNext();) {
+            Integer itemLineNumber = (Integer) iterator.next();
+            Pretag newTag = getPreTagLineItem(purchaseOrderIdentifier, itemLineNumber);
+
+            if (isPretaggingExisting(newTag))
+                if (firstTag != null) {
+                    // find the second preTagging item
+                    return true;
+                }
+                else {
+                    firstTag = newTag;
+                }
+        }
+
+        return false;
     }
 
     /**
@@ -802,7 +851,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 // if pre-asset tagging information exists for the line item, the description is populated from the pre-asset
                 // tagging.
                 // TODO: Could override the changes made and saved by the user.
-                //populateDescriptionFromPreTag(item, purApLineForm);
+                // populateDescriptionFromPreTag(item, purApLineForm);
 
                 // set line item unit cost and total cost
                 setLineItemCost(item);

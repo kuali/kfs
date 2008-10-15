@@ -155,6 +155,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
 
         postProcessCreatingDocument(selectedItem, purApForm, purApLineSession, newDocument.getDocumentNumber());
 
+        // pretag looks go into an infinite loop at OJB ??
         if (ObjectUtils.isNotNull(preTag)) {
             businessObjectService.save(preTag);
         }

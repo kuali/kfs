@@ -72,13 +72,13 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private HtmlData getViewAssetUrl(BusinessObject bo) {
         Asset asset = (Asset) bo;
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, CabConstants.Actions.START);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CapitalAssetManagementAsset.class.getName());
 
         String href = UrlFactory.parameterizeUrl(CamsConstants.INQUIRY_URL, parameters);
         
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, CabConstants.Actions.START, CamsConstants.AssetActions.VIEW);
+        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, CamsConstants.AssetActions.VIEW);
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
     }

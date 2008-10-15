@@ -43,7 +43,7 @@
 		</div>
 	</kul:tabTop>
 
-	<cab:purApItemLines activeIndicator="true" title="Active Line Items" defaultOpen="true"/>
+	<cab:purApItemLines activeIndicator="true" title="Active Line Items" defaultOpen="true" tabErrorKey="purApDocs*,merge*"/>
 	<cab:purApItemLines activeIndicator="false" title="Submitted Line Items" defaultOpen="false"/>
 	
 	<kul:panelFooter />

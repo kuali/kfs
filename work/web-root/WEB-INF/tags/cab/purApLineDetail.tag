@@ -70,7 +70,17 @@
 	<td class="infoline"><kul:htmlControlAttribute property="purApDocs[${docPos-1}].documentHeader.financialDocumentStatusCode" attributeEntry="${financialSystemDocumentHeaderAttributes.financialDocumentStatusCode}" readOnly="true"/></td>
 	<c:choose>
 		<c:when test="${itemLine.itemLineNumber != null}">
-		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/></td>
+		<td class="infoline">
+		<c:set var="preTagUrl" value="${itemLine.preTagInquiryUrl}" />
+		<c:if test="${preTagUrl != ''}" >
+		<a href="${ConfigProperties.application.url}/${preTagUrl }" target="_blank"> 
+		</c:if>
+			<kul:htmlControlAttribute property="${assetItemStr}.itemLineNumber" attributeEntry="${purApItemAssetAttributes.itemLineNumber}" readOnly="true"/>
+		<c:if test="${preTagUrl != ''}" >
+			&nbsp;
+		</a>
+		</c:if>
+		</td>
 		</c:when>
 		<c:otherwise>
 		<td class="infoline"><kul:htmlControlAttribute property="${assetItemStr}.itemTypeCode" attributeEntry="${purApItemAssetAttributes.itemTypeCode}" readOnly="true"/></td>

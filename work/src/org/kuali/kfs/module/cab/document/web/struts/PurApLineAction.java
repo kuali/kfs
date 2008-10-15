@@ -33,7 +33,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.document.service.PurApLineDocumentService;
@@ -56,7 +55,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.kns.web.struts.pojo.ArrayUtils;
 
 public class PurApLineAction extends KualiAction {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -239,8 +237,7 @@ public class PurApLineAction extends KualiAction {
     public ActionForward merge(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurApLineForm purApForm = (PurApLineForm) form;
         List<PurchasingAccountsPayableItemAsset> mergeLines = purApLineService.getSelectedMergeLines(purApForm);
-        // Check the associated pre-tagging data entries.
-        Pretag mergeTargetPretag = checkForPreTagging(mergeLines, purApForm.getPurchaseOrderIdentifier());
+
 
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         PurApLineSession purApLineSession = retrievePurApLineSession(purApForm);
@@ -248,7 +245,7 @@ public class PurApLineAction extends KualiAction {
         if (question != null) {
             Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
             if ((CabConstants.TRADE_IN_INDICATOR_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                purApLineService.processMerge(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
+                purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
             }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
@@ -264,6 +261,9 @@ public class PurApLineAction extends KualiAction {
             checkMergeLinesValid(mergeLines, purApForm);
         }
 
+        // Check the associated pre-tagging data entries.
+        checkPreTagValidForMerge(mergeLines, purApForm.getPurchaseOrderIdentifier());
+
         if (GlobalVariables.getErrorMap().isEmpty()) {
             // Display a warning message without blocking the action if TI indicator exists but TI allowance not exist.
             if (purApLineService.isTradeInIndicatorExist(mergeLines) & !purApLineService.isTradeInAllowanceExist(purApForm)) {
@@ -271,7 +271,7 @@ public class PurApLineAction extends KualiAction {
             }
 
             // handle merging lines including merge all situation.
-            purApLineService.processMerge(mergeLines, purApForm, purApLineSession, mergeTargetPretag);
+            purApLineService.processMerge(mergeLines, purApForm, purApLineSession);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -283,22 +283,28 @@ public class PurApLineAction extends KualiAction {
      * 
      * @param mergeLines
      */
-    private Pretag checkForPreTagging(List<PurchasingAccountsPayableItemAsset> mergeLines, Integer purchaseOrderIdentifier) {
-        Pretag preTag = null;
-        Pretag findingPreTag = null;
-        for (PurchasingAccountsPayableItemAsset item : mergeLines) {
-            if ((preTag = purApLineService.getPreTagLineItem(purchaseOrderIdentifier, item.getItemLineNumber())) != null) {
-                if (findingPreTag == null) {
-                    findingPreTag = preTag;
-                }
-                else if (!findingPreTag.getItemLineNumber().equals(preTag.getItemLineNumber())) {
-                    // find two different pre-tagging entries.
-                    GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_WITH_PRETAGGING);
-                    return null;
-                }
+    private void checkPreTagValidForMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, Integer purchaseOrderIdentifier) {
+        Map validNumberMap = getItemLineNumberHashMap(mergeLines);
+
+        if (!validNumberMap.isEmpty() && validNumberMap.size() > 1 && purApLineService.isMultipleTagExisting(purchaseOrderIdentifier, validNumberMap.keySet())) {
+            GlobalVariables.getErrorMap().putError(CabPropertyConstants.PurApLineForm.PURAP_DOCS, CabKeyConstants.ERROR_MERGE_WITH_PRETAGGING);
+        }
+    }
+
+    /**
+     * Build a Hashmap for itemLineNumber
+     * 
+     * @param itemLines
+     * @return
+     */
+    private Map getItemLineNumberHashMap(List<PurchasingAccountsPayableItemAsset> itemLines) {
+        Map validNumberMap = new HashMap<Integer, Integer>();
+        for (PurchasingAccountsPayableItemAsset item : itemLines) {
+            if (item.getItemLineNumber() != null) {
+                validNumberMap.put(item.getItemLineNumber(), item.getItemLineNumber());
             }
         }
-        return findingPreTag;
+        return validNumberMap;
     }
 
     /**
@@ -337,6 +343,7 @@ public class PurApLineAction extends KualiAction {
             }
         }
     }
+
 
     /**
      * Check the required fields entered for merge.

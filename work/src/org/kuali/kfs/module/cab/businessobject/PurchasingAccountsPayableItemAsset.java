@@ -3,14 +3,19 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
 
-import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.util.UrlFactory;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -57,7 +62,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.purApItemAssets = new ArrayList<ItemCapitalAsset>();
     }
 
-    // constructor used for split 
+    // constructor used for split
     public PurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset initialItemAsset) {
         this.documentNumber = initialItemAsset.documentNumber;
         this.accountsPayableLineItemIdentifier = initialItemAsset.getAccountsPayableLineItemIdentifier();
@@ -77,10 +82,10 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         this.capitalAssetSystemIdentifier = initialItemAsset.getCapitalAssetSystemIdentifier();
     }
 
-    
 
     /**
-     * Gets the capitalAssetSystemIdentifier attribute. 
+     * Gets the capitalAssetSystemIdentifier attribute.
+     * 
      * @return Returns the capitalAssetSystemIdentifier.
      */
     public Integer getCapitalAssetSystemIdentifier() {
@@ -89,6 +94,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetSystemIdentifier attribute value.
+     * 
      * @param capitalAssetSystemIdentifier The capitalAssetSystemIdentifier to set.
      */
     public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
@@ -543,6 +549,36 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      */
     public void setFirstFincialObjectCode(String firstFincialObjectCode) {
         this.firstFincialObjectCode = firstFincialObjectCode;
+    }
+
+    public String getPreTagInquiryUrl() {
+        Integer purchaseOrderIdentifier = null;
+
+        if (ObjectUtils.isNotNull(this.getPurchasingAccountsPayableDocument())) {
+            purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        }
+        else {
+            this.refreshReferenceObject("purchasingAccountsPayableDocument");
+            purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        }
+
+
+        PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
+        if (purApLineService.isPretaggingExisting(purApLineService.getPreTagLineItem(purchaseOrderIdentifier, this.getItemLineNumber()))) {
+            String baseUrl = KFSConstants.INQUIRY_ACTION;
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Pretag.class.getName());
+            parameters.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier.toString());
+            parameters.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, this.getItemLineNumber().toString());
+
+            String href = UrlFactory.parameterizeUrl(baseUrl, parameters);
+
+            return href;
+        }
+        else {
+            return "";
+        }
     }
 
     /**

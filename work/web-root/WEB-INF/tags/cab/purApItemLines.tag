@@ -16,12 +16,13 @@
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ attribute name="activeIndicator" required="true" description="The display active/inactive line item indicator"%>
 <%@ attribute name="title" required="true" description="tab title"%>
-<%@ attribute name="defaultOpen" required="true" description="tab title"%>
+<%@ attribute name="defaultOpen" required="false" description="tab title"%>
+<%@ attribute name="tabErrorKey" required="false" description="tab error keys"%>
 <script language="JavaScript" type="text/javascript" src="scripts/cab/selectCheckBox.js"></script>
 
 <c:set var="purApDocumentAttributes" value="${DataDictionary.PurchasingAccountsPayableDocument.attributes}" />
 <c:set var="purApItemAssetAttributes" value="${DataDictionary.PurchasingAccountsPayableItemAsset.attributes}" />
-<kul:tab tabTitle="${title}" defaultOpen="${defaultOpen}" tabErrorKey="purApDocs*,merge*">
+<kul:tab tabTitle="${title}" defaultOpen="${defaultOpen}" tabErrorKey="${tabErrorKey }">
 <div class="tab-container" align="center">
 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">	
 	<tr>

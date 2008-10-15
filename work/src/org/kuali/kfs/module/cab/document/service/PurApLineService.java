@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cab.document.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.cab.businessobject.Pretag;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableActionHistory;
@@ -104,7 +105,7 @@ public interface PurApLineService {
      * 
      * @param mergeLines
      */
-    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession, Pretag mergeTargetPretag);
+    void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, PurApLineForm purApForm, PurApLineSession purApLineSession);
 
     /**
      * Check if the merge action is merge all.
@@ -162,4 +163,21 @@ public interface PurApLineService {
      * @param selectedDoc
      */
     void inActivateDocument(PurchasingAccountsPayableDocument selectedDoc);
+
+    /**
+     * Check if more than one pre-tagging exists for given itemLineNumber and PO_ID.
+     * 
+     * @param purchaseOrderIdentifier
+     * @param itemLineNumbers
+     * @return
+     */
+    boolean isMultipleTagExisting(Integer purchaseOrderIdentifier, Set<Integer> itemLineNumbers);
+
+    /**
+     * Check pretag existing
+     * 
+     * @param newTag
+     * @return
+     */
+    boolean isPretaggingExisting(Pretag newTag);
 }

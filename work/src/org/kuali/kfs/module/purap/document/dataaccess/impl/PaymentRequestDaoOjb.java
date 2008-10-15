@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * 
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode,
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode,
             Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
@@ -114,13 +115,13 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addAndCriteria(c1);
         }
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -132,7 +133,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addIsNull("extractedDate");
         criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
@@ -177,7 +178,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * 
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String, org.kuali.kfs.module.purap.util.VendorGroupingHelper)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         List statuses = new ArrayList();
@@ -204,7 +205,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
         criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
     
     /**

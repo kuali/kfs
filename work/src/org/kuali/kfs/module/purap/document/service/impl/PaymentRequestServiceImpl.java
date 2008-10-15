@@ -29,35 +29,15 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.AutoApproveExclude;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount;
@@ -74,16 +54,12 @@ import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprova
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.ContinuePurapEvent;
-import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
 import org.kuali.kfs.module.purap.exception.PurError;
-import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors.AccountContinuation;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
-import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
@@ -99,10 +75,24 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides services of use to a payment request document
@@ -201,7 +191,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractByVendor(java.lang.String, org.kuali.kfs.module.purap.util.VendorGroupingHelper, java.sql.Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsByVendor() started");
 
         return paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
@@ -210,7 +200,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract(Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate);
@@ -219,7 +209,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractSpecialPayments(java.lang.String, java.sql.Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
@@ -228,7 +218,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
         return paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
@@ -237,7 +227,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String, java.sql.Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);

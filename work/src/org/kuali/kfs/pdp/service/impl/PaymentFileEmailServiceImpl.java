@@ -309,6 +309,52 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendExceedsMaxNotesWarningEmail(java.util.List, java.util.List, int, int)
+     */
+    public void sendExceedsMaxNotesWarningEmail(List<String> creditMemos, List<String> paymentRequests, int lineTotal, int maxNoteLines) {
+        LOG.debug("sendExceedsMaxNotesWarningEmail() starting");
+
+        // check email configuration
+        if (!isPaymentEmailEnabled()) {
+            return;
+        }
+
+        MailMessage message = new MailMessage();
+
+        message.setFromAddress(mailService.getBatchMailingList());
+        message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
+
+        StringBuffer body = new StringBuffer();
+
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+        }
+        else {
+            message.setSubject(environmentCode + "-" + getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+        }
+
+        // Get recipient email address
+        String toAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
+        List<String> toAddressList = Arrays.asList(toAddresses.split(","));
+        message.getToAddresses().addAll(toAddressList);
+
+        List<String> ccAddresses = parameterService.getParameterValues(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
+        message.getCcAddresses().addAll(ccAddresses);
+
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE, StringUtils.join(creditMemos, ","), StringUtils.join(paymentRequests, ","), lineTotal, maxNoteLines));
+        message.setMessage(body.toString());
+
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendExceedsMaxNotesWarningEmail() Invalid email address. Message not sent", e);
+        }
+    }
 
     /**
      * Writes out payment file field labels and values to <code>StringBuffer</code>

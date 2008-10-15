@@ -51,9 +51,10 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PAYMENT_EMAIL_WARNING_MESSAGES = "message.pdp.paymentLoad.email.warningMessages";
     public static final String MESSAGE_PAYMENT_EMAIL_FILE_THRESHOLD = "message.pdp.paymentLoad.email.fileThreshold";
     public static final String MESSAGE_PAYMENT_EMAIL_DETAIL_THRESHOLD = "message.pdp.paymentLoad.email.detailThreshold";
-//    public static final String MESSAGE_PAYMENT_EMAIL_PAYMENT_DETAIL_THRESHOLD = "message.pdp.paymentLoad.email.paymentDetailThreshold";
     public static final String MESSAGE_PAYMENT_EMAIL_FILE_TAX_LOADED = "message.pdp.paymentLoad.email.fileTaxLoaded";
     public static final String MESSAGE_PAYMENT_EMAIL_GO_TO_PDP = "message.pdp.paymentLoad.email.goToPdp";
+    public static final String MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT = "message.purap.extract.maxNotes.subject";
+    public static final String MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE = "message.purap.extract.maxNotes.Message";
     
     public static class BatchConstants{
         public static class ErrorMessages{

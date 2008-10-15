@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,27 +49,24 @@ import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -94,16 +91,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private CreditMemoService creditMemoService;
     private ReferenceService referenceService;
     private DocumentService documentService;
-    private MailService mailService;
-    private EnvironmentService environmentService;
     private PurapRunDateService purapRunDateService;
     private PaymentFileEmailService paymentFileEmailService;
-
-    private PaymentStatus openPaymentStatus;
-
-    // This should only be set to true when testing this system. Setting this to true will run the code but
-    // won't set the extracted date on the credit memos or payment requests
-    boolean testMode = false;
+    private BankService bankService;
+    private DocumentTypeService documentTypeService;
 
     /**
      * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
@@ -134,10 +125,6 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
-        if (openPaymentStatus == null) {
-            // openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
-        }
-
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
         UniversalUser uuser;
         try {
@@ -149,9 +136,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
 
         List<String> campusesToProcess = getChartCodes(immediateOnly, processRunDate);
-        for (Iterator iter = campusesToProcess.iterator(); iter.hasNext();) {
-            String campus = (String) iter.next();
-
+        for (String campus : campusesToProcess) {
             extractPaymentsForCampus(campus, uuser, processRunDate, immediateOnly);
         }
     }
@@ -167,23 +152,24 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, puser, processRunDate);
+
         Integer count = 0;
-        BigDecimal totalAmount = new BigDecimal("0");
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         // Do all the special ones
-        Totals t = extractSpecialPaymentsForChart(campusCode, puser, processRunDate, batch, immediateOnly);
-        count = count + t.count;
-        totalAmount = totalAmount.add(t.totalAmount);
+        Totals totals = extractSpecialPaymentsForChart(campusCode, puser, processRunDate, batch, immediateOnly);
+        count = count + totals.count;
+        totalAmount = totalAmount.add(totals.totalAmount);
 
         if (!immediateOnly) {
             // Do all the regular ones (including credit memos)
-            t = extractRegularPaymentsForChart(campusCode, puser, processRunDate, batch);
-            count = count + t.count;
-            totalAmount = totalAmount.add(t.totalAmount);
+            totals = extractRegularPaymentsForChart(campusCode, puser, processRunDate, batch);
+            count = count + totals.count;
+            totalAmount = totalAmount.add(totals.totalAmount);
         }
 
         batch.setPaymentCount(new KualiInteger(count));
-        batch.setPaymentTotalAmount(new KualiDecimal(totalAmount));
+        batch.setPaymentTotalAmount(totalAmount);
 
         businessObjectService.save(batch);
         paymentFileEmailService.sendLoadEmail(batch);
@@ -196,91 +182,63 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      * @param batch
-     * @return
+     * @return Totals
      */
     private Totals extractRegularPaymentsForChart(String campusCode, UniversalUser puser, Date processRunDate, Batch batch) {
         LOG.debug("START - extractRegularPaymentsForChart()");
-        Totals t = new Totals();
 
-        List<String> preqsWithOutstandingCreditMemos = new ArrayList<String>();
-
-        // NEW PSEUDOCODE:
-        // get list of all vendor id/detail IDs on eligible CMs
-        // loop over vendor's IDs and get matching lists of CMs and PREQs
-        // if net > 0, generate PDP payment groups and update the documents
-        Set<VendorGroupingHelper> vendors = creditMemoService.getVendorsOnCreditMemosToExtract(campusCode);
+        Totals totals = new Totals();
 
         java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
 
-        List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
-        List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
+        List<String> preqsWithOutstandingCreditMemos = new ArrayList<String>();
+
+        Set<VendorGroupingHelper> vendors = creditMemoService.getVendorsOnCreditMemosToExtract(campusCode);
         for (VendorGroupingHelper vendor : vendors) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Processing Vendor: " + vendor);
             }
-            prds.clear();
-            cmds.clear();
-            KualiDecimal creditMemoAmount = KualiDecimal.ZERO;
-            KualiDecimal paymentRequestAmount = KualiDecimal.ZERO;
+
+            Map<String, List<PaymentRequestDocument>> bankCodePaymentRequests = new HashMap<String, List<PaymentRequestDocument>>();
+            Map<String, List<CreditMemoDocument>> bankCodeCreditMemos = new HashMap<String, List<CreditMemoDocument>>();
+
             // Get all the matching credit memos
-            Iterator<CreditMemoDocument> cmIter = creditMemoService.getCreditMemosToExtractByVendor(campusCode, vendor);
-            while (cmIter.hasNext()) {
-                CreditMemoDocument cmd = cmIter.next();
-                creditMemoAmount = creditMemoAmount.add(cmd.getCreditMemoAmount());
-                cmds.add(cmd);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Added CM to bundle: " + cmd.getDocumentNumber() + " - $" + cmd.getCreditMemoAmount());
+            Collection<CreditMemoDocument> vendorMemos = creditMemoService.getCreditMemosToExtractByVendor(campusCode, vendor);
+            for (CreditMemoDocument cmd : vendorMemos) {
+                List<CreditMemoDocument> bankMemos = new ArrayList<CreditMemoDocument>();
+                if (bankCodeCreditMemos.containsKey(cmd.getBankCode())) {
+                    bankMemos = (List<CreditMemoDocument>) bankCodeCreditMemos.get(cmd.getBankCode());
                 }
+
+                bankMemos.add(cmd);
+                bankCodeCreditMemos.put(cmd.getBankCode(), bankMemos);
             }
+
             // get all matching payment requests
-            Iterator<PaymentRequestDocument> pri = paymentRequestService.getPaymentRequestsToExtractByVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
-            while (pri.hasNext()) {
-                PaymentRequestDocument prd = pri.next();
-                paymentRequestAmount = paymentRequestAmount.add(prd.getGrandTotal());
-                prds.add(prd);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Added PREQ to bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal());
+            Collection<PaymentRequestDocument> vendorPreqs = paymentRequestService.getPaymentRequestsToExtractByVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
+            for (PaymentRequestDocument prd : vendorPreqs) {
+                List<PaymentRequestDocument> bankPreqs = new ArrayList<PaymentRequestDocument>();
+                if (bankCodePaymentRequests.containsKey(prd.getBankCode())) {
+                    bankPreqs = (List<PaymentRequestDocument>) bankCodePaymentRequests.get(prd.getBankCode());
                 }
-            }
-            // check if there is anything left to pay
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Bundle Total: " + paymentRequestAmount.subtract(creditMemoAmount));
-            }
-            if (paymentRequestAmount.compareTo(creditMemoAmount) >= 0) {
-                // if so, create a payment group and add the CM and PREQ documents
-                PaymentGroup pg = buildPaymentGroup(prds, cmds, batch);
-                if (validatePaymentGroup(pg)) {
-                    paymentGroupService.save(pg);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Created PaymentGroup: " + pg.getId());
-                    }
 
-                    t.count++;
-                    t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
+                bankPreqs.add(prd);
+                bankCodePaymentRequests.put(prd.getBankCode(), bankPreqs);
+            }
 
-                    // mark the CMs and PREQs as processed
-                    for (CreditMemoDocument cm : cmds) {
-                        updateCreditMemo(cm, puser, processRunDate);
-                    }
-                    for (PaymentRequestDocument pr : prds) {
-                        updatePaymentRequest(pr, puser, processRunDate);
-                    }
-                }
-                else {
-                    LOG.debug("bundle failed validation - NO BUNDLE CREATED");
-                    // stops PREQ documents from being processed by putting them on a "do not process" list
-                    // until validation problems can be resolved
-                    for (PaymentRequestDocument doc : prds) {
-                        preqsWithOutstandingCreditMemos.add(doc.getDocumentNumber());
+            // if bank functionality enabled, create bundles by bank, else just by vendor
+            if (bankService.isBankSpecificationEnabled()) {
+                for (String bankCode : bankCodePaymentRequests.keySet()) {
+                    // if we have credit memos with bank code, process together, else let the preq go and will get picked up below
+                    // and processed as a single payment group
+                    if (bankCodeCreditMemos.containsKey(bankCode)) {
+                        processPaymentBundle(bankCodePaymentRequests.get(bankCode), bankCodeCreditMemos.get(bankCode), totals, preqsWithOutstandingCreditMemos, puser, processRunDate, batch);
                     }
                 }
             }
             else {
-                LOG.debug("bundle net < 0 - NO BUNDLE CREATED");
-                // put the PREQ documents in this bundle on a "do not process" list for this run
-                // to prevent them from being picked up by the code below
-                for (PaymentRequestDocument doc : prds) {
-                    preqsWithOutstandingCreditMemos.add(doc.getDocumentNumber());
+                if (vendorMemos.isEmpty()) {
+                    processPaymentBundle((List<PaymentRequestDocument>) vendorPreqs, (List<CreditMemoDocument>) vendorMemos, totals, preqsWithOutstandingCreditMemos, puser, processRunDate, batch);
                 }
             }
         }
@@ -288,78 +246,99 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("processing PREQs without CMs");
 
         // Get all the payment requests to process that do not have credit memos
-        Iterator<PaymentRequestDocument> prIter = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
-        while (prIter.hasNext()) {
-            PaymentRequestDocument prd = prIter.next();
+        Collection<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
+        for (PaymentRequestDocument prd : paymentRequests) {
             // if in the list created above, don't create the payment group
             if (!preqsWithOutstandingCreditMemos.contains(prd.getDocumentNumber())) {
-                PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Added PREQ to solo bundle: " + prd.getDocumentNumber() + " - $" + prd.getGrandTotal());
-                }
+                PaymentGroup paymentGroup = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
 
-                t.count = t.count + pg.getPaymentDetails().size();
-                t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
+                totals.count = totals.count + paymentGroup.getPaymentDetails().size();
+                totals.totalAmount = totals.totalAmount.add(paymentGroup.getNetPaymentAmount());
             }
         }
 
         LOG.debug("END - extractRegularPaymentsForChart()");
-        return t;
+        return totals;
+    }
+
+    /**
+     * Processes the list of payment requests and credit memos as a payment group pending
+     * 
+     * @param paymentRequests
+     * @param creditMemos
+     * @param totals
+     * @param preqsWithOutstandingCreditMemos
+     * @param puser
+     * @param processRunDate
+     * @param batch
+     */
+    protected void processPaymentBundle(List<PaymentRequestDocument> paymentRequests, List<CreditMemoDocument> creditMemos, Totals totals, List<String> preqsWithOutstandingCreditMemos, UniversalUser puser, Date processRunDate, Batch batch) {
+        KualiDecimal paymentRequestAmount = KualiDecimal.ZERO;
+        for (PaymentRequestDocument paymentRequestDocument : paymentRequests) {
+            paymentRequestAmount = paymentRequestAmount.add(paymentRequestDocument.getGrandTotal());
+        }
+
+        KualiDecimal creditMemoAmount = KualiDecimal.ZERO;
+        for (CreditMemoDocument creditMemoDocument : creditMemos) {
+            creditMemoAmount = creditMemoAmount.add(creditMemoDocument.getCreditMemoAmount());
+        }
+
+        // if payment amount greater than credit, create bundle
+        boolean bundleCreated = false;
+        if (paymentRequestAmount.compareTo(creditMemoAmount) >= 0) {
+            PaymentGroup paymentGroup = buildPaymentGroup(paymentRequests, creditMemos, batch);
+
+            if (validatePaymentGroup(paymentGroup)) {
+                paymentGroupService.save(paymentGroup);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Created PaymentGroup: " + paymentGroup.getId());
+                }
+
+                totals.count++;
+                totals.totalAmount = totals.totalAmount.add(paymentGroup.getNetPaymentAmount());
+
+                // mark the CMs and PREQs as processed
+                for (CreditMemoDocument cm : creditMemos) {
+                    updateCreditMemo(cm, puser, processRunDate);
+                }
+
+                for (PaymentRequestDocument pr : paymentRequests) {
+                    updatePaymentRequest(pr, puser, processRunDate);
+                }
+
+                bundleCreated = true;
+            }
+        }
+
+        if (!bundleCreated) {
+            // add payment request doc numbers to list so they don't get picked up later
+            for (PaymentRequestDocument doc : paymentRequests) {
+                preqsWithOutstandingCreditMemos.add(doc.getDocumentNumber());
+            }
+        }
     }
 
     /**
      * Handle a single payment request with no credit memos
      * 
-     * @param prd
+     * @param paymentRequestDocument
      * @param batch
      * @param puser
      * @param processRunDate
-     * @return
+     * @return PaymentGroup
      */
-    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument prd, Batch batch, UniversalUser puser, Date processRunDate) {
+    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument paymentRequestDocument, Batch batch, UniversalUser puser, Date processRunDate) {
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
-        prds.add(prd);
+        prds.add(paymentRequestDocument);
 
-        PaymentGroup pg = buildPaymentGroup(prds, cmds, batch);
-        if (validatePaymentGroup(pg)) {
-            paymentGroupService.save(pg);
-            updatePaymentRequest(prd, puser, processRunDate);
+        PaymentGroup paymentGroup = buildPaymentGroup(prds, cmds, batch);
+        if (validatePaymentGroup(paymentGroup)) {
+            paymentGroupService.save(paymentGroup);
+            updatePaymentRequest(paymentRequestDocument, puser, processRunDate);
         }
 
-        return pg;
-    }
-
-    /**
-     * This method...
-     * 
-     * @param key
-     * @param itemsToProcess
-     * @param typeCode
-     * @return
-     */
-    private List<Payment> getByCombineKey(String key, List itemsToProcess, String typeCode) {
-        List<Payment> p = new ArrayList<Payment>();
-        for (Iterator iter = itemsToProcess.iterator(); iter.hasNext();) {
-            Payment element = (Payment) iter.next();
-            if (key.equals(element.combineKey())) {
-                if ((typeCode == null) || (typeCode.equals(element.typeCode))) {
-                    p.add(element);
-                }
-            }
-        }
-        return p;
-    }
-
-    /**
-     * This method...
-     * 
-     * @param key
-     * @param itemsToProcess
-     * @return
-     */
-    private List<Payment> getByCombineKey(String key, List itemsToProcess) {
-        return getByCombineKey(key, itemsToProcess, null);
+        return paymentGroup;
     }
 
     /**
@@ -369,49 +348,45 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      * @param batch
-     * @return
+     * @return Totals
      */
     private Totals extractSpecialPaymentsForChart(String campusCode, UniversalUser puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
-        Totals t = new Totals();
+        Totals totals = new Totals();
 
-        Iterator<PaymentRequestDocument> prIter = null;
+        Collection<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
-            prIter = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
+            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
         }
         else {
             java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
-            prIter = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
+            paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
         }
 
-        while (prIter.hasNext()) {
-            PaymentRequestDocument prd = prIter.next();
-
+        for (PaymentRequestDocument prd : paymentRequests) {
             PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
 
-            t.count = t.count + pg.getPaymentDetails().size();
-            t.totalAmount = t.totalAmount.add(pg.getNetPaymentAmount().bigDecimalValue());
+            totals.count = totals.count + pg.getPaymentDetails().size();
+            totals.totalAmount = totals.totalAmount.add(pg.getNetPaymentAmount());
         }
 
-        return t;
+        return totals;
     }
 
     /**
      * Mark a credit memo as extracted
      * 
-     * @param cmd
+     * @param creditMemoDocument
      * @param puser
      * @param processRunDate
      */
-    private void updateCreditMemo(CreditMemoDocument cmd, UniversalUser puser, Date processRunDate) {
-        if (!testMode) {
-            try {
-                CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(cmd.getDocumentNumber());
-                doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-                creditMemoService.saveDocumentWithoutValidation(doc);
-            }
-            catch (WorkflowException e) {
-                throw new IllegalArgumentException("Unable to retrieve credit memo: " + cmd.getDocumentNumber());
-            }
+    private void updateCreditMemo(CreditMemoDocument creditMemoDocument, UniversalUser puser, Date processRunDate) {
+        try {
+            CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(creditMemoDocument.getDocumentNumber());
+            doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            creditMemoService.saveDocumentWithoutValidation(doc);
+        }
+        catch (WorkflowException e) {
+            throw new IllegalArgumentException("Unable to retrieve credit memo: " + creditMemoDocument.getDocumentNumber());
         }
     }
 
@@ -422,79 +397,76 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void updatePaymentRequest(PaymentRequestDocument prd, UniversalUser puser, Date processRunDate) {
-        if (!testMode) {
-            try {
-                PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(prd.getDocumentNumber());
-                doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
-                paymentRequestService.saveDocumentWithoutValidation(doc);
-            }
-            catch (WorkflowException e) {
-                throw new IllegalArgumentException("Unable to retrieve payment request: " + prd.getDocumentNumber());
-            }
+    private void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, UniversalUser puser, Date processRunDate) {
+        try {
+            PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(paymentRequestDocument.getDocumentNumber());
+            doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
+            paymentRequestService.saveDocumentWithoutValidation(doc);
+        }
+        catch (WorkflowException e) {
+            throw new IllegalArgumentException("Unable to retrieve payment request: " + paymentRequestDocument.getDocumentNumber());
         }
     }
 
     /**
      * Create the PDP payment group from a list of payment requests & credit memos
      * 
-     * @param prds
-     * @param cmds
+     * @param paymentRequests
+     * @param creditMemos
      * @param batch
-     * @return
+     * @return PaymentGroup
      */
-    private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds, List<CreditMemoDocument> cmds, Batch batch) {
-
+    private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> paymentRequests, List<CreditMemoDocument> creditMemos, Batch batch) {
         // There should always be at least one Payment Request Document in the list.
-        PaymentGroup pg = null;
-        if (cmds.size() > 0) {
-            CreditMemoDocument firstCmd = cmds.get(0);
-            pg = populatePaymentGroup(firstCmd, batch);
+        PaymentGroup paymentGroup = null;
+        if (creditMemos.size() > 0) {
+            CreditMemoDocument firstCmd = creditMemos.get(0);
+            paymentGroup = populatePaymentGroup(firstCmd, batch);
         }
         else {
-            PaymentRequestDocument firstPrd = prds.get(0);
-            pg = populatePaymentGroup(firstPrd, batch);
+            PaymentRequestDocument firstPrd = paymentRequests.get(0);
+            paymentGroup = populatePaymentGroup(firstPrd, batch);
         }
 
-        for (PaymentRequestDocument pr : prds) {
+        for (PaymentRequestDocument pr : paymentRequests) {
             PaymentDetail pd = populatePaymentDetail(pr, batch);
-            pg.addPaymentDetails(pd);
+            paymentGroup.addPaymentDetails(pd);
         }
-        for (CreditMemoDocument cm : cmds) {
+        for (CreditMemoDocument cm : creditMemos) {
             PaymentDetail pd = populatePaymentDetail(cm, batch);
-            pg.addPaymentDetails(pd);
+            paymentGroup.addPaymentDetails(pd);
         }
 
-        return pg;
+        return paymentGroup;
     }
 
     /**
-     * This method...
+     * Checks payment group note lines does not exceed the maximum allowed
      * 
-     * @param pg
-     * @return
+     * @param paymentGroup group to validate
+     * @return true if group is valid, false otherwise
      */
-    private boolean validatePaymentGroup(PaymentGroup pg) {
+    private boolean validatePaymentGroup(PaymentGroup paymentGroup) {
         // Check to see if the payment group has too many note lines to be printed on a check
-        List<PaymentDetail> payDetails = pg.getPaymentDetails();
+        List<PaymentDetail> payDetails = paymentGroup.getPaymentDetails();
 
         int noteLines = 0;
-        int maxNoteLines = getMaxNoteLines();
-
-        for (PaymentDetail pd : payDetails) {
+        for (PaymentDetail paymentDetail : payDetails) {
             noteLines++; // Add one for each payment detail; summary of each detail is included on check and counts as a line
-            noteLines += pd.getNotes().size(); // get all the possible notes for a given detail
+            noteLines += paymentDetail.getNotes().size(); // get all the possible notes for a given detail
         }
 
+        int maxNoteLines = getMaxNoteLines();
         if (noteLines > maxNoteLines) {
-
             // compile list of all doc numbers that make up payment group
             List<String> preqDocIds = new ArrayList<String>();
             List<String> cmDocIds = new ArrayList<String>();
 
-            List<PaymentDetail> pds = pg.getPaymentDetails();
+            String creditMemoDocTypeCode = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
+
+            List<PaymentDetail> pds = paymentGroup.getPaymentDetails();
             for (PaymentDetail payDetail : pds) {
-                if ("CM".equals(payDetail.getFinancialDocumentTypeCode())) {
+                if (creditMemoDocTypeCode.equals(payDetail.getFinancialDocumentTypeCode())) {
                     cmDocIds.add(payDetail.getCustPaymentDocNbr());
                 }
                 else {
@@ -502,8 +474,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 }
             }
 
-            // send warning email and prevent group from being processed by returning null
-            sendExceedsMaxNotesWarningEmail(cmDocIds, preqDocIds, noteLines, maxNoteLines);
+            // send warning email and prevent group from being processed by returning false
+            paymentFileEmailService.sendExceedsMaxNotesWarningEmail(cmDocIds, preqDocIds, noteLines, maxNoteLines);
+            
             return false;
         }
 
@@ -511,54 +484,58 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * This method...
-     * 
-     * @return
+     * @return configured maximum number of note lines allowed
      */
     private int getMaxNoteLines() {
         return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
     }
 
     /**
-     * Create a PDP payment detail from a Credit Memo
+     * Create a PDP payment detail record from a Credit Memo document
      * 
-     * @param cmd
-     * @param batch
-     * @return
+     * @param creditMemoDocument Credit Memo to use for payment detail
+     * @param batch current PDP batch object
+     * @return populated PaymentDetail line
      */
-    private PaymentDetail populatePaymentDetail(CreditMemoDocument cmd, Batch batch) {
-        PaymentDetail pd = new PaymentDetail();
+    private PaymentDetail populatePaymentDetail(CreditMemoDocument creditMemoDocument, Batch batch) {
+        PaymentDetail paymentDetail = new PaymentDetail();
 
-        String invNbr = cmd.getCreditMemoNumber();
-        if (invNbr.length() > 25) {
-            invNbr = invNbr.substring(0, 25);
+        String invoiceNumber = creditMemoDocument.getCreditMemoNumber();
+        if (invoiceNumber.length() > 25) {
+            invoiceNumber = invoiceNumber.substring(0, 25);
+        }
+        paymentDetail.setInvoiceNbr(invoiceNumber);
+        paymentDetail.setCustPaymentDocNbr(creditMemoDocument.getDocumentNumber());
+
+        if (creditMemoDocument.getPurapDocumentIdentifier() != null) {
+            paymentDetail.setPurchaseOrderNbr(creditMemoDocument.getPurapDocumentIdentifier().toString());
         }
 
-        pd.setCustPaymentDocNbr(cmd.getDocumentNumber());
-        pd.setInvoiceNbr(invNbr);
-        if (cmd.getPurapDocumentIdentifier() != null) {
-            pd.setPurchaseOrderNbr(cmd.getPurapDocumentIdentifier().toString());
-        }
-        if (cmd.getPurchaseOrderDocument() != null) {
-            if (cmd.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
-                pd.setRequisitionNbr(cmd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
+        if (creditMemoDocument.getPurchaseOrderDocument() != null) {
+            if (creditMemoDocument.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
+                paymentDetail.setRequisitionNbr(creditMemoDocument.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
             }
-            if (cmd.getDocumentHeader().getOrganizationDocumentNumber() != null) {
-                pd.setOrganizationDocNbr(cmd.getDocumentHeader().getOrganizationDocumentNumber());
+
+            if (creditMemoDocument.getDocumentHeader().getOrganizationDocumentNumber() != null) {
+                paymentDetail.setOrganizationDocNbr(creditMemoDocument.getDocumentHeader().getOrganizationDocumentNumber());
             }
         }
-        pd.setFinancialDocumentTypeCode("CM");
-        pd.setInvoiceDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
-        pd.setOrigInvoiceAmount(cmd.getCreditMemoAmount().negated());
 
-        pd.setNetPaymentAmount(cmd.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
+        paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
+
+        paymentDetail.setInvoiceDate(new Timestamp(creditMemoDocument.getCreditMemoDate().getTime()));
+        paymentDetail.setOrigInvoiceAmount(creditMemoDocument.getCreditMemoAmount().negated());
+        paymentDetail.setNetPaymentAmount(creditMemoDocument.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
         KualiDecimal shippingAmount = KualiDecimal.ZERO;
         KualiDecimal discountAmount = KualiDecimal.ZERO;
         KualiDecimal creditAmount = KualiDecimal.ZERO;
         KualiDecimal debitAmount = KualiDecimal.ZERO;
-        for (Iterator iter = cmd.getItems().iterator(); iter.hasNext();) {
+
+        for (Iterator iter = creditMemoDocument.getItems().iterator(); iter.hasNext();) {
             CreditMemoItem item = (CreditMemoItem) iter.next();
+
             KualiDecimal itemAmount = KualiDecimal.ZERO;
             if (item.getExtendedPrice() != null) {
                 itemAmount = item.getExtendedPrice();
@@ -573,7 +550,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 debitAmount = debitAmount.subtract(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode())) {
-                if (itemAmount.compareTo(KualiDecimal.ZERO) < 0) {
+                if (itemAmount.isNegative()) {
                     creditAmount = creditAmount.subtract(itemAmount);
                 }
                 else {
@@ -582,57 +559,64 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        pd.setInvTotDiscountAmount(discountAmount);
-        pd.setInvTotShipAmount(shippingAmount);
-        pd.setInvTotOtherCreditAmount(creditAmount);
-        pd.setInvTotOtherDebitAmount(debitAmount);
+        paymentDetail.setInvTotDiscountAmount(discountAmount);
+        paymentDetail.setInvTotShipAmount(shippingAmount);
+        paymentDetail.setInvTotOtherCreditAmount(creditAmount);
+        paymentDetail.setInvTotOtherDebitAmount(debitAmount);
 
-        pd.setPrimaryCancelledPayment(Boolean.FALSE);
+        paymentDetail.setPrimaryCancelledPayment(Boolean.FALSE);
 
-        addAccounts(cmd, pd, "CM");
-        addNotes(cmd, pd);
-        return pd;
+        addAccounts(creditMemoDocument, paymentDetail, creditMemoDocType);
+        addNotes(creditMemoDocument, paymentDetail);
+
+        return paymentDetail;
     }
 
     /**
-     * Create a PDP Payment Detail from a Payment Request
+     * Create a PDP Payment Detail record from a Payment Request document
      * 
-     * @param prd
-     * @param batch
-     * @return
+     * @param paymentRequestDocument Payment Request to use for Payment Detail
+     * @param batch current PDP batch object
+     * @return populated PaymentDetail line
      */
-    private PaymentDetail populatePaymentDetail(PaymentRequestDocument prd, Batch batch) {
-        PaymentDetail pd = new PaymentDetail();
+    private PaymentDetail populatePaymentDetail(PaymentRequestDocument paymentRequestDocument, Batch batch) {
+        PaymentDetail paymentDetail = new PaymentDetail();
 
-        pd.setCustPaymentDocNbr(prd.getDocumentNumber());
+        paymentDetail.setCustPaymentDocNbr(paymentRequestDocument.getDocumentNumber());
 
-        String invNbr = prd.getInvoiceNumber();
-        if (invNbr.length() > 25) {
-            invNbr = invNbr.substring(0, 25);
+        String invoiceNumber = paymentRequestDocument.getInvoiceNumber();
+        if (invoiceNumber.length() > 25) {
+            invoiceNumber = invoiceNumber.substring(0, 25);
         }
-        pd.setInvoiceNbr(invNbr);
-        if (prd.getPurapDocumentIdentifier() != null) {
-            pd.setPurchaseOrderNbr(prd.getPurchaseOrderIdentifier().toString());
-        }
-        LOG.debug("populatePaymentDetail() po id:  " + prd.getPurchaseOrderIdentifier());
-        if (prd.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
-            pd.setRequisitionNbr(prd.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
-        }
-        if (prd.getDocumentHeader().getOrganizationDocumentNumber() != null) {
-            pd.setOrganizationDocNbr(prd.getDocumentHeader().getOrganizationDocumentNumber());
-        }
-        pd.setFinancialDocumentTypeCode("PREQ");
-        pd.setInvoiceDate(new Timestamp(prd.getInvoiceDate().getTime()));
-        pd.setOrigInvoiceAmount(prd.getVendorInvoiceAmount());
+        paymentDetail.setInvoiceNbr(invoiceNumber);
 
-        pd.setNetPaymentAmount(prd.getDocumentHeader().getFinancialDocumentTotalAmount());
+        if (paymentRequestDocument.getPurapDocumentIdentifier() != null) {
+            paymentDetail.setPurchaseOrderNbr(paymentRequestDocument.getPurchaseOrderIdentifier().toString());
+        }
+
+        if (paymentRequestDocument.getPurchaseOrderDocument().getRequisitionIdentifier() != null) {
+            paymentDetail.setRequisitionNbr(paymentRequestDocument.getPurchaseOrderDocument().getRequisitionIdentifier().toString());
+        }
+
+        if (paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber() != null) {
+            paymentDetail.setOrganizationDocNbr(paymentRequestDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        }
+
+        String paymentRequestDocType = documentTypeService.getDocumentTypeCodeByClass(PaymentRequestDocument.class);
+        paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
+
+        paymentDetail.setInvoiceDate(new Timestamp(paymentRequestDocument.getInvoiceDate().getTime()));
+        paymentDetail.setOrigInvoiceAmount(paymentRequestDocument.getVendorInvoiceAmount());
+        paymentDetail.setNetPaymentAmount(paymentRequestDocument.getDocumentHeader().getFinancialDocumentTotalAmount());
 
         KualiDecimal shippingAmount = KualiDecimal.ZERO;
         KualiDecimal discountAmount = KualiDecimal.ZERO;
         KualiDecimal creditAmount = KualiDecimal.ZERO;
         KualiDecimal debitAmount = KualiDecimal.ZERO;
-        for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
+
+        for (Iterator iter = paymentRequestDocument.getItems().iterator(); iter.hasNext();) {
             PaymentRequestItem item = (PaymentRequestItem) iter.next();
+
             KualiDecimal itemAmount = KualiDecimal.ZERO;
             if (item.getExtendedPrice() != null) {
                 itemAmount = item.getExtendedPrice();
@@ -647,7 +631,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 debitAmount = debitAmount.add(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(item.getItemTypeCode())) {
-                if (itemAmount.compareTo(new BigDecimal("0")) < 0) {
+                if (itemAmount.isNegative()) {
                     creditAmount = creditAmount.add(itemAmount);
                 }
                 else {
@@ -656,219 +640,240 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
         }
 
-        pd.setInvTotDiscountAmount(discountAmount);
-        pd.setInvTotShipAmount(shippingAmount);
-        pd.setInvTotOtherCreditAmount(creditAmount);
-        pd.setInvTotOtherDebitAmount(debitAmount);
+        paymentDetail.setInvTotDiscountAmount(discountAmount);
+        paymentDetail.setInvTotShipAmount(shippingAmount);
+        paymentDetail.setInvTotOtherCreditAmount(creditAmount);
+        paymentDetail.setInvTotOtherDebitAmount(debitAmount);
 
-        pd.setPrimaryCancelledPayment(Boolean.FALSE);
+        paymentDetail.setPrimaryCancelledPayment(Boolean.FALSE);
 
-        addAccounts(prd, pd, "PREQ");
-        addNotes(prd, pd);
-        return pd;
+        addAccounts(paymentRequestDocument, paymentDetail, paymentRequestDocType);
+        addNotes(paymentRequestDocument, paymentDetail);
+
+        return paymentDetail;
     }
 
     /**
      * Add accounts to a PDP Payment Detail
      * 
-     * @param prd
-     * @param pd
+     * @param accountsPayableDocument
+     * @param paymentDetail
+     * @param documentType
      */
-    private void addAccounts(AccountsPayableDocumentBase prd, PaymentDetail pd, String documentType) {
-        // Calculate the total amount for each account across all items
-        Map accounts = new HashMap();
-        for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
-            AccountsPayableItemBase item = (AccountsPayableItemBase) iter.next();
-            for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-                PurApAccountingLine account = (PurApAccountingLine) iterator.next();
-                AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(), account.getAccountNumber(), account.getSubAccountNumber(), account.getFinancialObjectCode(), account.getFinancialSubObjectCode(), account.getOrganizationReferenceId(), account.getProjectCode());
+    private void addAccounts(AccountsPayableDocumentBase accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
+        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
 
-                KualiDecimal amt = account.getAmount();
-                if ("CM".equals(documentType)) {
-                    amt = amt.negated();
+        // Calculate the total amount for each account across all items
+        Map<AccountingInfo, KualiDecimal> accountTotals = new HashMap<AccountingInfo, KualiDecimal>();
+
+        for (Iterator iter = accountsPayableDocument.getItems().iterator(); iter.hasNext();) {
+            AccountsPayableItemBase item = (AccountsPayableItemBase) iter.next();
+
+            for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
+                AccountingInfo accountingInfo = new AccountingInfo(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getFinancialSubObjectCode(), accountingLine.getOrganizationReferenceId(), accountingLine.getProjectCode());
+
+                KualiDecimal lineAmount = accountingLine.getAmount();
+                if (creditMemoDocType.equals(documentType)) {
+                    lineAmount = lineAmount.negated();
                 }
 
-                if (accounts.containsKey(ai)) {
-                    KualiDecimal total = amt.add((KualiDecimal) accounts.get(ai));
-                    accounts.put(ai, total);
+                if (accountTotals.containsKey(accountingInfo)) {
+                    KualiDecimal total = lineAmount.add(accountTotals.get(accountingInfo));
+                    accountTotals.put(accountingInfo, total);
                 }
                 else {
-                    accounts.put(ai, amt);
+                    accountTotals.put(accountingInfo, lineAmount);
                 }
             }
         }
 
-        for (Iterator iter = accounts.keySet().iterator(); iter.hasNext();) {
-            AccountingInfo ai = (AccountingInfo) iter.next();
-            PaymentAccountDetail pad = new PaymentAccountDetail();
-            pad.setAccountNbr(ai.account);
-            pad.setAccountNetAmount((KualiDecimal) accounts.get(ai));
-            pad.setFinChartCode(ai.chart);
-            pad.setFinObjectCode(ai.objectCode);
-            pad.setFinSubObjectCode(ai.subObjectCode);
-            pad.setOrgReferenceId(ai.orgReferenceId);
-            pad.setProjectCode(ai.projectCode);
-            pad.setSubAccountNbr(ai.subAccount);
-            pd.addAccountDetail(pad);
+        for (AccountingInfo accountingInfo : accountTotals.keySet()) {
+            PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
+            paymentAccountDetail.setAccountNbr(accountingInfo.account);
+            paymentAccountDetail.setAccountNetAmount(accountTotals.get(accountingInfo));
+            paymentAccountDetail.setFinChartCode(accountingInfo.chart);
+            paymentAccountDetail.setFinObjectCode(accountingInfo.objectCode);
+            paymentAccountDetail.setFinSubObjectCode(accountingInfo.subObjectCode);
+            paymentAccountDetail.setOrgReferenceId(accountingInfo.orgReferenceId);
+            paymentAccountDetail.setProjectCode(accountingInfo.projectCode);
+            paymentAccountDetail.setSubAccountNbr(accountingInfo.subAccount);
+
+            paymentDetail.addAccountDetail(paymentAccountDetail);
         }
     }
 
     /**
      * Add Notes to a PDP Payment Detail
      * 
-     * @param doc
-     * @param pd
+     * @param accountsPayableDocument
+     * @param paymentDetail
      */
-    private void addNotes(AccountsPayableDocumentBase doc, PaymentDetail pd) {
-
+    private void addNotes(AccountsPayableDocumentBase accountsPayableDocument, PaymentDetail paymentDetail) {
         int count = 1;
 
-        if (doc instanceof PaymentRequestDocument) {
-            PaymentRequestDocument prd = (PaymentRequestDocument) doc;
+        if (accountsPayableDocument instanceof PaymentRequestDocument) {
+            PaymentRequestDocument prd = (PaymentRequestDocument) accountsPayableDocument;
 
             if (prd.getSpecialHandlingInstructionLine1Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine1Text());
-                pd.addNote(pnt);
+                paymentDetail.addNote(pnt);
             }
+
             if (prd.getSpecialHandlingInstructionLine2Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine2Text());
-                pd.addNote(pnt);
+                paymentDetail.addNote(pnt);
             }
+
             if (prd.getSpecialHandlingInstructionLine3Text() != null) {
                 PaymentNoteText pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
                 pnt.setCustomerNoteText(prd.getSpecialHandlingInstructionLine3Text());
-                pd.addNote(pnt);
+                paymentDetail.addNote(pnt);
             }
         }
-        if (doc.getNoteLine1Text() != null) {
+
+        if (accountsPayableDocument.getNoteLine1Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
-            pnt.setCustomerNoteText(doc.getNoteLine1Text());
-            pd.addNote(pnt);
+            pnt.setCustomerNoteText(accountsPayableDocument.getNoteLine1Text());
+            paymentDetail.addNote(pnt);
         }
-        if (doc.getNoteLine2Text() != null) {
+
+        if (accountsPayableDocument.getNoteLine2Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
-            pnt.setCustomerNoteText(doc.getNoteLine2Text());
-            pd.addNote(pnt);
+            pnt.setCustomerNoteText(accountsPayableDocument.getNoteLine2Text());
+            paymentDetail.addNote(pnt);
         }
-        if (doc.getNoteLine3Text() != null) {
+
+        if (accountsPayableDocument.getNoteLine3Text() != null) {
             PaymentNoteText pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(count++));
-            pnt.setCustomerNoteText(doc.getNoteLine3Text());
-            pd.addNote(pnt);
+            pnt.setCustomerNoteText(accountsPayableDocument.getNoteLine3Text());
+            paymentDetail.addNote(pnt);
         }
     }
 
     /**
      * Populate the PDP Payment Group from fields on a payment request
      * 
-     * @param prd
+     * @param paymentRequestDocument
      * @param batch
-     * @return
+     * @return PaymentGroup
      */
-    private PaymentGroup populatePaymentGroup(PaymentRequestDocument prd, Batch batch) {
-        LOG.debug("populatePaymentGroup() payment request documentNumber: " + prd.getDocumentNumber());
-        PaymentGroup pg = new PaymentGroup();
-        pg.setBatch(batch);
-        pg.setPaymentStatus(openPaymentStatus);
+    private PaymentGroup populatePaymentGroup(PaymentRequestDocument paymentRequestDocument, Batch batch) {
+        LOG.debug("populatePaymentGroup() payment request documentNumber: " + paymentRequestDocument.getDocumentNumber());
 
-        String postalCode = prd.getVendorPostalCode();
-        if ("US".equals(prd.getVendorCountry())) {
+        PaymentGroup paymentGroup = new PaymentGroup();
+
+        paymentGroup.setBatchId(batch.getId());
+        paymentGroup.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
+
+        String postalCode = paymentRequestDocument.getVendorPostalCode();
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(paymentRequestDocument.getVendorCountry())) {
             // Add a dash in the zip code if necessary
             if (postalCode.length() > 5) {
                 postalCode = postalCode.substring(0, 5) + "-" + postalCode.substring(5);
             }
         }
 
-        pg.setPayeeName(prd.getVendorName());
-        pg.setPayeeId(prd.getVendorHeaderGeneratedIdentifier() + "-" + prd.getVendorDetailAssignedIdentifier());
-        pg.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
+        paymentGroup.setPayeeName(paymentRequestDocument.getVendorName());
+        paymentGroup.setPayeeId(paymentRequestDocument.getVendorHeaderGeneratedIdentifier() + "-" + paymentRequestDocument.getVendorDetailAssignedIdentifier());
+        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
 
-        if (prd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
-            pg.setPayeeOwnerCd(prd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
+        if (paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
+            paymentGroup.setPayeeOwnerCd(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
         }
 
-        if (prd.getVendorCustomerNumber() != null) {
-            pg.setCustomerInstitutionNumber(prd.getVendorCustomerNumber());
+        if (paymentRequestDocument.getVendorCustomerNumber() != null) {
+            paymentGroup.setCustomerInstitutionNumber(paymentRequestDocument.getVendorCustomerNumber());
         }
-        pg.setLine1Address(prd.getVendorLine1Address());
-        pg.setLine2Address(prd.getVendorLine2Address());
-        pg.setLine3Address("");
-        pg.setLine4Address("");
-        pg.setCity(prd.getVendorCityName());
-        pg.setState(prd.getVendorStateCode());
-        pg.setZipCd(postalCode);
-        pg.setCountry(prd.getVendorCountryCode());
-        pg.setCampusAddress(Boolean.FALSE);
-        if (prd.getPaymentRequestPayDate() != null) {
-            pg.setPaymentDate(new Timestamp(prd.getPaymentRequestPayDate().getTime()));
+
+        paymentGroup.setLine1Address(paymentRequestDocument.getVendorLine1Address());
+        paymentGroup.setLine2Address(paymentRequestDocument.getVendorLine2Address());
+        paymentGroup.setLine3Address("");
+        paymentGroup.setLine4Address("");
+        paymentGroup.setCity(paymentRequestDocument.getVendorCityName());
+        paymentGroup.setState(paymentRequestDocument.getVendorStateCode());
+        paymentGroup.setZipCd(postalCode);
+        paymentGroup.setCountry(paymentRequestDocument.getVendorCountryCode());
+        paymentGroup.setCampusAddress(Boolean.FALSE);
+
+        if (paymentRequestDocument.getPaymentRequestPayDate() != null) {
+            paymentGroup.setPaymentDate(new Timestamp(paymentRequestDocument.getPaymentRequestPayDate().getTime()));
         }
-        pg.setPymtAttachment(prd.getPaymentAttachmentIndicator());
-        pg.setProcessImmediate(prd.getImmediatePaymentIndicator());
-        pg.setPymtSpecialHandling((prd.getSpecialHandlingInstructionLine1Text() != null) || (prd.getSpecialHandlingInstructionLine2Text() != null) || (prd.getSpecialHandlingInstructionLine3Text() != null));
-        pg.setTaxablePayment(Boolean.FALSE);
-        pg.setNraPayment(VendorConstants.OwnerTypes.NR.equals(prd.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
-        pg.setCombineGroups(Boolean.TRUE);
-        return pg;
+
+        paymentGroup.setPymtAttachment(paymentRequestDocument.getPaymentAttachmentIndicator());
+        paymentGroup.setProcessImmediate(paymentRequestDocument.getImmediatePaymentIndicator());
+        paymentGroup.setPymtSpecialHandling((paymentRequestDocument.getSpecialHandlingInstructionLine1Text() != null) || (paymentRequestDocument.getSpecialHandlingInstructionLine2Text() != null) || (paymentRequestDocument.getSpecialHandlingInstructionLine3Text() != null));
+        paymentGroup.setTaxablePayment(Boolean.FALSE);
+        paymentGroup.setNraPayment(VendorConstants.OwnerTypes.NR.equals(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
+        paymentGroup.setCombineGroups(Boolean.TRUE);
+
+        return paymentGroup;
     }
 
     /**
-     * This method...
+     * Populates a PaymentGroup record from a Credit Memo document
      * 
-     * @param cmd
+     * @param creditMemoDocument
      * @param batch
-     * @return
+     * @return PaymentGroup
      */
-    private PaymentGroup populatePaymentGroup(CreditMemoDocument cmd, Batch batch) {
-        LOG.debug("populatePaymentGroup() credit memo documentNumber: " + cmd.getDocumentNumber());
-        PaymentGroup pg = new PaymentGroup();
-        pg.setBatch(batch);
-        pg.setPaymentStatus(openPaymentStatus);
+    private PaymentGroup populatePaymentGroup(CreditMemoDocument creditMemoDocument, Batch batch) {
+        LOG.debug("populatePaymentGroup() credit memo documentNumber: " + creditMemoDocument.getDocumentNumber());
 
-        String postalCode = cmd.getVendorPostalCode();
-        if ("US".equals(cmd.getVendorCountry())) {
+        PaymentGroup paymentGroup = new PaymentGroup();
+        paymentGroup.setBatchId(batch.getId());
+        paymentGroup.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
+
+        String postalCode = creditMemoDocument.getVendorPostalCode();
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(creditMemoDocument.getVendorCountry())) {
             // Add a dash in the zip code if necessary
             if (postalCode.length() > 5) {
                 postalCode = postalCode.substring(0, 5) + "-" + postalCode.substring(5);
             }
         }
 
-        pg.setPayeeName(cmd.getVendorName());
-        pg.setPayeeId(cmd.getVendorHeaderGeneratedIdentifier() + "-" + cmd.getVendorDetailAssignedIdentifier());
-        pg.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
+        paymentGroup.setPayeeName(creditMemoDocument.getVendorName());
+        paymentGroup.setPayeeId(creditMemoDocument.getVendorHeaderGeneratedIdentifier() + "-" + creditMemoDocument.getVendorDetailAssignedIdentifier());
+        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
 
-        if (cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
-            pg.setPayeeOwnerCd(cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
+        if (creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
+            paymentGroup.setPayeeOwnerCd(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
         }
 
-        if (cmd.getVendorCustomerNumber() != null) {
-            pg.setCustomerInstitutionNumber(cmd.getVendorCustomerNumber());
+        if (creditMemoDocument.getVendorCustomerNumber() != null) {
+            paymentGroup.setCustomerInstitutionNumber(creditMemoDocument.getVendorCustomerNumber());
         }
-        pg.setLine1Address(cmd.getVendorLine1Address());
-        pg.setLine2Address(cmd.getVendorLine2Address());
-        pg.setLine3Address("");
-        pg.setLine4Address("");
-        pg.setCity(cmd.getVendorCityName());
-        pg.setState(cmd.getVendorStateCode());
-        pg.setZipCd(postalCode);
-        pg.setCountry(cmd.getVendorCountryCode());
-        pg.setCampusAddress(Boolean.FALSE);
-        if (cmd.getCreditMemoDate() != null) {
-            pg.setPaymentDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
+
+        paymentGroup.setLine1Address(creditMemoDocument.getVendorLine1Address());
+        paymentGroup.setLine2Address(creditMemoDocument.getVendorLine2Address());
+        paymentGroup.setLine3Address("");
+        paymentGroup.setLine4Address("");
+        paymentGroup.setCity(creditMemoDocument.getVendorCityName());
+        paymentGroup.setState(creditMemoDocument.getVendorStateCode());
+        paymentGroup.setZipCd(postalCode);
+        paymentGroup.setCountry(creditMemoDocument.getVendorCountryCode());
+        paymentGroup.setCampusAddress(Boolean.FALSE);
+
+        if (creditMemoDocument.getCreditMemoDate() != null) {
+            paymentGroup.setPaymentDate(new Timestamp(creditMemoDocument.getCreditMemoDate().getTime()));
         }
-        pg.setPymtAttachment(Boolean.FALSE);
-        pg.setProcessImmediate(Boolean.FALSE);
-        pg.setPymtSpecialHandling(Boolean.FALSE);
-        pg.setTaxablePayment(Boolean.FALSE);
-        pg.setNraPayment(VendorConstants.OwnerTypes.NR.equals(cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
-        pg.setCombineGroups(Boolean.TRUE);
-        return pg;
+
+        paymentGroup.setPymtAttachment(Boolean.FALSE);
+        paymentGroup.setProcessImmediate(Boolean.FALSE);
+        paymentGroup.setPymtSpecialHandling(Boolean.FALSE);
+        paymentGroup.setTaxablePayment(Boolean.FALSE);
+        paymentGroup.setNraPayment(VendorConstants.OwnerTypes.NR.equals(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
+        paymentGroup.setCombineGroups(Boolean.TRUE);
+
+        return paymentGroup;
     }
 
     /**
@@ -877,7 +882,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param campusCode
      * @param puser
      * @param processRunDate
-     * @return
+     * @return Batch
      */
     private Batch createBatch(String campusCode, UniversalUser puser, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
@@ -892,7 +897,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         batch.setCustomerProfile(customer);
         batch.setCustomerFileCreateTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setFileProcessTimestamp(new Timestamp(processRunDate.getTime()));
-        batch.setPaymentFileName("extr_fr_purap");
+        batch.setPaymentFileName(PurapConstants.PDP_PURAP_EXTRACT_FILE_NAME);
         batch.setSubmiterUser(puser);
 
         // Set these for now, we will update them later
@@ -907,187 +912,41 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     /**
      * Find all the campuses that have payments to process
      * 
-     * @return
+     * @return List<String>
      */
     private List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
         List<String> output = new ArrayList<String>();
 
-        Iterator<PaymentRequestDocument> iter = null;
+        Collection<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
-            iter = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
+            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
         }
         else {
             java.sql.Date onOrBeforePaymentRequestPayDate = new java.sql.Date(purapRunDateService.calculateRunDate(processRunDate).getTime());
-            iter = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
+            paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
-        while (iter.hasNext()) {
-            PaymentRequestDocument prd = iter.next();
+
+        for (PaymentRequestDocument prd : paymentRequests) {
             if (!output.contains(prd.getProcessingCampusCode())) {
                 output.add(prd.getProcessingCampusCode());
             }
         }
+
         return output;
     }
 
-
     /**
-     * This method...
-     * 
-     * @param idList
-     * @param lineTotal
-     * @param maxNoteLines
+     * Holds total count and amount for extract
      */
-    private void sendExceedsMaxNotesWarningEmail(List<String> cmIdList, List<String> preqIdList, int lineTotal, int maxNoteLines) {
-        LOG.debug("sendExceedsMaxNotesWarningEmail() starting");
-
-        // To send email or not send email
-        boolean noEmail = parameterService.getIndicatorParameter(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.NO_PAYMENT_FILE_EMAIL);
-        if (noEmail) {
-            LOG.debug("sendExceedsMaxNotesWarningEmail() sending payment file email is disabled");
-            return;
-        }
-
-        MailMessage message = new MailMessage();
-
-        if (environmentService.isProduction()) {
-            message.setSubject("Error: Maximum rows exceeded on payment bundle");
-        }
-        else {
-            String env = environmentService.getEnvironment();
-            message.setSubject(env + "-Error: Maximum rows exceeded on payment bundle");
-        }
-
-        StringBuffer body = new StringBuffer();
-
-        // Get recipient email address
-        String toAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
-        String toAddressList[] = toAddresses.split(",");
-
-        if (toAddressList.length > 0) {
-            for (int i = 0; i < toAddressList.length; i++) {
-                if (toAddressList[i] != null) {
-                    message.addToAddress(toAddressList[i].trim());
-                }
-            }
-        }
-
-        String ccAddresses = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.SOFT_EDIT_CC);
-        String ccAddressList[] = ccAddresses.split(",");
-
-        for (int i = 0; i < ccAddressList.length; i++) {
-            if (ccAddressList[i] != null) {
-                message.addCcAddress(ccAddressList[i].trim());
-            }
-        }
-
-        String fromAddressList[] = { mailService.getBatchMailingList() };
-
-        if (fromAddressList.length > 0) {
-            for (int i = 0; i < fromAddressList.length; i++) {
-                if (fromAddressList[i] != null) {
-                    message.setFromAddress(fromAddressList[i].trim());
-                }
-            }
-        }
-
-        body.append("The positive pay bundle associated with the following credit memo(s) and payment request(s) ");
-        body.append("exceeds the row limit. The credit memo(s) may need to be processed as several separate credit ");
-        body.append("memos to reduce the number of rows associated with the positive pay bundle. \n\n");
-        body.append("The Credit Memo Document Id(s) are ");
-
-        int cmCount = cmIdList.size();
-        for (String id : cmIdList) {
-            body.append(id);
-            if (--cmCount > 0) {
-                body.append(", ");
-            }
-        }
-
-        body.append(".  The PREQ Document Id(s) are ");
-
-        int prCount = preqIdList.size();
-        for (String id : preqIdList) {
-            body.append(id);
-            if (--prCount > 0) {
-                body.append(", ");
-            }
-        }
-        body.append(".  There were ").append(lineTotal).append(" lines all together, which is more than the ");
-        body.append(maxNoteLines).append(" allowed.");
-
-        message.setMessage(body.toString());
-        try {
-            mailService.sendMessage(message);
-        }
-        catch (InvalidAddressException e) {
-            LOG.error("sendExceedsMaxNotesWarningEmail() Invalid email address. Message not sent", e);
-        }
-    }
-
-
-    /**
-     * This class...
-     */
-    class Payment {
-        public static final String CM = "cm";
-        public static final String PREQ = "preq";
-
-        public Integer id;
-        public String typeCode;
-        public String campusCode;
-        public String vendorId;
-        public String countryCode;
-        public String zipCode;
-        public String customerNbr;
-        public Object data;
-
-        public Payment(Integer id, String typeCode, String campusCode, String vendorId, String countryCode, String zipCode, String customerNbr, Object data) {
-            this.id = id;
-            this.typeCode = typeCode;
-            this.campusCode = campusCode;
-            this.vendorId = vendorId;
-            this.countryCode = countryCode;
-            if ((zipCode != null) && (zipCode.length() > 5)) {
-                this.zipCode = zipCode.substring(0, 5);
-            }
-            else {
-                this.zipCode = zipCode;
-            }
-            this.customerNbr = customerNbr;
-            this.data = data;
-        }
-
-        public boolean combine(Payment p) {
-            return combineKey().equals(p.combineKey());
-        }
-
-        public String combineKey() {
-            return campusCode + "~" + vendorId + "~" + customerNbr + "~" + countryCode + "~" + zipCode;
-        }
-
-        private String key() {
-            return campusCode + "~" + vendorId + "~" + customerNbr + "~" + countryCode + "~" + zipCode + "~" + typeCode + "~" + id;
-        }
-
-        public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(key()).toHashCode();
-        }
-
-        public boolean equals(Object obj) {
-            if (!(obj instanceof AccountingInfo)) {
-                return false;
-            }
-            AccountingInfo thisobj = (AccountingInfo) obj;
-            return new EqualsBuilder().append(key(), thisobj.key()).isEquals();
-        }
-    }
-
-    class Totals {
+    private class Totals {
         public Integer count = 0;
-        public BigDecimal totalAmount = new BigDecimal("0");
+        public KualiDecimal totalAmount = KualiDecimal.ZERO;
     }
 
-    class AccountingInfo {
+    /**
+     * Holds temporary accounting information for combining into payment accounting details
+     */
+    private class AccountingInfo {
         private String chart;
         private String account;
         private String subAccount;
@@ -1166,64 +1025,119 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
     }
 
-    // Dependencies
-
-    public void setPaymentFileService(PaymentFileService pfs) {
-        paymentFileService = pfs;
+    /**
+     * Sets the paymentRequestService attribute value.
+     * 
+     * @param paymentRequestService The paymentRequestService to set.
+     */
+    public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
+        this.paymentRequestService = paymentRequestService;
     }
 
-    public void setPaymentRequestService(PaymentRequestService prs) {
-        paymentRequestService = prs;
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
-    public void setCustomerProfileService(CustomerProfileService customerProfileService) {
-        this.customerProfileService = customerProfileService;
+    /**
+     * Sets the paymentFileService attribute value.
+     * 
+     * @param paymentFileService The paymentFileService to set.
+     */
+    public void setPaymentFileService(PaymentFileService paymentFileService) {
+        this.paymentFileService = paymentFileService;
     }
 
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
-    }
-
-    public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
-        this.paymentDetailService = paymentDetailService;
-    }
-
-    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
-        this.paymentGroupService = paymentGroupService;
-    }
-
-    public void setCreditMemoService(CreditMemoService cms) {
-        this.creditMemoService = cms;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        this.businessObjectService = bos;
-    }
-
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    public void setReferenceService(ReferenceService rs) {
-        referenceService = rs;
+    /**
+     * Sets the customerProfileService attribute value.
+     * 
+     * @param customerProfileService The customerProfileService to set.
+     */
+    public void setCustomerProfileService(CustomerProfileService customerProfileService) {
+        this.customerProfileService = customerProfileService;
     }
 
-    public void setDocumentService(DocumentService ds) {
-        documentService = ds;
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
-    public void setMailService(MailService ms) {
-        mailService = ms;
+    /**
+     * Sets the universalUserService attribute value.
+     * 
+     * @param universalUserService The universalUserService to set.
+     */
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
     }
 
-    public void setEnvironmentService(EnvironmentService es) {
-        environmentService = es;
+    /**
+     * Sets the paymentGroupService attribute value.
+     * 
+     * @param paymentGroupService The paymentGroupService to set.
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
     }
 
+    /**
+     * Sets the paymentDetailService attribute value.
+     * 
+     * @param paymentDetailService The paymentDetailService to set.
+     */
+    public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
+        this.paymentDetailService = paymentDetailService;
+    }
+
+    /**
+     * Sets the creditMemoService attribute value.
+     * 
+     * @param creditMemoService The creditMemoService to set.
+     */
+    public void setCreditMemoService(CreditMemoService creditMemoService) {
+        this.creditMemoService = creditMemoService;
+    }
+
+    /**
+     * Sets the referenceService attribute value.
+     * 
+     * @param referenceService The referenceService to set.
+     */
+    public void setReferenceService(ReferenceService referenceService) {
+        this.referenceService = referenceService;
+    }
+
+    /**
+     * Sets the documentService attribute value.
+     * 
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    /**
+     * Sets the purapRunDateService attribute value.
+     * 
+     * @param purapRunDateService The purapRunDateService to set.
+     */
     public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
         this.purapRunDateService = purapRunDateService;
     }
@@ -1235,6 +1149,24 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
     public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
+    }
+
+    /**
+     * Sets the bankService attribute value.
+     * 
+     * @param bankService The bankService to set.
+     */
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 }

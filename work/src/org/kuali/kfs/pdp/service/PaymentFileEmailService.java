@@ -55,4 +55,14 @@ public interface PaymentFileEmailService {
      * @param batch <code>Batch</code> created by load
      */
     public void sendLoadEmail(Batch batch);
+
+    /**
+     * Sends email for a purap bundle that exceeds the maximum number of notes allowed
+     * 
+     * @param creditMemos list of credit memo documents in bundle
+     * @param paymentRequests list of payment request documents in bundle
+     * @param lineTotal total number of lines for bundle
+     * @param maxNoteLines maximum number of lines allowed
+     */
+    public void sendExceedsMaxNotesWarningEmail(List<String> creditMemos, List<String> paymentRequests, int lineTotal, int maxNoteLines);
 }

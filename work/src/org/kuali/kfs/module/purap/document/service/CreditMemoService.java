@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -54,7 +55,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param vendor
      * @return
      */
-    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor( String chartCode, VendorGroupingHelper vendor );
+    public Collection<CreditMemoDocument> getCreditMemosToExtractByVendor( String chartCode, VendorGroupingHelper vendor );
     
     /**
      * Get a credit memo by document number.

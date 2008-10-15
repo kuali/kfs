@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public interface CreditMemoDao {
      * @param vendorDetailAssignedIdentifier
      * @return - Iterator of credit memos
      */
-    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor );
+    public Collection<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor );
     
     /**
      * This method tests for a duplicate entry of a credit memo by the combination of vendorNumber HeaderId, vendorNumber and

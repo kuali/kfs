@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,24 +49,24 @@ public interface PaymentRequestDao {
      * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this value will be returned in the iterator
      * @return - list of payment requests that need to be extracted
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that need to be extracted to PDP.
      * 
      * @param onlySpecialPayments - true only include special payments, False - include all
      * @param chartCode - if not null, limit results to a single chart
-     * @return - Iterator of payment requests
+     * @return - Collection of payment requests
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that are marked immediate that need to be extracted to PDP.
      * 
      * @param chartCode - chart of accounts code
-     * @return - Iterator of payment requests
+     * @return - Collection of payment requests
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
+    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all payment request documents that are eligible for auto-approval. Whether or not a document is eligible for

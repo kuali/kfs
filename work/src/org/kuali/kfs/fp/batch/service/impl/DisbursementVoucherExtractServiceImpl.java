@@ -495,7 +495,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setCustomerProfile(customer);
         batch.setCustomerFileCreateTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setFileProcessTimestamp(new Timestamp(processRunDate.getTime()));
-        batch.setPaymentFileName("extr_fr_disb_voucher");
+        batch.setPaymentFileName(KFSConstants.DISBURSEMENT_VOUCHER_PDP_EXTRACT_FILE_NAME);
         batch.setSubmiterUser(user);
 
         // Set these for now, we will update them later

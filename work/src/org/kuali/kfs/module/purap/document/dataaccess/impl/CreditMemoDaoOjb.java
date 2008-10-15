@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.CreditMemoDao#getCreditMemosToExtractByVendor(java.lang.String, java.lang.Integer, java.lang.Integer)
      */
-    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
+    public Collection<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
         LOG.debug("getCreditMemosToExtractByVendor() started");
 
         Criteria criteria = new Criteria();
@@ -75,7 +76,7 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
         criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
         criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(CreditMemoDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(CreditMemoDocument.class, criteria));
     }
 
 

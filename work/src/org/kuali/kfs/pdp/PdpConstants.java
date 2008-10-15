@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.pdp;
 
+import org.kuali.kfs.sys.KFSConstants;
+
 /**
  * Contains general PDP constants.
  */
@@ -127,7 +129,7 @@ public class PdpConstants {
 
     public static class PaymentStatusCodes {
         public static String FORMAT = "FORM";
-        public static String OPEN = "OPEN";
+        public static String OPEN = KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE;
         public static String CANCEL_DISBURSEMENT = "CDIS";
         public static String CANCEL_PAYMENT = "CPAY";
         public static String EXTRACTED = "EXTR";

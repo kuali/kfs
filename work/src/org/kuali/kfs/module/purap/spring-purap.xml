@@ -109,10 +109,10 @@
 		<property name="creditMemoService" ref="creditMemoService"/>
 		<property name="referenceService" ref="pdpReferenceService"/>
 		<property name="documentService" ref="documentService"/>
-	    <property name="mailService" ref="mailService"/>
-    	<property name="environmentService" ref="pdpEnvironmentService"/>
         <property name="purapRunDateService" ref="purapRunDateService" />
         <property name="paymentFileEmailService" ref="paymentFileEmailService" />
+        <property name="bankService" ref="bankService" />
+        <property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 
 	<bean id="pdpEnvironmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">

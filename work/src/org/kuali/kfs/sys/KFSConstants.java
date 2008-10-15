@@ -140,6 +140,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String DEBIT_AMOUNT_PROPERTY_NAME = "newSourceLineDebit";
     public static final String DELETE_LINE_METHOD = "deleteLine";
     public static final String DICTIONARY_BO_NAME = "dictionaryBusinessObjectName";
+    public static final String DISBURSEMENT_VOUCHER_PDP_EXTRACT_FILE_NAME = "extr_fr_disb_voucher";
     public static final String DISENCUMBRANCE = "Disencumbrance";
     public static final String DISPATCH_REQUEST_PARAMETER = "methodToCall";
     public static final String DOC_FORM_KEY = "docFormKey";
@@ -1241,6 +1242,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String UNPAID_BALANCE_61_TO_90 = "unpaidBalance61to90";
         public static final String UNPAID_BALANCE_91_TO_SYSPR = "unpaidBalance91toSYSPR";
         public static final String UNPAID_BALANCE_SYSPR_PLUS_1_OR_MORE = "unpaidBalanceSYSPRplus1orMore";
+    }
+    
+    public static final class PdpConstants {
+        public static final String PAYMENT_OPEN_STATUS_CODE = "OPEN";
     }
 
 }

@@ -52,6 +52,8 @@ public class PurapConstants extends JSTLConstants {
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
+    
+    public static final String PDP_PURAP_EXTRACT_FILE_NAME = "extr_fr_purap";
 
     // STANDARD PARAMETER PREFIXES
     public static class QuoteTypes {

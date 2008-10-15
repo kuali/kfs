@@ -16,14 +16,13 @@
 package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.exception.PaymentRequestInitializationValidationErrors;
-import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -212,7 +211,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param chartCode  The chart code to be used as one of the criterias to retrieve the payment request documents. 
      * @return           The iterator of the list of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
+    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all the payment requests that match a credit memo.
@@ -227,32 +226,32 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * 
      * @param vendor
      * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this date will be extracted
-     * @return      The iterator of the resulting payment request documents returned by the paymentRequestDao.
+     * @return Collection of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
     
     /**
      * Get all the payment requests that need to be extracted.
      * 
-     * @return The iterator of the resulting payment request documents returned by the paymentRequestDao.
+     * @return The Collection of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the special payment requests for a single chart that need to be extracted.
      * 
      * @param chartCode  The chart code to be used as one of the criterias to retrieve the payment request documents. 
-     * @return           The iterator of the resulting payment request documents returned by the paymentRequestDao.
+     * @return           The Collection of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the regular payment requests for a single campus.
      * 
      * @param chartCode  The chart code to be used as one of the criterias to retrieve the payment request documents. 
-     * @return           The iterator of the resulting payment request documents returned by the paymentRequestDao.
+     * @return           The collection of the resulting payment request documents returned by the paymentRequestDao.
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate);
+    public Collection<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Recalculate the payment request.

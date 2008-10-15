@@ -327,7 +327,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            if (item.getItemType().isLineItemIndicator() && item.getTotalAmount() != null) {
+            if (item.getItemType().isLineItemIndicator() && item.getExtendedPrice() != null) {
                 lineItemPreTaxTotal = lineItemPreTaxTotal.add(item.getExtendedPrice());
             }
         }
@@ -414,7 +414,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            if (item.getExtendedPrice() != null) {
+            if (item.getItemTaxAmount() != null) {
                 // make sure restocking fee is negative
                 if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
                     item.setExtendedPrice(item.getItemTaxAmount().abs().negated());

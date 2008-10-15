@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.report;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,11 +33,13 @@ public class CustomerLoadFileResult {
     
     public CustomerLoadFileResult() {
         customers = new TreeMap<String,CustomerLoadResult>();
+        messages = new ArrayList<String[]>();
     }
 
     public CustomerLoadFileResult(String filename) {
         this.filename = filename;
         customers = new TreeMap<String,CustomerLoadResult>();
+        messages = new ArrayList<String[]>();
     }
     
     public void addCustomerInfoMessage(String customerName, String message) {

@@ -224,39 +224,39 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
         
         //  make sure we got the type we expected, then cast it
-        if (!(parsedObject instanceof CustomerDigesterVO)) {
-            LOG.error("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
-            reporter.addFileErrorMessage("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
-            throw new RuntimeException("Parsed file was not of the expected type.  Expected [" + CustomerDigesterVO.class + "] but got [" + parsedObject.getClass() + "].");
+        if (!(parsedObject instanceof List)) {
+            LOG.error("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
+            reporter.addFileErrorMessage("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
+            throw new RuntimeException("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
         }
-        CustomerDigesterVO customerVO = (CustomerDigesterVO) parsedObject;
         
         //  prepare a list for the regular validate() method
-        List<CustomerDigesterVO> customerVOs = new ArrayList<CustomerDigesterVO>();
-        customerVOs.add(customerVO);
+        List<CustomerDigesterVO> customerVOs = (List<CustomerDigesterVO>) parsedObject;
         
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
         LOG.info("Beginning validation and preparation of batch file.");
         result = validateAndPrepare(customerVOs, readyTransientDocs, reporter);
         
         //  send the readyDocs into workflow
-        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, customerVO.getCustomerName(), reporter);
+        result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
         
         return result;
     }
 
     private boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, 
-            List<String> failedDocumentNumbers, String customerName, CustomerLoadFileResult reporter) {
+            List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
-            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, customerName, reporter);
+            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, reporter);
         }
         return result;
     }
     
     private boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, 
-            List<String> failedDocumentNumbers, String customerName, CustomerLoadFileResult reporter) {
+            List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
+        
+        String customerName = ((Customer) readyTransientDoc.getNewMaintainableObject().getBusinessObject()).getCustomerName();
         
         //  create a real workflow document
         MaintenanceDocument realMaintDoc;
@@ -887,13 +887,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     private void getPdfWriter(Document pdfDoc) {
         
-        String reportDirectory = configService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY) + "/" + 
-                ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
+        String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
         String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +  
             new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(dateTimeService.getCurrentDate()) + ".pdf";
        
         //  setup the writer
-        File reportFile = new File(reportsDirectory + fileName);
+        File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
         try {
             fileOutStream = new FileOutputStream(reportFile);

@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.cam.businessobject;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -134,6 +136,7 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                 else {
                     asset.setCampusTagNumber(null);
                 }
+                asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
                 persistables.add(asset);
             }

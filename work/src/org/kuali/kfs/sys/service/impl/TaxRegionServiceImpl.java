@@ -92,7 +92,6 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
             List<TaxRegionPostalCode> taxRegionPostalCodes = (List<TaxRegionPostalCode>) businessObjectService.findMatching(TaxRegionPostalCode.class, criteria);
             for (TaxRegionPostalCode taxRegionPostalCode : taxRegionPostalCodes) {
-                taxRegionPostalCode.refreshNonUpdateableReferences();
                 postalCodeTaxRegions.add(taxRegionPostalCode.getTaxRegion());
             }
         }

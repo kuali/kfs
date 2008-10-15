@@ -7,6 +7,7 @@ import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TaxRegionState extends PersistableBusinessObjectBase implements Inactivateable {
 
@@ -35,7 +36,10 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
         this.stateCode = stateCode;
     }
 
-    public TaxRegion getTaxRegion() {
+    public TaxRegion getTaxRegion() {        
+        if(ObjectUtils.isNull(taxRegion)){
+            this.refreshReferenceObject("taxRegion");
+        }
         return taxRegion;
     }
 

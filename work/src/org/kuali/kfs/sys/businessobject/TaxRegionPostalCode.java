@@ -8,6 +8,7 @@ import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements Inactivateable {
 	
@@ -28,6 +29,9 @@ public class TaxRegionPostalCode extends PersistableBusinessObjectBase implement
 		this.postalZip = postalZip;
 	}
 	public TaxRegion getTaxRegion() {
+        if(ObjectUtils.isNull(taxRegion)){
+            this.refreshReferenceObject("taxRegion");
+        }	    
         return taxRegion;
     }
     public void setTaxRegion(TaxRegion taxRegion) {

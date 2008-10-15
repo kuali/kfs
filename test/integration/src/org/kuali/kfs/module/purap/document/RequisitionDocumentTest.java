@@ -16,15 +16,20 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.JKITCHEN;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.JKITCHEN;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
+import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionItemFixture;
@@ -41,6 +46,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Used to create and test populated Requisition Documents of various kinds.
@@ -111,7 +117,36 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
+    
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    public final void testSaveDocumentWithItemDeletion() throws Exception {
+        requisitionDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        List<RequisitionItem> items = requisitionDocument.getItems();
+        RequisitionItem item = items.get(0);
+        List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
+        RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
+        
+        requisitionDocument.deleteItem(0);
+        AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+    }
 
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    public final void testRouteSavedDocumentWithAccountDeletion() throws Exception {
+        requisitionDocument = buildComplexDocument();
+        List<RequisitionItem> items = requisitionDocument.getItems();
+        RequisitionItem item = items.get(0);
+        List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
+        AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+
+        RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
+        
+        accounts.remove(0);
+        accounts.get(0).setAccountLinePercent(new BigDecimal("100"));
+        
+        AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+    }
+    
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         requisitionDocument = buildSimpleDocument();
@@ -179,6 +214,12 @@ public class RequisitionDocumentTest extends KualiTestBase {
     
     private RequisitionDocument buildSimpleDocument() throws Exception {
         return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+    }
+
+    private RequisitionDocument buildComplexDocument() throws Exception {
+        RequisitionDocument complexRequisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS_MULTIPLE_ACCOUNTS.createRequisitionDocument();
+        
+        return complexRequisitionDocument;
     }
     
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {

@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
@@ -217,6 +218,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             customerInvoiceDetailService.updateAccountsForCorrespondingDiscount(customerInvoiceDetail);
         }
 
+        // Update the doc total
+        ((FinancialSystemDocumentHeader) customerInvoiceDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(customerInvoiceDocument.getTotalDollarAmount());
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

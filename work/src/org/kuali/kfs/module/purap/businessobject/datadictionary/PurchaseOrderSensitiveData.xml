@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="PurchaseOrderSensitiveData"
+		parent="PurchaseOrderSensitiveData-parentBean" />
+
+	<bean id="PurchaseOrderSensitiveData-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData" />
+		<!-- <property name="inquiryDefinition">
+			<ref bean="PurchaseOrderSensitiveData-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="PurchaseOrderSensitiveData-lookupDefinition" />
+		</property> -->
+		<property name="titleAttribute"
+			value="PurchaseOrderSensitiveDataCode" />
+		<property name="objectLabel"
+			value="Delivery Required Date Reason" />
+		<property name="attributes">
+			<list>
+				<ref
+					bean="PurchaseOrderSensitiveData-purapDocumentIdentifier" />
+				<ref
+					bean="PurchaseOrderSensitiveData-sensitiveDataCode" />
+				<ref
+					bean="PurchaseOrderSensitiveData-requisitionIdentifier" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PurchaseOrderSensitiveData-purapDocumentIdentifier"
+		parent="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean" />
+
+	<bean
+		id="PurchaseOrderSensitiveData-purapDocumentIdentifier-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier" />
+
+
+	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode"
+		parent="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" />
+
+	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean"
+		abstract="true" parent="SensitiveData-sensitiveDataCode" />
+
+
+	<bean id="PurchaseOrderSensitiveData-requisitionIdentifier"
+		parent="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean" />
+
+	<bean
+		id="PurchaseOrderSensitiveData-requisitionIdentifier-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-requisitionIdentifier" />
+
+</beans>

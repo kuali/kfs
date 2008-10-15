@@ -264,6 +264,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         }
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
         clearCapitalAssetFields();
+        SpringContext.getBean(PurapService.class).clearTax(this, this.isUseTaxIndicator());
+        
         this.refreshNonUpdateableReferences();
     }
 

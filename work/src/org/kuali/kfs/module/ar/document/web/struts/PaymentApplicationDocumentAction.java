@@ -608,4 +608,8 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward commitUnapplied(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

@@ -38,12 +38,15 @@
                             fieldConversions="customerNumber:document.nonAppliedHolding.customerNumber"
                             lookupParameters="document.nonAppliedHolding.customerNumber:customerNumber" />
                     </td>
-                    <th><label for=''>Amount</label></th>
+                    <kul:htmlAttributeHeaderCell literalLabel="Amount"/>  
                     <td>
                         <kul:htmlControlAttribute
                             attributeEntry="${unappliedAttributes.financialDocumentLineAmount}"
                             property="document.nonAppliedHolding.financialDocumentLineAmount"
                             readOnly="${readOnly}" />
+                        <html:image property="methodToCall.commitUnapplied"
+                            src="${ConfigProperties.externalizable.images.url}tinybutton-save.gif"
+                            alt="Commit Unapplied" title="Commit Unapplied" styleClass="tinybutton" />
                     </td>
                 </tr>
             </table>

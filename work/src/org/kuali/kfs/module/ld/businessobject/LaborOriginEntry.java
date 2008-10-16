@@ -819,7 +819,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setFinancialDocumentReversalDate(parseDate(getValue(line, 182, 192), false));
         }
         catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Reversal Date" });
             throw new LoadException("Invalid Reversal Date");
         }
         
@@ -828,15 +828,15 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             setTransactionPostingDate(parseDate(getValue(line, 193, 203), false));
         }
         catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
-            throw new LoadException("Invalid Transaction Date");
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Posting Date" });
+            throw new LoadException("Invalid Transaction Posting Date");
         }
         try {
             setPayPeriodEndDate(parseDate(getValue(line, 203, 213), false));
         }
         catch (ParseException e) {
-            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
-            throw new LoadException("Invalid Transaction Date");
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Pay Period End Date" });
+            throw new LoadException("Invalid Pay Period End Date");
         }
 
         if (getValue(line, 213, 222).equals("")) {

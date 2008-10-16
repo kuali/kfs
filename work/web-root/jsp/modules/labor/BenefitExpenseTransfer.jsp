@@ -138,87 +138,18 @@
 		</div>
 	</kul:tab>
 	</c:if>
+		
+	<kfs:hiddenDocumentFields />
+	<kfs:accountingLineScriptImports />
 
-	<c:set var="copyMethod" value="" scope="request" />
-	<c:set var="actionInfixVar" value="" scope="request" />
-	<c:set var="accountingLineIndexVar" value="" scope="request" />
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" inherit="false" extraHiddenFields=",emplid,positionNumber,balanceTypeCode,payrollTotalHours"
-		optionalFields="payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode">
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
 
-		<jsp:attribute name="groupsOverride">
-			<table width="100%" border="0" cellpadding="0" cellspacing="0"
-				class="datatable">
-				<fin:subheadingWithDetailToggleRow columnCount="${columnCount}"
-					subheading="Accounting Lines" />
-				<ld:importedAccountingLineGroup isSource="true"
-					columnCountUntilAmount="${columnCountUntilAmount}"
-					columnCount="${columnCount}" optionalFields="${optionalFieldsMap}"
-					extraRowFields="${extraSourceRowFieldsMap}"
-					editingMode="${KualiForm.editingMode}"
-					editableAccounts="${editableAccountsMap}"
-					editableFields="${KualiForm.accountingLineEditableFields}"
-					debitCreditAmount="${debitCreditAmountString}"
-					currentBaseAmount="${currentBaseAmountString}"
-					extraHiddenFields="${extraHiddenFieldsMap}"
-					useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-					includeObjectTypeCode="false"
-					displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-					forcedReadOnlyFields="${KualiForm.forcedReadOnlySourceFields}"
-					accountingLineAttributes="${accountingLineAttributesMap}">
-					<jsp:attribute name="importRowOverride">
-					
-					<%-- When data exists show the copy or delete buttons --%>
-		            <c:if test="${disabled}">
-						<html:image property="methodToCall.copyAllAccountingLines"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif"
-							title="Copy all Source Accounting Lines"
-							alt="Copy all Source Lines" styleClass="tinybutton" />
-	                   <html:image property="methodToCall.deleteAllSourceAccountingLines"
-					       src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-						   title="Delete all Source Accounting Lines"
-					       alt="Delete all Source Lines" styleClass="tinybutton" />
-					</c:if>							
-							
-                    </jsp:attribute>
-					<jsp:attribute name="customActions">
-						<c:set var="copyMethod"
-							value="copyAccountingLine.line${accountingLineIndexVar}"
-							scope="request" />
-						<html:image
-							property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor"
-							src="${ConfigProperties.externalizable.images.url}tinybutton-copy2.gif" title="Copy an Accounting Line"
-							alt="Copy an Accounting Line" styleClass="tinybutton" />
-					</jsp:attribute>
-				</ld:importedAccountingLineGroup>
-
-				<ld:importedAccountingLineGroup isSource="false"
-					columnCountUntilAmount="${columnCountUntilAmount}"
-					columnCount="${columnCount}" optionalFields="${optionalFieldsMap}"
-					extraRowFields="${extraSourceRowFieldsMap}"
-					editingMode="${KualiForm.editingMode}"
-					editableAccounts="${editableAccountsMap}"
-					editableFields="${KualiForm.accountingLineEditableFields}"
-					debitCreditAmount="${debitCreditAmountString}"
-					currentBaseAmount="${currentBaseAmountString}"
-					extraHiddenFields="${extraHiddenFieldsMap}"
-					useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
-					includeObjectTypeCode="false"
-					displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-					forcedReadOnlyFields="${KualiForm.forcedReadOnlyTargetFields}"
-					accountingLineAttributes="${accountingLineAttributesMap}">
-					<jsp:attribute name="importRowOverride">
-					    <c:if test="${targetDisabled}">
-                          <html:image property="methodToCall.deleteAllTargetAccountingLines"
-					        src="${ConfigProperties.externalizable.images.url}tinybutton-deleteall.gif"
-						    title="Delete all Target Accounting Lines"
-						    alt="Delete all Target Lines" styleClass="tinybutton" />
-						</c:if>    
-					</jsp:attribute>
-				</ld:importedAccountingLineGroup>
-			</table>
-		</jsp:attribute>
-	</fin:accountingLines>
+	<sys:accountingLines>
+		<sys:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		<sys:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/> 
+	</sys:accountingLines>
+	</kul:tab>
+	
 	<ld:laborLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

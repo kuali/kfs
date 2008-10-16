@@ -35,7 +35,11 @@
               description="Fragment of code to specify special item total line" %>
 <%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
     description="Whether or not to show item description before extended price." %>
-              
+<%@ attribute name="mainColumnCount" required="true" %>
+<%@ attribute name="colSpanDescription" required="true" %>
+<%@ attribute name="colSpanExtendedPrice" required="true" %>
+<%@ attribute name="colSpanItemType" required="true" %>
+
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Additional Charges"/>
 </c:if>
@@ -72,7 +76,7 @@
 </c:choose>
 	
 <tr>
-	<td colspan="15" class="subhead">
+	<td colspan="${mainColumnCount}" class="subhead">
 		<span class="subhead-left"><c:out value="${overrideTitle}" /> &nbsp;</span>
 		<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			<html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle"
@@ -91,40 +95,39 @@
 
 <!-- 
 <tr>
-	<td colspan="15" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
+	<td colspan="${mainColumnCount}" class="subhead"><span class="subhead-left"><c:out value="${overrideTitle}" /></span></td>
 </tr>
 -->
 
 <tr>
-	<c:set var="typeColSpan" value="7" />
-	<c:if test="${showInvoiced}">
-		<c:set var="typeColSpan" value="5" />
-	</c:if>
+	<c:set var="colSpanDescription" value="${colSpanDescription}" />
+	<c:set var="colSpanExtendedPrice" value="${colSpanExtendedPrice}" />
+	<c:set var="colSpanItemType" value="${colSpanItemType}" />
 	
-	<kul:htmlAttributeHeaderCell colspan="${typeColSpan}"
+	<kul:htmlAttributeHeaderCell colspan="${colSpanItemType}"
 		attributeEntry="${itemAttributes.itemTypeCode}" />
 	
 	<c:if test="${showInvoiced}">
-		<kul:htmlAttributeHeaderCell colspan="1"
+		<kul:htmlAttributeHeaderCell 
 			attributeEntry="${itemAttributes.originalAmountfromPO}" />
-		<kul:htmlAttributeHeaderCell colspan="1"
+		<kul:htmlAttributeHeaderCell
 			attributeEntry="${itemAttributes.poOutstandingAmount}" />
 	</c:if>
 	
-<c:choose>
-	<c:when test="${descriptionFirst}">
-		<kul:htmlAttributeHeaderCell colspan="5"
-			attributeEntry="${itemAttributes.itemDescription}" />
-		<kul:htmlAttributeHeaderCell colspan="7"
-			attributeEntry="${itemAttributes.extendedPrice}" />
-	</c:when>
-    <c:otherwise>
-		<kul:htmlAttributeHeaderCell colspan="5"
-			attributeEntry="${itemAttributes.extendedPrice}" />
-		<kul:htmlAttributeHeaderCell colspan="7"
-			attributeEntry="${itemAttributes.itemDescription}" />
-	</c:otherwise>
-</c:choose>	
+	<c:choose>
+		<c:when test="${descriptionFirst}">
+			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
+				attributeEntry="${itemAttributes.itemDescription}" />
+			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
+				attributeEntry="${itemAttributes.extendedPrice}" />
+		</c:when>
+	    <c:otherwise>
+			<kul:htmlAttributeHeaderCell colspan="${colSpanExtendedPrice}"
+				attributeEntry="${itemAttributes.extendedPrice}" />
+			<kul:htmlAttributeHeaderCell colspan="${colSpanDescription}"
+				attributeEntry="${itemAttributes.itemDescription}" />
+		</c:otherwise>
+	</c:choose>	
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"
@@ -137,14 +140,14 @@
   			  </c:if>
 		</c:if>
 		<tr>
-			<td colspan="15" class="tab-subhead" style="border-right: none;">
+			<td colspan="${mainColumnCount}" class="tab-subhead" style="border-right: none;">
 			<kul:htmlControlAttribute
 				attributeEntry="${itemAttributes.itemTypeCode}"
 				property="document.item[${ctr}].itemType.itemTypeDescription"
 				readOnly="${true}" /> <!-- TODO need the show/hide? --></td>
 		</tr>
 		<tr>
-			<td class="infoline" colspan="${typeColSpan}">
+			<td class="infoline" colspan="${colSpanItemType}">
 			    <div align="right">
 			        <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />:&nbsp;
 			    </div>
@@ -165,22 +168,22 @@
 			</c:if>
 			<c:choose>
 				<c:when test="${descriptionFirst}">
-					<td class="infoline" colspan="5">
+					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
-					<td class="infoline" colspan="7">
+					<td class="infoline" colspan="${colSpanExtendedPrice}">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
 				</c:when>
     			<c:otherwise>
-					<td class="infoline" colspan="5">
+					<td class="infoline" colspan="${colSpanExtendedPrice}">
 						<div align="right">
 							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
 						</div>
 					</td>
-					<td class="infoline" colspan="7">
+					<td class="infoline" colspan="${colSpanDescription}">
 						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 					</td>
 				</c:otherwise>
@@ -195,7 +198,7 @@
 				accountingLineAttributes="${accountingLineAttributes}"
 				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				hideFields="amount" accountingAddLineIndex="${ctr}" 
-				ctr="${ctr}" itemColSpan="14"/>
+				ctr="${ctr}" itemColSpan="${mainColumnCount}"/>
 		</c:if>
 		
 		<!-- KULPURAP-1500 -->
@@ -213,7 +216,7 @@
 				    accountingLineAttributes="${accountingLineAttributes}"
 				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}" 
-				    ctr="${ctr}" itemColSpan="15" />
+				    ctr="${ctr}" itemColSpan="${mainColumnCount}" />
 		    </c:if>
 		</c:if>
 	</c:if>

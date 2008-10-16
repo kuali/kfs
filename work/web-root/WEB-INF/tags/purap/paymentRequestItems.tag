@@ -23,9 +23,15 @@
 
 <c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
+<c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+
+<c:set var="mainColumnCount" value="12"/>
+<c:if test="${purapTaxEnabled}">
+	<c:set var="mainColumnCount" value="14"/>
+</c:if>
 
 <tr>
-	<td colspan="13" class="subhead">
+	<td colspan="${mainColumnCount}" class="subhead">
 		<span class="subhead-left">Items</span>
 	</td>
 </tr>
@@ -35,22 +41,26 @@
 	<tr>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" width="2%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.poOutstandingQuantity}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" width="12%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" width="12%" />
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.purchaseOrderItemUnitPrice}" width="12%"/>				
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>				
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>
+		
+		<c:if test="${purapTaxEnabled}">
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+		</c:if>
+
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" width="25%"/>		
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="2"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="3"/>
 	</tr>
 </c:if>
 
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
-		<th height=30 colspan="13">No items Payable</th>
+		<th height=30 colspan="${mainColumnCount}">No items Payable</th>
 	</tr>
 </c:if>
 
@@ -146,6 +156,8 @@
 				        readOnly="${not (fullEntryMode)}" />
 			    </div>
 			</td>
+
+			<c:if test="${purapTaxEnabled}">
 			<td class="infoline">
 			    <div align="right">
 			        <kul:htmlControlAttribute
@@ -153,7 +165,7 @@
 				        property="document.item[${ctr}].itemTaxAmount" 
 				        readOnly="${not(taxAmountChangeable)}" />
 			    </div>
-			</td>
+			</td>			
 			<td class="infoline">
 			    <div align="right">
 			        <kul:htmlControlAttribute
@@ -162,6 +174,8 @@
 				        readOnly="true" />
 			    </div>
 			</td>
+			</c:if>
+
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
@@ -174,7 +188,7 @@
 				    property="document.item[${ctr}].itemAssignedToTradeInIndicator"
 				    readOnly="true" />
 			</td>			    
-			<td class="infoline" colspan="2">
+			<td class="infoline" colspan="3">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
@@ -196,16 +210,16 @@
 			accountingLineAttributes="${accountingLineAttributes}" 
 			hideFields="${hideFields}" 
 			accountingAddLineIndex="${ctr}" 
-			ctr="${ctr}" itemColSpan="13" />	
+			ctr="${ctr}" itemColSpan="${mainColumnCount}" />	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>
 	</c:if>
 </logic:iterate>
 
-<c:if test="${(fullEntryMode) and (clearAllTaxes)}">
+<c:if test="${(fullEntryMode) and (clearAllTaxes) and (purapTaxEnabled)}">
 	<tr>
-		<th height=30 colspan="15">
+		<th height=30 colspan="${mainColumnCount}">
 			<html:image 
 			    property="methodToCall.clearAllTaxes" 
 			    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
@@ -217,5 +231,5 @@
 </c:if>	
 		
 <tr>
-	<th height=30 colspan="13">&nbsp;</th>
+	<th height=30 colspan="${mainColumnCount}">&nbsp;</th>
 </tr>

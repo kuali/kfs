@@ -20,6 +20,8 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="isCreditMemo" required="false" description="Indicates whether the tag is being used in the context of a credit memo document." %>
 
+<c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+
 <kul:tab tabTitle="Process Items" defaultOpen="true" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 		
@@ -29,6 +31,14 @@
 	    <c:set var="showAmount" value="${(!empty KualiForm.editingMode['showAmountOnly'])}" />
 	   	       
 	    <c:if test="${empty isCreditMemo or !isCreditMemo}" >
+			<c:set var="mainColumnCount" value="12"/>
+			<c:if test="${purapTaxEnabled}">
+				<c:set var="mainColumnCount" value="14"/>
+			</c:if>			
+			<c:set var="colSpanItemType" value="3"/>
+			<c:set var="colSpanDescription" value="7"/>
+			<c:set var="colSpanExtendedPrice" value="2"/>
+
     		<purap:purPOLineItemTotals documentAttributes="${documentAttributes}" />
 
 	    	<purap:paymentRequestItems 
@@ -39,10 +49,28 @@
 
         <!--  replace literal with PurapConstants once exported -->
 	    <c:if test="${isCreditMemo and !(KualiForm.document.creditMemoType eq 'Vendor')}" >
+			<c:set var="mainColumnCount" value="12"/>
+			<c:if test="${purapTaxEnabled}">
+				<c:set var="mainColumnCount" value="14"/>
+			</c:if>
+			<c:set var="colSpanItemType" value="5"/>
+			<c:set var="colSpanDescription" value="7"/>
+			<c:set var="colSpanExtendedPrice" value="2"/>
+
 	    	<purap:creditMemoItems 
 		    	itemAttributes="${itemAttributes}"
 	    		accountingLineAttributes="${accountingLineAttributes}" />
 	    </c:if>
+
+		<c:if test="${isCreditMemo and (KualiForm.document.creditMemoType eq 'Vendor')}" >
+			<c:set var="mainColumnCount" value="12"/>
+			<c:if test="${purapTaxEnabled}">
+				<c:set var="mainColumnCount" value="14"/>
+			</c:if>
+			<c:set var="colSpanItemType" value="5"/>
+			<c:set var="colSpanDescription" value="7"/>
+			<c:set var="colSpanExtendedPrice" value="2"/>
+		</c:if>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>
@@ -70,7 +98,9 @@
 			overrideTitle="Additional Charges" 
 			showAmount="${showAmount}"
 			showInvoiced="${showInvoiced}"
-			specialItemTotalType="DISC" >
+			specialItemTotalType="DISC" 
+			mainColumnCount="${mainColumnCount}"
+			colSpanItemType="${colSpanItemType}" colSpanDescription="${colSpanDescription}" colSpanExtendedPrice="${colSpanExtendedPrice}">
 			<jsp:attribute name="specialItemTotalOverride">
 				<tr>
 					<td align=right width='75%' colspan="5" scope="row" class="datacell">
@@ -87,13 +117,14 @@
                         </div>
 					</td>
 	
-					<td colspan=5 class="datacell">
+					<td colspan=7 class="datacell">
 						&nbsp;
 					</td>
 				</tr>
 			</jsp:attribute>
 		</purap:miscitems>
 		<!-- BEGIN TOTAL SECTION -->
+		<c:if test="${purapTaxEnabled}">
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
@@ -130,6 +161,8 @@
 				&nbsp;
 			</td>
 		</tr>
+		</c:if>
+
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">

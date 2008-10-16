@@ -20,9 +20,15 @@
 
 <c:set var="taxAmountChangeable" value="${(not empty KualiForm.editingMode['taxAmountChangeable'])}" />
 <c:set var="clearAllTaxes" value="${(not empty KualiForm.editingMode['clearAllTaxes'])}" />
+<c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+
+<c:set var="mainColumnCount" value="12"/>
+<c:if test="${purapTaxEnabled}">
+	<c:set var="mainColumnCount" value="14"/>
+</c:if>
 		
 <tr>
-	<td colspan="11" class="subhead">
+	<td colspan="${mainColumnCount}" class="subhead">
 		<span class="subhead-left">Items</span>
 	</td>
 </tr>
@@ -52,16 +58,20 @@
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" width="12%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" width="12%"/>
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>
+
+		<c:if test="${purapTaxEnabled}">
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTaxAmount}" width="12%"/>		
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.totalAmount}" width="12%"/>
+		</c:if>
+
 		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" width="12%"/>
-		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%"/>
+		<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" width="25%" colspan="4"/>
 	</tr>
 </c:if>
 
 <c:if test="${KualiForm.countOfAboveTheLine<1}">
 	<tr>
-		<th height=30 colspan="11">No items added to document</th>
+		<th height=30 colspan="${mainColumnCount}">No items added to document</th>
 	</tr>
 </c:if>
 
@@ -202,6 +212,8 @@
 				        readOnly="${not (fullEntryMode)}" styleClass="amount" />
 			    </div>
 			</td>
+
+			<c:if test="${purapTaxEnabled}">
 			<td class="infoline">
 			    <div align="right">
 			        <kul:htmlControlAttribute
@@ -209,7 +221,7 @@
 				        property="document.item[${ctr}].itemTaxAmount"
 				        readOnly="${not(taxAmountChangeable)}" styleClass="amount" />
 			    </div>
-			</td>
+			</td>			
 			<td class="infoline">
 			    <div align="right">
 			        <kul:htmlControlAttribute
@@ -218,24 +230,20 @@
 				        readOnly="true" styleClass="amount" />
 			    </div>
 			</td>
+			</c:if>
+
 			<td class="infoline">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemCatalogNumber}"
 				    property="document.item[${ctr}].itemCatalogNumber"
 				    readOnly="true" />
 		    </td>
-			<td class="infoline">
+			<td class="infoline" colspan="4">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.itemDescription}"
 				    property="document.item[${ctr}].itemDescription"
 				    readOnly="true" />
-			</td>
-			
-			<c:if test="${(not (fullEntryMode))}">
-				<td class="infoline">
-				    <div align="center">&nbsp;</div>
-				</td>
-			</c:if>
+			</td>			
 		</tr>
 
 		<purap:purapGeneralAccounting
@@ -247,16 +255,16 @@
 			hideFields="amount" 
 			accountingAddLineIndex="${ctr}"
 			ctr="${ctr}" 
-			itemColSpan="11"/>	
+			itemColSpan="${mainColumnCount}"/>	
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>
 	</c:if>
 </logic:iterate>
 
-<c:if test="${(fullEntryMode) and (clearAllTaxes)}">
+<c:if test="${(fullEntryMode) and (clearAllTaxes) and (purapTaxEnabled)}">
 	<tr>
-		<th height=30 colspan="14">
+		<th height=30 colspan="${mainColumnCount}">
 			<html:image 
 			    property="methodToCall.clearAllTaxes" 
 			    src="${ConfigProperties.externalizable.images.url}tinybutton-clearalltax.gif" 
@@ -267,5 +275,5 @@
 	 </tr>
 </c:if>	
 <tr>
-	<th height=30 colspan="11">&nbsp;</th>
+	<th height=30 colspan="${mainColumnCount}">&nbsp;</th>
 </tr>

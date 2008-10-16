@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -157,8 +158,13 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
             questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotalExcludingDiscount()) + "</td></tr>");
         }
         
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotal()) + "</td></tr>");
-        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTaxAmount()) + "</td></tr>");
+        //if sales tax is enabled, show additional summary lines
+        boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter("KFS-PURAP", "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        if(salesTaxInd){
+            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Prior to Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandPreTaxTotal()) + "</td></tr>");
+            questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total Tax:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTaxAmount()) + "</td></tr>");
+        }
+        
         questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotal()) + "</td></tr></table>");
                         
         return questionTextBuffer.toString();

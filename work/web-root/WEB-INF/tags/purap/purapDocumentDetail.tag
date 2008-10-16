@@ -46,7 +46,9 @@
 	<c:set var="useTaxIndicatorButton" value="changesalestax" scope="request" />
 </c:if>
 
-	<h3><c:out value="${detailSectionLabel}"/></h3>
+<c:set var="purapTaxEnabled" value="${(not empty KualiForm.editingMode['purapTaxEnabled'])}" />
+
+<h3><c:out value="${detailSectionLabel}"/></h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
    	<c:if test="${not paymentRequest}">
@@ -98,6 +100,7 @@
 	    </td>
 	</tr>  
 
+	<c:if test="${purapTaxEnabled}">
 	<tr>
 		<th align=right valign=middle class="bord-l-b">
 	        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.useTaxIndicator}" /></div>
@@ -119,7 +122,8 @@
 			&nbsp;
 	    </td>
 	</tr>  
-	
+	</c:if>
+
 	<c:if test="${purchaseOrder}">
 		<tr>
 		   	<th align=right valign=middle class="bord-l-b">

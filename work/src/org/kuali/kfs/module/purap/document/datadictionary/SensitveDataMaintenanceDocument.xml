@@ -22,7 +22,7 @@
     <property name="label" value="Restricted Material" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
-            p:parameterName="RESTRICTED_MATERIAL"
+            p:parameterName="SENSITIVE_DATA"
             p:parameterDetailType="SensitiveData" />
     </property>
     <property name="shortLabel" value="Restricted Material" />

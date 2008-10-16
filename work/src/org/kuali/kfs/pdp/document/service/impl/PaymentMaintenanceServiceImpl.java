@@ -395,7 +395,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pg.setAchBankRoutingNbr(null);
                     pg.setAchAccountType(null);
                     pg.setPhysCampusProcessCd(null);
-                    pg.setDisbursementNbr(null);
+                    pg.setDisbursementNbr((KualiInteger) null);
                     pg.setAdviceEmailAddress(null);
                     pg.setDisbursementType(null);
                     pg.setProcess(null);

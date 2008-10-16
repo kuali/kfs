@@ -575,6 +575,26 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+    /**
+     * Invoked when am authorized user presses "Sensitive Data" on the purchase order page.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
+    public ActionForward assignSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Assign Sensitive Data started");
+        
+        PurchaseOrderForm purchaseOrderForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)purchaseOrderForm.getDocument();        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+        
 
     /**
      * This is a utility method used to prepare to and to return to a previous page, making sure that the buttons will be restored

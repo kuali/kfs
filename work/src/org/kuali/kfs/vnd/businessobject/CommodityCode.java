@@ -88,16 +88,16 @@ public class CommodityCode extends PersistableBusinessObjectBase {
     }
 
     public PurchasingAccountsPayableSensitiveData getSensitiveData() {
-        /*if (StringUtils.isBlank(restrictedMaterialCode)) {
-            if (restrictedMaterial != null) {
-                restrictedMaterial = null;
+        /*if (StringUtils.isBlank(sensitiveDataCode)) {
+            if (sensitiveData != null) {
+                sensitiveData = null;
             }
         } else {
-            if (restrictedMaterial == null || !restrictedMaterial.getRestrictedMaterialCode().equals(this.restrictedMaterialCode)) {
-                restrictedMaterial = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getRestrictedMaterialByCode(this.restrictedMaterialCode);
+            if (sensitiveData == null || !sensitiveData.getSensitiveDataCode().equals(this.sensitiveDataCode)) {
+                sensitiveData = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getSensitiveDataByCode(this.sensitiveDataCode);
             }
         }
-        return restrictedMaterial;*/
+        return sensitiveData;*/
         return sensitiveData = (PurchasingAccountsPayableSensitiveData)SpringContext.getBean(KualiModuleService.class)
                                 .getResponsibleModuleService(PurchasingAccountsPayableSensitiveData.class)
                                 .retrieveExternalizableBusinessObjectIfNecessary(this, sensitiveData, "sensitiveData");

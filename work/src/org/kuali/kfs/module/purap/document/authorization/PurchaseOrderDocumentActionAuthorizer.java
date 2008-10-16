@@ -114,7 +114,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * The last transmit date must not be null. The purchase order must be current,
      * must not be pending and the purchase order status must be open. If the 
      * purchase order is an Automated Purchase Order (APO) and the purchase order
-     * does not have any restricted material set to true, then any users can see
+     * does not have any sensitive data set to true, then any users can see
      * the retransmit button, otherwise, only users in the purchasing group can see it.
      * 
      * @return boolean true if the retransmit button can be displayed.
@@ -334,6 +334,17 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     public boolean canContinuePoSplit() {
         return editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
     }
+    
+    /**
+     * Determines whether the current user has the authorization to assign sensitive data to the PO in its current status.
+     * 
+     * @return  True if the user can assign sensitive data to the PO.
+     */
+    public boolean canAssignSensitiveData() {
+        //TODO add workgroup auth check
+        return true;
+    }
+    
     
     private boolean isApUser() {
         return apUser;

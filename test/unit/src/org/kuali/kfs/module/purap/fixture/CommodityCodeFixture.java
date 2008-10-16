@@ -24,7 +24,7 @@ public enum CommodityCodeFixture {
             "Paging", //commodityDescription
             false,    //salesTaxIndicator
             false,    //restrictedItemsIndicator
-            null,     //restrictedMaterialCode
+            null,     //sensitiveDataCode
             true      //active
             ),
     COMMODITY_CODE_BASIC_ACTIVE_2 ( 
@@ -32,7 +32,7 @@ public enum CommodityCodeFixture {
                     "Sugarcane Mills", //commodityDescription
                     false,    //salesTaxIndicator
                     false,    //restrictedItemsIndicator
-                    null,     //restrictedMaterialCode
+                    null,     //sensitiveDataCode
                     true      //active
                     ),            
     COMMODITY_CODE_BASIC_INACTIVE ( 
@@ -40,7 +40,7 @@ public enum CommodityCodeFixture {
             "Internet Publishing and Broadcasting", //commodityDescription
             false,    //salesTaxIndicator
             false,    //restrictedItemsIndicator
-            null,     //restrictedMaterialCode
+            null,     //sensitiveDataCode
             false      //active
             ),      
     COMMODITY_CODE_NON_EXISTENCE ( 
@@ -48,14 +48,14 @@ public enum CommodityCodeFixture {
             null, //commodityDescription
             false,    //salesTaxIndicator
             false,    //restrictedItemsIndicator
-            null,     //restrictedMaterialCode
+            null,     //sensitiveDataCode
             false      //active
             ),         
-    COMMODITY_CODE_WITH_RESTRICTED_MATERIAL("516110", // purchasingCommodityCode
+    COMMODITY_CODE_WITH_SENSITIVE_DATA("516110", // purchasingCommodityCode
             "Internet Publishing and Broadcasting", // commodityDescription
             false, // salesTaxIndicator
             true, // restrictedItemsIndicator
-            null, // restrictedMaterialCode
+            null, // sensitiveDataCode
             true // active
             ),               
             ;
@@ -64,15 +64,15 @@ public enum CommodityCodeFixture {
     private String commodityDescription;
     private boolean salesTaxIndicator;
     private boolean restrictedItemsIndicator;
-    private String restrictedMaterialCode;
+    private String sensitiveDataCode;
     private boolean active;
     
-    private CommodityCodeFixture (String purchasingCommodityCode, String commodityDescription, boolean salesTaxIndicator, boolean restrictedItemsIndicator, String restrictedMaterialCode, boolean active) {
+    private CommodityCodeFixture (String purchasingCommodityCode, String commodityDescription, boolean salesTaxIndicator, boolean restrictedItemsIndicator, String sensitiveDataCode, boolean active) {
         this.purchasingCommodityCode = purchasingCommodityCode;
         this.commodityDescription = commodityDescription;
         this.salesTaxIndicator = salesTaxIndicator;
         this.restrictedItemsIndicator = restrictedItemsIndicator;
-        this.restrictedMaterialCode = restrictedMaterialCode;
+        this.sensitiveDataCode = sensitiveDataCode;
         this.active = active;
     }
     
@@ -82,7 +82,7 @@ public enum CommodityCodeFixture {
         cc.setCommodityDescription(commodityDescription);
         cc.setSalesTaxIndicator(salesTaxIndicator);
         cc.setRestrictedItemsIndicator(restrictedItemsIndicator);
-        cc.setSensitiveDataCode(restrictedMaterialCode);
+        cc.setSensitiveDataCode(sensitiveDataCode);
         cc.setActive(active);
         cc.refreshNonUpdateableReferences();
         

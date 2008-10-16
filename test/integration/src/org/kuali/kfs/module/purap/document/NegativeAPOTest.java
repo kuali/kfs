@@ -159,13 +159,13 @@ public class NegativeAPOTest extends KualiTestBase {
          }  
      }
      
-     public void testInvalidAPOHasCommodityCodeWithRestrictedMaterial() throws Exception {
+     public void testInvalidAPOHasCommodityCodeWithSensitiveData() throws Exception {
          TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
-         RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL;
+         RequisitionDocumentWithCommodityCodeFixture fixture = RequisitionDocumentWithCommodityCodeFixture.REQ_APO_COMMODITY_CODE_WITH_SENSITIVE_DATA;
          RequisitionDocument requisitionDocument = fixture.createRequisitionDocument();
          assertFalse(SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(requisitionDocument));
          if (requisitionDocument.getBoNotes() != null && requisitionDocument.getBoNotes().size() > 0) {
-             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL);
+             String reason = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
              assertTrue(requisitionDocument.getBoNote(0).getNoteText().indexOf(reason) >=0);
          }  
      }

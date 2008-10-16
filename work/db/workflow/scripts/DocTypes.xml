@@ -4902,9 +4902,9 @@
       <routingVersion>2</routingVersion>
     </documentType>
     <documentType>
-      <name>RestrictedMaterialMaintenanceDocument</name>
+      <name>SensitiveDataMaintenanceDocument</name>
       <parent>KualiPurapMaintenanceDocument</parent>
-      <label>Restricted Material</label>
+      <label>Sensitive Data</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
       <superUserWorkgroupName>SY_FUNCTIONAL_SUPER_USERS</superUserWorkgroupName>
       <blanketApproveWorkgroupName>SY_BLANKET_APPROVERS</blanketApproveWorkgroupName>

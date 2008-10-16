@@ -99,23 +99,23 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getAllRestrictedMaterials()
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getAllSensitiveDatas()
      */
-    public List<PurchasingAccountsPayableSensitiveData> getAllRestrictedMaterials() {
-        List<PurchasingAccountsPayableSensitiveData> restrictedMaterials = new ArrayList<PurchasingAccountsPayableSensitiveData>();
-        Collection restrictedMaterialsAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
-        for (Object rm: restrictedMaterialsAsObjects) {
-            restrictedMaterials.add((PurchasingAccountsPayableSensitiveData)rm);
+    public List<PurchasingAccountsPayableSensitiveData> getAllSensitiveDatas() {
+        List<PurchasingAccountsPayableSensitiveData> sensitiveDatas = new ArrayList<PurchasingAccountsPayableSensitiveData>();
+        Collection sensitiveDatasAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
+        for (Object rm: sensitiveDatasAsObjects) {
+            sensitiveDatas.add((PurchasingAccountsPayableSensitiveData)rm);
         }
-        return restrictedMaterials;
+        return sensitiveDatas;
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getRestrictedMaterialByCode(java.lang.String)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getSensitiveDataByCode(java.lang.String)
      */
-    public PurchasingAccountsPayableSensitiveData getRestrictedMaterialByCode(String restrictedMaterialCode) {
+    public PurchasingAccountsPayableSensitiveData getSensitiveDataByCode(String sensitiveDataCode) {
         Map primaryKeys = new HashMap();
-        primaryKeys.put("restrictedMaterialCode", restrictedMaterialCode);
+        primaryKeys.put("sensitiveDataCode", sensitiveDataCode);
         return (PurchasingAccountsPayableSensitiveData)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
 

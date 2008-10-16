@@ -279,6 +279,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(cancelSplitButton);
         }
         
+        if (auth.canAssignSensitiveData()){
+            ExtraButton sensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData");
+            extraButtons.add(sensitiveDataButton);
+        }
+
         return extraButtons;
     }        
     
@@ -368,6 +373,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         cancelSplitButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancelsplit.gif");
         cancelSplitButton.setExtraButtonAltText("Cancel Splitting the PO");
         
+        // Assign Sensitive Data button
+        ExtraButton sensitiveDataButton = new ExtraButton();
+        sensitiveDataButton.setExtraButtonProperty("methodToCall.assignSensitiveData");
+        sensitiveDataButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_sensitivedata.gif ");
+        sensitiveDataButton.setExtraButtonAltText("Assign sensitive data to the PO");
+        
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
         result.put(printButton.getExtraButtonProperty(), printButton);
@@ -381,6 +392,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(splitPoButton.getExtraButtonProperty(), splitPoButton);
         result.put(continueButton.getExtraButtonProperty(), continueButton);
         result.put(cancelSplitButton.getExtraButtonProperty(), cancelSplitButton);
+        result.put(sensitiveDataButton.getExtraButtonProperty(), sensitiveDataButton);
         
         return result;
     }

@@ -24,17 +24,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
-public class RestrictedMaterialValuesFinder extends KeyValuesBase {
+public class SensitiveDataValuesFinder extends KeyValuesBase {
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<PurchasingAccountsPayableSensitiveData> restrictedMaterials = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getAllRestrictedMaterials();
+        List<PurchasingAccountsPayableSensitiveData> sensitiveDatas = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getAllSensitiveDatas();
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
-        for (PurchasingAccountsPayableSensitiveData restrictedMaterial : restrictedMaterials) {
-            labels.add(new KeyLabelPair(restrictedMaterial.getSensitiveDataCode(), restrictedMaterial.getSensitiveDataDescription()));
+        for (PurchasingAccountsPayableSensitiveData sensitiveData : sensitiveDatas) {
+            labels.add(new KeyLabelPair(sensitiveData.getSensitiveDataCode(), sensitiveData.getSensitiveDataDescription()));
         }
 
         return labels;

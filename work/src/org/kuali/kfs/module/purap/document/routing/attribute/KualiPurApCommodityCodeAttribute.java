@@ -69,9 +69,9 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     
     // defined here so field creation matches rule errors
     private static final Class COMMODITY_CODE_FIELD_CLASS = CommodityCode.class;
-    private static final Class RESTRICTED_MATERIAL_FIELD_CLASS = SensitiveData.class;
+    private static final Class SENSITIVE_DATA_FIELD_CLASS = SensitiveData.class;
     private static final String PURCHASING_COMMODITY_CODE_FIELD_PROPERTY = PurapPropertyConstants.ITEM_COMMODITY_CODE;
-    private static final String RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY = PurapPropertyConstants.RESTRICTED_MATERIAL_CODE;
+    private static final String SENSITIVE_DATA_CODE_FIELD_PROPERTY = PurapPropertyConstants.SENSITIVE_DATA_CODE;
     private static final Class DELIVERY_CAMPUS_CLASS = RequisitionDocument.class;
     private static final String DELIVERY_CAMPUS_CODE_PROPERTY = PurapPropertyConstants.DELIVERY_CAMPUS_CODE;
     
@@ -81,7 +81,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     private boolean required;
     private String deliveryCampusCode;
     private String purchasingCommodityCode;
-    private String restrictedMaterialCode;
+    private String sensitiveDataCode;
     
     /**
      * Constructs a KualiPurApCommodityCodeAttribute.java.
@@ -91,7 +91,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         Map<String, String> campusMap  = (new CampusWithBlankValuesFinder()).getKeyLabelMap();
         ruleRows.add(KualiWorkflowUtils.buildDropdownRow(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY, DLVY_CMP_CD, campusMap, false));
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(COMMODITY_CODE_FIELD_CLASS, PURCHASING_COMMODITY_CODE_FIELD_PROPERTY, PUR_COMM_CD));
-        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(RESTRICTED_MATERIAL_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY, RSTRC_MTRL_CD));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SENSITIVE_DATA_FIELD_CLASS, SENSITIVE_DATA_CODE_FIELD_PROPERTY, RSTRC_MTRL_CD));
 
         routingDataRows = new ArrayList();
         routingDataRows.add(KualiWorkflowUtils.buildDropdownRow(DELIVERY_CAMPUS_CLASS, DELIVERY_CAMPUS_CODE_PROPERTY, DLVY_CMP_CD, campusMap, false));
@@ -114,12 +114,12 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         this.purchasingCommodityCode = purchasingCommodityCode;
     }
 
-    public String getRestrictedMaterialCode() {
-        return restrictedMaterialCode;
+    public String getSensitiveDataCode() {
+        return sensitiveDataCode;
     }
 
-    public void setRestrictedMaterialCode(String restrictedMaterialCode) {
-        this.restrictedMaterialCode = restrictedMaterialCode;
+    public void setSensitiveDataCode(String sensitiveDataCode) {
+        this.sensitiveDataCode = sensitiveDataCode;
     }
 
     public void setRuleRows(List ruleRows) {
@@ -130,13 +130,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
      * @see org.kuali.rice.kew.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
-        if (Utilities.isEmpty(getDeliveryCampusCode()) && Utilities.isEmpty(getPurchasingCommodityCode()) && Utilities.isEmpty(getRestrictedMaterialCode())) {
+        if (Utilities.isEmpty(getDeliveryCampusCode()) && Utilities.isEmpty(getPurchasingCommodityCode()) && Utilities.isEmpty(getSensitiveDataCode())) {
             return "";
         }
         StringBuffer deliveryCampusCode = new StringBuffer().append("<" + PurapPropertyConstants.DELIVERY_CAMPUS_CODE + ">").append(getDeliveryCampusCode()).append("</" + PurapPropertyConstants.DELIVERY_CAMPUS_CODE + ">");
         StringBuffer purchasingCommodityCode = new StringBuffer().append("<" + PurapPropertyConstants.ITEM_COMMODITY_CODE+ ">").append(getPurchasingCommodityCode()).append("</" + PurapPropertyConstants.ITEM_COMMODITY_CODE + ">");
-        StringBuffer restrictedMaterialCode = new StringBuffer().append("<" + PurapPropertyConstants.RESTRICTED_MATERIAL_CODE+ ">").append(getRestrictedMaterialCode()).append("</" + PurapPropertyConstants.RESTRICTED_MATERIAL_CODE + ">");
-        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(deliveryCampusCode).append(purchasingCommodityCode).append(restrictedMaterialCode).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
+        StringBuffer sensitiveDataCode = new StringBuffer().append("<" + PurapPropertyConstants.SENSITIVE_DATA_CODE+ ">").append(getSensitiveDataCode()).append("</" + PurapPropertyConstants.SENSITIVE_DATA_CODE + ">");
+        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append(deliveryCampusCode).append(purchasingCommodityCode).append(sensitiveDataCode).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     /**
@@ -155,8 +155,8 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
         if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
             extensions.add(new RuleExtensionValue(PUR_COMM_CD, getPurchasingCommodityCode()));
         }
-        if (StringUtils.isNotBlank(getRestrictedMaterialCode())) {
-            extensions.add(new RuleExtensionValue(RSTRC_MTRL_CD, getRestrictedMaterialCode()));
+        if (StringUtils.isNotBlank(getSensitiveDataCode())) {
+            extensions.add(new RuleExtensionValue(RSTRC_MTRL_CD, getSensitiveDataCode()));
         }
         return extensions;
     }
@@ -205,17 +205,17 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
 
     /**
      * Validates the commodity code attribute values i.e. the delivery campus code, purchasing commodity code and the
-     * restricted material code from the given paramMap input parameter. If there are any validation errors, we'll
+     * sensitive data code from the given paramMap input parameter. If there are any validation errors, we'll
      * add the errors to the List to be returned from this method.
      * 
-     * @param paramMap the Map containing the delivery campus code, purchasing commodity code and restricted material code.
+     * @param paramMap the Map containing the delivery campus code, purchasing commodity code and sensitive data code.
      * 
      * @return List of errors if there are any validation errors encountered in this method.
      */
     private List validateCommodityCodeAttributeValues(Map paramMap) {
         setDeliveryCampusCode(LookupUtils.forceUppercase(DELIVERY_CAMPUS_CLASS, PurapPropertyConstants.DELIVERY_CAMPUS_CODE, (String) paramMap.get(DLVY_CMP_CD)));
         setPurchasingCommodityCode(LookupUtils.forceUppercase(COMMODITY_CODE_FIELD_CLASS, PurapPropertyConstants.ITEM_COMMODITY_CODE, (String) paramMap.get(PUR_COMM_CD)));
-        setRestrictedMaterialCode(LookupUtils.forceUppercase(COMMODITY_CODE_FIELD_CLASS, PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, (String)paramMap.get(RSTRC_MTRL_CD)));
+        setSensitiveDataCode(LookupUtils.forceUppercase(COMMODITY_CODE_FIELD_CLASS, PurapPropertyConstants.SENSITIVE_DATA_CODE, (String)paramMap.get(RSTRC_MTRL_CD)));
         List errors = new ArrayList();
         
         if (!doesDeliveryCampusExist()) {
@@ -230,16 +230,16 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                 errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
             }
         }
-        if (StringUtils.isNotBlank(getRestrictedMaterialCode())) {
-            if (!doesRestrictedMaterialCodeExist()) {
-                // Restricted Material Code must exists in the database
-                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY) + " must exists in the database. ";
+        if (StringUtils.isNotBlank(getSensitiveDataCode())) {
+            if (!doesSensitiveDataCodeExist()) {
+                // Sensitive Data Code must exists in the database
+                String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, SENSITIVE_DATA_CODE_FIELD_PROPERTY) + " must exists in the database. ";
                 errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
             }
             else {
                 if (StringUtils.isNotBlank(getPurchasingCommodityCode())) {
-                    // Commodity Code and Restricted Material Code cannot coexists in a rule.
-                    String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, RESTRICTED_MATERIAL_CODE_FIELD_PROPERTY) + " and Commodity Code field cannot be both filled in. ";
+                    // Commodity Code and Sensitive Data Code cannot coexists in a rule.
+                    String error = KualiWorkflowUtils.getBusinessObjectAttributeLabel(COMMODITY_CODE_FIELD_CLASS, SENSITIVE_DATA_CODE_FIELD_PROPERTY) + " and Commodity Code field cannot be both filled in. ";
                     errors.add(new WorkflowServiceErrorImpl(error, "routetemplate.xmlattribute.error", error));
                 }
             }
@@ -275,13 +275,13 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
     }
     
     /**
-     * Validates whether the restricted material code exists in the database.
+     * Validates whether the sensitive data code exists in the database.
      * 
-     * @return boolean true if the restricted material code exists and false otherwise.
+     * @return boolean true if the sensitive data code exists and false otherwise.
      */
-    private boolean doesRestrictedMaterialCodeExist() {
+    private boolean doesSensitiveDataCodeExist() {
         Map fieldValues = new HashMap<String, String>();
-        fieldValues.put(PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, getRestrictedMaterialCode());
+        fieldValues.put(PurapPropertyConstants.SENSITIVE_DATA_CODE, getSensitiveDataCode());
         int count = SpringContext.getBean(BusinessObjectService.class).countMatching(SensitiveData.class, fieldValues);
         if (count > 0) {
             return true;
@@ -304,7 +304,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
             List ruleExtensions = rule.getRuleExtensions();
             setDeliveryCampusCode(LookupUtils.forceUppercase(DELIVERY_CAMPUS_CLASS, PurapPropertyConstants.DELIVERY_CAMPUS_CODE, getRuleExtentionValue(DLVY_CMP_CD, ruleExtensions)));
             setPurchasingCommodityCode(LookupUtils.forceUppercase(COMMODITY_CODE_FIELD_CLASS, PurapPropertyConstants.ITEM_COMMODITY_CODE, getRuleExtentionValue(PUR_COMM_CD, ruleExtensions)));
-            setRestrictedMaterialCode(LookupUtils.forceUppercase(RESTRICTED_MATERIAL_FIELD_CLASS, PurapPropertyConstants.RESTRICTED_MATERIAL_CODE, getRuleExtentionValue(RSTRC_MTRL_CD, ruleExtensions)));
+            setSensitiveDataCode(LookupUtils.forceUppercase(SENSITIVE_DATA_FIELD_CLASS, PurapPropertyConstants.SENSITIVE_DATA_CODE, getRuleExtentionValue(RSTRC_MTRL_CD, ruleExtensions)));
             if (ruleMatches(commodityCodeValues, deliveryCampusValue)) {
                 filteredRules.add(rule);
             }
@@ -344,7 +344,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     return true;
                 }
             }
-            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getSensitiveDataCode(), getRestrictedMaterialCode())) ) {
+            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getSensitiveDataCode(), getSensitiveDataCode())) ) {
                 return true;
             }
         }

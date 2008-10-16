@@ -89,7 +89,7 @@ public class PurapKeyConstants {
     public static final String NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES="requisition.nonAPO.requisition.contains.alternate.vendor.names";
     public static final String NON_APO_REQUISITION_CONTAINS_INACTIVE_COMMODITY_CODE="requisition.nonAPO.requisition.contains.inactive.commodity.code";
     public static final String NON_APO_REQUISITION_MISSING_COMMODITY_CODE="requisition.nonAPO.requisition.missing.commodity.code";
-    public static final String NON_APO_REQUISITION_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL="requisition.nonAPO.requisition.contains.commodity.code.restricted.material";
+    public static final String NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA="requisition.nonAPO.requisition.contains.commodity.code.sensitive.data";
         
     // Purchase Order
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
@@ -240,7 +240,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE = "errors.item.capitalAsset.objectCodeSubtype.requires.tranType";
     public static final String ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.quantity.objectCodeSubtype";
     public static final String ERROR_ITEM_TRAN_TYPE_REQUIRES_ASSET_NUMBER = "errors.item.capitalAsset.tranType.requires.assetNumber";
-    public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
+public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
     public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
     public static final String ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE = "errors.item.tradeIn.outstanding.encumbered.amount.negative";
     public static final String WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED = "warning.item.tradeIn.amount.unused";

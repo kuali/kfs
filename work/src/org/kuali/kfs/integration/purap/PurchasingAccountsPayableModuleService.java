@@ -38,17 +38,17 @@ public interface PurchasingAccountsPayableModuleService {
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers);
     
     /**
-     * Returns a restricted material record associated with the given code
-     * @param restrictedMaterialCode the code of the restricted material
-     * @return a record of restricted material information
+     * Returns a sensitive data record associated with the given code
+     * @param sensitiveDataCode the code of the sensitive data
+     * @return a record of sensitive data information
      */
-    public PurchasingAccountsPayableSensitiveData getRestrictedMaterialByCode(String restrictedMaterialCode);
+    public PurchasingAccountsPayableSensitiveData getSensitiveDataByCode(String sensitiveDataCode);
     
     /**
-     * Returns all restricted materials records known to the module
-     * @return a List of all restricted materials known to the module
+     * Returns all sensitive data records known to the module
+     * @return a List of all sensitive data known to the module
      */
-    public List<PurchasingAccountsPayableSensitiveData> getAllRestrictedMaterials();
+    public List<PurchasingAccountsPayableSensitiveData> getAllSensitiveDatas();
     
     /**
      * 

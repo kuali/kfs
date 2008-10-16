@@ -130,8 +130,8 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.RequisitionStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
         <li>
-            <portal:portalLink displayTitle="true" title="Restricted Material"
-                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.RestrictedMaterial&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+            <portal:portalLink displayTitle="true" title="Sensitive Data"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.purap.businessobject.SensitiveData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
         </li>		
         <li>
 			<portal:portalLink displayTitle="true" title="Threshold"

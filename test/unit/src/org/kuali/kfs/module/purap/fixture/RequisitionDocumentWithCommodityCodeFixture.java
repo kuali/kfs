@@ -31,8 +31,8 @@ public enum RequisitionDocumentWithCommodityCodeFixture {
     REQ_APO_INACTIVE_COMMODITY_CODE(
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_APO_BASIC_INACTIVE_COMMODITY_CODE} // requisitionItemMultiFixtures
     ), 
-    REQ_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL(
-            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_APO_COMMODITY_CODE_WITH_RESTRICTED_MATERIAL} // requisitionItemMultiFixtures
+    REQ_APO_COMMODITY_CODE_WITH_SENSITIVE_DATA(
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_APO_COMMODITY_CODE_WITH_SENSITIVE_DATA} // requisitionItemMultiFixtures
     ), 
     ;
     

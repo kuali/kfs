@@ -562,7 +562,7 @@
 	<field-descriptor name="commodityDescription" column="PUR_COMM_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salesTaxIndicator" column="PUR_SALES_TAX_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="restrictedItemsIndicator" column="ITM_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="SensitiveDataCode" column="SNSTV_DTA_CD " jdbc-type="VARCHAR"/>
+	<field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <collection-descriptor name="commodityContractManagers"  element-class-ref="org.kuali.kfs.vnd.businessobject.CommodityContractManager" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="purchasingCommodityCode" />

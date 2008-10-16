@@ -113,7 +113,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.RestrictedMaterialValuesFinder"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.SensitiveDataValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
   </bean>
@@ -161,8 +161,6 @@
                     p:attributeName="salesTaxIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="restrictedItemsIndicator" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sensitiveDataCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -217,8 +215,6 @@
         <bean parent="FieldDefinition"
               p:attributeName="restrictedItemsIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="sensitiveDataCode" />
-        <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
               p:attributeName="commodityContractManagers.campusCode" />              
@@ -236,8 +232,6 @@
               p:attributeName="salesTaxIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="restrictedItemsIndicator" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sensitiveData.sensitiveDataDescription" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />                      
       </list>

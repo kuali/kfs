@@ -93,18 +93,24 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
-                <c:if test="${displayRequisitionFields}">
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-                    </td>
-                </c:if>
-                <c:if test="${!displayRequisitionFields}">
-                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>
-                </c:if>
+                <c:choose>
+                	<c:when test="${displayRequisitionFields}">
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		                </td>
+	                </c:when>
+        			<c:otherwise>
+		                <th align=right valign=middle class="bord-l-b" rowspan=3>
+		                    Sensitive Data
+		                </th>
+		                <td align=left valign=middle class="datacell" rowspan=3>
+		                    &nbsp;
+		                </td>
+	                </c:otherwise>
+				</c:choose>
             </tr>
 
             <tr>
@@ -115,46 +121,38 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
                 <c:if test="${displayRequisitionFields}">
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-                    </td>
-                </c:if>
-                <c:if test="${!displayRequisitionFields}">
-                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>
-                </c:if>
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		                </td>
+	            </c:if>
             </tr>
 
             <c:if test="${!lockB2BEntry or displayRequisitionFields}">
-	            <tr>
+            <tr>
 	                <c:if test="${!lockB2BEntry}">
-		                <th align=right valign=middle class="bord-l-b">
-		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" /></div>
-		                </th>
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" property="document.purchaseOrderTotalLimit" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-		                </td>
+                		<th align=right valign=middle class="bord-l-b">
+                    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" /></div>
+                		</th>
+                		<td align=left valign=middle class="datacell">
+                    		<kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" property="document.purchaseOrderTotalLimit" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                		</td>
 		            </c:if>
 	                <c:if test="${lockB2BEntry}">
 	                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
 	                    <td align=left valign=middle class="datacell">&nbsp;</td>
 	                </c:if>
 	                <c:if test="${displayRequisitionFields}">
-	                    <th align=right valign=middle class="bord-l-b">
-	                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
-	                    </th>
-	                    <td align=left valign=middle class="datacell">
-	                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" property="document.requisitionOrganizationReference3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
-	                    </td>
+		                <th align=right valign=middle class="bord-l-b">
+		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
+		                </th>
+		                <td align=left valign=middle class="datacell">
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" property="document.requisitionOrganizationReference3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+		                </td>
 	                </c:if>
-	                <c:if test="${!displayRequisitionFields}">
-	                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-	                    <td align=left valign=middle class="datacell">&nbsp;</td>
-	                </c:if>
-	            </tr>
+            </tr>
             </c:if>
 
         </table>

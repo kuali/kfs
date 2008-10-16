@@ -20,11 +20,11 @@ import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Validates that an accounting line does not have a capital object object code 
@@ -43,19 +43,23 @@ public class GeneralErrorCorrectionObjectTypeValidation extends GenericValidatio
      */
     
     public boolean validate(AttributedDocumentEvent event) {
+        accountingLineForValidation.refreshReferenceObject("objectCode");
         ObjectCode code = accountingLineForValidation.getObjectCode();
+        boolean retVal = true;
        
-        ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(
-                GeneralErrorCorrectionDocument.class, 
-                VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, 
-                INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, 
-                code.getFinancialObjectTypeCode(), 
-                code.getFinancialObjectSubTypeCode());
-        
-        boolean retVal = parameterEvaluator.evaluateAndAddError(
-                SourceAccountingLine.class,
-                "objectCode.financialObjectSubTypeCode",
-                KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        if (!ObjectUtils.isNull(code)) {
+            ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(
+                    GeneralErrorCorrectionDocument.class, 
+                    VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, 
+                    INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, 
+                    code.getFinancialObjectTypeCode(), 
+                    code.getFinancialObjectSubTypeCode());
+            
+            retVal = parameterEvaluator.evaluateAndAddError(
+                    SourceAccountingLine.class,
+                    "objectCode.financialObjectSubTypeCode",
+                    KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        }
         return retVal;
     }
 

@@ -46,7 +46,9 @@ public class CompositeValidation implements Validation {
             currResult = validation.stageValidation(event);
             result &= currResult;
             
-            LOG.debug(validation.getClass() + " validation result:" + currResult);
+            if(!currResult) {
+                LOG.info(validation.getClass() + " failed");
+            }
             
             if (!currResult && validation.shouldQuitOnFail()) {
                 break;

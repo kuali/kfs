@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="financialDisbursementVoucher"
 	documentTypeName="DisbursementVoucherDocument"
@@ -49,11 +50,13 @@
 	  disbursementOnly="true" />
 	<dv:dvPayee />
 	<dv:dvPayment />
-	<fin:accountingLines sourceAccountingLinesOnly="true"
-		editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		editableFields="${KualiForm.accountingLineEditableFields}"
-		extraSourceRowFields="financialDocumentLineDescription" />
+
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+		</sys:accountingLines>
+	</kul:tab>
+	
 	<dv:dvContact />
     <dv:dvSpecialHandling />
 	<dv:dvNRATax />

@@ -69,6 +69,12 @@ public interface TableJoining {
      * @param readOnlyBlocks the names of blocks to make read only
      */
     public abstract void readOnlyizeReadOnlyBlocks(Set<String> readOnlyBlocks);
+    
+    /**
+     * Instructs the element to make any child readOnlyizable blocks named within the given Set to read only
+     * @param readOnlyBlocks the names of blocks to make read only
+     */
+    public abstract void setEditableBlocks(Set<String> editableBlocks);
 
     /**
      * Performs a transformations on any fields this TableJoining layout element knows about

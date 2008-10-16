@@ -113,6 +113,15 @@ public abstract class FieldTableJoining implements TableJoining, RenderableEleme
             ((ReadOnlyable)this).readOnlyize();
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        if (this instanceof ReadOnlyable && editableBlocks.contains(getName())) {
+            ((ReadOnlyable)this).setEditable();
+        }
+    }
 
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#performFieldTransformation(org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation, org.kuali.kfs.sys.businessobject.AccountingLine, java.util.Map, java.util.Map)

@@ -213,4 +213,22 @@ public class AccountingLineViewLines implements TableJoining, ReadOnlyable {
             line.readOnlyizeReadOnlyBlocks(readOnlyBlocks);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        for (AccountingLineViewLineFillingElement line : elements) {
+            line.setEditableBlocks(editableBlocks);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        for (AccountingLineViewLineFillingElement line : elements) {
+            line.setEditable();
+        }       
+    }
 }

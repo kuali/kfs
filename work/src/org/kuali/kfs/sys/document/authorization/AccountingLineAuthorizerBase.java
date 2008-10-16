@@ -242,4 +242,11 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     public boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
         return editModesForDocument.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     */
+    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+        return new HashSet<String>();
+    }
 }

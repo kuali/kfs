@@ -20,6 +20,11 @@ package org.kuali.kfs.sys.document.web;
  */
 public interface ReadOnlyable {
     /**
+     * Sets any renderable element within this table joining block to be editable
+     */
+    public abstract void setEditable();
+    
+    /**
      * Sets any renderable element within this table joining block to be read only
      */
     public abstract void readOnlyize();

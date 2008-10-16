@@ -97,4 +97,12 @@ public interface AccountingLineAuthorizer {
      * @return true if the entire group is read only, false otherwise
      */
     public abstract boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
+    
+    /**
+     * Determines which, if any, blocks specified for accounting line rendering should be forced to be rendered as editable when the line is readonly
+     * @param accountingDocument the accounting document the line to authorize is owned by
+     * @param accountingLine the accounting line that is being authorized against
+     * @return a Set of the names of blocks where all children fields should be forced to render as editable
+     */
+    public abstract Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser);
 }

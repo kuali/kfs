@@ -48,6 +48,7 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
         removeUnviewableBlocks(elements, lineAuthorizer.getUnviewableBlocks(document, accountingLine, newLine, currentUser));
         if (!lineAuthorizer.isAccountLineEditable(document, accountingLine, currentUser, lineAuthorizer.editModeForAccountingLine(document, accountingLine, newLine, currentUser, documentAuthorizer.getEditMode(document, currentUser)))) {
             readOnlyizeAllBlocks(elements);
+            this.setEditableBlocks(elements, lineAuthorizer.getEditableBlocksInReadOnlyLine(document, accountingLine, currentUser));
         } else {
             readOnlyizeReadOnlyBlocks(elements, lineAuthorizer.getReadOnlyBlocks(document, accountingLine, newLine, currentUser));
         }
@@ -81,6 +82,19 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
         if (readOnlyBlocks.size() > 0) {
             for (TableJoining element : elements) {
                 element.readOnlyizeReadOnlyBlocks(readOnlyBlocks);
+            }
+        }
+    }
+    
+    /**
+     * Makes any blocks within the given set of editableBlocks entirely editable
+     * @param element the element rendering tree
+     * @param editableBlocks a Set of the names of blocks that should be editable
+     */
+    protected void setEditableBlocks(List<TableJoining> elements, Set<String> editableBlocks) {
+        if (editableBlocks.size() > 0) {
+            for (TableJoining element : elements) {
+                element.setEditableBlocks(editableBlocks);
             }
         }
     }

@@ -427,4 +427,13 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         }
         return false;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        if (!isHidden()) {
+            this.field.setReadOnly(false);
+        }
+    }
 }

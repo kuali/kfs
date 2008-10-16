@@ -128,6 +128,7 @@ public class AccountingLineViewLine implements ReadOnlyable, AccountingLineViewL
     public boolean shouldStretchToFillLine() {
         return false;
     }
+    
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyize()
      */
@@ -220,5 +221,27 @@ public class AccountingLineViewLine implements ReadOnlyable, AccountingLineViewL
             }
         }
         return count;
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        for (RenderableElement element : elements) {
+            if (element instanceof ReadOnlyable) {
+                ((ReadOnlyable)element).setEditable();
+            }
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        for (RenderableElement element : elements) {
+            if (element instanceof TableJoining) {
+                ((TableJoining)element).setEditableBlocks(editableBlocks);
+            }
+        }
     }
 }

@@ -281,4 +281,31 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
     public void setDefinition(AccountingLineViewDebitCreditAmountFieldDefinition definition) {
         this.definition = definition;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        if (editableBlocks.contains(KFSPropertyConstants.AMOUNT)) {
+            if (debitAmountField != null) {
+                debitAmountField.setReadOnly(false);
+            }
+            if (creditAmountField != null) {
+                creditAmountField.setReadOnly(false);
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        if (debitAmountField != null) {
+            debitAmountField.setReadOnly(false);
+        }
+        
+        if (creditAmountField != null) {
+            creditAmountField.setReadOnly(false);
+        }
+    }
 }

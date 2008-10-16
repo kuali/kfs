@@ -252,4 +252,22 @@ public class AccountingLineViewColumns implements AccountingLineViewLineFillingE
         return 1;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        for (AccountingLineViewField field : fields) {
+            field.setEditableBlocks(editableBlocks);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        for (AccountingLineViewField field : fields) {
+            field.setEditable();
+        }
+    }
+
 }

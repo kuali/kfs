@@ -158,4 +158,8 @@ public class PlaceHoldingLayoutElement implements TableJoiningWithHeader {
         this.colSpan = colSpan;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {}
 }

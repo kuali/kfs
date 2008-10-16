@@ -310,5 +310,49 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
     public void setCurrentAmountFieldDefinition(AccountingLineViewFieldDefinition currentAmountFieldDefinition) {
         this.currentAmountFieldDefinition = currentAmountFieldDefinition;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.TableJoining#setEditableBlocks(java.util.Set)
+     */
+    public void setEditableBlocks(Set<String> editableBlocks) {
+        if (currentAmountField != null) {
+            setEditableField(currentAmountField, editableBlocks);
+        }
+        if (baseAmountField != null) {
+            setEditableField(baseAmountField, editableBlocks);
+        }
+        
+        if (baseAmountField != null && currentAmountField != null) {
+            if (baseAmountField.isReadOnly() && !currentAmountField.isReadOnly()) {
+                currentAmountField.setReadOnly(false);
+            } 
+            else if (currentAmountField.isReadOnly() && !baseAmountField.isReadOnly()) {
+                baseAmountField.setReadOnly(false);
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
+     */
+    public void setEditable() {
+        if (currentAmountField != null) {
+            currentAmountField.setReadOnly(false);
+        }
+        
+        if (baseAmountField != null) {
+            baseAmountField.setReadOnly(false);
+        }
+    }
     
+    /**
+     * Checks if the given field is named as an editableBlocks; if so, makes it editable
+     * @param field the field to check
+     * @param editableBlocks the names of all editable blocks
+     */
+    protected void setEditableField(Field field, Set<String> editableBlocks) {
+        if (field != null && editableBlocks.contains(field.getPropertyName())) {
+            field.setReadOnly(false);
+        }
+    }    
 }

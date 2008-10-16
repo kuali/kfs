@@ -30,7 +30,7 @@
 </c:if>
 
 <kul:hiddenDocumentFields includeDocumentHeaderFields="${isTransactionalDocument}" includeEditMode="${isTransactionalDocument}"/>
-	
+<html:hidden property="document.postingPeriodCode" /> 	
 <c:choose>
 	 <c:when test="${KualiForm.document.sessionDocument || sessionDocument}">
 	 </c:when>
@@ -40,11 +40,8 @@
     <c:if test="${!excludePostingYear}">
         <html:hidden property="document.postingYear" /> 
     </c:if>
-    <html:hidden property="document.postingPeriodCode" /> 
-    
     <html:hidden property="document.nextSourceLineNumber" />
     <html:hidden property="document.nextTargetLineNumber" />
-    
     <html:hidden property="document.documentHeader.financialDocumentInErrorNumber" />
     <html:hidden property="document.documentHeader.correctedByDocumentId" />
 </c:if>

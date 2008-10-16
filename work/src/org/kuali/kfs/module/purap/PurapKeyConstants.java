@@ -23,7 +23,6 @@ public class PurapKeyConstants {
     public static final String PURAP_GENERAL_POTENTIAL_DUPLICATE = "error.document.purap.potentialDuplicate";
     public static final String PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE = "error.document.purap.noAccountsToDistribute";
     public static final String PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO = "error.document.purap.noItemsToDistributeTo";
-    public static final String PURAP_GENERAL_NO_ITEMS_TO_REMOVE_ACCOUNTS_FROM = "error.document.purap.noItemsToRemoveAccountsFrom";
     public static final String PURAP_GENERAL_ACCOUNTS_DISTRIBUTED = "message.document.purap.accountsDistributed";
     public static final String PURAP_GENERAL_ACCOUNTS_REMOVED = "message.document.purap.accountsRemoved";
     public static final String ERROR_INVALID_CHART_OF_ACCOUNTS_CODE = "error.document.purap.invalidChartOfAccountsCode";
@@ -42,7 +41,6 @@ public class PurapKeyConstants {
     public static final String ERROR_DEBARRED_VENDOR = "error.debarred.vendor";
     public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";
     public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor";
-    public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
     public static final String ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN = "error.apoContractManagerCodeChosen";
@@ -50,10 +48,7 @@ public class PurapKeyConstants {
     public static final String ERROR_REQ_COPY_EXPIRED_CONTRACT = "error.requisition.copy.expired.contract";
     public static final String ERROR_REQ_COPY_INACTIVE_VENDOR = "error.requisition.copy.inactive.vendor";
     public static final String ERROR_STIPULATION_DESCRIPTION = "error.purchaseOrder.stipulationDescriptionEmpty";
-    public static final String ERROR_QUOTE_TRANSMITTED = "error.purchaseOrder.quote.transmitted";
     public static final String ERROR_NO_ITEMS = "error.requisition.no.items";
-    public static final String ERROR_NO_ACCOUNTS = "error.requisition.no.accounts";
-    public static final String ERROR_NOT_100_PERCENT = "error.requisition.items.not.100.percent";
     public static final String ERROR_DISTRIBUTE_ACCOUNTS_NOT_100_PERCENT = "error.distribute.accounts.not.100.percent";
     public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
     public static final String ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST = "error.delivery.required.date.in.the.past";
@@ -104,20 +99,15 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD = "purchaseOrder.route.message.payment.hold.text";
     public static final String PURCHASE_ORDER_MESSAGE_REMOVE_HOLD = "purchaseOrder.route.message.remove.hold.text";
     public static final String PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT = "purchaseOrder.route.message.reopen.text";
-    public static final String PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT = "purchaseOrder.route.message.amend.text";
     public static final String PURCHASE_ORDER_MESSAGE_SPLIT_DOCUMENT = "purchaseOrder.route.message.split.text";
     public static final String PURCHASE_ORDER_AMEND_MESSAGE_CHANGE_SYSTEM_TYPE = "purchaseOrder.amend.message.change.systemType";
     public static final String PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE = "purchaseOrder.question.manual.status.change";
     public static final String PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX = "purchaseOrder.manual.status.change.note.prefix";
-    public static final String ERROR_USER_NONPURCHASING = "errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
-    public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";
-    public static final String ERROR_PURCHASE_ORDER_TRANSMIT_INVALID_TRANSMIT_TYPE = "error.transmit.purchaseOrder.invalidTransmitType";
     public static final String WARNING_PURCHASE_ORDER_NOT_CURRENT = "warning.purchaseOrder.notCurrent";
     public static final String WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT = "warning.purchaseOrder.pendingAction.notCurrent";
     public static final String WARNING_PURCHASE_ORDER_PENDING_ACTION = "warning.purchaseOrder.pendingAction";
     public static final String WARNING_PURCHASE_ORDER_ALL_NOTES = "warning.purchaseOrder.allNotes";
-    public static final String ERROR_PURCHASE_ORDER_CANNOT_AMEND = "error.purchaseOrder.cannot.amend";
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_AWARD = "purchaseOrder.route.message.confirm.award.text";
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW = "purchaseOrder.route.message.confirm.award.row.text";
     public static final String PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE = "purchaseOrder.route.message.confirm.cancel.quote.text";
@@ -142,7 +132,6 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_SPLIT_ONE_ITEM_MUST_REMAIN = "error.purchaseOrder.split.atLeastOneItem.mustRemain";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR = "error.purchaseOrder.quoteList.no.vendor";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_NON_EXISTENCE_VENDOR = "error.purchaseOrder.quoteList.nonExistence.vendor";
-    public static final String ERROR_PURCHASE_ORDER_QUOTE_LIST_MORE_THAN_ONE_VENDOR = "error.purchaseOrder.quoteList.moreThanOne.vendor";
     
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";
@@ -162,7 +151,6 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_REASON_REQUIRED = "error.paymentRequest.reasonRequired";
     public static final String ERROR_CANCEL_CANCELLED = "errors.cancel.cancelled";
     public static final String ERROR_CANCEL_EXTRACTED = "errors.cancel.extracted";
-    public static final String ERROR_PAYMENT_REQUEST_NOT_IN_PROCESS = "error.paymentRequest.not.inProcess";
     public static final String ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL = "error.paymentRequest.item.TotalInvoice.notEqual";
     public static final String ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE = "error.paymentRequest.grandTotal.not.positive";
 
@@ -179,16 +167,12 @@ public class PurapKeyConstants {
 
     public static final String MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED = "message.closed.or.expired.accounts.replaced";
 
-    public static final String PAYMENT_REQUEST_QUESTION_DOCUMENT = "paymentRequest.question.text";
     public static final String PAYMENT_REQUEST_MESSAGE_HOLD_DOCUMENT = "paymentRequest.message.hold.text";
 
-    public static final String PAYMENT_REQUEST_QUESTION_REMOVE_HOLD_DOCUMENT = "paymentRequest.question.remove.hold.text";
     public static final String PAYMENT_REQUEST_MESSAGE_REMOVE_HOLD_DOCUMENT = "paymentRequest.message.remove.hold.text";
 
-    public static final String PAYMENT_REQUEST_QUESTION_CANCEL_DOCUMENT = "paymentRequest.question.cancel.text";
     public static final String PAYMENT_REQUEST_MESSAGE_CANCEL_DOCUMENT = "paymentRequest.message.cancel.text";
 
-    public static final String PAYMENT_REQUEST_QUESTION_REMOVE_CANCEL_DOCUMENT = "paymentRequest.question.remove.cancel.text";
     public static final String PAYMENT_REQUEST_MESSAGE_REMOVE_CANCEL_DOCUMENT = "paymentRequest.message.remove.cancel.text";
 
     public static final String ERROR_NEXT_FY_BEGIN_DATE_INVALID = "error.nextFY.beginDate.invalid";
@@ -212,9 +196,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO = "errors.item.amount.notBelowZero";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_UNIQUE = "errors.item.accounting.notunique";
     public static final String ERROR_ITEM_TOTAL_NEGATIVE = "errors.item.total.negative";
-    public static final String ERROR_ITEM_QUANTITY_NOT_ZERO = "errors.item.quantity.notZero";
     public static final String ERROR_ITEM_QUANTITY = "errors.item.quantity";
-    public static final String ERROR_ITEM_EMPTY = "errors.item.empty";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED = "errors.item.accounting.notallowed";
     public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
@@ -237,10 +219,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_TOTAL = "errors.item.accounting.amount.total";
     public static final String ERROR_ACCOUNT_AMOUNT_TOTAL = "errors.accountString.totalAmount.negative";
     public static final String ERROR_ITEM_ACCOUNT_EXPIRED = "errors.item.accounting.expired";
-    public static final String ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE = "errors.item.capitalAsset.objectCodeSubtype.requires.tranType";
-    public static final String ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.quantity.objectCodeSubtype";
-    public static final String ERROR_ITEM_TRAN_TYPE_REQUIRES_ASSET_NUMBER = "errors.item.capitalAsset.tranType.requires.assetNumber";
-public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
+    public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.negative";
     public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
     public static final String ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE = "errors.item.tradeIn.outstanding.encumbered.amount.negative";
     public static final String WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED = "warning.item.tradeIn.amount.unused";
@@ -253,16 +232,12 @@ public static final String ERROR_ITEM_ACCOUNT_NEGATIVE = "errors.item.account.ne
     public static final String ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID = "errors.creditMemo.paymentRequest.invalid";
     public static final String ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS = "errors.creditMemo.paymentRequest.invalid.status";
     public static final String ERROR_CREDIT_MEMO_VENDOR_NUMBER_INVALID = "errors.creditMemo.vendorNumber.invalid";
-    public static final String ERROR_CREDIT_MEMO_INVALID_CREDIT_MEMO_DATE = "errors.creditMemo.creditMemoDate.invalid";
     public static final String ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH = "errors.creditMemo.vendorInvoiceAmount.invalid";
     public static final String ERROR_CREDIT_MEMO_TOTAL_ZERO = "errors.creditMemo.total.zero";
     public static final String ERROR_CREDIT_MEMO_ITEM_AMOUNT_NONPOSITIVE = "errors.creditMemo.itemAmount.aboveZero";
     public static final String ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH = "errors.creditMemo.item.quantity.tooMuch";
     public static final String ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH = "errors.creditMemo.item.extendedPrice.tooMuch";
-    public static final String ERROR_CREDIT_MEMO_ITEM_MISCDESCRIPTION = "errors.creditMemo.item.miscDescription";
     public static final String ERROR_CREDIT_MEMO_LINE_PERCENT = "errors.creditMemo.line.percent";
-    public static final String ERROR_CREDIT_MEMO_ACCOUNTING_INCOMPLETE = "errors.creditMemo.accounting.incomplete";
-    public static final String ERROR_CREDIT_MEMO_ACCOUNTING_TOTAL = "errors.creditMemo.accounting.total";
 
     public static final String CREDIT_MEMO_QUESTION_HOLD_DOCUMENT = "creditMemo.question.hold.text";
     public static final String CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT = "creditMemo.question.cancel.text";

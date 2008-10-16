@@ -154,6 +154,11 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
             }
         }
 
+        //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
+        if (!creditMemoDocument.isExtracted()) {
+            flags.setCanEditBank(true);
+        }
+        
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
         this.setAnnotateFlag(flags);
 

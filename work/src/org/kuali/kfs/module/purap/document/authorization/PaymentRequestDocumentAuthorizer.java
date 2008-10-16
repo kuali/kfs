@@ -205,6 +205,11 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
             flags.setCanApprove(preqDocAuth.canApprove());
             flags.setCanCancel(preqDocAuth.canCancel());
             flags.setCanSave(preqDocAuth.canSave());
+            
+            //Set can edit bank to true if the document has not been extracted, for now without Kim (more changes when Kim is available).
+            if (!paymentRequestDocument.isExtracted()) {
+                flags.setCanEditBank(true);
+            }
         }
 
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS

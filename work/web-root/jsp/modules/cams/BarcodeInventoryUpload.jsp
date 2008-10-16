@@ -52,7 +52,7 @@
           <h3>Add Batch File</h3>
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
-              <th width="120">&nbsp;</th>
+              <th width="180">&nbsp;</th>
               <th> <div align="left">Browse File</div></th>
               <th> <div align="left">File Identifier</div></th>
               <th width="150"> <div align="center">Actions</div></th>
@@ -83,7 +83,7 @@
             </c:forEach>
             
 		    <tr>
-			    <th>Description:</th>
+			    <th>File Upload Description:</th>
 				<td align="left" valign="middle">
 					<html:text property="uploadDescription"  size="45" maxlength="40"/>
 				</td>

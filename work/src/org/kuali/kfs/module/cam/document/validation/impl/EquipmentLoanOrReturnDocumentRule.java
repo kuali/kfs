@@ -174,19 +174,17 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
             valid &= false;
         }
 
-        if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerZipCode())) {
-            PostalCode borrowerZipCode = equipmentLoanOrReturnDocument.getBorrowerPostalZipCode();
-            if (ObjectUtils.isNull(borrowerZipCode)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerZipCode());
-                valid &= false;
-            }
-            else {
-                // validate postal zip code against state code
-                if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStateCode())) {
-                    if (!equipmentLoanOrReturnDocument.getBorrowerStateCode().equals(borrowerZipCode.getPostalStateCode())) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStateCode(), equipmentLoanOrReturnDocument.getBorrowerZipCode());
-                        valid &= false;
-                    }
+        PostalCode borrowerZipCode = equipmentLoanOrReturnDocument.getBorrowerPostalZipCode();
+        if (ObjectUtils.isNull(borrowerZipCode)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerZipCode());
+            valid &= false;
+        }
+        else {
+            // validate postal zip code against state code
+            if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStateCode())) {
+                if (!equipmentLoanOrReturnDocument.getBorrowerStateCode().equals(borrowerZipCode.getPostalStateCode())) {
+                    GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStateCode(), equipmentLoanOrReturnDocument.getBorrowerZipCode());
+                    valid &= false;
                 }
             }
         }

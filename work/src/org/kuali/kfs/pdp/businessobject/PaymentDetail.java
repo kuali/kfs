@@ -44,21 +44,21 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static KualiDecimal zero = KualiDecimal.ZERO;
 
-    private KualiInteger id; // PMT_DTL_ID
-    private String invoiceNbr; // INV_NBR
-    private Timestamp invoiceDate; // INV_DT
-    private String purchaseOrderNbr; // PO_NBR
-    private String custPaymentDocNbr; // CUST_PMT_DOC_NBR
-    private String financialDocumentTypeCode; // FDOC_TYP_CD
-    private String requisitionNbr; // REQS_NBR
-    private String organizationDocNbr; // ORG_DOC_NBR
-    private KualiDecimal origInvoiceAmount; // ORIG_INV_AMT
-    private KualiDecimal netPaymentAmount; // NET_PMT_AMT
-    private KualiDecimal invTotDiscountAmount; // INV_TOT_DSCT_AMT
-    private KualiDecimal invTotShipAmount; // INV_TOT_SHP_AMT
-    private KualiDecimal invTotOtherDebitAmount; // INV_TOT_OTHR_DEBIT_AMT
-    private KualiDecimal invTotOtherCreditAmount; // INV_TOT_OTHR_CRDT_AMT
-    private Boolean primaryCancelledPayment; // PDP_PRM_PMT_CNCL_IND
+    private KualiInteger id; 
+    private String invoiceNbr; 
+    private Timestamp invoiceDate; 
+    private String purchaseOrderNbr; 
+    private String custPaymentDocNbr; 
+    private String financialDocumentTypeCode; 
+    private String requisitionNbr; 
+    private String organizationDocNbr; 
+    private KualiDecimal origInvoiceAmount; 
+    private KualiDecimal netPaymentAmount; 
+    private KualiDecimal invTotDiscountAmount; 
+    private KualiDecimal invTotShipAmount; 
+    private KualiDecimal invTotOtherDebitAmount; 
+    private KualiDecimal invTotOtherCreditAmount; 
+    private Boolean primaryCancelledPayment; 
     private Timestamp lastDisbursementActionDate;
 
     private List<PaymentAccountDetail> accountDetail = new ArrayList<PaymentAccountDetail>();
@@ -334,12 +334,20 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotDiscountAmount(KualiDecimal decimal) {
         invTotDiscountAmount = decimal;
     }
+    
+    public void setInvTotDiscountAmount(String decimal) {
+        invTotDiscountAmount = new KualiDecimal(decimal);
+    }
 
     /**
      * @param decimal
      */
     public void setInvTotOtherCreditAmount(KualiDecimal decimal) {
         invTotOtherCreditAmount = decimal;
+    }
+    
+    public void setInvTotOtherCreditAmount(String decimal) {
+        invTotOtherCreditAmount = new KualiDecimal(decimal);
     }
 
     /**
@@ -348,6 +356,10 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotOtherDebitAmount(KualiDecimal decimal) {
         invTotOtherDebitAmount = decimal;
     }
+    
+    public void setInvTotOtherDebitAmount(String decimal) {
+        invTotOtherDebitAmount = new KualiDecimal(decimal);
+    }
 
     /**
      * @param decimal
@@ -355,12 +367,20 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setInvTotShipAmount(KualiDecimal decimal) {
         invTotShipAmount = decimal;
     }
+    
+    public void setInvTotShipAmount(String decimal) {
+        invTotShipAmount = new KualiDecimal(decimal);
+    }
 
     /**
      * @param decimal
      */
     public void setNetPaymentAmount(KualiDecimal decimal) {
         netPaymentAmount = decimal;
+    }
+    
+    public void setNetPaymentAmount(String decimal) {
+        netPaymentAmount = new KualiDecimal(decimal);
     }
 
     /**
@@ -375,6 +395,10 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      */
     public void setOrigInvoiceAmount(KualiDecimal decimal) {
         origInvoiceAmount = decimal;
+    }
+    
+    public void setOrigInvoiceAmount(String decimal) {
+        origInvoiceAmount = new KualiDecimal(decimal);
     }
 
     /**
@@ -443,6 +467,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     public void setPaymentGroupId(KualiInteger paymentGroupId) {
         this.paymentGroupId = paymentGroupId;
     }
+    
 
     public boolean equals(Object obj) {
         if (!(obj instanceof PaymentDetail)) {

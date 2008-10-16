@@ -166,6 +166,10 @@ public class PaymentAccountDetail extends TimestampedBusinessObjectBase {
     public void setAccountNetAmount(KualiDecimal bigdecimal) {
         accountNetAmount = bigdecimal;
     }
+    
+    public void setAccountNetAmount(String bigdecimal) {
+        accountNetAmount = new KualiDecimal(bigdecimal);
+    }
 
     /**
      * @param integer

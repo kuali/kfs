@@ -55,6 +55,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     private boolean taxEmailRequired;
 
     private List<PaymentDetail> thresholdPaymentDetails;
+    private CustomerProfile customer;
 
     private boolean passedValidation;
 
@@ -199,7 +200,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     public void setPaymentCount(int paymentCount) {
         this.paymentCount = paymentCount;
     }
-    
+
     /**
      * Helper method to set the paymentCount int from a string.
      * 
@@ -225,6 +226,10 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      */
     public void setPaymentTotalAmount(KualiDecimal paymentTotalAmount) {
         this.paymentTotalAmount = paymentTotalAmount;
+    }
+    
+    public void setPaymentTotalAmount(String paymentTotalAmount) {
+        this.paymentTotalAmount = new KualiDecimal(paymentTotalAmount);
     }
 
     /**
@@ -361,6 +366,25 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
      */
     public void setPassedValidation(boolean passedValidation) {
         this.passedValidation = passedValidation;
+    }
+
+
+    /**
+     * Gets the customer attribute.
+     * 
+     * @return Returns the customer.
+     */
+    public CustomerProfile getCustomer() {
+        return customer;
+    }
+
+    /**
+     * Sets the customer attribute value.
+     * 
+     * @param customer The customer to set.
+     */
+    public void setCustomer(CustomerProfile customer) {
+        this.customer = customer;
     }
 
     @Override

@@ -622,6 +622,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setCreditMemoAmount(KualiDecimal decimal) {
         creditMemoAmount = decimal;
     }
+    
+    public void setCreditMemoAmount(String decimal) {
+        creditMemoAmount = new KualiDecimal(decimal);
+    }
 
     /**
      * @param string
@@ -649,6 +653,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      */
     public void setDisbursementNbr(KualiInteger integer) {
         disbursementNbr = integer;
+    }
+    
+    public void setDisbursementNbr(String integer) {
+        disbursementNbr = new KualiInteger(integer);
     }
 
     /**

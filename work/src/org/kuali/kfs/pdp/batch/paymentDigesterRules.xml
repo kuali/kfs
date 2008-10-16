@@ -31,7 +31,7 @@
         
         <pattern value="trailer">
             <call-method-rule pattern="detail_count" methodname="setPaymentCount" paramcount="0" />
-            <call-method-rule pattern="detail_tot_amt" methodname="setPaymentTotalAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
+            <call-method-rule pattern="detail_tot_amt" methodname="setPaymentTotalAmount" paramcount="0" />
         </pattern>    
   
         <pattern value="group">  
@@ -70,13 +70,13 @@
                 <call-method-rule pattern="req_nbr" methodname="setRequisitionNbr" paramcount="0" />
                 <call-method-rule pattern="org_doc_nbr" methodname="setOrganizationDocNbr" paramcount="0" />
                 <call-method-rule pattern="invoice_date" methodname="setInvoiceDate" paramcount="0" />
-                <call-method-rule pattern="orig_invoice_amt" methodname="setOrigInvoiceAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-                <call-method-rule pattern="net_payment_amt" methodname="setNetPaymentAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-                <call-method-rule pattern="invoice_tot_discount_amt" methodname="setInvTotDiscountAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-                <call-method-rule pattern="invoice_tot_ship_amt" methodname="setInvTotShipAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-                <call-method-rule pattern="invoice_tot_other_debits" methodname="setInvTotOtherDebitAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-                <call-method-rule pattern="invoice_tot_other_credits" methodname="setInvTotOtherCreditAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
-              
+                <call-method-rule pattern="orig_invoice_amt" methodname="setOrigInvoiceAmount" paramcount="0" />
+                <call-method-rule pattern="net_payment_amt" methodname="setNetPaymentAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_discount_amt" methodname="setInvTotDiscountAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_ship_amt" methodname="setInvTotShipAmount" paramcount="0"/>
+                <call-method-rule pattern="invoice_tot_other_debits" methodname="setInvTotOtherDebitAmount" paramcount="0" />
+                <call-method-rule pattern="invoice_tot_other_credits" methodname="setInvTotOtherCreditAmount" paramcount="0" />
+                
                 <pattern value="accounting">  
                     <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" />
                     
@@ -87,7 +87,7 @@
                     <call-method-rule pattern="sub_object_cd" methodname="setFinSubObjectCode" paramcount="0" />      
                     <call-method-rule pattern="org_ref_id" methodname="setOrgReferenceId" paramcount="0" />
                     <call-method-rule pattern="project_cd" methodname="setProjectCode" paramcount="0" />
-                    <call-method-rule pattern="amount" methodname="setAccountNetAmount" paramcount="0" paramtypes="java.math.BigDecimal" />
+                    <call-method-rule pattern="amount" methodname="setAccountNetAmount" paramcount="0" />
                          
                     <set-next-rule methodname="addAccountDetail" /> 
                 </pattern>

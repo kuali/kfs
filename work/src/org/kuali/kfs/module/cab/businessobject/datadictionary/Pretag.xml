@@ -93,7 +93,7 @@
   <bean id="Pretag-organizationCode" parent="Pretag-organizationCode-parentBean" />
 
   <bean id="Pretag-organizationCode-parentBean" abstract="true" parent="Org-organizationCode">
-    <property name="shortLabel" value="Org Cd" />
+    <property name="shortLabel" value="Org Code" />
     <property name="required" value="false" />
   </bean>
   <bean id="Pretag-personUniversal.personUserIdentifier" parent="Pretag-personUniversal.personUserIdentifier-parentBean" />

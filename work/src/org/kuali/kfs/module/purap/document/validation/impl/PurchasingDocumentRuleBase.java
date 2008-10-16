@@ -530,7 +530,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
 
     private boolean validateTradeIn(PurApItem item) {
-        if (item.getItemUnitPrice() != null) {
+        if (item != null && item.getItemUnitPrice() != null) {
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
             return false;
         }

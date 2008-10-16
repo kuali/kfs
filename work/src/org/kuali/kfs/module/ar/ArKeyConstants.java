@@ -157,9 +157,13 @@ public class ArKeyConstants {
 
     public static class PaymentApplicationDocumentErrors {
         public static final String AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING = "error.document.paymentApplication.amountToBeAppliedExceedsAmountOutstanding";
+        public static final String AMOUNT_TO_BE_APPLIED_CANNOT_BE_ZERO = "error.document.paymentApplication.amountToBeAppliedCannotBeZero";
         public static final String FULL_AMOUNT_NOT_APPLIED = "error.document.paymentApplication.fullAmountNotApplied";
         public static final String AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT = "error.document.paymentApplication.amountToBeAppliedExceedsOpenInvoiceDetailAmount";
         public static final String AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE = "error.document.paymentApplication.amountToBeAppliedMustBePositive";
+        public static final String NON_AR_AMOUNT_REQUIRED = "error.document.paymentApplication.nonArLineRequired";
+        public static final String NON_AR_AMOUNT_MUST_BE_POSITIVE = "error.document.paymentApplication.nonArLineAmountMustBePositive";
+
     }
     
 }

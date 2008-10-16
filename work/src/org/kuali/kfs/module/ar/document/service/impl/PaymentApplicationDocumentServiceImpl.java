@@ -110,6 +110,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             total = total.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
 
+        // Include non-ar funds as well
+        total = total.add(document.getNonInvoicedTotalAmount());
+
         return total;
     }
 

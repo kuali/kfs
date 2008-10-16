@@ -107,10 +107,12 @@
 							</c:choose>
 						</td>
 						<td valign='top'>
-							<table class='datatable'>
+                            <c:set var="showTUFAndBtbA"
+                               value="${!hasRelatedCashControlDocument and (0 lt KualiForm.document.totalUnappliedFunds or 0 lt KualiForm.document.nonInvoicedTotalAmount)}" />
+                            <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
+                            <table class='datatable'>
 								<tr>
-									<c:if
-										test="${!hasRelatedCashControlDocument and 0 lt KualiForm.document.totalUnappliedFunds}">
+									<c:if test="${showTUFAndBtbA}">
 										<th class='tab-subhead'>
 											Total Unapplied Funds
 										</th>
@@ -118,7 +120,7 @@
 											Balance to be Applied
 										</th>
 									</c:if>
-									<c:if test="${hasRelatedCashControlDocument}">
+									<c:if test="${showCCAndBtbA}">
 										<th class='tab-subhead'>
 											Cash Control
 										</th>
@@ -128,35 +130,29 @@
 									</c:if>
 									<th class='tab-subhead'>
 										Applied Amount
-									</th>
+                                        Unapplied Amount = ${KualiForm.document.totalUnappliedFunds}
+                                        Non-Ar Amount =  ${KualiForm.document.nonInvoicedTotalAmount}
+                                    </th>
 								</tr>
 								<tr>
-									<c:if
-										test="${!hasRelatedCashControlDocument and 0 lt KualiForm.document.totalUnappliedFunds}">
+									<c:if test="${showTUFAndBtbA}">
 										<td>
-											$
-											<c:out value="${KualiForm.document.totalUnappliedFunds}" />
+											$<c:out value="${KualiForm.document.totalUnappliedFunds}" />
 										</td>
 										<td>
-											$
-											<c:out
-												value="${KualiForm.document.totalUnappliedFundsToBeApplied}" />
+											$<c:out value="${KualiForm.document.totalUnappliedFundsToBeApplied}" />
 										</td>
 									</c:if>
-									<c:if test="${hasRelatedCashControlDocument}">
+									<c:if test="${showCCAndBtbA}">
 										<td>
-											$
-											<c:out
-												value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
+											$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />
 										</td>
 										<td>
-											$
-											<c:out value="${KualiForm.document.totalToBeApplied}" />
+											$<c:out value="${KualiForm.document.totalToBeApplied}" />
 										</td>
 									</c:if>
 									<td>
-										$
-										<c:out value="${KualiForm.document.totalAppliedAmount}" />
+										$<c:out value="${KualiForm.document.totalAppliedAmount}" />
 									</td>
 								</tr>
 							</table>

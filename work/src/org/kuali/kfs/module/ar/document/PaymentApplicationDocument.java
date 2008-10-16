@@ -179,29 +179,46 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         return nonInvoicedPayments.get(index);
     }
 
+    /**
+     * @return the non-invoiced payments
+     */
     public List<NonInvoiced> getNonInvoicedPayments() {
         return nonInvoicedPayments;
     }
 
-    private boolean isForLockbox(CashControlDocument cashControl) {
-        return cashControl.getDocumentHeader().getDocumentDescription().startsWith(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION);
+    /**
+     * @return the sum of the non invoiced payments on the document
+     */
+    public KualiDecimal getNonInvoicedTotalAmount() {
+        List<NonInvoiced> payments = getNonInvoicedPayments();
+        KualiDecimal total = new KualiDecimal(0);
+        if(null == payments || 1 > payments.size()) {
+            total = KualiDecimal.ZERO;
+        } else {
+            for(NonInvoiced payment : payments) {
+                total = total.add(payment.getFinancialDocumentLineAmount());
+            }
+        }
+        return total;
     }
-    
-    private boolean isForCreditCard(CashControlDocument cashControl) {
-        return ArConstants.PaymentMediumCode.CREDIT_CARD.equals(cashControl.getCustomerPaymentMediumCode());
-    }
-    
-    private boolean isForWireTransfer(CashControlDocument cashControl) {
-        return ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(cashControl.getCustomerPaymentMediumCode());
-    }
+
+//    private boolean isForLockbox(CashControlDocument cashControl) {
+//        return cashControl.getDocumentHeader().getDocumentDescription().startsWith(ArConstants.LOCKBOX_DOCUMENT_DESCRIPTION);
+//    }
+//
+//    private boolean isForCreditCard(CashControlDocument cashControl) {
+//        return ArConstants.PaymentMediumCode.CREDIT_CARD.equals(cashControl.getCustomerPaymentMediumCode());
+//    }
+//
+//    private boolean isForWireTransfer(CashControlDocument cashControl) {
+//        return ArConstants.PaymentMediumCode.WIRE_TRANSFER.equals(cashControl.getCustomerPaymentMediumCode());
+//    }
     
     /**
      * @param ipa
      * @return
      */
     private SystemInformation getSystemInformation(InvoicePaidApplied ipa) throws WorkflowException {
-        //CustomerInvoiceDetail item = ipa.getInvoiceItem();
-        //item.refreshReferenceObject("customerInvoiceDocument");
         CustomerInvoiceDocument invoice = ipa.getCustomerInvoiceDocument();
         String processingOrgCode = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         String processingChartCode = invoice.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
@@ -212,7 +229,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     /**
      * @param ipa
-     * @return
+     * @return the university clearing account
      */
     private Account getUniversityClearingAccount(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
@@ -222,7 +239,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     /**
      * @param ipa
-     * @return
+     * @return the billing organization account
      */
     private Account getBillingOrganizationAccount(InvoicePaidApplied ipa) {
         String invoiceDocumentNumber = ipa.getFinancialDocumentReferenceInvoiceNumber();
@@ -236,7 +253,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * @param ipa
-     * @return
+     * @return the accounts receivable object code
      */
     public ObjectCode getAccountsReceivableObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         CustomerInvoiceDetail detail = ipa.getInvoiceItem();
@@ -253,12 +270,23 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         
         return objectCode;
     }
-    
+
+    /**
+     * @param ipa
+     * @return the unapplied object code
+     * @throws WorkflowException
+     */
     public ObjectCode getUnappliedCashObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
         return systemInformation.getUniversityClearingObject();
     }
-    
+
+    /**
+     *
+     * @param ipa
+     * @return the credit card charges object code
+     * @throws WorkflowException
+     */
     public ObjectCode getCreditCardChargesObjectCode(InvoicePaidApplied ipa) throws WorkflowException {
         SystemInformation systemInformation = getSystemInformation(ipa);
         return systemInformation.getCreditCardFinancialObject();
@@ -266,7 +294,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     /**
      * @param invoicePaidApplied
-     * @return
+     * @return the cash object code
      */
     private ObjectCode getCashObjectCode(InvoicePaidApplied invoicePaidApplied) {
         return invoicePaidApplied.getInvoiceItem().getChart().getFinancialCashObject();
@@ -274,14 +302,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     
     /**
      * @param sequenceHelper
-     * @return
+     * @return the pending entries for the document
      */
     private List<GeneralLedgerPendingEntry> createPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) throws WorkflowException {
         
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         
         List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-        //Iterator<InvoicePaidApplied> appliedPayments = this.getAppliedPayments().iterator();
         List<InvoicePaidApplied> appliedPayments = getAppliedPayments();
         for(InvoicePaidApplied ipa : appliedPayments) {
             Account clearingAccount = getUniversityClearingAccount(ipa);

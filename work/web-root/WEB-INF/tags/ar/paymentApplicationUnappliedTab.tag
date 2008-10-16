@@ -25,7 +25,7 @@
 <c:set var="customerAttributes" value="${DataDictionary['Customer'].attributes}" />
 
     <kul:tab tabTitle="Unapplied" defaultOpen="true"
-        tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
+        tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB}">
         <div class="tab-container" align="center">
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>

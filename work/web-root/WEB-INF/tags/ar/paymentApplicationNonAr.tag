@@ -27,10 +27,10 @@
 <c:set var="nonInvoicedAddLine" value="${KualiForm.nonInvoicedAddLine}" scope="request" />
 
     <kul:tab tabTitle="Non-AR" defaultOpen="true"
-        tabErrorKey="${KFSConstants.PAYMENT_APPLICATION_DOCUMENT_ERRORS}">
+        tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB}">
 
         <div class="tab-container" align="center">
-			<SCRIPT type="text/javascript">
+            <SCRIPT type="text/javascript">
 			    var kualiForm = document.forms['KualiForm'];
 			    var kualiElements = kualiForm.elements;
 			</SCRIPT>

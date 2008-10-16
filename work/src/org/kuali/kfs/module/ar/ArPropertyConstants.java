@@ -148,9 +148,10 @@ public class ArPropertyConstants {
     
     // PaymentApplicationDocument
     public static class PaymentApplicationDocumentFields {
-        public static final String AMOUNT_TO_BE_APPLIED = "amountToBeApplied";
+        public static final String AMOUNT_TO_BE_APPLIED = "customerInvoiceDetail[0].amountToBeApplied";
+        public static final String NON_INVOICED_LINE_AMOUNT = "nonInvoicedAddLine.financialDocumentLineAmount";
     }
-    
+
     // CustomerInvoiceDocumentForm
     public static final String CUSTOMER_INVOICE_DOCUMENT_UNIT_OF_MEASURE_PROPERTY = "invoiceItemUnitOfMeasureCode";
     public static final String UNIT_OF_MEASURE_PROPERTY = "itemUnitOfMeasureCode";

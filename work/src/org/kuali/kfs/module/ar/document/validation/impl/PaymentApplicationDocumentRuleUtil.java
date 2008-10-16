@@ -18,6 +18,8 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.Collection;
 
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -28,8 +30,16 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocumentRuleUtil {
+
+    /**
+     * Validate non-ar/non-invoice line items on a PaymentApplicationDocument.
+     * 
+     * @param nonInvoiced
+     * @return
+     */
     public static boolean validateNonInvoiced(NonInvoiced nonInvoiced) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
@@ -39,10 +49,19 @@ public class PaymentApplicationDocumentRuleUtil {
         
         // check that dollar amount is not zero before continuing
         if (isValid) {
-            isValid = !nonInvoiced.getFinancialDocumentLineAmount().isZero();
-            if (!isValid) {
-                String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(NonInvoiced.class, KFSPropertyConstants.NON_INVOICED_LINE_AMOUNT);
-                errorMap.putError(KFSPropertyConstants.NON_INVOICED_LINE_AMOUNT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_ZERO_AMOUNT, label);
+            KualiDecimal amount = nonInvoiced.getFinancialDocumentLineAmount();
+            if(null == amount) {
+                isValid = false;
+                errorMap.putError(
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
+            } else {
+                if (amount.isZero()) {
+                    isValid = false;
+                    errorMap.putError(
+                        ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                        ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
+                }
             }
         }
         
@@ -72,10 +91,18 @@ public class PaymentApplicationDocumentRuleUtil {
         boolean isValid = amountWeWouldApply <= outstandingAmount;
         
         // If invalid, indicate an error in the UI.
-        if(!isValid) {
+        if(!(amountWeWouldApply <= outstandingAmount)) {
+            isValid = false;
             errorMap.putError(
-                KNSConstants.GLOBAL_ERRORS,
+                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
                 ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_AMOUNT_OUTSTANDING);
+        }
+
+        if(KualiDecimal.ZERO.doubleValue() == amountWeWouldApply) {
+            isValid = false;
+            errorMap.putError(
+                ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
+                ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_CANNOT_BE_ZERO);
         }
         return isValid;
     }

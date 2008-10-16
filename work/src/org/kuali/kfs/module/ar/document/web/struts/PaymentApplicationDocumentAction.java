@@ -517,15 +517,18 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Validate a new non-invoiced line.
+     *
+     * @param nonInvoiced
+     * @return
+     */
     public boolean validateNewNonInvoiced(NonInvoiced nonInvoiced) {
-        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_NON_INVOICED);
-        boolean isValid = PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced);
-        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_NON_INVOICED);
-        return isValid;
+        return PaymentApplicationDocumentRuleUtil.validateNonInvoiced(nonInvoiced);
     }
 
     /**
-     * This method...
+     * Set the customer so we can pull up invoices for that customer.
      * 
      * @param mapping
      * @param form

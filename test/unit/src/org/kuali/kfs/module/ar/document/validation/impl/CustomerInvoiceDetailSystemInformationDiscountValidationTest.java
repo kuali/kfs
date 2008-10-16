@@ -31,7 +31,7 @@ public class CustomerInvoiceDetailSystemInformationDiscountValidationTest extend
     
     private CustomerInvoiceDetailSystemInformationDiscountValidation validation;
     public static final String PROCESSING_CHART_OF_ACCOUNTS = "UA";
-    public static final String PROCESSING_ORGANIZATION_CODE = "VPIT";
+    public static final String PROCESSING_ORGANIZATION_CODE = "ARCG";
     private static final String DISCOUNT_OBJECT_CODE = "1999";
     
     @Override

@@ -414,8 +414,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
         AssetGlobalDetail newAssetGlobalDetail = null;
-        // clear existing entries
-        deleteExistingAssetGlobalDetailRecords(assetGlobal);
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
 
             for (AssetGlobalDetail locationDetail : assetSharedDetails) {
@@ -480,18 +478,6 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         }
     }
 
-    /**
-     * Deletes existing asset glogal detail records
-     * 
-     * @param assetGlobal
-     */
-    private void deleteExistingAssetGlobalDetailRecords(AssetGlobal assetGlobal) {
-        LOG.debug("Clearing Global Details, before saving new state");
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, assetGlobal.getDocumentNumber());
-        boService.deleteMatching(AssetGlobalDetail.class, params);
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl#processAfterRetrieve()
@@ -507,6 +493,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         AssetGlobalDetail copyValue = null;
         for (AssetGlobalDetail detail : assetGlobalDetails) {
             copyValue = (AssetGlobalDetail) ObjectUtils.deepCopy(detail);
+            copyValue.getAssetGlobalUniqueDetails().clear();
             String key = generateLocationKey(copyValue);
             if ((currLocationDetail = locationMap.get(key)) == null) {
                 currLocationDetail = copyValue;

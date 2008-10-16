@@ -137,7 +137,7 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition" 
         	  p:name="vendorName"
-        	  p:required="true" 
+        	  p:required="false" 
         	  p:defaultValue="CONSTRUCTED" />
         <bean parent="MaintainableFieldDefinition"
               p:name="manufacturerName"
@@ -260,15 +260,17 @@
     <property name="title" value="Fabrication Information" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
+      <!-- Please read this comment, you should not make these fields required, 
+      in that case asset edit will not work. Right now there is no fix to make conditional asterisk to work -->
+      <bean parent="MaintainableFieldDefinition"
               p:name="estimatedFabricationCompletionDate"
-              p:required="true" />              
+              p:required="false" />              
         <bean parent="MaintainableFieldDefinition"
               p:name="fabricationEstimatedTotalAmount" 
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="fabricationEstimatedRetentionYears" 
-              p:required="true" />
+              p:required="false" />
       </list>
     </property>
   </bean>
@@ -789,6 +791,8 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="componentWarrantyText"
                     p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="newCollectionRecord" />
             </list>
           </property>
         </bean>

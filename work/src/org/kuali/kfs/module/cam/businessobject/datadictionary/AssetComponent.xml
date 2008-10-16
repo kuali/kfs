@@ -39,6 +39,7 @@
         <ref bean="AssetComponent-componentWarrantyPhoneNumber" />
         <ref bean="AssetComponent-governmentTagNumber" />
         <ref bean="AssetComponent-nationalStockNumber" />
+        <ref bean="AssetComponent-newCollectionRecord" />
       </list>
     </property>
   </bean>
@@ -419,6 +420,10 @@
     <property name="description" value="nationalStockNumber description..." />
   </bean>
 
+  <bean id="AssetComponent-newCollectionRecord" parent="AssetComponent-newCollectionRecord-parentBean" />
+
+  <bean id="AssetComponent-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
+  </bean>
 <!-- Business Object Inquiry Definition -->
 
 

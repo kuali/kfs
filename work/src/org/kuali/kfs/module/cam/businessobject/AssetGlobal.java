@@ -843,7 +843,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             newAssetCount = assetGlobalDetails.size();
             isDepreciablePayment = false;
             depreciationPaymentAmount = payment.getAmount();
-            
+
             if (ObjectUtils.isNotNull(payment.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(payment.getObjectCode().getFinancialObjectSubTypeCode())) {
                 isDepreciablePayment = true;
                 actualDepreciationAmount = depreciationPaymentAmount.divide(new KualiDecimal(newAssetCount));
@@ -955,8 +955,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         offCampusLocation.setAssetLocationZipCode(detail.getOffCampusZipCode());
 
         return offCampusLocation;
-    }    
-    
+    }
+
     public boolean isPersistable() {
         return true;
     }
@@ -1157,7 +1157,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date. This only returns a date if this is a separate.
+     * Small workaround to avoid KualiInquirableImpl.getInquiryUrl having think it needs to construct an inquiry url for this date.
+     * This only returns a date if this is a separate.
      * 
      * @return
      */
@@ -1212,5 +1213,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     public void setSeparateSourceRemainingAmount(KualiDecimal separateSourceRemainingAmount) {
         this.separateSourceRemainingAmount = separateSourceRemainingAmount;
+    }
+
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getAssetGlobalDetails());
+        managedLists.add(getAssetPaymentDetails());
+        return managedLists;
     }
 }

@@ -19,6 +19,7 @@ package org.kuali.kfs.module.cam.document.validation.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -216,7 +217,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     protected boolean validateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         boolean success = true;
         
-        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber())) {
+        if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber()) && !assetLocationGlobalDetail.getCampusTagNumber().equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
             List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(assetLocationGlobalDetail.getCampusTagNumber());
             for (Asset asset : activeAssetsMatchingTagNumber) {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -190,6 +191,11 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
         setFormActiveItemIndicator(purApForm);
         // persistent to the table
         purApLineService.processSaveBusinessObjects(purApForm, purApLineSession);
+        // In-activate general ledger afterwards because we need to persistent account changes first. 
+        List<GeneralLedgerEntry> glEntryUpdatesList = getGlEntryInActivedList(selectedItem);
+        if (glEntryUpdatesList != null && !glEntryUpdatesList.isEmpty()) {
+            businessObjectService.save(glEntryUpdatesList);
+        }
     }
 
 
@@ -288,7 +294,8 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                         locationQuantity = assetLocation.getItemQuantity().intValue();
                     }
                     else {
-                        // if Purap not set item quantity, CAB batch should set it to default value 1. So we set location quantity the same value. 
+                        // if Purap not set item quantity, CAB batch should set it to default value 1. So we set location quantity
+                        // the same value.
                         locationQuantity = 1;
                     }
                 }
@@ -427,41 +434,42 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
      */
     private void inActivateItem(PurchasingAccountsPayableItemAsset selectedItem) {
         for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
-            // in-activate GeneralLedgerEntry
-            inActivateGlEntry(selectedAccount);
-
             // in-active account.
             selectedAccount.setActive(false);
-
         }
-
         // in-activate selected Item
         selectedItem.setActive(false);
     }
 
     /**
-     * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.
+     * Update GL Entry active indicator to false if all its amount are consumed by submit CAMs document.Return the general ledger entry changes as a list.
      * 
      * @param glEntryList
      * @param selectedAccount
      * @param glEntry
      */
-    private void inActivateGlEntry(PurchasingAccountsPayableLineAssetAccount selectedAccount) {
-        GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
-        boolean glEntryHasActiveAccount = false;
-        glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
-        for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
-            // check if all accounts are inactive status excluding the selected account.
-            if (!(selectedAccount.getDocumentNumber().equalsIgnoreCase(account.getDocumentNumber()) && selectedAccount.getAccountsPayableLineItemIdentifier().equals(account.getAccountsPayableLineItemIdentifier()) && selectedAccount.getCapitalAssetBuilderLineNumber().equals(account.getCapitalAssetBuilderLineNumber())) && account.isActive()) {
-                glEntryHasActiveAccount = true;
-                break;
+    private List<GeneralLedgerEntry> getGlEntryInActivedList(PurchasingAccountsPayableItemAsset selectedItem) {
+        List<GeneralLedgerEntry> glEntryUpdateList = new ArrayList<GeneralLedgerEntry>();
+
+        for (PurchasingAccountsPayableLineAssetAccount selectedAccount : selectedItem.getPurchasingAccountsPayableLineAssetAccounts()) {
+            GeneralLedgerEntry glEntry = selectedAccount.getGeneralLedgerEntry();
+            boolean glEntryHasActiveAccount = false;
+            glEntry.refreshReferenceObject(CabPropertyConstants.GeneralLedgerEntry.PURAP_LINE_ASSET_ACCOUNTS);
+            for (PurchasingAccountsPayableLineAssetAccount account : glEntry.getPurApLineAssetAccounts()) {
+                // check if all accounts are inactive status excluding the selected account.
+                if (!(selectedAccount.getDocumentNumber().equalsIgnoreCase(account.getDocumentNumber()) && selectedAccount.getAccountsPayableLineItemIdentifier().equals(account.getAccountsPayableLineItemIdentifier()) && selectedAccount.getCapitalAssetBuilderLineNumber().equals(account.getCapitalAssetBuilderLineNumber())) && account.isActive()) {
+                    glEntryHasActiveAccount = true;
+                    break;
+                }
+            }
+
+            // if one account shows active, won't in-activate this general ledger entry.
+            if (!glEntryHasActiveAccount) {
+                glEntry.setActive(false);
+                glEntryUpdateList.add(glEntry);
             }
         }
-
-        // if one account shows active, won't in-activate this general ledger entry.
-        if (!glEntryHasActiveAccount) {
-            glEntry.setActive(false);
-        }
+        return glEntryUpdateList;
     }
 
 

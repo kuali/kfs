@@ -99,7 +99,7 @@
               p:name="organizationInventoryName" />
         <bean parent="MaintainableFieldDefinition"
               p:name="personUniversal.personUserIdentifier" 
-              p:required="true" />
+              p:required="false" />
         <bean parent="MaintainableFieldDefinition"
               p:name="personUniversal.personName"
               p:readOnly="true" />

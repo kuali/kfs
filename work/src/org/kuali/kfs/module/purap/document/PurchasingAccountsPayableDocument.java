@@ -267,4 +267,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public void fixItemReferences();
     
     public Date getTransactionTaxDate();
+    
+    public PurApItem getTradeInItem();
 }

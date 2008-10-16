@@ -1018,20 +1018,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return item;
     }
-
-    /**
-     * Returns the trade in item of the payment request document.
-     * 
-     * @return
-     */
-    public PurApItem getTradeInItem() {
-        for (PurApItem item : (List<PurApItem>)getItems()) {
-            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
-                return item;
-            }
-        }
-        return null;
-    }
     
     public String getPrimaryVendorName() {
         

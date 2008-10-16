@@ -154,6 +154,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
         boolean isNonQuantityItemFound = false;
+        boolean isAssignedToTradeInItemFound = false;
         
         for (PurApItem item : itemList) {
             // Refresh the item type for validation.
@@ -165,6 +166,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isLineItemIndicator()) {
+                if (item.getItemAssignedToTradeInIndicator()) {
+                    isAssignedToTradeInItemFound = true;
+                }
                 valid &= validateItemQuantity(item);                
                 if (commodityCodeIsRequired.equalsIgnoreCase("Y")) {
                     commodityCodeRequired = true;   
@@ -195,6 +199,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             }
         }
         
+        if (!isAssignedToTradeInItemFound) {
+            valid &= validateTradeIn(purapDocument.getTradeInItem());
+        }
         valid &= validateTotalCost((PurchasingDocument) purapDocument);
         valid &= validateContainsAtLeastOneItem((PurchasingDocument) purapDocument);
 
@@ -314,6 +321,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean valid = false;
         for (PurApItem item : purDocument.getItems()) {
             if (!((PurchasingItemBase) item).isEmpty() && item.getItemType().isLineItemIndicator()) {
+
                 return true;
             }
         }
@@ -521,6 +529,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    private boolean validateTradeIn(PurApItem item) {
+        if (item.getItemUnitPrice() != null) {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED);
+            return false;
+        }
+        return true;
+    }
     /**
      * Validates whether the commodity code existed on the item, and if existed, whether the
      * commodity code on the item existed in the database, and if so, whether the commodity 

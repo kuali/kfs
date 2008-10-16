@@ -244,7 +244,7 @@ public class PurapKeyConstants {
     public static final String ERROR_RECEIVING_REQUIRED = "errors.purchasing.receivingrequired.nonquantity";
     public static final String ERROR_ITEM_TRADE_IN_OUTSTANDING_ENCUMBERED_AMOUNT_NEGATIVE = "errors.item.tradeIn.outstanding.encumbered.amount.negative";
     public static final String WARNING_ITEM_TRADE_IN_AMOUNT_UNUSED = "warning.item.tradeIn.amount.unused";
-    
+    public static final String ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED = "errors.item.tradeIn.needs.to.be.assigned";
     // Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
     public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";

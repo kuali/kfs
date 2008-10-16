@@ -2012,6 +2012,8 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="financialObjectCode" />
                     <bean parent="FieldDefinition"
+                          p:attributeName="financialSubObjectCode" />
+                    <bean parent="FieldDefinition"
                           p:attributeName="projectCode" />
                     <bean parent="FieldDefinition"
                           p:attributeName="organizationReferenceId" />

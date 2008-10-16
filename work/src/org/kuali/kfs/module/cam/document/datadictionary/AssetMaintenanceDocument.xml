@@ -262,7 +262,7 @@
       <list>
       <!-- Please read this comment, you should not make these fields required, 
       in that case asset edit will not work. Right now there is no fix to make conditional asterisk to work -->
-      <bean parent="MaintainableFieldDefinition"
+        <bean parent="MaintainableFieldDefinition"
               p:name="estimatedFabricationCompletionDate"
               p:required="false" />              
         <bean parent="MaintainableFieldDefinition"
@@ -325,6 +325,9 @@
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="financialObjectCode"
+                    p:readOnly="true" />
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="financialSubObjectCode"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="projectCode"

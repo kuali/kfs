@@ -595,6 +595,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         if ((document instanceof PaymentRequestDocument) && purapService.isFullDocumentEntryCompleted(document)) {
             return;
         }
+        document.fixItemReferences();
         for (PurApItem item : document.getItems()) {
             updateItemAccountAmounts(item);
         }

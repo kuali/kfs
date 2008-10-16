@@ -334,6 +334,7 @@
         <property name="parameterService" ref="parameterService" />
         <property name="universalUserService" ref="universalUserService" />
         <property name="mailService" ref="mailService" />
+        <property name="printService" ref="printService" />
 	</bean>
 
 	<bean id="negativePaymentRequestApprovalLimitService" 

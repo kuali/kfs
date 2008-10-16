@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +38,6 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -211,20 +209,22 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
     private boolean validateTagDuplication(List<AssetGlobalDetail> assetSharedDetails, String campusTagNumber) {
         boolean success = true;
-        for (AssetGlobalDetail assetSharedDetail : assetSharedDetails) {
-            List<AssetGlobalDetail> assetGlobalUniqueDetails = assetSharedDetail.getAssetGlobalUniqueDetails();
-            for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
-                if (campusTagNumber.equalsIgnoreCase(assetSharedUniqueDetail.getCampusTagNumber())) {
-                    success &= false;
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+        if (!campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
+            for (AssetGlobalDetail assetSharedDetail : assetSharedDetails) {
+                List<AssetGlobalDetail> assetGlobalUniqueDetails = assetSharedDetail.getAssetGlobalUniqueDetails();
+                for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
+                    if (campusTagNumber.equalsIgnoreCase(assetSharedUniqueDetail.getCampusTagNumber())) {
+                        success &= false;
+                        GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                    }
                 }
             }
-        }
-        if (success) {
-            List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
-            if (!tagMatches.isEmpty()) {
-                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
-                success &= false;
+            if (success) {
+                List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
+                if (!tagMatches.isEmpty()) {
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, campusTagNumber);
+                    success &= false;
+                }
             }
         }
         return success;
@@ -241,7 +241,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
                 childIndex++;
                 String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
-                if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber)) {
+                if (StringUtils.isNotBlank(campusTagNumber) && !assetTags.add(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
                     success &= false;
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + parentIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + childIndex + "]";
                     GlobalVariables.getErrorMap().addToErrorPath(errorPath);
@@ -254,7 +254,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             for (AssetGlobalDetail assetSharedUniqueDetail : assetGlobalUniqueDetails) {
                 childIndex++;
                 String campusTagNumber = assetSharedUniqueDetail.getCampusTagNumber();
-                if (StringUtils.isNotBlank(campusTagNumber)) {
+                if (StringUtils.isNotBlank(campusTagNumber) && !campusTagNumber.equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
                     List<Asset> tagMatches = assetService.findActiveAssetsMatchingTagNumber(campusTagNumber);
                     if (!tagMatches.isEmpty()) {
                         success &= false;

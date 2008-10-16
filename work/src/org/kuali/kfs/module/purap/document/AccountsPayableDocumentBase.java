@@ -546,4 +546,14 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             }
         }
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getTotalRemitAmount()
+     */
+    public KualiDecimal getTotalRemitTax() {
+        // TODO fill this in
+        return null;
+    }
+    
 }

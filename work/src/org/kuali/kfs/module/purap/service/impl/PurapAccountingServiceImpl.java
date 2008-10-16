@@ -306,6 +306,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         updateAccountAmounts(document);
         return generateSummaryAccounts(document.getItems(), ZERO_TOTALS_RETURNED_VALUE);
     }
+    
+    
 
     /**
      * 
@@ -673,6 +675,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return purApAccountingDao.getAccountingLinesForItem(item);
     }
 
+    public List<SummaryAccount> generateSummaryAccountsForVendor(PurchasingAccountsPayableDocument document) {
+        //update accounts here with amounts to send to vendor
+        //call summary here and return
+        return null;
+    }
+    
     public PurApAccountingDao getPurApAccountingDao() {
         return purApAccountingDao;
     }
@@ -684,5 +692,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
+
 
 }

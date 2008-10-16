@@ -180,4 +180,12 @@ public interface PurapAccountingService {
      * @param purapDocumentIdentifier  The purapDocumentIdentifier of the payment request document whose summary accounts are to be deleted.
      */
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier);
+    
+    /**
+     * 
+     * This method generates summary accounts for a vendor payment.
+     * @param document
+     * @return   This will get the proper amount on the items that is sent to the vendor
+     */
+    public List<SummaryAccount> generateSummaryAccountsForVendor(PurchasingAccountsPayableDocument document);
 }

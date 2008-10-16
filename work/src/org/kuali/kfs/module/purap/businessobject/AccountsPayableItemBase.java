@@ -140,4 +140,9 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         this.capitalAssetTransactionType = capitalAssetTransactionType;
     }
 
+    public KualiDecimal getTotalRemitAmount() {
+        // TODO fill this in
+        return this.getTotalAmount();
+    }
+
 }

@@ -100,6 +100,13 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public KualiDecimal getGrandTotal();
 
     /**
+     * 
+     * This method returns the amount of tax to remit to the vendor
+     * @return total of document tax to remit to the vendor null if none
+     */
+    public KualiDecimal getTotalRemitTax();
+    
+    /**
      * Returns the amount entered on the initial screen.
      * 
      * @return - amount entered by user on initial screen
@@ -120,5 +127,7 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi);
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
+    
+    
 
 }

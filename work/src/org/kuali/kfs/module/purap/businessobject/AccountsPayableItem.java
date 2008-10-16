@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Interface for Accounts Payable Item Business Objects.
@@ -23,4 +24,5 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 public interface AccountsPayableItem extends PurApItem {
     public String getCapitalAssetTransactionTypeCode();
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType();
+    public KualiDecimal getTotalRemitAmount();
 }

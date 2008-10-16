@@ -106,7 +106,8 @@
 	<reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchasingCommodityCode" />
 	</reference-descriptor>
-    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	<!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -206,7 +207,8 @@
     <reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchasingCommodityCode" />
     </reference-descriptor>
-    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
@@ -2972,8 +2974,8 @@
         <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    
-    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
@@ -3661,7 +3663,8 @@
     <reference-descriptor name="itemType" class-ref="org.kuali.kfs.module.purap.businessobject.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="itemTypeCode" />
     </reference-descriptor>
-    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <!-- the account deletion is handled within our buildDeletionAwareLists, setting auto-delete=none as a workaround to Optimistic Locking Exception for now -->
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />

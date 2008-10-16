@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
@@ -335,13 +336,13 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        if (allowDeleteAwareCollection) {
-            managedLists.add(this.getItems());
+        if (allowDeleteAwareCollection) {            
             List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
             for (PurApItem item : (List<PurApItem>)this.getItems()) {
                 accounts.addAll(item.getSourceAccountingLines());
             }
             managedLists.add(accounts);
+            managedLists.add(this.getItems());
         }
         return managedLists;
     }
@@ -912,5 +913,19 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 item.fixAccountReferences();
             }
         }
+    }
+    
+    /**
+     * Returns the trade in item of the document.
+     * 
+     * @return
+     */
+    public PurApItem getTradeInItem() {
+        for (PurApItem item : (List<PurApItem>)getItems()) {
+            if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
+                return item;
+            }
+        }
+        return null;
     }
 }

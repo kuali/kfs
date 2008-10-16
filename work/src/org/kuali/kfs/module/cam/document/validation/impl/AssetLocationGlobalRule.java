@@ -48,7 +48,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     public AssetLocationGlobalRule() {
         // LOG.info("AssetLocationGlobalRule constructor");
     }
-    
+
     /**
      * Processes rules when routing this global.
      * 
@@ -81,7 +81,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
         return success & super.processCustomRouteDocumentBusinessRules(documentCopy);
     }
-    
+
     /**
      * Process rules for any new {@link AssetLocationGlobalDetail} that is added to this global.
      * 
@@ -121,7 +121,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validate the capital {@link Asset}.  This method also calls {@link AssetService} while validating retired {@link Asset}.
+     * Validate the capital {@link Asset}. This method also calls {@link AssetService} while validating retired {@link Asset}.
      * 
      * @param assetLocationGlobalDetail
      * @return boolean
@@ -162,7 +162,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
                 success = false;
             }
         }
-        
+
         return success;
     }
 
@@ -209,21 +209,21 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validate duplicate tag number.  This method also calls {@link AssetService}.
+     * Validate duplicate tag number. This method also calls {@link AssetService}.
      * 
      * @param assetLocationGlobalDetail
      * @return boolean
      */
     protected boolean validateTagNumber(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         boolean success = true;
-        
+
         if (ObjectUtils.isNotNull(assetLocationGlobalDetail.getCapitalAssetNumber()) && ObjectUtils.isNotNull(assetLocationGlobalDetail.getCampusTagNumber()) && !assetLocationGlobalDetail.getCampusTagNumber().equalsIgnoreCase(CamsConstants.NON_TAGGABLE_ASSET)) {
             // call AssetService, get Assets from doc, gather all assets matching this tag number
             List<Asset> activeAssetsMatchingTagNumber = assetService.findActiveAssetsMatchingTagNumber(assetLocationGlobalDetail.getCampusTagNumber());
             for (Asset asset : activeAssetsMatchingTagNumber) {
-                // compair asset numbers 
+                // compare asset numbers
                 if (!asset.getCapitalAssetNumber().equals(assetLocationGlobalDetail.getCapitalAssetNumber())) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { assetLocationGlobalDetail.getCampusTagNumber(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { assetLocationGlobalDetail.getCampusTagNumber(), String.valueOf(asset.getCapitalAssetNumber()), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
                     success = false;
                     break;
                 }
@@ -241,22 +241,22 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkRequiredFieldsAfterAdd(AssetLocationGlobalDetail assetLocationGlobalDetail) {
         boolean success = true;
-        
+
         if (StringUtils.isBlank(assetLocationGlobalDetail.getCampusCode())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAMPUS_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_CAMPUS_CODE_REQUIRED);
             success = false;
         }
-        
+
         if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingCode())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_BUILDING_CODE_REQUIRED);
             success = false;
         }
-        
+
         if (StringUtils.isBlank(assetLocationGlobalDetail.getBuildingRoomNumber())) {
             GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetLocationGlobal.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ROOM_NUMBER_REQUIRED);
             success = false;
         }
-        
+
         return success;
     }
 }

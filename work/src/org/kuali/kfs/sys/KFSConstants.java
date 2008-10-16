@@ -1132,10 +1132,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS = "document.financialDocumentReferenceInvoiceNumber*";
     public static final String CUSTOMER_INVOICE_WRITEOFF_DETAILS_ERRORS = "document.customerInvoiceDetailsForWriteoff*";
     
-    // Payment Application Document
-    public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";
-    public static final String PAYMENT_APPLICATION_CUSTOMER_INVOICE_DETAILS_ERRORS = "customerInvoiceDetail*";
-    
     public static final class ReportGeneration{
         public final static String PARAMETER_NAME_SUBREPORT_DIR = "SUBREPORT_DIR";
         public final static String PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME = "SUBREPORT_TEMPLATE_NAMES";
@@ -1248,5 +1244,11 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PAYMENT_OPEN_STATUS_CODE = "OPEN";
     }
 
-}
+    public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";
+    public static class PaymentApplicationTabErrorCodes {
+        public static final String NON_AR_TAB = "nonInvoicedAddLine*";
+        public static final String UNAPPLIED_TAB = "document.nonAppliedHolding*";
+        public static final String APPLY_TO_INVOICE_DETAIL_TAB = "customerInvoiceDetail*";
+    }
 
+}

@@ -267,13 +267,16 @@
     <property name="shortLabel" value="Unit Price" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FloatingPointValidationPattern"
-            p:allowNegative="true" />
+      <bean parent="FixedPointValidationPattern"
+          p:precision="15"
+          p:scale="4"
+        p:allowNegative="true" />
     </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="21" />
+    <property name="control">
+        <bean parent="CurrencyControlDefinition"
+           p:formattedMaxLength="26"
+           p:size="10" />
     </property>
     <property name="summary" value="invoiceItemUnitPrice" />
     <property name="description" value="invoiceItemUnitPrice description..." />

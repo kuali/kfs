@@ -53,7 +53,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
 import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderDocumentRule;
+import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -346,7 +346,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("ClosePO started.");
         String operation = "Close ";
         PurchaseOrderDocument po = ((PurchaseOrderForm)form).getPurchaseOrderDocument();
-        PurchaseOrderDocumentRule rule = (PurchaseOrderDocumentRule)SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchaseOrderDocumentRule.class);
+        
+        PurchasingDocumentRuleBase rule = (PurchasingDocumentRuleBase)SpringContext.getBean(KualiRuleService.class).getBusinessRulesInstance(po, PurchasingDocumentRuleBase.class);
         if (rule.validateCanClosePOForTradeIn(po)) {
             return askQuestionsAndPerformDocumentAction(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT, operation);
         }
@@ -1695,7 +1696,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         return forward;      
     }
-
+    
     public ActionForward resendPoCxml(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderDocument po = (PurchaseOrderDocument) ((PurchaseOrderForm) form).getDocument();
         SpringContext.getBean(PurchaseOrderService.class).retransmitB2BPurchaseOrder(po);

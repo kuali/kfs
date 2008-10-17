@@ -82,6 +82,7 @@
 										<property name="targetValidationProperty" value="businessObjectForValidation" />
 									</bean>
 								</property>
+								<property name="quitOnFail" value="true" />
 							</bean>
 							<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 								<property name="parameterProperties">

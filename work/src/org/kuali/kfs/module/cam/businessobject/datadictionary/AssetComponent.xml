@@ -136,7 +136,7 @@
   <bean id="AssetComponent-componentManufacturerModelNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="componentManufacturerModelNumber" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Component Manufacturer Model Number" />
+    <property name="label" value="Component Model Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="25" />
     <property name="validationPattern" >

@@ -180,7 +180,9 @@
 	<bean id="PreEncumbrance-reversalDateValidation" class="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceReversalDateValidation" abstract="true" >
 		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService" />
 	</bean>
-
+	
+	<bean id="PreEncumbrance-requiredAccountingLinesCountValidation" class="org.kuali.kfs.fp.document.validation.impl.PreEncumbranceRequiredAccountingLinesCountValidation" abstract="true" />
+	
 	<bean id="ProcurementCard-accountNumberValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountNumberValidation" abstract="true" />
 
 	<bean id="ProcurementCard-accountAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountAccessibilityValidation" abstract="true" />

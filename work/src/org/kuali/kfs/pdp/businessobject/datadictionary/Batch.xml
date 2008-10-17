@@ -25,6 +25,12 @@
         <ref bean="Batch-customerProfile.subUnitCode" />
         <ref bean="Batch-paymentTotalAmount" />
         <ref bean="Batch-customerFileCreateTimestamp" />
+        <ref bean="Batch-customerProfile.customerShortName" />
+        <ref bean="Batch-paymentFileName" />
+        <ref bean="Batch-fileProcessTimestamp" />
+        <ref bean="Batch-submiterUser.personUserIdentifier" />
+        
+        
       </list>
     </property>
   </bean>
@@ -100,6 +106,43 @@
     <property name="name" value="customerFileCreateTimestamp" />
     <property name="label" value="File Creation Date" />
     <property name="shortLabel" value="Creation Date" />
+  </bean>
+  <bean id="Batch-customerProfile.customerShortName" parent="Batch-customerProfile.customerShortName-parentBean" />
+
+  <bean id="Batch-customerProfile.customerShortName-parentBean" abstract="true" parent="CustomerProfile-customerShortName">
+    <property name="name" value="customerProfile.customerShortName" />
+  </bean>
+  <bean id="Batch-paymentFileName" parent="Batch-paymentFileName-parentBean" />
+
+  <bean id="Batch-paymentFileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="paymentFileName" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Pyment File Name" />
+    <property name="shortLabel" value="File Name" />
+    <property name="maxLength" value="7" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="paymentFileName" />
+    <property name="description" value="The payment file name." />
+  </bean>
+  <bean id="Batch-fileProcessTimestamp" parent="Batch-fileProcessTimestamp-parentBean" />
+
+  <bean id="Batch-fileProcessTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+    <property name="name" value="fileProcessTimestamp" />
+    <property name="label" value="File Processed Time" />
+    <property name="shortLabel" value="File Processed Time" />
+  </bean>
+  <bean id="Batch-submiterUser.personUserIdentifier" parent="Batch-submiterUser.personUserIdentifier-parentBean" />
+
+  <bean id="Batch-submiterUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+    <property name="name" value="submiterUser.personUserIdentifier" />
+    <property name="label" value="Submiter User ID" />
+    <property name="shortLabel" value="Submiter User ID" />
   </bean>
 
 <!-- Business Object Inquiry Definition -->

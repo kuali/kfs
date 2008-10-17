@@ -68,8 +68,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         Map parameters = super.getParameters();
         String errorList;
 
-        if (parameters.containsKey(PdpParameterConstants.BatchConstants.ACTION_SUCCESSFUL_PARAM)) {
-            String[] actionSuccessRequestParm = (String[]) parameters.get(PdpParameterConstants.BatchConstants.ACTION_SUCCESSFUL_PARAM);
+        if (parameters.containsKey(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM)) {
+            String[] actionSuccessRequestParm = (String[]) parameters.get(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM);
             Boolean actionSuccess = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(actionSuccessRequestParm[0]);
 
             if (actionSuccess != null) {
@@ -77,11 +77,11 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 if (!actionSuccess) {
 
                     //if the action performed on batch was not successful we get the error message list and add them to GlobalVariables errorMap
-                    if (parameters.containsKey(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM)) {
-                        String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM);
+                    if (parameters.containsKey(PdpParameterConstants.ERROR_KEY_LIST_PARAM)) {
+                        String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.ERROR_KEY_LIST_PARAM);
                         errorList = errorListParam[0];
                         if (StringUtils.isNotEmpty(errorList)) {
-                            String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR);
+                            String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
                             for (String error : errorMsgs) {
                                 if (StringUtils.isNotEmpty(error)) {
                                     GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, error);
@@ -91,8 +91,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     }
                 }
                 else {
-                    if (parameters.containsKey(PdpParameterConstants.BatchConstants.MESSAGE_PARAM)) {
-                        String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.BatchConstants.MESSAGE_PARAM);
+                    if (parameters.containsKey(PdpParameterConstants.MESSAGE_PARAM)) {
+                        String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.MESSAGE_PARAM);
                         String message = messageRequestParm[0];
                         GlobalVariables.getMessageList().add(message);
                     }
@@ -168,7 +168,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
-                params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batch.getId())));
+                params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
                 linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.CANCEL_BATCH);
@@ -183,7 +183,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
                     Properties params = new Properties();
                     params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION);
-                    params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batch.getId())));
+                    params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                     url = UrlFactory.parameterizeUrl(basePath, params);
 
                     linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.REMOVE_BATCH_HOLD);
@@ -195,7 +195,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
 
                     Properties params = new Properties();
                     params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION);
-                    params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batch.getId())));
+                    params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                     url = UrlFactory.parameterizeUrl(basePath, params);
 
                     linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.HOLD_BATCH);

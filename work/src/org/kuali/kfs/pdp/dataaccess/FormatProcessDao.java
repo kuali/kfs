@@ -25,12 +25,27 @@ import org.kuali.kfs.pdp.businessobject.FormatProcess;
 
 
 /**
- * @author jsissom
+ * The DAO interface that provides data access methods for the FormatProcess
  */
 public interface FormatProcessDao {
+    
+    /**
+     * This method gets a format process by campus.
+     * @param campus the format process campus
+     * @return the format process for the given campus
+     */
     public FormatProcess getByCampus(String campus);
 
+    /**
+     * This method removes an entry from the format process tbale by campus.
+     * @param campus the campus of the format process to be removed
+     */
     public void removeByCampus(String campus);
 
+    /**
+     * This method adds a new entry in the format process table.
+     * @param campus the campus for which the format process runs
+     * @param now the time the format process starts
+     */
     public void add(String campus, Date now);
 }

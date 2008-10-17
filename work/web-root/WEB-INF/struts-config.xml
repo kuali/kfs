@@ -217,6 +217,8 @@
 			
 	    <form-bean name="PdpPaymentDetailForm"
 			type="org.kuali.kfs.pdp.document.web.struts.PaymentDetailForm" />	
+	    <form-bean name="PdpFormatForm"
+			type="org.kuali.kfs.pdp.document.web.struts.FormatForm" />
 
 		<!-- CAMs Module Bean Definitions -->
 		<form-bean name="AssetPaymentForm"
@@ -886,6 +888,17 @@
 		</action>
 
 		<!-- ********** Format ********** -->
+		<action path="/pdp/formatrice"
+			type="org.kuali.kfs.pdp.document.web.struts.FormatAction"
+			name="PdpFormatForm"
+			scope="request" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<forward name="selection" path="/jsp/modules/pdp/format/formatSelection.jsp" />
+			<forward name="continue" path="/jsp/modules/pdp/format/formatContinue.jsp" />
+			<forward name="finished" path="/jsp/modules/pdp/format/formatFinished.jsp" />
+		</action>
+		
+		<!-- **** -->
 		<action path="/pdp/formatselection"
 			type="org.kuali.kfs.pdp.web.struts.FormatSelectionAction">
 			<forward name="selection" path="/pdp/format/selection.jsp" />

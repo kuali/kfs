@@ -21,18 +21,18 @@ package org.kuali.kfs.pdp;
 public class PdpKeyConstants {
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_SMALL = "DisbursementNumberMaintenanceForm.endAssignedDisburseNbr.smaller";
     public static final String DISBURSEMENT_NUMBER_OUT_OF_RANGE_TOO_LARGE = "DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.outofrange";
-    
+
     public static final String ERROR_PAYMENT_LOAD_INVALID_CUSTOMER = "error.pdp.paymentLoad.invalidCustomer";
     public static final String ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER = "error.pdp.paymentLoad.inactiveCustomer";
-    public static final String ERROR_PAYMENT_LOAD_PAYMENT_COUNT_MISMATCH = "error.pdp.paymentLoad.paymentCountMismatch";   
-    public static final String ERROR_PAYMENT_LOAD_PAYMENT_TOTAL_MISMATCH = "error.pdp.paymentLoad.paymentTotalMismatch";       
-    public static final String ERROR_PAYMENT_LOAD_DUPLICATE_BATCH = "error.pdp.paymentLoad.duplicateBatch";       
-    public static final String ERROR_PAYMENT_LOAD_NEGATIVE_GROUP_TOTAL = "error.pdp.paymentLoad.negativeGroupTotal";          
-    public static final String ERROR_PAYMENT_LOAD_MAX_NOTE_LINES = "error.pdp.paymentLoad.maxNoteLines";            
+    public static final String ERROR_PAYMENT_LOAD_PAYMENT_COUNT_MISMATCH = "error.pdp.paymentLoad.paymentCountMismatch";
+    public static final String ERROR_PAYMENT_LOAD_PAYMENT_TOTAL_MISMATCH = "error.pdp.paymentLoad.paymentTotalMismatch";
+    public static final String ERROR_PAYMENT_LOAD_DUPLICATE_BATCH = "error.pdp.paymentLoad.duplicateBatch";
+    public static final String ERROR_PAYMENT_LOAD_NEGATIVE_GROUP_TOTAL = "error.pdp.paymentLoad.negativeGroupTotal";
+    public static final String ERROR_PAYMENT_LOAD_MAX_NOTE_LINES = "error.pdp.paymentLoad.maxNoteLines";
     public static final String ERROR_PAYMENT_LOAD_DETAIL_TOTAL_MISMATCH = "error.pdp.paymentLoad.detailTotalMismatch";
     public static final String ERROR_PAYMENT_LOAD_INVALID_BANK_CODE = "error.pdp.paymentLoad.invalidBankCode";
     public static final String ERROR_PAYMENT_LOAD_INACTIVE_BANK_CODE = "error.pdp.paymentLoad.inactiveBankCode";
-    
+
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PAYMENT = "message.batchUpload.title.payment";
     public static final String MESSAGE_PAYMENT_LOAD_FILE_THRESHOLD = "message.pdp.paymentLoad.fileThreshold";
     public static final String MESSAGE_PAYMENT_LOAD_PAYDATE_OVER_30_DAYS_PAST = "message.pdp.paymentLoad.paydateOver30DaysPast";
@@ -55,34 +55,34 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PAYMENT_EMAIL_GO_TO_PDP = "message.pdp.paymentLoad.email.goToPdp";
     public static final String MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT = "message.purap.extract.maxNotes.subject";
     public static final String MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE = "message.purap.extract.maxNotes.Message";
-    
-    public static class BatchConstants{
-        public static class ErrorMessages{
-            public static final String ERROR_BATCH_CRITERIA_NONE_ENTERED ="batchSearchForm.batchcriteria.noneEntered";
+
+    public static class BatchConstants {
+        public static class ErrorMessages {
+            public static final String ERROR_BATCH_CRITERIA_NONE_ENTERED = "batchSearchForm.batchcriteria.noneEntered";
             public static final String ERROR_BATCH_CRITERIA_NO_DATE = "batchSearchForm.batchcriteria.noDate";
             public static final String ERROR_BATCH_CRITERIA_SOURCE_MISSING = "batchSearchForm.batchcriteria.sourcemissing";
             public static final String ERROR_BATCH_ID_IS_NOT_NUMERIC = "error.batch.batchId.notNumeric";
             public static final String ERROR_NOTE_EMPTY = "paymentMaintenanceForm.changeText.empty";
             public static final String ERROR_NOTE_TOO_LONG = "paymentMaintenanceForm.changeText.over250";
-            public static final String ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND ="error.batch.pendingPaymentGroupsNotFound";
+            public static final String ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND = "error.batch.pendingPaymentGroupsNotFound";
             public static final String ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL = "error.batch.notAllPaymentGroupsOpenCannotCancel";
             public static final String ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD = "error.batch.notAllPaymentGroupsOpenCannotHold";
             public static final String ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD = "error.batch.notAllPaymentGroupsOpenCannotRemoveHold";
         }
-        
+
         public static class Messages {
             public static final String BATCH_SUCCESSFULLY_CANCELED = "message.batch.successfullyCanceled";
             public static final String BATCH_SUCCESSFULLY_HOLD = "message.batch.successfullyHold";
             public static final String HOLD_SUCCESSFULLY_REMOVED_ON_BATCH = "message.batch.successfullyRemoveHold";
         }
-        
-        public static class LinkText{
+
+        public static class LinkText {
             public static final String CANCEL_BATCH = "batchLookup.cancelBatch.text";
             public static final String HOLD_BATCH = "batchLookup.holdBatch.text";
             public static final String REMOVE_BATCH_HOLD = "batchLookup.removeBatchHold.text";
         }
-        
-        public static class Confirmation{
+
+        public static class Confirmation {
             public static final String CANCEL_BATCH_MESSAGE = "message.batch.cancel";
             public static final String CANCEL_BATCH_QUESTION = "CancelBatch";
             public static final String HOLD_BATCH_MESSAGE = "message.batch.hold";
@@ -92,32 +92,73 @@ public class PdpKeyConstants {
             public static final Integer NOTE_TEXT_MAX_LENGTH = 250;
         }
     }
-    
-    public static class PaymentDetail{
-        public static class ErrorMessages{
+
+    public static class PaymentDetail {
+        public static class ErrorMessages {
             public static final String ERROR_PAYMENT_DETAIL_CRITERIA_NOT_ENTERED = "paymentDetailLookup.criteria.noneEntered";
-//            public static final String ERROR_PAYMENT_DETAIL_DISBURSEMENT_NBR_INVALID = "paymentDetailLookup.disbursementNbr.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_PROCESS_ID_INVALID = "paymentDetailLookup.processId.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_PAYMENT_ID_INVALID = "paymentDetailLookup.paymentId.invalid";
-//            public static final String ERROR_PAYMENT_DETAIL_NET_AMOUNT_INVALID = "paymentDetailLookup.netPaymentAmount.invalid";
+            //            public static final String ERROR_PAYMENT_DETAIL_DISBURSEMENT_NBR_INVALID = "paymentDetailLookup.disbursementNbr.invalid";
+            //            public static final String ERROR_PAYMENT_DETAIL_PROCESS_ID_INVALID = "paymentDetailLookup.processId.invalid";
+            //            public static final String ERROR_PAYMENT_DETAIL_PAYMENT_ID_INVALID = "paymentDetailLookup.paymentId.invalid";
+            //            public static final String ERROR_PAYMENT_DETAIL_NET_AMOUNT_INVALID = "paymentDetailLookup.netPaymentAmount.invalid";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_TYPE_CODE_NULL_WITH_PAYEE_ID = "paymentDetailLookup.payeeIdTypeCd.nullWithPayeeId";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_ID_NULL_WITH_PAYEE_ID_TYPE_CODE = "paymentDetailLookup.payeeId.nullWithPayeeIdTypeCd";
-            public static final String ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS  ="paymentDetailLookup.custPaymentDocNbr.lessThan2Chars";
-            public static final String ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS ="paymentDetailLookup.invoiceNbr.lessThan2Chars";
+            public static final String ERROR_PAYMENT_DETAIL_CUST_DOC_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.custPaymentDocNbr.lessThan2Chars";
+            public static final String ERROR_PAYMENT_DETAIL_INVOICE_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.invoiceNbr.lessThan2Chars";
             public static final String ERROR_PAYMENT_DETAIL_REQUISITION_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.requisitionNbr.lessThan2Chars";
             public static final String ERROR_PAYMENT_DETAIL_PURCHASE_ORDER_NBR_LESS_THAN_2_CHARS = "paymentDetailLookup.purchaseOrderNbr.lessThan2Chars";
             public static final String ERROR_PAYMENT_DETAIL_PAYEE_NAME_LESS_THAN_2_CHARS = "paymentDetailLookup.payeeName.lessThan2Chars";
+            public static final String ERROR_PAYMENT_NOT_FOUND = "error.paymentDetail.pendingPaymentNotFound";
+            public static final String ERROR_PAYMENT_INVALID_STATUS_TO_CANCEL = "error.paymentDetail.invalidStatusToCancelPayment";
+            public static final String ERROR_DISBURSEMENT_NOT_FOUND = "error.paymentDetail.disbursementNotFound";
+            public static final String ERROR_DISBURSEMENT_INVALID_TO_CANCEL = "error.paymentDetail.invalidDisbursementToCancel";
+            public static final String ERROR_DISBURSEMENT_INVALID_TO_CANCEL_AND_REISSUE = "error.paymentDetail.invalidDisbursementToCancelAndReissue";
+            public static final String ERROR_PAYMENT_INVALID_STATUS_TO_HOLD = "error.paymentDetail.invalidStatusToHoldPayment";
+            public static final String ERROR_PAYMENT_INVALID_STATUS_TO_REMOVE_HOLD = "error.paymentDetail.invalidStatusToRemoveHold";
+        }
+
+        public static class Messages {
+            public static final String PAYMENT_SUCCESSFULLY_CANCELED = "message.payment.successfullyCanceled";
+            public static final String PAYMENT_SUCCESSFULLY_HOLD = "message.payment.successfullyHold";
+            public static final String HOLD_SUCCESSFULLY_REMOVED_ON_PAYMENT = "message.payment.successfullyRemoveHold";
+            public static final String DISBURSEMENT_SUCCESSFULLY_CANCELED = "message.disbursement.successfullyCanceled";
+            public static final String PAYMENT_SUCCESSFULLY_SET_AS_IMMEDIATE = "message.payment.successfullySetAsImmediate";
+            public static final String IMMEDIATE_SUCCESSFULLY_REMOVED_ON_PAYMENT = "message.payment.immediateSuccessfullyRemoved";
+        }
+
+        public static class LinkText {
+            public static final String CANCEL_PAYMENT = "paymentLookup.cancelPayment.text";
+            public static final String HOLD_PAYMENT = "paymentLookup.holdPayment.text";
+            public static final String REMOVE_PAYMENT_HOLD = "paymentLookup.removePaymentHold.text";
+            public static final String REMOVE_IMMEDIATE_PRINT = "paymentLookup.removeImmediatePrint.text";
+            public static final String SET_IMMEDIATE_PRINT = "paymentLookup.setImmediatePrint.text";
+            public static final String CANCEL_DISBURSEMENT = "paymentLookup.cancelDisbursement.text";
+            public static final String REISSUE_CANCEL = "paymentLookup.reIssueCancel.text";
+        }
+
+        public static class Confirmation {
+            public static final String CANCEL_PAYMENT_MESSAGE = "message.paymentDetail.cancel";
+            public static final String CANCEL_PAYMENT_QUESTION = "CancelPayment";
+            public static final String HOLD_PAYMENT_MESSAGE = "message.paymentDetail.hold";
+            public static final String HOLD_PAYMENT_QUESTION = "HoldPayment";
+            public static final String REMOVE_HOLD_PAYMENT_MESSAGE = "message.paymentDetail.removeHold";
+            public static final String REMOVE_HOLD_PAYMENT_QUESTION = "RemoveHoldPayment";
+            public static final String CANCEL_DISBURSEMENT_MESSAGE = "message.paymentDetail.cancelDisbursement";
+            public static final String CANCEL_DISBURSEMENT_QUESTION = "CancelDisbursement";
+            public static final String CANCEL_REISSUE_DISBURSEMENT_MESSAGE = "message.paymentDetail.cancelReissueDisbursement";
+            public static final String CANCEL_REISSUE_DISBURSEMENT_QUESTION = "CancelReissueDisbursement";
+            public static final String CHANGE_IMMEDIATE_PAYMENT_MESSAGE = "message.paymentDetail.changeImmediate";
+            public static final String CHANGE_IMMEDIATE_PAYMENT_QUESTION = "ChangeImmediatePayment";
         }
     }
-    
-    public static final String SORT_GROUP_SELECTION_PARAMETER_PREFIX = "pdp.sortGroupSelectionParameterPrefix";            
-    public static final String DEFAULT_SORT_GROUP_ID_PARAMETER = "pdp.defaultSortGroupIdParameter";  
-    public static final String DEFAULT_GROUP_NAME_OTHER = "pdp.defaultGroupNameOther";  
-    
+
+    public static final String SORT_GROUP_SELECTION_PARAMETER_PREFIX = "pdp.sortGroupSelectionParameterPrefix";
+    public static final String DEFAULT_SORT_GROUP_ID_PARAMETER = "pdp.defaultSortGroupIdParameter";
+    public static final String DEFAULT_GROUP_NAME_OTHER = "pdp.defaultGroupNameOther";
+
     //PaymentMaintenanceServiceImpl email messages
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1 = "message.pdp.paymentMaintenance.email.line1";  
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2 = "message.pdp.paymentMaintenance.email.line2";  
-    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3 = "message.pdp.paymentMaintenance.email.line3";  
+    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1 = "message.pdp.paymentMaintenance.email.line1";
+    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2 = "message.pdp.paymentMaintenance.email.line2";
+    public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3 = "message.pdp.paymentMaintenance.email.line3";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4 = "message.pdp.paymentMaintenance.email.line4";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYEE_NAME = "message.pdp.paymentMaintenance.email.payeeName";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_NET_PAYMENT_AMOUNT = "message.pdp.paymentMaintenance.email.netPaymentAmount";
@@ -133,6 +174,11 @@ public class PdpKeyConstants {
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CREATION_DATE = "message.pdp.paymentMaintenance.email.creationDate";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_COUNT = "message.pdp.paymentMaintenance.email.paymentCount";
     public static final String MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_TOTAL_AMOUNT = "message.pdp.paymentMaintenance.email.paymentTotalAmount";
-    
+
     public static final String ERROR_ACH_ACCOUNT_NOT_INACTIVABLE = "error.pdp.achAccount.accountNotInactivable";
+
+    public static class Format {
+        public static final String ERROR_PDP_FORMAT_PROCESS_ALREADY_RUNNING = "error.pdp.format.alreadyRunning";
+        public static final String ERROR_PDP_NO_MATCHING_PAYMENT_FOR_FORMAT = "error.pdp.format.NoMatchingPayments";
+    }
 }

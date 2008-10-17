@@ -93,8 +93,9 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String zipCode; // CUST_ZIP_CD
     private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
     private Boolean relieveLiabilities;
-    private boolean active; 
-
+    private boolean active;
+    private boolean selectedForFormat;
+    
     private Org organization;
     private Chart chartOfAccounts;
     private Campus defaultProcessingCampus;
@@ -118,7 +119,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public String getCustomerShortName() {
         return chartCode + "-" + orgCode + "-" + subUnitCode;
     }
-
+    
     public void setCustomerShortName(String customerShortName) {
         
     }
@@ -167,7 +168,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
                 return element;
             }
         }
-
         return null;
     }
 
@@ -872,8 +872,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
-
-
+    
     /**
      * Gets the defaultProcessingCampus attribute.
      * 
@@ -1043,7 +1042,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public boolean isActive() {
         return active;
     }
-
+    
     /**
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
@@ -1060,4 +1059,21 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
         
         return m;
     }
+
+    /**
+     * This method gets the selected for format flag.
+     * @return selectedForFormat
+     */
+    public boolean isSelectedForFormat() {
+        return selectedForFormat;
+    }
+
+    /**
+     * This method sets the selectedForFormat value.
+     * @param sameCampus
+     */
+    public void setSelectedForFormat(boolean sameCampus) {
+        this.selectedForFormat = sameCampus;
+    }
+    
 }

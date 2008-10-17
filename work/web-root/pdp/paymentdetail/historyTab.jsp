@@ -85,7 +85,7 @@
 						            	<fmt:formatDate value="${item.changeTime}" pattern="MM/dd/yyyy'  at  'hh:mm a"/>&nbsp;
 												</td>
 						            <td class="datacell">
-						              <c:out value="${item.paymentChange.description}"/>&nbsp;
+						              <c:out value="${item.paymentChange.name}"/>&nbsp;
 												</td>
 											  <td class="datacell">
 						              <c:out value="${item.changeUser.personUserIdentifier}"/>&nbsp;
@@ -105,7 +105,7 @@
 												</td>
 -->
 						            <td class="datacell">
-						              <c:out value="${item.origPaymentStatus.description}"/>&nbsp;
+						              <c:out value="${item.origPaymentStatus.name}"/>&nbsp;
 												</td>
 						            <td class="datacell">
 						              <c:out value="${item.origBankCode}"/>&nbsp;

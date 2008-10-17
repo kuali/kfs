@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.document.web.struts;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,134 +33,479 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.batch.util.PdpBatchQuestionCallback;
+import org.kuali.kfs.pdp.batch.util.PdpPaymentDetailQuestionCallback;
+import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.document.service.PaymentMaintenanceService;
+import org.kuali.kfs.pdp.exception.PdpException;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/**
+ * This class defines actions for Payment
+ */
 public class PaymentDetailAction extends KualiAction {
-    
-    private PaymentDetailService paymentDetailService;
-    private PaymentGroupService paymentGroupService;
-    
+
+    private PaymentMaintenanceService paymentMaintenanceService;
+    private BusinessObjectService businessObjectService;
+
+    /**
+     * Constructs a PaymentDetailAction.java.
+     */
     public PaymentDetailAction() {
-        setPaymentDetailService(SpringContext.getBean(PaymentDetailService.class));
-        setPaymentGroupService(SpringContext.getBean(PaymentGroupService.class));
+        setPaymentMaintenanceService(SpringContext.getBean(PaymentMaintenanceService.class));
+        setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        
+    }
+
+    /**
+     * This method confirms and cancels a payment.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                return performCancel( paymentDetailId, changeText, user);
+            }
+        };
+        
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_CANCELED, "confirmAndCancel", callback);
     }
     
-    public ActionForward showPaymentDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PaymentDetailForm paymentDetailForm = (PaymentDetailForm) form;
-        paymentDetailForm.setPayees(getPayeesMap());
-        Integer detailId;
-        PaymentDetail pd;
-        if (request.getParameter("DetailId") != null) {
-            // Payment Detail ID was passed - find payment Detail with the ID
-            detailId = new Integer(request.getParameter("DetailId"));
-            pd = paymentDetailService.get(detailId);
-            paymentDetailForm.setPaymentDetail(pd);
-            paymentDetailForm.setLookupLink(getLookupLink(detailId));
+    /**
+     * This method cancels a payment.
+     * @param paymentDetailId the payment detail id.
+     * @param changeText the text of the change
+     * @param user the user that perfomed the change
+     * @return true if payment successfully canceled, false otherwise
+     */
+    private boolean performCancel(int paymentDetailId, String changeText, UniversalUser user) {
 
-            // pd.setLastDisbursementActionDate(this.getDisbursementActionExpirationDate(request));
-            setPayeeDescriptor(paymentDetailForm);
-            setDisbursementPaymentList(paymentDetailForm);
-            paymentDetailForm.setSize(new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
-        }
-        String tab = request.getParameter("tab");
-        if (StringUtils.isNotEmpty(tab)) {
-            paymentDetailForm.setBtnPressed(tab);
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.cancelPendingPayment(paymentGroupId, paymentDetailId, changeText, user);
         }
         else {
-            paymentDetailForm.setBtnPressed("btnSummaryTab");
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
         }
-        String listType = request.getParameter("listType");
-        if(StringUtils.isNotEmpty(listType))
-        {
-            paymentDetailForm.setListType(listType);
-            return mapping.findForward("displayList");
+    }
+
+    /**
+     * This method confirms and holds a payment
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                return performHold( paymentDetailId, changeText, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_HOLD, "confirmAndHold", callback);
+    }
+
+    /**
+
+     */
+    /**
+     * This method performs a hold on a payment.
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text of the user change
+     * @param user the user that performed the change
+     * @return true if payment successfully held, false otherwise
+     */
+    private boolean performHold(int paymentDetailId, String changeText, UniversalUser user) {
+
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.holdPendingPayment(paymentGroupId, changeText, user);
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+    }
+
+    /**
+     * This method confirms and removes a hold on a payment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return an ActionForward
+     * @throws Exception
+     */
+    public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                return performRemoveHold( paymentDetailId, changeText, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveHold", callback);
+    }
+
+    /**
+     * This method removes a hold on payment.
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text of the user change
+     * @param user the user that performs the change
+     * @return true if hold successfully removed from payment, false otherwise
+     */
+    private boolean performRemoveHold(int paymentDetailId, String changeText, UniversalUser user) {
+
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.removeHoldPendingPayment(paymentGroupId, changeText, user);
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+    }
+
+    /**
+     * This method confirms and sets the immediate flag.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return an ActionForward
+     * @throws Exception
+     */
+    public ActionForward confirmAndSetImmediate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                 return performSetImmediate(paymentDetailId, changeText, user);
+                 
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_SET_AS_IMMEDIATE, "confirmAndSetImmediate", callback);
+    }
+
+    /**
+     * This method sets the immediate flag
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text of the change
+     * @param user the user that performed the change
+     * @return true if flag successfully set on payment, false otherwise
+     */
+    private boolean performSetImmediate(int paymentDetailId, String changeText, UniversalUser user) {
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            paymentMaintenanceService.changeImmediateFlag(paymentGroupId, changeText, user);
+            return true;
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+       
+    }
+
+    /**
+     * This method confirms and removes the immediate flag.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndRemoveImmediate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                 return performSetImmediate(paymentDetailId, changeText, user);
+                 
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.IMMEDIATE_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveImmediate", callback);
+    }
+
+    /**
+     * This method confirms and cancels a disbursement.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return an ActionForward
+     * @throws Exception
+     */
+    public ActionForward confirmAndCancelDisbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                return performCancelDisbursement( paymentDetailId, changeText, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndRemoveHold", callback);
+    }
+
+    /**
+     * This method cancels a disbursement
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text entered by user
+     * @param user the user that canceled the disbursement
+     * @return true if disbursement successfully canceled, false otherwise
+     */
+    private boolean performCancelDisbursement(int paymentDetailId, String changeText, UniversalUser user) {
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.cancelDisbursement(paymentGroupId, paymentDetailId, changeText, user);
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+    }
+
+    /**
+     * This method confirms an reissues/cancels a disbursement.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmAndReIssueCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+                return performReIssueDisbursement( paymentDetailId, changeText, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndRemoveHold", callback);
+    }
+
+    /**
+     * This method reissue/cancels a disbursement
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text entered by the user 
+     * @param user the user that canceled the disbursement
+     * @return true if disbursement successfully reissued/canceled, false otherwise
+     */
+    private boolean performReIssueDisbursement(int paymentDetailId, String changeText, UniversalUser user) {
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.cancelReissueDisbursement(paymentGroupId, changeText, user);
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+    }
+    
+    /**
+     * This method prompts for a reason to perform an action on a payment detail.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @param confirmationQuestion
+     * @param confirmationText
+     * @param caller
+     * @param callback
+     * @return
+     * @throws Exception
+     */
+    private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String confirmationQuestion, String confirmationText, String successMessage, String caller, PdpPaymentDetailQuestionCallback callback) throws Exception {
+        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String noteText = KFSConstants.EMPTY_STRING;
+        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        boolean actionStatus;
+        String message = KFSConstants.EMPTY_STRING;
+
+        String paymentDetailId = request.getParameter(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM);
+        if (paymentDetailId == null) {
+            paymentDetailId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
         }
 
-        return mapping.findForward("display");
-    }
-    
-    private String getLookupLink(Integer detailId)
-    {
-        Properties params = new Properties();
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
-        params.put(KNSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, KFSConstants.MAPPING_PORTAL + ".do");
-        params.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, UrlFactory.encode(String.valueOf(detailId)));
-        String url = "/kr/" + UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
-       return url;
-    }
-    
-    private void setPayeeDescriptor(PaymentDetailForm paymentDetailForm) {
-        // Get descriptor of Payee ID Type based on Code in DB
-        Map payees = paymentDetailForm.getPayees();
-        PaymentDetail paymentDetail = paymentDetailForm.getPaymentDetail();
-        Iterator i = payees.keySet().iterator();
-        while (i.hasNext()) {
-            String key = (String) i.next();
-            if (paymentDetail != null) {
-                if (key.equals(paymentDetail.getPaymentGroup().getPayeeIdTypeCd())) {
-                    paymentDetailForm.setPayeeIdTypeDesc((String)payees.get(key));
+        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        confirmationText = kualiConfiguration.getPropertyString(confirmationText);
+        confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
+
+        if (question == null) {
+          
+            // ask question if not already asked
+            return this.performQuestionWithInput(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, caller, paymentDetailId);
+        }
+        else {
+            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            if ((confirmationQuestion.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                actionStatus = false;
+            }
+            else {
+                noteText = reason;
+                int noteTextLength = (reason == null) ? 0 : noteText.length();
+                int noteTextMaxLength = PdpKeyConstants.BatchConstants.Confirmation.NOTE_TEXT_MAX_LENGTH;
+
+                if (StringUtils.isBlank(reason)) {
+
+                    if (reason == null) {
+                        // prevent a NPE by setting the reason to a blank string
+                        reason = KFSConstants.EMPTY_STRING;
+                    }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
-                if (key.equals(paymentDetail.getPaymentGroup().getAlternatePayeeIdTypeCd())) {
-                    paymentDetailForm.setAlternatePayeeIdTypeDesc((String)payees.get(key));
+                else if (noteTextLength > noteTextMaxLength) {
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
+
+                actionStatus = callback.doPostQuestion(Integer.parseInt(paymentDetailId), noteText, universalUser);
+                if (actionStatus) {
+                    message = successMessage;
+                }
+
             }
         }
+
+        String returnUrl = buildUrl(paymentDetailId, actionStatus, message, buildErrorMesageKeyList());
+        return new ActionForward(returnUrl, true);
     }
     
-    private void setDisbursementPaymentList(PaymentDetailForm paymentDetailForm) {
-        List paymentDetailList = new ArrayList();
-        PaymentDetail pd = paymentDetailForm.getPaymentDetail();
-        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr().intValue();
+    /**
+     * This method builds the forward url.
+     * 
+     * @param paymentDetailId the payment detail id
+     * @param success action status: true if success, false otherwise
+     * @param message the message for the user
+     * @return the build url
+     */
+    private String buildUrl(String paymentDetailId, boolean success, String message, String errorList) {
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
-        if ((disbNbr != null) && (disbNbr != new Integer(0))) {
-            List paymentGroupList = paymentGroupService.getByDisbursementNumber(disbNbr);
-            for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
-                PaymentGroup elem = (PaymentGroup) iter.next();
-                paymentDetailList.addAll(elem.getPaymentDetails());
-            }
-            paymentDetailForm.setDisbNbrTotalPayments( paymentDetailList.size());
-            paymentDetailForm.setDisbursementDetailsList(paymentDetailList);
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+        parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
+        parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
+        if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
+            parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);
         }
+
+        if (StringUtils.isNotEmpty(errorList)) {
+            parameters.put(PdpParameterConstants.ERROR_KEY_LIST_PARAM, errorList);
+        }
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
+
+        return lookupUrl;
     }
     
-    private Map getPayeesMap()
-    {
-        Map<String, String> payees = new HashMap();
-        payees.put(PdpConstants.PayeeIdTypeCodes.PAYEE_ID, "Payee ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.SSN, "SSN");
-        payees.put(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID, "Employee ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.FEIN, "FEIN");
-        payees.put(PdpConstants.PayeeIdTypeCodes.VENDOR_ID, "Vendor ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.OTHER, "Other");
-        return payees;
+    /**
+     * This method build a string list of error message keys out of the error map in GlobalVariables
+     * 
+     * @return a String representing the list of error message keys
+     */
+    private String buildErrorMesageKeyList() {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        StringBuffer errorList = new StringBuffer();
+
+        for (String errorKey : (List<String>) errorMap.getPropertiesWithErrors()) {
+            for (ErrorMessage errorMessage : (List<ErrorMessage>) errorMap.getMessages(errorKey)) {
+
+                errorList.append(errorMessage.getErrorKey());
+                errorList.append(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
+            }
+        }
+        if (errorList.length() > 0) {
+            errorList.replace(errorList.lastIndexOf(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR), errorList.lastIndexOf(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR) + PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR.length(), "");
+        }
+
+        return errorList.toString();
     }
 
-    public PaymentDetailService getPaymentDetailService() {
-        return paymentDetailService;
+    /**
+     * This method gets the payment maintenance service
+     * @return the paymentMaintenanceService
+     */
+    public PaymentMaintenanceService getPaymentMaintenanceService() {
+        return paymentMaintenanceService;
     }
 
-    public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
-        this.paymentDetailService = paymentDetailService;
+    /**
+     * This method sets the payment maintenance service
+     * @param paymentMaintenanceService
+     */
+    public void setPaymentMaintenanceService(PaymentMaintenanceService paymentMaintenanceService) {
+        this.paymentMaintenanceService = paymentMaintenanceService;
     }
 
-    public PaymentGroupService getPaymentGroupService() {
-        return paymentGroupService;
+    /**
+     * This method gets the business object service
+     * @return the businessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
-    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
-        this.paymentGroupService = paymentGroupService;
+    /**
+     * This method sets the business object service.
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

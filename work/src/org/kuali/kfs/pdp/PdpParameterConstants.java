@@ -27,14 +27,15 @@ public class PdpParameterConstants {
     
     public static class BatchConstants{
         public static final String BATCH_ID_PARAM = "batchId";
-        public static final String ACTION_SUCCESSFUL_PARAM = "actionSuccesful";
-        public static final String MESSAGE_PARAM = "message";
-        public static final String ERROR_KEY_LIST_PARAM = "errorKeyList";
-        public static final String ERROR_KEY_LIST_SEPARATOR = ";";
     }
     
     public static class PaymentDetail {
-        public static final String DETAIL_ID_PARAM = "DetailId";
+        public static final String DETAIL_ID_PARAM = "detailId";
         public static final String SHOW_PAYMENT_DETAIL = "showPaymentDetail";
     }
+    
+    public static final String MESSAGE_PARAM = "message";
+    public static final String ERROR_KEY_LIST_PARAM = "errorKeyList";
+    public static final String ERROR_KEY_LIST_SEPARATOR = ";";
+    public static final String ACTION_SUCCESSFUL_PARAM = "actionSuccesful";
 }

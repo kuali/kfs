@@ -14,14 +14,12 @@
 		<property name="attributes">
 			<list>
 				<ref bean="PaymentGroup-payeeName" />
-				<ref
-					bean="PaymentGroup-batch.customerProfile.chartCode" />
+				<ref bean="PaymentGroup-batch.customerProfile.chartCode" />
+				<ref bean="PaymentGroup-batch.customerProfile.customerShortName" />
 				<ref bean="PaymentGroup-payeeIdTypeCd" />
-				<ref
-					bean="PaymentGroup-batch.customerProfile.orgCode" />
+				<ref bean="PaymentGroup-batch.customerProfile.orgCode" />
 				<ref bean="PaymentGroup-payeeId" />
-				<ref
-					bean="PaymentGroup-batch.customerProfile.subUnitCode" />
+				<ref bean="PaymentGroup-batch.customerProfile.subUnitCode" />
 				<ref bean="PaymentGroup-disbursementTypeCode" />
 				<ref bean="PaymentGroup-processImmediate" />
 				<ref bean="PaymentGroup-disbursementNbr" />
@@ -35,7 +33,33 @@
 				<ref bean="PaymentGroup-batch.id" />
 				<ref bean="PaymentGroup-disbursementType.name" />
 				<ref bean="PaymentGroup-paymentDetails.netPaymentAmount" />
-
+				<ref bean="PaymentGroup-physCampusProcessCd" />
+				<ref bean="PaymentGroup-process.processUser.personUserIdentifier" />
+				<ref bean="PaymentGroup-batch.paymentFileName" />
+				<ref bean="PaymentGroup-process.processTimestamp" />
+				<ref bean="PaymentGroup-batch.submiterUser.personUserIdentifier" />
+				<ref bean="PaymentGroup-combineGroups" />
+				<ref bean="PaymentGroup-lastUpdate" />
+				<ref bean="PaymentGroup-alternatePayeeIdTypeCd" />
+				<ref bean="PaymentGroup-street" />
+				<ref bean="PaymentGroup-alternatePayeeId" />
+				<ref bean="PaymentGroup-city" />
+				<ref bean="PaymentGroup-payeeOwnerCd" />
+				<ref bean="PaymentGroup-state" />
+				<ref bean="PaymentGroup-employeeIndicator" />
+				<ref bean="PaymentGroup-taxablePayment" />
+				<ref bean="PaymentGroup-zipCd" />
+				<ref bean="PaymentGroup-adviceEmailAddress" />
+				<ref bean="PaymentGroup-campusAddress" />
+				<ref bean="PaymentGroup-country" />
+				<ref bean="PaymentGroup-bank.bankName" />
+				<ref bean="PaymentGroup-achBankRoutingNbr" />
+				<ref bean="PaymentGroup-achAccountNumber.achBankAccountNbr" />
+				<ref bean="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr" />
+				<ref bean="PaymentGroup-paymentStatus.name" />
+				<ref bean="PaymentGroup-payeeIdTypeDesc" />
+				<ref bean="PaymentGroup-nraPayment" />
+				
 			</list>
 		</property>
 		<property name="collections">
@@ -57,6 +81,13 @@
 	<bean id="PaymentGroup-batch.customerProfile.chartCode-parentBean"
 		abstract="true" parent="Batch-customerProfile.chartCode">
 		<property name="name" value="batch.customerProfile.chartCode" />
+	</bean>
+    <bean id="PaymentGroup-batch.customerProfile.customerShortName"
+		parent="PaymentGroup-batch.customerProfile.customerShortName-parentBean" />
+
+	<bean id="PaymentGroup-batch.customerProfile.customerShortName-parentBean"
+		abstract="true" parent="Batch-customerProfile.customerShortName">
+		<property name="name" value="batch.customerProfile.customerShortName" />
 	</bean>
 	<bean id="PaymentGroup-payeeName"
 		parent="PaymentGroup-payeeName-parentBean" />
@@ -268,6 +299,13 @@
 		abstract="true" parent="Batch-id">
 		<property name="name" value="batch.id" />
 	</bean>
+	<bean id="PaymentGroup-batch.customerFileCreateTimestamp"
+		parent="PaymentGroup-batch.customerFileCreateTimestamp-parentBean" />
+
+	<bean id="PaymentGroup-batch.customerFileCreateTimestamp-parentBean"
+		abstract="true" parent="Batch-customerFileCreateTimestamp">
+		<property name="name" value="batch.customerFileCreateTimestamp" />
+	</bean>
     <bean id="PaymentGroup-disbursementType.name"
 		parent="PaymentGroup-disbursementType.name-parentBean" />
 
@@ -282,4 +320,367 @@
 		abstract="true" parent="PaymentDetail-netPaymentAmount">
 		<property name="name" value="paymentDetails.netPaymentAmount" />
 	</bean>
+	<bean id="PaymentGroup-physCampusProcessCd"
+		parent="PaymentGroup-physCampusProcessCd-parentBean" />
+
+	<bean id="PaymentGroup-physCampusProcessCd-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="physCampusProcessCd" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Physical Campus Process Location" />
+		<property name="shortLabel" value="Campus" />
+		<property name="maxLength" value="32" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="32" />
+		</property>
+		<property name="summary" value="physCampusProcessCd" />
+		<property name="description" value="Physical Campus Process Location." />
+	</bean>
+    <bean id="PaymentGroup-process.processUser.personUserIdentifier"
+		parent="PaymentGroup-process.processUser.personUserIdentifier-parentBean" />
+
+	<bean id="PaymentGroup-process.processUser.personUserIdentifier-parentBean"
+		abstract="true" parent="UniversalUser-personUserIdentifier">
+		<property name="name" value="process.processUser.personUserIdentifier" />
+	</bean>
+	<bean id="PaymentGroup-batch.paymentFileName"
+		parent="PaymentGroup-batch.paymentFileName-parentBean" />
+
+	<bean id="PaymentGroup-batch.paymentFileName-parentBean"
+		abstract="true" parent="Batch-paymentFileName">
+		<property name="name" value="batch.paymentFileName" />
+	</bean>
+    <bean id="PaymentGroup-process.processTimestamp"
+		parent="PaymentGroup-process.processTimestamp-parentBean" />
+
+	<bean id="PaymentGroup-process.processTimestamp-parentBean"
+		abstract="true" parent="PaymentProcess-processTimestamp">
+		<property name="name" value="process.processTimestamp" />
+	</bean> 
+    <bean id="PaymentGroup-batch.submiterUser.personUserIdentifier"
+		parent="PaymentGroup-batch.submiterUser.personUserIdentifier-parentBean" />
+
+	<bean id="PaymentGroup-batch.submiterUser.personUserIdentifier-parentBean"
+		abstract="true" parent="Batch-submiterUser.personUserIdentifier">
+		<property name="name" value="batch.submiterUser.personUserIdentifier" />
+	</bean> 
+	<bean id="PaymentGroup-combineGroups" parent="PaymentGroup-combineGroups-parentBean" />
+	
+    <bean id="PaymentGroup-combineGroups-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="combineGroups" />
+    	<property name="label" value="Combinable Payment Group" />
+    	<property name="shortLabel" value="Combinable Payment Group" />
+    	<property name="summary" value="Combinable Payment Group" />
+    	<property name="description" value="Combinable Payment Group" />
+    	<property name="required" value="false" />
+    	<property name="maxLength" value="1" />
+        <property name="control" >
+        	<bean parent="CheckboxControlDefinition"
+            	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+            	p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+    <bean id="PaymentGroup-lastUpdate"
+		parent="PaymentGroup-lastUpdate-parentBean" />
+
+	<bean id="PaymentGroup-lastUpdate-parentBean"
+		abstract="true" parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="lastUpdate" />
+		<property name="label" value="Payment Last Update" />
+	</bean> 
+    <bean id="PaymentGroup-alternatePayeeIdTypeCd"
+		parent="PaymentGroup-alternatePayeeIdTypeCd-parentBean" />
+
+	<bean id="PaymentGroup-alternatePayeeIdTypeCd-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="alternatePayeeIdTypeCd" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Alternate Payee ID Type Code" />
+		<property name="shortLabel" value="Alternate Payee ID Type Code" />
+		<property name="maxLength" value="1" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="summary" value="alternatePayeeIdTypeCd" />
+		<property name="description" value="Alternate Payee ID Type Code." />
+	</bean>
+	<bean id="PaymentGroup-street"
+		parent="PaymentGroup-street-parentBean" />
+
+	<bean id="PaymentGroup-street-parentBean" abstract="true"
+		parent="GenericAttributes-genericBigText">
+		<property name="name" value="street" />
+		<property name="label" value="Street" />
+		<property name="shortLabel" value="Street" />
+		<property name="summary" value="street" />
+		<property name="description" value="Alternate Payee ID Type Code." />
+	</bean>
+    <bean id="PaymentGroup-alternatePayeeId"
+		parent="PaymentGroup-alternatePayeeId-parentBean" />
+
+	<bean id="PaymentGroup-alternatePayeeId-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="alternatePayeeId" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Alternate Payee ID" />
+		<property name="shortLabel" value="Alternate Payee ID" />
+		<property name="maxLength" value="1" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+		<property name="summary" value="alternatePayeeId" />
+		<property name="description" value="Alternate Payee ID." />
+	</bean>
+  <bean id="PaymentGroup-city" parent="PaymentGroup-city-parentBean" />
+
+  <bean id="PaymentGroup-city-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="city" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="City" />
+    <property name="shortLabel" value="City" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="city" />
+	<property name="description" value="City." />
+  </bean>
+  <bean id="PaymentGroup-payeeOwnerCd" parent="PaymentGroup-payeeOwnerCd-parentBean" />
+
+  <bean id="PaymentGroup-payeeOwnerCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeOwnerCd" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Ownership Code" />
+    <property name="shortLabel" value="Payee Ownership Code" />
+    <property name="maxLength" value="1" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="2" />
+    </property>
+    <property name="summary" value="payeeOwnerCd" />
+	<property name="description" value="Payee Ownership Code." />
+  </bean>
+  <bean id="PaymentGroup-state" parent="PaymentGroup-state-parentBean" />
+
+  <bean id="PaymentGroup-state-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="state" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="state" />
+	<property name="description" value="State." />
+  </bean>
+  <bean id="PaymentGroup-employeeIndicator" parent="PaymentGroup-employeeIndicator-parentBean" />
+	
+  <bean id="PaymentGroup-employeeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="employeeIndicator" />
+    <property name="label" value="Is Payee an Employee?" />
+    <property name="shortLabel" value="Is Payee an Employee?" />
+    <property name="summary" value="Is Payee an Employee?" />
+    <property name="description" value="Is Payee an Employee?" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+       	<bean parent="CheckboxControlDefinition"
+           	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+           	p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentGroup-taxablePayment" parent="PaymentGroup-taxablePayment-parentBean" />
+	
+  <bean id="PaymentGroup-taxablePayment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="taxablePayment" />
+    <property name="label" value="Taxable Payment" />
+    <property name="shortLabel" value="Taxable" />
+    <property name="summary" value="Is Payee an Employee?" />
+    <property name="description" value="Taxable Payment" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+       	<bean parent="CheckboxControlDefinition"
+           	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+           	p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentGroup-zipCd" parent="PaymentGroup-zipCd-parentBean" />
+
+  <bean id="PaymentGroup-zipCd-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="zipCd" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Zip Code" />
+    <property name="shortLabel" value="Zip Code" />
+    <property name="maxLength" value="20" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="20" />
+    </property>
+    <property name="summary" value="zipCd" />
+	<property name="description" value="Zip Code." />
+  </bean>
+  <bean id="PaymentGroup-adviceEmailAddress" parent="PaymentGroup-adviceEmailAddress-parentBean" />
+
+  <bean id="PaymentGroup-adviceEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="adviceEmailAddress" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="ACH Advice E-mail Address" />
+    <property name="shortLabel" value="Advice E-mail Address" />
+    <property name="maxLength" value="50" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="50" />
+    </property>
+    <property name="summary" value="adviceEmailAddress" />
+	<property name="description" value="ACH Advice E-mail Address." />
+  </bean>
+  <bean id="PaymentGroup-campusAddress" parent="PaymentGroup-campusAddress-parentBean" />
+	
+  <bean id="PaymentGroup-campusAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="campusAddress" />
+    <property name="label" value="Campus Address" />
+    <property name="shortLabel" value="Campus Address" />
+    <property name="summary" value="Campus Address" />
+    <property name="description" value="Campus Address" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+       	<bean parent="CheckboxControlDefinition"
+           	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+           	p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+  <bean id="PaymentGroup-country" parent="PaymentGroup-country-parentBean" />
+
+  <bean id="PaymentGroup-country-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="country" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Country" />
+    <property name="shortLabel" value="Country" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="country" />
+	<property name="description" value="Country." />
+  </bean>
+  <bean id="PaymentGroup-bank.bankName" parent="PaymentGroup-bank.bankName-parentBean" />
+
+  <bean id="PaymentGroup-bank.bankName-parentBean" abstract="true" parent="Bank-bankName">
+    <property name="name" value="bank.bankName" />
+    <property name="label" value="Payment Bank" />
+    <property name="shortLabel" value="Payment Bank" />
+  </bean>
+  <bean id="PaymentGroup-achBankRoutingNbr" parent="PaymentGroup-achBankRoutingNbr-parentBean" />
+
+  <bean id="PaymentGroup-achBankRoutingNbr-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="achBankRoutingNbr" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee Bank Routing Number" />
+    <property name="shortLabel" value="Payee Bank Routing Number" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="achBankRoutingNbr" />
+	<property name="description" value="Payee Bank Routing Number." />
+  </bean>
+  <bean id="PaymentGroup-achAccountNumber.achBankAccountNbr" parent="PaymentGroup-achAccountNumber.achBankAccountNbr-parentBean" />
+
+  <bean id="PaymentGroup-achAccountNumber.achBankAccountNbr-parentBean" abstract="true" parent="AchAccountNumber-achBankAccountNbr">
+    <property name="name" value="achAccountNumber.achBankAccountNbr" />
+    <property name="label" value="Payee Bank Account Number" />
+    <property name="shortLabel" value="Payee Bank Account Number" />
+  </bean>
+  <bean id="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr" parent="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr-parentBean" />
+
+  <bean id="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr-parentBean" abstract="true" parent="AchAccountNumber-partialMaskAchBankAccountNbr">
+    <property name="name" value="achAccountNumber.partialMaskAchBankAccountNbr" />
+    <property name="label" value="Partial Payee Bank Account Number" />
+    <property name="shortLabel" value="Partial Payee Bank Account Number" />
+  </bean>
+  <bean id="PaymentGroup-paymentStatus.name" parent="PaymentGroup-paymentStatus.name-parentBean" />
+
+  <bean id="PaymentGroup-paymentStatus.name-parentBean" abstract="true" parent="PaymentStatus-name">
+    <property name="name" value="paymentStatus.name" />
+  </bean>
+  <bean id="PaymentGroup-payeeIdTypeDesc" parent="PaymentGroup-payeeIdTypeDesc-parentBean" />
+
+  <bean id="PaymentGroup-payeeIdTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeIdTypeDesc" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Payee ID Type" />
+    <property name="shortLabel" value="Payee ID Type" />
+    <property name="maxLength" value="30" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern"
+            p:allowWhitespace="true" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="30" />
+    </property>
+    <property name="summary" value="payeeIdTypeDesc" />
+	<property name="description" value="Payee ID Type." />
+  </bean>
+  <bean id="PaymentGroup-nraPayment" parent="PaymentGroup-nraPayment-parentBean" />
+	
+  <bean id="PaymentGroup-nraPayment-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nraPayment" />
+    <property name="label" value="NRA Payee" />
+    <property name="shortLabel" value="NRA Payee" />
+    <property name="summary" value="NRA Payee" />
+    <property name="description" value="NRA Payee" />
+    <property name="required" value="false" />
+    <property name="maxLength" value="1" />
+    <property name="control" >
+       	<bean parent="CheckboxControlDefinition"
+           	p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.YesNoValuesFinder"
+           	p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+		
 </beans>

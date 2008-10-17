@@ -333,6 +333,12 @@
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
+	
+	<bean id="pdpFormatProcessService" class="org.kuali.kfs.pdp.service.impl.FormatProcessServiceImpl">
+		<property name="customerProfileDao" ref="pdpCustomerProfileDao"/>
+		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
+		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>
+	</bean>
 
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>

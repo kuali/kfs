@@ -41,6 +41,7 @@ import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.KualiInteger;
 
 
 /**
@@ -148,12 +149,12 @@ public class PaymentDetailAction extends BaseAction {
 
     private void getDisbursementPaymentList(HttpSession session, PaymentDetail pd) {
         List paymentDetailList = new ArrayList();
-        Integer disbNbr = pd.getPaymentGroup().getDisbursementNbr().intValue();
+        KualiInteger disbNbr = pd.getPaymentGroup().getDisbursementNbr();
         session.removeAttribute("disbNbrTotalPayments");
         session.removeAttribute("disbursementDetailsList");
 
-        if ((disbNbr != null) && (disbNbr != new Integer(0))) {
-            List paymentGroupList = paymentGroupService.getByDisbursementNumber(disbNbr);
+        if ((disbNbr != null) && (disbNbr != KualiInteger.ZERO)) {
+            List paymentGroupList = paymentGroupService.getByDisbursementNumber(disbNbr.intValue());
             for (Iterator iter = paymentGroupList.iterator(); iter.hasNext();) {
                 PaymentGroup elem = (PaymentGroup) iter.next();
                 paymentDetailList.addAll(elem.getPaymentDetails());

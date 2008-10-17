@@ -45,6 +45,8 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/ar" prefix="ar" %>
 
+<%@ taglib tagdir="/WEB-INF/tags/pdp" prefix="pdp" %>
+
 <%@ taglib tagdir="/WEB-INF/tags/er" prefix="er" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>

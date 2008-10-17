@@ -1,0 +1,139 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="PaymentAccountDetail" parent="PaymentAccountDetail-parentBean" />
+
+  <bean id="PaymentAccountDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" />
+    <property name="inquiryDefinition" >
+      <ref bean="PaymentAccountDetail-inquiryDefinition" />
+    </property>
+    <property name="titleAttribute" value="finChartCode" />
+    <property name="objectLabel" value="Payment Account Detail" />
+    <property name="attributes" >
+      <list>
+        <ref bean="PaymentAccountDetail-finChartCode" />
+        <ref bean="PaymentAccountDetail-accountNbr" />
+        <ref bean="PaymentAccountDetail-subAccountNbr" /> 
+        <ref bean="PaymentAccountDetail-finObjectCode" /> 
+        <ref bean="PaymentAccountDetail-finSubObjectCode" />
+        <ref bean="PaymentAccountDetail-orgReferenceId" />
+        <ref bean="PaymentAccountDetail-projectCode" />
+        <ref bean="PaymentAccountDetail-accountNetAmount" />
+   
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PaymentAccountDetail-finChartCode" parent="PaymentAccountDetail-finChartCode-parentBean" />
+
+  <bean id="PaymentAccountDetail-finChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+   <property name="name" value="finChartCode" />
+  </bean>
+  <bean id="PaymentAccountDetail-accountNbr" parent="PaymentAccountDetail-accountNbr-parentBean" />
+
+  <bean id="PaymentAccountDetail-accountNbr-parentBean" abstract="true" parent="Account-accountNumber">
+  <property name="name" value="accountNbr" />
+  </bean>
+  <bean id="PaymentAccountDetail-subAccountNbr" parent="PaymentAccountDetail-subAccountNbr-parentBean" />
+
+  <bean id="PaymentAccountDetail-subAccountNbr-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+  <property name="name" value="subAccountNbr" />
+  </bean>
+  <bean id="PaymentAccountDetail-finObjectCode" parent="PaymentAccountDetail-finObjectCode-parentBean" />
+
+  <bean id="PaymentAccountDetail-finObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+  <property name="name" value="finObjectCode" />
+  </bean>
+  <bean id="PaymentAccountDetail-finSubObjectCode" parent="PaymentAccountDetail-finSubObjectCode-parentBean" />
+
+  <bean id="PaymentAccountDetail-finSubObjectCode-parentBean" abstract="true" parent="SubObjCd-financialSubObjectCode">
+  <property name="name" value="finSubObjectCode" />
+  </bean>
+  <bean id="PaymentAccountDetail-orgReferenceId" parent="PaymentAccountDetail-orgReferenceId-parentBean" />
+
+  <bean id="PaymentAccountDetail-orgReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="orgReferenceId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Organization Reference ID" />
+    <property name="shortLabel" value="Organization Reference ID" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="id" />
+    <property name="description" value="Organization Reference ID." />
+  </bean>
+  <bean id="PaymentAccountDetail-projectCode" parent="PaymentAccountDetail-projectCode-parentBean" />
+
+  <bean id="PaymentAccountDetail-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="projectCode" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Project Code" />
+    <property name="shortLabel" value="Project Code" />
+    <property name="maxLength" value="32" />
+    <property name="validationPattern" >
+       <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="32" />
+    </property>
+    <property name="summary" value="id" />
+    <property name="description" value="Project Code." />
+  </bean>
+  <bean id="PaymentAccountDetail-accountNetAmount" parent="PaymentAccountDetail-accountNetAmount-parentBean" />
+
+  <bean id="PaymentAccountDetail-accountNetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+     <property name="name" value="accountNetAmount" />
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PaymentAccountDetail-inquiryDefinition" parent="PaymentAccountDetail-inquiryDefinition-parentBean" />
+
+  <bean id="PaymentAccountDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="PaymentAccountDetail Inquiry" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition"
+                    p:attributeName="finChartCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNbr" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="subAccountNbr" />   
+              <bean parent="FieldDefinition"
+                    p:attributeName="finObjectCode" />     
+              <bean parent="FieldDefinition"
+                    p:attributeName="finSubObjectCode" />  
+              <bean parent="FieldDefinition"
+                    p:attributeName="orgReferenceId" /> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="projectCode" /> 
+              <bean parent="FieldDefinition"
+                    p:attributeName="accountNetAmount" />                                                                                                                
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  
+</beans>

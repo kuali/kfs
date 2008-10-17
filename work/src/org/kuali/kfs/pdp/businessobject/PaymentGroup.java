@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -23,10 +22,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -36,6 +38,9 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
+/**
+ * This class represents the PaymentGroup
+ */
 public class PaymentGroup extends TimestampedBusinessObjectBase {
     private static KualiDecimal zero = KualiDecimal.ZERO;
 
@@ -97,18 +102,33 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private List<PaymentGroupHistory> paymentGroupHistory = new ArrayList<PaymentGroupHistory>();
     private List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
 
+    /**
+     * Constructs a PaymentGroup.java.
+     */
     public PaymentGroup() {
         super();
     }
 
+    /**
+     * This method gets the dailyReportSpecialHandling
+     * @return dailyReportSpecialHandling
+     */
     public boolean isDailyReportSpecialHandling() {
         return pymtSpecialHandling.booleanValue() && !processImmediate.booleanValue();
     }
 
+    /**
+     * This method gets the dailyReportAttachment
+     * @return dailyReportAttachment
+     */
     public boolean isDailyReportAttachment() {
         return !pymtSpecialHandling && !processImmediate && pymtAttachment;
     }
 
+    /**
+     * This method gets the paymentStatusCode
+     * @return paymentStatusCode
+     */
     public String getPaymentStatusCode() {
         return paymentStatusCode;
     }
@@ -124,6 +144,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return (val + "                                        ").substring(0, width - 1);
     }
 
+    /**
+     * This method gets the boolean valuse of a Boolean object.
+     * @param b the boolean object
+     * @return the boolean value
+     */
     private boolean booleanValue(Boolean b) {
         boolean bv = false;
         if (b != null) {
@@ -132,6 +157,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return bv;
     }
     
+    /**
+     * This method gets the notle lines
+     * @return the note lines
+     */
     public int getNoteLines() {
         int count = 0;
         for (Iterator iter = this.getPaymentDetails().iterator(); iter.hasNext();) {
@@ -165,10 +194,18 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return paymentDetails;
     }
 
+    /**
+     * This method sets the payment details list
+     * @param paymentDetail
+     */
     public void setPaymentDetails(List<PaymentDetail> paymentDetail) {
         this.paymentDetails = paymentDetail;
     }
 
+    /**
+     * This method adds a paymentDetail
+     * @param pgh the payments detail to be added
+     */
     public void addPaymentDetails(PaymentDetail pgh) {
         pgh.setPaymentGroup(this);
         paymentDetails.add(pgh);
@@ -187,15 +224,27 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return paymentGroupHistory;
     }
 
+    /**
+     * This method sets the payment group history list
+     * @param paymentGroupHistory
+     */
     public void setPaymentGroupHistory(List<PaymentGroupHistory> paymentGroupHistory) {
         this.paymentGroupHistory = paymentGroupHistory;
     }
 
+    /**
+     * This method adds a paymentGroupHistory
+     * @param pd the paymentGroupHistory to be added
+     */
     public void addPaymentGroupHistory(PaymentGroupHistory pd) {
         pd.setPaymentGroup(this);
         paymentGroupHistory.add(pd);
     }
 
+    /**
+     * This method deletes a paymentGroupHistory
+     * @param pd the paymentGroupHistory to be deleted
+     */
     public void deletePaymentGroupHistory(PaymentGroupHistory pd) {
         paymentGroupHistory.remove(pd);
     }
@@ -217,14 +266,26 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         return achAccountNumber;
     }
 
+    /**
+     * This method sets the achAccountNumber
+     * @param aan
+     */
     public void setAchAccountNumber(AchAccountNumber aan) {
         this.achAccountNumber = aan;
     }
 
+    /**
+     * This method gets the sortValue
+     * @return sortValue
+     */
     public String getSortValue() {
         return sortValue;
     }
 
+    /**
+     * This method sets the sort value
+     * @param sortGroupId
+     */
     public void setSortValue(int sortGroupId) {
         String defaultSortOrderParameterName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
         String defaultSortOrderParameterValue = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentGroup.class, defaultSortOrderParameterName);
@@ -622,7 +683,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setCreditMemoAmount(KualiDecimal decimal) {
         creditMemoAmount = decimal;
     }
-    
+
     public void setCreditMemoAmount(String decimal) {
         creditMemoAmount = new KualiDecimal(decimal);
     }
@@ -654,7 +715,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setDisbursementNbr(KualiInteger integer) {
         disbursementNbr = integer;
     }
-    
+
     public void setDisbursementNbr(String integer) {
         disbursementNbr = new KualiInteger(integer);
     }
@@ -917,5 +978,34 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
+    }
+    
+    /**
+     * This method gets a string representation of the address lines
+     * @return the street as a combined representation of the address lines
+     */
+    public String getStreet() {
+        StringBuffer street = new StringBuffer();
+
+        street.append(StringUtils.isNotBlank(line1Address) ? (line1Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
+        street.append(StringUtils.isNotBlank(line2Address) ? (line2Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
+        street.append(StringUtils.isNotBlank(line3Address) ? (line3Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
+        street.append(StringUtils.isNotBlank(line4Address) ? (line4Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
+
+        return street.toString();
+    }
+    
+    /**
+     * This method gets the payeeIdTypeDesc
+     * @return the payeeIdTypeDesc
+     */
+    public String getPayeeIdTypeDesc() {
+        String payeeIdTypeCd = getPayeeIdTypeCd();
+        for (PdpConstants.PayeeTypeCode payeeTypeCode : PdpConstants.PayeeTypeCode.values()) {
+            if (payeeTypeCode.getTypeCode().equalsIgnoreCase(payeeIdTypeCd)) {
+                return payeeTypeCode.getDescription();
+            }
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 }

@@ -33,13 +33,9 @@ public class PdpConstants {
     public static class PayeeTypeCodes {
         public static String VENDOR = "V";
     }
-    
+
     public enum PayeeTypeCode {
-        SSN("S", "SSN"), 
-        EMPLOYEE_ID("E", "Employee ID"), 
-        FEIN("F", "FEIN"), 
-        VENDOR_ID("V", "Vendor ID"), 
-        OTHER("X", "Other");
+        SSN("S", "SSN"), EMPLOYEE_ID("E", "Employee ID"), FEIN("F", "FEIN"), VENDOR_ID("V", "Vendor ID"), OTHER("X", "Other");
 
         private String typeCode;
         private String description;
@@ -57,7 +53,7 @@ public class PdpConstants {
             return this.description;
         }
     }
-    
+
     // TODO Probably should become a table
     public static class PayeeIdTypeCodes {
         public static String PAYEE_ID = "P";
@@ -141,24 +137,28 @@ public class PdpConstants {
         public static final String HELD_TAX_NRA_CD = "HTXN";
         public static final String HELD_TAX_NRA_EMPL_CD = "HTXB";
     }
-    
+
     public static class PurapParameterConstants {
         public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
         public static final String PURAP_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
     }
-    
-    public static class Actions{
+
+    public static class Actions {
         public static final String BATCH_SEARCH_DETAIL_ACTION = "batchsearchDetail.do";
         public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetailrice.do";
     }
-    
-    public static class ActionMethods{
+
+    public static class ActionMethods {
         public static final String CONFIRM_CANCEL_ACTION = "confirmAndCancel";
         public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmAndRemoveHold";
         public static final String CONFIRM_HOLD_ACTION = "confirmAndHold";
+        public static final String CONFIRM_REMOVE_IMMEDIATE_PRINT_ACTION = "confirmAndRemoveImmediate";
+        public static final String CONFIRM_SET_IMMEDIATE_PRINT_ACTION = "confirmAndSetImmediate";
+        public static final String CONFIRM_DISBURSEMENT_CANCEL_ACTION = "confirmAndCancelDisbursement";
+        public static final String CONFIRM_REISSUE_CANCEL_ACTION = "confirmAndReIssueCancel";
     }
-    
+
     public static class AccountChangeCodes {
         public static final String INVALID_ACCOUNT = "ACCT";
         public static final String INVALID_SUB_ACCOUNT = "SA";
@@ -166,14 +166,9 @@ public class PdpConstants {
         public static final String INVALID_SUB_OBJECT = "SO";
         public static final String INVALID_PROJECT = "PROJ";
     }
-    
+
     public enum PaymentType {
-        ALL("all", "All Payment Types"),
-        DISBURSEMENTS_WITH_ATTACHMENTS("pymtAttachment", "Only Disbursements with Attachments"),
-        DISBURSEMENTS_NO_ATTACHMENTS("pymtAttachmentFalse", "Only Disbursements with No Attachments"),
-        DISBURSEMENTS_WITH_SPECIAL_HANDLING("pymtSpecialHandling", "Only Disbursements with Special Handling"),
-        DISBURSEMENTS_NO_SPECIAL_HANDLING("pymtSpecialHandlingFalse", "Only Disbursements with No Special Handling"),
-        PROCESS_IMMEDIATE("immediate", "Only Disbursements Flagged as Immediate");
+        ALL("all", "All Payment Types"), DISBURSEMENTS_WITH_ATTACHMENTS("pymtAttachment", "Only Disbursements with Attachments"), DISBURSEMENTS_NO_ATTACHMENTS("pymtAttachmentFalse", "Only Disbursements with No Attachments"), DISBURSEMENTS_WITH_SPECIAL_HANDLING("pymtSpecialHandling", "Only Disbursements with Special Handling"), DISBURSEMENTS_NO_SPECIAL_HANDLING("pymtSpecialHandlingFalse", "Only Disbursements with No Special Handling"), PROCESS_IMMEDIATE("immediate", "Only Disbursements Flagged as Immediate");
 
         private String paymentType;
         private String description;
@@ -191,5 +186,9 @@ public class PdpConstants {
             return this.description;
         }
     }
-    
+
+    public static final String MAPPING_SELECTION = "selection";
+    public static final String MAPPING_CONTINUE = "continue";
+    public static final String MAPPING_FINISHED = "finished";
+
 }

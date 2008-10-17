@@ -149,7 +149,7 @@ public class PaymentMaintenanceAction extends BaseAction {
                         if (sr.isHoldRole() || sr.isTaxHoldersRole() || sr.isSysAdminRole()) {
                             LOG.debug("executeLogic() running removeHoldPendingPayment now");
                             // ChangeID was previous set to PaymentGroupID
-                            paymentMaintenanceService.removeHoldPendingPayment(pmf.getChangeId(), pmf.getChangeText(), getUser(request), sr);
+                            paymentMaintenanceService.removeHoldPendingPayment(pmf.getChangeId(), pmf.getChangeText(), getUser(request));
                             actionErrors.add("success", new ActionMessage("success.paymentUpdate.saved"));
                         }
                         else {
@@ -182,7 +182,7 @@ public class PaymentMaintenanceAction extends BaseAction {
                         if (sr.isCancelRole() || sr.isTaxHoldersRole() || sr.isSysAdminRole()) {
                             LOG.debug("executeLogic() running cancelPendingPayment now");
                             // ChangeID was previous set to PaymentGroupID
-                            paymentMaintenanceService.cancelPendingPayment(pmf.getChangeId(), pmf.getPaymentDetailId(), pmf.getChangeText(), getUser(request), sr);
+                            paymentMaintenanceService.cancelPendingPayment(pmf.getChangeId(), pmf.getPaymentDetailId(), pmf.getChangeText(), getUser(request));
                             actionErrors.add("success", new ActionMessage("success.paymentUpdate.saved"));
                         }
                         else {

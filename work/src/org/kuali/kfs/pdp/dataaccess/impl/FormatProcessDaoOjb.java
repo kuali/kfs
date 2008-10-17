@@ -30,15 +30,22 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**
- * @author jsissom
+ *  This class provides data access methods for the FormatProcess
  */
 public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements FormatProcessDao {
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatProcessDaoOjb.class);
 
+    /**
+     * Constructs a FormatProcessDaoOjb.java.
+     */
     public FormatProcessDaoOjb() {
         super();
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#getByCampus(java.lang.String)
+     */
     public FormatProcess getByCampus(String campus) {
         LOG.debug("getByCampus() starting");
 
@@ -48,6 +55,9 @@ public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         return (FormatProcess) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FormatProcess.class, c));
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#removeByCampus(java.lang.String)
+     */
     public void removeByCampus(String campus) {
         LOG.debug("removeByCampus() starting");
 
@@ -57,6 +67,9 @@ public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         }
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#add(java.lang.String, java.util.Date)
+     */
     public void add(String campus, Date now) {
         LOG.debug("add() starting");
 
@@ -66,4 +79,5 @@ public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
         getPersistenceBrokerTemplate().store(fp);
     }
+    
 }

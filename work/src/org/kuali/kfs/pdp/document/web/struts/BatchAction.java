@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
- * This class defines action for Batch (cancel, hold, remove hold).
+ * This class defines actions for Batch (cancel, hold, remove hold).
  */
 public class BatchAction extends KualiAction {
 
@@ -196,7 +196,7 @@ public class BatchAction extends KualiAction {
     private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String confirmationQuestion, String confirmationText, String successMessage, String caller, PdpBatchQuestionCallback callback) throws Exception {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-        String cancelNoteText = KFSConstants.EMPTY_STRING;
+        String noteText = KFSConstants.EMPTY_STRING;
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         boolean actionStatus;
         String message = KFSConstants.EMPTY_STRING;
@@ -220,8 +220,8 @@ public class BatchAction extends KualiAction {
                 actionStatus = false;
             }
             else {
-                cancelNoteText = reason;
-                int noteTextLength = (reason == null) ? 0 : cancelNoteText.length();
+                noteText = reason;
+                int noteTextLength = (reason == null) ? 0 : noteText.length();
                 int noteTextMaxLength = PdpKeyConstants.BatchConstants.Confirmation.NOTE_TEXT_MAX_LENGTH;
 
                 if (StringUtils.isBlank(reason)) {
@@ -236,7 +236,7 @@ public class BatchAction extends KualiAction {
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
 
-                actionStatus = callback.doPostQuestion(batchId, cancelNoteText, universalUser);
+                actionStatus = callback.doPostQuestion(batchId, noteText, universalUser);
                 if (actionStatus) {
                     message = successMessage;
                 }
@@ -267,13 +267,13 @@ public class BatchAction extends KualiAction {
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
         parameters.put(PdpPropertyConstants.BatchConstants.Fields.BATCH_ID, batchId);
-        parameters.put(PdpParameterConstants.BatchConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
+        parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
         if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
-            parameters.put(PdpParameterConstants.BatchConstants.MESSAGE_PARAM, message);
+            parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);
         }
 
         if (StringUtils.isNotEmpty(errorList)) {
-            parameters.put(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_PARAM, errorList);
+            parameters.put(PdpParameterConstants.ERROR_KEY_LIST_PARAM, errorList);
         }
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
@@ -294,11 +294,11 @@ public class BatchAction extends KualiAction {
             for (ErrorMessage errorMessage : (List<ErrorMessage>) errorMap.getMessages(errorKey)) {
 
                 errorList.append(errorMessage.getErrorKey());
-                errorList.append(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR);
+                errorList.append(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
             }
         }
         if (errorList.length() > 0) {
-            errorList.replace(errorList.lastIndexOf(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR), errorList.lastIndexOf(PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR) + PdpParameterConstants.BatchConstants.ERROR_KEY_LIST_SEPARATOR.length(), "");
+            errorList.replace(errorList.lastIndexOf(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR), errorList.lastIndexOf(PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR) + PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR.length(), "");
         }
 
         return errorList.toString();

@@ -171,5 +171,21 @@ public class PaymentAccountHistory extends TimestampedBusinessObjectBase {
     public String toString() {
         return new ToStringBuilder(this).append("id", this.id).toString();
     }
+
+    /**
+     * This method gets the accountingChangeCode
+     * @return accountingChangeCode
+     */
+    public String getAccountingChangeCode() {
+        return accountingChangeCode;
+    }
+
+    /**
+     * This method sets the accountingChangeCode
+     * @param accountingChangeCode
+     */
+    public void setAccountingChangeCode(String accountingChangeCode) {
+        this.accountingChangeCode = accountingChangeCode;
+    }
    
 }

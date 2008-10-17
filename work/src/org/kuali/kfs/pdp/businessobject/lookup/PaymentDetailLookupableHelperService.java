@@ -32,12 +32,16 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.web.format.BooleanFormatter;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
     private KualiConfigurationService kualiConfigurationService;
@@ -47,6 +51,40 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        Map parameters = super.getParameters();
+        String errorList;
+
+        if (parameters.containsKey(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM)) {
+            String[] actionSuccessRequestParm = (String[]) parameters.get(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM);
+            Boolean actionSuccess = (Boolean) (new BooleanFormatter()).convertFromPresentationFormat(actionSuccessRequestParm[0]);
+
+            if (actionSuccess != null) {
+
+                if (!actionSuccess) {
+
+                    //if the action performed on payment was not successful we get the error message list and add them to GlobalVariables errorMap
+                    if (parameters.containsKey(PdpParameterConstants.ERROR_KEY_LIST_PARAM)) {
+                        String[] errorListParam = (String[]) parameters.get(PdpParameterConstants.ERROR_KEY_LIST_PARAM);
+                        errorList = errorListParam[0];
+                        if (StringUtils.isNotEmpty(errorList)) {
+                            String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
+                            for (String error : errorMsgs) {
+                                if (StringUtils.isNotEmpty(error)) {
+                                    GlobalVariables.getErrorMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (parameters.containsKey(PdpParameterConstants.MESSAGE_PARAM)) {
+                        String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.MESSAGE_PARAM);
+                        String message = messageRequestParm[0];
+                        GlobalVariables.getMessageList().add(message);
+                    }
+                }
+            }
+        }
 
         List paymentDetailsFromPaymentGroupHistoryList = new ArrayList();
         if (fieldValues.containsKey(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER)) {
@@ -161,6 +199,135 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        if (businessObject instanceof PaymentDetail) {
+            UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+            PaymentDetail paymentDetail = (PaymentDetail) businessObject;
+            Integer paymentDetailId = paymentDetail.getId().intValue();
+            String paymentDetailStatus = paymentDetail.getPaymentGroup().getPaymentStatusCode();
+            List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
+            String linkText = KFSConstants.EMPTY_STRING;
+            String url = KFSConstants.EMPTY_STRING;
+            String basePath = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
+
+            boolean showCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP) || universalUser.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && (universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP) || universalUser.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP) || universalUser.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP))) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && universalUser.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP));
+            
+            if (showCancel) {
+
+                Properties params = new Properties();
+                
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_PAYMENT);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+            }
+
+            boolean showHold = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (universalUser.isMember(PdpConstants.Groups.HOLD_GROUP) || universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP));
+
+            if (showHold) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.HOLD_PAYMENT);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+
+            boolean showRemoveImmediatePrint = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (universalUser.isMember(PdpConstants.Groups.PROCESS_GROUP) || universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP))
+            && paymentDetail.getPaymentGroup().getProcessImmediate();
+
+            if (showRemoveImmediatePrint) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_REMOVE_IMMEDIATE_PRINT_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_IMMEDIATE_PRINT);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_IMMEDIATE_PRINT_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+            
+            boolean showSetImmediatePrint = paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && (universalUser.isMember(PdpConstants.Groups.PROCESS_GROUP) || universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP))  && !paymentDetail.getPaymentGroup().getProcessImmediate(); 
+
+            if (showSetImmediatePrint) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_SET_IMMEDIATE_PRINT_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.SET_IMMEDIATE_PRINT);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_SET_IMMEDIATE_PRINT_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+            
+            boolean showRemoveHold = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && universalUser.isMember(PdpConstants.Groups.HOLD_GROUP))
+            ||((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && universalUser.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP)); 
+
+            if (showRemoveHold) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_PAYMENT_HOLD);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+            
+            boolean showDisbursementCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) &&( universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP)||universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP)))
+            ||(paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED)  && universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()); 
+
+            if (showDisbursementCancel) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_DISBURSEMENT_CANCEL_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_DISBURSEMENT);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_DISBURSEMENT_CANCEL_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+            
+            boolean showReissueCancel = (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) &&( universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP)||universalUser.isMember(PdpConstants.Groups.SYSADMIN_GROUP)))
+            ||(paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED)  && universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()); 
+
+            if (showReissueCancel) {
+
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_REISSUE_CANCEL_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE_CANCEL);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_CANCEL_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);
+
+            }
+            
+            return anchorHtmlDataList;
+        }
         return super.getEmptyActionUrls();
     }
 
@@ -172,16 +339,16 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         HtmlData.AnchorHtmlData inquiryUrl = (HtmlData.AnchorHtmlData) super.getInquiryUrl(bo, propertyName);
 
-        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
-            PaymentDetail paymentDetail = (PaymentDetail) bo;
-            Properties params = new Properties();
-            params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
-            params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpParameterConstants.PaymentDetail.SHOW_PAYMENT_DETAIL);
-
-            String href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
-            String url = UrlFactory.parameterizeUrl(href, params);
-            inquiryUrl.setHref(url);
-        }
+//        if (propertyName.equalsIgnoreCase(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_CUSTOMER_DOC_NUMBER)) {
+//            PaymentDetail paymentDetail = (PaymentDetail) bo;
+//            Properties params = new Properties();
+//            params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetail.getId())));
+//            params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpParameterConstants.PaymentDetail.SHOW_PAYMENT_DETAIL);
+//
+//            String href = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
+//            String url = UrlFactory.parameterizeUrl(href, params);
+//            inquiryUrl.setHref(url);
+//        }
 
         return inquiryUrl;
     }

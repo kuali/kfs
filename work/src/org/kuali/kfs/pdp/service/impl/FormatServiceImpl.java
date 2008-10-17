@@ -93,7 +93,14 @@ public class FormatServiceImpl implements FormatService {
     private BusinessObjectService businessObjectService;
     private KualiCodeService kualiCodeService;
     private PaymentGroupService paymentGroupService;
-    
+
+    /**
+     * Constructs a FormatServiceImpl.java.
+     */
+    public FormatServiceImpl() {
+        super();
+    }
+
     /**
      * @see org.kuali.kfs.pdp.service.FormatService#formatSelectionAction(org.kuali.module.pdp.bo.PdpUser, boolean)
      */
@@ -101,25 +108,30 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("formatSelectionAction() started");
 
         FormatSelection fs = new FormatSelection();
+        String campus = user.getCampusCode();
+        Date startDate = getFormatProcessStartDate(campus);
 
-        fs.setCampus(user.getCampusCode());
-
-        Date startDate = getFormatProcessStartDate(fs.getCampus());
+        fs.setCampus(campus);
 
         // If they want to clear the flag, do it
         if ((startDate != null) && clearFormat) {
             startDate = null;
-            endFormatProcess(fs.getCampus());
+            endFormatProcess(campus);
         }
+        
         fs.setStartDate(startDate);
 
         if (startDate == null) {
             fs.setCustomerList(getAllCustomerProfiles());
             fs.setRangeList(getAllDisbursementNumberRanges());
         }
+        
         return fs;
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#getFormatProcessStartDate(java.lang.String)
+     */
     public Date getFormatProcessStartDate(String campus) {
         LOG.debug("getFormatProcessStartDate() started");
 
@@ -134,15 +146,26 @@ public class FormatServiceImpl implements FormatService {
         }
     }
 
+    /**
+     * This method gets the maximum number of lines in a note.
+     * @return the maximum number of lines in a note
+     */
     private int getMaxNoteLines() {
         return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.MAX_NOTE_LINES);
     }
 
+    /**
+     * This method returns the size of the format summary list.
+     * @return the size of the format summary list
+     */
     private int getFormatSummaryListSize() {
         return GeneralUtilities.getParameterInteger(parameterService, ParameterConstants.PRE_DISBURSEMENT_LOOKUP.class, PdpConstants.ApplicationParameterKeys.FORMAT_SUMMARY_ROWS, 40);
     }
 
-    public List performFormat(Integer procId) {
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#performFormat(java.lang.Integer)
+     */
+    public List<FormatResult> performFormat(Integer procId) {
         LOG.debug("performFormat() started");
 
         PaymentProcess proc = processDao.get(procId);
@@ -150,7 +173,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.error("performFormat() Invalid proc ID " + procId);
             throw new ConfigurationError("Invalid proc ID");
         }
-        
+
         Map disbursementTypes = referenceService.getallMap("DisbursementType");
         Map paymentStatusCodes = referenceService.getallMap("PaymentStatus");
 
@@ -166,20 +189,22 @@ public class FormatServiceImpl implements FormatService {
         while (groups.hasNext()) {
             PaymentGroup pg = (PaymentGroup) groups.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + pg.getId());
-            
+
             CustomerProfile customer = pg.getBatch().getCustomerProfile();
 
             // Set the sort field to be saved in the database
-            pg.setSortValue(this.paymentGroupService.getSortGroupId(pg));
-            
+            pg.setSortValue(paymentGroupService.getSortGroupId(pg));
+
             pg.setDisbursementDate(proc.getProcessTimestamp());
             pg.setPhysCampusProcessCd(proc.getCampus());
             pg.setProcess(proc);
 
             // If any one of the payment details in the group are negative, we always force a check
             boolean noNegativeDetails = true;
-            for (Iterator it = pg.getPaymentDetails().iterator(); it.hasNext();) {
-                PaymentDetail pd = (PaymentDetail) it.next();
+
+            // If any one of the payment details in the group are negative, we always force a check
+            List<PaymentDetail> paymentDetailsList = pg.getPaymentDetails();
+            for (PaymentDetail pd : paymentDetailsList) {
                 if (pd.getNetPaymentAmount().doubleValue() < 0) {
                     LOG.debug("performFormat() Payment Group " + pg + " has payment detail net payment amount " + pd.getNetPaymentAmount());
                     LOG.debug("performFormat() Forcing a Check for Group");
@@ -187,7 +212,7 @@ public class FormatServiceImpl implements FormatService {
                     break;
                 }
             }
-            
+
             // hold original bank code to log any change
             String origBankCode = pg.getBankCode();
 
@@ -242,7 +267,7 @@ public class FormatServiceImpl implements FormatService {
                     LOG.error("performFormat() A bank is needed for ACH for customer: " + customer);
                     throw new NoBankForCustomerException("A bank is needed for ACH for customer: " + customer, customer.getChartCode() + "-" + customer.getOrgCode() + "-" + customer.getSubUnitCode());
                 }
-                
+
                 pg.setAchBankRoutingNbr(payeeAchAccount.getBankRoutingNumber());
                 pg.setAdviceEmailAddress(payeeAchAccount.getPayeeEmailAddress());
                 pg.setAchAccountType(payeeAchAccount.getBankAccountTypeCode());
@@ -252,7 +277,7 @@ public class FormatServiceImpl implements FormatService {
                 aan.setId(pg.getId());
                 pg.setAchAccountNumber(aan);
             }
-            
+
             // create payment history record if bank was changed
             if (!pg.getBankCode().equals(origBankCode)) {
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
@@ -342,6 +367,10 @@ public class FormatServiceImpl implements FormatService {
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
+    /**
+     * This method...
+     * @param procId
+     */
     private void triggerExtract(Integer procId) {
         LOG.debug("triggerExtract() started");
 
@@ -350,6 +379,10 @@ public class FormatServiceImpl implements FormatService {
         schedulerService.runJob("pdpExtractChecksJob", emailAddress);
     }
 
+    /**
+     * This method...
+     * @param id
+     */
     private void saveProcessId(Integer id) {
         /*Map fields = new HashMap();
         fields.put("parameterNamespaceCode", "KFS-PDP");
@@ -372,10 +405,14 @@ public class FormatServiceImpl implements FormatService {
         //this.processDao.createProcessToRun(id);
     }
 
-    private List convertProcessSummary2FormatResult(List processSummaryResults) {
-        List results = new ArrayList();
-        for (Iterator iter = processSummaryResults.iterator(); iter.hasNext();) {
-            ProcessSummary element = (ProcessSummary) iter.next();
+    /**
+     * This method...
+     * @param processSummaryResults
+     * @return
+     */
+    private List<FormatResult> convertProcessSummary2FormatResult(List<ProcessSummary> processSummaryResults) {
+        List<FormatResult> results = new ArrayList();
+        for (ProcessSummary element : processSummaryResults) {
             FormatResult fr = new FormatResult(element.getProcess().getId().intValue(), element.getCustomer());
             fr.setSortGroupOverride(element.getSortGroupId());
             fr.setAmount(element.getProcessTotalAmount());
@@ -391,6 +428,9 @@ public class FormatServiceImpl implements FormatService {
 
     // If the start format process was run and the user doesn't want to continue,
     // this needs to be run to set all payments back to open
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#clearUnfinishedFormat(java.lang.Integer)
+     */
     public void clearUnfinishedFormat(Integer procId) {
         LOG.debug("clearUnfinishedFormat() started");
 
@@ -404,6 +444,9 @@ public class FormatServiceImpl implements FormatService {
 
     // If the start format process was run and errored out,
     // this needs to be run to allow formats to continue to function
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#resetFormatPayments(java.lang.Integer)
+     */
     public void resetFormatPayments(Integer procId) {
         LOG.debug("resetFormatPayments() started");
         clearUnfinishedFormat(procId);
@@ -411,11 +454,13 @@ public class FormatServiceImpl implements FormatService {
 
     // Mark the process log so a format only happens once per campus. Mark all the
     // payments that will be formatted and return a summary
-    public List startFormatProcess(UniversalUser user, String campus, List customers, Date paydate, String paymentTypes) {
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, java.util.List, java.util.Date, java.lang.String)
+     */
+    public List startFormatProcess(UniversalUser user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {
         LOG.debug("startFormatProcess() started");
 
-        for (Iterator iter = customers.iterator(); iter.hasNext();) {
-            CustomerProfile element = (CustomerProfile) iter.next();
+        for (CustomerProfile element : customers) {
             LOG.debug("startFormatProcess() Customer: " + element);
         }
 
@@ -450,19 +495,28 @@ public class FormatServiceImpl implements FormatService {
         return convertProcessSummary2FormatResult(fps.getProcessSummaryList());
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#endFormatProcess(java.lang.String)
+     */
     public void endFormatProcess(String campus) {
         LOG.debug("endFormatProcess() starting");
 
         formatProcessDao.removeByCampus(campus);
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#getAllCustomerProfiles()
+     */
     public List getAllCustomerProfiles() {
         LOG.debug("getAllCustomerProfiles() started");
 
         return customerProfileDao.getAll();
     }
 
-    public List getAllDisbursementNumberRanges() {
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#getAllDisbursementNumberRanges()
+     */
+    public List<DisbursementNumberRange> getAllDisbursementNumberRanges() {
         LOG.debug("getAllDisbursementNumberRanges() started");
 
         return disbursementNumberRangeDao.getAll();
@@ -470,6 +524,16 @@ public class FormatServiceImpl implements FormatService {
 
     // This is the second pass. It determines the
     // disbursement number and creates GL entries
+    /**
+     * This method...
+     * @param campus
+     * @param disbursementTypes
+     * @param paymentStatusCodes
+     * @param p
+     * @param fps
+     * @throws DisbursementRangeExhaustedException
+     * @throws MissingDisbursementRangeException
+     */
     private void pass2(String campus, Map disbursementTypes, Map paymentStatusCodes, PaymentProcess p, PostFormatProcessSummary fps) throws DisbursementRangeExhaustedException, MissingDisbursementRangeException {
         LOG.debug("pass2() starting");
 
@@ -477,7 +541,7 @@ public class FormatServiceImpl implements FormatService {
         Date now = new Date();
         Timestamp nowTs = new Timestamp(now.getTime());
 
-        List disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
+        List<DisbursementNumberRange> disbursementRanges = paymentDetailDao.getDisbursementNumberRanges(campus);
 
         int checkNumber = 0;
 
@@ -536,24 +600,30 @@ public class FormatServiceImpl implements FormatService {
             paymentGroupDao.save(pg);
 
             // Generate a GL entry for CHCK & ACH
-            glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(pg);
-        }
+                     glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(pg);
+            }
 
         // Update all the ranges
         LOG.debug("pass2() Save ranges");
         int rc = 0;
-        for (Iterator iter = disbursementRanges.iterator(); iter.hasNext();) {
-            DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
-                rc++;
-                paymentDetailDao.saveDisbursementNumberRange(element);
-            }
+        for (DisbursementNumberRange element : disbursementRanges) {
+            rc++;
+            paymentDetailDao.saveDisbursementNumberRange(element);
+        }
         LOG.debug("pass2() " + rc + " ranges saved");
     }
 
-    private DisbursementNumberRange getRange(List ranges, Bank bank, String disbursementTypeCode, Date today) {
+    /**
+     * This method...
+     * @param ranges
+     * @param bank
+     * @param disbursementTypeCode
+     * @param today
+     * @return
+     */
+    private DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode, Date today) {
         LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " for " + today);
-        for (Iterator iter = ranges.iterator(); iter.hasNext();) {
-            DisbursementNumberRange element = (DisbursementNumberRange) iter.next();
+        for (DisbursementNumberRange element : ranges) {
             Date eff = element.getDisbNbrEffectiveDt();
             Date exp = element.getDisbNbrExpirationDt();
 
@@ -565,17 +635,161 @@ public class FormatServiceImpl implements FormatService {
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#getFormatSummary(java.lang.Integer)
+     */
     public List getFormatSummary(Integer procId) {
         LOG.debug("getFormatSummary() starting");
         List processSummaryResults = processSummaryDao.getByProcessId(procId);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#getMostCurrentProcesses()
+     */
     public List getMostCurrentProcesses() {
         LOG.debug("getMostCurrent() starting");
         return processDao.getMostCurrentProcesses(new Integer(getFormatSummaryListSize()));
     }
 
+    /**
+     * This method...
+     * @param fpd
+     */
+    public void setFormatPaymentDao(FormatPaymentDao fpd) {
+        formatPaymentDao = fpd;
+    }
+
+    /**
+     * This method...
+     * @param gs
+     */
+    public void setGlPendingTransactionService(PendingTransactionService gs) {
+        glPendingTransactionService = gs;
+    }
+
+    /**
+     * This method...
+     * @param rs
+     */
+    public void setReferenceService(ReferenceService rs) {
+        referenceService = rs;
+    }
+
+    /**
+     * This method...
+     * @param as
+     */
+    public void setAchService(AchService as) {
+        achService = as;
+    }
+
+    /**
+     * This method...
+     * @param pd
+     */
+    public void setProcessDao(ProcessDao pd) {
+        processDao = pd;
+    }
+
+    /**
+     * This method...
+     * @param cpd
+     */
+    public void setCustomerProfileDao(CustomerProfileDao cpd) {
+        customerProfileDao = cpd;
+    }
+
+    /**
+     * This method...
+     * @param dnrd
+     */
+    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao dnrd) {
+        disbursementNumberRangeDao = dnrd;
+    }
+
+    /**
+     * This method...
+     * @param fpd
+     */
+    public void setFormatProcessDao(FormatProcessDao fpd) {
+        formatProcessDao = fpd;
+    }
+
+    /**
+     * This method...
+     * @param pgd
+     */
+    public void setPaymentGroupDao(PaymentGroupDao pgd) {
+        paymentGroupDao = pgd;
+    }
+
+    /**
+     * This method...
+     * @param pdd
+     */
+    public void setPaymentDetailDao(PaymentDetailDao pdd) {
+        paymentDetailDao = pdd;
+    }
+
+    /**
+     * This method...
+     * @param psd
+     */
+    public void setProcessSummaryDao(ProcessSummaryDao psd) {
+        processSummaryDao = psd;
+    }
+
+    /**
+     * This method...
+     * @param ss
+     */
+    public void setSchedulerService(SchedulerService ss) {
+        schedulerService = ss;
+    }
+
+    /**
+     * This method...
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * This method...
+     * @param bos
+     */
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        this.businessObjectService = bos;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    public KualiCodeService getKualiCodeService() {
+        return kualiCodeService;
+    }
+
+    /**
+     * This method...
+     * @param kualiCodeService
+     */
+    public void setKualiCodeService(KualiCodeService kualiCodeService) {
+        this.kualiCodeService = kualiCodeService;
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.service.FormatService#setPaymentGroupService(org.kuali.kfs.pdp.service.PaymentGroupService)
+     */
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
+    }
+    
+    /**
+     * This class...
+     */
     private class PaymentInfo {
         public CustomerProfile customer;
         public String payeeName;
@@ -602,92 +816,4 @@ public class FormatServiceImpl implements FormatService {
         }
     }
 
-    // ***************************************************
-    // IoC stuff below here
-    // ***************************************************
-
-    // Inject
-    public void setFormatPaymentDao(FormatPaymentDao fpd) {
-        formatPaymentDao = fpd;
-    }
-
-    // Inject
-    public void setGlPendingTransactionService(PendingTransactionService gs) {
-        glPendingTransactionService = gs;
-    }
-
-    // Inject
-    public void setReferenceService(ReferenceService rs) {
-        referenceService = rs;
-    }
-
-    // Inject
-    public void setAchService(AchService as) {
-        achService = as;
-    }
-
-    // Inject
-    public void setProcessDao(ProcessDao pd) {
-        processDao = pd;
-    }
-
-    // Inject
-    public void setCustomerProfileDao(CustomerProfileDao cpd) {
-        customerProfileDao = cpd;
-    }
-
-    // Inject
-    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao dnrd) {
-        disbursementNumberRangeDao = dnrd;
-    }
-
-    // Inject
-    public void setFormatProcessDao(FormatProcessDao fpd) {
-        formatProcessDao = fpd;
-    }
-
-    // Inject
-    public void setPaymentGroupDao(PaymentGroupDao pgd) {
-        paymentGroupDao = pgd;
-    }
-
-    // Inject
-    public void setPaymentDetailDao(PaymentDetailDao pdd) {
-        paymentDetailDao = pdd;
-    }
-
-    // Inject
-    public void setProcessSummaryDao(ProcessSummaryDao psd) {
-        processSummaryDao = psd;
-    }
-
-    // Inject
-    public void setSchedulerService(SchedulerService ss) {
-        schedulerService = ss;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        this.businessObjectService = bos;
-    }
-    
-    public KualiCodeService getKualiCodeService() {
-        return kualiCodeService;
-    }
-
-    public void setKualiCodeService(KualiCodeService kualiCodeService) {
-        this.kualiCodeService = kualiCodeService;
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kfs.pdp.service.FormatService#setPaymentGroupService(org.kuali.kfs.pdp.service.PaymentGroupService)
-     */
-    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
-        this.paymentGroupService = paymentGroupService;
-    }
-    
 }

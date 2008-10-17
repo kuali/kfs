@@ -48,9 +48,9 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private String origAdviceEmail; // ORIG_ADV_EMAIL_ADDR VARCHAR2 50
     private KualiInteger origDisburseNbr; // ORIG_DISB_NBR NUMBER 9 0
     private Timestamp origDisburseDate; // ORIG_DISB_TS DATE 7
-    private Boolean origProcessImmediate; // ORIG_PROC_IMD_IND VARCHAR2 1
-    private Boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
-    private Boolean pmtCancelExtractStat; // PMT_CNCL_EXTRT_STAT_IND VARCHAR2 1
+    private boolean origProcessImmediate; // ORIG_PROC_IMD_IND VARCHAR2 1
+    private boolean origPmtSpecHandling; // ORIG_PMT_SPCL_HANDLG_IND VARCHAR2 1
+    private boolean pmtCancelExtractStat; // PMT_CNCL_EXTRT_STAT_IND VARCHAR2 1
     private Timestamp pmtCancelExtractDate; // PMT_CNCL_EXTRT_TS
 
     private String disbursementTypeCode;

@@ -60,17 +60,17 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private String state; // PMT_ST_NM
     private String country; // PMT_CNTRY_NM
     private String zipCd; // PMT_ZIP_CD
-    private Boolean campusAddress; // CMP_ADDR_IND
+    private boolean campusAddress; // CMP_ADDR_IND
     private Timestamp paymentDate; // PMT_DT DATE
-    private Boolean pymtAttachment; // PMT_ATTCHMNT_IND
-    private Boolean pymtSpecialHandling; // PMT_SPCL_HANDLG_IND
-    private Boolean taxablePayment; // PMT_TXBL_IND
-    private Boolean nraPayment; // NRA_PMT_IND
-    private Boolean processImmediate; // PROC_IMD_IND
+    private boolean pymtAttachment; // PMT_ATTCHMNT_IND
+    private boolean pymtSpecialHandling; // PMT_SPCL_HANDLG_IND
+    private boolean taxablePayment; // PMT_TXBL_IND
+    private boolean nraPayment; // NRA_PMT_IND
+    private boolean processImmediate; // PROC_IMD_IND
     private Boolean combineGroups; // PMT_GRP_CMB_IND
     private String achBankRoutingNbr; // ACH_BNK_RTNG_NBR
     private String adviceEmailAddress; // ADV_EMAIL_ADDR
-    private Boolean employeeIndicator; // EMP_IND
+    private boolean employeeIndicator; // EMP_IND
     private String creditMemoNbr; // PMT_CRDT_MEMO_NBR
     private KualiDecimal creditMemoAmount; // PMT_CRDT_MEMO_AMT
     private KualiInteger disbursementNbr; // DISB_NBR
@@ -114,7 +114,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * @return dailyReportSpecialHandling
      */
     public boolean isDailyReportSpecialHandling() {
-        return pymtSpecialHandling.booleanValue() && !processImmediate.booleanValue();
+        return pymtSpecialHandling && !processImmediate;
     }
 
     /**
@@ -683,7 +683,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setCreditMemoAmount(KualiDecimal decimal) {
         creditMemoAmount = decimal;
     }
-
+    
     public void setCreditMemoAmount(String decimal) {
         creditMemoAmount = new KualiDecimal(decimal);
     }
@@ -715,7 +715,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setDisbursementNbr(KualiInteger integer) {
         disbursementNbr = integer;
     }
-
+    
     public void setDisbursementNbr(String integer) {
         disbursementNbr = new KualiInteger(integer);
     }
@@ -993,8 +993,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         street.append(StringUtils.isNotBlank(line4Address) ? (line4Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
 
         return street.toString();
-    }
-    
+}
     /**
      * This method gets the payeeIdTypeDesc
      * @return the payeeIdTypeDesc

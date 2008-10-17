@@ -57,7 +57,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String address2; // CUST_LN2_ADDR
     private String address3; // CUST_LN3_ADDR
     private String address4; // CUST_LN4_ADDR
-    private Boolean adviceCreate; // ADV_CRTE_IND
+    private boolean adviceCreate; // ADV_CRTE_IND
     private String adviceHeaderText; // ADV_HDR_TXT
     private String adviceSubjectLine;
     private String adviceReturnEmailAddr;
@@ -92,10 +92,10 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String subUnitCode; // SBUNT_CD
     private String zipCode; // CUST_ZIP_CD
     private Boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
-    private Boolean relieveLiabilities;
-    private boolean active;
+    private boolean relieveLiabilities;
+    private boolean active; 
     private boolean selectedForFormat;
-    
+
     private Org organization;
     private Chart chartOfAccounts;
     private Campus defaultProcessingCampus;
@@ -119,7 +119,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public String getCustomerShortName() {
         return chartCode + "-" + orgCode + "-" + subUnitCode;
     }
-    
+
     public void setCustomerShortName(String customerShortName) {
         
     }
@@ -168,6 +168,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
                 return element;
             }
         }
+
         return null;
     }
 
@@ -872,7 +873,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
-    
+
+
     /**
      * Gets the defaultProcessingCampus attribute.
      * 
@@ -1042,7 +1044,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     public boolean isActive() {
         return active;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
@@ -1066,8 +1068,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      */
     public boolean isSelectedForFormat() {
         return selectedForFormat;
-    }
-
+}
     /**
      * This method sets the selectedForFormat value.
      * @param sameCampus

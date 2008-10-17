@@ -55,6 +55,9 @@ public abstract class FieldRendererBase implements FieldRenderer {
         return this.field;
     }
     
+    /**
+     * @return the name this field should have on the form
+     */
     protected String getFieldName() {
         if (!StringUtils.isBlank(field.getPropertyPrefix())) return field.getPropertyPrefix()+"."+field.getPropertyName();
         return field.getPropertyName();

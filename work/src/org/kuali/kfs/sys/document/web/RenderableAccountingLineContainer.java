@@ -327,5 +327,12 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public List getErrors() {
         return errors;
     }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getForm()
+     */
+    public KualiAccountingDocumentFormBase getForm() {
+        return form;
+    }
     
 }

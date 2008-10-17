@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 
 /**
  * A contract for classes which wish to provide information about an accounting line which is being rendered
@@ -108,4 +109,9 @@ public interface AccountingLineRenderingContext {
      * @return the list of errors on the form
      */
     public abstract List getErrors();
+    
+    /**
+     * @return the form that the rendered accounting line will be associated with
+     */
+    public abstract KualiAccountingDocumentFormBase getForm();
 }

@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp" %>
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialAuxiliaryVoucher" documentTypeName="AuxiliaryVoucherDocument" renderMultipart="true" showTabButtons="true">
 		<%-- derive displayReadOnly value --%>
 		<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
@@ -111,10 +112,11 @@
           </table>
 	    	</div>
 		</kul:tab>
-        <fin:voucherAccountingLines
-            isDebitCreditAmount="true" 
-            editingMode="${KualiForm.editingMode}"
-            editableAccounts="${KualiForm.editableAccounts}"/>
+        <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+			<sys:accountingLines>
+				<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			</sys:accountingLines>
+		</kul:tab>
 		<gl:generalLedgerPendingEntries/>
 
 		<kul:notes/>

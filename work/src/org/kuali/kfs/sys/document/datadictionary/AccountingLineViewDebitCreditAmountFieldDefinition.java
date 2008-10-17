@@ -49,8 +49,8 @@ public class AccountingLineViewDebitCreditAmountFieldDefinition extends Maintain
         layoutElement.setDebitAmountField(createFieldForPropertyName(amountFieldName, accountingLineClass));
         layoutElement.setDebitFieldDefinition(createFieldDefinitionForProperty(amountFieldName));
         
-        layoutElement.setDebitAmountField(createFieldForPropertyName(amountFieldName, accountingLineClass));
-        layoutElement.setDebitFieldDefinition(createFieldDefinitionForProperty(amountFieldName));
+        layoutElement.setCreditAmountField(createFieldForPropertyName(amountFieldName, accountingLineClass));
+        layoutElement.setCreditFieldDefinition(createFieldDefinitionForProperty(amountFieldName));
         
         layoutElement.setDefinition(this);
         

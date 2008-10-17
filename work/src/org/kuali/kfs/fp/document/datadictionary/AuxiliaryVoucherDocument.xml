@@ -45,6 +45,15 @@
       </list>
     </property>
     <property name="validationMap" ref="AuxiliaryVoucherDocument-validations" />
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+    	</map>
+    </property>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.AuxiliaryVoucherAccountingLineParser" />
   </bean>
 
 <!-- Attribute Definitions -->
@@ -161,6 +170,72 @@
 			</entry>
     	</map>
     </property>
+  </bean>
+  
+  <bean id="AuxiliaryVoucher-sourceAccountingLineGroup" parent="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean" />
+  
+  <bean id="AuxiliaryVoucher-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+  	<property name="accountingLineView" ref="AuxiliaryVoucher-accountingLineView" />
+	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase" />
+	<property name="importedLinePropertyPrefix" value="source" />
+	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+  
+  <bean id="AuxiliaryVoucher-accountingLineView" parent="AuxiliaryVoucher-accountingLineView-parent" />
+  
+  <bean id="AuxiliaryVoucher-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+  	<property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber" />
+			<bean parent="AccountingLineView-field"
+				p:name="chartOfAccountsCode" p:required="true"
+				p:webUILeaveFieldFunction="loadChartInfo"
+				p:dynamicLabelProperty="chart.finChartOfAccountDescription" />
+			<bean parent="AccountingLineView-field"
+				p:name="accountNumber" p:required="true"
+				p:webUILeaveFieldFunction="loadAccountInfo"
+				p:dynamicLabelProperty="account.accountName">
+				<property name="overrideFields">
+					<list>
+						<bean
+							parent="AccountingLineView-overrideField"
+							p:name="accountExpiredOverride" />
+						<bean
+							parent="AccountingLineView-overrideField"
+							p:name="nonFringeAccountOverride" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field"
+				p:name="subAccountNumber"
+				p:webUILeaveFieldFunction="loadSubAccountInfo"
+				p:dynamicLabelProperty="subAccount.subAccountName" />
+			<bean parent="AccountingLineView-field"
+				p:name="financialObjectCode" p:required="true"
+				p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+				<property name="overrideFields">
+					<list>
+						<bean
+							parent="AccountingLineView-overrideField"
+							p:name="objectBudgetOverride" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field"
+				p:name="financialSubObjectCode"
+				p:webUILeaveFieldFunction="loadSubObjectInfo"
+				p:dynamicLabelProperty="subObjectCode.financialSubObjectCodeName" />
+			<bean parent="AccountingLineView-field"
+				p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo"
+				p:dynamicLabelProperty="project.projectDescription" />
+			<bean parent="AccountingLineView-field"
+				p:name="organizationReferenceId" />
+			<bean parent="AccountingLineView-debitCreditAmountField" />
+			<bean parent="AccountingLineView-actions" />
+		</list>
+	</property>
   </bean>
   
 </beans>

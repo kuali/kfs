@@ -27,15 +27,17 @@ public abstract class FieldTableJoiningWithHeader extends FieldTableJoining impl
      */
     @Override
     public void joinTable(List<AccountingLineTableRow> rows) {
+        int rowsTaken = 0;
         // 1. add header cell
         if (!isHidden()) {
             AccountingLineTableCell headerCell = createHeaderLabelTableCell();
             rows.get(0).addCell(headerCell);
+            rowsTaken += 1;
         }
         // 2. add field cell
         AccountingLineTableCell cell = createTableCell();
-        cell.setRowSpan(rows.size() - 1);
-        rows.get(1).addCell(cell);
+        cell.setRowSpan(rows.size() - rowsTaken);
+        rows.get(rowsTaken).addCell(cell);
     }
     
     /**

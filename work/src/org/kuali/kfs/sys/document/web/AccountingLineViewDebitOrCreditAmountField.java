@@ -21,13 +21,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.kuali.kfs.fp.businessobject.VoucherSourceAccountingLine;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.fp.document.web.struts.VoucherForm;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -102,7 +101,8 @@ public class AccountingLineViewDebitOrCreditAmountField implements RenderableEle
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getDebitOrCreditField(), renderingContext.getAccountingLine());
         if (renderer != null) {
-            prepareFieldForRendering(getDebitOrCreditField(), (VoucherSourceAccountingLine)renderingContext.getAccountingLine(), renderingContext.getCurrentLineCount());
+            prepareFieldForRendering(getDebitOrCreditField(), (VoucherForm)renderingContext.getForm(), renderingContext.getCurrentLineCount());
+            renderer.setField(getDebitOrCreditField());
             renderer.render(pageContext, parentTag);
             renderer.clear();
         }
@@ -114,14 +114,8 @@ public class AccountingLineViewDebitOrCreditAmountField implements RenderableEle
      * @param accountingLine the accounting line being rendered
      * @param count the count of the current line in the source lines, or null if it's a new line
      */
-    protected void prepareFieldForRendering(Field field, VoucherSourceAccountingLine accountingLine, Integer count) {
+    protected void prepareFieldForRendering(Field field, VoucherForm form, Integer count) {
         getDebitOrCreditField().setPropertyPrefix(null);
-        
-        // erase value if we're debit
-        final boolean lineIsDebit = accountingLine.getDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE); 
-        if ((isDebit && !lineIsDebit) || (!isDebit && lineIsDebit)) {
-            field.setPropertyValue(KualiDecimal.ZERO);
-        }
         
         // set the right property name
         if (count == null) {
@@ -130,6 +124,9 @@ public class AccountingLineViewDebitOrCreditAmountField implements RenderableEle
             final String subPropertyName = isDebit ? "debit" : "credit";
             field.setPropertyName(getCollectionProperty()+"["+count.toString()+"]."+subPropertyName);
         }
+        
+        // get the value from the form
+        field.setPropertyValue(ObjectUtils.getPropertyValue(form, field.getPropertyName()));
     }
 
     /**

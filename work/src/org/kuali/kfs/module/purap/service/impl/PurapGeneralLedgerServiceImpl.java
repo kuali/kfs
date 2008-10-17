@@ -200,14 +200,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
             // D - means the encumbrance is based on the document number
             // R - means the encumbrance is based on the referring document number
-            // Encumbrances are created on the PO. They are updated by PREQ's and CM's.
-            // So PO encumbrances are D, PREQ & CM's are R.
-            if (PurapDocTypeCodes.PO_DOCUMENT.equals(docType)) {
-                explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_DOCUMENT_CD);
-            }
-            else {
-                explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-            }
+            // All encumbrances should set the update code to 'R' regardless of if they were created by the PO, PREQ, or CM
+            explicitEntry.setTransactionEncumbranceUpdateCode(ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         }
 
         // if the amount is negative, flip the D/C indicator

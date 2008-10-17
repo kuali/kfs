@@ -21,7 +21,7 @@
         <ref bean="ItemType-itemTypeCode" />
         <ref bean="ItemType-itemTypeDescription" />
         <ref bean="ItemType-quantityBasedGeneralLedgerIndicator" />
-        <ref bean="ItemType-lineItemIndicator" />
+        <ref bean="ItemType-additionalChargeIndicator" />
         <ref bean="ItemType-active" />
         <ref bean="ItemType-taxableIndicator" />
       </list>
@@ -70,12 +70,12 @@
     <property name="label" value="Quantity Based General Ledger Indicator" />
     <property name="shortLabel" value="Quantity Based" />
   </bean>
-  <bean id="ItemType-lineItemIndicator" parent="ItemType-lineItemIndicator-parentBean" />
+  <bean id="ItemType-additionalChargeIndicator" parent="ItemType-additionalChargeIndicator-parentBean" />
 
-  <bean id="ItemType-lineItemIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="lineItemIndicator" />
-    <property name="label" value="Line Item Indicator" />
-    <property name="shortLabel" value="Line Item" />
+  <bean id="ItemType-additionalChargeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="additionalChargeIndicator" />
+    <property name="label" value="Additional Charge Indicator" />
+    <property name="shortLabel" value="Additional Charge" />
   </bean>
   <bean id="ItemType-active" parent="ItemType-active-parentBean" />
 
@@ -86,7 +86,7 @@
   <bean id="ItemType-taxableIndicator" parent="ItemType-taxableIndicator-parentBean" />
   
   <bean id="ItemType-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" >
-  	<property name="name" value="taxableIndicator" />
+    <property name="name" value="taxableIndicator" />
     <property name="label" value="Taxable Indicator" />
     <property name="shortLabel" value="Taxable" />
   </bean>
@@ -111,7 +111,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="quantityBasedGeneralLedgerIndicator" />
               <bean parent="FieldDefinition"
-                    p:attributeName="lineItemIndicator" />
+                    p:attributeName="additionalChargeIndicator" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -142,7 +142,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="quantityBasedGeneralLedgerIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="lineItemIndicator" />
+              p:attributeName="additionalChargeIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -156,7 +156,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="quantityBasedGeneralLedgerIndicator" />
         <bean parent="FieldDefinition"
-              p:attributeName="lineItemIndicator" />
+              p:attributeName="additionalChargeIndicator" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

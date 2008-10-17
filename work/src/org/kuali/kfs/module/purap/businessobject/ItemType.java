@@ -28,8 +28,7 @@ public class ItemType extends PersistableBusinessObjectBase {
     private String itemTypeCode;
     private String itemTypeDescription;
     private boolean quantityBasedGeneralLedgerIndicator;
-    private boolean lineItemIndicator; //removing once field is renamed
-    private boolean additionalChargeIndicator; //new name
+    private boolean additionalChargeIndicator;
     private boolean active;
     private boolean taxableIndicator;
 
@@ -82,19 +81,12 @@ public class ItemType extends PersistableBusinessObjectBase {
     }
 
     public boolean isLineItemIndicator() {
-        return lineItemIndicator;
-    }
-
-    public void setLineItemIndicator(boolean lineItemIndicator) {
-        this.lineItemIndicator = lineItemIndicator;
+        return !additionalChargeIndicator;
     }
 
     public boolean isAdditionalChargeIndicator() {
-        return !lineItemIndicator;
-        //FIXME change once field has changed names
-//        return itemTypeAdditionalChargeIndicator;
+        return additionalChargeIndicator;
     }
-
 
     public void setAdditionalChargeIndicator(boolean additionalChargeIndicator) {
         this.additionalChargeIndicator = additionalChargeIndicator;

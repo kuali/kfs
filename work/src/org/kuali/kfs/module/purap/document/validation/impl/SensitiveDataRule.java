@@ -15,17 +15,19 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.WorkgroupDTO;
-import org.kuali.rice.kew.dto.WorkgroupNameIdDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class validates the SensitiveData maintenance document.
@@ -71,10 +73,16 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
+        valid &= validateInactivationBlocking();
         //valid &= isValidWorkgroup(document.getDocumentBusinessObject().getClass());
         return valid;
     }
 
+    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = true;
+        valid &= validateInactivationBlocking();
+        return valid;
+    }
     /**
      * Adds a global error for the sensitiveDataWorkgroupName field if it doesn't exist or is inactive.
      * 
@@ -108,4 +116,26 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
         }
     }
     */
+    
+    private boolean validateInactivationBlocking() {
+        SensitiveData oldSensitiveData = (SensitiveData)getOldBo();
+        SensitiveData newSensitiveData = (SensitiveData)getNewBo();
+        if (oldSensitiveData.isActive() && !newSensitiveData.isActive()) {
+            if (hasABlockingRecord(newSensitiveData.getSensitiveDataCode())) {
+                String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(newSensitiveData.getClass());
+                putGlobalError(PurapKeyConstants.ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS, documentLabel);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean hasABlockingRecord(String sensitiveDataCode) {
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("sensitiveDataCode", sensitiveDataCode);
+        queryMap.put("active", true);
+        //Check whether there are any active CommodityCode whose sensitiveDataCode match with this SensitiveData's code
+        return SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, queryMap) > 0;
+    }
+
 }

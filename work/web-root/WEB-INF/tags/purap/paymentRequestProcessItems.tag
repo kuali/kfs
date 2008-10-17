@@ -128,6 +128,10 @@
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
+					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and KualiForm.document.useTaxIndicator}" >
+					<b>[Vendor Remit Amount]</b>
+					</c:if>
+
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandPreTaxTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>
@@ -166,6 +170,10 @@
 		<tr>
 			<td align=right width='75%' colspan="5" scope="row" class="datacell">
 			    <div align="right">
+					<c:if test="${(empty isCreditMemo or !isCreditMemo) and purapTaxEnabled and !KualiForm.document.useTaxIndicator}" >
+					<b>[Vendor Remit Amount]</b>
+					</c:if>
+
 			        <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grandTotal}" skipHelpUrl="true" /></b>&nbsp;
 			    </div>
 			</td>

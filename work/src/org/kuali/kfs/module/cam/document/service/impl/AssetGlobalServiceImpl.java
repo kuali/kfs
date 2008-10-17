@@ -226,26 +226,23 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     /**
+     * We need to calculate asset total amount from the sum of its payments. Otherwise, the asset total amount could mismatch with the sum of payments.
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#totalPaymentByAsset(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
     public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal, boolean lastEntry) {
-        KualiDecimal totalPayments = KualiDecimal.ZERO;
         KualiDecimal assetTotalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-        int numberOfTotalAsset = 0;
-        for (AssetGlobalDetail assetSharedDetail : assetGlobal.getAssetSharedDetails()) {
-            numberOfTotalAsset += assetSharedDetail.getAssetGlobalUniqueDetails().size();
-        }
-        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
-            totalPayments = totalPayments.add(assetPaymentDetail.getAmount());
-        }
-        
-        if (numberOfTotalAsset != 0) {
-            assetTotalAmount = totalPayments.divide(new KualiDecimal(numberOfTotalAsset));
-            if (lastEntry && numberOfTotalAsset > 1) {
-                assetTotalAmount = totalPayments.subtract(assetTotalAmount.multiply(new KualiDecimal(numberOfTotalAsset - 1)));
+        int numberOfTotalAsset = assetGlobal.getAssetGlobalDetails().size();
+        if (numberOfTotalAsset > 0) {
+            for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetails) {
+                KualiDecimal assetPaymentUnitCost = assetPaymentDetail.getAmount().divide(new KualiDecimal(numberOfTotalAsset));
+                if (lastEntry) {
+                    assetPaymentUnitCost = assetPaymentDetail.getAmount().subtract(assetPaymentUnitCost.multiply(new KualiDecimal(numberOfTotalAsset - 1)));
+                }
+                assetTotalAmount = assetTotalAmount.add(assetPaymentUnitCost);
             }
         }
+
         return assetTotalAmount;
     }
 
@@ -265,9 +262,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     public KualiDecimal totalNonFederalPaymentByAsset(AssetGlobal assetGlobal) {
         KualiDecimal totalNonFederal = KualiDecimal.ZERO;
 
-        //each paymentDetails contains the totalNonFederal amount for all the new created asset(s).  
+        // each paymentDetails contains the totalNonFederal amount for all the new created asset(s).
         for (AssetPaymentDetail assetPaymentDetail : assetGlobal.getAssetPaymentDetails()) {
-            // It should be in the parameter list of CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES instead of CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES
+            // It should be in the parameter list of CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+            // instead of CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES
             if (ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode())) {
                 totalNonFederal = totalNonFederal.add(assetPaymentDetail.getAmount());
             }

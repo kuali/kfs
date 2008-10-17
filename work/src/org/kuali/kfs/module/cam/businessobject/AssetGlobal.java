@@ -851,9 +851,9 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
             // Distribute asset payments from AssetPaymentDetails to AssetPayment
             // Divide each payment to records in Asset AssetGlobalDetails
-            for (AssetGlobalDetail location : assetGlobalDetails) {
+            for (AssetGlobalDetail detail : assetGlobalDetails) {
                 AssetPayment assetPayment = new AssetPayment();
-                assetPayment.setCapitalAssetNumber(location.getCapitalAssetNumber());
+                assetPayment.setCapitalAssetNumber(detail.getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(payment.getSequenceNumber());
                 assetPayment.setChartOfAccountsCode(payment.getChartOfAccountsCode());
                 assetPayment.setAccountNumber(payment.getAccountNumber());
@@ -882,7 +882,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
                 // set specific values for new assets if document is Asset Separate
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
-                    assetPayment.setAccountChargeAmount(payment.getAmount().subtract(location.getSeparateSourceAmount()));
+                    assetPayment.setAccountChargeAmount(payment.getAmount().subtract(detail.getSeparateSourceAmount()));
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                     assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
                 }

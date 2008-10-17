@@ -39,15 +39,6 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
 
     private String physicalCampusProcessCode; // PHYS_CMP_PROC_CD
     private Timestamp beginFormat; // BEG_FMT_TS
-    private boolean formattedIndicator;
-    
-    public boolean isFormattedIndicator() {
-        return formattedIndicator;
-    }
-
-    public void setFormattedIndicator(boolean formattedIndicator) {
-        this.formattedIndicator = formattedIndicator;
-    }
 
     public FormatProcess() {
         super();

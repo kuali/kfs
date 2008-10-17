@@ -75,10 +75,10 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return
      */
     public static boolean validateAmountToBeApplied(Collection<CustomerInvoiceDetail> customerInvoiceDetails) {
-        
+
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
-        
+
         // Figure out the maximum we should be able to apply.
         Double outstandingAmount = new Double(0);
         Double amountWeWouldApply = new Double(0);
@@ -86,10 +86,10 @@ public class PaymentApplicationDocumentRuleUtil {
             outstandingAmount  += customerInvoiceDetail.getAmount().subtract(customerInvoiceDetail.getAppliedAmount()).doubleValue();
             amountWeWouldApply += customerInvoiceDetail.getAmountToBeApplied().doubleValue();
         }
-        
+
         // Amount to be applied is valid only if it's less than or equal to the outstanding amount on the invoice.
         boolean isValid = amountWeWouldApply <= outstandingAmount;
-        
+
         // If invalid, indicate an error in the UI.
         if(!(amountWeWouldApply <= outstandingAmount)) {
             isValid = false;

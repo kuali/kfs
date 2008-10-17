@@ -325,10 +325,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             debitGLPE_1.setChartOfAccountsCode(clearingAccount.getChartOfAccountsCode());
             debitGLPE_1.setFinancialObject(unappliedCashObjectCode);
             debitGLPE_1.setFinancialObjectCode(unappliedCashObjectCode.getFinancialObjectCode());
+            debitGLPE_1.setFinancialBalanceTypeCode("AC");
+            debitGLPE_1.setFinancialDocumentTypeCode("APP");
             entries.add(debitGLPE_1);
             sequenceHelper.increment();
             
             GeneralLedgerPendingEntry creditGLPE_1 = new GeneralLedgerPendingEntry();
+            creditGLPE_1.setUniversityFiscalYear(getPostingYear());
+            creditGLPE_1.setChartOfAccountsCode(debitGLPE_1.getChartOfAccountsCode());
             glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), debitGLPE_1, sequenceHelper, creditGLPE_1);
             creditGLPE_1.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             creditGLPE_1.setTransactionLedgerEntryAmount(ipa.getInvoiceItemAppliedAmount());

@@ -155,7 +155,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         PaymentApplicationDocumentService paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         
         // KULAR-414
-        boolean amountToBeAppliedIsValid = 
+        boolean amountToBeAppliedIsValid =
             PaymentApplicationDocumentRuleUtil.validateAmountToBeApplied(customerInvoiceDetails);
         
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
@@ -182,17 +182,21 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 KualiDecimal invoiceDetailAmountToBeApplied = customerInvoiceDetail.getAmountToBeApplied();
                 KualiDecimal invoiceDetailOpenAmount = customerInvoiceDetail.getOpenAmount();
                 
-                boolean invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount = 
+                boolean invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount =
                     invoiceDetailAmountToBeApplied.isLessEqual(invoiceDetailOpenAmount);
-                if(!invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount) {
-                    addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT);
-                }
-                
-                // TODO This validation should happen when saving, not when adding
+//                if(!invoiceDetailAmountToBeAppliedIsLessEqualThanOpenAmount) {
+//                    addFieldError(
+//                        ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
+//                        ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_EXCEEDS_OPEN_INVOICE_DETAIL_AMOUNT);
+//                }
+//
+//                // TODO This validation should happen when saving, not when adding
                 boolean invoiceDetailAmountToBeAppliedIsPositive = invoiceDetailAmountToBeApplied.isGreaterEqual(KualiDecimal.ZERO);
-                if(!invoiceDetailAmountToBeAppliedIsPositive) {
-                    addGlobalError(ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
-                }
+//                if(!invoiceDetailAmountToBeAppliedIsPositive) {
+//                    addFieldError(
+//                        ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED,
+//                        ArKeyConstants.PaymentApplicationDocumentErrors.AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE);
+//                }
                 
                 // if the detail was not selected to apply full amount than check 
                 // if amount to be applied is not zero and less than or equal to the total applied amount

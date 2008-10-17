@@ -130,8 +130,6 @@
 									</c:if>
 									<th class='tab-subhead'>
 										Applied Amount
-                                        Unapplied Amount = ${KualiForm.document.totalUnappliedFunds}
-                                        Non-Ar Amount =  ${KualiForm.document.nonInvoicedTotalAmount}
                                     </th>
 								</tr>
 								<tr>

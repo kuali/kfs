@@ -50,16 +50,16 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static class StrutsActions {
-        public static final String ONE_UP = "../";        
+        public static final String ONE_UP = "../";
         public static final String TRANSFER = "camsAssetTransfer.do";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "camsEquipmentLoanOrReturn.do";
     }
-    
+
     public static class DocumentTypeName {
         public static final String TRANSFER = "AssetTransferDocument";
         public static final String EQUIPMENT_LOAN_OR_RETURN = "EquipmentLoanOrReturnDocument";
     }
-    
+
     public static class PaymentDocumentTypeCodes {
         // These are the document type codes that payments are saved under when they are modified by assets. Note that not
         // necessarily
@@ -195,7 +195,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_EXTERNAL_TRANSFER_OR_GIFT = "ExternalTransferOrGift";
         public static final String SECTION_ID_AUCTION_OR_SOLD = "AuctionOrSold";
         public static final String SECTION_ID_THEFT = "Theft";
-        public static final String SECTION_TARGET_ASSET_RETIREMENT_INFO= "Retirement Target Information";
+        public static final String SECTION_TARGET_ASSET_RETIREMENT_INFO = "Retirement Target Information";
         public static final String FIS_DOC_TYPE_CODE = "AR";
         public static final String LINE_DESCRIPTION_PLANT_FUND_FOR_FMS = "Plant Fund for FMS";
         public static final String LINE_DESCRIPTION_ACCUMULATED_DEPRECIATION = "Accumulated Depreciation";
@@ -233,7 +233,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_COMPONENTS = "components";
         public static final String SECTION_ID_LOAN_INFORMATION = "equipmentLoanInformation";
 
-        public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.LAST_INVENTORY_DATE, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };        
+        public static final String[] EDIT_DETAIL_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.Asset.ASSET_DATE_OF_SERVICE, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.GOVERNMENT_TAG_NUMBER, CamsPropertyConstants.Asset.NATIONAL_STOCK_NUMBER, CamsPropertyConstants.Asset.MANUFACTURER_NAME, CamsPropertyConstants.Asset.MANUFACTURER_MODEL_NUMBER, CamsPropertyConstants.Asset.SERIAL_NUMBER, CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsPropertyConstants.Asset.OLD_TAG_NUMBER, CamsPropertyConstants.Asset.TOTAL_COST_AMOUNT, CamsPropertyConstants.Asset.FEDERAL_CONTRIBUTION, CamsPropertyConstants.Asset.ASSET_DEPRECIATION_DATE, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE };
         public static final String[] EDIT_ORGANIZATION_INFORMATION_FIELDS = new String[] { CamsPropertyConstants.AssetOrganization.ASSET_ORGANIZATION + "." + CamsPropertyConstants.AssetOrganization.ORGANIZATION_TAG_NUMBER, CamsPropertyConstants.Asset.ESTIMATED_SELLING_PRICE, CamsPropertyConstants.Asset.RECEIVE_DATE, CamsPropertyConstants.Asset.REPLACEMENT_AMOUNT };
 
         public static final String SECTION_TITLE_NO_PAYMENT = "- No payment exists for Capital Asset: ";
@@ -293,6 +293,6 @@ public class CamsConstants extends JSTLConstants {
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
         public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }
-    
+
     public static final String INQUIRY_URL = "inquiry.do";
 }

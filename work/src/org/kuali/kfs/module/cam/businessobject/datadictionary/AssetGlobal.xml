@@ -121,6 +121,7 @@
 
   <bean id="AssetGlobal-acquisitionTypeCode" parent="AssetGlobal-acquisitionTypeCode-parentBean" />
   <bean id="AssetGlobal-acquisitionTypeCode-parentBean" abstract="true" parent="Asset-acquisitionTypeCode">
+  	  <property name="label" value="Acquisition Type Code" />
       <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType"
@@ -132,7 +133,9 @@
   </bean>
 
   <bean id="AssetGlobal-inventoryStatusCode" parent="AssetGlobal-inventoryStatusCode-parentBean" />
-  <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode" />
+  <bean id="AssetGlobal-inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
+  	<property name="label" value="Asset Status" />
+  </bean>
 
   <bean id="AssetGlobal-conditionCode" parent="AssetGlobal-conditionCode-parentBean" />
   <bean id="AssetGlobal-conditionCode-parentBean" abstract="true" parent="AssetCondition-assetConditionCode">

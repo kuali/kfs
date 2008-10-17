@@ -830,6 +830,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+
+	    <reference-descriptor name="taxRegion" class-ref="org.kuali.kfs.sys.businessobject.TaxRegion" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="taxRegionCode" />
+        </reference-descriptor>	    
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode" table="FS_TAX_POSTAL_CD_T" >

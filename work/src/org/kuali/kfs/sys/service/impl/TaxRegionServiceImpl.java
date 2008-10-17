@@ -150,8 +150,8 @@ public class TaxRegionServiceImpl implements TaxRegionService {
             }
 
             List<TaxRegionCounty> taxRegionCounties = (List<TaxRegionCounty>) businessObjectService.findMatching(TaxRegionCounty.class, criteria);
-            for (TaxRegionCounty taxRegionState : taxRegionCounties) {
-                countyTaxRegions.add(taxRegionState.getTaxRegion());
+            for (TaxRegionCounty taxRegionCounty : taxRegionCounties) {
+                countyTaxRegions.add(taxRegionCounty.getTaxRegion());
             }
         }
         return countyTaxRegions;

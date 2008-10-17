@@ -50,6 +50,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -182,14 +183,13 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
-        int pos = assetSharedDetails.size() - 1;
         if (CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS.equals(collectionName)) {
             // handle location information
             AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) line;
             success &= checkReferenceExists(assetGlobalDetail);
             success &= validateLocation(assetGlobal, assetGlobalDetail);
         }
-        else if ((CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + pos + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS).equals(collectionName)) {
+        else if (collectionName.contains(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS)) {
             // handle unique information
             AssetGlobalDetail assetUniqueDetail = (AssetGlobalDetail) line;
             String campusTagNumber = assetUniqueDetail.getCampusTagNumber();
@@ -277,7 +277,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
         else {
             // Validate Financial Document Type Code
-            success &= validateDocumentTypeForNonNew(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
+            success &= validateDocumentTypeForNonNew(assetGlobal.getAcquisitionTypeCode(), assetPaymentDetail);
         }
 
         // Validate Financial Posted date
@@ -339,16 +339,26 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check document type code is set to the desired value when acquisition type code is non-new.
+     * When acquisition type code is Capital (Gifts, Transfer-in, State excess, and Found), payment document type code will be
+     * assigned to “AA” for Add Asset Document.
      * 
      * @param documentTypeCode
      * @return
      */
-    private boolean validateDocumentTypeForNonNew(String documentTypeCode) {
+    private boolean validateDocumentTypeForNonNew(String acquisitionTypeCode, AssetPaymentDetail assetPaymentDetail) {
+        String documentTypeCode = assetPaymentDetail.getExpenditureFinancialDocumentTypeCode();
+
         boolean valid = true;
-        if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
-            valid = false;
+        if (StringUtils.isNotBlank(acquisitionTypeCode) && assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_CODE_GROUP, acquisitionTypeCode)) {
+
+            if (StringUtils.isNotBlank(documentTypeCode) && !CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE.equalsIgnoreCase(documentTypeCode)) {
+                GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE, CamsKeyConstants.AssetGlobal.ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED, documentTypeCode);
+                valid = false;
+            }
+            else {
+                // system set document type code as 'AA'
+                assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.AssetGlobal.ADD_ASSET_DOCUMENT_TYPE_CODE);
+            }
         }
         return valid;
     }
@@ -508,7 +518,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean isCapitalAsset = isCapitalStatus(assetGlobal);
         int index = 0;
         for (AssetGlobalDetail assetLocationDetail : assetSharedDetails) {
-            String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + index + "]";
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + KNSConstants.MAINTENANCE_ADD_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS;
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
             success &= SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetLocationDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
@@ -639,7 +649,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= SpringContext.getBean(AssetLocationService.class).validateLocation(LOCATION_FIELD_MAP, assetGlobalDetail, isCapitalAsset, assetGlobal.getCapitalAssetType());
         }
         else {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
+            putFieldError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
         }
         return success;
     }

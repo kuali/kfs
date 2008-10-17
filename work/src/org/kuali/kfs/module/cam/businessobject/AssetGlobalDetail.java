@@ -64,7 +64,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     // Non persistent
     private List<AssetGlobalDetail> assetGlobalUniqueDetails;
     private UniversalUser assetRepresentative;
-
+    private transient String hiddenFieldForError;
+    
     public UniversalUser getAssetRepresentative() {
         assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
@@ -72,6 +73,22 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     public void setAssetRepresentative(UniversalUser assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
+    }
+
+    /**
+     * Gets the hiddenFieldForError attribute. 
+     * @return Returns the hiddenFieldForError.
+     */
+    public String getHiddenFieldForError() {
+        return hiddenFieldForError;
+    }
+
+    /**
+     * Sets the hiddenFieldForError attribute value.
+     * @param hiddenFieldForError The hiddenFieldForError to set.
+     */
+    public void setHiddenFieldForError(String hiddenFieldForError) {
+        this.hiddenFieldForError = hiddenFieldForError;
     }
 
     /**

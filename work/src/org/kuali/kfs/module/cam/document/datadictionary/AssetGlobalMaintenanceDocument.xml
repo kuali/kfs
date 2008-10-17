@@ -239,7 +239,9 @@
             </list>
           </property>
           <property name="maintainableFields" >
-            <list>              
+            <list>  
+              <bean parent="MaintainableFieldDefinition"
+                    p:name="hiddenFieldForError"/>            
               <bean parent="MaintainableFieldDefinition"
                     p:name="campusCode"
                     p:readOnlyAfterAdd="false"

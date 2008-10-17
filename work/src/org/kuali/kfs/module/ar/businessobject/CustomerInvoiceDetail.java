@@ -69,8 +69,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     public CustomerInvoiceDocument getCustomerInvoiceDocument() throws WorkflowException {
         DocumentService documentService = (DocumentService) SpringContext.getBean(DocumentService.class);
-        CustomerInvoiceDocument customerInvoiceDocument = 
-            (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
+        customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         return customerInvoiceDocument;
     }
     
@@ -510,10 +509,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
     public String getInvoiceReferenceNumber() {
-        if(customerInvoiceDocument.isInvoiceReversal()){
-            return customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber(); 
-        } else {
-            return getDocumentNumber();
+        try {
+            if(getCustomerInvoiceDocument().isInvoiceReversal()){
+                return getCustomerInvoiceDocument().getDocumentHeader().getFinancialDocumentInErrorNumber(); 
+            } else {
+                return getDocumentNumber();
+            }
+        } catch(WorkflowException we) {
+            return "";
         }
     }
     

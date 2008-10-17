@@ -26,16 +26,11 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 public class ChartRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
     @Override
-    public boolean doesRoleQualifierMatchQualification(AttributeSet qualification, AttributeSet roleQualifier) {
+    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         if (!qualification.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) || !roleQualifier.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
             throw new RuntimeException("Chart of accounts code not found in qualifier.");
         }
         return StringUtils.equals(qualification.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), roleQualifier.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
     }
 
-    @Override
-    public AttributeSet validateAttributes(AttributeSet attributes) {
-        // TODO validate COA code is present
-        return super.validateAttributes(attributes);
-    }
 }

@@ -659,7 +659,7 @@
     </bean>
     
     <bean name="chartRoleService" class="org.kuali.kfs.coa.service.impl.ChartRoleTypeServiceImpl">
-    	<property name="acceptedQualificationAttributeNames">
+    	<property name="acceptedAttributeNames">
     		<list>
     			<value>chartOfAccountsCode</value>
     		</list>
@@ -667,7 +667,7 @@
     </bean>
     
      <bean name="organizationHierarchyRoleTypeService" class="org.kuali.kfs.coa.service.impl.OrganizationHierarchyRoleTypeServiceImpl">
-    	<property name="acceptedQualificationAttributeNames">
+    	<property name="acceptedAttributeNames">
     		<list>
     			<value>chartOfAccountsCode</value>
     			<value>organizationCode</value>
@@ -679,7 +679,7 @@
     </bean>
 
     <bean name="campusRoleService" class="org.kuali.kfs.coa.service.impl.CampusRoleTypeServiceImpl">
-    	<property name="acceptedQualificationAttributeNames">
+    	<property name="acceptedAttributeNames">
     		<list>
 				<value>chartOfAccountsCode</value>
 				<value>organizationCode</value>

@@ -23,16 +23,11 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 public class CampusRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
     @Override
-    protected boolean performRoleQualifierQualificationMatch(final AttributeSet qualification, final AttributeSet roleQualifier) {
+    public boolean performMatch(final AttributeSet qualification, final AttributeSet roleQualifier) {
         if (!qualification.containsKey(KFSPropertyConstants.CAMPUS_CODE) || !roleQualifier.containsKey(KFSPropertyConstants.CAMPUS_CODE)) {
             throw new RuntimeException("Campus code not found in qualifier.");
         }
         return StringUtils.equals(qualification.get(KFSPropertyConstants.CAMPUS_CODE), roleQualifier.get(KFSPropertyConstants.CAMPUS_CODE));
     }
 
-    @Override
-    public AttributeSet validateAttributes(AttributeSet attributes) {
-        // TODO validate Campus code is present
-        return super.validateAttributes(attributes);
-    }
 }

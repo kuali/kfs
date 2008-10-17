@@ -49,8 +49,8 @@ public class CustomerLoadResult {
     public static String getEntryTypeString(EntryType type) {
         String result = "UNKNOWN";
         switch (type) {
-            case INFO: result = "INFO";
-            case ERROR: result = "ERROR";
+            case INFO: result = "INFO"; break;
+            case ERROR: result = "ERROR"; break;
         }
         return result;
     }
@@ -58,10 +58,10 @@ public class CustomerLoadResult {
     public static String getResultCodeString(ResultCode resultCode) {
         String result = "UNKNOWN";
         switch (resultCode) {
-            case SUCCESS: result = "SUCCESS";
-            case FAILURE: result = "FAILURES";
-            case ERROR: result = "ERROR";
-            case INCOMPLETE: result = "INCOMPLETE";
+            case SUCCESS: result = "SUCCESS"; break;
+            case FAILURE: result = "FAILURES"; break;
+            case ERROR: result = "ERROR"; break;
+            case INCOMPLETE: result = "INCOMPLETE"; break;
         }
         return result;
     }

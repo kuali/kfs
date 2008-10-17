@@ -60,7 +60,7 @@ public interface CustomerLoadService {
      *        should be passed in, and MaintDocs will be added to it.
      * @return True if no errors were encountered, False otherwise.
      */
-    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs);
+    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap);
 
     /**
      * 

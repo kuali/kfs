@@ -1,7 +1,7 @@
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -58,7 +58,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
             //TODO This should probably be done in a BO 'before insert' hook, rather than in the business rule validation, 
             //     unless there's some reason not clear why it needs to happen here.
-            if (isValid && document.isNew() && newCustomer.getCustomerNumber() == null) {
+            if (isValid && document.isNew() && StringUtils.isBlank(newCustomer.getCustomerNumber())) {
                 setCustomerNumber();
             }
         }
@@ -74,7 +74,9 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         //     unless there's some reason not clear why it needs to happen here.
         String customerNumber = SpringContext.getBean(CustomerService.class).getNextCustomerNumber(newCustomer);
         newCustomer.setCustomerNumber(customerNumber);
-        oldCustomer.setCustomerNumber(newCustomer.getCustomerNumber());
+        if (oldCustomer != null) {
+            oldCustomer.setCustomerNumber(customerNumber);
+        }
     }
 
     /**

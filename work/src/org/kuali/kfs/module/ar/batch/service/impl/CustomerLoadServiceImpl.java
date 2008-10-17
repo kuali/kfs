@@ -235,7 +235,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
         LOG.info("Beginning validation and preparation of batch file.");
-        result = validateAndPrepare(customerVOs, readyTransientDocs, reporter);
+        result = validateAndPrepare(customerVOs, readyTransientDocs, reporter, false);
         
         //  send the readyDocs into workflow
         result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
@@ -270,9 +270,19 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         realMaintDoc.getNewMaintainableObject().setBusinessObject(readyTransientDoc.getNewMaintainableObject().getBusinessObject());
         realMaintDoc.getOldMaintainableObject().setBusinessObject(readyTransientDoc.getOldMaintainableObject().getBusinessObject());
+        realMaintDoc.getNewMaintainableObject().setMaintenanceAction(readyTransientDoc.getNewMaintainableObject().getMaintenanceAction());
+        realMaintDoc.getDocumentHeader().setDocumentDescription(readyTransientDoc.getDocumentHeader().getDocumentDescription());
+        
+        Customer customer = (Customer) realMaintDoc.getNewMaintainableObject().getBusinessObject();
+        LOG.info("Routing Customer Maintenance document for [" + customer.getCustomerNumber() + "] " + customer.getCustomerName());
         
         try {
-            docService.routeDocument(realMaintDoc, "Routed from CustomerLoad Batch Process", null);
+            if (realMaintDoc.isNew()) {
+                docService.blanketApproveDocument(realMaintDoc, "Routed New Customer Maintenance from CustomerLoad Batch Process", null);
+            }
+            else {
+                docService.routeDocument(realMaintDoc, "Routed Edit/Update Customer Maintenance from CustomerLoad Batch Process", null);
+            }
         }
         catch (WorkflowException e) {
             LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.", e);
@@ -358,16 +368,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
      */
     public boolean validate(List<CustomerDigesterVO> customerUploads) {
-        return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>());
+        return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>(), true);
     }
     
-    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs) {
-        return validateAndPrepare(customerUploads, customerMaintDocs, new CustomerLoadFileResult());
+    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap) {
+        return validateAndPrepare(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
     }
     
-    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter) {
-        
-        //TODO Yes I know this method needs to be broken up into some other sub-methods
+    private boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
         
         //  fail if empty or null list
         if (customerUploads == null) {
@@ -375,7 +383,10 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             throw new IllegalArgumentException("Null list of Customer upload objects.  This should never happen.");
         }
         if (customerUploads.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "An empty list of Customer uploads was passed in for validation.  As a result, no validation was done." });
+            reporter.addFileErrorMessage("An empty list of Customer uploads was passed in for validation.  As a result, no validation can be done.");
+            if (useGlobalErrorMap) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "An empty list of Customer uploads was passed in for validation.  As a result, no validation was done." });
+            }
             return false;
         }
 
@@ -392,7 +403,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         if (customerUploads.size() > maxRecords.intValue()) {
             LOG.error("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
             reporter.addFileErrorMessage("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
-            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
+            if (useGlobalErrorMap) {
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
+            }
             return false;
         }
         
@@ -451,7 +464,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             
             //  set the old and new
             transientMaintDoc.getNewMaintainableObject().setBusinessObject(customer);
-            transientMaintDoc.getOldMaintainableObject().setBusinessObject(existingCustomer);
+            transientMaintDoc.getOldMaintainableObject().setBusinessObject((existingCustomer == null ? new Customer() : existingCustomer ));
 
             //  set the maintainable actions, so isNew and isEdit on the maint doc return correct values
             if (isNew) {
@@ -481,6 +494,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
             if (docSucceeded) {
                 customerMaintDocs.add(transientMaintDoc);
+                Customer customer2 = (Customer) transientMaintDoc.getNewMaintainableObject().getBusinessObject();
+                reporter.addCustomerInfoMessage(customerName, "Customer Number is: " + customer2.getCustomerNumber());
+                reporter.addCustomerInfoMessage(customerName, "Customer Name is:   " + customer2.getCustomerName());
                 reporter.setCustomerSuccessResult(customerName);
             }
             
@@ -488,7 +504,9 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
         
         //  put any errors back in global vars
-        addBatchErrorsToGlobalVariables(fileBatchErrors);
+        if (useGlobalErrorMap) {
+            addBatchErrorsToGlobalVariables(fileBatchErrors);
+        }
 
         return groupSucceeded;
     }
@@ -499,6 +517,11 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         //  if its an update, but has no customerNumber, then set it from existing record
         if (isUpdate && StringUtils.isBlank(customer.getCustomerNumber())) {
             customer.setCustomerNumber(existingCustomer.getCustomerNumber());
+        }
+        
+        //  if its an update, then carry forward the version number
+        if (isUpdate) {
+            customer.setVersionNumber(existingCustomer.getVersionNumber());
         }
         
         //  dont let the batch zero out certain key fields on an update
@@ -515,11 +538,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerContactPhoneNumber");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerFaxNumber");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerBirthDate");
-            dontBlankOutFieldsOnUpdate(customer, existingCustomer, "");
-            dontBlankOutFieldsOnUpdate(customer, existingCustomer, "");
-            dontBlankOutFieldsOnUpdate(customer, existingCustomer, "");
-            dontBlankOutFieldsOnUpdate(customer, existingCustomer, "");
-            dontBlankOutFieldsOnUpdate(customer, existingCustomer, "");
         }
         
         //  determine whether the batch has a primary address, and which one it is
@@ -552,6 +570,11 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                     customer.getCustomerAddresses().add(existingAddress);
                 }
             }
+        }
+        
+        //  set parent customer number to null if blank (otherwise foreign key rule fails)
+        if (StringUtils.isBlank(customer.getCustomerParentCompanyNumber())) {
+            customer.setCustomerParentCompanyNumber(null);
         }
         
     }
@@ -640,7 +663,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 
                 // MessageFormat.format only seems to replace one 
                 // per pass, so I just keep beating on it until all are gone.
-                errorString = errorKeyString;
+                if (StringUtils.isBlank(errorKeyString)) {
+                    errorString = errorMessage.getErrorKey();
+                }
+                else {
+                    errorString = errorKeyString;
+                }
                 while (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }
@@ -773,12 +801,19 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         getPdfWriter(pdfDoc);
         pdfDoc.open();
         
+        if (fileResults.isEmpty()) {
+            writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
+            return;
+        }
+        
         CustomerLoadResult result;
         String customerResultLine;
         for (CustomerLoadFileResult fileResult : fileResults) {
             
             //  file name title
-            writeFileNameSectionTitle(pdfDoc, fileResult.getFilename().toUpperCase());
+            String fileNameOnly = fileResult.getFilename().toUpperCase();
+            fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
+            writeFileNameSectionTitle(pdfDoc, fileNameOnly);
             
             //  write any file-general messages
             writeMessageEntryLines(pdfDoc, fileResult.getMessages());
@@ -792,7 +827,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 
                 //  write a success/failure results line for this customer
                 customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
-                writeCustomerSectionResult(pdfDoc, result.getResultString());
+                writeCustomerSectionResult(pdfDoc, customerResultLine);
                 
                 //  write any customer messages 
                 writeMessageEntryLines(pdfDoc, result.getMessages());

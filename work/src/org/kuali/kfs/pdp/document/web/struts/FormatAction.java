@@ -15,18 +15,13 @@
  */
 package org.kuali.kfs.pdp.document.web.struts;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -34,12 +29,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
-import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
-import org.kuali.kfs.pdp.DateHandler;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatResult;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
 import org.kuali.kfs.pdp.service.FormatProcessService;
@@ -47,17 +39,18 @@ import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
-import org.kuali.kfs.pdp.web.struts.FormatProcessForm;
-import org.kuali.kfs.pdp.web.struts.FormatSelectionForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.DateFormatter;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
+/**
+ * This class provides actions for the format process
+ */
 public class FormatAction extends KualiAction {
     
     private FormatService formatService;
@@ -88,7 +81,6 @@ public class FormatAction extends KualiAction {
 
         // no data for format because another format process is already running
         if (formatSelection.getStartDate() != null) {
-            formatService.endFormatProcess(kualiUser.getCampusCode());
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ERROR_PDP_FORMAT_PROCESS_ALREADY_RUNNING, dateTimeService.toDateString(formatSelection.getStartDate()));
         }
         else {
@@ -214,6 +206,21 @@ public class FormatAction extends KualiAction {
             saveErrors(request, ae);
             return mapping.findForward("pdp_message");
         }
+    }
+    
+    /**
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+
     }
     
 

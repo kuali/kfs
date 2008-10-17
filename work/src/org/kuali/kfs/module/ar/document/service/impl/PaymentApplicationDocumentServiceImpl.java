@@ -52,6 +52,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private BusinessObjectService businessObjectService;
     private NonAppliedHoldingService nonAppliedHoldingService;
 
+    /**
+     * 
+     * @param customerInvoiceDocument
+     * @return
+     * @throws WorkflowException
+     */
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = 
             (PaymentApplicationDocument) KNSServiceLocator.getDocumentService().getNewDocument(PaymentApplicationDocument.class);
@@ -87,21 +93,40 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         
         return applicationDocument;
     }
-    
+
+    /**
+     *
+     * @param customerInvoiceDocument
+     * @return
+     * @throws WorkflowException
+     */
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createPaymentApplicationToMatchInvoice(customerInvoiceDocument);
         documentService.saveDocument(applicationDocument);
         return applicationDocument;
     }
-    
+
+    /**
+     *
+     * @param customerInvoiceDocument
+     * @param approvalAnnotation
+     * @param workflowNotificationRecipients
+     * @return
+     * @throws WorkflowException
+     */
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createAndSavePaymentApplicationToMatchInvoice(customerInvoiceDocument);
         documentService.approveDocument(applicationDocument,approvalAnnotation,workflowNotificationRecipients);
         return applicationDocument;
     }
-    
+
+    /**
+     *
+     * @param document
+     * @return
+     */
     public KualiDecimal getTotalAppliedAmountForPaymentApplicationDocument(PaymentApplicationDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
         Collection<InvoicePaidApplied> invoicePaidApplieds = document.getAppliedPayments();
@@ -116,6 +141,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return total;
     }
 
+    /**
+     *
+     * @param paymentApplicationDocumentNumber
+     * @return
+     */
     public KualiDecimal getTotalToBeAppliedForPaymentApplicationDocument(String paymentApplicationDocumentNumber) {
         KualiDecimal total = KualiDecimal.ZERO;
 
@@ -126,6 +156,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return total;
     }
 
+    /**
+     *
+     * @param document
+     * @return
+     */
     public KualiDecimal getTotalUnappliedFundsForPaymentApplicationDocument(PaymentApplicationDocument document) {
         KualiDecimal total = KualiDecimal.ZERO;
 
@@ -136,15 +171,35 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             total = total.add(nonAppliedHolding.getFinancialDocumentLineAmount());
         }
 
+        // Add the amount for this document, if it's set
+        NonAppliedHolding nonAppliedHolding = document.getNonAppliedHolding();
+        if(null != nonAppliedHolding) {
+            KualiDecimal amount = nonAppliedHolding.getFinancialDocumentLineAmount();
+            if(null != amount) {
+                total = total.add(amount);
+            }
+        }
+
         return total;
     }
 
+    /**
+     *
+     * @param document
+     * @return
+     */
     public KualiDecimal getTotalUnappliedFundsToBeAppliedForPaymentApplicationDocument(PaymentApplicationDocument document) {
         KualiDecimal totalUnapplied = getTotalUnappliedFundsForPaymentApplicationDocument(document);
         KualiDecimal totalApplied = getTotalAppliedAmountForPaymentApplicationDocument(document);
         return totalUnapplied.subtract(totalApplied);
     }
 
+    /**
+     *
+     * @param document
+     * @return
+     * @throws WorkflowException
+     */
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document) throws WorkflowException {
         DocumentHeader documentHeader = document.getDocumentHeader();
         String cashControlDocumentNumber = documentHeader.getOrganizationDocumentNumber();
@@ -163,7 +218,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,

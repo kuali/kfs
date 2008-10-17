@@ -295,9 +295,10 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.less.outstanding.amt";
     public static final String ERROR_REJECT_INVOICE_DUPLICATE = "errors.reject.invoice.duplicate";
     
-    
-    
-    
+    //B2B
+    public static final String B2B_MULTIPLE_REQUISITIONS = "message.b2b.multiple.requisitions";
+    public static final String B2B_PO_RETRANSMIT_SUCCESS = "message.b2b.po.retransmit.success";
+    public static final String B2B_PO_RETRANSMIT_FAILED = "message.b2b.po.retransmit.failed";
     
     
     

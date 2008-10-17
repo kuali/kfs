@@ -148,6 +148,8 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      */
     public void completePurchaseOrder(PurchaseOrderDocument po);
 
+    public void retransmitB2BPurchaseOrder(PurchaseOrderDocument po);
+    
     public void completePurchaseOrderAmendment(PurchaseOrderDocument po);
 
     /**

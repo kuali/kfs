@@ -15,4 +15,18 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<portal:iframePortletContainer channelTitle="Shop Catalogs" channelUrl="${KualiForm.shopUrl}" />
+<html:html locale="true">
+<head>
+<title>EPIC</title>
+<script language="Javascript">
+<!--
+function reload() {
+  top.location = "<%=request.getContextPath()%>" + "<%=request.getAttribute("forward")%>";
+}
+//-->
+</script>
+</head>
+<body onload="reload()">
+<center>Please wait...</center>
+</body>
+</html:html>

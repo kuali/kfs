@@ -262,6 +262,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(removeHoldButton);
         }
         
+        if (auth.canResendCxml()) {
+            ExtraButton resendPoCxmlButton = (ExtraButton) buttonsMap.get("methodToCall.resendPoCxml");
+            extraButtons.add(resendPoCxmlButton);
+        }
+        
         if (auth.canCreateReceiving()){
             ExtraButton receivingButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingLine");
             extraButtons.add(receivingButton);
@@ -348,6 +353,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
         removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_removehold.gif");
         removeHoldButton.setExtraButtonAltText("Remove Hold");
+
+        // Resend PO Cxml button
+        ExtraButton resendPoCxmlButton = new ExtraButton();
+        removeHoldButton.setExtraButtonProperty("methodToCall.resendPoCxml");
+        removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_resendpo.gif");
+        removeHoldButton.setExtraButtonAltText("Resend PO CXML");
 
         // Receiving button
         ExtraButton receivingButton = new ExtraButton();

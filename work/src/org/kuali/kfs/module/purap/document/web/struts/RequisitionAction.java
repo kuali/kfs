@@ -18,15 +18,18 @@ package org.kuali.kfs.module.purap.document.web.struts;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -86,6 +89,12 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionForm reqForm = (RequisitionForm) form;
         reqForm.setDocId((String) request.getSession().getAttribute("docId"));
         loadDocument(reqForm);
+        String multipleB2BReqs = (String) request.getSession().getAttribute("multipleB2BRequisitions");
+        if (StringUtils.isNotEmpty(multipleB2BReqs)) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.B2B_MULTIPLE_REQUISITIONS);
+        }
+        request.getSession().removeAttribute("docId");
+        request.getSession().removeAttribute("multipleB2BRequisitions");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

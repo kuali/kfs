@@ -276,6 +276,20 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
     }
     
     /**
+     * Determines whether to display the resend po button for the purchase order document.
+     * The document status must be error sending cxml, the purchase order must be current and not
+     * pending and the user must be in purchasing group.
+     * 
+     * @return
+     */
+    public boolean canResendCxml() {
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CXML_ERROR) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Determines if a receiving document can be created for the purchase order.
      * 
      * @return

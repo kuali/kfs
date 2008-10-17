@@ -73,11 +73,16 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     private B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
-        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
-        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
-        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
-        b2b.setUserAgent(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
-        b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
+//        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
+//        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
+//        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
+//        b2b.setUserAgent(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
+//        b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
+        b2b.setPunchoutURL("http://usertest.sciquest.com/apps/Router/ExternalAuth/cXML/KualiDemo");
+        b2b.setPunchbackURL("http://localhost:8080/kuali-dev/b2b.do?methodToCall=returnFromShopping");
+        b2b.setEnvironment("test");
+        b2b.setUserAgent("kfs");
+        b2b.setPassword("c#m1");
         return b2b;
     }
 
@@ -240,6 +245,29 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         return vendors;
     }
 
+    private List getNewAllVendors(List items) {
+        LOG.debug("getAllVendors() started");
+
+        Set vendorNumbers = new HashSet();
+        for (Iterator iter = items.iterator(); iter.hasNext();) {
+            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
+            vendorNumbers.add(item.getExtrinsic("ExternalSupplierID"));
+        }
+
+        ArrayList vendors = new ArrayList();
+        for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
+            String vendorNumber = (String) iter.next();
+            VendorDetail vd = vendorService.getVendorDetail(vendorNumber);
+            if (vd == null) {
+                LOG.error("getAllVendors() Invalid vendor number from shopping cart: " + vendorNumber);
+                throw new IllegalArgumentException("Invalid vendor number from shopping cart: " + vendorNumber);
+            }
+            vendors.add(vd);
+        }
+
+        return vendors;
+    }
+
     /**
      * Get all the items for a specific vendor
      * 
@@ -285,10 +313,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         reqItem.setItemAuxiliaryPartIdentifier(item.getSupplierPartAuxiliaryId());
         reqItem.setItemDescription(item.getDescription());
         reqItem.setItemUnitOfMeasureCode(item.getUnitOfMeasure());
-        // FIXME looks like we need this field back in the item table; probably should be renamed to start with "external
-        // organization..."
-        // reqItem.setRequisitionLineId(item.getExtrinsic("RequisitionLineID"));
-        reqItem.setExternalOrganizationB2bProductTypeName(item.getClassification("Product Source"));
+        reqItem.setExternalOrganizationB2bProductTypeName(item.getExtrinsic("Product Source"));
         reqItem.setExternalOrganizationB2bProductReferenceNumber(item.getExtrinsic("SystemProductID"));
         reqItem.setItemRestrictedIndicator(false);
 

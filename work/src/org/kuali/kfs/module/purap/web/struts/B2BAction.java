@@ -60,23 +60,10 @@ public class B2BAction extends KualiAction {
             List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getFinancialSystemUser());
             LOG.debug("executeLogic() REQS RETURNED TO ACTION");
             if (requisitions.size() > 1) {
-                request.setAttribute("forward", "/requisition/listRequisitions.jsp");
-                request.getSession().setAttribute("requisitions", requisitions);
+                request.getSession().setAttribute("multipleB2BRequisitions", "true");
             }
-            else {
-                request.setAttribute("forward", "/requisition.do");
-                // need to create a new instance of reqForm to clear session
-//                RequisitionForm formBean = new RequisitionForm();
-//                String docId = ((RequisitionDocument) requisitions.get(0)).getDocumentNumber();
-//                formBean.setDocId(docId);
-//                formBean.setRequisitionDocument((RequisitionDocument) requisitions.get(0));
-//                request.setAttribute("RequisitionForm", formBean);
-//                request.getSession().setAttribute("docId", formBean.getDocId());
-//                       RequisitionForm formBean = new RequisitionForm();
-//                formBean.setRequisitionDocument((RequisitionDocument) requisitions.get(0));
-//                request.setAttribute("RequisitionForm", formBean);
-                request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
-            }
+            request.setAttribute("forward", "/portal.do?channelTitle=Requisition&channelUrl=purapRequisition.do?methodToCall=displayB2BRequisition");
+            request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
         }
         else {
             LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful.");
@@ -84,7 +71,7 @@ public class B2BAction extends KualiAction {
             //FIXME goto error page
         }
 
-        return (mapping.findForward("gotoRequisition"));
+        return (mapping.findForward("removeframe"));
     }
 
 }

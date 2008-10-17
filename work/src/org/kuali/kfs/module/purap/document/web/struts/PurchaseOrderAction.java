@@ -1695,5 +1695,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         return forward;      
     }
-    
+
+    public ActionForward resendPoCxml(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderDocument po = (PurchaseOrderDocument) ((PurchaseOrderForm) form).getDocument();
+        SpringContext.getBean(PurchaseOrderService.class).retransmitB2BPurchaseOrder(po);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

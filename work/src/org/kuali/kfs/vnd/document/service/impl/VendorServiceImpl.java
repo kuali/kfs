@@ -56,7 +56,6 @@ public class VendorServiceImpl implements VendorService {
     private VendorDao vendorDao;
 
     /**
-     * 
      * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     public void saveVendorHeader(VendorDetail vendorDetail) {
@@ -64,7 +63,18 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * 
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(String)
+     */
+    public VendorDetail getVendorDetail(String vendorNumber) {
+        LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
+        int dashInd = vendorNumber.indexOf("-");
+        if (vendorNumber.length() >= dashInd) {
+            return getVendorDetail(new Integer(vendorNumber.substring(0, dashInd)), new Integer(vendorNumber.substring(dashInd + 1)));
+        }
+        return null;
+    }
+
+    /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
      */
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {

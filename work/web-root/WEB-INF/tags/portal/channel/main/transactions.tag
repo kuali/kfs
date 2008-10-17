@@ -68,6 +68,7 @@
 		<li><portal:portalLink displayTitle="true" title="Payment Request" url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentRequestDocument" /></li>
 		<li><portal:portalLink displayTitle="true" title="Receiving" url="purapReceivingLine.do?methodToCall=docHandler&command=initiate&docTypeName=ReceivingLineDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Requisition" url="purapRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=RequisitionDocument" /></li>
+        <li><portal:portalLink displayTitle="true" title="Shop Catalogs" url="b2b.do?methodToCall=shopCatalogs" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

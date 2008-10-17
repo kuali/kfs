@@ -76,8 +76,10 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
-        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
+//        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
+//        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
+        String password = "p01mport";
+        String punchoutUrl = "http://sciwmtest.sciquest.com/invoke/wm.tn/receive";
         LOG.debug("sendPurchaseOrder(): punchoutUrl is " + punchoutUrl);
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
@@ -91,7 +93,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.debug("sendPurchaseOrder() Generating cxml");
             String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
 
-            LOG.debug("sendPurchaseOrder() Sending cxml");
+            LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
             String responseCxml = b2bDao.sendPunchOutRequest(cxml, punchoutUrl);
 
             LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
@@ -99,7 +101,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             PurchaseOrderResponse poResponse = new PurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
             LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
-            if ((ObjectUtils.isNotNull(statusText)) || (!"success".equalsIgnoreCase(statusText.trim()))) {
+            if ((ObjectUtils.isNull(statusText)) || (!"success".equalsIgnoreCase(statusText.trim()))) {
                 LOG.error("sendPurchaseOrder(): PO cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + " failed sending to vendor: " + statusText);
                 transmitErrors.append("Unable to send Purchase Order: " + statusText);
 
@@ -153,9 +155,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("      <Credential domain=\"NetworkUserId\">\n");
         cxml.append("        <Identity>").append(requisitionInitiatorId.toUpperCase()).append("</Identity>\n");
         cxml.append("      </Credential>\n");
-        cxml.append("      <Credential domain=\"NetworkUserId\" type=\"marketplace\">\n");
-        cxml.append("        <Identity>").append(requisitionInitiatorId.toUpperCase()).append("</Identity>\n");
-        cxml.append("      </Credential>\n");
         cxml.append("    </From>\n");
         cxml.append("    <To>\n");
         cxml.append("      <Credential domain=\"DUNS\">\n");
@@ -177,7 +176,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             cxml.append("  <Request deploymentMode=\"test\">\n");
         }
         cxml.append("    <OrderRequest>\n");
-        cxml.append("      <OrderRequestHeader orderId=\"").append(purchaseOrder.getPurapDocumentIdentifier()).append("\" orderDate=\"\" type=\"new\">\n");
+        cxml.append("      <OrderRequestHeader orderId=\"").append(purchaseOrder.getPurapDocumentIdentifier()).append("\" orderDate=\"").append(date.format(d)).append("\" type=\"new\">\n");
         cxml.append("        <Total>\n");
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalDollarAmount()).append("</Money>\n");
         cxml.append("        </Total>\n");
@@ -196,10 +195,10 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             cxml.append("              <DeliverTo><![CDATA[").append(purchaseOrder.getDeliveryBuildingCode()).append("]]></DeliverTo>\n");
         }
         cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></Street>\n");
-        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine2Address().trim())) {
+        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingLine2Address())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine2Address().trim()).append("]]></Street>\n");
         }
-        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingRoomNumber().trim())) {
+        if (!StringUtils.isEmpty(purchaseOrder.getDeliveryBuildingRoomNumber())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></Street>\n");
         }
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
@@ -214,7 +213,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("            <Name xml:lang=\"en\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Name>\n");
         cxml.append("            <PostalAddress name=\"defaul\">\n");
         cxml.append("              <Street><![CDATA[").append(purchaseOrder.getBillingLine1Address().trim()).append("]]></Street>\n");
-        if (!StringUtils.isEmpty(purchaseOrder.getBillingLine2Address().trim())) {
+        if (!StringUtils.isEmpty(purchaseOrder.getBillingLine2Address())) {
             cxml.append("              <Street><![CDATA[").append(purchaseOrder.getBillingLine2Address().trim()).append("]]></Street>\n");
         }
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getBillingCityName().trim()).append("]]></City>\n");

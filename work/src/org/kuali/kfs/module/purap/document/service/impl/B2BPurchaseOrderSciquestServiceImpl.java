@@ -73,8 +73,10 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
-        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
+//        String password = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_PASSWORD);
+//        String punchoutUrl = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PO_URL);
+        String password = "p01mport";
+        String punchoutUrl = "http://sciwmtest.sciquest.com/invoke/wm.tn/receive";
         LOG.debug("sendPurchaseOrder(): punchoutUrl is " + punchoutUrl);
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), password, contractManager, contractManagerEmail, vendorDuns);
@@ -96,7 +98,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             PurchaseOrderResponse poResponse = new PurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
             LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
-            if ((ObjectUtils.isNotNull(statusText)) || (!"success".equalsIgnoreCase(statusText.trim()))) {
+            if (ObjectUtils.isNull(statusText) || (!"success".equalsIgnoreCase(statusText.trim()))) {
                 LOG.error("sendPurchaseOrder(): PO cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + " failed sending to SciQuest:\n" + statusText);
                 transmitErrors.append("Unable to send Purchase Order: " + statusText);
 

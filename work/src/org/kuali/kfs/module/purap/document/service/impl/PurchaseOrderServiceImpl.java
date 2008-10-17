@@ -910,12 +910,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         updateVendorCommodityCode(po);
     }
 
-    private void completeB2BPurchaseOrder(PurchaseOrderDocument po) {
+    private boolean completeB2BPurchaseOrder(PurchaseOrderDocument po) {
         String errors = b2bPurchaseOrderService.sendPurchaseOrder(po);
         if (StringUtils.isEmpty(errors)) {
             //PO sent successfully; change status to OPEN
             attemptSetupOfInitialOpenOfDocument(po);
             po.setPurchaseOrderLastTransmitDate(dateTimeService.getCurrentSqlDate());
+            return true;
         }
         else {
             //PO transmission failed; record errors and change status to "cxml failed"
@@ -929,10 +930,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             
             purapService.updateStatus(po, PurchaseOrderStatuses.CXML_ERROR);
             purapService.saveDocumentNoValidation(po);
-            
+            return false;
         }
     }
 
+    public void retransmitB2BPurchaseOrder(PurchaseOrderDocument po) {
+        if (completeB2BPurchaseOrder(po)) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS);            
+        }
+        else {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.B2B_PO_RETRANSMIT_FAILED);
+        }
+    }
+    
     public void completePurchaseOrderAmendment(PurchaseOrderDocument poa) {
         LOG.debug("completePurchaseOrderAmendment() started");
         

@@ -707,14 +707,10 @@
 			type="org.kuali.kfs.module.purap.web.struts.B2BAction">
 
 			<forward name="basic" path="/jsp/modules/purap/ShopCatalogs.jsp" />
-			<forward name="invalid" path="/requisition/shopFail.jsp" />
-			<forward name="multiple"
-				path="/requisition/listRequisitions.jsp" />
-			<forward name="gotoRequisition" path="/purapRequisition.do?methodToCall=displayB2BRequisition" />
-			<forward name="failure"
-				path="/requisition/requisitionFailure.jsp" />
-			<forward name="removeframe" path="/removeframe.jsp" />
+			<forward name="removeframe" path="/jsp/modules/purap/ShopRemoveFrame.jsp" />
 
+			<forward name="failure" path="/requisition/requisitionFailure.jsp" />
+			<forward name="invalid" path="/requisition/shopFail.jsp" />
 		</action>
 
 		<action path="/cg*" name="{1}Form"

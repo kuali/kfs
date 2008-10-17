@@ -28,6 +28,8 @@ public interface VendorService {
 
     public void saveVendorHeader(VendorDetail vendorDetail);
 
+    public VendorDetail getVendorDetail(String vendorNumber); 
+    
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId);
 
     /**

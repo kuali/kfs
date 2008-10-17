@@ -17,10 +17,10 @@ package org.kuali.kfs.coa.service.impl;
 
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.impl.KimAttributesTranslatorBase;
+import org.kuali.rice.kim.util.KimConstants;
 
 /**
  * 
@@ -38,14 +38,14 @@ public class CampusAttributesTranslator extends KimAttributesTranslatorBase {
      */
     public AttributeSet translateAttributes(final AttributeSet attributes){
         //Translate chartOfAccountsCode and organizationCode property to campusCode and add
-        if(attributes.get(KFSPropertyConstants.CAMPUS_CODE)!=null)
+        if(attributes.get(KimConstants.KIM_ATTRIB_CAMPUS_CODE)!=null)
             return attributes;
         AttributeSet translatedAttributes = new AttributeSet();
         translatedAttributes.putAll(attributes);
         Org org = ((OrganizationService)SpringContext.getBean(OrganizationService.class)).getByPrimaryId(
-                attributes.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), attributes.get(KFSPropertyConstants.ORGANIZATION_CODE));
+                attributes.get(KimConstants.KIM_ATTRIB_CHART_CODE), attributes.get(KimConstants.KIM_ATTRIB_ORGANIZATION_CODE));
         if(org!=null && org.getOrganizationPhysicalCampus()!=null)
-            translatedAttributes.put(KFSPropertyConstants.CAMPUS_CODE, org.getOrganizationPhysicalCampus().getCampusCode());
+            translatedAttributes.put(KimConstants.KIM_ATTRIB_CAMPUS_CODE, org.getOrganizationPhysicalCampus().getCampusCode());
         return translatedAttributes;
     }
 

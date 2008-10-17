@@ -661,7 +661,7 @@
     <bean name="chartRoleService" class="org.kuali.kfs.coa.service.impl.ChartRoleTypeServiceImpl">
     	<property name="acceptedAttributeNames">
     		<list>
-    			<value>chartOfAccountsCode</value>
+    			<value>Chart Code</value>
     		</list>
     	</property>
     </bean>
@@ -669,8 +669,8 @@
      <bean name="organizationHierarchyRoleTypeService" class="org.kuali.kfs.coa.service.impl.OrganizationHierarchyRoleTypeServiceImpl">
     	<property name="acceptedAttributeNames">
     		<list>
-    			<value>chartOfAccountsCode</value>
-    			<value>organizationCode</value>
+    			<value>Chart Code</value>
+    			<value>Organization Code</value>
     		</list>
     	</property>
     	<property name="organizationService">
@@ -681,9 +681,9 @@
     <bean name="campusRoleService" class="org.kuali.kfs.coa.service.impl.CampusRoleTypeServiceImpl">
     	<property name="acceptedAttributeNames">
     		<list>
-				<value>chartOfAccountsCode</value>
-				<value>organizationCode</value>
-				<value>campusCode</value>
+				<value>Chart Code</value>
+				<value>Organization Code</value>
+				<value>Campus Code</value>
     		</list>
     	</property>
     	<property name="kimAttributesTranslators">
@@ -691,13 +691,13 @@
 				<bean class="org.kuali.kfs.coa.service.impl.CampusAttributesTranslator">
 					<property name="supportedAttributeNames">
 						<list>
-							<value>chartOfAccountsCode</value>
-							<value>organizationCode</value>
+							<value>Chart Code</value>
+							<value>Organization Code</value>
 						</list>
 					</property>
 					<property name="resultAttributeNames">
 						<list>
-							<value>campusCode</value>
+							<value>Campus Code</value>
 						</list>
 					</property>
 			    </bean>

@@ -19,15 +19,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kim.util.KimConstants;
 
 public class CampusRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
     @Override
     public boolean performMatch(final AttributeSet qualification, final AttributeSet roleQualifier) {
-        if (!qualification.containsKey(KFSPropertyConstants.CAMPUS_CODE) || !roleQualifier.containsKey(KFSPropertyConstants.CAMPUS_CODE)) {
+        if (!qualification.containsKey(KimConstants.KIM_ATTRIB_CAMPUS_CODE) || !roleQualifier.containsKey(KimConstants.KIM_ATTRIB_CAMPUS_CODE)) {
             throw new RuntimeException("Campus code not found in qualifier.");
         }
-        return StringUtils.equals(qualification.get(KFSPropertyConstants.CAMPUS_CODE), roleQualifier.get(KFSPropertyConstants.CAMPUS_CODE));
+        return StringUtils.equals(qualification.get(KimConstants.KIM_ATTRIB_CAMPUS_CODE), roleQualifier.get(KimConstants.KIM_ATTRIB_CAMPUS_CODE));
     }
 
 }

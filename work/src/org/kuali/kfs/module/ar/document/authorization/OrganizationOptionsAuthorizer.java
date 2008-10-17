@@ -32,26 +32,32 @@ import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizatio
  */
 public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
+    /**
+     * 
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.bo.user.UniversalUser)
+     */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
-        OrganizationOptions orgOptions = (OrganizationOptions)document.getNewMaintainableObject().getBusinessObject();
-        
-        setFieldsReadOnlyAccessMode(auths, user);
-        
+        setFieldsReadOnlyAccessMode(document, auths);
         return auths;
     }
     
-    private void setFieldsReadOnlyAccessMode(MaintenanceDocumentAuthorizations auths, UniversalUser user) {
+    /**
+     * 
+     * This method...
+     * @param auths
+     */
+    private void setFieldsReadOnlyAccessMode(MaintenanceDocument document, MaintenanceDocumentAuthorizations auths) {
     
         ParameterService service = SpringContext.getBean(ParameterService.class);
         
-        String nameEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_NAME_EDITABLE_IND");
+        String nameEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
         if (nameEditable.equalsIgnoreCase("N")) {
             auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
         
-        String addressEditable = service.getParameterValue(OrganizationOptions.class, "REMIT_TO_ADDRESS_EDITABLE_IND");
+        String addressEditable = service.getParameterValue(OrganizationOptions.class, ArConstants.REMIT_TO_ADDRESS_EDITABLE_IND);
         if (addressEditable.equalsIgnoreCase("N")) {
             auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_ADDRESS_NAME);
             auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_REMIT_TO_LINE1_STREET_ADDRESS);
@@ -64,5 +70,12 @@ public class OrganizationOptionsAuthorizer extends FinancialSystemMaintenanceDoc
         if( !SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             auths.addHiddenAuthField(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
         }
+
+        // Processing chart and org should be strictly read only when creating a new Org Options
+        if(document.isNew()) {
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
+            auths.addReadonlyAuthField(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
+        }
+        
     }
 }

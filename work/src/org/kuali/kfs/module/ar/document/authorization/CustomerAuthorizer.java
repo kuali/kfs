@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.util.ARUtil;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
@@ -42,6 +43,11 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
     public void canInitiate(String documentTypeName, UniversalUser user) {
 
         super.canInitiate(documentTypeName, user);
+        
+        //  short-circuit to allow KULUSER to initiate documents (for batch of customer loads)
+        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
+            return;
+        }
         
         // to initiate, the user must have the organization options set up.
         FinancialSystemUser chartUser = ValueFinderUtil.getCurrentFinancialSystemUser();

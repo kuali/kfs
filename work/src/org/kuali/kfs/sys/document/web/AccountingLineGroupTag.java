@@ -208,13 +208,34 @@ public class AccountingLineGroupTag extends TagSupport {
      * @param newLine true if the line is new and not added yet to the document, false otherwise
      * @return a List of AccountingLineTableRows to render
      */
-    protected List<AccountingLineTableRow> getRenderableElementsForLine(AccountingLineGroupDefinition groupDefinition, AccountingLine accountingLine, boolean newLine) {
+    protected List<AccountingLineTableRow> getRenderableElementsForLine(AccountingLineGroupDefinition groupDefinition, AccountingLine accountingLine, boolean newLine, boolean topLine) {
         List<TableJoining> layoutElements = groupDefinition.getAccountingLineView().getAccountingLineLayoutElements(accountingLine.getClass());
         AccountingLineRenderingService renderingService = SpringContext.getBean(AccountingLineRenderingService.class);
         renderingService.performPreTablificationTransformations(layoutElements, groupDefinition, getDocument(), accountingLine, newLine, getForm().getUnconvertedValues());
         List<AccountingLineTableRow> renderableElements = renderingService.tablify(layoutElements);
+        removeTopRowIfNecessary(groupDefinition, topLine, renderableElements);
         renderingService.performPostTablificationTransformations(renderableElements, groupDefinition, getDocument(), accountingLine, newLine);
         return renderableElements;
+    }
+    
+    /**
+     * If it is determined that removing the first row (presumably a header row) is necessary, removes it 
+     * @param rows the rows to possibly remove the top row from
+     */
+    protected void removeTopRowIfNecessary(AccountingLineGroupDefinition definition, boolean topLine, List<AccountingLineTableRow> rows) {
+        if (definition.isTopHeadersAfterFirstLineHiding() && !topLine) {
+            safelyRemoveTopRow(rows);
+        }
+    }
+    
+    /**
+     * Looks through the top row.  If there's any fields in the top row, it quietly fails; it also won't remove the top row if that's the only row there is
+     * @param rows the List of rows to remove the top one of if possible
+     */
+    protected void safelyRemoveTopRow(List<AccountingLineTableRow> rows) {
+        if (rows != null && rows.size() > 1 && rows.get(0).safeToRemove()) {
+            rows.remove(0);
+        }
     }
     
     /**
@@ -240,14 +261,20 @@ public class AccountingLineGroupTag extends TagSupport {
         final AccountingLineGroupDefinition groupDefinition = getGroupDefinition();
         final AccountingDocument document = getDocument();
         final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        boolean addedTopLine = false;
         
+        // add the new line
+        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes()) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
+            containers.add(buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null, true));
+            addedTopLine = true;
+        }
+        
+        // add all existing lines
         int count = 0;
         for (AccountingLine accountingLine : getAccountingLineCollection()) {
-            containers.add(buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count)));
+            containers.add(buildContainerForLine(groupDefinition, document, accountingLine, currentUser, new Integer(count), (addedTopLine ? false : true)));
             count += 1;
-        }
-        if (!StringUtils.isBlank(newLinePropertyName) && !getGroupDefinition().getAccountingLineAuthorizer().isGroupReadOnly(document, collectionPropertyName, currentUser, getEditModes()) && groupDefinition.getAccountingLineAuthorizer().renderNewLine(document, collectionPropertyName, currentUser)) {
-            containers.add(0, buildContainerForLine(groupDefinition, document, getNewAccountingLine(), currentUser, null));
+            addedTopLine = true;
         }
         return containers;
     }
@@ -261,10 +288,10 @@ public class AccountingLineGroupTag extends TagSupport {
      * @param count the count of this line within the collection represented by the group; null if this is a new line for the group
      * @return the container created
      */
-    protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser, Integer count) {
+    protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser, Integer count, boolean topLine) {
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
         boolean newLine = (count == null);
-        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine);
+        List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine);
         List<AccountingLineViewAction> actions = groupDefinition.getAccountingLineAuthorizer().getActions(accountingDocument, accountingLine, accountingLinePropertyName, (newLine ? -1 : count.intValue()), currentUser, getEditModes(), groupDefinition.getGroupLabel());
 
         return new RenderableAccountingLineContainer(getForm(), accountingLine, accountingLinePropertyName, rows, actions, count, groupDefinition.getGroupLabel(), getErrors());

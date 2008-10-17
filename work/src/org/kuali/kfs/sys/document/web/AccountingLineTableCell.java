@@ -247,4 +247,14 @@ public class AccountingLineTableCell implements RenderableElement {
         }
     }
     
+    /**
+     * Determines if this field is safe to remove. If any child elements are instances of FieldTableJoining, then it assumes not
+     * @return true if this cell is safe to remove; false otherwise
+     */
+    public boolean safeToRemove() {
+        for (RenderableElement element : renderableElements) {
+            if (element instanceof FieldTableJoining) return false;
+        }
+        return true;
+    }
 }

@@ -147,4 +147,15 @@ public class AccountingLineTableRow implements RenderableElement {
             cell.populateWithTabIndexIfRequested(reallyHighIndex);
         }
     }
+    
+    /**
+     * Determines whether each cell is safe to remove; if so, simply removes that cell
+     * @return true if the row can be safely removed; false otherwise
+     */
+    public boolean safeToRemove() {
+        for (AccountingLineTableCell cell : cells) {
+            if (!cell.safeToRemove()) return false;
+        }
+        return true;
+    }
 }

@@ -36,6 +36,8 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
     private Class<? extends AccountingLineAuthorizer> accountingLineAuthorizerClass;
     private int forceColumnCount = -1;
     private String errorKey;
+    private boolean topHeadersAfterFirstLineHiding = true;
+    private boolean headerRendering = true;
     
     private AccountingLineAuthorizer accountingLineAuthorizer;
 
@@ -210,5 +212,37 @@ public class AccountingLineGroupDefinition extends DataDictionaryDefinitionBase 
             throw new IllegalArgumentException("IllegalAccessException while attempting to instantiate AccountingLineAuthorization class", iae);
         }
         return authorizer;
+    }
+
+    /**
+     * Gets the topHeadersAfterFirstLineHiding attribute. 
+     * @return Returns the topHeadersAfterFirstLineHiding.
+     */
+    public boolean isTopHeadersAfterFirstLineHiding() {
+        return topHeadersAfterFirstLineHiding;
+    }
+
+    /**
+     * Sets the topHeadersAfterFirstLineHiding attribute value.
+     * @param topHeadersAfterFirstLineHiding The topHeadersAfterFirstLineHiding to set.
+     */
+    public void setTopHeadersAfterFirstLineHiding(boolean showTopHeadersAfterFirstLine) {
+        this.topHeadersAfterFirstLineHiding = showTopHeadersAfterFirstLine;
+    }
+
+    /**
+     * Gets the headerRendering attribute. 
+     * @return Returns the headerRendering.
+     */
+    public boolean isHeaderRendering() {
+        return headerRendering;
+    }
+
+    /**
+     * Sets the headerRendering attribute value.
+     * @param headerRendering The headerRendering to set.
+     */
+    public void setHeaderRendering(boolean headerRendering) {
+        this.headerRendering = headerRendering;
     }
 }

@@ -45,21 +45,26 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
-					<c:if test="${!readOnly}">
-                        <select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
-							<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
-								<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
-								<c:choose>
-									<c:when test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}" >
-										<option value='<c:out value="${accountingPeriodCompositeValue}"/>' selected="selected"><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
-									</c:when>
-									<c:otherwise>
-										<option value='<c:out value="${accountingPeriodCompositeValue}" />'><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
-					</c:if>
+					<c:choose>
+						<c:when test="${!readOnly}">
+							<select id="selectedAccountingPeriod" name="selectedAccountingPeriod">
+								<c:forEach items="${KualiForm.accountingPeriods}" var="accountingPeriod">
+									<c:set var="accountingPeriodCompositeValue" value="${accountingPeriod.universityFiscalPeriodCode}${accountingPeriod.universityFiscalYear}" />
+									<c:choose>
+										<c:when test="${KualiForm.selectedAccountingPeriod==accountingPeriodCompositeValue}" >
+											<option value='<c:out value="${accountingPeriodCompositeValue}"/>' selected="selected"><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value='<c:out value="${accountingPeriodCompositeValue}" />'><c:out value="${accountingPeriod.universityFiscalPeriodName}" /></option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+						</c:when>
+						<c:otherwise>
+							<c:out value="${KualiForm.accountingPeriod.universityFiscalPeriodName}" />
+						</c:otherwise>
+					</c:choose>
                 </td>
               </tr>
               <tr>

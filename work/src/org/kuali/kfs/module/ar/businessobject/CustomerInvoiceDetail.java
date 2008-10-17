@@ -516,6 +516,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
                 return getDocumentNumber();
             }
         } catch(WorkflowException we) {
+            we.printStackTrace();
             return "";
         }
     }

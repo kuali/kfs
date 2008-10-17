@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -87,7 +86,8 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
 
         // if organization doesn't exist
         if (ObjectUtils.isNull(organizationOptions)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
+            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice WriteOff" });
         }
 
         // if writeoff option is set up for to use organization accounting default FAU, those values must exist before a writeoff

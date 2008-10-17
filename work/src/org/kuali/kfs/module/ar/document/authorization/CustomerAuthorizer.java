@@ -19,9 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
@@ -44,6 +42,7 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
     public void canInitiate(String documentTypeName, UniversalUser user) {
 
         super.canInitiate(documentTypeName, user);
+        
         // to initiate, the user must have the organization options set up.
         FinancialSystemUser chartUser = ValueFinderUtil.getCurrentFinancialSystemUser();
         String chartCode = chartUser.getChartOfAccountsCode();
@@ -58,7 +57,8 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
 
         // if organization doesn't exist
         if (ObjectUtils.isNull(organizationOptions)) {
-            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, new String[] {});
+            throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
+                    new String[] { "(Users in an AR Billing Org)", "Customer Maintenance" });
 
         }
     }

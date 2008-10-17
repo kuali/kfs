@@ -469,6 +469,13 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         this.deliveryCountryCode = deliveryCountryCode;
     }
 
+    public String getDeliveryCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        if (country != null)
+            return country.getPostalCountryName();
+        return null;
+    }
+
     public String getDeliveryInstructionText() {
         return deliveryInstructionText;
     }

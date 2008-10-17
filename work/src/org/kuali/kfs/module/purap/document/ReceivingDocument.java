@@ -126,6 +126,8 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
 
     public void setDeliveryCountryCode(String deliveryCountryCode);
 
+    public String getDeliveryCountryName();
+        
     public String getDeliveryToName();
 
     public void setDeliveryToName(String deliveryToName);

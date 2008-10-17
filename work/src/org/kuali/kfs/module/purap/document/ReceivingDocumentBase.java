@@ -598,7 +598,13 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.deliveryCountryCode = deliveryCountryCode;
     }
 
-
+    public String getDeliveryCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        if (country != null)
+            return country.getPostalCountryName();
+        return null;
+    }
+       
     /**
      * Gets the deliveryToName attribute.
      * 

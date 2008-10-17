@@ -713,7 +713,7 @@ public class PurapConstants extends JSTLConstants {
     
     public static final Map<String, Class<?>> UNCOPYABLE_FIELDS_FOR_SPLIT_PO = uncopyableFieldsForSplitPurchaseOrder();
 
-    public static final String PURAP_ORIGIN_CODE = "EP";
+    public static final String PURAP_ORIGIN_CODE = "01";
 
     public static final class PurapDocTypeCodes {
         public static final String PAYMENT_REQUEST_DOCUMENT = "PREQ";

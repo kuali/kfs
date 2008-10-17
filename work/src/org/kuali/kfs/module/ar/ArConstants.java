@@ -106,7 +106,15 @@ public class ArConstants {
     public static final Object CUSTOMER_INVOICE_WRITEOFF_SUMMARY_ACTION = "viewSummary";
     public static final String CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION = "Writeoff for ";
 
-
+    public static class PrintInvoiceOptions {
+        public static final String PRINT_BY_PROCESSING_ORG = "Q";
+        public static final String PRINT_BY_USER = "U";
+        public static final String PRINT_BY_BILLING_ORG = "B";
+        public static final String PRINT_INVOICE_NOW = "Y";
+        public static final String PRINT_DO_NOT_PRINT = "N";
+    }
+    
+    
     public static class Workgroups {
         public static final String WORKGROUP_AR_SUPER_USERS = "AR_SUPER_USERS";
     }

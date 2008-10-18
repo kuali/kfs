@@ -22,7 +22,6 @@ import org.kuali.kfs.coa.businessobject.defaultvalue.ValueFinderUtil;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -65,11 +64,23 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
         if (!hasAllAppDocsApproved(cashControlDocument)) {
             flags.setCanApprove(false);
         }
-
+        
+        //  if the document is in their action list, then they can approve it only if there are GLPEs generated 
+        // on the doc.  In reality, the 'approve' button never shows up, but the approval is done 
+        // programmatically when the GLPE's are generated.  See KULAR-465
+        //KualiWorkflowDocument workflowDocument = cashControlDocument.getDocumentHeader().getWorkflowDocument();
+        //if (workflowDocument.isApprovalRequested()) {
+        //    flags.setCanApprove(containsGLPEs(cashControlDocument));
+        //}
+        
         return flags;
 
     }
 
+    private boolean containsGLPEs(CashControlDocument document) {
+        return !document.getGeneralLedgerPendingEntries().isEmpty();
+    }
+    
     /**
      * This method checks if the CashControlDocument has at least one application document that has been approved
      * 

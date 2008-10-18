@@ -23,7 +23,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
@@ -227,6 +226,10 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
         cashControlDocumentService.saveGLPEs(cashControlDocument);
 
+        //  approve the document when the GLPEs are generated
+        //DocumentService docService = SpringContext.getBean(DocumentService.class);
+        //docService.approveDocument(cashControlDocument, "Automatically approved document with GLPE generation.", null);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }

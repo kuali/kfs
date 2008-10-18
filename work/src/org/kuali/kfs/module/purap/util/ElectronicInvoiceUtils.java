@@ -97,7 +97,7 @@ public class ElectronicInvoiceUtils {
         
     }
     
-    private static Date getSQLDate(java.util.Date date){
+    public static Date getSQLDate(java.util.Date date){
         if (date != null){
             return new java.sql.Date(date.getTime());
         }else{

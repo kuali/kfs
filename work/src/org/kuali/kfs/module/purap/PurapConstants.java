@@ -115,7 +115,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PDF_IMAGES_AVAILABLE_IND";
 
     public static final String TAX_RECALCULATION_INFO = "TaxRecalculationQuestion";
-    public static final String TAX_RECALCULATION_QUESTION = "The zip code of the delivery address has changed. Selecting \"Yes\" will submit the document without recalculating the taxes. Selecting \"No\" will return you to the document so that the taxes can be recalculated. The \"clear all\" button can be used to clear all tax amounts which will force taxes to be recalculated upon submission."; 
+    public static final String TAX_RECALCULATION_QUESTION = "The zip code of the delivery address has changed. Selecting \"Yes\" will submit the document without recalculating the taxes. Selecting \"No\" will return you to the document so that the taxes can be recalculated. The \"clear all\" button can be used to clear all tax amounts which will force taxes to be recalculated upon submission.";
     
     public static class RequisitionStatuses {
         public static final String IN_PROCESS = "INPR";
@@ -803,7 +803,6 @@ public class PurapConstants extends JSTLConstants {
          * Here is a list of reject reason type codes
          */
         public final static String DUNS_INVALID = "INDU";
-//        public final static String INVOICE_ID_INVALID = "INID";
         public final static String INVOICE_ID_EMPTY = "IIDE";
         public final static String INVOICE_DATE_GREATER = "IDAG";
         public final static String INVOICE_DATE_INVALID = "IDIV";
@@ -817,10 +816,7 @@ public class PurapConstants extends JSTLConstants {
         public final static String DISCOUNT_SUMMARY_AMT_MISMATCH = "DSAM";
         public final static String SPL_HANDLING_SUMMARY_AMT_MISMATCH = "SSAM";
         public final static String SHIPPING_SUMMARY_AMT_MISMATCH = "SHSA";
-//        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITMN";
-//        public final static String ITEM_TYPE_MAPPING_NOT_AVAILABLE = "ITME";
         public final static String ITEM_TYPE_NAME_NOT_AVAILABLE = "ITNA";
-//        public final static String ITEM_TYPE_RECORD_NOT_AVAILABLE = "ITRA";
         public final static String INVALID_NUMBER_FORMAT = "NFEX";
         public final static String PO_ID_EMPTY = "POIE";
         public final static String PO_ID_INVALID_FORMAT = "POII";
@@ -832,19 +828,18 @@ public class PurapConstants extends JSTLConstants {
         public final static String INACTIVE_LINE_ITEM = "ILIA";
         public final static String CATALOG_NUMBER_MISMATCH = "IICN";
         public final static String UNIT_OF_MEASURE_MISMATCH = "IUOM";
-//        public final static String UNIT_PRICE_INVALID = "IUPI";
         public final static String OUTSTANDING_ENCUMBERED_QTY_AVAILABLE = "UEOQ";
         public final static String INVOICE_QTY_EMPTY = "IIQE";
         public final static String PO_ITEM_QTY_LESSTHAN_INVOICE_ITEM_QTY = "PILI";
         public final static String OUTSTANDING_ENCUMBERED_AMT_AVAILABLE = "UEAA";
         public final static String PO_ITEM_AMT_LESSTHAN_INVOICE_ITEM_AMT = "PAIA";
-//        public final static String PO_COST_SOURCE_INVALID = "CSIN";
         public final static String PO_COST_SOURCE_EMPTY = "CSEM";
         public final static String INVOICE_AMT_GREATER_THAN_UPPER_VARIANCE = "AGUV";
         public final static String INVOICE_AMT_LESSER_THAN_LOWER_VARIANCE = "ALLV";
-//        public final static String PAYMENT_REQUEST_CREATION_ERROR = "PRCE";
+        public final static String SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE = "STLV";
+        public final static String SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE = "STUV";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
-        
+
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
         public final static String PREQ_DISCOUNT_ERROR = "PRDE";
         public final static String PREQ_ROUTING_FAILURE = "PRRF";

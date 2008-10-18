@@ -34,8 +34,10 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary;
@@ -56,13 +58,17 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMatchingService {
 
@@ -70,12 +76,19 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
     
     private Map<String,ElectronicInvoiceRejectReasonType> rejectReasonTypes;
     private VendorService vendorService;
+    private TaxService taxService;
+    
+    String upperVariancePercentString;
+    String lowerVariancePercentString; 
     
     public void doMatchingProcess(ElectronicInvoiceOrderHolder orderHolder) {
         
         if (LOG.isDebugEnabled()){
             LOG.debug("Matching process started");
         }
+        
+        upperVariancePercentString = getSalesTaxUpperVariancePercentage();
+        lowerVariancePercentString = getSalesTaxLowerVariancePercentage();
         
         try {
             if (orderHolder.isValidateHeaderInformation()) {
@@ -185,7 +198,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         if (orderHolder.isRejectDocumentHolder()){
             /**
-             * If there is any rejects related to this summary available in the reject doc, we're retaining it since 
+             * If there are any rejects related to the summary, we're retaining it since 
              * it's not possible to get the summary amount totals from the reject doc
              */
             return;
@@ -325,8 +338,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
                                      Set poLineNumbers){
         
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
-        
-        String fileName = itemHolder.getInvoiceOrderHolder().getFileName();
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
         
         if (poItem == null){
@@ -353,13 +364,9 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         }
 
         if (!itemHolder.isCatalogNumberAcceptIndicatorEnabled()){
-            if (StringUtils.isNotEmpty(poItem.getItemCatalogNumber())){
-                if (!StringUtils.equals(poItem.getItemCatalogNumber(), itemHolder.getCatalogNumberStripped())){
-                    String extraDescription = "Invoice Catalog No:" + itemHolder.getCatalogNumberStripped() + ", PO Catalog No:" + poItem.getItemCatalogNumber();
-                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
-                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
-                    return; 
-                }
+            validateCatalogNumber(itemHolder);
+            if (orderHolder.isInvoiceRejected()){
+                return;
             }
         }
         
@@ -372,17 +379,17 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             }
         }
         
-//        if ((poItem.getItemUnitPrice().compareTo(itemHolder.getInvoiceItemUnitPrice())) != 0 ) {
-//            ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.UNIT_PRICE_INVALID,null,orderHolder.getFileName());
-//            orderHolder.addInvoiceOrderRejectReason(rejectReason);
-//            return;
-//        }else{
+        validateUnitPrice(itemHolder);
             
-          validateUnitPrice(itemHolder);
-            
-          if (orderHolder.isInvoiceRejected()){
-              return;
-          }
+        if (orderHolder.isInvoiceRejected()){
+            return;
+        }
+        
+        validateSalesTax(itemHolder);
+        
+        if (orderHolder.isInvoiceRejected()){
+            return;
+        }
         
         if (poItem.getItemQuantity() != null) {
             validateQtyBasedItem(itemHolder);
@@ -390,6 +397,46 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             validateNonQtyBasedItem(itemHolder);
         }
         
+    }
+    
+    private void validateCatalogNumber(ElectronicInvoiceItemHolder itemHolder){
+        
+        PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
+        ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
+        
+        String invoiceCatalogNumberStripped = itemHolder.getCatalogNumberStripped();
+
+        /**
+         * If Catalog number in invoice and po are not empty, create reject reason if it doesn't match 
+         */
+        if (StringUtils.isNotEmpty(invoiceCatalogNumberStripped) &&
+            StringUtils.isNotEmpty(poItem.getItemCatalogNumber())){
+            
+            if (!StringUtils.equals(poItem.getItemCatalogNumber(), invoiceCatalogNumberStripped)){
+                
+                String extraDescription = "Invoice Catalog No:" + invoiceCatalogNumberStripped + ", PO Catalog No:" + poItem.getItemCatalogNumber();
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
+            }
+        }else{
+            
+            /**
+             * If catalog number is empty in PO/&Invoice, check whether the catalog check is required for the requisition source.
+             * If exists in param, create reject reason.
+             * If not exists, continue with UOM and unit price match.
+             */
+            String reqSourceRequiringCatalogMatch = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.REQUISITION_SOURCES_REQUIRING_CATALOG_MATCHING);
+            String requisitionSourceCodeInPO = orderHolder.getPurchaseOrderDocument().getRequisitionSourceCode();
+            
+            if (StringUtils.isNotEmpty(reqSourceRequiringCatalogMatch)){
+                String[] requisitionSourcesFromParam = StringUtils.split(reqSourceRequiringCatalogMatch,';');
+                if (ArrayUtils.contains(requisitionSourcesFromParam, requisitionSourceCodeInPO)){
+                    String extraDescription = "Invoice Catalog No:" + invoiceCatalogNumberStripped + ", PO Catalog No:" + poItem.getItemCatalogNumber();
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.CATALOG_NUMBER_MISMATCH,extraDescription,orderHolder.getFileName());
+                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_CATALOG_NUMBER,PurapKeyConstants.ERROR_REJECT_CATALOG_MISMATCH);
+                }
+            }
+        }
     }
     
     private void validateQtyBasedItem(ElectronicInvoiceItemHolder itemHolder){
@@ -455,7 +502,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         
         PurchaseOrderCostSource costSource = itemHolder.getInvoiceOrderHolder().getPurchaseOrderDocument().getPurchaseOrderCostSource();
         PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
-        String fileName = itemHolder.getInvoiceOrderHolder().getFileName();
         ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
         
         String extraDescription = "Invoice Item Line Number:" + itemHolder.getInvoiceItemLineNumber();
@@ -490,6 +536,108 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             }
         }
         
+    }
+    
+    private void validateSalesTax(ElectronicInvoiceItemHolder itemHolder){
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Validating sales tax");
+        }
+
+        ElectronicInvoiceOrderHolder orderHolder = itemHolder.getInvoiceOrderHolder();
+        PurchaseOrderItem poItem = itemHolder.getPurchaseOrderItem();
+        KualiDecimal invoiceSalesTaxAmount = new KualiDecimal(itemHolder.getTaxAmount());
+        
+        // For reject doc, trans date should be the einvoice processed date.
+        java.sql.Date transTaxDate = itemHolder.getInvoiceOrderHolder().getInvoiceProcessedDate();
+        String deliveryPostalCode = poItem.getPurchaseOrder().getDeliveryPostalCode();
+        KualiDecimal extendedPrice = new KualiDecimal(getExtendedPrice(itemHolder));
+        
+        KualiDecimal salesTaxAmountCalculated = taxService.getTotalSalesTaxAmount(transTaxDate, deliveryPostalCode, extendedPrice);
+        KualiDecimal actualVariance = invoiceSalesTaxAmount.subtract(salesTaxAmountCalculated);
+        
+        if (LOG.isTraceEnabled()){
+            LOG.trace("Sales Tax Upper Variance param - " + upperVariancePercentString);
+            LOG.trace("Sales Tax Lower Variance param - " + lowerVariancePercentString);
+            LOG.trace("Trans date (from invoice/rejectdoc) - " + transTaxDate);
+            LOG.trace("Delivery Postal Code - " + deliveryPostalCode);
+            LOG.trace("Extended price - " + extendedPrice);
+            LOG.trace("Invoice item tax amount - " + invoiceSalesTaxAmount);
+            LOG.trace("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
+        }
+        
+        if (salesTaxAmountCalculated.compareTo(KualiDecimal.ZERO) == 0 && 
+            invoiceSalesTaxAmount.compareTo(KualiDecimal.ZERO) == 0){
+            return;
+        }
+        
+        if (StringUtils.isNotEmpty(upperVariancePercentString)){
+            
+            KualiDecimal upperVariancePercent = new KualiDecimal(upperVariancePercentString);
+            BigDecimal upperAcceptableVariance = (upperVariancePercent.divide(new KualiDecimal(100))).multiply(salesTaxAmountCalculated).bigDecimalValue();
+            
+            if (upperAcceptableVariance.compareTo(actualVariance.bigDecimalValue()) < 0){
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE,null,orderHolder.getFileName());
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
+                return;
+            }
+            
+        }
+        
+        if (StringUtils.isNotEmpty(lowerVariancePercentString)){
+            
+            KualiDecimal lowerVariancePercent = new KualiDecimal(lowerVariancePercentString);
+            BigDecimal lowerAcceptableVariance = (lowerVariancePercent.divide(new KualiDecimal(100))).multiply(salesTaxAmountCalculated).bigDecimalValue().negate();
+            
+            if (lowerAcceptableVariance.compareTo(actualVariance.bigDecimalValue()) > 0){
+                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_UPPERVARIANCE);
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    //Copied from PurApItemBase.calculateExtendedPrice
+    private BigDecimal getExtendedPrice(ElectronicInvoiceItemHolder itemHolder){
+        if (itemHolder.getPurchaseOrderItem().getItemType().isAmountBasedGeneralLedgerIndicator()) {
+            // SERVICE ITEM: return unit price as extended price
+            return itemHolder.getUnitPrice();
+        }
+        else if (ObjectUtils.isNotNull(itemHolder.getQuantity())) { // qty wont be null since it's defined as a reqd field in xsd 
+            BigDecimal calcExtendedPrice = itemHolder.getUnitPrice().multiply(itemHolder.getQuantity());
+            // ITEM TYPE (qty driven): return (unitPrice x qty)
+            return calcExtendedPrice;
+        }
+        return BigDecimal.ZERO;
+    }
+    
+    private String getSalesTaxUpperVariancePercentage(){
+        
+        String salesTaxUpperVariancePercent = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_UPPER_VARIANCE_PERCENT);
+        
+        if (!StringUtils.isEmpty(salesTaxUpperVariancePercent)){
+            if (!NumberUtils.isNumber(salesTaxUpperVariancePercent)){
+                throw new RuntimeException("Invalid sales tax upper variance percent - " + salesTaxUpperVariancePercent);
+            }
+        }
+        
+        return salesTaxUpperVariancePercent;
+    }
+    
+    private String getSalesTaxLowerVariancePercentage(){
+        
+        String salesTaxLowerVariancePercent = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_LOWER_VARIANCE_PERCENT);
+        
+        if (!StringUtils.isEmpty(salesTaxLowerVariancePercent)){
+            if (!NumberUtils.isNumber(salesTaxLowerVariancePercent)){
+                throw new RuntimeException("Invalid sales tax lower variance percent - " + salesTaxLowerVariancePercent);
+            }
+        }
+        
+        return salesTaxLowerVariancePercent;
     }
     
     public ElectronicInvoiceRejectReason createRejectReason(String rejectReasonTypeCode, String extraDescription, String fileName) {
@@ -540,6 +688,10 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
 
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
+    }
+
+    public void setTaxService(TaxService taxService) {
+        this.taxService = taxService;
     }
 
 }

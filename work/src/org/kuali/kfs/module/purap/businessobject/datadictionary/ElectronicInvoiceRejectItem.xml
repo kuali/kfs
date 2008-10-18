@@ -300,11 +300,6 @@
     <property name="name" value="invoiceItemTaxAmount" />
     <property name="label" value="Invoice Item Tax Amount" />
     <property name="shortLabel" value="Tax" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition"
-            p:formattedMaxLength="22"
-            p:size="10" />
-    </property>
   </bean>
   <bean id="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode" parent="ElectronicInvoiceRejectItem-invoiceItemTaxCurrencyCode-parentBean" />
 

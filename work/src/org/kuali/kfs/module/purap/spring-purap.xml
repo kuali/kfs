@@ -635,9 +635,8 @@
 	</bean>
 	
 	<bean id="electronicInvoiceMatchingService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceMatchingServiceImpl">
-		<property name="vendorService">
-            <ref bean="vendorService" />
-        </property>
+		<property name="vendorService" ref="vendorService" />
+        <property name="taxService" ref="taxService"/>
 	</bean>
 
 	<bean id="environmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
@@ -704,8 +703,7 @@
 	       <value>org/kuali/kfs/module/purap/batch/electronicInvoiceDigesterRules.xml</value>
 	    </property>
 	    <property name="schemaLocation">
-	     <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
-	       <!-- <value>work/src/org/kuali/kfs/module/purap/batch/electronicInvoice.xsd</value> -->
+	       <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
 	    </property>
 	</bean>
 	

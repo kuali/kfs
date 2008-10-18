@@ -204,6 +204,18 @@ public class ElectronicInvoiceItemHolder {
         }
     }
     
+    public BigDecimal getTaxAmount(){
+        if (isRejectItemHolder()){
+            return rejectItem.getInvoiceItemTaxAmount();
+        }else{
+            if (orderHolder.isTaxInLine()){
+                return invoiceItem.getInvoiceLineTaxAmountBigDecimal();
+            }else{
+                return orderHolder.getTaxAmount(); 
+            }
+        }
+    }
+    
     public ElectronicInvoiceOrderHolder getInvoiceOrderHolder(){
         return orderHolder;
     }

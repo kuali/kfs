@@ -41,7 +41,9 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -593,6 +595,14 @@ public class ElectronicInvoiceOrderHolder {
             return rejectDocument.getInvoiceItemNetAmount();
         }else{
             return eInvoice.getInvoiceNetAmount(invoiceOrder);
+        }
+    }
+    
+    public Date getInvoiceProcessedDate(){
+        if (isRejectDocumentHolder()){
+            return ElectronicInvoiceUtils.getSQLDate(rejectDocument.getInvoiceProcessDate());
+        }else{
+            return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         }
     }
     

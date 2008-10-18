@@ -290,6 +290,8 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_UOM_MISMATCH = "errors.reject.uom.mismatch";
     public static final String ERROR_REJECT_UNITPRICE_LOWERVARIANCE = "errors.reject.unitprice.lowervariance";
     public static final String ERROR_REJECT_UNITPRICE_UPPERVARIANCE = "errors.reject.unitprice.uppervariance";
+    public static final String ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE = "errors.reject.taxamount.lowervariance";
+    public static final String ERROR_REJECT_TAXAMOUNT_UPPERVARIANCE = "errors.reject.taxamount.uppervariance";
     public static final String ERROR_REJECT_POITEM_OUTSTANDING_QTY = "errors.reject.poitem.outstanding.qty";
     public static final String ERROR_REJECT_POITEM_INVOICE_QTY_EMPTY = "errors.reject.poitem.invoice.qty.empty";
     public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_QTY = "errors.reject.poitem.less.outstanding.qty";

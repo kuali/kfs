@@ -82,8 +82,10 @@ import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -275,7 +277,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
             }catch (IOException e) {
                 throw new PurError(e);
-            }
+        	}
         }
 
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
@@ -337,7 +339,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
          * It's not needed to add the namespace if it's already there. This will
          * save some time in processing
          */
-        if (StringUtils.equals(xmlnsValue, "http://www.kuali.org/modules/purap/electronicInvoice") && 
+        if (StringUtils.equals(xmlnsValue, "http://www.kuali.org/kfs/purap/electronicInvoice") && 
             StringUtils.equals(xmlnsXsiValue, "http://www.w3.org/2001/XMLSchema-instance")){
             if (LOG.isDebugEnabled()){
                 LOG.debug("xmlns and xmlns:xsi attributes already exists in the invoice xml");
@@ -351,7 +353,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return true;
         }
         
-        element.setAttribute("xmlns", "http://www.kuali.org/modules/purap/electronicInvoice");
+        element.setAttribute("xmlns", "http://www.kuali.org/kfs/purap/electronicInvoice");
         element.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
         
         OutputFormat outputFormat = new OutputFormat(xmlDoc );
@@ -558,7 +560,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if (vendorDetail != null) {
                 if (LOG.isDebugEnabled()){
-                    LOG.debug("Vendor match found - " + vendorDetail.getVendorNumber());
+                    LOG.debug("Vendor [" + vendorDetail.getVendorNumber() + "] match found for the DUNS - " + rejectDocument.getVendorDunsNumber());
                 }
                 rejectDocument.setVendorHeaderGeneratedIdentifier(vendorDetail.getVendorHeaderGeneratedIdentifier());
                 rejectDocument.setVendorDetailAssignedIdentifier(vendorDetail.getVendorDetailAssignedIdentifier());
@@ -1042,7 +1044,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         /*BufferedWriter bw = null;
 
         try {
-            bw = new BufferedWriter(new FileWriter("c:\test.txt", true));
+            bw = new BufferedWriter(new FileWriter("c:\\test.txt", true));
             bw.write(message.toString());
             bw.newLine();
             bw.flush();
@@ -1119,12 +1121,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     public boolean createPaymentRequest(ElectronicInvoiceRejectDocument rejectDocument){
      
-        /**
-         * Commenting this for time being to allow the test case to simulate KULPURAP-2915
-         */
-//        if (rejectDocument.getInvoiceRejectReasons().size() > 0){
-//            throw new RuntimeException("Not possible to create payment request since the reject document contains " + rejectDocument.getInvoiceRejectReasons().size() + " rejects");
-//        }
+        if (rejectDocument.getInvoiceRejectReasons().size() > 0){
+            throw new RuntimeException("Not possible to create payment request since the reject document contains " + rejectDocument.getInvoiceRejectReasons().size() + " rejects");
+        }
         
         Map itemTypeMappings = getItemTypeMappings(rejectDocument.getVendorHeaderGeneratedIdentifier(),
                                                    rejectDocument.getVendorDetailAssignedIdentifier());
@@ -1189,21 +1188,28 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         preqDoc.setVendorCustomerNumber(orderHolder.getCustomerNumber());
         preqDoc.setCreatedByElectronicInvoice(true);
         
+        //Copied from PaymentRequestServiceImpl.populatePaymentRequest()
+        //set bank code to default bank code in the system parameter
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(PaymentRequestDocument.class);
+        if (defaultBank != null) {
+            preqDoc.setBankCode(defaultBank.getBankCode());
+            preqDoc.setBank(defaultBank);
+        }
+        
         /**
          * Commenting this for time being to allow the test case to simulate KULPURAP-2915
          */
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(poDoc.getRequisitionIdentifier());
-//        String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-//        try {
-//            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(reqDocInitiator);
-//            preqDoc.setProcessingCampusCode(user.getCampusCode());
-//        }catch(Exception e){
-//            String extraDescription = "Error setting processing campus code - " + e.getMessage();
-//            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, extraDescription, orderHolder.getFileName());
-//            orderHolder.addInvoiceOrderRejectReason(rejectReason);
-//            return null;
-//        }
-        preqDoc.setProcessingCampusCode("BL");
+        String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        try {
+            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(reqDocInitiator);
+            preqDoc.setProcessingCampusCode(user.getCampusCode());
+        }catch(Exception e){
+            String extraDescription = "Error setting processing campus code - " + e.getMessage();
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, extraDescription, orderHolder.getFileName());
+            orderHolder.addInvoiceOrderRejectReason(rejectReason);
+            return null;
+        }
         
         HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = SpringContext.getBean(AccountsPayableService.class).expiredOrClosedAccountsList(poDoc);
         if (expiredOrClosedAccountList == null){
@@ -1440,7 +1446,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE,orderHolder)){
                 hasShippingItem = true;
-//KULPURAP-2915                processShippingItem(preqItem, orderHolder);
+                processShippingItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE,orderHolder)){
                 processSpecialHandlingItem(preqItem, orderHolder);
             }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,orderHolder)){
@@ -1454,10 +1460,10 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         if (!hasShippingItem && orderHolder.isItemTypeAvailableInItemMapping(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE)){
             LOG.debug("Creating new Shipping item since it's not available in the existing items");
-//KULPURAP-2915            PaymentRequestItem newItem = processShippingItem(null, orderHolder);
-//            if (newItem != null){
-//                preqDocument.addItem(newItem);
-//            }
+            PaymentRequestItem newItem = processShippingItem(null, orderHolder);
+            if (newItem != null){
+                preqDocument.addItem(newItem);
+            }
         }
         
         if (LOG.isDebugEnabled()){
@@ -1481,6 +1487,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         purapItem.setItemUnitPrice(itemHolder.getInvoiceItemUnitPrice());
         purapItem.setItemQuantity(new KualiDecimal(itemHolder.getInvoiceItemQuantity()));
+        purapItem.setItemTaxAmount(new KualiDecimal(itemHolder.getTaxAmount()));
         
         if (itemHolder.getSubTotalAmount() != null && 
             itemHolder.getSubTotalAmount().compareTo(KualiDecimal.ZERO) > 0){

@@ -80,6 +80,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         accountsReceivableDocumentHeader.setCustomerNumber(cashControlDetail.getCustomerNumber());
         doc.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
+        doc.getDocumentHeader().setOrganizationDocumentNumber(cashControlDocument.getDocumentNumber());
+        
         // refresh nonupdatable references and save the PaymentApplicationDocument
         doc.refreshNonUpdateableReferences();
         documentService.saveDocument(doc);

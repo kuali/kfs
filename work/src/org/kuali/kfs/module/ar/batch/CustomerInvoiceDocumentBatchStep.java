@@ -75,7 +75,10 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         
         Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
-        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){            
+        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){    
+              
+            billingDate = DateUtils.addDays(billingDate, -30);
+              
             createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
             Thread.sleep(5000);
             createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",billingDate);
@@ -94,7 +97,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
             Thread.sleep(5000);
             createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",billingDate);            
             Thread.sleep(5000);
-            billingDate = DateUtils.addDays(billingDate, -30);
+            
         }
         setInitiatedParameter();
         return true;
@@ -165,7 +168,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
         customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
         
-        int accountlines = (int) (Math.random()*5); // add up to 5
+        int accountlines = (int) (Math.random()*9); // add up to 9
         if (accountlines==0) accountlines=1; // add at least one
         for (int i = 0; i < accountlines; i++) { 
             customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument));
@@ -180,10 +183,10 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     }
     
     protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
-        BigDecimal quantity = new BigDecimal(1);//8*Math.random()); // random number 0 to 8 total items      // <-- was causing rule errors because can't have more than 9 total (sourclines*quantity) items
-        KualiDecimal unitprice = new KualiDecimal(100*Math.random()); // 0.00 to 100.00 dollars per item
-        KualiDecimal amount = new KualiDecimal(quantity).multiply(unitprice); // setAmount has to be set explicitly below; so we calculate it here
-        LOG.info("\n\n\n\n\t\t\t\t randomquantity="+quantity.toPlainString()+"\t\t\t\tunitprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString());
+        KualiDecimal quantity = new KualiDecimal(100*Math.random()); // random number 0 to 100 total items      // TODO FIXME  <-- InvoiceItemQuantities of more than 2 decimal places cause rule errors; BigDecimal values such as 5.3333333333 should be valid InvoiceItemQuantities
+        KualiDecimal unitprice = new KualiDecimal(1); // 0.00 to 100.00 dollars per item
+        KualiDecimal amount = quantity.multiply(unitprice); // setAmount has to be set explicitly below; so we calculate it here
+        LOG.info("\n\n\n\n\t\t\t\t randomquantity="+quantity.toString()+"\t\t\t\tunitprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
         
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
@@ -193,8 +196,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         customerInvoiceDetail.setAccountsReceivableObjectCode("8118");
         customerInvoiceDetail.setInvoiceItemServiceDate(dateTimeService.getCurrentSqlDate());
         customerInvoiceDetail.setInvoiceItemUnitPrice(unitprice);
-        customerInvoiceDetail.setInvoiceItemQuantity(quantity);
-        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(0.1));
+        customerInvoiceDetail.setInvoiceItemQuantity(quantity.bigDecimalValue());
+        customerInvoiceDetail.setInvoiceItemTaxAmount(new KualiDecimal(100));
+        customerInvoiceDetail.setTaxableIndicator(true);
         customerInvoiceDetail.setAmount(amount);
         return customerInvoiceDetail;
     }  

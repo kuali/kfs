@@ -177,17 +177,18 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         KualiDecimal totalbalance = new KualiDecimal(0.00);
         CustomerAgingReportDetail custDetail = null;
         String previousCustomerNumber = "";
-
+        int detailnum=0;
         // iterate over all invoices consolidating balances for each customer
         for (CustomerInvoiceDetail cid : invoiceDetails) {
             String invoiceDocumentNumber = cid.getDocumentNumber();
             CustomerInvoiceDocument custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
             Date approvalDate;
+            detailnum++;
             //if (custInvoice.getCustomerPurchaseOrderDate()!=null) {
               //  approvalDate=custInvoice.getCustomerPurchaseOrderDate();  // using customer purchase order date to test with for backdating
             //}else {
                 approvalDate=custInvoice.getBillingDate(); // use this if above isn't set since this is never null
-                //LOG.info("\t\t\t\t\t\t\t\t approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
+                //LOG.info("\t\t\t\t\t\t\t\t"+detailnum+" approval date (billingDate)= "+dateFormat.format(approvalDate)+"\t accountNum "+cid.getAccountNumber());
                 // I think should be using billingDate because use can't find "approved date" that vivek mentioned was in ar header
             //}
          // ok
@@ -219,24 +220,24 @@ if (knownCustomers.containsKey(customerNumber)) {
                 total0to30 = total0to30.add(cid.getAmount());
 //                LOG.info("\t\t 0to30 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance0to30());
 //                LOG.info("\n\n\n\n TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL TOTAL");  
-//                LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
+                //LOG.info("\t\t 0to30 total =\t\t" + total0to30.toString());
             }
-            if (!approvalDate.after(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
+            if (approvalDate.before(cutoffdate30) && !approvalDate.before(cutoffdate60)) {               
                 custDetail.setUnpaidBalance31to60(cid.getAmount().add(custDetail.getUnpaidBalance31to60()));
                 total31to60 = total31to60.add(cid.getAmount());
                 //LOG.info("\t\t31to60 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance31to60());
             }
-            if (!approvalDate.after(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
+            if (approvalDate.before(cutoffdate60) && !approvalDate.before(cutoffdate90)) {
                 custDetail.setUnpaidBalance61to90(cid.getAmount().add(custDetail.getUnpaidBalance61to90())); 
                 total61to90 = total61to90.add(cid.getAmount());
                 //LOG.info("\t\t61to90 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance61to90());
             }
-            if (!approvalDate.after(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
+            if (approvalDate.before(cutoffdate90) && !approvalDate.before(cutoffdate120)) {
                 custDetail.setUnpaidBalance91toSYSPR(cid.getAmount().add(custDetail.getUnpaidBalance91toSYSPR())); 
                 total91toSYSPR = total91toSYSPR.add(cid.getAmount());
                 //LOG.info("\t\t91to120 =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalance91toSYSPR());
             }
-            if (!approvalDate.after(cutoffdate120)) {
+            if (approvalDate.before(cutoffdate120)) {
                 custDetail.setUnpaidBalanceSYSPRplus1orMore(cid.getAmount().add(custDetail.getUnpaidBalanceSYSPRplus1orMore()));
                 totalSYSPRplus1orMore = totalSYSPRplus1orMore.add(cid.getAmount());
                 //LOG.info("\t\t120+ =\t\t" + custDetail.getCustomerNumber() + "\t" + custDetail.getUnpaidBalanceSYSPRplus1orMore());
@@ -281,7 +282,7 @@ if (knownCustomers.containsKey(customerNumber)) {
         Map args = new HashMap();
         args.put("accountNumber", accountNumber);
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }  
+    }      
    
     /**
      * @return a List of the names of fields which are marked in data dictionary as return fields.

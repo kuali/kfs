@@ -65,6 +65,12 @@
    	
    	<bean id="CustomerInvoice-billedByOrganizationCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBilledByOrganizationCodeValidation" abstract="true" />
    	
+   	<bean id="CustomerInvoice-billingOrgOptionValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceBillingOrgOptionValidation" abstract="true">
+   		<property name="businessObjectService" >
+   			<ref bean="businessObjectService"/>
+   		</property>
+   	</bean>
+   	
    	<bean id="CustomerInvoice-dueDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceDueDateValidation" abstract="true">
    		<property name="dateTimeService" >
    			<ref bean="dateTimeService" />

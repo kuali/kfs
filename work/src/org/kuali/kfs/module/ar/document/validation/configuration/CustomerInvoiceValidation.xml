@@ -489,6 +489,16 @@
 						</list>
 					</property>
 				</bean>	
+				<bean parent="CustomerInvoice-billingOrgOptionValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>
+						</list>
+					</property>
+				</bean>	
 				<bean parent="CustomerInvoice-dueDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

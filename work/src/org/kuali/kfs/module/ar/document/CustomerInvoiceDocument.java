@@ -816,7 +816,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 		this.billedByOrganization = billedByOrganization;
 	}
 
-	/**
+    /**
 	 * Gets the customerSpecialProcessing attribute.
 	 *
 	 * @return Returns the customerSpecialProcessing
@@ -1765,6 +1765,17 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setShippingLine2StreetAddress(String shippingLine2StreetAddress) {
         this.shippingLine2StreetAddress = shippingLine2StreetAddress;
+    }
+
+    /**
+     * Get a string representation for billing chart/organization
+     * @return
+     */
+    public String getBilledByChartOfAccCodeAndOrgCode()
+    {
+        String returnVal = getBillByChartOfAccountCode() + "/" + getBilledByOrganizationCode();
+        
+        return returnVal;
     }
 
 }

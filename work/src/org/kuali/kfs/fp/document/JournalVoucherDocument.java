@@ -393,7 +393,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
         KualiDecimal returnKualiDecimal;
 
         String budgetCodes = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear()).getBudgetCheckingBalanceTypeCd();
-        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) {
+        if (!this.balanceType.isFinancialOffsetGenerationIndicator()) {
             returnKualiDecimal = accountingLine.getAmount();
         }
         else {

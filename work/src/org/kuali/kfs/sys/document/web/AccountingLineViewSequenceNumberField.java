@@ -87,12 +87,21 @@ public class AccountingLineViewSequenceNumberField extends FieldTableJoiningWith
             renderer.clear();
         } else {
             PersistingTagRenderer renderer = new PersistingTagRenderer();
-            renderer.setStringToRender(renderingContext.getAccountingLine().getSequenceNumber().toString());
+            renderer.setStringToRender(getDisplaySequenceNumber(renderingContext));
             renderer.setValueToPersist(renderingContext.getAccountingLine().getSequenceNumber().toString());
             renderer.setPersistingProperty(renderingContext.getAccountingLinePropertyPath()+".sequenceNumber");
             renderer.render(pageContext, parentTag);
             renderer.clear();
         }
+    }
+    
+    /**
+     * Given the rendering context, returns what the sequence number of the line to be rendered is
+     * @param renderingContext the rendering context which holds the accounting line
+     * @return the sequence number to render (not the one to store as a value)
+     */
+    protected String getDisplaySequenceNumber(AccountingLineRenderingContext renderingContext) {
+        return renderingContext.getAccountingLine().getSequenceNumber().toString();
     }
 
     /**

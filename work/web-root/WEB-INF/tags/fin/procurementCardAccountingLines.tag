@@ -245,10 +245,10 @@
         <td class="total-line">&nbsp;</td>
      </tr>
     </table>
-    
-   	<sys:accountingLines>
-		<sys:accountingLineGroup newLinePropertyName="newTargetLines[${totalNewTargetCtr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" attributeGroupName="target" />
-	</sys:accountingLines>
+	
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+		<sys:accountingLineGroup newLinePropertyName="newTargetLines[${totalNewTargetCtr}]" collectionPropertyName="document.transactionEntries[${ctr}].targetAccountingLines" collectionItemPropertyName="document.transactionEntries[${ctr}].targetAccountingLine" attributeGroupName="target" />
+	</table>
     
     <br/>
     <c:set var="totalNewTargetCtr" value="${totalNewTargetCtr+1}"/>

@@ -25,6 +25,8 @@
     
     <bean id="AccountingLineView-sequenceNumber" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewSequenceNumberFieldDefinition" />
     
+    <bean id="AccountingLineView-countedSequenceNumber" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewCountedSequenceNumberFieldDefinition" />
+    
     <bean id="AccountingLineView-actions" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionsDefinition" />
     
     <bean id="AccountingLineGroup" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition">

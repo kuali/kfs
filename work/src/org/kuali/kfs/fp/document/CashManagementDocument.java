@@ -68,7 +68,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     private List<Check> checks;
 
-    private transient CashieringTransaction currentTransaction;
+    private CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
     
     private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";

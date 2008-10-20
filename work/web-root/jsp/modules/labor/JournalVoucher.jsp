@@ -24,6 +24,7 @@
 	showTabButtons="true">
 
 	<kfs:hiddenDocumentFields />
+	<kfs:accountingLineScriptImports />	
 	<kfs:documentOverview editingMode="${KualiForm.editingMode}" />
 
 	<!-- LABOR JOURNAL VOUCHER SPECIFIC FIELDS -->
@@ -153,16 +154,31 @@
 		</table>
 		</div>
 	</kul:tab>
+	
+	<c:set var="isExtEncumbrance" value="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}" />
+	<c:set var="isDebitCreditAmount" value="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" />
 
-	<fin:voucherAccountingLines
-		isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
-		optionalFields="positionNumber,emplid,employeeRecord,earnCode,payGroup,salaryAdministrationPlan,grade,runIdentifier,payPeriodEndDate,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,transactionTotalHours,laborLedgerOriginalChartOfAccountsCode,laborLedgerOriginalAccountNumber,laborLedgerOriginalSubAccountNumber,laborLedgerOriginalFinancialObjectCode,laborLedgerOriginalFinancialSubObjectCode,hrmsCompany,encumbranceUpdateCode,setid"
-		isOptionalFieldsInNewRow="true"
-		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.finBalanceTypeEncumIndicator}"
-		editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		includeObjectTypeCode="true" />
-		
+	<c:choose>
+		<c:when test="${isExtEncumbrance && isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withDebitCreditExtEncumbrance"/>
+		</c:when>
+		<c:when test="${!isExtEncumbrance && isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withDebitCredit"/>
+		</c:when>		
+		<c:when test="${isExtEncumbrance && !isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withExtEncumbrance"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="attributeGroupName" value="source"/>
+		</c:otherwise>
+	</c:choose>
+
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="${attributeGroupName}" />
+		</sys:accountingLines>
+	</kul:tab>
+        		
 	<ld:laborLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

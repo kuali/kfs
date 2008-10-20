@@ -52,8 +52,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     
     private List<PurApItemUseTax> useTaxItems;
     private List<PurApAccountingLine> sourceAccountingLines;
-    private transient List<PurApAccountingLine> baselineSourceAccountingLines;
-    private transient PurApAccountingLine newSourceLine;
+    private List<PurApAccountingLine> baselineSourceAccountingLines;
+    private PurApAccountingLine newSourceLine;
 
     private ItemType itemType;
     private Integer purapDocumentIdentifier;

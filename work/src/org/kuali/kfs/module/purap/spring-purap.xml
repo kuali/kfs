@@ -76,7 +76,6 @@
 		<property name="documentService" ref="documentService" />
 		<property name="purapService" ref="purapService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<!--  override accounting service -->

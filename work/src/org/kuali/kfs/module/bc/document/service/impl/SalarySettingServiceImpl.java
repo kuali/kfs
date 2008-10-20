@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -714,6 +716,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             appointmentFunding.setAppointmentRequestedCsfFteQuantity(BigDecimal.ZERO);
             appointmentFunding.setAppointmentRequestedCsfTimePercent(BigDecimal.ZERO);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#hasExistingFundingReason(org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode)
+     */
+    public boolean hasExistingFundingReason(BudgetConstructionAppointmentFundingReasonCode budgetConstructionAppointmentFundingReasonCode) {
+        
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("appointmentFundingReasonCode", budgetConstructionAppointmentFundingReasonCode.getAppointmentFundingReasonCode());
+
+        return (businessObjectService.countMatching(BudgetConstructionAppointmentFundingReason.class, queryMap) > 0);
     }
 
     /**

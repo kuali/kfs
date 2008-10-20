@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.document.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
@@ -270,4 +271,12 @@ public interface SalarySettingService {
      * @param appointmentFundings the given appointment funding
      */
     public void recalculateDerivedInformation(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    
+    /**
+     * checks if a reason code has existing appointment funding reasons
+     * 
+     * @param budgetConstructionAppointmentFundingReasonCode
+     * @return
+     */
+    public boolean hasExistingFundingReason(BudgetConstructionAppointmentFundingReasonCode budgetConstructionAppointmentFundingReasonCode);
 }

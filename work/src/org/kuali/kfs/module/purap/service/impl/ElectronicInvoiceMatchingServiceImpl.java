@@ -556,19 +556,14 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
         KualiDecimal salesTaxAmountCalculated = taxService.getTotalSalesTaxAmount(transTaxDate, deliveryPostalCode, extendedPrice);
         KualiDecimal actualVariance = invoiceSalesTaxAmount.subtract(salesTaxAmountCalculated);
         
-        if (LOG.isTraceEnabled()){
-            LOG.trace("Sales Tax Upper Variance param - " + upperVariancePercentString);
-            LOG.trace("Sales Tax Lower Variance param - " + lowerVariancePercentString);
-            LOG.trace("Trans date (from invoice/rejectdoc) - " + transTaxDate);
-            LOG.trace("Delivery Postal Code - " + deliveryPostalCode);
-            LOG.trace("Extended price - " + extendedPrice);
-            LOG.trace("Invoice item tax amount - " + invoiceSalesTaxAmount);
-            LOG.trace("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
-        }
-        
-        if (salesTaxAmountCalculated.compareTo(KualiDecimal.ZERO) == 0 && 
-            invoiceSalesTaxAmount.compareTo(KualiDecimal.ZERO) == 0){
-            return;
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Sales Tax Upper Variance param - " + upperVariancePercentString);
+            LOG.debug("Sales Tax Lower Variance param - " + lowerVariancePercentString);
+            LOG.debug("Trans date (from invoice/rejectdoc) - " + transTaxDate);
+            LOG.debug("Delivery Postal Code - " + deliveryPostalCode);
+            LOG.debug("Extended price - " + extendedPrice);
+            LOG.debug("Invoice item tax amount - " + invoiceSalesTaxAmount);
+            LOG.debug("Sales Tax amount (from sales tax service) - " + salesTaxAmountCalculated);
         }
         
         if (StringUtils.isNotEmpty(upperVariancePercentString)){
@@ -578,7 +573,7 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             
             if (upperAcceptableVariance.compareTo(actualVariance.bigDecimalValue()) < 0){
                 ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
+                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_UPPERVARIANCE);
                 return;
             }
             
@@ -589,11 +584,18 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             KualiDecimal lowerVariancePercent = new KualiDecimal(lowerVariancePercentString);
             BigDecimal lowerAcceptableVariance = (lowerVariancePercent.divide(new KualiDecimal(100))).multiply(salesTaxAmountCalculated).bigDecimalValue().negate();
             
-            if (lowerAcceptableVariance.compareTo(actualVariance.bigDecimalValue()) > 0){
-                ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
-                orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_UPPERVARIANCE);
+            if (lowerAcceptableVariance.compareTo(BigDecimal.ZERO) >= 0 && 
+                actualVariance.compareTo(BigDecimal.ZERO) >= 0){
+                if (actualVariance.compareTo(lowerAcceptableVariance) > 0){
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
+                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
+                }
+            }else{
+                if (actualVariance.compareTo(lowerAcceptableVariance) < 0){
+                    ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
+                    orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
+                }
             }
-            
         }
         
     }

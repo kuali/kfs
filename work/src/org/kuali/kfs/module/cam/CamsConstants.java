@@ -295,4 +295,6 @@ public class CamsConstants extends JSTLConstants {
     }
 
     public static final String INQUIRY_URL = "inquiry.do";
+    public static final int ASSET_DESC_DISPLAY_LENGTH = 39;
+
 }

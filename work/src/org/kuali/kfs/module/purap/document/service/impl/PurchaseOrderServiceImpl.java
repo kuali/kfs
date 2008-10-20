@@ -896,11 +896,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             completeB2BPurchaseOrder(po);
         }
 
-        // if unordered items have been added to the PO then send an FYI to all fiscal officers
-        if (hasNewUnorderedItem(po)) {
-            sendFyiForNewUnorderedItems(po);
-        }
-
         // check thresholds to see if receiving is required for purchase order
         if (!po.isReceivingDocumentRequiredIndicator()) {
             setReceivingRequiredIndicatorForPurchaseOrder(po);
@@ -947,14 +942,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("completePurchaseOrderAmendment() started");
         
         setCurrentAndPendingIndicatorsForApprovedPODocuments(poa);
-        
-        if (SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())){
+
+        if (SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
             poa.setPaymentRequestPositiveApprovalIndicator(true);
             poa.setReceivingDocumentRequiredIndicator(false);
-        }else{
+        }
+        else {
             ThresholdHelper thresholdHelper = new ThresholdHelper(poa);
             poa.setReceivingDocumentRequiredIndicator(thresholdHelper.isReceivingDocumentRequired());
         }
+
+        // if unordered items have been added to the PO then send an FYI to all fiscal officers
+        if (hasNewUnorderedItem(poa)) {
+            sendFyiForNewUnorderedItems(poa);
+        }
+
     }
 
     /**

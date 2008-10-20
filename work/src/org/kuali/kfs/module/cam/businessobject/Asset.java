@@ -225,12 +225,25 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
 
     /**
-     * Gets the capitalAssetDescription attribute.
+     * Gets the capitalAssetDescription attribute and set the length around 50 on each line
      * 
      * @return Returns the capitalAssetDescription
      */
     public String getCapitalAssetDescription() {
-        return capitalAssetDescription;
+        String tmpAssetDesc = capitalAssetDescription.replaceAll("\n", " ");
+        String capitalAssetDescription = "";
+        if (tmpAssetDesc.length() <= 39)
+            capitalAssetDescription = tmpAssetDesc;
+        else {
+            while (tmpAssetDesc.length() > 39) {
+                int endOfLastWordPos = tmpAssetDesc.substring(0,38).lastIndexOf(' ');
+                capitalAssetDescription += "\n"+tmpAssetDesc.substring(0, endOfLastWordPos);
+                tmpAssetDesc = tmpAssetDesc.substring(endOfLastWordPos + 1);
+            }
+            capitalAssetDescription += "\n" + tmpAssetDesc;
+            capitalAssetDescription.replaceFirst("\n", "");
+        }
+        return  capitalAssetDescription;
     }
 
     /**
@@ -239,6 +252,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @param capitalAssetDescription The capitalAssetDescription to set.
      */
     public void setCapitalAssetDescription(String capitalAssetDescription) {
+        capitalAssetDescription = capitalAssetDescription.replaceAll("\n", " ");
         this.capitalAssetDescription = capitalAssetDescription;
     }
 

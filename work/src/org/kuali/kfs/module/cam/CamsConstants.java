@@ -290,6 +290,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String PRE_TAGGING_ACQUISITION_TYPE_CODE = "P";
         public static final String LINE_DESCRIPTION_PAYMENT = "Payment";
         public static final String LINE_DESCRIPTION_PAYMENT_OFFSET = "Payment Offset";
+        public static final String SECTION_ID_ASSET_ACQUISITION_TYPE = "assetAcquisitionType";
         public static final String SECTION_ID_ASSET_INFORMATION = "assetInformation";
         public static final String SECTION_ID_RECALCULATE_SEPARATE_SOURCE_AMOUNT = "recalculateSeparateSourceAmount";
     }

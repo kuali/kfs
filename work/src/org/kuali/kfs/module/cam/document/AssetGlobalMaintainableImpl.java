@@ -265,9 +265,12 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
         List<Section> sections = super.getCoreSections(oldMaintainable);
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
-        // hide "Asset Information" and "Recalculate Total Amount" tab from "Asset Separate" doc
+        // hide "Acquisition Type", "Asset Information", "Recalculate Total Amount" tabs from "Asset Separate" doc
         if (!assetGlobalService.isAssetSeparateDocument(assetGlobal)) {
             for (Section section : sections) {
+                if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_ACQUISITION_TYPE.equals(section.getSectionId())) {
+                    section.setHidden(true);
+                }
                 if (CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION.equals(section.getSectionId())) {
                     section.setHidden(true);
                 }

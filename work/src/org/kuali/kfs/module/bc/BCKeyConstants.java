@@ -55,6 +55,7 @@ public class BCKeyConstants {
     public static final String ERROR_MONTHLY_DETAIL_SALARY_OVERIDE = "error.budget.monthlyDetailSalarySettingNoRequestOverride";
     public static final String ERROR_MONTHLY_TOTAL_ZERO = "error.budget.monthlyTotalZero";
     public static final String ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY = "error.budget.AccountOrganizationHierarchy";
+    public static final String ERROR_BUDGET_REASONMAINT_INACTIVATE_REASONEXIST = "error.budget.reasonMaintenance.inactivate.reasonExist";
     
     public static final String ERROR_REPORT_GETTING_CHART_DESCRIPTION = "error.budget.report.gettingChartDescription";
     public static final String ERROR_REPORT_GETTING_OBJECT_CODE = "error.budget.report.gettingObjectCode";

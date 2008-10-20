@@ -30,6 +30,8 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
+import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
@@ -112,7 +114,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
     
-    private final static Class[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new Class[] { Account.class };
+    private final static Class[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new Class[] { Account.class, BudgetConstructionPosition.class, PendingBudgetConstructionAppointmentFunding.class };
     // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the active-derived Closed? indicator instead (KFSMI-1393)
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{

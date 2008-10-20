@@ -38,6 +38,8 @@
     	<property name="baseAmountPropertyName" value="baseBudgetAdjustmentAmount" />
     </bean>
     
+    <bean id="AccountingLineView-debitCreditTotal" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.DebitCreditTotalDefinition" />
+    
     <bean id="AccountingLineView-debitCreditAmountField" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDebitCreditAmountFieldDefinition" />
     
     <bean id="AccountingLineView-showHideLines" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewHideShowLinesDefinition" />

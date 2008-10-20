@@ -154,6 +154,9 @@ public class GroupErrorsRenderer implements Renderer {
      * @return true if the keys match, false if not
      */
     protected boolean foundErrorMatch(String key, String keyToMatch) {
+        System.out.println("================" + key + ":" + keyToMatch);
+        System.out.println("================" + key.equals(keyToMatch) + ":" + keyToMatch.endsWith("*") + ":" + keyToMatch.replaceAll("\\*", ""));
+        System.out.println("================" + key.startsWith(keyToMatch.replaceAll("\\*", "")));
         return key.equals(keyToMatch) || (keyToMatch.endsWith("*") && key.startsWith(keyToMatch.replaceAll("\\*", "")));
     }
     

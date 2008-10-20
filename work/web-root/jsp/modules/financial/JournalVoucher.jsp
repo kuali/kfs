@@ -20,6 +20,7 @@
 <c:set var="readOnly"
 	value="${!empty KualiForm.editingMode['viewOnly']}" />
 
+<kfs:accountingLineScriptImports />
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="JournalVoucherDocument"
 	htmlFormAction="financialJournalVoucher" renderMultipart="true"
@@ -142,12 +143,31 @@
 		</table>
 		</div>
 	</kul:tab>
-	<fin:voucherAccountingLines
-		isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
-		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
-		editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}"
-		includeObjectTypeCode="true" />
+
+	<c:set var="isExtEncumbrance" value="${KualiForm.selectedBalanceType.code==KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}" />
+	<c:set var="isDebitCreditAmount" value="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" />
+
+	<c:choose>
+		<c:when test="${isExtEncumbrance && isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withDebitCreditExtEncumbrance"/>
+		</c:when>
+		<c:when test="${!isExtEncumbrance && isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withDebitCredit"/>
+		</c:when>		
+		<c:when test="${isExtEncumbrance && !isDebitCreditAmount}">
+			<c:set var="attributeGroupName" value="source-withExtEncumbrance"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="attributeGroupName" value="source"/>
+		</c:otherwise>
+	</c:choose>
+
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+		<sys:accountingLines>
+			<sys:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="${attributeGroupName}" />
+		</sys:accountingLines>
+	</kul:tab>
+		
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />

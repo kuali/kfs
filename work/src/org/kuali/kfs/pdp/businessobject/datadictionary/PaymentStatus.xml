@@ -33,14 +33,15 @@
     <property name="forceUppercase" value="true" />
     <property name="label" value="Payment Status Code" />
     <property name="shortLabel" value="Payment Status" />
-    <property name="maxLength" value="2" />
+    <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PaymentStatusValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="PaymentStatus-name" parent="PaymentStatus-name-parentBean" />

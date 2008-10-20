@@ -39,8 +39,9 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="4" />
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.DisbursementTypeValuesFinder"
+            p:includeKeyInLabel="false" />
     </property>
   </bean>
   <bean id="DisbursementType-name" parent="DisbursementType-name-parentBean" />

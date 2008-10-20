@@ -58,7 +58,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="FormatProcess-inquiryDefinition" parent="FormatProcess-inquiryDefinition-parentBean" />
 
   <bean id="FormatProcess-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="FormatProcess Inquiry" />
+    <property name="title" value="Format Process Inquiry" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -84,8 +84,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="FormatProcess-lookupDefinition" parent="FormatProcess-lookupDefinition-parentBean" />
 
   <bean id="FormatProcess-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Type Lookup" />
-    <property name="instructions" value="Lookup a Payment Type" />
+    <property name="title" value="Format Process Lookup" />
+    <property name="instructions" value="Lookup a Format Process" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
         <property name="attributeNames" >

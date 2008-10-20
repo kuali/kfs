@@ -121,9 +121,12 @@
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="32" />
-		</property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.pdp.businessobject.options.PayeeIdTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+			
 		<property name="summary" value="payeeIdTypeCd" />
 		<property name="description" value="Payee ID Type." />
 	</bean>

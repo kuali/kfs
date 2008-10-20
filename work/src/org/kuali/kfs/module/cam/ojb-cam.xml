@@ -20,7 +20,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
 </class-descriptor>
@@ -239,13 +239,13 @@
 		<foreignkey field-ref="primaryDepreciationMethodCode" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.kfs.coa.businessobject.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="financialObjectSubTypeCode" />
 	</reference-descriptor>	
-	<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="acquisitionTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -300,7 +300,7 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="assetCondition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="assetCondition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="conditionCode" />
 	</reference-descriptor>
 	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -309,14 +309,14 @@
 	<reference-descriptor name="acquisitionType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="acquisitionTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationOwnerAccountNumber" />
 	</reference-descriptor>	
-	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="agencyNumber" />
 	</reference-descriptor>	
 	<!-- General ledger entries  -->
@@ -492,7 +492,7 @@
 	<field-descriptor name="capitalAssetBuilderOriginIndicator" column="CB_ORIGIN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
    <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
@@ -599,7 +599,7 @@
 	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="separateSourceAmount" column="SEP_SRC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -691,10 +691,10 @@
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="componentCondition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="componentCondition" class-ref="org.kuali.kfs.module.cam.businessobject.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="componentConditionCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -711,7 +711,7 @@
 	<field-descriptor name="warrantyPurchaseOrderNumber" column="AST_WRNTY_PO_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="warrantyText" column="AST_WRNTY_TXT" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -729,7 +729,7 @@
 	<field-descriptor name="repairAmount" column="CPTLAST_RPR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="repairSolutionDescription" column="AST_RPR_SOLN_DESC" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -773,36 +773,36 @@
 	<field-descriptor name="oldOrganizationOwnerAccountNumber" column="OLD_ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="oldOrganizationCode" column="OLD_ORG_CD" jdbc-type="VARCHAR" />
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationOwnerAccountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.kfs.fp.document.TransferOfFundsDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.kfs.fp.document.TransferOfFundsDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
 	</reference-descriptor>
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
-    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
         <foreignkey field-ref="buildingRoomNumber" />
     </reference-descriptor>
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
     </reference-descriptor>
     <!-- General ledger entries  -->
@@ -839,17 +839,17 @@
 	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="insuranceChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="insuranceChargeAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="insuranceChargeAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="insuranceChartOfAccountsCode" />
 		<foreignkey field-ref="insuranceChargeAccountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -869,10 +869,10 @@
 	<field-descriptor name="assetLocationCountryCode" column="AST_LOC_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="assetLocationZipCode" column="AST_LOC_ZIP_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="assetLocationType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocationType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="assetLocationType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocationType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="assetLocationTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -882,7 +882,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<collection-descriptor name="assetLocationGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
@@ -902,18 +902,18 @@
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusTagNumber" column="CPTLAST_TAG_NBR" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>
-    <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
     </reference-descriptor>
-    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.sys.businessobject.Room" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />
         <foreignkey field-ref="buildingRoomNumber" />
@@ -930,16 +930,16 @@
 	<field-descriptor name="retirementDate" column="CPTLAST_RETIRE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="mergedTargetCapitalAssetDescription" column="MERGED_TGT_CPTLAST_DESC" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="mergedTargetCapitalAsset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="mergedTargetCapitalAsset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="mergedTargetCapitalAssetNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="retirementReason" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="retirementReasonCode" />
 	</reference-descriptor>
-	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.kfs.module.cam.businessobject.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
 	<collection-descriptor name="assetRetirementGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
@@ -976,23 +976,23 @@
 	<field-descriptor name="buyerDescription" column="CPTLAST_BUYER_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paidCaseNumber" column="AST_PD_CASE_NBR" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="retirementAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="retirementAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="retirementChartOfAccountsCode" />
 		<foreignkey field-ref="retirementAccountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="retirementChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="cashReceiptFinancialDocumentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="assetRetirementGlobal" class-ref="org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 </class-descriptor>

@@ -31,7 +31,7 @@
     <field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>    
-    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -59,7 +59,7 @@
     <field-descriptor name="vendorW8BenReceivedIndicator" column="VNDR_W8_BEN_RCVD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorDebarredIndicator" column="VNDR_DEBRD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorForeignIndicator" column="VNDR_FRGN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorType" class-ref="org.kuali.kfs.vnd.businessobject.VendorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorType" class-ref="org.kuali.kfs.vnd.businessobject.VendorType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorTypeCode" />
     </reference-descriptor>
     <reference-descriptor name="vendorOwnership" class-ref="org.kuali.kfs.vnd.businessobject.OwnershipType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -111,16 +111,16 @@
         <foreignkey field-ref="vendorSoldToGeneratedIdentifier" />
         <foreignkey field-ref="vendorSoldToAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorInactiveReason" class-ref="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorInactiveReason" class-ref="org.kuali.kfs.vnd.businessobject.VendorInactiveReason" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorInactiveReasonCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
     <collection-descriptor name="vendorAliases" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorAlias" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -184,11 +184,11 @@
     <field-descriptor name="vendorFaxNumber" column="VNDR_FAX_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorDefaultAddressIndicator" column="VNDR_DFLT_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorAddressType" class-ref="org.kuali.kfs.vnd.businessobject.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorAddressType" class-ref="org.kuali.kfs.vnd.businessobject.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorAddressTypeCode" />
     </reference-descriptor>
     <collection-descriptor name="vendorDefaultAddresses" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -216,11 +216,11 @@
     <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorContactType" class-ref="org.kuali.kfs.vnd.businessobject.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorContactType" class-ref="org.kuali.kfs.vnd.businessobject.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorContactTypeCode" />
     </reference-descriptor>
     <collection-descriptor name="vendorContactPhoneNumbers" proxy="true" element-class-ref="org.kuali.kfs.vnd.businessobject.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -249,26 +249,26 @@
     <field-descriptor name="vendorB2bIndicator" column="VNDR_B2B_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.kfs.vnd.businessobject.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchaseOrderCostSourceCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.kfs.vnd.businessobject.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.kfs.vnd.businessobject.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingTitleCode" />
     </reference-descriptor>
     <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.kfs.vnd.businessobject.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
@@ -287,14 +287,14 @@
     <field-descriptor name="vendorContractPurchaseOrderLimitAmount" column="VNDR_CTRPO_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="vendorContractExcludeIndicator" column="VNDR_CONTR_EXCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.kfs.vnd.businessobject.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -309,15 +309,15 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorOrganizationCode" column="VNDR_ORG_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorOrganization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorOrganization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="vendorOrganizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -331,7 +331,7 @@
     <field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="vendorPreviousTaxTypeCode" column="VNDR_PREV_TAX_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorTaxChangePersonIdentifier" column="VNDR_TAX_CHG_PRSN_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -346,11 +346,11 @@
     <field-descriptor name="vendorPhoneNumber" column="VNDR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorPhoneExtensionNumber" column="VNDR_PHN_EXTNS_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.kfs.vnd.businessobject.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.kfs.vnd.businessobject.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorPhoneTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -362,10 +362,10 @@
     <field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorCampusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorAddress" class-ref="org.kuali.kfs.vnd.businessobject.VendorAddress" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorAddress" class-ref="org.kuali.kfs.vnd.businessobject.VendorAddress" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorAddressGeneratedIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -376,10 +376,10 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.kfs.vnd.businessobject.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorSupplierDiversity" class-ref="org.kuali.kfs.vnd.businessobject.SupplierDiversity" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorSupplierDiversity" class-ref="org.kuali.kfs.vnd.businessobject.SupplierDiversity" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorSupplierDiversityCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -391,11 +391,11 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="vendorShippingSpecialCondition" class-ref="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorShippingSpecialCondition" class-ref="org.kuali.kfs.vnd.businessobject.ShippingSpecialCondition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorShippingSpecialConditionCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -407,7 +407,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
@@ -426,7 +426,7 @@
     <field-descriptor name="vendorShowReviewIndicator" column="VNDR_SHOW_RVW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorReviewText" column="VNDR_RVW_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="commodityRequiredIndicator" column="PUR_COMM_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="addressType" class-ref="org.kuali.kfs.vnd.businessobject.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="addressType" class-ref="org.kuali.kfs.vnd.businessobject.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorAddressTypeRequiredCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -440,7 +440,7 @@
     <field-descriptor name="vendorPhoneNumber" column="VNDR_PHN_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorPhoneExtensionNumber" column="VNDR_PHN_EXTNS_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.kfs.vnd.businessobject.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.kfs.vnd.businessobject.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorPhoneTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -577,11 +577,11 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="commodityDefaultIndicator" column="PUR_COMM_DFLT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="commodityCode" class-ref="org.kuali.kfs.vnd.businessobject.CommodityCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purchasingCommodityCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -592,10 +592,10 @@
 	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>
-    <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="contractManagerCode" />
     </reference-descriptor>
 </class-descriptor>

@@ -49,7 +49,7 @@
     <field-descriptor name="customerId" column="CUST_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
-    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="customerProfile" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
   </class-descriptor>
@@ -261,7 +261,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     
-    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
 
@@ -283,11 +283,11 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
    
-    <reference-descriptor name="paymentAccountDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentAccountDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentAccountDetailId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="accountingChange" class-ref="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="accountingChange" class-ref="org.kuali.kfs.pdp.businessobject.AccountingChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="accountingChangeCode"/>
     </reference-descriptor>
   </class-descriptor>
@@ -344,27 +344,27 @@
 	<field-descriptor name="epicPaymentPaidExtractedDate" column="PDP_EPIC_PMT_PD_EXTRT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
-    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.kfs.pdp.businessobject.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <reference-descriptor name="achAccountNumber" class-ref="org.kuali.kfs.pdp.businessobject.AchAccountNumber" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="true" >
       <foreignkey field-ref="id"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="bankCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="batch" class-ref="org.kuali.kfs.pdp.businessobject.Batch" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="batch" class-ref="org.kuali.kfs.pdp.businessobject.Batch" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="batchId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentStatusCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
 
@@ -400,7 +400,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     
-    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
@@ -438,27 +438,27 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	
-    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentChange" class-ref="org.kuali.kfs.pdp.businessobject.PaymentChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentChange" class-ref="org.kuali.kfs.pdp.businessobject.PaymentChangeCode" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentChangeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="origPaymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="origPaymentStatus" class-ref="org.kuali.kfs.pdp.businessobject.PaymentStatus" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentStatusCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="origBankCode"/>
     </reference-descriptor>
 
-    <reference-descriptor name="paymentProcess" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentProcess" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
 
@@ -473,7 +473,7 @@
     <field-descriptor name="paymentDetailId" column="PMT_DTL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
-    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentDetail" class-ref="org.kuali.kfs.pdp.businessobject.PaymentDetail" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentDetailId"/>
     </reference-descriptor>
   </class-descriptor>
@@ -510,15 +510,15 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
    
-    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="disbursementType" class-ref="org.kuali.kfs.pdp.businessobject.DisbursementType" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="disbursementTypeCode"/>
     </reference-descriptor>
   
-    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="process" class-ref="org.kuali.kfs.pdp.businessobject.PaymentProcess" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="processId"/>
     </reference-descriptor>
   
-    <reference-descriptor name="customer" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="customer" class-ref="org.kuali.kfs.pdp.businessobject.CustomerProfile" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
   </class-descriptor>
@@ -569,7 +569,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.AchBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>
 
@@ -600,7 +600,7 @@
     <field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     
-    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <reference-descriptor name="paymentGroup" class-ref="org.kuali.kfs.pdp.businessobject.PaymentGroup" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
       <foreignkey field-ref="paymentGroupId"/>
     </reference-descriptor>
   </class-descriptor>

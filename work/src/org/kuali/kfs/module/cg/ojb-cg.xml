@@ -42,13 +42,13 @@
     <field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="reportsToAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="reportsToAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="reportsToAgencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="agencyExtension" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="agencyExtension" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -108,10 +108,10 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="RSRCH_RSK_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="researchRiskTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -130,7 +130,7 @@
     <field-descriptor name="proposalAnimalsRequiredIndicator" column="CGPRPSL_ANMLRQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalDnaRequiredIndicator" column="CGPRPSL_DNARQD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalBiohazardIndicator" column="CGPRPSL_BIOHAZ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -209,25 +209,25 @@
     <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalAwardTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="proposalStatus" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposalStatus" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="federalPassThroughAgencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalPurposeCode" />
     </reference-descriptor>
-    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="cfdaNumber" />
     </reference-descriptor>
     <collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -303,7 +303,7 @@
     <field-descriptor name="proposalSubcontractorAmount" column="CGPRPSL_SUBCN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="proposalSubcontractorDescription" column="CGPRPSL_SUBCN_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="subcontractorNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -321,11 +321,11 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="proposalPrimaryOrganizationIndicator" column="CGPRPSL_PRMORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -343,7 +343,7 @@
     <field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -363,7 +363,7 @@
     <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="DATE" />
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -410,28 +410,28 @@
     <field-descriptor name="awardCommentText" column="CGAWD_COMMENT_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardPurposeCode" column="CGAWD_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalAwardTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="awardStatus" class-ref="org.kuali.kfs.module.cg.businessobject.AwardStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="awardStatus" class-ref="org.kuali.kfs.module.cg.businessobject.AwardStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="awardStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="letterOfCreditFundGroupCode" />
     </reference-descriptor>
-    <reference-descriptor name="grantDescription" class-ref="org.kuali.kfs.module.cg.businessobject.GrantDescription" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="grantDescription" class-ref="org.kuali.kfs.module.cg.businessobject.GrantDescription" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="grantDescriptionCode" />
     </reference-descriptor>
-    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="federalPassThroughAgencyNumber" />
     </reference-descriptor>
-    <reference-descriptor name="awardPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="awardPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="awardPurposeCode" />
     </reference-descriptor>
     <collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -482,7 +482,7 @@
     <field-descriptor name="awardPrimaryProjectDirectorIndicator" column="CGAWD_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -500,17 +500,17 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
@@ -528,10 +528,10 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="awardPrimaryOrganizationIndicator" column="CGAWD_PRM_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
@@ -555,7 +555,7 @@
     <field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="awardSubcontractorDescription" column="CGAWD_SUBCN_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="subcontractorNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -599,7 +599,7 @@
         <inverse-foreignkey field-ref="appointmentTypeCode" />
     </collection-descriptor>
 
-    <reference-descriptor name="relatedAppointmentType" class-ref="org.kuali.kfs.module.cg.businessobject.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="relatedAppointmentType" class-ref="org.kuali.kfs.module.cg.businessobject.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="relatedAppointmentTypeCode" />
     </reference-descriptor>
     
@@ -617,7 +617,7 @@
   <field-descriptor name="lastUpdateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="campus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -629,10 +629,10 @@
     <field-descriptor name="budgetNonpersonnelObjectCode" column="BDGT_NPRS_OBJ_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="nonpersonnelCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="nonpersonnelCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelCategoryCode" />
     </reference-descriptor>
-    <reference-descriptor name="nonpersonnelSubCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="nonpersonnelSubCategory" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelSubCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelSubCategoryCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -659,23 +659,23 @@
     <field-descriptor name="budgetTypeCodeText" column="BDGT_TYP_CD_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetProjectDirectorUniversalIdentifier" />
     </reference-descriptor>
 
-    <reference-descriptor name="budgetAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="budgetAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetAgencyNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="federalPassThroughAgencyNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="modularBudget" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="modularBudget" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="indirectCost" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="indirectCost" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetIndirectCost" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -758,7 +758,7 @@
     <field-descriptor name="budgetLastUpdateTimestamp" column="BDGT_LST_UPDT_TS" jdbc-type="TIMESTAMP" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="appointmentType" class-ref="org.kuali.kfs.module.cg.businessobject.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="appointmentType" class-ref="org.kuali.kfs.module.cg.businessobject.AppointmentType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="institutionAppointmentTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -775,7 +775,7 @@
     <field-descriptor name="lastUpdateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="graduateAssistantRate" class-ref="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="graduateAssistantRate" class-ref="org.kuali.kfs.module.cg.businessobject.GraduateAssistantRate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -792,7 +792,7 @@
 
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 
-    <reference-descriptor name="budget" class-ref="org.kuali.kfs.module.cg.businessobject.Budget" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="budget" class-ref="org.kuali.kfs.module.cg.businessobject.Budget" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-id-ref="1" />
     </reference-descriptor>
     
@@ -808,7 +808,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -836,7 +836,7 @@
     <field-descriptor name="subcontractorNumber" column="SBCNR_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-    <reference-descriptor name="nonpersonnelObjectCode" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="nonpersonnelObjectCode" class-ref="org.kuali.kfs.module.cg.businessobject.NonpersonnelObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetNonpersonnelCategoryCode" />
         <foreignkey field-ref="budgetNonpersonnelSubCategoryCode" />
     </reference-descriptor>
@@ -987,7 +987,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetInstitutionCostSharePersonnelDescription" column="BDGT_INST_CST_SHR_PSNL_DESC" jdbc-type="VARCHAR" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1023,17 +1023,17 @@
     <field-descriptor name="userCreditHoursNumber" column="USR_CRDT_HRS_NBR" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="userCreditHourAmount" column="USR_CRDT_HR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="userMiscellaneousFeeAmount" column="USR_MISC_FEE_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="institutionAppointmentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="period" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="period" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetPeriodSequenceNumber" />
     </reference-descriptor>
@@ -1047,12 +1047,12 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetFringeRate" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="institutionAppointmentTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none" >
+    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none"  proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
@@ -1088,7 +1088,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetIndirectCostRate" column="BDGT_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbDecimalPercentageFieldConversion" />
-    <reference-descriptor name="indirectCostLookup" class-ref="org.kuali.kfs.module.cg.businessobject.IndirectCostLookup" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="indirectCostLookup" class-ref="org.kuali.kfs.module.cg.businessobject.IndirectCostLookup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="budgetOnCampusIndicator" />
         <foreignkey field-ref="budgetPurposeCode" />
     </reference-descriptor>
@@ -1137,11 +1137,11 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetManualIndirectCostRate" column="BDGT_MAN_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbDecimalPercentageFieldConversion" />
     <field-descriptor name="budgetManualMtdcAmount" column="BDGT_MAN_MTDC_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
-    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="task" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetTask" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetTaskSequenceNumber" />
     </reference-descriptor>
-    <reference-descriptor name="period" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="period" class-ref="org.kuali.kfs.module.cg.businessobject.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="budgetPeriodSequenceNumber" />
     </reference-descriptor>
@@ -1217,32 +1217,32 @@
 	<field-descriptor name="routingFormAgencyToBeNamedIndicator" column="RF_AGNCY_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="routingFormCatalogOfFederalDomesticAssistanceNumber" column="RF_CFDA_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personnelNextSequenceNumber" column="RF_PSNL_NXT_SEQ_NBR" jdbc-type="INTEGER"/>
-	<reference-descriptor name="routingFormPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="routingFormPhysicalCampus" class-ref="org.kuali.rice.kns.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormPhysicalCampusCode" />
 	</reference-descriptor>
-	<reference-descriptor name="routingFormStatus" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="routingFormStatus" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormStatusCode" />
 	</reference-descriptor>
-	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.cg.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.cg.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormPurposeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="researchType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="researchType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="researchTypeCode" />
 	</reference-descriptor>
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyFederalPassThroughNumber" />
     </reference-descriptor>
-	<reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormCatalogOfFederalDomesticAssistanceNumber" />
 	</reference-descriptor>
 
-    <reference-descriptor name="routingFormAgency" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormAgency" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="routingFormAgency" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormAgency" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>	
-    <reference-descriptor name="contractGrantProposal" class-ref="org.kuali.kfs.module.cg.businessobject.ContractGrantProposal" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="contractGrantProposal" class-ref="org.kuali.kfs.module.cg.businessobject.ContractGrantProposal" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="routingFormBudget" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormBudget" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="routingFormBudget" class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormBudget" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <collection-descriptor name="routingFormResearchRisks" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormResearchRisk" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1278,7 +1278,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     
@@ -1347,7 +1347,7 @@
     <collection-descriptor name="routingFormDueDateTypes" proxy="true" element-class-ref="org.kuali.kfs.module.cg.businessobject.RoutingFormDueDateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
     <reference-descriptor name="dueDateType" class-ref="org.kuali.kfs.module.cg.businessobject.DueDateType" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1379,7 +1379,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="routingFormSubcontractorAmount" column="RF_SBCNR_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormSubcontractorNumber" column="RF_SBCNR_NBR" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="routingFormSubcontractorNumber" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1392,7 +1392,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="budgetIndicator" column="BDGT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="routingFormPrimaryOrganizationIndicator" column="RF_PRM_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
@@ -1433,14 +1433,14 @@
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="routingFormCostShareAmount" column="RF_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormCostShareDescription" column="RF_CST_SHR_DESC" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
@@ -1495,7 +1495,7 @@
 	<field-descriptor name="researchRiskTypeSortNumber" column="RSRCH_RSK_TYP_SORT_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="researchRiskTypeNotificationGroupText" column="RSRCH_RSK_TYP_NTFCTN_GRP_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.kfs.module.cg.businessobject.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.kfs.module.cg.businessobject.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="controlAttributeTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1506,7 +1506,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="projectTypeSelectedIndicator" column="PROJ_TYP_SEL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<reference-descriptor name="projectType" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="projectType" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="projectTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1559,7 +1559,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="researchRiskDescription" column="RSRCH_RSK_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="routingFormResearchRiskStudyNextSequenceNumber" column="RF_RSRCH_RSK_STDY_NXT_SEQ_NBR" jdbc-type="INTEGER" />
-	<reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="researchRiskTypeCode" />
 	</reference-descriptor>
 	
@@ -1597,14 +1597,14 @@
 	<field-descriptor name="personEmailAddress" column="PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personRoleText" column="PRSN_ROLE_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personToBeNamedIndicator" column="PRSN_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="personRole" class-ref="org.kuali.kfs.module.cg.businessobject.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="personRole" class-ref="org.kuali.kfs.module.cg.businessobject.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="personRoleCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1627,10 +1627,10 @@
 	<field-descriptor name="organizationCreditPercent" column="ORG_CRDT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiIntegerPercentageFieldConversion" />
 	<field-descriptor name="organizationFinancialAidPercent" column="ORG_FA_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiIntegerPercentageFieldConversion" />
 	<field-descriptor name="organizationCreditRoleText" column="ORG_CRDT_ROLE_TXT" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
@@ -1653,7 +1653,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="yesNoIndicator" column="YES_NO_IND" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="question" class-ref="org.kuali.kfs.module.cg.businessobject.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="question" class-ref="org.kuali.kfs.module.cg.businessobject.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="questionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1663,7 +1663,7 @@
 	<field-descriptor name="dueDateTypeCode" column="DUE_DT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="dueDateType" class-ref="org.kuali.kfs.module.cg.businessobject.DueDateType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="dueDateType" class-ref="org.kuali.kfs.module.cg.businessobject.DueDateType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="dueDateTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1673,7 +1673,7 @@
 	<field-descriptor name="purposeCode" column="PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.cg.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.cg.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="purposeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1683,7 +1683,7 @@
 	<field-descriptor name="researchTypeCode" column="RSRCH_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="researchType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="researchType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="researchTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1693,7 +1693,7 @@
 	<field-descriptor name="personRoleCode" column="PRSN_ROLE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="personRole" class-ref="org.kuali.kfs.module.cg.businessobject.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="personRole" class-ref="org.kuali.kfs.module.cg.businessobject.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="personRoleCode" />
 	</reference-descriptor>
 </class-descriptor>

@@ -37,7 +37,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     private CapitalAssetSystem purchasingCapitalAssetSystem;
     private PurchasingDocument purchasingDocument;
     private PurchasingItem purchasingItem;
-    private transient ItemCapitalAsset newPurchasingItemCapitalAssetLine;
+    private ItemCapitalAsset newPurchasingItemCapitalAssetLine;
     
     public PurchasingCapitalAssetItemBase(){
         super();        

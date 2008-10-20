@@ -54,10 +54,23 @@
     	<map>
     		<entry>
     			<key><value>source</value></key>
-    			<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" />
-    		</entry>
+	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+    			<key><value>source-withExtEncumbrance</value></key>
+	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="AccountingLineGroup" />
+	    	</entry>
+    		<entry>
+    			<key><value>source-withDebitCredit</value></key>
+	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="AccountingLineGroup" />
+	    	</entry>
+	    	<entry>
+    			<key><value>source-withDebitCreditExtEncumbrance</value></key>
+	    		<ref bean="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="AccountingLineGroup" />
+	    	</entry>	    	
     	</map>
-     </property>  
+    </property>    
+    
      <property name="routingDataGenerators">
     	<list>
     		<value>subFundGroupRoutingDataGenerator</value>
@@ -182,17 +195,49 @@
     </property>
   </bean>  
   
-    <!-- accounting line groups -->
-    <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />
-    
-    <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
-		<property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView" />
-   	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
-    	<property name="groupLabel" value="" />
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
-    	<property name="importedLinePropertyPrefix" value="source" />
-    	<property name="totals" ref="labor-KualiLaborJournalVoucherDocument-AccountingDocument-sourceGroupTotals" />
-    	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
-    </bean>
+  <!-- accounting line groups -->
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" />  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean>  
   
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" />  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withExtEncumbrance" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean> 
+  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" />  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCredit" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean>  
+  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" />  
+  <bean id="KualiLaborJournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="labor-KualiLaborJournalVoucherDocument-accountingLineView-withDebitCreditExtEncumbrance" />
+	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+	  <property name="groupLabel" value="Source" />
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
+	  <property name="importedLinePropertyPrefix" value="source" />
+	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+  </bean>  
+    
 </beans>

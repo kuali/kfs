@@ -42,11 +42,11 @@
     	<map>
     		<entry>
     			<key><value>source</value></key>
-    			<ref bean="SalaryTransferDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="SalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="AccountingLineGroup" />
     		</entry>
     		<entry>
     			<key><value>target</value></key>
-    			<ref bean="SalaryTransferDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
+    			<ref bean="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="AccountingLineGroup" />
     		</entry>    		
     	</map>
     </property>  
@@ -115,9 +115,9 @@
   </bean>
     
     <!-- accounting line groups -->
-    <bean id="SalaryTransferDocument-sourceAccountingLineGroup" parent="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" />
+    <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup" parent="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" />
     
-    <bean id="SalaryTransferDocument-sourceAccountingLineGroup-parentBean" parent="labor-SalaryExpenseTransferDocument-AccountingLineGroup" abstract="true">
+    <bean id="SalaryExpenseTransferDocument-sourceAccountingLineGroup-parentBean" parent="labor-SalaryExpenseTransferDocument-AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
     	<property name="groupLabel" value="From" />
@@ -127,9 +127,9 @@
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
     </bean>
 
-    <bean id="SalaryTransferDocument-targetAccountingLineGroup" parent="SalaryTransferDocument-targetAccountingLineGroup-parentBean" />
+    <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup" parent="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" />
     
-    <bean id="SalaryTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+    <bean id="SalaryExpenseTransferDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-accountingLineView" />
    	 	<property name="accountingLineClass" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
     	<property name="groupLabel" value="To" />

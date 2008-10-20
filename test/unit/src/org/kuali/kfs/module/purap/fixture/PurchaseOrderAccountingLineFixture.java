@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
  */
 public enum PurchaseOrderAccountingLineFixture {
     BASIC_PO_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
-            AccountingLineFixture.LINE1 // AccountingLineFixture
+            AccountingLineFixture.PURAP_LINE1 // AccountingLineFixture
     ),
     PO_APO_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
             AccountingLineFixture.APO_LINE1 // AccountingLineFixture

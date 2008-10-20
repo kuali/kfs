@@ -25,8 +25,10 @@ public enum PurchaseOrderChangeDocumentFixture {
     STATUS_PENDING_PRINT(PurchaseOrderStatuses.PENDING_PRINT), 
     STATUS_OPEN(PurchaseOrderStatuses.OPEN), 
     STATUS_AMENDMENT(PurchaseOrderStatuses.AMENDMENT),
-    STATUS_PAYMENT_HOLD(PurchaseOrderStatuses.PAYMENT_HOLD),
-    STATUS_CLOSED(PurchaseOrderStatuses.CLOSED), 
+    STATUS_PENDING_PAYMENT_HOLD(PurchaseOrderStatuses.PENDING_PAYMENT_HOLD),
+    STATUS_PENDING_REMOVE_HOLD(PurchaseOrderStatuses.PENDING_REMOVE_HOLD),
+    STATUS_CLOSED(PurchaseOrderStatuses.CLOSED),
+    STATUS_PENDING_CLOSE(PurchaseOrderStatuses.PENDING_CLOSE), 
     STATUS_VOID(PurchaseOrderStatuses.VOID);
 
     private String status;

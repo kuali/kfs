@@ -15,12 +15,15 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
-<c:set var="disbursementNumberRangeAttributes" value="${DataDictionary.DisbursementNumberRange.attributes}" />
-<c:set var="formatResultAttributes" value="${DataDictionary.FormatResult.attributes}" />
-<c:set var="customerProfileAttributes" value="${DataDictionary.CustomerProfile.attributes}" />
-<c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
-
-<kul:page headerTitle="Format Disbursement Finished" transactionalDocument="false" showDocumentInfo="false" htmlFormAction="pdp/formatrice" docTitle="Format Disbursement Finished">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html:html>
+<head>
+<link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
+<title>Format Disbursement Finished</title>
+</head>
+<body>
+  <h1><strong>Format Disbursement Finished</strong></h1><br>
+  <jsp:include page="${request.contextPath}/pdp/TestEnvironmentWarning.jsp" flush="true"/>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
   <tbody>
     <tr>
@@ -30,7 +33,7 @@
           <tbody>
             <tr>
               <td>Payments selected have been formatted and will be extracted for ACH and Check Printing.<br>
-              Your Default Campus Code is <b><c:out value="${KualiForm.campus}"/></b> Process ID: <c:out value="${KualiForm.procId}"/></td>
+              Your Default Campus Code is <b><c:out value="${campusCd}"/></b> Process ID: <b><c:out value="${procId}"/></td>
               <td>&nbsp;</td>
            </tr>
           </tbody>
@@ -52,9 +55,9 @@
             <th>Payment Details</th>
             <th>Amount</th>
          </tr>
-         <c:forEach var="item" items="${KualiForm.formatResultList}">
+         <c:forEach var="item" items="${formatResultList}">
          <tr>
-            <td><c:out value="${item.sortGroupName}"/></td>
+            <%--td><c:out value="${item.sortGroupName}"/></td--%>
             <td><c:out value="${item.cust.chartCode}/${item.cust.orgCode}/${item.cust.subUnitCode} ${item.cust.customerDescription}"/></td>
             <td><c:out value="${item.disbursementType.name}"/></td>
             <td align="right"><c:out value="${item.beginDisbursementNbr}"/></td>
@@ -69,8 +72,8 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td align="right"><b><fmt:formatNumber value="${KualiForm.totalPaymentCount}"/></b></td>
-            <td align="right"><b><fmt:formatNumber value="${KualiForm.totalAmount}" type="currency"/></b></td>
+            <td align="right"><b><fmt:formatNumber value="${total.payments}"/></b></td>
+            <td align="right"><b><fmt:formatNumber value="${total.amount}" type="currency"/></b></td>
          </tr>
         </tbody>
       </table>
@@ -79,4 +82,8 @@
     </tr>
   </tbody>
 </table>
-</kul:page>
+<p>&nbsp;</p>
+<c:import url="/pdp/backdoor.jsp"/>
+</body>
+</html:html>
+

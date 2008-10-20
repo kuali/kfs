@@ -19,7 +19,8 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.rice.kns.util.OjbCharBooleanConversion;
 
 /**
- * This class...
+ * Handles conversion of active indicator so as to piggy back onto the existing position effective status.
+ * Converts database values of A and I to java Y and N and back. 
  */
 public class OjbBCPositionActiveIndicatorConversion extends OjbCharBooleanConversion {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OjbBCPositionActiveIndicatorConversion.class);

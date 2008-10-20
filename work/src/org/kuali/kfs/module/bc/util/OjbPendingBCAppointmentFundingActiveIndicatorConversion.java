@@ -18,7 +18,8 @@ package org.kuali.kfs.module.bc.util;
 import org.kuali.rice.kns.util.OjbCharBooleanConversion;
 
 /**
- * This class...
+ * Handles conversion of active indicator so as to piggy back onto appointmentFundingDeleteIndicator by reversing the values.
+ * Converts database delete values of Y and N to java active N and Y and back.
  */
 public class OjbPendingBCAppointmentFundingActiveIndicatorConversion extends OjbCharBooleanConversion {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OjbPendingBCAppointmentFundingActiveIndicatorConversion.class);

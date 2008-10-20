@@ -87,8 +87,8 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             LOG.debug("Matching process started");
         }
         
-        upperVariancePercentString = getSalesTaxUpperVariancePercentage();
-        lowerVariancePercentString = getSalesTaxLowerVariancePercentage();
+        upperVariancePercentString = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_UPPER_VARIANCE_PERCENT);
+        lowerVariancePercentString = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_LOWER_VARIANCE_PERCENT);;
         
         try {
             if (orderHolder.isValidateHeaderInformation()) {
@@ -614,32 +614,6 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             return calcExtendedPrice;
         }
         return BigDecimal.ZERO;
-    }
-    
-    private String getSalesTaxUpperVariancePercentage(){
-        
-        String salesTaxUpperVariancePercent = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_UPPER_VARIANCE_PERCENT);
-        
-        if (!StringUtils.isEmpty(salesTaxUpperVariancePercent)){
-            if (!NumberUtils.isNumber(salesTaxUpperVariancePercent)){
-                throw new RuntimeException("Invalid sales tax upper variance percent - " + salesTaxUpperVariancePercent);
-            }
-        }
-        
-        return salesTaxUpperVariancePercent;
-    }
-    
-    private String getSalesTaxLowerVariancePercentage(){
-        
-        String salesTaxLowerVariancePercent = SpringContext.getBean(ParameterService.class).getParameterValue(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.SALES_TAX_LOWER_VARIANCE_PERCENT);
-        
-        if (!StringUtils.isEmpty(salesTaxLowerVariancePercent)){
-            if (!NumberUtils.isNumber(salesTaxLowerVariancePercent)){
-                throw new RuntimeException("Invalid sales tax lower variance percent - " + salesTaxLowerVariancePercent);
-            }
-        }
-        
-        return salesTaxLowerVariancePercent;
     }
     
     public ElectronicInvoiceRejectReason createRejectReason(String rejectReasonTypeCode, String extraDescription, String fileName) {

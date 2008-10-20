@@ -40,6 +40,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     private String processUserId;
     private UniversalUser processUser;
     private boolean extractedInd;
+    private boolean formattedIndicator;
     
     public PaymentProcess() {
         super();
@@ -126,6 +127,14 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
      */
     public void setExtractedInd(boolean extractedInd) {
         this.extractedInd = extractedInd;
+    }
+
+    public boolean isFormattedIndicator() {
+        return formattedIndicator;
+    }
+
+    public void setFormattedIndicator(boolean formattedIndicator) {
+        this.formattedIndicator = formattedIndicator;
     }
 
 }

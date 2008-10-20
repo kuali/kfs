@@ -494,6 +494,7 @@
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="formattedIndicator" column="FORMATTED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.ProcessSummary" table="PDP_PROC_SUM_T">

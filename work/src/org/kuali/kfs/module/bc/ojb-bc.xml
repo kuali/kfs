@@ -492,7 +492,7 @@
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionEffectiveDate" column="POS_EFFDT" jdbc-type="DATE"/>
-	<field-descriptor name="positionEffectiveStatus" column="POS_EFF_STATUS" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="POS_EFF_STATUS" jdbc-type="VARCHAR" conversion="org.kuali.kfs.module.bc.util.OjbBCPositionActiveIndicatorConversion" />
 	<field-descriptor name="positionStatus" column="POSN_STATUS" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetedPosition" column="BUDGETED_POSN" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	<field-descriptor name="confidentialPosition" column="CONFIDENTIAL_POSN" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -947,7 +947,7 @@
 	<field-descriptor name="appointmentRequestedTimePercent" column="APPT_RQST_TM_PCT" jdbc-type="DECIMAL" length="6"/>
 	<field-descriptor name="appointmentRequestedFteQuantity" column="APPT_RQST_FTE_QTY" jdbc-type="DECIMAL" length="6"/>
 	<field-descriptor name="appointmentRequestedPayRate" column="APPT_RQST_PAY_RT" jdbc-type="DECIMAL" length="6"/>
-	<field-descriptor name="appointmentFundingDeleteIndicator" column="APPT_FND_DLT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="APPT_FND_DLT_CD" jdbc-type="VARCHAR" conversion="org.kuali.kfs.module.bc.util.OjbPendingBCAppointmentFundingActiveIndicatorConversion"/>
 	<field-descriptor name="appointmentFundingMonth" column="APPT_FND_MO" jdbc-type="INTEGER"/>
 	<field-descriptor name="positionObjectChangeIndicator" column="POS_OBJ_CHG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="positionSalaryChangeIndicator" column="POS_SAL_CHG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

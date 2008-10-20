@@ -18,6 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="PendingBudgetConstructionAppointmentFunding-accountNumber" />
+        <ref bean="PendingBudgetConstructionAppointmentFunding-active" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-appointmentFundingDeleteIndicator" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-appointmentFundingDurationCode" />
         <ref bean="PendingBudgetConstructionAppointmentFunding-appointmentFundingMonth" />
@@ -44,6 +45,16 @@
         <ref bean="PendingBudgetConstructionAppointmentFunding-adjustmentAmount" />       
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="budgetConstructionPosition"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="budgetConstructionIntendedIncumbent"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="budgetConstructionDuration"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -68,6 +79,13 @@
     <property name="summary" value="accountNumber" />
     <property name="description" value="accountNumber description..." />
   </bean>
+    <bean id="PendingBudgetConstructionAppointmentFunding-active" parent="PendingBudgetConstructionAppointmentFunding-active-parentBean" />
+
+  <bean id="PendingBudgetConstructionAppointmentFunding-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+    <property name="label" value="Active?" />
+  </bean>
+  
   <bean id="PendingBudgetConstructionAppointmentFunding-appointmentFundingDeleteIndicator" parent="PendingBudgetConstructionAppointmentFunding-appointmentFundingDeleteIndicator-parentBean" />
 
   <bean id="PendingBudgetConstructionAppointmentFunding-appointmentFundingDeleteIndicator-parentBean" abstract="true" parent="AttributeDefinition">

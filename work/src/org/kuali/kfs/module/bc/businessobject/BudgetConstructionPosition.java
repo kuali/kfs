@@ -26,8 +26,10 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.ResponsibilityCenter;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
+import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.UniversalUserService;
@@ -35,7 +37,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 
-public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position {
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Position, Inactivateable {
 
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -63,6 +65,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     private String iuDefaultObjectCode;
     private String iuPositionType;
     private String positionLockUserIdentifier;
+    private boolean active;
 
     private Options universityFiscal;
     private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
@@ -76,6 +79,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     public BudgetConstructionPosition() {
         budgetConstructionPositionSelect = new TypedArrayList(BudgetConstructionPositionSelect.class);
         pendingBudgetConstructionAppointmentFunding = new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class);
+        active = true; // assume active is true until set otherwise
     }
 
     /**
@@ -156,7 +160,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * @return Returns the positionEffectiveStatus.
      */
     public String getPositionEffectiveStatus() {
-        return positionEffectiveStatus;
+        return (this.active ? BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE : BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_INACTIVE); 
+//        return positionEffectiveStatus;
     }
 
     /**
@@ -165,7 +170,25 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * @param positionEffectiveStatus The positionEffectiveStatus to set.
      */
     public void setPositionEffectiveStatus(String positionEffectiveStatus) {
-        this.positionEffectiveStatus = positionEffectiveStatus;
+        
+//        this.positionEffectiveStatus = positionEffectiveStatus;
+        this.active = Boolean.valueOf(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE.indexOf(positionEffectiveStatus) >= 0); 
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

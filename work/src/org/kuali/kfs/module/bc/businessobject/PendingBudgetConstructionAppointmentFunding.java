@@ -34,6 +34,7 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -43,7 +44,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase {
+public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -67,6 +68,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private Integer appointmentFundingMonth;
     private boolean positionObjectChangeIndicator;
     private boolean positionSalaryChangeIndicator;
+    private boolean active;
 
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
@@ -107,6 +109,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
         bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
         budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
+        active = true; // assume active is true until set otherwise
     }
 
     /**
@@ -462,12 +465,31 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute.
+     * 
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
      * Gets the appointmentFundingDeleteIndicator attribute.
      * 
      * @return Returns the appointmentFundingDeleteIndicator
      */
     public boolean isAppointmentFundingDeleteIndicator() {
-        return appointmentFundingDeleteIndicator;
+        return !this.active;
+//        return appointmentFundingDeleteIndicator;
     }
 
     /**
@@ -476,7 +498,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @param appointmentFundingDeleteIndicator The appointmentFundingDeleteIndicator to set.
      */
     public void setAppointmentFundingDeleteIndicator(boolean appointmentFundingDeleteIndicator) {
-        this.appointmentFundingDeleteIndicator = appointmentFundingDeleteIndicator;
+        this.active = !appointmentFundingDeleteIndicator;
+//        this.appointmentFundingDeleteIndicator = appointmentFundingDeleteIndicator;
     }
 
     /**

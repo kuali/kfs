@@ -29,6 +29,7 @@
         <ref bean="BudgetConstructionPosition-positionDepartmentIdentifier" />
         <ref bean="BudgetConstructionPosition-positionDescription" />
         <ref bean="BudgetConstructionPosition-positionEffectiveDate" />
+        <ref bean="BudgetConstructionPosition-active" />
         <ref bean="BudgetConstructionPosition-positionEffectiveStatus" />
         <ref bean="BudgetConstructionPosition-positionFullTimeEquivalency" />
         <ref bean="BudgetConstructionPosition-positionGradeDefault" />
@@ -222,6 +223,13 @@
     <property name="shortLabel" value="Pos Eff Date" />
     <property name="description" value="Effective Date for the position." />
   </bean>
+  <bean id="BudgetConstructionPosition-active" parent="BudgetConstructionPosition-active-parentBean" />
+
+  <bean id="BudgetConstructionPosition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
+    <property name="label" value="Active?" />
+  </bean>
+  
   <bean id="BudgetConstructionPosition-positionEffectiveStatus" parent="BudgetConstructionPosition-positionEffectiveStatus-parentBean" />
 
   <bean id="BudgetConstructionPosition-positionEffectiveStatus-parentBean" abstract="true" parent="AttributeDefinition">

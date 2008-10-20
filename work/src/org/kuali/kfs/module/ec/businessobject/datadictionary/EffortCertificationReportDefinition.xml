@@ -90,7 +90,7 @@
 
   <bean id="EffortCertificationReportDefinition-effortCertificationReportPeriodTitle-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="effortCertificationReportPeriodTitle" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Report Period Title" />
     <property name="shortLabel" value="Report Title" />
     <property name="maxLength" value="30" />

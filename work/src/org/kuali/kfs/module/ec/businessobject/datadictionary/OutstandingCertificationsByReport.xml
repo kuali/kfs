@@ -98,7 +98,7 @@
 
   <bean id="OutstandingCertificationsByReport-outstandingCertificationCount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="outstandingCertificationCount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Number of Outstanding Certifications" />
     <property name="shortLabel" value="count" />
     <property name="maxLength" value="10" />

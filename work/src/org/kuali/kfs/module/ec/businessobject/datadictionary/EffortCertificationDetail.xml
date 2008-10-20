@@ -169,7 +169,7 @@
 
   <bean id="EffortCertificationDetail-costShareSourceSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costShareSourceSubAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Src Sub-Acct" />
     <property name="shortLabel" value="Src Sub-Acct" />
     <property name="maxLength" value="5" />

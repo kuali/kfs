@@ -32,7 +32,7 @@
 
   <bean id="EffortCertificationReportType-effortCertificationReportDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="effortCertificationReportDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Report Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

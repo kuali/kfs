@@ -58,7 +58,7 @@
 
   <bean id="OutstandingCertificationsByOrganization-effortCertificationDocumentCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="effortCertificationDocumentCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Effort Certification Document Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -76,7 +76,7 @@
 
   <bean id="OutstandingCertificationsByOrganization-certificationOrganizations-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="certificationOrganizations" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Certification Organizations" />
     <property name="shortLabel" value="organizations" />
     <property name="maxLength" value="2" />
@@ -94,7 +94,7 @@
   <bean id="OutstandingCertificationsByOrganization-nextApprovers" parent="OutstandingCertificationsByOrganization-nextApprovers-parentBean" />
   <bean id="OutstandingCertificationsByOrganization-nextApprovers-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="nextApprovers" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Outstanding Approvers" />
     <property name="shortLabel" value="Next Approvers" />
     <property name="maxLength" value="2" />

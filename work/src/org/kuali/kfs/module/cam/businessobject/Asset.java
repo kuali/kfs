@@ -12,6 +12,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjSubTyp;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -232,11 +233,11 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     public String getCapitalAssetDescription() {
         String tmpAssetDesc = capitalAssetDescription.replaceAll("\n", " ");
         String capitalAssetDescription = "";
-        if (tmpAssetDesc.length() <= 39)
+        if (tmpAssetDesc.length() <= CamsConstants.ASSET_DESC_DISPLAY_LENGTH)
             capitalAssetDescription = tmpAssetDesc;
         else {
-            while (tmpAssetDesc.length() > 39) {
-                int endOfLastWordPos = tmpAssetDesc.substring(0,38).lastIndexOf(' ');
+            while (tmpAssetDesc.length() > CamsConstants.ASSET_DESC_DISPLAY_LENGTH) {
+                int endOfLastWordPos = tmpAssetDesc.substring(0,CamsConstants.ASSET_DESC_DISPLAY_LENGTH-1).lastIndexOf(' ');
                 capitalAssetDescription += "\n"+tmpAssetDesc.substring(0, endOfLastWordPos);
                 tmpAssetDesc = tmpAssetDesc.substring(endOfLastWordPos + 1);
             }

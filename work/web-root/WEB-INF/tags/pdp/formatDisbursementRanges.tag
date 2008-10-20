@@ -27,7 +27,7 @@
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Disbursement Ranges">
 			<tr>
-				<td colspan="3" class="subhead">
+				<td colspan="4" class="subhead">
 					Your Default Campus Code is <kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="campus" readOnly="true" />
 				</td>
 			</tr>
@@ -38,6 +38,8 @@
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${bankAttributes.bankName}" />
 				<kul:htmlAttributeHeaderCell
+					attributeEntry="${disbursementNumberRangeAttributes.disbursementTypeCode}" />					
+				<kul:htmlAttributeHeaderCell
 					attributeEntry="${disbursementNumberRangeAttributes.lastAssignedDisbNbr}" />
 				
 			</tr>
@@ -45,10 +47,12 @@
 			<logic:iterate id="range" name="KualiForm" property="ranges" indexId="ctr">
                <html:hidden property="range[${ctr}].physCampusProcCode" />
 		       <html:hidden property="range[${ctr}].bank.bankName" />
+		       <html:hidden property="range[${ctr}].disbursementTypeCode" />
 		       <html:hidden property="range[${ctr}].lastAssignedDisbNbr" />
             <tr>
               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="range[${ctr}].physCampusProcCode" readOnly="true" /></th>
               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${bankAttributes.bankName}" property="range[${ctr}].bank.bankName" readOnly="true" /></td>
+              <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.disbursementTypeCode}" property="range[${ctr}].disbursementTypeCode" readOnly="true" /></th>
               <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.lastAssignedDisbNbr}" property="range[${ctr}].lastAssignedDisbNbr" readOnly="true" /></td>
             </tr>
             </logic:iterate>

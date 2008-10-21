@@ -22,6 +22,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewHideShowLinesDefinition;
 import org.kuali.kfs.sys.document.web.renderers.HideShowBlockRenderer;
 import org.kuali.rice.kns.util.WebUtils;
@@ -150,7 +151,8 @@ public class HideShowBlock implements RenderableElement {
      * @return the current tab state
      */
     public String getTabState() {
-        return renderingContext.getTabState(getTabKey());
+        String tabState = renderingContext.getTabState(getTabKey());
+        return StringUtils.isNotBlank(tabState) ? tabState : "CLOSE";
     }
     
     /**

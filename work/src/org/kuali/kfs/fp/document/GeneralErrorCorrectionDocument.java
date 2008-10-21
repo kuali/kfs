@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -166,7 +167,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

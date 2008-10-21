@@ -15,6 +15,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 

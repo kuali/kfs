@@ -41,6 +41,7 @@ import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -261,7 +262,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

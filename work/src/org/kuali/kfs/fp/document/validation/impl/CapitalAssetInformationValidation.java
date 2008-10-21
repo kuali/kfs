@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This class...
+ * validate the capital asset information associated with the accounting document for validation
  */
 public class CapitalAssetInformationValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetInformationValidation.class);
@@ -58,7 +58,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
 
-        if (!ObjectUtils.isNull(capitalAssetInformation)) {
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             ErrorMap errors = GlobalVariables.getErrorMap();
             errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);

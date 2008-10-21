@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
@@ -110,7 +111,7 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

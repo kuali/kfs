@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This is the business object that represents the ServiceBillingDocument in Kuali. See
@@ -89,7 +90,7 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

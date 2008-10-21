@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 
 /**
@@ -184,7 +185,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

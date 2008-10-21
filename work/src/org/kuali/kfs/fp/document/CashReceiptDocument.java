@@ -628,7 +628,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @return Returns the capitalAssetInformation.
      */
     public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+        return ObjectUtils.isNull(capitalAssetInformation)? null : capitalAssetInformation;
     }
 
     /**

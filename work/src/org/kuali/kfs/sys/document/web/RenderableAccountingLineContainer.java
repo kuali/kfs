@@ -23,6 +23,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -334,5 +337,11 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public KualiAccountingDocumentFormBase getForm() {
         return form;
     }
-    
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getAccountingLineContainingObjectPropertyName()
+     */
+    public String getAccountingLineContainingObjectPropertyName() {
+        return StringUtils.substringBeforeLast(this.getAccountingLinePropertyPath(), String.valueOf(PropertyUtils.NESTED_DELIM));
+    }   
 }

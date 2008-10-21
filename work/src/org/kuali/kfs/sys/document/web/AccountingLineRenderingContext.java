@@ -114,4 +114,9 @@ public interface AccountingLineRenderingContext {
      * @return the form that the rendered accounting line will be associated with
      */
     public abstract KualiAccountingDocumentFormBase getForm();
+    
+    /**
+     * @return the property name of the object that contains the accounting lines
+     */
+    public abstract String getAccountingLineContainingObjectPropertyName();
 }

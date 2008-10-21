@@ -120,7 +120,7 @@
 	  <property name="groupLabel" value="Accounting Lines" />
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="target" />
-	  <property name="totals" ref="AccountingDocument-targetGroupTotals" />
+	  <property name="totals" ref="ProcurementCard-targetGroupTotals" />
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*" />
   </bean>
   
@@ -139,11 +139,19 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="amount"
-					p:required="true" />
+				<bean parent="AccountingLineView-field" p:name="amount"	p:required="true" />
 				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>
-	</bean>
+  </bean>
   
+	<bean id="ProcurementCard-targetGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="targetTotal" p:representedProperty="amount" p:nestedProperty="true"/>
+			</list>
+		</property>
+	</bean>  
 </beans>

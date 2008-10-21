@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.datadictionary;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.document.web.NestedFieldTotaling;
 import org.kuali.kfs.sys.document.web.renderers.GroupTotalRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
@@ -24,9 +25,11 @@ import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
  * The definition of an accounting line group total renderer, which will display an accounting line
  * group total as a standard "Total: " + amount.
  */
-public class AccountingLineGroupTotalDefinition extends TotalDefinition {
+public class AccountingLineGroupTotalDefinition extends TotalDefinition{
     private String totalProperty;
     private String representedProperty;
+    private boolean nestedProperty;
+    private String containingPropertyName;
     private String totalLabelProperty = "accounting.line.group.total.label";
     
     /**
@@ -68,9 +71,13 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition {
     @Override
     public Renderer getTotalRenderer() {
         GroupTotalRenderer renderer = new GroupTotalRenderer();
+        
         renderer.setTotalLabelProperty(totalLabelProperty);
-        renderer.setTotalProperty(totalProperty);
         renderer.setRepresentedCellPropertyName(representedProperty);
+        
+        String actualTotalProperty = this.getActualPropertyName(containingPropertyName, totalProperty);
+        renderer.setTotalProperty(actualTotalProperty);
+        
         return renderer;
     }
 
@@ -99,5 +106,26 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition {
     public void setRepresentedProperty(String representedProperty) {
         this.representedProperty = representedProperty;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.datadictionary.TotalDefinition#isNestedProperty()
+     */
+    public boolean isNestedProperty() {
+        return nestedProperty;
+    }
 
+    /**
+     * Sets the nestedProperty attribute value.
+     * @param nestedProperty The nestedProperty to set.
+     */
+    public void setNestedProperty(boolean nestedProperty) {
+        this.nestedProperty = nestedProperty;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.NestedFieldTotaling#setContainingPropertyName(java.lang.String)
+     */
+    public void setContainingPropertyName(String containingPropertyName) {
+        this.containingPropertyName = containingPropertyName;
+    }
 }

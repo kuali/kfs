@@ -26,6 +26,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
+import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupTotalDefinition;
 import org.kuali.kfs.sys.document.datadictionary.TotalDefinition;
 import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
@@ -182,7 +183,19 @@ public class AccountingLineGroup {
     protected void renderTotals(PageContext pageContext, Tag parentTag) throws JspException {
         int cellCount = getWidthInCells();
 
-        for (TotalDefinition definition : groupDefinition.getTotals()) {
+        List<? extends TotalDefinition> groupTotals = groupDefinition.getTotals();
+        for (TotalDefinition definition : groupTotals) {
+            if(definition instanceof NestedFieldTotaling) {
+                NestedFieldTotaling nestedFieldTotaling = (NestedFieldTotaling)definition;
+                
+                if(nestedFieldTotaling.isNestedProperty()) {
+                    int index = groupTotals.indexOf(definition);
+                    RenderableAccountingLineContainer container = this.containers.get(index);
+                    String containingObjectPropertyName = container.getAccountingLineContainingObjectPropertyName();                    
+                    nestedFieldTotaling.setContainingPropertyName(containingObjectPropertyName);
+                }                
+            }
+            
             Renderer renderer = definition.getTotalRenderer();
             if (renderer instanceof CellCountCurious) {
                 ((CellCountCurious) renderer).setCellCount(cellCount);

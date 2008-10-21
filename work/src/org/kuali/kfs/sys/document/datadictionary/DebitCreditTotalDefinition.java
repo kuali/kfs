@@ -29,6 +29,9 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
 
     private String debitTotalProperty;
     private String creditTotalProperty;
+    
+    private boolean nestedProperty;
+    private String containingPropertyName;
 
     private String representedProperty;
 
@@ -42,12 +45,15 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
     public Renderer getTotalRenderer() {
         DebitCreditTotalRenderer renderer = new DebitCreditTotalRenderer();
 
-        renderer.setCreditTotalProperty(creditTotalProperty);
-        renderer.setCreditTotalLabelProperty(creditTotalLabelProperty);
+        String actualCreditTotalProperty = this.getActualPropertyName(containingPropertyName, creditTotalProperty);
+        renderer.setCreditTotalProperty(actualCreditTotalProperty);
+        
+        String actualDebitTotalProperty = this.getActualPropertyName(containingPropertyName, debitTotalProperty);
+        renderer.setDebitTotalProperty(actualDebitTotalProperty);
 
         renderer.setRepresentedCellPropertyName(representedProperty);
 
-        renderer.setDebitTotalProperty(debitTotalProperty);
+        renderer.setCreditTotalLabelProperty(creditTotalLabelProperty);
         renderer.setDebitTotalLabelProperty(debitTotalLabelProperty);
 
         return renderer;
@@ -152,5 +158,27 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
      */
     public void setRepresentedProperty(String representedProperty) {
         this.representedProperty = representedProperty;
+    }
+
+    /**
+     * Sets the nestedProperty attribute value.
+     * @param nestedProperty The nestedProperty to set.
+     */
+    public void setNestedProperty(boolean nestedProperty) {
+        this.nestedProperty = nestedProperty;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.NestedFieldTotaling#setContainingPropertyName(java.lang.String)
+     */
+    public void setContainingPropertyName(String containingPropertyName) {
+        this.containingPropertyName = containingPropertyName;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.NestedFieldTotaling#isNestedProperty()
+     */
+    public boolean isNestedProperty() {
+        return this.nestedProperty;
     }
 }

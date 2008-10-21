@@ -15,17 +15,36 @@
  */
 package org.kuali.kfs.sys.document.datadictionary;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.document.web.NestedFieldTotaling;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
 
 /**
  * Metadata about something that will be responsible for rendering some total of some accounting line group sometime, or something
  */
-public abstract class TotalDefinition extends DataDictionaryDefinitionBase {
-    
+public abstract class TotalDefinition extends DataDictionaryDefinitionBase implements NestedFieldTotaling {
+
     /**
-     * Returns a renderer which will render the total for this total definition 
+     * Returns a renderer which will render the total for this total definition
+     * 
      * @return a Renderer which will render a total
      */
     public abstract Renderer getTotalRenderer();
+
+    /**
+     * get the actual property name if the property is nested; otherwise, return the given property name
+     * 
+     * @param containingPropertyName the given containing property name
+     * @param propertyName the given peropety name
+     * @return the actual property name if the property is nested; otherwise, return the given property name
+     */
+    public String getActualPropertyName(String containingPropertyName, String propertyName) {
+        if (this.isNestedProperty() && StringUtils.isNotBlank(containingPropertyName)) {
+            return containingPropertyName + PropertyUtils.NESTED_DELIM + propertyName;
+        }
+
+        return propertyName;
+    }
 }

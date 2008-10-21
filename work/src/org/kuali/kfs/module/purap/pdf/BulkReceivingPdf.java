@@ -337,10 +337,14 @@ public class BulkReceivingPdf extends PurapPdf {
         shipToInfo.append("\n");
         shipToInfo.append("     " + StringUtils.defaultString(blkRecDoc.getDeliveryToName()) + "\n");
         
-        // extra space needed below to separate other text going on same PDF line
-        String deliveryBuildingName = blkRecDoc.getDeliveryBuildingName() + " ";
+        String deliveryBuildingName = blkRecDoc.getDeliveryBuildingName();
 
-        shipToInfo.append("     " + deliveryBuildingName + "Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");
+        if (StringUtils.isBlank(deliveryBuildingName)){
+            shipToInfo.append("     Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");
+        }else{
+            shipToInfo.append("     " + deliveryBuildingName + " Room #" + blkRecDoc.getDeliveryBuildingRoomNumber() + "\n");    
+        }
+        
         shipToInfo.append("     " + blkRecDoc.getDeliveryBuildingLine1Address() + "\n");
         
         if (StringUtils.isNotBlank(blkRecDoc.getDeliveryBuildingLine2Address())) {

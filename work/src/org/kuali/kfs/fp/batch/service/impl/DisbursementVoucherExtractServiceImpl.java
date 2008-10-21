@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.batch.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +45,6 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -85,7 +83,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private CustomerProfileService customerProfileService;
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
-    private ReferenceService referenceService;
     private BusinessObjectService businessObjectService;
     private PaymentFileEmailService paymentFileEmailService;
     private int maxNoteLines;
@@ -180,7 +177,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         pd.setPaymentGroup(pg);
         pg.addPaymentDetails(pd);
-        paymentGroupService.save(pg);
+        this.businessObjectService.save(pg);
 
         if (!testMode) {
             try {
@@ -282,9 +279,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
         
         pg.setBankCode(document.getDisbVchrBankCode());
-
-        // PaymentStatus open = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
-        // pg.setPaymentStatus(open);
 
         return pg;
     }
@@ -765,15 +759,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
-    }
-
-    /**
-     * This method sets the referenceService instance.
-     * 
-     * @param rs The ReferenceService to be set.
-     */
-    public void setReferenceService(ReferenceService rs) {
-        this.referenceService = rs;
     }
 
     /**

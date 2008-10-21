@@ -54,7 +54,6 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentFileEmailService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.BankService;
@@ -90,7 +89,6 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
-    private ReferenceService referenceService;
     private DocumentService documentService;
     private PurapRunDateService purapRunDateService;
     private PaymentFileEmailService paymentFileEmailService;
@@ -291,7 +289,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             PaymentGroup paymentGroup = buildPaymentGroup(paymentRequests, creditMemos, batch);
 
             if (validatePaymentGroup(paymentGroup)) {
-                paymentGroupService.save(paymentGroup);
+                this.businessObjectService.save(paymentGroup);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Created PaymentGroup: " + paymentGroup.getId());
                 }
@@ -336,7 +334,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         PaymentGroup paymentGroup = buildPaymentGroup(prds, cmds, batch);
         if (validatePaymentGroup(paymentGroup)) {
-            paymentGroupService.save(paymentGroup);
+            this.businessObjectService.save(paymentGroup);
             updatePaymentRequest(paymentRequestDocument, puser, processRunDate);
         }
 
@@ -669,11 +667,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           KualiDecimal lineAmount = sourceAccountingLine.getAmount();  
           PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
           paymentAccountDetail.setAccountNbr(sourceAccountingLine.getAccountNumber());
-         
-          if (creditMemoDocType.equals(documentType)) {
-              lineAmount = lineAmount.negated();
-          }
-          
+
+                if (creditMemoDocType.equals(documentType)) {
+                    lineAmount = lineAmount.negated();
+                }
+
           paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
@@ -682,7 +680,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           paymentAccountDetail.setProjectCode(sourceAccountingLine.getProjectCode());
           paymentAccountDetail.setSubAccountNbr(sourceAccountingLine.getSubAccountNumber());
 
-          paymentDetail.addAccountDetail(paymentAccountDetail);
+            paymentDetail.addAccountDetail(paymentAccountDetail);
         }
 //ORIGINAL METHOD
 //        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
@@ -1140,15 +1138,6 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Sets the referenceService attribute value.
-     * 
-     * @param referenceService The referenceService to set.
-     */
-    public void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
-    }
-
-    /**
      * Sets the documentService attribute value.
      * 
      * @param documentService The documentService to set.
@@ -1188,13 +1177,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * Sets the documentTypeService attribute value.
      * 
      * @param documentTypeService The documentTypeService to set.
-     */    
+     */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
 
     public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
-    }
-
+}
 }

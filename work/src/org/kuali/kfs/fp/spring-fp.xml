@@ -315,9 +315,6 @@
 		<property name="paymentGroupService">
 			<ref bean="pdpPaymentGroupService"/>
 		</property>
-		<property name="referenceService">
-			<ref bean="pdpReferenceService"/>
-		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>

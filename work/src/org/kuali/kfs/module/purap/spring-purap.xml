@@ -106,17 +106,12 @@
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="creditMemoService" ref="creditMemoService"/>
-		<property name="referenceService" ref="pdpReferenceService"/>
 		<property name="documentService" ref="documentService"/>
         <property name="purapRunDateService" ref="purapRunDateService" />
         <property name="paymentFileEmailService" ref="paymentFileEmailService" />
         <property name="bankService" ref="bankService" />
         <property name="documentTypeService" ref="documentTypeService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
-	</bean>
-
-	<bean id="pdpEnvironmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
 	<bean id="requisitionService" class="org.kuali.kfs.module.purap.document.service.impl.RequisitionServiceImpl">
@@ -277,7 +272,7 @@
         </property>      
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property> 
+        </property>             
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>                
@@ -643,10 +638,6 @@
         <property name="taxService" ref="taxService"/>
 	</bean>
 
-	<bean id="environmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
-	</bean>
-	
 	<bean id="electronicInvoiceService" class="org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceServiceImpl">
 		<property name="electronicInvoicingDao">
 		    <ref bean="electronicInvoicingDao" />
@@ -659,9 +650,6 @@
         </property>
         <property name="vendorService">
             <ref bean="vendorService" />
-        </property>
-        <property name="environmentService">
-            <ref bean="environmentService" />
         </property>
          <property name="electronicInvoiceMappingService">
             <ref bean="electronicInvoiceMappingService" />

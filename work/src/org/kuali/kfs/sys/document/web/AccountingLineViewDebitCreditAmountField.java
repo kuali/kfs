@@ -33,7 +33,7 @@ import org.kuali.rice.kns.web.ui.Field;
  * 
  * This class...
  */
-public class AccountingLineViewDebitOrCreditAmountField implements RenderableElement {
+public class AccountingLineViewDebitCreditAmountField implements RenderableElement, ElementNamable {
     private Field debitOrCreditField;
     private AccountingLineViewFieldDefinition definition;
     private boolean isDebit;
@@ -49,7 +49,7 @@ public class AccountingLineViewDebitOrCreditAmountField implements RenderableEle
      * @param newLineProperty
      * @param collectionProperty
      */
-    public AccountingLineViewDebitOrCreditAmountField(Field debitOrCreditField, AccountingLineViewFieldDefinition definition, boolean isDebit, String newLineProperty, String collectionProperty) {
+    public AccountingLineViewDebitCreditAmountField(Field debitOrCreditField, AccountingLineViewFieldDefinition definition, boolean isDebit, String newLineProperty, String collectionProperty) {
         this.debitOrCreditField = debitOrCreditField;
         this.definition = definition;
         this.isDebit = isDebit;
@@ -175,6 +175,13 @@ public class AccountingLineViewDebitOrCreditAmountField implements RenderableEle
      */
     public String getNewLineProperty() {
         return newLineProperty;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.web.ElementNamable#getName()
+     */
+    public String getName() {
+        return this.getDebitOrCreditField().getPropertyName();
     }
 
 }

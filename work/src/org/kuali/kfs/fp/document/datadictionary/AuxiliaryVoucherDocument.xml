@@ -179,7 +179,7 @@
 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
 	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase" />
 	<property name="importedLinePropertyPrefix" value="source" />
-	<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+	<property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
 	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
   </bean>
   

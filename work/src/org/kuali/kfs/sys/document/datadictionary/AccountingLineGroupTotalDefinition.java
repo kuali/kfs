@@ -26,6 +26,7 @@ import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
  */
 public class AccountingLineGroupTotalDefinition extends TotalDefinition {
     private String totalProperty;
+    private String representedProperty;
     private String totalLabelProperty = "accounting.line.group.total.label";
     
     /**
@@ -69,6 +70,7 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition {
         GroupTotalRenderer renderer = new GroupTotalRenderer();
         renderer.setTotalLabelProperty(totalLabelProperty);
         renderer.setTotalProperty(totalProperty);
+        renderer.setRepresentedCellPropertyName(representedProperty);
         return renderer;
     }
 
@@ -80,6 +82,22 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition {
         if (StringUtils.isBlank(totalProperty)) {
             throw new AttributeValidationException("Please specify a totalProperty for the AccountingLineGroupTotalRenderer");
         }
+    }
+
+    /**
+     * Gets the representedProperty attribute. 
+     * @return Returns the representedProperty.
+     */
+    public String getRepresentedProperty() {
+        return representedProperty;
+    }
+
+    /**
+     * Sets the representedProperty attribute value.
+     * @param representedProperty The representedProperty to set.
+     */
+    public void setRepresentedProperty(String representedProperty) {
+        this.representedProperty = representedProperty;
     }
 
 }

@@ -20,11 +20,15 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-public abstract class TotalRendererBase implements Renderer, CellCountCurious {
+public abstract class TotalRendererBase implements Renderer, CellCountCurious, RepresentedCellCurious {
     private int cellCount = 0;
+    private String representedCellPropertyName;
+    private int columnNumberOfRepresentedCell = 0; 
 
     public void clear() {
         cellCount = 0;
+        columnNumberOfRepresentedCell = 0;
+        representedCellPropertyName = null;
     }
 
     /**
@@ -42,4 +46,37 @@ public abstract class TotalRendererBase implements Renderer, CellCountCurious {
     public void setCellCount(int cellCount) {
         this.cellCount = cellCount;
     }
+
+    /**
+     * Gets the representedCellPropertyName attribute. 
+     * @return Returns the representedCellPropertyName.
+     */
+    public String getRepresentedCellPropertyName() {
+        return representedCellPropertyName;
+    }
+
+    /**
+     * Sets the representedCellPropertyName attribute value.
+     * @param representedCellPropertyName The representedCellPropertyName to set.
+     */
+    public void setRepresentedCellPropertyName(String representedCellPropertyName) {
+        this.representedCellPropertyName = representedCellPropertyName;
+    }
+
+    /**
+     * Gets the columnNumberOfRepresentedCell attribute. 
+     * @return Returns the columnNumberOfRepresentedCell.
+     */
+    public int getColumnNumberOfRepresentedCell() {
+        return columnNumberOfRepresentedCell;
+    }
+
+    /**
+     * Sets the columnNumberOfRepresentedCell attribute value.
+     * @param columnNumberOfRepresentedCell The columnNumberOfRepresentedCell to set.
+     */
+    public void setColumnNumberOfRepresentedCell(int columnNumberOfRepresentedCell) {
+        this.columnNumberOfRepresentedCell = columnNumberOfRepresentedCell;
+    }
+
 }

@@ -29,6 +29,9 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
 
     private String debitTotalProperty;
     private String creditTotalProperty;
+
+    private String representedProperty;
+
     private String debitTotalLabelProperty = "accounting.line.group.debitTotal.label";
     private String creditTotalLabelProperty = "accounting.line.group.creditTotal.label";
 
@@ -41,6 +44,8 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
 
         renderer.setCreditTotalProperty(creditTotalProperty);
         renderer.setCreditTotalLabelProperty(creditTotalLabelProperty);
+
+        renderer.setRepresentedCellPropertyName(representedProperty);
 
         renderer.setDebitTotalProperty(debitTotalProperty);
         renderer.setDebitTotalLabelProperty(debitTotalLabelProperty);
@@ -129,5 +134,23 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
      */
     public void setCreditTotalLabelProperty(String creditTotalLabelProperty) {
         this.creditTotalLabelProperty = creditTotalLabelProperty;
+    }
+
+    /**
+     * Gets the representedProperty attribute.
+     * 
+     * @return Returns the representedProperty.
+     */
+    public String getRepresentedProperty() {
+        return representedProperty;
+    }
+
+    /**
+     * Sets the representedProperty attribute value.
+     * 
+     * @param representedProperty The representedProperty to set.
+     */
+    public void setRepresentedProperty(String representedProperty) {
+        this.representedProperty = representedProperty;
     }
 }

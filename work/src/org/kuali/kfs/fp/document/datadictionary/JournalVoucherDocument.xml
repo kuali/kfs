@@ -216,13 +216,4 @@
 	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
   </bean>  
-  
-  	<bean id="AccountingDocument-sourceDebitCerditTotals"
-		class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean parent="AccountingLineView-debitCreditTotal" p:creditTotalProperty="currencyFormattedCreditTotal" p:debitTotalProperty="currencyFormattedDebitTotal"/>
-			</list>
-		</property>
-	</bean>
 </beans>

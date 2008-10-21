@@ -134,7 +134,7 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
      */
     protected AccountingLineTableCell createCellForField(Field field, AccountingLineViewFieldDefinition definition, boolean isDebit) {
         AccountingLineTableCell cell = new AccountingLineTableCell();
-        AccountingLineViewDebitOrCreditAmountField renderableField = new AccountingLineViewDebitOrCreditAmountField(field, definition, isDebit, (isDebit ? this.definition.getNewLineDebitAmountProperty() : this.definition.getNewLineCreditAmountProperty()), this.definition.getVoucherLineHelperProperty());
+        AccountingLineViewDebitCreditAmountField renderableField = new AccountingLineViewDebitCreditAmountField(field, definition, isDebit, (isDebit ? this.definition.getNewLineDebitAmountProperty() : this.definition.getNewLineCreditAmountProperty()), this.definition.getVoucherLineHelperProperty());
         cell.addRenderableElement(renderableField);
         return cell;
     }

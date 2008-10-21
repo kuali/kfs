@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.document.web.renderers.CellCountCurious;
 import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.ImportLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
+import org.kuali.kfs.sys.document.web.renderers.RepresentedCellCurious;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -50,6 +51,7 @@ public class AccountingLineGroup {
 
     /**
      * Constructs a AccountingLineGroup
+     * 
      * @param groupDefinition the data dictionary group definition for this accounting line group
      * @param accountingDocument the document which owns or will own the accounting line being rendered
      * @param containers the containers within this group
@@ -67,9 +69,10 @@ public class AccountingLineGroup {
         this.errors = errors;
         this.displayedErrors = displayedErrors;
     }
-    
+
     /**
      * Renders the whole of this accounting line group
+     * 
      * @param pageContext the page context to render to
      * @param parentTag the AccountingLinesTag that is requesting this rendering
      */
@@ -78,20 +81,26 @@ public class AccountingLineGroup {
             renderGroupHeader(pageContext, parentTag);
         }
         renderAccountingLineContainers(pageContext, parentTag);
-        if (groupDefinition.getTotals() != null && groupDefinition.getTotals().size() > 0) {
+
+        boolean renderTotals = !accountingDocument.getSourceAccountingLines().isEmpty() || !accountingDocument.getTargetAccountingLines().isEmpty();
+        renderTotals &= groupDefinition.getTotals() != null && groupDefinition.getTotals().size() > 0;
+        if (renderTotals) {
             renderTotals(pageContext, parentTag);
         }
     }
-    
+
     /**
      * Finds the maximum number of cells in the accounting line table row
+     * 
      * @param rows the rows which are being rendered
      * @return the maximum number of cells to render
      */
     public int getWidthInCells() {
-        if (groupDefinition.getForceColumnCount() > 0) return groupDefinition.getForceColumnCount();
-        if (cellCount > 0) return cellCount;
-        
+        if (groupDefinition.getForceColumnCount() > 0)
+            return groupDefinition.getForceColumnCount();
+        if (cellCount > 0)
+            return cellCount;
+
         int max = 0;
         for (RenderableAccountingLineContainer line : containers) {
             if (line.getCellCount() > max) {
@@ -101,9 +110,11 @@ public class AccountingLineGroup {
         cellCount = max;
         return cellCount;
     }
-    
+
     /**
-     * Renders the group header/import line for the accounting line group.  Renders importLineOverride if present; otherwise, uses ImportLineRenderer to do its dirty work 
+     * Renders the group header/import line for the accounting line group. Renders importLineOverride if present; otherwise, uses
+     * ImportLineRenderer to do its dirty work
+     * 
      * @param accountingLineGroupDefinition the accounting line group definition
      * @param rows the rows to render
      * @throws JspException thrown if something goes wrong in rendering the header
@@ -112,10 +123,12 @@ public class AccountingLineGroup {
         if (importLineOverride != null) {
             try {
                 importLineOverride.invoke(pageContext.getOut());
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe) {
                 throw new JspException("Could not render import line override fragment", ioe);
             }
-        } else {
+        }
+        else {
             ImportLineRenderer importLineRenderer = new ImportLineRenderer();
             importLineRenderer.setAccountingLineGroupDefinition(groupDefinition);
             importLineRenderer.setCellCount(getWidthInCells());
@@ -128,7 +141,7 @@ public class AccountingLineGroup {
             importLineRenderer.render(pageContext, parentTag);
             importLineRenderer.clear();
         }
-        
+
         if (errors != null && errors.size() > 0) {
             GroupErrorsRenderer errorRenderer = new GroupErrorsRenderer();
             errorRenderer.setErrorKeyMatch(groupDefinition.getErrorKey());
@@ -136,17 +149,18 @@ public class AccountingLineGroup {
             errorRenderer.setErrorPropertyList(errors);
             errorRenderer.setSectionTitle(groupDefinition.getGroupLabel());
             errorRenderer.render(pageContext, parentTag);
-            
+
             for (String displayedErrorKey : errorRenderer.getErrorsRendered()) {
                 displayedErrors.put(displayedErrorKey, "true");
             }
-            
+
             errorRenderer.clear();
         }
     }
-    
+
     /**
      * Renders the accounting line containers
+     * 
      * @param containers the containers to render
      * @throws JspException thrown if rendering goes badly
      */
@@ -157,27 +171,69 @@ public class AccountingLineGroup {
             container.renderElement(pageContext, parentTag, container);
         }
     }
-    
+
     /**
      * Renders all of the totals required by the group total definition
+     * 
      * @param groupDefinition the accounting line view group definition
      * @param lines the lines that will be rendered - so we can count how many cells we're rendering
      * @throws JspException thrown if something goes wrong
      */
     protected void renderTotals(PageContext pageContext, Tag parentTag) throws JspException {
         int cellCount = getWidthInCells();
+
         for (TotalDefinition definition : groupDefinition.getTotals()) {
             Renderer renderer = definition.getTotalRenderer();
             if (renderer instanceof CellCountCurious) {
-                ((CellCountCurious)renderer).setCellCount(cellCount);
+                ((CellCountCurious) renderer).setCellCount(cellCount);
             }
+
+            if (renderer instanceof RepresentedCellCurious) {
+                RepresentedCellCurious representedCellCurious = ((RepresentedCellCurious) renderer);
+                int columnNumberOfRepresentedCell = this.getRepresentedColumnNumber(representedCellCurious.getRepresentedCellPropertyName());
+                representedCellCurious.setColumnNumberOfRepresentedCell(columnNumberOfRepresentedCell);
+            }
+
             renderer.render(pageContext, parentTag);
             renderer.clear();
         }
     }
 
     /**
+     * get the column number of the tabel cell with the given property name in an accounting line table
+     * 
+     * @param propertyName the given property name that is associated with the column
+     * @return the column number of the tabel cell with the given property name in an accounting line table
+     */
+    protected int getRepresentedColumnNumber(String propertyName) {
+        for (RenderableAccountingLineContainer container : containers) {
+            List<AccountingLineTableRow> tableRows = container.getRows();
+            
+            for (AccountingLineTableRow row : tableRows) {
+                List<AccountingLineTableCell> tableCells = row.getCells();
+                
+                for (AccountingLineTableCell cell : tableCells) {
+                    List<RenderableElement> fields = cell.getRenderableElement();
+
+                    for (RenderableElement field : fields) {
+                        if (field instanceof ElementNamable == false) {
+                            continue;
+                        }
+
+                        if (((ElementNamable) field).getName().equals(propertyName)) {
+                            return tableCells.indexOf(cell) + 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Sets the cellCount attribute value.
+     * 
      * @param cellCount The cellCount to set.
      */
     public void setCellCount(int cellCount) {
@@ -186,14 +242,16 @@ public class AccountingLineGroup {
 
     /**
      * Sets the importLineOverride attribute value.
+     * 
      * @param importLineOverride The importLineOverride to set.
      */
     public void setImportLineOverride(JspFragment importLineOverride) {
         this.importLineOverride = importLineOverride;
     }
-    
+
     /**
      * Sets the form's arbitrarily high tab index
+     * 
      * @param arbitrarilyHighIndex the index to set
      */
     public void setArbitrarilyHighIndex(int arbitrarilyHighIndex) {
@@ -201,7 +259,8 @@ public class AccountingLineGroup {
     }
 
     /**
-     * Gets the errors attribute. 
+     * Gets the errors attribute.
+     * 
      * @return Returns the errors.
      */
     public List getErrorKeys() {
@@ -210,10 +269,11 @@ public class AccountingLineGroup {
 
     /**
      * Sets the errors attribute value.
+     * 
      * @param errors The errors to set.
      */
     public void setErrorKeys(List errors) {
         this.errors = errors;
     }
-    
+
 }

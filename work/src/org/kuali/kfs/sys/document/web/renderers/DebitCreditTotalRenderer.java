@@ -29,6 +29,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 public class DebitCreditTotalRenderer extends TotalRendererBase {
     private String debitTotalProperty;
     private String creditTotalProperty;
+    private String representedProperty;
     
     private String debitTotalLabelProperty = "accounting.line.group.debitTotal.label";
     private String creditTotalLabelProperty = "accounting.line.group.creditTotal.label";
@@ -54,6 +55,7 @@ public class DebitCreditTotalRenderer extends TotalRendererBase {
         super.clear();
         debitTotalProperty = null;
         creditTotalProperty = null;
+        representedProperty = null;
         
         debitWriteTag.setPageContext(null);
         debitWriteTag.setParent(null);
@@ -74,9 +76,9 @@ public class DebitCreditTotalRenderer extends TotalRendererBase {
         try {
             out.write("<tr>");
             
+            final int emptyCellSpanBefore = this.getColumnNumberOfRepresentedCell() - 1;
             out.write("<td  class=\"total-line\" colspan=\"");
-            final int longEmptyCellSpan = getCellCount() - 3;
-            out.write(Integer.toString(longEmptyCellSpan));
+            out.write(Integer.toString(emptyCellSpanBefore));
             out.write("\">&nbsp;</td>");
             
             out.write("<td class=\"total-line\" style=\"border-left: 0px; white-space:nowrap;\">");            
@@ -109,7 +111,12 @@ public class DebitCreditTotalRenderer extends TotalRendererBase {
             out.write("</strong>");            
             out.write("</td>");
             
-            out.write("<td class=\"total-line\" style=\"border-left: 0px;\">&nbsp;</td>");
+            final int emptyCellSpanAfter = this.getCellCount() - this.getColumnNumberOfRepresentedCell() - 1;
+            if(emptyCellSpanAfter > 0) {
+                out.write("<td class=\"total-line\" style=\"border-left: 0px;\" colspan=\"");
+                out.write(Integer.toString(emptyCellSpanAfter));
+                out.write("\">&nbsp;</td>");
+            }
             
             out.write("</tr>");
         }

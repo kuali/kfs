@@ -98,9 +98,9 @@ public class GroupTotalRenderer extends TotalRendererBase {
         try {
             out.write("<tr>");
             
+            final int emptyCellSpanBefore = this.getColumnNumberOfRepresentedCell() - 1;
             out.write("<td  class=\"total-line\" colspan=\"");
-            final int longEmptyCellSpan = getCellCount() - 2;
-            out.write(Integer.toString(longEmptyCellSpan));
+            out.write(Integer.toString(emptyCellSpanBefore));
             out.write("\">&nbsp;</td>");
             
             out.write("<td class=\"total-line\" style=\"border-left: 0px;\">");
@@ -120,7 +120,12 @@ public class GroupTotalRenderer extends TotalRendererBase {
             
             out.write("</td>");
             
-            out.write("<td class=\"total-line\" style=\"border-left: 0px;\">&nbsp;</td>");
+            final int emptyCellSpanAfter = this.getCellCount() - this.getColumnNumberOfRepresentedCell();
+            if(emptyCellSpanAfter > 0) {
+                out.write("<td class=\"total-line\" style=\"border-left: 0px;\" colspan=\"");
+                out.write(Integer.toString(emptyCellSpanAfter));
+                out.write("\">&nbsp;</td>");
+            }
             
             out.write("</tr>");
         }

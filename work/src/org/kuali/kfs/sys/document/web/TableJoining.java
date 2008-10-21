@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransforma
 /**
  * An interface which specifies the behaviors needed from layout elements to join tables
  */
-public interface TableJoining {
+public interface TableJoining extends ElementNamable{
     
     /**
      * Requests that this layout element property join a number of rows which will make up a table 
@@ -46,12 +46,6 @@ public interface TableJoining {
      * @return the minimum number of rows
      */
     public abstract int getRequestedRowCount();
-    
-    /**
-     * Returns the name(s) of this table joining element; some table joining elements are compound
-     * @return the names of this table joining element
-     */
-    public abstract String getName();
     
     /**
      * Removes any action blocks from the given element

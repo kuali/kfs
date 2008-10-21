@@ -58,7 +58,7 @@
 		<property name="sourceList">
 			<list>
 				<bean parent="AccountingLineView-groupTotal"
-					p:totalProperty="currencyFormattedSourceTotal" />
+					p:totalProperty="currencyFormattedSourceTotal" p:representedProperty="amount"/>
 			</list>
 		</property>
 	</bean>
@@ -68,9 +68,21 @@
 		<property name="sourceList">
 			<list>
 				<bean parent="AccountingLineView-groupTotal"
-					p:totalProperty="currencyFormattedTargetTotal" />
+					p:totalProperty="currencyFormattedTargetTotal" p:representedProperty="amount"/>
 			</list>
 		</property>
 	</bean>
+	
+  	<bean id="AccountingDocument-sourceDebitCerditTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-debitCreditTotal" 
+					  p:creditTotalProperty="currencyFormattedCreditTotal" 
+					  p:debitTotalProperty="currencyFormattedDebitTotal" 
+					  p:representedProperty="voucherLineHelper[0].debit"/>
+			</list>
+		</property>
+	</bean>	
 
 </beans>

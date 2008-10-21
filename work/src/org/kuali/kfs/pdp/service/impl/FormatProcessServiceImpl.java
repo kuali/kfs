@@ -16,15 +16,16 @@
 package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 import org.kuali.kfs.pdp.service.FormatProcessService;
-import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class provides methods for the format process.
@@ -32,9 +33,9 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 public class FormatProcessServiceImpl implements FormatProcessService {
     
     private FormatProcessDao formatProcessDao;
-    private CustomerProfileDao customerProfileDao;
     private DisbursementNumberRangeDao disbursementNumberRangeDao;
-
+    private BusinessObjectService businessObjectService;
+    
     /**
      * @see org.kuali.kfs.pdp.service.FormatProcessService#getDataForFormat(org.kuali.rice.kns.bo.user.UniversalUser)
      */
@@ -48,7 +49,7 @@ public class FormatProcessServiceImpl implements FormatProcessService {
         
         //if format process not started yet populate the other data as well
         if (formatStartDate == null) {
-            formatSelection.setCustomerList(customerProfileDao.getAll());
+            formatSelection.setCustomerList((List)this.businessObjectService.findAll(CustomerProfile.class));
             formatSelection.setRangeList(disbursementNumberRangeDao.getAll());
         }
 
@@ -87,25 +88,6 @@ public class FormatProcessServiceImpl implements FormatProcessService {
         this.formatProcessDao = formatProcessDao;
     }
 
-
-    /**
-     * This method gets the customerProfileDao.
-     * @return customerProfileDao
-     */
-    public CustomerProfileDao getCustomerProfileDao() {
-        return customerProfileDao;
-    }
-
-
-    /**
-     * This method sets the customerProfileDao.
-     * @param customerProfileDao
-     */
-    public void setCustomerProfileDao(CustomerProfileDao customerProfileDao) {
-        this.customerProfileDao = customerProfileDao;
-    }
-
-
     /**
      * This method gets the disbursementNumberRangeDao.
      * @return disbursementNumberRangeDao
@@ -121,6 +103,15 @@ public class FormatProcessServiceImpl implements FormatProcessService {
      */
     public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao disbursementNumberRangeDao) {
         this.disbursementNumberRangeDao = disbursementNumberRangeDao;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 

@@ -26,6 +26,7 @@ import java.util.List;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.service.DisbursementNumberRangeService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -33,13 +34,14 @@ public class DisbursementNumberRangeServiceImpl implements DisbursementNumberRan
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeServiceImpl.class);
 
     private DisbursementNumberRangeDao disbursementNumberRangeDao;
-
+    private BusinessObjectService businessObjectService;
+    
     public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao d) {
         disbursementNumberRangeDao = d;
     }
 
     public List getAll() {
-        return disbursementNumberRangeDao.getAll();
+        return (List) this.businessObjectService.findAll(DisbursementNumberRange.class);
     }
 
     public DisbursementNumberRange get(Integer id) {
@@ -47,7 +49,25 @@ public class DisbursementNumberRangeServiceImpl implements DisbursementNumberRan
     }
 
     public void save(DisbursementNumberRange dnr) {
-        disbursementNumberRangeDao.save(dnr);
+        this.businessObjectService.save(dnr);
+    }
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

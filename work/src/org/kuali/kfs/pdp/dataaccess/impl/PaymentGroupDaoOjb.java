@@ -117,22 +117,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
 
         PaymentGroup cp = (PaymentGroup) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
 
-        if (cp.getBatch() != null) {
-            //updateBatchUser(cp.getBatch());
-        }
-        if (cp.getProcess() != null) {
-            //updateProcessUser(cp.getProcess());
-        }
-        /*if (cp.getPaymentGroupHistory() != null) {
-            updatePaymentGroupHistoryList(cp.getPaymentGroupHistory());
-        }*/
         return cp;
-    }
-
-    public void save(PaymentGroup pg) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(pg);
     }
 
     public List getByDisbursementNumber(Integer disbursementNbr) {
@@ -148,43 +133,6 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         criteria.addEqualTo("batchId", batchId);
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
     }
-
-    /*private void updatePaymentGroupHistoryList(List l) {
-        for (Iterator iter = l.iterator(); iter.hasNext();) {
-            PaymentGroupHistory element = (PaymentGroupHistory) iter.next();
-            //updateChangeUser(element);
-        }
-    }*/
-
-    /*private void updateChangeUser(PaymentGroupHistory b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setChangeUser(null);
-        }
-    }*/
-
-    /*private void updateBatchUser(Batch b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setSubmiterUser(null);
-        }
-    }*/
-
-    /*private void updateProcessUser(PaymentProcess b) {
-        UserRequired ur = (UserRequired) b;
-        try {
-            ur.updateUser(userService);
-        }
-        catch (UserNotFoundException e) {
-            b.setProcessUser(null);
-        }
-    }*/
 
     // Inject
     public void setUniversalUserService(UniversalUserService us) {

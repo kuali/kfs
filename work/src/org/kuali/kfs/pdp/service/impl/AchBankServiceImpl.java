@@ -19,25 +19,27 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.AchBank;
-import org.kuali.kfs.pdp.dataaccess.AchBankDao;
 import org.kuali.kfs.pdp.service.AchBankService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class AchBankServiceImpl implements AchBankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchBankServiceImpl.class);
 
-    private AchBankDao achBankDao;
-
+    private BusinessObjectService businessObjectService;
+    
     /**
      * @see org.kuali.kfs.pdp.service.AchBankService#save(org.kuali.kfs.pdp.businessobject.AchBank)
      */
     public void save(AchBank ab) {
         LOG.debug("save() started");
-
-        achBankDao.save(ab);
+        
+        this.businessObjectService.save(ab);
     }
 
     /**
@@ -54,13 +56,16 @@ public class AchBankServiceImpl implements AchBankService {
             String str = null;
             while ((str = inputStream.readLine()) != null) {
                 String bankRoutingNumber = getField(str, 1, 9);
-
-                AchBank tableBank = achBankDao.getBank(bankRoutingNumber);
+                
+                Map fieldValues = new HashMap();
+                fieldValues.put("bankRoutingNumber", bankRoutingNumber);
+                AchBank tableBank = (AchBank) this.businessObjectService.findMatching(AchBank.class, fieldValues);
+                
                 AchBank ab = new AchBank(str);
                 if ( tableBank != null ) {
                     ab.setVersionNumber(tableBank.getVersionNumber());
                 }
-                achBankDao.save(ab);
+                this.businessObjectService.save(ab);
             }
         }
         catch (FileNotFoundException fnfe) {
@@ -87,8 +92,22 @@ public class AchBankServiceImpl implements AchBankService {
     private String getField(String data, int startChar, int length) {
         return data.substring(startChar - 1, startChar + length - 1).trim();
     }
-
-    public void setAchBankDao(AchBankDao abd) {
-        achBankDao = abd;
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

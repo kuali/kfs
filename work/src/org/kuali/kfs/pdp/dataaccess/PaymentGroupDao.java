@@ -44,8 +44,6 @@ public interface PaymentGroupDao {
 
     public Iterator getByProcess(PaymentProcess p);
 
-    public void save(PaymentGroup pg);
-
     public PaymentGroup get(Integer id);
 
     public List getByBatchId(Integer batchId);

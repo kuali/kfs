@@ -19,12 +19,14 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -35,33 +37,55 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerProfileServiceImpl implements CustomerProfileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileServiceImpl.class);
 
-    private CustomerProfileDao customerProfileDao;
-
+    private BusinessObjectService businessObjectService;
+    
     public List getAll() {
-        return customerProfileDao.getAll();
-    }
-
-    public void setCustomerProfileDao(CustomerProfileDao c) {
-        customerProfileDao = c;
+        return (List) this.businessObjectService.findAll(CustomerProfile.class);
     }
 
     public CustomerProfile get(Integer id) {
-        return customerProfileDao.get(id);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("id", id);
+        return (CustomerProfile) this.businessObjectService.findByPrimaryKey(CustomerProfile.class, primaryKeys);
     }
 
     public CustomerProfile get(String chartCode, String orgCode, String subUnitCode) {
-        return customerProfileDao.get(chartCode, orgCode, subUnitCode);
+        Map fieldValues = new HashMap();
+        
+        fieldValues.put("chartCode", chartCode);
+        fieldValues.put("orgCode", orgCode);
+        fieldValues.put("subUnitCode", subUnitCode);
+        
+        return (CustomerProfile) this.businessObjectService.findMatching(CustomerProfile.class, fieldValues);
     }
 
     public void save(CustomerProfile cp) {
-        customerProfileDao.save(cp);
+        this.businessObjectService.save(cp);
     }
 
     public void saveCustomerBank(CustomerBank cb) {
-        customerProfileDao.saveCustomerBank(cb);
+        this.businessObjectService.save(cb);
     }
 
     public void deleteCustomerBank(CustomerBank cb) {
-        customerProfileDao.deleteCustomerBank(cb);
+        this.businessObjectService.delete(cb);
+    }
+
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

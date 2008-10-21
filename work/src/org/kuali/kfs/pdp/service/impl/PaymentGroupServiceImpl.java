@@ -32,6 +32,7 @@ import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -45,7 +46,8 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     private ParameterService parameterService;          
     private DataDictionaryService dataDictionaryService;            
     private Map<Integer,ParameterEvaluator> sortGroupSelectionParameters;
-        
+    private BusinessObjectService businessObjectService;
+    
     public void setPaymentGroupDao(PaymentGroupDao c) {
         paymentGroupDao = c;
     }
@@ -85,16 +87,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
 
         return paymentGroupDao.getByProcess(p);
     }
-
-    /**
-     * @see org.kuali.kfs.pdp.service.PaymentGroupService#save(org.kuali.kfs.pdp.businessobject.PaymentGroup)
-     */
-    public void save(PaymentGroup pg) {
-        LOG.debug("save() started");
-
-        paymentGroupDao.save(pg);
-    }
-
+   
     /**
      * @see org.kuali.kfs.pdp.service.PaymentGroupService#get(java.lang.Integer)
      */
@@ -131,7 +124,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         Timestamp ts = new Timestamp(processDate.getTime());
         group.setEpicPaymentPaidExtractedDate(ts);
         group.setLastUpdate(ts);
-        paymentGroupDao.save(group);
+        this.businessObjectService.save(group);
     }
 
     /**
@@ -144,7 +137,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         Timestamp ts = new Timestamp(processDate.getTime());
         group.setEpicPaymentCancelledExtractedDate(ts);
         group.setLastUpdate(ts);
-        paymentGroupDao.save(group);
+        this.businessObjectService.save(group);
     }
     
     /**
@@ -216,5 +209,23 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

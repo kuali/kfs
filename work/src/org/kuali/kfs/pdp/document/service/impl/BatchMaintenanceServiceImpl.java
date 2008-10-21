@@ -32,6 +32,7 @@ import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +48,8 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private KualiCodeService kualiCodeService;
     private PaymentGroupDao paymentGroupDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
-   
+    private BusinessObjectService businessObjectService;
+    
     /**
      * This method changes the status for PaymentGroup and PaymentGroupHistory.
      * 
@@ -74,7 +76,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
         paymentGroup.setPaymentStatus(paymentStatus);
 
-        paymentGroupDao.save(paymentGroup);
+        this.businessObjectService.save(paymentGroup);
 
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
@@ -276,4 +278,23 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
 }

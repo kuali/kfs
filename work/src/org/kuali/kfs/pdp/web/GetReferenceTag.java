@@ -69,7 +69,7 @@ public class GetReferenceTag extends TagSupport {
 
         ReferenceDao rd = SpringContext.getBean(ReferenceDao.class);
 
-        pageContext.setAttribute(name + "List", rd.getAll(name));
+        //pageContext.setAttribute(name + "List", rd.getAll(name));
 
         return (EVAL_PAGE);
     }

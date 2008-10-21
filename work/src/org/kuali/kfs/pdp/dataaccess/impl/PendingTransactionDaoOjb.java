@@ -49,12 +49,4 @@ public class PendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(GlPendingTransaction.class, criteria));
     }
 
-    /**
-     * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao#save(org.kuali.kfs.pdp.businessobject.GlPendingTransaction)
-     */
-    public void save(GlPendingTransaction gpt) {
-        LOG.debug("save() starting");
-
-        getPersistenceBrokerTemplate().store(gpt);
-    }
 }

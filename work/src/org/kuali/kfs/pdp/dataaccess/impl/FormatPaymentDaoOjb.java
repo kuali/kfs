@@ -30,14 +30,12 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements FormatPaymentDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatPaymentDaoOjb.class);
 
-    private ReferenceService referenceService;
     private KualiCodeService kualiCodeService;
     
     public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes) {
@@ -130,10 +128,6 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
             //paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
-    }
-
-    public void setReferenceService(ReferenceService referenceService) {
-        this.referenceService = referenceService;
     }
 
     public KualiCodeService getKualiCodeService() {

@@ -32,14 +32,12 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
-import org.kuali.kfs.pdp.dataaccess.AchAccountNumberDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.document.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
@@ -50,6 +48,7 @@ import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -65,16 +64,15 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     private PaymentGroupDao paymentGroupDao;
     private PaymentDetailDao paymentDetailDao;
-    private AchAccountNumberDao achAccountNumberDao;
     private PaymentGroupHistoryDao paymentGroupHistoryDao;
-    private ReferenceService referenceService;
     private PendingTransactionService glPendingTransactionService;
     private EnvironmentService environmentService;
     private MailService mailService;
     private ParameterService parameterService;
     private KualiCodeService kualiCodeService;
     private BankService bankService;
-
+    private BusinessObjectService businessObjectService;
+    
     /**
      * This method changes status for a payment group.
      * @param paymentGroup the payment group
@@ -97,7 +95,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
         KualiCode code = this.kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
         paymentGroup.setPaymentStatus((PaymentStatus) code);
-        paymentGroupDao.save(paymentGroup);
+        this.businessObjectService.save(paymentGroup);
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
 
@@ -125,7 +123,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         if (paymentGroup.getPaymentStatus() != ((PaymentStatus) code)) {
             paymentGroup.setPaymentStatus((PaymentStatus) code);
         }
-        paymentGroupDao.save(paymentGroup);
+        this.businessObjectService.save(paymentGroup);
 
         LOG.debug("changeStatus() Status has been changed; exit method.");
     }
@@ -437,7 +435,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
 
                     if (achAccountNumber != null) {
-                        achAccountNumberDao.delete(achAccountNumber);
+                        this.businessObjectService.delete(achAccountNumber);
                         pg.setAchAccountNumber(null);
                     }
 
@@ -640,25 +638,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao dao) {
         paymentGroupHistoryDao = dao;
     }
-
-    /**
-     * inject
-     * 
-     * @param service
-     */
-    public void setReferenceService(ReferenceService service) {
-        referenceService = service;
-    }
-
-    /**
-     * inject
-     * 
-     * @param dao
-     */
-    public void setAchAccountNumberDao(AchAccountNumberDao dao) {
-        achAccountNumberDao = dao;
-    }
-
+    
+    
     /**
      * inject
      * 
@@ -705,5 +686,23 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
+    }
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

@@ -39,7 +39,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.options.DailyReportComparator;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -53,7 +52,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
 
     private UniversalUserService userService;
-    private ReferenceService referenceService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
 
@@ -355,11 +353,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     public void setUniversalUserService(UniversalUserService us) {
         userService = us;
     }
-
-    public void setReferenceService(ReferenceService ref) {
-        referenceService = ref;
-    }
-
+    
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }

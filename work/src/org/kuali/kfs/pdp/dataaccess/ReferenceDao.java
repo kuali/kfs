@@ -29,17 +29,11 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
  * @author jsissom
  */
 public interface ReferenceDao {
-    //public Code getCode(String type, String key);
-
-    public List getAll(String type);
+    
+    /*public List getAll(String type);
 
     public Map getAllMap(String type);
 
-    //public Code addCode(String type, String code, String description, UniversalUser u);
-
     public void updateCode(String code, String description, String type, UniversalUser u);
-
-    //public void updateCode(Code item, UniversalUser u);
-
-    //public void deleteCode(Code item);
+*/
 }

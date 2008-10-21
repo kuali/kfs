@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -45,7 +44,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PostFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.PreFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
-import org.kuali.kfs.pdp.dataaccess.CustomerProfileDao;
 import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
@@ -58,10 +56,11 @@ import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
+import org.kuali.kfs.pdp.util.CustomerProfileListComparator;
+import org.kuali.kfs.pdp.util.DisbursementNumberRangeListComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -77,7 +76,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FormatServiceImpl implements FormatService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatServiceImpl.class);
 
-    private CustomerProfileDao customerProfileDao;
     private DisbursementNumberRangeDao disbursementNumberRangeDao;
     private FormatProcessDao formatProcessDao;
     private PaymentDetailDao paymentDetailDao;
@@ -85,7 +83,6 @@ public class FormatServiceImpl implements FormatService {
     private ProcessSummaryDao processSummaryDao;
     private ProcessDao processDao;
     private AchService achService;
-    private ReferenceService referenceService;
     private PendingTransactionService glPendingTransactionService;
     private ParameterService parameterService;
     private FormatPaymentDao formatPaymentDao;
@@ -173,12 +170,13 @@ public class FormatServiceImpl implements FormatService {
             LOG.error("performFormat() Invalid proc ID " + procId);
             throw new ConfigurationError("Invalid proc ID");
         }
+        
+        DisbursementType checkDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes.CHECK);
+        DisbursementType achDisbursementType = (DisbursementType) kualiCodeService.getByCode(DisbursementType.class, PdpConstants.DisbursementTypeCodes. ACH);
 
-        Map disbursementTypes = referenceService.getallMap("DisbursementType");
-        Map paymentStatusCodes = referenceService.getallMap("PaymentStatus");
+        PaymentStatus extractedPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus pendingPaymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.PENDING_ACH);
 
-        DisbursementType checkDisbursementType = (DisbursementType) disbursementTypes.get(PdpConstants.DisbursementTypeCodes.CHECK);
-        DisbursementType achDisbursementType = (DisbursementType) disbursementTypes.get(PdpConstants.DisbursementTypeCodes.ACH);
 
         int maxNoteLines = getMaxNoteLines();
 
@@ -229,7 +227,7 @@ public class FormatServiceImpl implements FormatService {
             }
 
             if (check) {
-                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get(PdpConstants.PaymentStatusCodes.EXTRACTED);
+                PaymentStatus ps = extractedPaymentStatus;
                 LOG.debug("performFormat() Check: " + ps);
                 pg.setDisbursementType(checkDisbursementType);
                 pg.setPaymentStatus(ps);
@@ -249,7 +247,7 @@ public class FormatServiceImpl implements FormatService {
                 }
             }
             else {
-                PaymentStatus ps = (PaymentStatus) paymentStatusCodes.get(PdpConstants.PaymentStatusCodes.PENDING_ACH);
+                PaymentStatus ps = pendingPaymentStatus;
                 LOG.debug("performFormat() ACH: " + ps);
                 pg.setDisbursementType(achDisbursementType);
                 pg.setPaymentStatus(ps);
@@ -291,7 +289,7 @@ public class FormatServiceImpl implements FormatService {
                 businessObjectService.save(paymentGroupHistory);
             }
 
-            paymentGroupDao.save(pg);
+            this.businessObjectService.save(pg);
 
             // Add to summary information
             fps.add(pg);
@@ -348,7 +346,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 3 now assign disbursement numbers
         LOG.debug("performFormat() Assigning disbursement numbers");
-        pass2(proc.getCampus(), disbursementTypes, paymentStatusCodes, proc, fps);
+        pass2(proc.getCampus(), proc, fps);
 
         // step 4 save the summarizing info
         LOG.debug("performFormat() Save summarizing information");
@@ -509,8 +507,12 @@ public class FormatServiceImpl implements FormatService {
      */
     public List getAllCustomerProfiles() {
         LOG.debug("getAllCustomerProfiles() started");
-
-        return customerProfileDao.getAll();
+        
+        List<CustomerProfile> customerProfileList = (List<CustomerProfile>) this.businessObjectService.findAll(CustomerProfile.class);
+        
+        Collections.sort(customerProfileList, new CustomerProfileListComparator());
+        
+        return customerProfileList;
     }
 
     /**
@@ -519,7 +521,11 @@ public class FormatServiceImpl implements FormatService {
     public List<DisbursementNumberRange> getAllDisbursementNumberRanges() {
         LOG.debug("getAllDisbursementNumberRanges() started");
 
-        return disbursementNumberRangeDao.getAll();
+        List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) this.businessObjectService.findAll(DisbursementNumberRange.class);
+        
+        Collections.sort(disbursementNumberRangeList, new DisbursementNumberRangeListComparator());
+        
+        return disbursementNumberRangeList;
     }
 
     // This is the second pass. It determines the
@@ -534,7 +540,7 @@ public class FormatServiceImpl implements FormatService {
      * @throws DisbursementRangeExhaustedException
      * @throws MissingDisbursementRangeException
      */
-    private void pass2(String campus, Map disbursementTypes, Map paymentStatusCodes, PaymentProcess p, PostFormatProcessSummary fps) throws DisbursementRangeExhaustedException, MissingDisbursementRangeException {
+    private void pass2(String campus, PaymentProcess p, PostFormatProcessSummary fps) throws DisbursementRangeExhaustedException, MissingDisbursementRangeException {
         LOG.debug("pass2() starting");
 
         // This is the date used for last update
@@ -597,7 +603,7 @@ public class FormatServiceImpl implements FormatService {
                 LOG.error("pass2() Payment group " + pg.getId() + " must be CHCK or ACH.  It is: " + pg.getDisbursementType());
                 throw new IllegalArgumentException("Payment group " + pg.getId() + " must be Check or ACH");
             }
-            paymentGroupDao.save(pg);
+            this.businessObjectService.save(pg);
 
             // Generate a GL entry for CHCK & ACH
                      glPendingTransactionService.generatePaymentGeneralLedgerPendingEntry(pg);
@@ -667,15 +673,7 @@ public class FormatServiceImpl implements FormatService {
     public void setGlPendingTransactionService(PendingTransactionService gs) {
         glPendingTransactionService = gs;
     }
-
-    /**
-     * This method...
-     * @param rs
-     */
-    public void setReferenceService(ReferenceService rs) {
-        referenceService = rs;
-    }
-
+    
     /**
      * This method...
      * @param as
@@ -690,14 +688,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setProcessDao(ProcessDao pd) {
         processDao = pd;
-    }
-
-    /**
-     * This method...
-     * @param cpd
-     */
-    public void setCustomerProfileDao(CustomerProfileDao cpd) {
-        customerProfileDao = cpd;
     }
 
     /**

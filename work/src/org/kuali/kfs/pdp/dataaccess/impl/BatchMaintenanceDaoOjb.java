@@ -29,8 +29,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 
@@ -39,14 +39,14 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements BatchMaintenanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceDaoOjb.class);
-    private ReferenceService referenceService;
+    private BusinessObjectService businessObjectService;
 
     public BatchMaintenanceDaoOjb() {
         super();
     }
 
-    public void setReferenceService(ReferenceService ref) {
-        referenceService = ref;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -61,7 +61,7 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
     public boolean doBatchPaymentsHaveOpenStatus(Integer batchId) {
         LOG.debug("doBatchPaymentsHaveOpenStatus() enter method.");
         List codeList = new ArrayList();
-        List statusList = referenceService.getAll("PaymentStatus");
+        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
             if (!(element.getCode().equals("OPEN"))) {
@@ -101,7 +101,7 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId) {
         LOG.debug("doBatchPaymentsHaveHeldStatus() enter method.");
         List codeList = new ArrayList();
-        List statusList = referenceService.getAll("PaymentStatus");
+        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
             if (!(element.getCode().equals("HELD"))) {

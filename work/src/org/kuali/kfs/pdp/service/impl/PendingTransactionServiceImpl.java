@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -67,7 +68,8 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private static String FDOC_TYP_CD_CANCEL_REISSUE_CHECK = "CHKR";
     private static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
     private static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
-
+    private BusinessObjectService businessObjectService;
+    
     private PendingTransactionDao glPendingTransactionDao;
     private ChartService chartService;
     private AccountingPeriodService accountingPeriodService;
@@ -194,7 +196,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             // update the offset account if necessary
             SpringContext.getBean(FlexibleOffsetAccountService.class).updateOffset(glPendingTransaction);
 
-            glPendingTransactionDao.save(glPendingTransaction);
+            this.businessObjectService.save(glPendingTransaction);
             
             sequenceHelper.increment();
         }
@@ -303,7 +305,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             glPendingTransaction.setFinancialSubObjectCode(bank.getCashOffsetSubObjectCode()); 
         }
         
-        glPendingTransactionDao.save(glPendingTransaction);
+        this.businessObjectService.save(glPendingTransaction);
         
         sequenceHelper.increment();
     }
@@ -359,7 +361,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     public void save(GlPendingTransaction tran) {
         LOG.debug("save() started");
 
-        glPendingTransactionDao.save(tran);
+        this.businessObjectService.save(tran);
     }
 
     /**
@@ -369,5 +371,23 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         LOG.debug("getUnextractedTransactions() started");
 
         return glPendingTransactionDao.getUnextractedTransactions();
+    }
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

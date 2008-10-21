@@ -48,7 +48,6 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -63,7 +62,6 @@ import org.kuali.kfs.sys.service.KualiCodeService;
 public class CustomerProfileSaveAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileSaveAction.class);
     private CustomerProfileService customerProfileService;
-    private ReferenceService referenceService;
     private BankService bankService;
     private AccountService accountService;
     private SubAccountService subAccountService;
@@ -74,7 +72,6 @@ public class CustomerProfileSaveAction extends BaseAction {
     public CustomerProfileSaveAction() {
         super();
         setCustomerProfileService(SpringContext.getBean(CustomerProfileService.class));
-        setReferenceService(SpringContext.getBean(ReferenceService.class));
         setBankService(SpringContext.getBean(BankService.class));
         setAccountService(SpringContext.getBean(AccountService.class));
         setSubAccountService(SpringContext.getBean(SubAccountService.class));
@@ -85,10 +82,6 @@ public class CustomerProfileSaveAction extends BaseAction {
 
     public void setCustomerProfileService(CustomerProfileService c) {
         customerProfileService = c;
-    }
-
-    public void setReferenceService(ReferenceService r) {
-        referenceService = r;
     }
 
     public void setBankService(BankService b) {

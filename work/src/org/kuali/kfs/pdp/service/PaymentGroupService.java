@@ -58,9 +58,7 @@ public interface PaymentGroupService {
      * @return
      */
     public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType);
-
-    public void save(PaymentGroup pg);
-
+    
     public PaymentGroup get(Integer id);
 
     public List getByBatchId(Integer batchId);

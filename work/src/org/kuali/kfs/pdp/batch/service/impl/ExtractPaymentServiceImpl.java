@@ -37,11 +37,11 @@ import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
-    public ReferenceService referenceService;
     public DateTimeService dateTimeService;
     public ParameterService parameterService;
     public PaymentGroupService paymentGroupService;
@@ -59,6 +58,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public ProcessDao processDao;
 
     private KualiCodeService kualiCodeService;
+    private BusinessObjectService businessObjectService;
     
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
@@ -171,7 +171,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                     pg.setLastUpdate(new Timestamp(processDate.getTime()));
                     pg.setPaymentStatus(extractedStatus);
-                    paymentGroupService.save(pg);
+                    this.businessObjectService.save(pg);
                 }
 
                 writeOpenTagAttribute(os, 2, "ach", "disbursementNbr", pg.getDisbursementNbr().toString());
@@ -408,7 +408,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                         if ( pg.getDisbursementDate() == null ) {
                             pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                             pg.setLastUpdate(new Timestamp(processDate.getTime()));
-                            paymentGroupService.save(pg);
+                            this.businessObjectService.save(pg);
                         }
                     }
 
@@ -601,11 +601,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }
-
-    public void setReferenceService(ReferenceService rs) {
-        referenceService = rs;
-    }
-
+ 
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao p) {
         paymentGroupHistoryDao = p;
     }
@@ -620,5 +616,23 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
+    }
+    
+    /**
+     * Gets the business object service
+     * 
+     * @return
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the business object service
+     * 
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

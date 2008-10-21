@@ -30,29 +30,29 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
-import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.pdp.web.struts.BaseAction;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class CustomerProfileAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileAction.class);
 
     private CustomerProfileService customerProfileService;
-    private ReferenceService referenceService;
+    private BusinessObjectService businessObjectService;
 
     public CustomerProfileAction() {
         super();
         setCustomerProfileService(SpringContext.getBean(CustomerProfileService.class));
-        setReferenceService(SpringContext.getBean(ReferenceService.class));
+        setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
     }
 
     public void setCustomerProfileService(CustomerProfileService c) {
         customerProfileService = c;
     }
 
-    public void setReferenceService(ReferenceService r) {
-        referenceService = r;
+    public void setBusinessObjectService(BusinessObjectService b) {
+        this.businessObjectService = b;
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -78,7 +78,7 @@ public class CustomerProfileAction extends BaseAction {
                 // Add a new Profile
                 CustomerProfileForm newProfileForm = new CustomerProfileForm();
 
-                List dtl = referenceService.getAll("DisbursementType");
+                List dtl = (List) this.businessObjectService.findAll(DisbursementType.class);
                 int i = 0;
                 newProfileForm.setCustomerBankFormArraySize(dtl.size());
                 for (Iterator iter = dtl.iterator(); iter.hasNext();) {
@@ -110,7 +110,7 @@ public class CustomerProfileAction extends BaseAction {
 
                 LOG.debug("executeLogic() CustomerProfileForm is " + cpf);
 
-                List dtl = referenceService.getAll("DisbursementType");
+                List dtl = (List) this.businessObjectService.findAll(DisbursementType.class);
                 int i = 0;
                 cpf.setCustomerBankFormArraySize(dtl.size());
                 for (Iterator iter = dtl.iterator(); iter.hasNext();) {

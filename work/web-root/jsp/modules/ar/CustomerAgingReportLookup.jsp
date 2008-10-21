@@ -56,13 +56,9 @@
 				<kul:rowDisplay rows="${KualiForm.lookupable.rows}"/>			`
 
 				<tr align=center>
-					<td height="30" colspan=2 class="infoline"><html:image
-						property="methodToCall.search" value="search"
-						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
-						alt="search" title="search" border="0" /> 
-						<html:image	property="methodToCall.clearValues" value="clearValues"
-						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
-						alt="clear" title="clear" border="0" /> 
+					<td height="30" colspan=2 class="infoline">
+						<html:image	property="methodToCall.search" value="search" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton" alt="search" title="search" border="0" /> 
+						<html:image	property="methodToCall.clearValues" value="clearValues"	src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"	alt="clear" title="clear" border="0" /> 
 						
 						<!-- <c:if test="${KualiForm.formKey!=''}">
 						<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
@@ -98,12 +94,9 @@
 			
 			<c:if test="${!empty reqSearchResultsSize }">
 			<c:set var="offset" value="0" />
-			<display:table class="datatable-100" 
-				cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row"
-				export="true" pagesize="100" offset="${offset}"
-				requestURI="arCustomerAgingReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
+			<display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100" offset="${offset}"	requestURI="arCustomerAgingReportLookup.do?methodToCall=viewResults&reqSearchResultsSize=${reqSearchResultsSize}&searchResultKey=${searchResultKey}">
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
-					<display:column class="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'numbercell' }" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">					
+					<display:column class="${ fn:startsWith(column.columnTitle, 'Customer') ? 'infocell' : 'numbercell' }" title="${column.columnTitle}" comparator="${column.comparator}" sortable="${('dummyBusinessObject.linkButtonOption' ne column.propertyName) && column.sortable}">					
 						<c:choose>
 							<c:when test="${column.propertyURL != \"\" && param['d-16544-e'] == null}">
 								<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}" target="blank"><c:out value="${column.propertyValue}" /></a>

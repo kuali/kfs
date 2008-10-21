@@ -164,4 +164,15 @@ public interface AssetService {
      * @param asset
      */
     public void setFiscalPeriod(Asset asset);
+    
+    
+    /**
+     * 
+     * returns the document id that locks a particular asset
+     * 
+     * @param documentNumber
+     * @param capitalAssetNumber
+     * @return
+     */
+    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber);    
 }

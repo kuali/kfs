@@ -33,31 +33,11 @@ import org.kuali.rice.kns.service.DataDictionaryService;
  */
 public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorForm.class);
-    
+
     private int[] rowCheckbox; 
     private boolean selectAllCheckbox;
     private HashMap barcodeInventoryStatuses; 
-    
-    //global replace - search fields
-    //*** Old values **************
-    private String currentTagNumber;
-    private String currentScanCode;
-    private String currentCampusCode;
-    private String currentBuildingNumber;
-    private String currentRoom;
-    private String currentSubroom;
-    private String currentConditionCode;
 
-    //*** New values **************
-    private String newTagNumber;
-    private String newScanCode;
-    private String newCampusCode;
-    private String newBuildingNumber;
-    private String newRoom;
-    private String newSubroom;
-    private String newConditionCode;
-    
-    
     /**
      * 
      * Constructs a BarcodeInventoryErrorForm.java.
@@ -65,45 +45,44 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     public BarcodeInventoryErrorForm() {
         super();
         setDocument(new BarcodeInventoryErrorDocument());
-        
+
         Map<String, String> editModeMap = new HashMap<String, String>();
         editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
         setEditingMode(editModeMap);
     }
 
 
-/*    public void populate(HttpServletRequest request) {
+    /*    public void populate(HttpServletRequest request) {
        LOG.info("****************Request Parameters*************");
         Enumeration paramNames;
         paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String name = (String) paramNames.nextElement();            
             String[] values = request.getParameterValues(name);
-            
+
             for (int x=0;x < values.length;x++)
                 LOG.info("******Request Parameters: "+name +"["+x+"]: "+values[x]);
-                        
+
         }
         LOG.info("**********************************************");                
-        
-        
+
+
         super.populate(request);
     }*/
 
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(this.getBarcodeInventoryErrorDocument());
     }
-    
+
     /**
      *  @returns BCIE document 
      */
     public BarcodeInventoryErrorDocument getBarcodeInventoryErrorDocument() {
         return (BarcodeInventoryErrorDocument) getDocument();
     }
-    
+
     /**
      * Get rowCheckbox
      * @return String
@@ -130,169 +109,6 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
         this.selectAllCheckbox = selectAllCheckbox;
     }
 
-
-    public String getCurrentTagNumber() {
-        return currentTagNumber;
-    }
-
-
-    public void setCurrentTagNumber(String currentTagNumber) {
-        this.currentTagNumber = (currentTagNumber == null ? "" : currentTagNumber.toUpperCase());
-    }
-
-
-    public String getCurrentScanCode() {
-        return currentScanCode;
-    }
-
-
-    public void setCurrentScanCode(String currentScanCode) {
-        this.currentScanCode = (currentScanCode == null ? "" : currentScanCode.toUpperCase());
-    }
-
-
-    public String getCurrentCampusCode() {
-        return currentCampusCode;
-    }
-
-
-    public void setCurrentCampusCode(String currentCampusCode) {
-        this.currentCampusCode = (currentCampusCode == null ? "" : currentCampusCode.toUpperCase());
-    }
-
-
-    public String getCurrentBuildingNumber() {
-        return currentBuildingNumber;
-    }
-
-
-    public void setCurrentBuildingNumber(String currentBuildingNumber) {
-        this.currentBuildingNumber = (currentBuildingNumber == null ? "" : currentBuildingNumber.toUpperCase());
-    }
-
-
-    public String getCurrentRoom() {
-        return currentRoom;
-    }
-
-
-    public void setCurrentRoom(String currentRoom) {
-        this.currentRoom = (currentRoom==null ? "" : currentRoom.toUpperCase());
-    }
-
-
-    public String getCurrentSubroom() {
-        return currentSubroom;
-    }
-
-
-    public void setCurrentSubroom(String currentSubroom) {
-        this.currentSubroom = (currentSubroom == null ? "" : currentSubroom.toUpperCase());
-    }
-
-
-    public String getCurrentConditionCode() {
-        return currentConditionCode;
-    }
-
-
-    public void setCurrentConditionCode(String currentConditionCode) {
-        this.currentConditionCode = (currentConditionCode == null ? "" : currentConditionCode.toUpperCase());
-    }
-
-
-    public String getNewTagNumber() {
-        return newTagNumber;
-    }
-
-
-    public void setNewTagNumber(String newTagNumber) {
-        this.newTagNumber = (newTagNumber == null ? "" : newTagNumber.toUpperCase());
-    }
-
-
-    public String getNewScanCode() {
-        return newScanCode;
-    }
-
-
-    public void setNewScanCode(String newScanCode) {
-        this.newScanCode = (newScanCode == null ? "" : newScanCode.toUpperCase());
-    }
-
-
-    public String getNewCampusCode() {
-        return newCampusCode;
-    }
-
-
-    public void setNewCampusCode(String newCampusCode) {
-        this.newCampusCode = ( newCampusCode == null ? "" : newCampusCode.toUpperCase());
-    }
-
-
-    public String getNewBuildingNumber() {
-        return newBuildingNumber;
-    }
-
-
-    public void setNewBuildingNumber(String newBuildingNumber) {
-        this.newBuildingNumber = (newBuildingNumber == null ? "" : newBuildingNumber.toUpperCase());
-    }
-
-
-    public String getNewRoom() {
-        return newRoom;
-    }
-
-
-    public void setNewRoom(String newRoom) {
-        this.newRoom = (newRoom == null ? "" : newRoom.toUpperCase());
-    }
-
-
-    public String getNewSubroom() {
-        return newSubroom;
-    }
-
-
-    public void setNewSubroom(String newSubroom) {
-        this.newSubroom = ( newSubroom == null ? "" : newSubroom.toUpperCase());
-    }
-
-
-    public String getNewConditionCode() {
-        return newConditionCode;
-    }
-
-
-    public void setNewConditionCode(String newConditionCode) {
-        this.newConditionCode = (newConditionCode == null ? "" : newConditionCode.toUpperCase());
-    }
-
-    
-    /**
-     * 
-     * Sets the global search fields with empty string
-     */
-    public void resetSearchFields() {
-        currentTagNumber="";
-        currentScanCode="";
-        currentCampusCode="";
-        currentBuildingNumber="";
-        currentRoom="";
-        currentSubroom="";
-        currentConditionCode="";
-        newTagNumber="";
-        newScanCode="";
-        newCampusCode="";
-        newBuildingNumber="";
-        newRoom="";
-        newSubroom="";
-        newConditionCode="";        
-    }
-    
-    
     /**
      * 
      * Reset the BCIE document checkboxes. 
@@ -300,10 +116,8 @@ public class BarcodeInventoryErrorForm extends FinancialSystemTransactionalDocum
     public void resetCheckBoxes() {
         if (rowCheckbox == null)
             return;
-            
+
         this.rowCheckbox = new int[rowCheckbox.length];
         this.selectAllCheckbox = false;
     }
-    
-    
 }

@@ -83,7 +83,7 @@
             </c:forEach>
             
 		    <tr>
-			    <th>File Upload Description:</th>
+			    <th>* File Upload Description:</th>
 				<td align="left" valign="middle">
 					<html:text property="uploadDescription"  size="45" maxlength="40"/>
 				</td>

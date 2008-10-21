@@ -1334,8 +1334,8 @@
     <property name="shortLabel" value="Buyer" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" parent="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" />
-
-  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName">
+																										
+  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier">
     <property name="name" value="loanOrReturnInfo.borrowerUniversalUser.personName" />
     <property name="label" value="Name" />
   </bean>

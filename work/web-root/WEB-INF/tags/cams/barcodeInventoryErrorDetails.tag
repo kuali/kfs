@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
+<c:set var="bcieDocumentAttributes" value="${DataDictionary.BarcodeInventoryErrorDocument.attributes}" />
 <c:set var="bcieDetailAttributes" value="${DataDictionary.BarcodeInventoryErrorDetail.attributes}" />
 <c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 
@@ -115,104 +116,106 @@
 					<td  colspan="2"><div align="center"><label><strong>Search for lines containing...</strong></label></div></td>
 					<td  colspan="2"><div align="center"><label><strong>...and replace them with:</strong></label></div></td>
 				</tr>
-				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetTagNumber}" readOnly="true"/></div></th>
-					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetTagNumber}" property="currentTagNumber"/>
-					</td>
-	
+				<tr>	
+			        <th align=right valign=middle class="grid"><div align="right">
+			        	<kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentTagNumber}" readOnly="true"/>
+			        </th>			        
+					<td align=left class="${cssClass}">&nbsp								
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentTagNumber}" property="document.currentTagNumber"/>
+					</td>	
 			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 					<td align=left class="${cssClass}">&nbsp</td>
 	
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentScanCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.uploadScanIndicator}" property="currentScanCode"/>
-						[Yes - No]
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentScanCode}" property="document.currentScanCode"/>
+						[Y - N]
 					</td>
 			        <th align=right valign=middle class="grid"><div align="right">&nbsp</div></th>				
 					<td align=left class="${cssClass}">&nbsp</td>	
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentCampusCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="currentCampusCode"/>
-						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:currentCampusCode" />
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentCampusCode}" property="document.currentCampusCode"/>
+						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:document.currentCampusCode" />
 					</td>
 	
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.campusCode}" readOnly="true"/></div></th>				
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.newCampusCode}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="newCampusCode"/>
-						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:newCampusCode" />						
+						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.campusCode}" property="document.newCampusCode"/>
+						<kul:lookup boClassName="org.kuali.rice.kns.bo.Campus" fieldConversions="campusCode:document.newCampusCode" />						
 					</td>
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentBuildingNumber}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="currentBuildingNumber"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentBuildingNumber}" property="document.currentBuildingNumber"/>
 						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
-						fieldConversions="buildingCode:currentBuildingNumber,campusCode:currentCampusCode" 
-						lookupParameters="currentBuildingNumber:buildingCode,currentCampusCode:campusCode" />										
+						fieldConversions="buildingCode:document.currentBuildingNumber,campusCode:document.currentCampusCode" 
+						lookupParameters="document.currentBuildingNumber:buildingCode,document.currentCampusCode:campusCode" />										
 					</td>
 	
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingCode}" readOnly="true"/></div></th>				
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.newBuildingNumber}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingCode}" property="newBuildingNumber"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.newBuildingNumber}" property="document.newBuildingNumber"/>
 						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building" 
-						fieldConversions="buildingCode:newBuildingNumber,campusCode:newCampusCode" 
-						lookupParameters="newBuildingNumber:buildingCode,newCampusCode:campusCode" />																
+						fieldConversions="buildingCode:document.newBuildingNumber,campusCode:document.newCampusCode" 
+						lookupParameters="document.newBuildingNumber:buildingCode,document.newCampusCode:campusCode" />																
 					</td>
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentRoom}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="currentRoom"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentRoom}" property="document.currentRoom"/>
 						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
-						fieldConversions="buildingCode:currentBuildingNumber,campusCode:currentCampusCode,buildingRoomNumber:currentRoom" 
-						lookupParameters="currentBuildingNumber:buildingCode,currentCampusCode:campusCode" />										
+						fieldConversions="buildingCode:document.currentBuildingNumber,campusCode:currentCampusCode,buildingRoomNumber:document.currentRoom" 
+						lookupParameters="document.currentBuildingNumber:buildingCode,document.currentCampusCode:campusCode" />										
 					</td>
 	
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" readOnly="true"/></div></th>				
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.newRoom}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingRoomNumber}" property="newRoom"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.newRoom}" property="document.newRoom"/>
 						<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Room" 
-						fieldConversions="buildingCode:newBuildingNumber,campusCode:newCampusCode,buildingRoomNumber:newRoom" 
-						lookupParameters="newBuildingNumber:buildingCode,newCampusCode:campusCode" />																
+						fieldConversions="buildingCode:document.newBuildingNumber,campusCode:document.newCampusCode,buildingRoomNumber:document.newRoom" 
+						lookupParameters="document.newBuildingNumber:buildingCode,document.newCampusCode:campusCode" />																
 					</td>
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentSubroom}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="currentSubroom"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentSubroom}" property="document.currentSubroom"/>
 					</td>
 	
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></div></th>				
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.newSubroom}" readOnly="true"/></div></th>				
 					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.buildingSubRoomNumber}" property="newSubroom"/>
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.newSubroom}" property="document.newSubroom"/>
 					</td>
 				</tr>				
 	
 				<tr>
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.currentConditionCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp				
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="currentConditionCode"/>
-						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:currentConditionCode"
-						lookupParameters="currentConditionCode:assetConditionCode" />									
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.currentConditionCode}" property="document.currentConditionCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:document.currentConditionCode"
+						lookupParameters="document.currentConditionCode:assetConditionCode" />									
 					</td>
 	
-			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDetailAttributes.assetConditionCode}" readOnly="true"/></div></th>				
+			        <th align=right valign=middle class="grid"><div align="right"><kul:htmlAttributeLabel attributeEntry="${bcieDocumentAttributes.newConditionCode}" readOnly="true"/></div></th>
 					<td align=left class="${cssClass}">&nbsp
-						<kul:htmlControlAttribute attributeEntry="${bcieDetailAttributes.assetConditionCode}" property="newConditionCode"/>
-						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:newConditionCode"
-						lookupParameters="newConditionCode:assetConditionCode" />															
+						<kul:htmlControlAttribute attributeEntry="${bcieDocumentAttributes.newConditionCode}" property="document.newConditionCode"/>
+						<kul:lookup boClassName="org.kuali.kfs.module.cam.businessobject.AssetCondition" fieldConversions="assetConditionCode:document.newConditionCode"
+						lookupParameters="document.newConditionCode:assetConditionCode" />															
 					</td>
-				</tr>		
+				</tr>
+						
 				<tr>
 					<th colspan=4 width="100%"><div align="center">
 						<html:image property="methodToCall.searchAndReplace"

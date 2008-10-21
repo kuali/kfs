@@ -31,6 +31,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetCondition;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.document.service.DocumentLockingService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -60,6 +61,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
     private static DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
     private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    private static DocumentLockingService documentLockingService= SpringContext.getBean(DocumentLockingService.class);
 
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -75,9 +77,10 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param barcodeInventoryErrorDetails
      * @return boolean
      */
-    public boolean validateBarcodeInventoryErrorDetail(List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails, boolean updateStatus) {
+    public boolean validateBarcodeInventoryErrorDetail(BarcodeInventoryErrorDocument document, boolean updateStatus) {
         String errorPath = "";
         boolean valid = true;
+        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
         List<BarcodeInventoryErrorDetail> inventory = new ArrayList<BarcodeInventoryErrorDetail>();
 
         Long lineNumber = new Long(0);
@@ -94,7 +97,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
                 valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
                 valid &= this.validateInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
-                valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber());
+                valid &= this.validateTaggingLock(barcodeInventoryErrorDetail.getAssetTagNumber(),document.getDocumentNumber());
 
                 if (!valid) {
                     barcodeInventoryErrorDetail.setErrorCorrectionStatusCode(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR);
@@ -267,7 +270,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
      * @param tagNumber
      * @return boolean
      */
-    private boolean validateTaggingLock(String tagNumber) {
+    private boolean validateTaggingLock(String tagNumber,String documentNumber) {
         boolean result = true;
         boolean isAssetLocked = false;
         String skipAssetLockValidation;
@@ -291,7 +294,9 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
             else if ((assets.size() > 0)) {
                 isAssetLocked = assetService.isAssetLocked("", assets.get(0).getCapitalAssetNumber());
                 if (isAssetLocked) {
-                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED);
+                    String lockingDocumentId = assetService.getLockingDocumentId(documentNumber, assets.get(0).getCapitalAssetNumber());
+                    //LOG.info("***** Locking Document: "+lockingDocumentId);
+                    GlobalVariables.getErrorMap().putError(CamsPropertyConstants.BarcodeInventory.ASSET_TAG_NUMBER, CamsKeyConstants.BarcodeInventory.ERROR_ASSET_LOCKED, lockingDocumentId);
                     result = false;                    
                 }
             }

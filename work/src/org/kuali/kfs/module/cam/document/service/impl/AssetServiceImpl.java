@@ -182,6 +182,17 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
+     * 
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#getLockingDocumentId(java.lang.String, java.lang.Long)
+     */
+    public String getLockingDocumentId(String documentNumber, Long capitalAssetNumber) {
+        List<MaintenanceLock> maintenanceLocks = new ArrayList<MaintenanceLock>();
+        maintenanceLocks.add(this.generateAssetLock(documentNumber, capitalAssetNumber));
+        
+        return getDocumentLockingService().getLockingDocumentId(documentNumber, maintenanceLocks);
+    }
+    
+    /**
      * This method calls the service codes to calculate the summary fields for each asset
      * 
      * @param asset
@@ -314,7 +325,7 @@ public class AssetServiceImpl implements AssetService {
             asset.setFinancialDocumentPostingPeriodCode(universityDate.getUniversityFiscalAccountingPeriod());
         }
     }
-
+   
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

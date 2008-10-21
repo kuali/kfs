@@ -13,7 +13,27 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
     
 	private String documentNumber;
 	private String uploaderUniversalIdentifier;
-    
+
+	
+    //global replace	- search fields
+    //*** Old values **************
+    private String currentTagNumber;
+    private String currentScanCode;
+    private String currentCampusCode;
+    private String currentBuildingNumber;
+    private String currentRoom;
+    private String currentSubroom;
+    private String currentConditionCode;
+
+    //*** New values **************
+    private String newTagNumber;
+    private String newScanCode;
+    private String newCampusCode;
+    private String newBuildingNumber;
+    private String newRoom;
+    private String newSubroom;
+    private String newConditionCode;
+	
     private List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail;
     
 	/**
@@ -80,5 +100,134 @@ public class BarcodeInventoryErrorDocument extends FinancialSystemTransactionalD
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+    public String getCurrentTagNumber() {
+        return currentTagNumber;
+    }
+
+    public void setCurrentTagNumber(String currentTagNumber) {
+        this.currentTagNumber = currentTagNumber;
+    }
+
+    public String getCurrentScanCode() {
+        return currentScanCode;
+    }
+
+    public void setCurrentScanCode(String currentScanCode) {
+        this.currentScanCode = currentScanCode;
+    }
+
+    public String getCurrentCampusCode() {
+        return currentCampusCode;
+    }
+
+    public void setCurrentCampusCode(String currentCampusCode) {
+        this.currentCampusCode = currentCampusCode;
+    }
+
+    public String getCurrentBuildingNumber() {
+        return currentBuildingNumber;
+    }
+
+    public void setCurrentBuildingNumber(String currentBuildingNumber) {
+        this.currentBuildingNumber = currentBuildingNumber;
+    }
+
+    public String getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(String currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
+    public String getCurrentSubroom() {
+        return currentSubroom;
+    }
+
+    public void setCurrentSubroom(String currentSubroom) {
+        this.currentSubroom = currentSubroom;
+    }
+
+    public String getCurrentConditionCode() {
+        return currentConditionCode;
+    }
+
+    public void setCurrentConditionCode(String currentConditionCode) {
+        this.currentConditionCode = currentConditionCode;
+    }
+
+    public String getNewTagNumber() {
+        return newTagNumber;
+    }
+
+    public void setNewTagNumber(String newTagNumber) {
+        this.newTagNumber = newTagNumber;
+    }
+
+    public String getNewScanCode() {
+        return newScanCode;
+    }
+
+    public void setNewScanCode(String newScanCode) {
+        this.newScanCode = newScanCode;
+    }
+
+    public String getNewCampusCode() {
+        return newCampusCode;
+    }
+
+    public void setNewCampusCode(String newCampusCode) {
+        this.newCampusCode = newCampusCode;
+    }
+
+    public String getNewBuildingNumber() {
+        return newBuildingNumber;
+    }
+
+    public void setNewBuildingNumber(String newBuildingNumber) {
+        this.newBuildingNumber = newBuildingNumber;
+    }
+
+    public String getNewRoom() {
+        return newRoom;
+    }
+
+    public void setNewRoom(String newRoom) {
+        this.newRoom = newRoom;
+    }
+
+    public String getNewSubroom() {
+        return newSubroom;
+    }
+
+    public void setNewSubroom(String newSubroom) {
+        this.newSubroom = newSubroom;
+    }
+
+    public String getNewConditionCode() {
+        return newConditionCode;
+    }
+
+    public void setNewConditionCode(String newConditionCode) {
+        this.newConditionCode = newConditionCode;
+    }
+
+    public void resetSearchFields() {
+        currentTagNumber="";
+        currentScanCode="";
+        currentCampusCode="";
+        currentBuildingNumber="";
+        currentRoom="";
+        currentSubroom="";
+        currentConditionCode="";
+        newTagNumber="";
+        newScanCode="";
+        newCampusCode="";
+        newBuildingNumber="";
+        newRoom="";
+        newSubroom="";
+        newConditionCode="";        
     }
 }

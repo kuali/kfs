@@ -86,8 +86,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
-
-
     /**
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
@@ -102,7 +100,6 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         //Validating records.
         this.invokeRules(document,false);
     }
-
 
     /**
      * 
@@ -122,7 +119,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
-        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
+        BarcodeInventoryErrorDocument doc = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
+            
+        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(doc);
 
         //searches and replaces
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);
@@ -132,40 +131,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         //Validating.
         this.invokeRules(document,false);
-
-        //Checking whether or not an BCIE row was actually corrected
-//        barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
-//        for (BarcodeInventoryErrorDetail detail : barcodeInventoryErrorDetails) {
-//
-//            //if corrected set user id that corrected and  date. 
-//            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_CORRECTED)) {
-//                detail.setInventoryCorrectionTimestamp(dateTimeService.getCurrentTimestamp());
-//                detail.setCorrectorUniversalIdentifier(currentUserID);
-//
-//                //Updating asset table 
-//                assetBarcodeInventoryLoadService.updateAssetInformation(detail);
-//            }
-//        }
-//
-//
-//        if (this.isFullyProcessed(document)) {                    
-//            //If the same person that uploaded the bcie is the one processing it, then....
-//            if (document.getUploaderUniversalIdentifier().equals(currentUserID)) {
-//                //Approving and storing data
-//                this.blanketApprove(mapping, form, request, response);
-//            }
-//        }
-//        else {
-//            //Storing data.
-//            businessObjectService.save(document.getBarcodeInventoryErrorDetail());
-//        }
         
         //Search fields initialization.
-        barcodeInventoryErrorForm.resetSearchFields();
-
-        //Re-loading document with changes.
-//        this.loadDocument((KualiDocumentFormBase) form);
-
+        barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument().resetSearchFields();
 
         //Displaying JSP
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

@@ -38,8 +38,7 @@ public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase 
 
     @SuppressWarnings("unchecked")
     public boolean invokeRuleMethod(BusinessRule rule) {
-        List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetail = ((BarcodeInventoryErrorDocument)getDocument()).getBarcodeInventoryErrorDetail(); 
-        return ((BarcodeInventoryErrorDocumentRule) rule).validateBarcodeInventoryErrorDetail(barcodeInventoryErrorDetail,this.updateStatus);
+        return ((BarcodeInventoryErrorDocumentRule) rule).validateBarcodeInventoryErrorDetail((BarcodeInventoryErrorDocument)getDocument(),this.updateStatus);
     }
     
 }

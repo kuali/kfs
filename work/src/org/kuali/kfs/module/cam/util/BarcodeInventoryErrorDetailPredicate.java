@@ -19,6 +19,7 @@ import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
+import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
 
 /**
@@ -27,15 +28,17 @@ import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
  */
 public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDetailPredicate.class);
-    private BarcodeInventoryErrorForm bcieForm;
+    //private BarcodeInventoryErrorForm bcieForm;
+    private BarcodeInventoryErrorDocument doc;
 
     /**
      * 
      * Constructs a BarcodeInventoryErrorDetailPredicate.java.
      * @param form
      */
-    public BarcodeInventoryErrorDetailPredicate(BarcodeInventoryErrorForm form) {
-        this.bcieForm = form;
+    public BarcodeInventoryErrorDetailPredicate(BarcodeInventoryErrorDocument doc) {
+        this.doc = doc;
+//        this.bcieForm = doc.getform;
     }
 
     /**
@@ -48,46 +51,46 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
         if (object instanceof BarcodeInventoryErrorDetail) {
             BarcodeInventoryErrorDetail detail = (BarcodeInventoryErrorDetail) object;
 
-            if (StringUtils.isBlank(this.bcieForm.getCurrentTagNumber()) && StringUtils.isBlank(this.bcieForm.getCurrentScanCode()) && StringUtils.isBlank(this.bcieForm.getCurrentCampusCode()) && StringUtils.isBlank(this.bcieForm.getCurrentBuildingNumber()) && StringUtils.isBlank(this.bcieForm.getCurrentRoom()) && StringUtils.isBlank(this.bcieForm.getCurrentSubroom()) && StringUtils.isBlank(this.bcieForm.getCurrentConditionCode())) {
+            if (StringUtils.isBlank(this.doc.getCurrentTagNumber()) && StringUtils.isBlank(this.doc.getCurrentScanCode()) && StringUtils.isBlank(this.doc.getCurrentCampusCode()) && StringUtils.isBlank(this.doc.getCurrentBuildingNumber()) && StringUtils.isBlank(this.doc.getCurrentRoom()) && StringUtils.isBlank(this.doc.getCurrentSubroom()) && StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
                 return false;
             }
 
-            if ((this.bcieForm.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentTagNumber())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentTagNumber(), detail.getAssetTagNumber())) {
+            if ((this.doc.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentTagNumber())) {
+                if (!StringUtils.equals(this.doc.getCurrentTagNumber(), detail.getAssetTagNumber())) {
                     satisfies = false;
                 }
             }
 
-            if (this.bcieForm.getCurrentScanCode() != null && !StringUtils.isBlank(this.bcieForm.getCurrentScanCode())) {
-                satisfies = (this.bcieForm.getCurrentScanCode().equals("Y") && detail.isUploadScanIndicator());
+            if (this.doc.getCurrentScanCode() != null && !StringUtils.isBlank(this.doc.getCurrentScanCode())) {
+                satisfies = (this.doc.getCurrentScanCode().equals("Y") && detail.isUploadScanIndicator());
             }
 
-            if (this.bcieForm.getCurrentCampusCode() != null && !StringUtils.isBlank(this.bcieForm.getCurrentCampusCode())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentCampusCode(), detail.getCampusCode())) {
+            if (this.doc.getCurrentCampusCode() != null && !StringUtils.isBlank(this.doc.getCurrentCampusCode())) {
+                if (!StringUtils.equals(this.doc.getCurrentCampusCode(), detail.getCampusCode())) {
                     satisfies = false;
                 }
             }
 
-            if ((this.bcieForm.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentBuildingNumber())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentBuildingNumber(), detail.getBuildingCode())) {
+            if ((this.doc.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentBuildingNumber())) {
+                if (!StringUtils.equals(this.doc.getCurrentBuildingNumber(), detail.getBuildingCode())) {
                     satisfies = false;
                 }
             }
 
-            if ((this.bcieForm.getCurrentRoom() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentRoom())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentRoom(), detail.getBuildingRoomNumber())) {
+            if ((this.doc.getCurrentRoom() != null) && !StringUtils.isBlank(this.doc.getCurrentRoom())) {
+                if (!StringUtils.equals(this.doc.getCurrentRoom(), detail.getBuildingRoomNumber())) {
                     satisfies = false;
                 }
             }
 
-            if ((this.bcieForm.getCurrentSubroom() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentSubroom())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentSubroom(), detail.getBuildingSubRoomNumber())) {
+            if ((this.doc.getCurrentSubroom() != null) && !StringUtils.isBlank(this.doc.getCurrentSubroom())) {
+                if (!StringUtils.equals(this.doc.getCurrentSubroom(), detail.getBuildingSubRoomNumber())) {
                     satisfies = false;
                 }
             }
 
-            if ((this.bcieForm.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.bcieForm.getCurrentConditionCode())) {
-                if (!StringUtils.equals(this.bcieForm.getCurrentConditionCode(), detail.getAssetConditionCode())) {
+            if ((this.doc.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
+                if (!StringUtils.equals(this.doc.getCurrentConditionCode(), detail.getAssetConditionCode())) {
                     satisfies = false;
                 }
             }
@@ -105,24 +108,24 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
     public void execute(Object object) {
         if (this.evaluate(object)) {
             BarcodeInventoryErrorDetail detail = (BarcodeInventoryErrorDetail) object;
-            if (this.bcieForm.getNewCampusCode() != null && !StringUtils.isBlank(this.bcieForm.getNewCampusCode())) {
-                detail.setCampusCode(this.bcieForm.getNewCampusCode());
+            if (this.doc.getNewCampusCode() != null && !StringUtils.isBlank(this.doc.getNewCampusCode())) {
+                detail.setCampusCode(this.doc.getNewCampusCode());
             }
 
-            if ((this.bcieForm.getNewBuildingNumber() != null) && !StringUtils.isBlank(this.bcieForm.getNewBuildingNumber())) {
-                detail.setBuildingCode(this.bcieForm.getNewBuildingNumber());
+            if ((this.doc.getNewBuildingNumber() != null) && !StringUtils.isBlank(this.doc.getNewBuildingNumber())) {
+                detail.setBuildingCode(this.doc.getNewBuildingNumber());
             }
 
-            if ((this.bcieForm.getNewRoom() != null) && !StringUtils.isBlank(this.bcieForm.getNewRoom())) {
-                detail.setBuildingRoomNumber(this.bcieForm.getNewRoom());
+            if ((this.doc.getNewRoom() != null) && !StringUtils.isBlank(this.doc.getNewRoom())) {
+                detail.setBuildingRoomNumber(this.doc.getNewRoom());
             }
 
-            if ((this.bcieForm.getNewSubroom() != null) && !StringUtils.isBlank(this.bcieForm.getNewSubroom())) {
-                detail.setBuildingSubRoomNumber(this.bcieForm.getNewSubroom());
+            if ((this.doc.getNewSubroom() != null) && !StringUtils.isBlank(this.doc.getNewSubroom())) {
+                detail.setBuildingSubRoomNumber(this.doc.getNewSubroom());
             }
 
-            if ((this.bcieForm.getNewConditionCode() != null) && !StringUtils.isBlank(this.bcieForm.getNewConditionCode())) {
-                detail.setAssetConditionCode(this.bcieForm.getNewConditionCode());
+            if ((this.doc.getNewConditionCode() != null) && !StringUtils.isBlank(this.doc.getNewConditionCode())) {
+                detail.setAssetConditionCode(this.doc.getNewConditionCode());
             }
 
         }

@@ -19,16 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Accounting line grouped data for GL Line
  */
 public class PurApAccountLineGroup extends AccountLineGroup {
+
     private Logger LOG = Logger.getLogger(PurApAccountLineGroup.class);
     private List<PurApAccountingLineBase> sourceEntries = new ArrayList<PurApAccountingLineBase>();
 
@@ -42,10 +45,15 @@ public class PurApAccountLineGroup extends AccountLineGroup {
     }
 
     public PurApAccountLineGroup(PurApAccountingLineBase entry) {
-        if (ObjectUtils.isNotNull((AccountsPayableItem) entry.getPurapItem()) && ObjectUtils.isNotNull(((AccountsPayableItem) entry.getPurapItem()).getPurapDocument())) {
-            AccountsPayableDocumentBase document = ((AccountsPayableItem) entry.getPurapItem()).getPurapDocument();
-            setReferenceFinancialDocumentNumber(document.getPurchaseOrderIdentifier() != null ? document.getPurchaseOrderIdentifier().toString() : "");
-            setDocumentNumber(document.getDocumentNumber());
+        entry.refreshReferenceObject(CabPropertyConstants.PURAP_ITEM);
+        AccountsPayableItem purapItem = (AccountsPayableItem) entry.getPurapItem();
+        if (ObjectUtils.isNotNull(purapItem)) {
+            purapItem.refreshReferenceObject(CabPropertyConstants.PURAP_DOCUMENT);
+            AccountsPayableDocumentBase purapDocument = ((AccountsPayableItem) entry.getPurapItem()).getPurapDocument();
+            if (ObjectUtils.isNotNull(purapDocument)) {
+                setReferenceFinancialDocumentNumber(purapDocument.getPurchaseOrderIdentifier() != null ? purapDocument.getPurchaseOrderIdentifier().toString() : "");
+                setDocumentNumber(purapDocument.getDocumentNumber());
+            }
         }
         else {
             LOG.error("Could not load PurAP document details for " + entry.toString());

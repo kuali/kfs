@@ -152,4 +152,7 @@ public class CabPropertyConstants {
     public static class PurchasingAccountsPayableProcessingReport {
         public static final String PURAP_DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
     }
+
+    public static final String PURAP_DOCUMENT = "purapDocument";
+    public static final String PURAP_ITEM = "purapItem";
 }

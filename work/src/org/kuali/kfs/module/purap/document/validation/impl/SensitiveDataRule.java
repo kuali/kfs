@@ -19,11 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -133,9 +132,14 @@ public class SensitiveDataRule extends MaintenanceDocumentRuleBase {
     private boolean hasABlockingRecord(String sensitiveDataCode) {
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("sensitiveDataCode", sensitiveDataCode);
+        //Check whether there are any PurchaseOrderSensitiveData whose sensitiveDataCode match with this SensitiveData's code
+        boolean hasPurchaseOrderSensitiveDataBlockingRecord = SpringContext.getBean(BusinessObjectService.class).countMatching(PurchaseOrderSensitiveData.class, queryMap) > 0;
+        
         queryMap.put("active", true);
         //Check whether there are any active CommodityCode whose sensitiveDataCode match with this SensitiveData's code
-        return SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, queryMap) > 0;
+        boolean hasCommodityCodeBlockingRecord = SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, queryMap) > 0;
+        
+        return hasPurchaseOrderSensitiveDataBlockingRecord || hasCommodityCodeBlockingRecord;
     }
 
 }

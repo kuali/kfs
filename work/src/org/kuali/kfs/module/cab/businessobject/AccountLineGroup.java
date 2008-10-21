@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cab.businessobject;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -211,18 +213,18 @@ public abstract class AccountLineGroup {
         if (obj == null || !AccountLineGroup.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
-        boolean equal = true;
         AccountLineGroup test = (AccountLineGroup) obj;
-        equal = universityFiscalYear != null ? universityFiscalYear.equals(test.getUniversityFiscalYear()) : null == test.getUniversityFiscalYear();
-        equal &= equalsIgnoreFiller(chartOfAccountsCode, test.getChartOfAccountsCode());
-        equal &= equalsIgnoreFiller(accountNumber, test.getAccountNumber());
-        equal &= equalsIgnoreFiller(subAccountNumber, test.getSubAccountNumber());
-        equal &= equalsIgnoreFiller(financialObjectCode, test.getFinancialObjectCode());
-        equal &= equalsIgnoreFiller(financialSubObjectCode, test.getFinancialSubObjectCode());
-        equal &= equalsIgnoreFiller(universityFiscalPeriodCode, test.getUniversityFiscalPeriodCode());
-        equal &= equalsIgnoreFiller(documentNumber, test.getDocumentNumber());
-        equal &= equalsIgnoreFiller(referenceFinancialDocumentNumber, test.getReferenceFinancialDocumentNumber());
-        return equal;
+        EqualsBuilder equalsBuilder = new EqualsBuilder();
+        equalsBuilder.append(this.universityFiscalYear, test.getUniversityFiscalYear());
+        equalsBuilder.append(replaceFiller(chartOfAccountsCode), replaceFiller(test.getChartOfAccountsCode()));
+        equalsBuilder.append(replaceFiller(accountNumber), replaceFiller(test.getAccountNumber()));
+        equalsBuilder.append(replaceFiller(subAccountNumber), replaceFiller(test.getSubAccountNumber()));
+        equalsBuilder.append(replaceFiller(financialObjectCode), replaceFiller(test.getFinancialObjectCode()));
+        equalsBuilder.append(replaceFiller(financialSubObjectCode), replaceFiller(test.getFinancialSubObjectCode()));
+        equalsBuilder.append(replaceFiller(universityFiscalPeriodCode), replaceFiller(test.getUniversityFiscalPeriodCode()));
+        equalsBuilder.append(replaceFiller(documentNumber), replaceFiller(test.getDocumentNumber()));
+        equalsBuilder.append(replaceFiller(referenceFinancialDocumentNumber), replaceFiller(test.getReferenceFinancialDocumentNumber()));
+        return equalsBuilder.isEquals();
     }
 
     private String replaceFiller(String val) {
@@ -238,12 +240,6 @@ public abstract class AccountLineGroup {
         return "";
     }
 
-    private boolean equalsIgnoreFiller(String val, String test) {
-        String valStr = val == null ? "" : val.trim().replaceAll("-", "");
-        String testStr = test == null ? "" : test.trim().replaceAll("-", "");
-        return valStr.equals(testStr);
-    }
-
     /**
      * Overridden so that group by statement can be easily implemented.
      * <li>DO NOT REMOVE this method, it is critical to reconciliation process</li>
@@ -252,17 +248,17 @@ public abstract class AccountLineGroup {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + (null == universityFiscalYear ? 0 : universityFiscalYear.intValue());
-        hash = 31 * hash + replaceFiller(chartOfAccountsCode).hashCode();
-        hash = 31 * hash + replaceFiller(accountNumber).hashCode();
-        hash = 31 * hash + replaceFiller(subAccountNumber).hashCode();
-        hash = 31 * hash + replaceFiller(financialObjectCode).hashCode();
-        hash = 31 * hash + replaceFiller(financialSubObjectCode).hashCode();
-        hash = 31 * hash + replaceFiller(universityFiscalPeriodCode).hashCode();
-        hash = 31 * hash + replaceFiller(documentNumber).hashCode();
-        hash = 31 * hash + replaceFiller(referenceFinancialDocumentNumber).hashCode();
-        return hash;
+        HashCodeBuilder hashCodeBuilder = new HashCodeBuilder(37, 41);
+        hashCodeBuilder.append(this.universityFiscalYear);
+        hashCodeBuilder.append(replaceFiller(chartOfAccountsCode));
+        hashCodeBuilder.append(replaceFiller(accountNumber));
+        hashCodeBuilder.append(replaceFiller(subAccountNumber));
+        hashCodeBuilder.append(replaceFiller(financialObjectCode));
+        hashCodeBuilder.append(replaceFiller(financialSubObjectCode));
+        hashCodeBuilder.append(replaceFiller(universityFiscalPeriodCode));
+        hashCodeBuilder.append(replaceFiller(documentNumber));
+        hashCodeBuilder.append(replaceFiller(referenceFinancialDocumentNumber));
+        return hashCodeBuilder.toHashCode();
     }
 
     /**

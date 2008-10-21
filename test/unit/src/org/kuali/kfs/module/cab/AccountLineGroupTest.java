@@ -35,9 +35,9 @@ public class AccountLineGroupTest extends KualiTestBase {
 
     public void testEquals() throws Exception {
         // test reflexive
-        GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
+        GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", "--------", "01", "1001", null, "D");
         GlAccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "------", "7000", null, "01", "1001", null, "C");
-        PurApAccountLineGroup third = createPurApAccountLineGroup(2008, "BL", "BL002323", "---", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        PurApAccountLineGroup third = createPurApAccountLineGroup(2008, "BL", "BL002323", "---", "7000", null, "01", "1001", "----", new KualiDecimal(100), PaymentRequestAccountHistory.class);
         // equals all
         assertTrue(first.equals(first));
         assertTrue(first.equals(second));

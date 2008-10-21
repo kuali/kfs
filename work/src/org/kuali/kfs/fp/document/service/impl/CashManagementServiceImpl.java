@@ -62,6 +62,7 @@ import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -489,13 +490,23 @@ public class CashManagementServiceImpl implements CashManagementService {
         List depositCashReceiptControls = deposit.getDepositCashReceiptControl();
         for (Iterator j = depositCashReceiptControls.iterator(); j.hasNext();) {
             DepositCashReceiptControl dcc = (DepositCashReceiptControl) j.next();
-            CashReceiptHeader crHeader = dcc.getCashReceiptHeader();
-
-            // reset each CashReceipt status
-            CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
-            FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
-            crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
-            documentService.updateDocument(crDoc);
+            if (!ObjectUtils.isNull(dcc)) {
+                CashReceiptHeader crHeader = dcc.getCashReceiptHeader();
+    
+                if (!ObjectUtils.isNull(crHeader)) {
+                    // reset each CashReceipt status
+                    crHeader.refreshReferenceObject("cashReceiptDocument");
+                    CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
+                    if (!ObjectUtils.isNull(crDoc)) {
+                        crDoc.refreshReferenceObject("documentHeader");
+                        FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
+                        if (!ObjectUtils.isNull(crdh)) {
+                            crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
+                            documentService.updateDocument(crDoc);
+                        }
+                    }
+                }
+            }
         }
         
         // un-deposit all cashiering checks associated with the deposit

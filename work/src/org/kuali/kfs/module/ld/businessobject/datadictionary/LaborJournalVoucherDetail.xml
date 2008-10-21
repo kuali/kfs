@@ -113,7 +113,7 @@
 
   <bean id="LaborJournalVoucherDetail-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Number" />
     <property name="shortLabel" value="Ref Number" />
     <property name="maxLength" value="14" />
@@ -147,7 +147,7 @@
 
   <bean id="LaborJournalVoucherDetail-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org Ref Id" />
     <property name="maxLength" value="8" />
@@ -182,7 +182,7 @@
 
   <bean id="LaborJournalVoucherDetail-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Ref Origin Code" />
     <property name="maxLength" value="2" />
@@ -201,7 +201,7 @@
 
   <bean id="LaborJournalVoucherDetail-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Override Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -285,7 +285,7 @@
 
   <bean id="LaborJournalVoucherDetail-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Encumbrance Update" />
     <property name="maxLength" value="1" />
@@ -427,7 +427,7 @@
 
   <bean id="LaborJournalVoucherDetail-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="earnCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Earn Code" />
     <property name="shortLabel" value="Earn Code" />
     <property name="maxLength" value="3" />
@@ -443,7 +443,7 @@
 
   <bean id="LaborJournalVoucherDetail-emplid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Emplid" />
     <property name="shortLabel" value="Emplid" />
     <property name="maxLength" value="11" />
@@ -475,7 +475,7 @@
 
   <bean id="LaborJournalVoucherDetail-grade-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grade" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Grade" />
     <property name="shortLabel" value="Grade" />
     <property name="maxLength" value="3" />
@@ -491,7 +491,7 @@
 
   <bean id="LaborJournalVoucherDetail-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsCompany" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Hrms Company" />
     <property name="shortLabel" value="Company" />
     <property name="maxLength" value="3" />
@@ -507,7 +507,7 @@
 
   <bean id="LaborJournalVoucherDetail-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Ledger Original Account Number" />
     <property name="shortLabel" value="Original Account" />
     <property name="maxLength" value="7" />
@@ -523,7 +523,7 @@
 
   <bean id="LaborJournalVoucherDetail-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Ledger Original Chart Of Accounts Code" />
     <property name="shortLabel" value="Original Chart" />
     <property name="maxLength" value="2" />
@@ -539,7 +539,7 @@
 
   <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Ledger Original Financial Object Code" />
     <property name="shortLabel" value="Original Object Code" />
     <property name="maxLength" value="4" />
@@ -555,7 +555,7 @@
 
   <bean id="LaborJournalVoucherDetail-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalFinancialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Ledger Original Financial Sub Object Code" />
     <property name="shortLabel" value="Original Sub Object Code" />
     <property name="maxLength" value="3" />
@@ -571,7 +571,7 @@
 
   <bean id="LaborJournalVoucherDetail-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalSubAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Ledger Original Sub Account Number" />
     <property name="shortLabel" value="Original Sub Account" />
     <property name="maxLength" value="5" />
@@ -587,7 +587,7 @@
 
   <bean id="LaborJournalVoucherDetail-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payGroup" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Pay Group" />
     <property name="shortLabel" value="Pay Group" />
     <property name="maxLength" value="3" />
@@ -633,7 +633,7 @@
 
   <bean id="LaborJournalVoucherDetail-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Number" />
     <property name="shortLabel" value="Position" />
     <property name="maxLength" value="8" />
@@ -649,7 +649,7 @@
 
   <bean id="LaborJournalVoucherDetail-runIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="runIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Run Identifier" />
     <property name="shortLabel" value="Run ID" />
     <property name="maxLength" value="10" />
@@ -665,7 +665,7 @@
 
   <bean id="LaborJournalVoucherDetail-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salaryAdministrationPlan" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Administration Plan" />
     <property name="shortLabel" value="Sal Admin Plan" />
     <property name="maxLength" value="4" />
@@ -681,7 +681,7 @@
 
   <bean id="LaborJournalVoucherDetail-setid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setid" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Setid" />
     <property name="shortLabel" value="Setid" />
     <property name="maxLength" value="5" />

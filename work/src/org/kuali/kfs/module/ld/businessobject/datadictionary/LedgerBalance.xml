@@ -116,7 +116,7 @@
 
   <bean id="LedgerBalance-laborObject.financialObjectFringeOrSalaryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborObject.financialObjectFringeOrSalaryCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Financial Object Fringe Or Salary Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />

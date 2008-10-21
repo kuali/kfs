@@ -104,7 +104,7 @@
   <bean id="LaborCalculatedSalaryFoundationTracker-csfDeleteCode" parent="LaborCalculatedSalaryFoundationTracker-csfDeleteCode-parentBean" />
   <bean id="LaborCalculatedSalaryFoundationTracker-csfDeleteCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfDeleteCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="CSF Delete Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -140,7 +140,7 @@
   <bean id="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode" parent="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" />
   <bean id="LaborCalculatedSalaryFoundationTracker-csfFundingStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="csfFundingStatusCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="CSF Funding Status Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -176,7 +176,7 @@
   <bean id="LaborCalculatedSalaryFoundationTracker-earnCode" parent="LaborCalculatedSalaryFoundationTracker-earnCode-parentBean" />
   <bean id="LaborCalculatedSalaryFoundationTracker-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="earnCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Earn Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -284,7 +284,7 @@
   <bean id="LaborCalculatedSalaryFoundationTracker-personName" parent="LaborCalculatedSalaryFoundationTracker-personName-parentBean" />
   <bean id="LaborCalculatedSalaryFoundationTracker-personName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Person" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="80" />

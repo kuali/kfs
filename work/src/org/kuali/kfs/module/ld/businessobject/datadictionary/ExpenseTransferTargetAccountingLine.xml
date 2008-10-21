@@ -63,7 +63,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-emplid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="emplid" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Employee ID" />
     <property name="shortLabel" value="Empl ID" />
     <property name="maxLength" value="11" />
@@ -91,7 +91,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-payrollTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payrollTotalHours" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Payroll Total Hours" />
     <property name="shortLabel" value="Pay Hrs" />
     <property name="maxLength" value="9" />
@@ -107,7 +107,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Number" />
     <property name="shortLabel" value="Position" />
     <property name="maxLength" value="8" />
@@ -160,7 +160,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Number" />
     <property name="shortLabel" value="Ref Number" />
     <property name="maxLength" value="14" />
@@ -194,7 +194,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference Id" />
     <property name="shortLabel" value="Org Ref Id" />
     <property name="maxLength" value="8" />
@@ -229,7 +229,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceOriginCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Ref Origin Code" />
     <property name="maxLength" value="2" />
@@ -248,7 +248,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="overrideCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Override Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -332,7 +332,7 @@
 
   <bean id="ExpenseTransferTargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="encumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Encumbrance Update" />
     <property name="maxLength" value="1" />

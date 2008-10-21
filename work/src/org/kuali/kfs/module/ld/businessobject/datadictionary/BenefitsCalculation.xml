@@ -54,7 +54,7 @@
 
   <bean id="BenefitsCalculation-positionFringeBenefitPercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionFringeBenefitPercent" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Fringe Benefit Percent" />
     <property name="shortLabel" value="Percent" />
     <property name="maxLength" value="22" />

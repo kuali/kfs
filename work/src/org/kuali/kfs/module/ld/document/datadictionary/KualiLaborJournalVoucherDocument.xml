@@ -120,7 +120,7 @@
 
   <bean id="KualiLaborJournalVoucherDocument-offsetTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="offsetTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Offset Type" />
     <property name="shortLabel" value="Offset Type" />
     <property name="maxLength" value="4" />

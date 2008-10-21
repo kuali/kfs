@@ -48,7 +48,7 @@
 
   <bean id="PositionObjectGroup-positionObjectGroupName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionObjectGroupName" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Labor Position Object Group Name" />
     <property name="shortLabel" value="Name" />
     <property name="maxLength" value="40" />

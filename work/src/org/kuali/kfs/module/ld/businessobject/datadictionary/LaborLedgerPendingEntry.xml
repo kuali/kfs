@@ -200,7 +200,7 @@
 
   <bean id="LaborLedgerPendingEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Document Number" />
     <property name="shortLabel" value="Ref Doc Number" />
     <property name="maxLength" value="14" />
@@ -272,7 +272,7 @@
 
   <bean id="LaborLedgerPendingEntry-transactionEntryOffsetCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEntryOffsetCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Entry Offset Code" />
     <property name="shortLabel" value="Entry Offset Code" />
     <property name="maxLength" value="1" />
@@ -320,7 +320,7 @@
 
   <bean id="LaborLedgerPendingEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />

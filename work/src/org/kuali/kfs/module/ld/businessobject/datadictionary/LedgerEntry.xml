@@ -111,7 +111,7 @@
 
   <bean id="LedgerEntry-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="earnCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Earn Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -132,7 +132,7 @@
 
   <bean id="LedgerEntry-employeeRecord-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="employeeRecord" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Employee Record" />
     <property name="shortLabel" value="Record" />
     <property name="maxLength" value="3" />
@@ -164,7 +164,7 @@
 
   <bean id="LedgerEntry-financialDocumentReversalDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentReversalDate" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reversal Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -185,7 +185,7 @@
 
   <bean id="LedgerEntry-financialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSystemOriginationCode" />
-    <property name="forceUppercase" value="false" />
+    <property name="forceUppercase" value="true" />
     <property name="label" value="Origin Code" />
     <property name="shortLabel" value="Origin Code" />
     <property name="maxLength" value="2" />
@@ -198,7 +198,7 @@
 
   <bean id="LedgerEntry-grade-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="grade" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Grade" />
     <property name="shortLabel" value="Grade" />
     <property name="maxLength" value="3" />
@@ -214,7 +214,7 @@
 
   <bean id="LedgerEntry-hrmsCompany-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="hrmsCompany" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Company" />
     <property name="shortLabel" value="Company" />
     <property name="maxLength" value="3" />
@@ -230,7 +230,7 @@
 
   <bean id="LedgerEntry-laborLedgerOriginalAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Original Account Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="7" />
@@ -246,7 +246,7 @@
 
   <bean id="LedgerEntry-laborLedgerOriginalChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalChartOfAccountsCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Original Chart Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -262,7 +262,7 @@
 
   <bean id="LedgerEntry-laborLedgerOriginalFinancialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalFinancialObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Original Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
@@ -278,7 +278,7 @@
 
   <bean id="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalFinancialSubObjectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Original Sub-Object Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="3" />
@@ -294,7 +294,7 @@
 
   <bean id="LedgerEntry-laborLedgerOriginalSubAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="laborLedgerOriginalSubAccountNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Original Sub-Account Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="5" />
@@ -310,7 +310,7 @@
 
   <bean id="LedgerEntry-organizationDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="10" />
@@ -326,7 +326,7 @@
 
   <bean id="LedgerEntry-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="organizationReferenceId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Organization Reference ID" />
     <property name="shortLabel" value="Id" />
     <property name="maxLength" value="8" />
@@ -342,7 +342,7 @@
 
   <bean id="LedgerEntry-payGroup-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payGroup" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Pay Group" />
     <property name="shortLabel" value="Group" />
     <property name="maxLength" value="3" />
@@ -358,7 +358,7 @@
 
   <bean id="LedgerEntry-payPeriodEndDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payPeriodEndDate" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Pay Period End Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -374,7 +374,7 @@
 
   <bean id="LedgerEntry-payrollEndDateFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payrollEndDateFiscalPeriodCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Payroll End Date Fiscal Period" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -390,7 +390,7 @@
 
   <bean id="LedgerEntry-payrollEndDateFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payrollEndDateFiscalYear" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Payroll End Date Fiscal Year" />
     <property name="shortLabel" value="Year" />
     <property name="maxLength" value="4" />
@@ -410,7 +410,7 @@
 
   <bean id="LedgerEntry-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="projectCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Project Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="10" />
@@ -426,7 +426,7 @@
 
   <bean id="LedgerEntry-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Document Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="14" />
@@ -442,7 +442,7 @@
 
   <bean id="LedgerEntry-referenceFinancialDocumentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialDocumentTypeCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Document Type Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
@@ -458,7 +458,7 @@
 
   <bean id="LedgerEntry-referenceFinancialSystemOriginationCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="referenceFinancialSystemOriginationCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Reference Origin Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="2" />
@@ -474,7 +474,7 @@
 
   <bean id="LedgerEntry-runIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="runIdentifier" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Run Identifier" />
     <property name="shortLabel" value="Identifier" />
     <property name="maxLength" value="10" />
@@ -490,7 +490,7 @@
 
   <bean id="LedgerEntry-salaryAdministrationPlan-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="salaryAdministrationPlan" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Salary Admin Plan" />
     <property name="shortLabel" value="Plan" />
     <property name="maxLength" value="4" />
@@ -506,7 +506,7 @@
 
   <bean id="LedgerEntry-setid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="setid" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Set ID" />
     <property name="shortLabel" value="Setid" />
     <property name="maxLength" value="5" />
@@ -522,7 +522,7 @@
 
   <bean id="LedgerEntry-transactionDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDate" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -538,7 +538,7 @@
 
   <bean id="LedgerEntry-transactionDateTimeStamp-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDateTimeStamp" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Date Time Stamp" />
     <property name="shortLabel" value="Stamp" />
     <property name="maxLength" value="7" />
@@ -554,7 +554,7 @@
 
   <bean id="LedgerEntry-transactionDebitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionDebitCreditCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Debit Credit Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -570,7 +570,7 @@
 
   <bean id="LedgerEntry-transactionEncumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionEncumbranceUpdateCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Encumbrance Update Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="1" />
@@ -586,7 +586,7 @@
 
   <bean id="LedgerEntry-transactionLedgerEntryAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryAmount" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
@@ -602,7 +602,7 @@
 
   <bean id="LedgerEntry-transactionLedgerEntryDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntryDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="40" />
@@ -618,7 +618,7 @@
 
   <bean id="LedgerEntry-transactionLedgerEntrySequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionLedgerEntrySequenceNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Ledger Entry Sequence Number" />
     <property name="shortLabel" value="Number" />
     <property name="maxLength" value="5" />
@@ -634,7 +634,7 @@
 
   <bean id="LedgerEntry-transactionPostingDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionPostingDate" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Posting Date" />
     <property name="shortLabel" value="Date" />
     <property name="maxLength" value="7" />
@@ -650,7 +650,7 @@
 
   <bean id="LedgerEntry-transactionTotalHours-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionTotalHours" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Transaction Total Hours" />
     <property name="shortLabel" value="Hours" />
     <property name="maxLength" value="9" />

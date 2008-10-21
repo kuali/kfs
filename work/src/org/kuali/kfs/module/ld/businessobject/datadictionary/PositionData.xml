@@ -47,7 +47,7 @@
 
   <bean id="PositionData-budgetedPosition-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="budgetedPosition" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Budgeted Position" />
     <property name="shortLabel" value="Position" />
     <property name="maxLength" value="1" />
@@ -63,7 +63,7 @@
 
   <bean id="PositionData-businessUnit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="businessUnit" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Business Unit" />
     <property name="shortLabel" value="Unit" />
     <property name="maxLength" value="5" />
@@ -79,7 +79,7 @@
 
   <bean id="PositionData-departmentId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="departmentId" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Department Id" />
     <property name="shortLabel" value="Id" />
     <property name="maxLength" value="10" />
@@ -95,7 +95,7 @@
 
   <bean id="PositionData-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="description" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="30" />
@@ -127,7 +127,7 @@
 
   <bean id="PositionData-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="jobCode" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Job Code" />
     <property name="shortLabel" value="Code" />
     <property name="maxLength" value="6" />
@@ -143,7 +143,7 @@
 
   <bean id="PositionData-positionEffectiveStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionEffectiveStatus" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Effective Status" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
@@ -175,7 +175,7 @@
 
   <bean id="PositionData-positionGradeDefault-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionGradeDefault" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Grade Default" />
     <property name="shortLabel" value="Default" />
     <property name="maxLength" value="3" />
@@ -207,7 +207,7 @@
 
   <bean id="PositionData-positionRegularTemporary-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionRegularTemporary" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Regular Temporary" />
     <property name="shortLabel" value="Temporary" />
     <property name="maxLength" value="1" />
@@ -223,7 +223,7 @@
 
   <bean id="PositionData-positionSalaryPlanDefault-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionSalaryPlanDefault" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Salary Plan Default" />
     <property name="shortLabel" value="Default" />
     <property name="maxLength" value="4" />
@@ -239,7 +239,7 @@
 
   <bean id="PositionData-positionStatus-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="positionStatus" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Position Status" />
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
@@ -255,7 +255,7 @@
 
   <bean id="PositionData-shortDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="shortDescription" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Short Description" />
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="10" />
@@ -287,7 +287,7 @@
 
   <bean id="PositionData-standardHoursFrequency-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="standardHoursFrequency" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Standard Hours Frequency" />
     <property name="shortLabel" value="Frequency" />
     <property name="maxLength" value="5" />

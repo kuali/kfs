@@ -113,7 +113,7 @@
 
   <bean id="LedgerBalanceForEffortCertification-effortCertificationReportNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="effortCertificationReportNumber" />
-    <property name="forceUppercase" value="true" />
+    <property name="forceUppercase" value="false" />
     <property name="label" value="Effort Certification Report Number" />
     <property name="shortLabel" value="Report Number" />
     <property name="maxLength" value="3" />

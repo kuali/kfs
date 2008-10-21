@@ -142,7 +142,7 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
         //if organization doesn't exist
         if (ObjectUtils.isNull(organizationOptions)) {
             throw new DocumentInitiationAuthorizationException(ArKeyConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG, 
-                    new String[] { "(Users in an AR Billing Org)", "Customer Invoice WriteOff" });
+                    new String[] { "(Users in an AR Billing Org)", "Cash Control" });
         }
     }
 

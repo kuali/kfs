@@ -94,6 +94,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String nonInstitutionFundOrganizationCode;
     private String nonInstitutionFundChartOfAccountsCode;
     private String nonInstitutionFundAccountNumber;
+    private boolean deliveryBuildingOtherIndicator;
     private String deliveryBuildingCode;
     private String deliveryBuildingName;
     private String deliveryBuildingRoomNumber;
@@ -142,7 +143,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
-    private boolean deliveryBuildingOther;
 
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
@@ -531,12 +531,12 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.deliveryBuildingName = deliveryBuildingName;
     }
 
-    public boolean isDeliveryBuildingOther() {
-        return deliveryBuildingOther;
+    public boolean isDeliveryBuildingOtherIndicator() {
+        return deliveryBuildingOtherIndicator;
     }
 
-    public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
-        this.deliveryBuildingOther = deliveryBuildingOther;
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
 
     public String getDeliveryBuildingRoomNumber() {

@@ -50,6 +50,7 @@ public class PurapConstants extends JSTLConstants {
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
 
     public static final String B2B_ALLOW_COPY_DAYS = "B2B_ALLOW_COPY_DAYS";
+    public static final String B2B_PUNCHBACK_METHOD_TO_CALL = "returnFromShopping";
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
 
@@ -97,10 +98,6 @@ public class PurapConstants extends JSTLConstants {
     
     public static final String REQ_REASON_NOT_APO = "Requisition did not become an APO because: ";
     public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
-
-    // Delivery Tag
-    public static final String DELIVERY_BUILDING_OTHER = "Other";
-    public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";
 
     // PDF KFSConstants
     public static final String IMAGE_TEMP_PATH = "PDF_IMAGE_TEMP_PATH";

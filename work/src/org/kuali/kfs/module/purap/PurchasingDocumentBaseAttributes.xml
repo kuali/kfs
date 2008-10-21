@@ -145,7 +145,7 @@
     </control>
 </attributeReference>
 
-<attribute name="deliveryBuildingOther">
+<attribute name="deliveryBuildingOtherIndicator">
 	<label>Other Building</label>
 	<shortLabel>Other Bldg.</shortLabel>
 	

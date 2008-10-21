@@ -172,12 +172,30 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // Refreshing corresponding fields after returning from various kuali lookups
         if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
             if (request.getParameter("document.deliveryCampusCode") != null) {
-                // returning from a building lookup on the delivery tab (update billing address)
+                // returning from a building or campus lookup on the delivery tab (update billing address)
                 BillingAddress billingAddress = new BillingAddress();
                 billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
                 Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
                 billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
                 document.templateBillingAddress(billingAddress);
+                
+                if (request.getParameter("document.deliveryBuildingName") == null) {
+                    //came from campus lookup not building, so clear building
+                    document.setDeliveryBuildingCode("");
+                    document.setDeliveryBuildingLine1Address("");
+                    document.setDeliveryBuildingLine2Address("");
+                    document.setDeliveryBuildingRoomNumber("");
+                    document.setDeliveryCityName("");
+                    document.setDeliveryStateCode("");
+                    document.setDeliveryPostalCode("");
+                    document.setDeliveryCountryCode("");
+                } 
+                else {
+                    //came from building lookup then turn off "OTHER" and clear room and line2address
+                    document.setDeliveryBuildingOtherIndicator(false);
+                    document.setDeliveryBuildingRoomNumber("");
+                    document.setDeliveryBuildingLine2Address("");
+                }
             }
             else if (request.getParameter("document.chartOfAccountsCode") != null) {
                 // returning from a chart/org lookup on the document detail tab (update receiving address)
@@ -224,8 +242,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * Intended to be used by the refresh button that appears in the delivery tab to refresh the delivery building. Since this is a
-     * refresh method, it is calling the general refresh method when it's done.
+     * Setup document to use "OTHER" building
      * 
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -234,30 +251,22 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * @return An ActionForward
      * @throws Exception
      */
-    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward useOtherDeliveryBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
-        if (ObjectUtils.isNotNull(document.isDeliveryBuildingOther())) {
-            if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
-                document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-                baseForm.setNotOtherDeliveryBuilding(false);
-            }
-            else {
-                document.setDeliveryBuildingName(null);
-                document.setDeliveryBuildingCode(null);
-                baseForm.setNotOtherDeliveryBuilding(true);
-            }
-            document.setDeliveryBuildingLine1Address(null);
-            document.setDeliveryBuildingLine2Address(null);
-            document.setDeliveryBuildingRoomNumber(null);
-            document.setDeliveryCityName(null);
-            document.setDeliveryStateCode(null);
-            document.setDeliveryCountryCode(null);
-            document.setDeliveryPostalCode(null);
-        }
 
-        return refresh(mapping, form, request, response);
+        document.setDeliveryBuildingOtherIndicator(true);
+        document.setDeliveryBuildingName("");
+        document.setDeliveryBuildingCode("");
+        document.setDeliveryBuildingLine1Address("");
+        document.setDeliveryBuildingLine2Address("");
+        document.setDeliveryBuildingRoomNumber("");
+        document.setDeliveryCityName("");
+        document.setDeliveryStateCode("");
+        document.setDeliveryCountryCode("");
+        document.setDeliveryPostalCode("");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward refreshAssetLocationBuildingByDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -291,13 +300,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         if(system != null) {
             CapitalAssetLocation location = system.getNewPurchasingCapitalAssetLocationLine();
             if( location != null ) {
-                if( location.isOffCampusIndicator() ) {
-                    location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-                }
-                else {
-                    location.setBuildingCode(null);
-                    location.setOffCampusIndicator(false);
-                }
+                //FIXME (hjs) fix this to work like new "OTHER"
+//                if( location.isOffCampusIndicator() ) {
+//                    location.setBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
+//                }
+//                else {
+//                    location.setBuildingCode(null);
+//                    location.setOffCampusIndicator(false);
+//                }
                 location.setCapitalAssetLine1Address(null);
                 location.setCapitalAssetCityName(null);
                 location.setCapitalAssetStateCode(null);

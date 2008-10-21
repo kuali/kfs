@@ -54,6 +54,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private String vendorPostalCode;
     private String vendorCountryCode;
     private String deliveryCampusCode;
+    private boolean deliveryBuildingOtherIndicator;
     private String deliveryBuildingCode;
     private String deliveryBuildingName;
     private String deliveryBuildingRoomNumber;
@@ -75,7 +76,6 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     private String alternateVendorName;
     
     //not persisted in db
-    private boolean deliveryBuildingOther;
     private String vendorNumber;
     private Integer vendorAddressGeneratedIdentifier;
     private String alternateVendorNumber;
@@ -874,12 +874,12 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         this.alternateVendorNumber = alternateVendorNumber;
     }
 
-    public boolean isDeliveryBuildingOther() {
-        return deliveryBuildingOther;
+    public boolean isDeliveryBuildingOtherIndicator() {
+        return deliveryBuildingOtherIndicator;
     }
 
-    public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
-        this.deliveryBuildingOther = deliveryBuildingOther;
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();

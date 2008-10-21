@@ -375,7 +375,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         }
         // extra space needed below to separate other text going on same PDF line
         String deliveryBuildingName = po.getDeliveryBuildingName() + " ";
-        if (po.isDeliveryBuildingOther()) {
+        if (po.isDeliveryBuildingOtherIndicator()) {
             deliveryBuildingName = "";
         }
 

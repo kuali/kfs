@@ -82,7 +82,7 @@
         <ref bean="PurchaseOrderDocument-addressToVendorIndicator" />
         <ref bean="PurchaseOrderDocument-deliveryBuildingName" />
         <ref bean="PurchaseOrderDocument-deliveryCampusCode" />
-        <ref bean="PurchaseOrderDocument-deliveryBuildingOther" />
+        <ref bean="PurchaseOrderDocument-deliveryBuildingOtherIndicator" />
         <ref bean="PurchaseOrderDocument-deliveryBuildingLine1Address" />
         <ref bean="PurchaseOrderDocument-deliveryBuildingLine2Address" />
         <ref bean="PurchaseOrderDocument-deliveryBuildingRoomNumber" />

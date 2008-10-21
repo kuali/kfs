@@ -98,42 +98,6 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         
     }
 
-    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, 
-                                                 ActionForm form, 
-                                                 HttpServletRequest request, 
-                                                 HttpServletResponse response) 
-    throws Exception {
-    
-        BulkReceivingForm baseForm = (BulkReceivingForm) form;
-        BulkReceivingDocument document = (BulkReceivingDocument) baseForm.getDocument();
-        
-        if (ObjectUtils.isNotNull(document.isDeliveryBuildingOther())) {
-            if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
-                document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
-                document.setDeliveryBuildingLine1Address(null);
-                document.setDeliveryBuildingLine2Address(null);
-                document.setDeliveryBuildingRoomNumber(null);
-                document.setDeliveryCityName(null);
-                document.setDeliveryStateCode(null);
-                document.setDeliveryCountryCode(null);
-                document.setDeliveryPostalCode(null);
-            } else {
-                document.setDeliveryBuildingName(null);
-                document.setDeliveryBuildingCode(null);
-                document.setDeliveryBuildingLine1Address(null);
-                document.setDeliveryBuildingLine2Address(null);
-                document.setDeliveryBuildingRoomNumber(null);
-                document.setDeliveryCityName(null);
-                document.setDeliveryStateCode(null);
-                document.setDeliveryCountryCode(null);
-                document.setDeliveryPostalCode(null);
-            }
-        }
-        
-        return refresh(mapping, form, request, response);
-    }
-    
     private ActionForward isDuplicateDocumentEntry(ActionMapping mapping, 
                                                    ActionForm form, 
                                                    HttpServletRequest request, 
@@ -314,6 +278,60 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
             }
         }
 
+        // Refreshing corresponding fields after returning from various kuali lookups
+        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+            if (request.getParameter("document.deliveryCampusCode") != null) {
+                // returning from a building or campus lookup on the delivery tab
+                
+                if (request.getParameter("document.deliveryBuildingName") == null) {
+                    //came from campus lookup not building, so clear building
+                    blkRecDoc.setDeliveryBuildingCode("");
+                    blkRecDoc.setDeliveryBuildingLine1Address("");
+                    blkRecDoc.setDeliveryBuildingLine2Address("");
+                    blkRecDoc.setDeliveryBuildingRoomNumber("");
+                    blkRecDoc.setDeliveryCityName("");
+                    blkRecDoc.setDeliveryStateCode("");
+                    blkRecDoc.setDeliveryPostalCode("");
+                    blkRecDoc.setDeliveryCountryCode("");
+                } 
+                else {
+                    //came from building lookup then turn off "OTHER" and clear room and line2address
+                    blkRecDoc.setDeliveryBuildingOtherIndicator(false);
+                    blkRecDoc.setDeliveryBuildingRoomNumber("");
+                    blkRecDoc.setDeliveryBuildingLine2Address("");
+                }
+            }
+        }
+
         return super.refresh(mapping, form, request, response);
     }
+
+    /**
+     * Setup document to use "OTHER" building
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request A HttpServletRequest
+     * @param response A HttpServletResponse
+     * @return An ActionForward
+     * @throws Exception
+     */
+    public ActionForward useOtherDeliveryBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BulkReceivingForm baseForm = (BulkReceivingForm) form;
+        BulkReceivingDocument document = (BulkReceivingDocument) baseForm.getDocument();
+
+        document.setDeliveryBuildingOtherIndicator(true);
+        document.setDeliveryBuildingName("");
+        document.setDeliveryBuildingCode("");
+        document.setDeliveryBuildingLine1Address("");
+        document.setDeliveryBuildingLine2Address("");
+        document.setDeliveryBuildingRoomNumber("");
+        document.setDeliveryCityName("");
+        document.setDeliveryStateCode("");
+        document.setDeliveryCountryCode("");
+        document.setDeliveryPostalCode("");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
 }    

@@ -76,7 +76,7 @@
         <ref bean="RequisitionDocument-addressToVendorIndicator" />
         <ref bean="RequisitionDocument-deliveryBuildingName" />
         <ref bean="RequisitionDocument-deliveryCampusCode" />
-        <ref bean="RequisitionDocument-deliveryBuildingOther" />
+        <ref bean="RequisitionDocument-deliveryBuildingOtherIndicator" />
         <ref bean="RequisitionDocument-deliveryBuildingLine1Address" />
         <ref bean="RequisitionDocument-deliveryBuildingLine2Address" />
         <ref bean="RequisitionDocument-deliveryBuildingRoomNumber" />
@@ -394,10 +394,10 @@
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="RequisitionDocument-deliveryBuildingOther" parent="RequisitionDocument-deliveryBuildingOther-parentBean" />
+  <bean id="RequisitionDocument-deliveryBuildingOtherIndicator" parent="RequisitionDocument-deliveryBuildingOtherIndicator-parentBean" />
 
-  <bean id="RequisitionDocument-deliveryBuildingOther-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingOther" />
+  <bean id="RequisitionDocument-deliveryBuildingOtherIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingOtherIndicator" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Other Building" />
     <property name="shortLabel" value="Other Bldg." />

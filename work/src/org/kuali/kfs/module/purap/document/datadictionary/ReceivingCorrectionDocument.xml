@@ -41,7 +41,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="ReceivingCorrectionDocument-deliveryBuildingLine1Address" />
         <ref bean="ReceivingCorrectionDocument-deliveryBuildingLine2Address" />
         <ref bean="ReceivingCorrectionDocument-deliveryBuildingName" />
-        <ref bean="ReceivingCorrectionDocument-deliveryBuildingOther" />
+        <ref bean="ReceivingCorrectionDocument-deliveryBuildingOtherIndicator" />
         <ref bean="ReceivingCorrectionDocument-deliveryBuildingRoomNumber" />
         <ref bean="ReceivingCorrectionDocument-deliveryCampusCode" />
         <ref bean="ReceivingCorrectionDocument-deliveryCityName" />
@@ -185,10 +185,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             p:includeKeyInLabel="false" />
     </property>
   </bean>
-  <bean id="ReceivingCorrectionDocument-deliveryBuildingOther" parent="ReceivingCorrectionDocument-deliveryBuildingOther-parentBean" />
+  <bean id="ReceivingCorrectionDocument-deliveryBuildingOtherIndicator" parent="ReceivingCorrectionDocument-deliveryBuildingOtherIndicator-parentBean" />
 
-  <bean id="ReceivingCorrectionDocument-deliveryBuildingOther-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingOther" />
+  <bean id="ReceivingCorrectionDocument-deliveryBuildingOtherIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingOtherIndicator" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Other Building" />
     <property name="shortLabel" value="Other Bldg." />

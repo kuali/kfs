@@ -152,7 +152,7 @@ public enum LineItemReceivingDocumentFixture {
     public String alternateVendorName;
     
     //not persisted in db
-    public boolean deliveryBuildingOther;
+    public boolean deliveryBuildingOtherIndicator;
     public String vendorNumber;
     public Integer vendorAddressGeneratedIdentifier;
     public String alternateVendorNumber;
@@ -204,7 +204,7 @@ public enum LineItemReceivingDocumentFixture {
         this.alternateVendorHeaderGeneratedIdentifier = alternateVendorHeaderGeneratedIdentifier;
         this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
         this.alternateVendorName = alternateVendorName;                
-        this.deliveryBuildingOther = deliveryBuildingOther;
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
         this.vendorNumber = vendorNumber;
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
         this.alternateVendorNumber = alternateVendorNumber;
@@ -256,7 +256,7 @@ public enum LineItemReceivingDocumentFixture {
         doc.setAlternateVendorHeaderGeneratedIdentifier(this.alternateVendorHeaderGeneratedIdentifier);
         doc.setAlternateVendorDetailAssignedIdentifier(this.alternateVendorDetailAssignedIdentifier);
         doc.setAlternateVendorName(this.alternateVendorName);
-        doc.setDeliveryBuildingOther(this.deliveryBuildingOther);
+        doc.setDeliveryBuildingOtherIndicator(this.deliveryBuildingOtherIndicator);
         doc.setVendorNumber(this.vendorNumber);
         doc.setVendorAddressGeneratedIdentifier(this.vendorAddressGeneratedIdentifier);
         doc.setAlternateVendorNumber(this.alternateVendorNumber);

@@ -21,10 +21,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
 import org.kuali.kfs.module.purap.businessobject.B2BShoppingCartItem;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
@@ -39,10 +39,10 @@ import org.kuali.kfs.module.purap.exception.MissingContractIdError;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -52,9 +52,11 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -62,6 +64,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(B2BShoppingServiceImpl.class);
 
     private B2BDao b2bDao;
+    private KualiConfigurationService kualiConfigurationService;
     private DocumentService documentService;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
@@ -73,13 +76,19 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     private B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
+
+        String basePath = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PurapConstants.B2B_PUNCHBACK_METHOD_TO_CALL);
+        String punchbackUrl = UrlFactory.parameterizeUrl(basePath + "/b2b.do", parameters);
+
 //        b2b.setPunchoutURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHOUT_URL));
 //        b2b.setPunchbackURL(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PUNCHBACK_URL));
 //        b2b.setEnvironment(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.ENVIRONMENT));
 //        b2b.setUserAgent(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.USER_AGENT));
 //        b2b.setPassword(parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.B2BParameters.PASSWORD));
         b2b.setPunchoutURL("http://usertest.sciquest.com/apps/Router/ExternalAuth/cXML/KualiDemo");
-        b2b.setPunchbackURL("http://localhost:8080/kuali-dev/b2b.do?methodToCall=returnFromShopping");
+        b2b.setPunchbackURL(punchbackUrl);
         b2b.setEnvironment("test");
         b2b.setUserAgent("kfs");
         b2b.setPassword("c#m1");
@@ -216,13 +225,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
     /**
-     * Get all the vendors in a single shopping cart
+     * Get all the vendors in a single shopping cart by the DUNS number. Currently not using this, but leaving it in case an
+     * institutions prefers to track DUNS #s
      * 
      * @param items Items in the shopping cart
      * @return List of VendorDetails for each vendor in the shopping cart
      */
-    private List getAllVendors(List items) {
-        LOG.debug("getAllVendors() started");
+    private List getAllVendorsByDuns(List items) {
+        LOG.debug("getAllVendorsByDuns() started");
 
         Set vendorDuns = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
@@ -233,10 +243,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         ArrayList vendors = new ArrayList();
         for (Iterator iter = vendorDuns.iterator(); iter.hasNext();) {
             String duns = (String) iter.next();
-            // TODO: get vendor by duns number
             VendorDetail vd = vendorService.getVendorByDunsNumber(duns);
             if (vd == null) {
-                LOG.error("getAllVendors() Invalid DUNS number from shopping cart: " + duns);
+                LOG.error("getAllVendorsByDuns() Invalid DUNS number from shopping cart: " + duns);
                 throw new IllegalArgumentException("Invalid DUNS number from shopping cart: " + duns);
             }
             vendors.add(vd);
@@ -245,13 +254,19 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         return vendors;
     }
 
-    private List getNewAllVendors(List items) {
+    /**
+     * Get all the vendors in a single shopping cart by the vendor number. 
+     * 
+     * @param items Items in the shopping cart
+     * @return List of VendorDetails for each vendor in the shopping cart
+     */
+    private List getAllVendors(List items) {
         LOG.debug("getAllVendors() started");
 
         Set vendorNumbers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            vendorNumbers.add(item.getExtrinsic("ExternalSupplierID"));
+            vendorNumbers.add(item.getExtrinsic("ExternalSupplierId"));
         }
 
         ArrayList vendors = new ArrayList();
@@ -367,6 +382,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setPurchasingService(PurchasingService purchasingService) {
         this.purchasingService = purchasingService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
 
 }

@@ -172,6 +172,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         /** *** SUPPLIER SECTION **** */
         cxml.append("      <Supplier id=\"").append(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier()).append("\">\n");
         cxml.append("        <DUNS>").append(vendorDuns).append("</DUNS>\n");
+        cxml.append("        <SupplierNumber>").append(purchaseOrder.getVendorNumber()).append("</SupplierNumber>\n");
 
         // Type attribute is required. Valid values: main and technical. Only main will be considered for POImport.
         cxml.append("        <ContactInfo type=\"main\">\n");

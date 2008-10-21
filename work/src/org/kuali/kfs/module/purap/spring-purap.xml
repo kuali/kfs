@@ -366,6 +366,7 @@
 	
 	<bean id="b2bShoppingService" class="org.kuali.kfs.module.purap.document.service.impl.B2BShoppingServiceImpl">
         <property name="b2bDao" ref="b2bDao"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="documentService" ref="documentService"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>

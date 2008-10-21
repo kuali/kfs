@@ -80,7 +80,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="BulkReceivingDocument-preparerPersonPhoneNumber" />
         
         <ref bean="BulkReceivingDocument-deliveryBuildingName" />
-        <ref bean="BulkReceivingDocument-deliveryBuildingOther" />
+        <ref bean="BulkReceivingDocument-deliveryBuildingOtherIndicator" />
         <ref bean="BulkReceivingDocument-deliveryBuildingRoomNumber" />
         <ref bean="BulkReceivingDocument-deliveryBuildingLine1Address" />
         <ref bean="BulkReceivingDocument-deliveryBuildingLine2Address" />
@@ -203,10 +203,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
  
-  <bean id="BulkReceivingDocument-deliveryBuildingOther" parent="BulkReceivingDocument-deliveryBuildingOther-parentBean" />
+  <bean id="BulkReceivingDocument-deliveryBuildingOtherIndicator" parent="BulkReceivingDocument-deliveryBuildingOtherIndicator-parentBean" />
 
-  <bean id="BulkReceivingDocument-deliveryBuildingOther-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="deliveryBuildingOther" />
+  <bean id="BulkReceivingDocument-deliveryBuildingOtherIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryBuildingOtherIndicator" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Other Building" />
     <property name="shortLabel" value="Other Bldg." />

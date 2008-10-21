@@ -186,9 +186,9 @@ public interface ReceivingDocument extends TransactionalDocument, PurapItemOpera
 
     public void setAlternateVendorNumber(String alternateVendorNumber);
 
-    public boolean isDeliveryBuildingOther();
+    public boolean isDeliveryBuildingOtherIndicator();
 
-    public void setDeliveryBuildingOther(boolean deliveryBuildingOther);
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator);
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
     

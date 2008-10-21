@@ -99,6 +99,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     /**
      * Delivery Information
      */
+    private boolean deliveryBuildingOtherIndicator;
     private String deliveryBuildingCode;
     private String deliveryBuildingName;
     private String deliveryBuildingRoomNumber;
@@ -145,7 +146,6 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
     private String goodsDeliveredVendorName;
     private String vendorContact;
     private Integer vendorAddressGeneratedIdentifier;
-    private boolean deliveryBuildingOther;
     
     
     public BulkReceivingDocument() {
@@ -886,21 +886,12 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return null;
     }
 
-    public boolean isDeliveryBuildingOther() {
-
-        /**
-         * Since deliveryBuildingOther is not persisted, it's required to check the building code to decide when an already existing 
-         * doc is opened 
-         */
-        if (getDeliveryBuildingName() != null){
-            return getDeliveryBuildingName().equals(PurapConstants.DELIVERY_BUILDING_OTHER);
-        }
-        
-        return deliveryBuildingOther;
+    public boolean isDeliveryBuildingOtherIndicator() {
+        return deliveryBuildingOtherIndicator;
     }
 
-    public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
-        this.deliveryBuildingOther = deliveryBuildingOther;
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
     }
 
     /**

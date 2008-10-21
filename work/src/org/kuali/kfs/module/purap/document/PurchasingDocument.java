@@ -427,7 +427,9 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public void setVendorContractName(String vendorContractName);
 
-    public boolean isDeliveryBuildingOther();
+    public boolean isDeliveryBuildingOtherIndicator();
+    
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator);
 
     public List<PurApItem> getItems();
 

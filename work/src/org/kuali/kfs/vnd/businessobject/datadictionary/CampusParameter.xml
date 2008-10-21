@@ -247,10 +247,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="purchasingInstitutionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingDepartmentName" />  
-        <bean parent="FieldDefinition"
               p:attributeName="activeIndicator"  />            
       </list>
     </property>
@@ -260,10 +256,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="campus.campusName" />              
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingInstitutionName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="purchasingDepartmentName" />  
         <bean parent="FieldDefinition"
               p:attributeName="activeIndicator"  />                                  
       </list>

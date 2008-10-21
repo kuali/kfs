@@ -181,7 +181,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*" /> 
   </bean>  
   
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withExtEncumbrance-parentBean" />  
@@ -192,7 +192,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*" /> 
   </bean> 
   
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCredit-parentBean" />  
@@ -203,7 +203,7 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*" /> 
   </bean>  
   
   <bean id="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance" parent="JournalVoucherDocument-sourceAccountingLineGroup-withDebitCreditExtEncumbrance-parentBean" />  
@@ -214,6 +214,6 @@
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer" />
 	  <property name="importedLinePropertyPrefix" value="source" />
 	  <property name="totals" ref="AccountingDocument-sourceDebitCerditTotals" />
-	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> 
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*,voucherLineHelpers*" /> 
   </bean>  
 </beans>

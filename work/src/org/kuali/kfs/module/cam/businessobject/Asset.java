@@ -231,20 +231,22 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @return Returns the capitalAssetDescription
      */
     public String getCapitalAssetDescription() {
-        String tmpAssetDesc = capitalAssetDescription.replaceAll("\n", " ");
-        String capitalAssetDescription = "";
-        if (tmpAssetDesc.length() <= CamsConstants.ASSET_DESC_DISPLAY_LENGTH)
-            capitalAssetDescription = tmpAssetDesc;
-        else {
-            while (tmpAssetDesc.length() > CamsConstants.ASSET_DESC_DISPLAY_LENGTH) {
-                int endOfLastWordPos = tmpAssetDesc.substring(0,CamsConstants.ASSET_DESC_DISPLAY_LENGTH-1).lastIndexOf(' ');
-                capitalAssetDescription += "\n"+tmpAssetDesc.substring(0, endOfLastWordPos);
-                tmpAssetDesc = tmpAssetDesc.substring(endOfLastWordPos + 1);
+        if (StringUtils.isNotBlank(capitalAssetDescription)) {
+            String tmpAssetDesc = capitalAssetDescription.replaceAll("\n", " ");
+            String capitalAssetDescription = "";
+            if (tmpAssetDesc.length() <= CamsConstants.ASSET_DESC_DISPLAY_LENGTH)
+                capitalAssetDescription = tmpAssetDesc;
+            else {
+                while (tmpAssetDesc.length() > CamsConstants.ASSET_DESC_DISPLAY_LENGTH) {
+                    int endOfLastWordPos = tmpAssetDesc.substring(0, CamsConstants.ASSET_DESC_DISPLAY_LENGTH - 1).lastIndexOf(' ');
+                    capitalAssetDescription += "\n" + tmpAssetDesc.substring(0, endOfLastWordPos);
+                    tmpAssetDesc = tmpAssetDesc.substring(endOfLastWordPos + 1);
+                }
+                capitalAssetDescription += "\n" + tmpAssetDesc;
+                capitalAssetDescription.replaceFirst("\n", "");
             }
-            capitalAssetDescription += "\n" + tmpAssetDesc;
-            capitalAssetDescription.replaceFirst("\n", "");
         }
-        return  capitalAssetDescription;
+        return capitalAssetDescription;
     }
 
     /**
@@ -253,7 +255,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @param capitalAssetDescription The capitalAssetDescription to set.
      */
     public void setCapitalAssetDescription(String capitalAssetDescription) {
-        capitalAssetDescription = capitalAssetDescription.replaceAll("\n", " ");
+        if (StringUtils.isNotBlank(capitalAssetDescription)) {
+            capitalAssetDescription = capitalAssetDescription.replaceAll("\n", " ");
+        }
         this.capitalAssetDescription = capitalAssetDescription;
     }
 

@@ -35,6 +35,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * The default implementation of AccountingLineAuthorizer
@@ -47,9 +48,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
-        if (isAccountLineEditable(accountingDocument, line, currentUser, this.editModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument))) {
+
+        String editMode = this.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
+        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
             String riceImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url");
             String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
+            
             if (accountingLineIndex == null || accountingLineIndex.intValue() < 0) {
                 actions.add(new AccountingLineViewAction(getAddMethod(line, accountingLineProperty), getAddLabel(groupTitle), riceImagesPath+"tinybutton-add1.gif"));
             } else {
@@ -58,6 +62,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
                 actions.add(new AccountingLineViewAction(getBalanceInquiryMethod(line, accountingLineProperty, accountingLineIndex), getBalanceInquiryLabel(accountingLineIndex, groupTitle), kfsImagesPath+"tinybutton-balinquiry.gif"));
             }
         }
+        
         return actions;
     }
     
@@ -175,30 +180,45 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#editModeForAccountingLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.kfs.sys.businessobject.FinancialSystemUser, java.util.Map)
      */
-    public String editModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
-        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) return AuthorizationConstants.EditMode.UNVIEWABLE;
-        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) return AuthorizationConstants.EditMode.FULL_ENTRY;
-        return AuthorizationConstants.EditMode.VIEW_ONLY;
+    public String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
+        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+            return AuthorizationConstants.EditMode.UNVIEWABLE;
+        }
+        
+        if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
+            return AuthorizationConstants.EditMode.FULL_ENTRY;
+        }
+        
+        boolean isAccountingLineEditable = this.isAccountingLineEditable(accountingDocument, accountingLine, currentUser);        
+        return isAccountingLineEditable ? AuthorizationConstants.EditMode.FULL_ENTRY : AuthorizationConstants.EditMode.VIEW_ONLY;
     }
 
     /**
      * If the account does not exist then it's editable (so the current user can correct it!!) or if the user has responsiblity on the account, it's editable; it's not editable otherwise
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isAccountLineEditable(org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
      */
-    public boolean isAccountLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser, String editModeForAccountingLine) {
-        if (editModeForAccountingLine.equals(AuthorizationConstants.EditMode.UNVIEWABLE) || editModeForAccountingLine.equals(AuthorizationConstants.EditMode.VIEW_ONLY)) return false; // if the entire page is unviewable or view only, then surely this accounting line cannot be edited
+    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
-        if (document.getDocumentHeader().getWorkflowDocument().stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) return false;  // are we cancelled or in error? then we're read only
+        if (workflowDocument.stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) {
+            return false;  // are we cancelled or in error? then we're read only
+        }
         
-        if ((document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) && document.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser)) return true; // the state is initiated or saved and we created the doc?  then we get to edit everything
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && workflowDocument.userIsInitiator(currentUser)) {
+            return true; // the state is initiated or saved and we created the doc?  then we get to edit everything
+        }
         
         try {
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-                List<String> currentRouteLevels = (List<String>)Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
+            if (workflowDocument.stateIsEnroute()) {
+                List<String> currentRouteLevels = (List<String>)Arrays.asList(workflowDocument.getNodeNames());
                 
-                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) return isAccountingLineEditableOnOrgReview(document, accountingLine, currentUser);
+                if (currentRouteLevels.contains(RouteLevelNames.ORG_REVIEW)) {
+                    return isAccountingLineEditableOnOrgReview(document, accountingLine, currentUser);
+                }
                 
-                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) return isAccountingLineEditableOnAccountReview(document, accountingLine, currentUser);
+                if (currentRouteLevels.contains(RouteLevelNames.ACCOUNT_REVIEW)) {
+                    return isAccountingLineEditableOnAccountReview(document, accountingLine, currentUser);
+                }
             }
         }
         catch (WorkflowException we) {

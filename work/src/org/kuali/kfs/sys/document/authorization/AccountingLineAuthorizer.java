@@ -68,16 +68,6 @@ public interface AccountingLineAuthorizer {
     public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, FinancialSystemUser currentUser);
     
     /**
-     * Determines whether the whole of the given accounting line is editable or read only
-     * @param accountingDocument the accounting document the line resides on
-     * @param accountingLine the accounting line which editability is being determined for
-     * @param currentUser the user attempting to edit this accounting line
-     * @param editModeForAccountingLine the result of calling editModeForAccountingLine on the given accounting line 
-     * @return true if the accounting line should be editable for the given user, false if it should be read only
-     */
-    public abstract boolean isAccountLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser, String editModeForAccountingLine);
-    
-    /**
      * Determines the "classic" authorization mode for the accounting line, based on the given parameters
      * @param accountingDocument the accounting document holding the accounting line to test editability for
      * @param accountingLine the accounting line editability is being tested for
@@ -86,7 +76,7 @@ public interface AccountingLineAuthorizer {
      * @param editModesForDocument the edit modes currently existing on the document
      * @return one of the "classic" edit modes - AuthorizationConstants.EditMode.UNVIEWABLE, AuthorizationConstants.EditMode.VIEW_ONLY, or AuthorizationConstants.EditMode.FULL_ENTRY
      */
-    public abstract String editModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
+    public abstract String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
     
     /**
      * Determines if the entire group is rendered as read only, which means that no new line will appear

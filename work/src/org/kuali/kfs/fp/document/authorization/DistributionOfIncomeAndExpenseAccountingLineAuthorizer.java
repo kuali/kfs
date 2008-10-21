@@ -39,12 +39,11 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
      *
      * @param accountingLine
      * @param currentUser
-     * @param editModeForAccountingLine
      * @return true if the line is editable, false otherwise 
      */
     @Override
-    public boolean isAccountLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser, String editModeForAccountingLine) {
-        boolean isEditable = super.isAccountLineEditable(document, accountingLine, currentUser, editModeForAccountingLine);
+    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+        boolean isEditable = super.isAccountingLineEditable(document, accountingLine, currentUser);
 
         if (isEditable) {
             DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;

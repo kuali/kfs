@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
@@ -41,7 +42,9 @@ public class BenefitExpenseTransferAccountingLineAuthorizer extends AccountingLi
     @Override
     public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
-        if (isAccountLineEditable(accountingDocument, line, currentUser, this.editModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument))) {
+        
+        String editMode = this.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
+        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
             String riceImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url");
             String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
             if (accountingLineIndex == null || accountingLineIndex.intValue() < 0) {

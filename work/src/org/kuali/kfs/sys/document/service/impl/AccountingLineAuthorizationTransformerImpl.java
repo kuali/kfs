@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -27,6 +28,7 @@ import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.service.AccountingLineAuthorizationTransformer;
 import org.kuali.kfs.sys.document.web.ReadOnlyable;
 import org.kuali.kfs.sys.document.web.TableJoining;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -46,7 +48,11 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
     public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine) {
         final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         removeUnviewableBlocks(elements, lineAuthorizer.getUnviewableBlocks(document, accountingLine, newLine, currentUser));
-        if (!lineAuthorizer.isAccountLineEditable(document, accountingLine, currentUser, lineAuthorizer.editModeForAccountingLine(document, accountingLine, newLine, currentUser, documentAuthorizer.getEditMode(document, currentUser)))) {
+        
+        Map editModesForDocument = documentAuthorizer.getEditMode(document, currentUser);
+        String editMode = lineAuthorizer.getEditModeForAccountingLine(document, accountingLine, newLine, currentUser, editModesForDocument);
+        
+        if (!AuthorizationConstants.EditMode.FULL_ENTRY.equals(editMode)) {
             readOnlyizeAllBlocks(elements);
             this.setEditableBlocks(elements, lineAuthorizer.getEditableBlocksInReadOnlyLine(document, accountingLine, currentUser));
         } else {

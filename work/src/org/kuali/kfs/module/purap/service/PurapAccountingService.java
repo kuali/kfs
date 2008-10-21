@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -85,6 +86,17 @@ public interface PurapAccountingService {
      */
     public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document);
 
+    
+
+    /**
+     * 
+     * This creates summary accounts based on a list of items excluding zero totals and use tax.
+     * @param document the document to generate the summary accounts from
+     * @return a list of summary accounts.
+     */
+    public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotalsNoUseTax(PurchasingAccountsPayableDocument document);
+
+    
     /**
      * 
      * Generates an account summary, that is it creates a list of source accounts
@@ -104,6 +116,16 @@ public interface PurapAccountingService {
      * @return a list of source accounts "rolled up" from the purap accounts 
      */
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurApItem> items);
+    
+    /**
+     * 
+     * convenience method that generates a list of source accounts while excluding items with
+     * $0 amounts and use tax
+     * 
+     * @param items the items to generate source accounts from
+     * @return a list of source accounts "rolled up" from the purap accounts 
+     */
+    public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsNoUseTax(List<PurApItem> items);
     
     /**
      * 
@@ -160,13 +182,15 @@ public interface PurapAccountingService {
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set includedItemTypeCodes);
 
     /**
-     * This method updates account amounts based on the percents.
+     * Updates account amounts based on the percents.  If this is a preq past full entry it updates the
+     * percents based on the amounts instead
      * 
      * @param document the document
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document);
+    
     /**
-     * This method updates a single items account amounts
+     * Updates a single items account amounts
      * 
      * @param item
      */
@@ -187,5 +211,12 @@ public interface PurapAccountingService {
      * @param document
      * @return   This will get the proper amount on the items that is sent to the vendor
      */
-    public List<SummaryAccount> generateSummaryAccountsForVendor(PurchasingAccountsPayableDocument document);
+    public List<SourceAccountingLine> generateSourceAccountsForVendorRemit(PurchasingAccountsPayableDocument document);
+    
+    /**
+     * Converts the amount to percent and updates the percent field on the CreditMemoAccount
+     * 
+     * @param pr The payment request document containing the accounts whose percentage would be set.
+     */
+    public void convertMoneyToPercent(PaymentRequestDocument pr);
 }

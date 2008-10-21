@@ -464,6 +464,13 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         }
     }
 
+    public KualiDecimal getTotalRemitAmount() {
+        if(!purapDocument.isUseTaxIndicator()) {
+            return this.getTotalAmount();
+        }
+        return this.getExtendedPrice();
+    }
+
     
     
 }

@@ -38,6 +38,7 @@ import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorUtils;
@@ -63,6 +64,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     private PurchaseOrderService purchaseOrderService;
     private PaymentRequestService paymentRequestService;
     private DataDictionaryService dataDictionaryService;
+    private PurapAccountingService purapAccountingService;
     
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoCreateService#populateDocumentAfterInit(org.kuali.kfs.module.purap.document.CreditMemoDocument)
@@ -122,7 +124,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(paymentRequestDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         // prep the item lines (also collect warnings for later display) this is only done on paymentRequest
-        convertMoneyToPercent(paymentRequestDocument);
+        purapAccountingService.convertMoneyToPercent(paymentRequestDocument);
         populateItemLinesFromPreq(cmDocument, expiredOrClosedAccountList);
     }
 
@@ -241,61 +243,6 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     }
 
     /**
-     * Converts the amount to percent and updates the percent field on the CreditMemoAccount
-     * 
-     * @param pr The payment request document containing the accounts whose percentage would be set.
-     */
-    private void convertMoneyToPercent(PaymentRequestDocument pr) {
-        LOG.debug("convertMoneyToPercent() started");
-        Collection errors = new ArrayList();
-        int itemNbr = 0;
-
-        for (Iterator iter = pr.getItems().iterator(); iter.hasNext();) {
-            PaymentRequestItem item = (PaymentRequestItem) iter.next();
-
-            itemNbr++;
-            String identifier = item.getItemIdentifierString();
-
-            if (item.getTotalAmount()!=null && item.getTotalAmount().isNonZero()) {
-
-                KualiDecimal accountTotal = KualiDecimal.ZERO;
-                int accountIdentifier = 0;
-                for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-                    accountIdentifier++;
-                    PaymentRequestAccount account = (PaymentRequestAccount) iterator.next();
-                    KualiDecimal accountAmount = account.getAmount();
-                    BigDecimal tmpPercent = BigDecimal.ZERO;
-                    KualiDecimal extendedPrice = item.getTotalAmount();
-                    tmpPercent = accountAmount.bigDecimalValue().divide(extendedPrice.bigDecimalValue(), PurapConstants.PRORATION_SCALE.intValue(), KualiDecimal.ROUND_BEHAVIOR);
-                    // test that the above amount is correct, if so just check that the total of all these matches the item total
-
-                    KualiDecimal calcAmount = new KualiDecimal(tmpPercent.multiply(extendedPrice.bigDecimalValue()));
-                    if (calcAmount.compareTo(accountAmount) != 0) {
-                        // rounding error
-                        LOG.debug("convertMoneyToPercent() Rounding error on " + account);
-                        String param1 = identifier + "." + accountIdentifier;
-                        String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
-                        GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
-                        account.setAmount(calcAmount);
-                    }
-
-                    // update percent
-                    LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
-                    account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
-
-                    // check total based on adjusted amount
-                    accountTotal = accountTotal.add(calcAmount);
-
-                }
-                if (!accountTotal.equals(item.getTotalAmount())) {
-                    GlobalVariables.getErrorMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL, identifier, accountTotal.toString(), item.getTotalAmount()+"");
-                    LOG.debug("Invalid Totals");
-                }
-            }
-        }
-    }
-
-    /**
      * Defaults the document description based on the credit memo source type.
      * 
      * @param cmDocument - Credit Memo Document to Populate
@@ -344,6 +291,10 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
     }
     
     

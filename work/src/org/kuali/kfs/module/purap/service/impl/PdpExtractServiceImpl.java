@@ -29,11 +29,11 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
-import org.kuali.kfs.module.purap.businessobject.AccountsPayableItemBase;
+import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
@@ -56,6 +56,7 @@ import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.ReferenceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
@@ -95,6 +96,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentFileEmailService paymentFileEmailService;
     private BankService bankService;
     private DocumentTypeService documentTypeService;
+    private PurapAccountingServiceImpl purapAccountingService;
 
     /**
      * @see org.kuali.kfs.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
@@ -618,8 +620,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             PaymentRequestItem item = (PaymentRequestItem) iter.next();
 
             KualiDecimal itemAmount = KualiDecimal.ZERO;
-            if (item.getExtendedPrice() != null) {
-                itemAmount = item.getExtendedPrice();
+            if (item.getTotalRemitAmount() != null) {
+                itemAmount = item.getTotalRemitAmount();
             }
             if (PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE.equals(item.getItemTypeCode())) {
                 discountAmount = discountAmount.add(itemAmount);
@@ -660,47 +662,69 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param paymentDetail
      * @param documentType
      */
-    private void addAccounts(AccountsPayableDocumentBase accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
+    private void addAccounts(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail, String documentType) {
         String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
+        List<SourceAccountingLine> sourceAccountingLines = purapAccountingService.generateSourceAccountsForVendorRemit(accountsPayableDocument);
+        for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+          KualiDecimal lineAmount = sourceAccountingLine.getAmount();  
+          PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
+          paymentAccountDetail.setAccountNbr(sourceAccountingLine.getAccountNumber());
+         
+          if (creditMemoDocType.equals(documentType)) {
+              lineAmount = lineAmount.negated();
+          }
+          
+          paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
+          paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
+          paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
+          paymentAccountDetail.setFinSubObjectCode(sourceAccountingLine.getFinancialSubObjectCode());
+          paymentAccountDetail.setOrgReferenceId(sourceAccountingLine.getOrganizationReferenceId());
+          paymentAccountDetail.setProjectCode(sourceAccountingLine.getProjectCode());
+          paymentAccountDetail.setSubAccountNbr(sourceAccountingLine.getSubAccountNumber());
 
-        // Calculate the total amount for each account across all items
-        Map<AccountingInfo, KualiDecimal> accountTotals = new HashMap<AccountingInfo, KualiDecimal>();
-
-        for (Iterator iter = accountsPayableDocument.getItems().iterator(); iter.hasNext();) {
-            AccountsPayableItemBase item = (AccountsPayableItemBase) iter.next();
-
-            for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
-                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
-                AccountingInfo accountingInfo = new AccountingInfo(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getFinancialSubObjectCode(), accountingLine.getOrganizationReferenceId(), accountingLine.getProjectCode());
-
-                KualiDecimal lineAmount = accountingLine.getAmount();
-                if (creditMemoDocType.equals(documentType)) {
-                    lineAmount = lineAmount.negated();
-                }
-
-                if (accountTotals.containsKey(accountingInfo)) {
-                    KualiDecimal total = lineAmount.add(accountTotals.get(accountingInfo));
-                    accountTotals.put(accountingInfo, total);
-                }
-                else {
-                    accountTotals.put(accountingInfo, lineAmount);
-                }
-            }
+          paymentDetail.addAccountDetail(paymentAccountDetail);
         }
-
-        for (AccountingInfo accountingInfo : accountTotals.keySet()) {
-            PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
-            paymentAccountDetail.setAccountNbr(accountingInfo.account);
-            paymentAccountDetail.setAccountNetAmount(accountTotals.get(accountingInfo));
-            paymentAccountDetail.setFinChartCode(accountingInfo.chart);
-            paymentAccountDetail.setFinObjectCode(accountingInfo.objectCode);
-            paymentAccountDetail.setFinSubObjectCode(accountingInfo.subObjectCode);
-            paymentAccountDetail.setOrgReferenceId(accountingInfo.orgReferenceId);
-            paymentAccountDetail.setProjectCode(accountingInfo.projectCode);
-            paymentAccountDetail.setSubAccountNbr(accountingInfo.subAccount);
-
-            paymentDetail.addAccountDetail(paymentAccountDetail);
-        }
+//ORIGINAL METHOD
+//        String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
+//
+//        // Calculate the total amount for each account across all items
+//        Map<AccountingInfo, KualiDecimal> accountTotals = new HashMap<AccountingInfo, KualiDecimal>();
+//
+//        for (Iterator iter = accountsPayableDocument.getItems().iterator(); iter.hasNext();) {
+//            AccountsPayableItem item = (AccountsPayableItem) iter.next();
+//
+//            for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+//                PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
+//                AccountingInfo accountingInfo = new AccountingInfo(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getFinancialSubObjectCode(), accountingLine.getOrganizationReferenceId(), accountingLine.getProjectCode());
+//
+//                KualiDecimal lineAmount = accountingLine.getAmount();
+//                if (creditMemoDocType.equals(documentType)) {
+//                    lineAmount = lineAmount.negated();
+//                }
+//
+//                if (accountTotals.containsKey(accountingInfo)) {
+//                    KualiDecimal total = lineAmount.add(accountTotals.get(accountingInfo));
+//                    accountTotals.put(accountingInfo, total);
+//                }
+//                else {
+//                    accountTotals.put(accountingInfo, lineAmount);
+//                }
+//            }
+//        }
+//
+//        for (AccountingInfo accountingInfo : accountTotals.keySet()) {
+//            PaymentAccountDetail paymentAccountDetail = new PaymentAccountDetail();
+//            paymentAccountDetail.setAccountNbr(accountingInfo.account);
+//            paymentAccountDetail.setAccountNetAmount(accountTotals.get(accountingInfo));
+//            paymentAccountDetail.setFinChartCode(accountingInfo.chart);
+//            paymentAccountDetail.setFinObjectCode(accountingInfo.objectCode);
+//            paymentAccountDetail.setFinSubObjectCode(accountingInfo.subObjectCode);
+//            paymentAccountDetail.setOrgReferenceId(accountingInfo.orgReferenceId);
+//            paymentAccountDetail.setProjectCode(accountingInfo.projectCode);
+//            paymentAccountDetail.setSubAccountNbr(accountingInfo.subAccount);
+//
+//            paymentDetail.addAccountDetail(paymentAccountDetail);
+//        }
     }
 
     /**
@@ -709,7 +733,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param accountsPayableDocument
      * @param paymentDetail
      */
-    private void addNotes(AccountsPayableDocumentBase accountsPayableDocument, PaymentDetail paymentDetail) {
+    private void addNotes(AccountsPayableDocument accountsPayableDocument, PaymentDetail paymentDetail) {
         int count = 1;
 
         if (accountsPayableDocument instanceof PaymentRequestDocument) {
@@ -1164,9 +1188,13 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * Sets the documentTypeService attribute value.
      * 
      * @param documentTypeService The documentTypeService to set.
-     */
+     */    
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public void setPurapAccountingService(PurapAccountingServiceImpl purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
     }
 
 }

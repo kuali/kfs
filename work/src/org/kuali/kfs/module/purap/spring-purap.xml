@@ -112,6 +112,7 @@
         <property name="paymentFileEmailService" ref="paymentFileEmailService" />
         <property name="bankService" ref="bankService" />
         <property name="documentTypeService" ref="documentTypeService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
 	</bean>
 
 	<bean id="pdpEnvironmentService" class="org.kuali.kfs.pdp.service.impl.EnvironmentServiceImpl">
@@ -276,7 +277,10 @@
         </property>      
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property>             
+        </property> 
+        <property name="purapAccountingService">
+            <ref bean="purapAccountingService" />
+        </property>                
     </bean>
 	
 	<bean id="printService" class="org.kuali.kfs.module.purap.document.service.impl.PrintServiceImpl">

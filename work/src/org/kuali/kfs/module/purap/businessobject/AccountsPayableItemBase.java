@@ -100,7 +100,7 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
         }
         return extendedPrice;
     }
-
+    
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
     }
@@ -138,11 +138,6 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
 
     public void setCapitalAssetTransactionType(CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType) {
         this.capitalAssetTransactionType = capitalAssetTransactionType;
-    }
-
-    public KualiDecimal getTotalRemitAmount() {
-        // TODO fill this in
-        return this.getTotalAmount();
     }
 
 }

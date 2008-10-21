@@ -18,6 +18,9 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -96,5 +99,34 @@ public abstract class PurApItemUseTaxBase extends PersistableBusinessObjectBase 
         m.put("useTaxId", this.useTaxId);
         return m;
     }
-
+    
+    /**
+     * Override needed for PURAP GL entry creation (hjs) - please do not add "amount" to this method
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PurApItemUseTaxBase)) {
+            return false;
+        }
+        PurApItemUseTax purapItemUseTax = (PurApItemUseTax) obj;
+        return new EqualsBuilder().append(this.chartOfAccountsCode,purapItemUseTax.getChartOfAccountsCode()).
+        append(this.accountNumber,purapItemUseTax.getAccountNumber()).
+        append(this.getRateCode(),purapItemUseTax.getRateCode()).
+        append(this.financialObjectCode,purapItemUseTax.getFinancialObjectCode()).isEquals();
+    }
+    
+    /**
+     * Override needed for PURAP GL entry creation please do not add "taxAmount" to this method
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return new HashCodeBuilder(55, 97).
+            append(this.chartOfAccountsCode).
+            append(this.accountNumber).
+            append(this.getRateCode()).
+            append(this.financialObjectCode).toHashCode();
+    }
+    
 }

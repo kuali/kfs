@@ -24,5 +24,5 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public interface AccountsPayableItem extends PurApItem {
     public String getCapitalAssetTransactionTypeCode();
     public CapitalAssetBuilderAssetTransactionType getCapitalAssetTransactionType();
-    public KualiDecimal getTotalRemitAmount();
+
 }

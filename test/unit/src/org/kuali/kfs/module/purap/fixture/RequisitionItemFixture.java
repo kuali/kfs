@@ -135,6 +135,10 @@ public enum RequisitionItemFixture {
             PurApItemFixture.INVALID_QTY_ITEM_NULL_QUANTITY, // purApItemFixture
             new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.BASIC_REQ_ACCOUNT_1 } // requisitionAccountMultiFixtures
     ),
+    REQ_ITEM_VALID_CAPITAL_ASSET(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
+            new RequisitionAccountingLineFixture[] { RequisitionAccountingLineFixture.REQ_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE } // requisitionAccountMultiFixtures
+    ),    
     ;
 
     private boolean itemRestrictedIndicator;
@@ -190,6 +194,16 @@ public enum RequisitionItemFixture {
         return item;
     }
 
+    public PurchasingItem createRequisitionItemForCapitalAsset() {
+        RequisitionItem item = (RequisitionItem)createRequisitionItem();
+        if (requisitionAccountingLineFixtures.length > 0) {
+            for(int i = 0; i < requisitionAccountingLineFixtures.length ; i++) {
+                requisitionAccountingLineFixtures[i].addTo(item);
+            }
+        }
+        return item;
+    }
+    
     /**
      * @return
      */

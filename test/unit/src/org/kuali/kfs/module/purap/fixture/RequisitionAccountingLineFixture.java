@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
@@ -38,22 +39,35 @@ public enum RequisitionAccountingLineFixture {
             AccountingLineFixture.REQ_ACCOUNT_MULTI_QUANTITY // AccountingLineFixture
     ), REQ_ACCOUNT_MULTI_NON_QUANTITY(PurApAccountingLineFixture.REQ_ACCOUNT_MULTI, // PurApAccountingLineFixture
             AccountingLineFixture.REQ_ACCOUNT_MULTI_NON_QUANTITY // AccountingLineFixture
-    );
+    ), REQ_ACCOUNT_VALID_CAPITAL_ASSET_OBJECT_CODE (PurApAccountingLineFixture.REQ_ACCOUNT_MULTI, //PurApAccountingLineFixture
+            AccountingLineFixture.REQ_ACCOUNT_MULTI_QUANTITY, // AccountingLineFixture
+            "7001" // objectCode
+    ),;
 
     private PurApAccountingLineFixture purApAccountingLineFixture;
     private AccountingLineFixture accountingLineFixture;
-
+    private String objectCode;
+    
     private RequisitionAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture, AccountingLineFixture accountingLineFixture) {
         this.purApAccountingLineFixture = purApAccountingLineFixture;
         this.accountingLineFixture = accountingLineFixture;
     }
 
+    private RequisitionAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture, AccountingLineFixture accountingLineFixture, String objectCode) {
+        this.purApAccountingLineFixture = purApAccountingLineFixture;
+        this.accountingLineFixture = accountingLineFixture;
+        this.objectCode = objectCode;
+    }
+    
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
-
         // TODO: what should this debit code really be
         line = (PurApAccountingLine) puralFixture.createPurApAccountingLine(RequisitionAccount.class, alFixture);
-
+        if (StringUtils.isNotBlank(objectCode)) {
+            line.setFinancialObjectCode(objectCode);
+            line.refreshReferenceObject("objectCode");
+        }
+        
         return line;
     }
 

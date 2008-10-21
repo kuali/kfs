@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class...
@@ -57,7 +58,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) financialDocument;
         CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
 
-        if (capitalAssetInformation != null) {
+        if (!ObjectUtils.isNull(capitalAssetInformation)) {
             ErrorMap errors = GlobalVariables.getErrorMap();
             errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);

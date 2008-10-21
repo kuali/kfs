@@ -109,11 +109,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * @return a List of found business objects
      */
     @Override
-
     public List getSearchResults(Map fieldValues) {
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        
         reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
         chartCode = (String) fieldValues.get(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);

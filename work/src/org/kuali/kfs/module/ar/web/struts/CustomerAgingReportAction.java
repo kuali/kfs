@@ -206,9 +206,10 @@ public class CustomerAgingReportAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LookupForm lookupForm = (LookupForm) form;
+        CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
-        String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
+        //String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
+        String backUrl = getBasePath(request)+"/portal.do?selectedTab=maintenance";
         return new ActionForward(backUrl, true);
     }
 

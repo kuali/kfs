@@ -22,6 +22,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <ref bean="CampusParameter-campusAccountsPayableEmailAddress" />
         <ref bean="CampusParameter-campusCode" />
+        <ref bean="CampusParameter-campus.campusName" />
         <ref bean="CampusParameter-campusPurchasingDirectorName" />
         <ref bean="CampusParameter-campusPurchasingDirectorTitle" />
         <ref bean="CampusParameter-purchasingInstitutionName" />
@@ -70,6 +71,13 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="CampusParameter-campusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
   </bean>
+  
+  <bean id="CampusParameter-campus.campusName" parent="CampusParameter-campus.campusName-parentBean" />
+
+  <bean id="CampusParameter-campus.campusName-parentBean" abstract="true" parent="Campus-campusName">
+    <property name="name" value="campus.campusName" />
+  </bean>
+  
   <bean id="CampusParameter-campusPurchasingDirectorName" parent="CampusParameter-campusPurchasingDirectorName-parentBean" />
 
   <bean id="CampusParameter-campusPurchasingDirectorName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -239,12 +247,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="campusPurchasingDirectorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusPurchasingDirectorTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusAccountsPayableEmailAddress" />
-        <bean parent="FieldDefinition"
               p:attributeName="purchasingInstitutionName" />
         <bean parent="FieldDefinition"
               p:attributeName="purchasingDepartmentName" />  
@@ -257,11 +259,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="campusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="campusPurchasingDirectorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusPurchasingDirectorTitle" />
-        <bean parent="FieldDefinition"
-              p:attributeName="campusAccountsPayableEmailAddress" />
+              p:attributeName="campus.campusName" />              
         <bean parent="FieldDefinition"
               p:attributeName="purchasingInstitutionName" />
         <bean parent="FieldDefinition"

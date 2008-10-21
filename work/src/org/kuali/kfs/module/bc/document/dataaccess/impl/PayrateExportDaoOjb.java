@@ -87,7 +87,7 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, budgetYear);
         criteria.addNotEqualTo(KFSPropertyConstants.EMPLID, BCConstants.VACANT_EMPLID);
-        criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
+        criteria.addEqualTo(KFSPropertyConstants.ACTIVE, "Y");
         criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.POSITION_UNION_CODE, positionUnionCode);
         criteria.addEqualTo(BCPropertyConstants.BUDGET_CONSTRUCTION_POSITION + "." + BCPropertyConstants.CONFIDENTIAL_POSITION, "N");
         

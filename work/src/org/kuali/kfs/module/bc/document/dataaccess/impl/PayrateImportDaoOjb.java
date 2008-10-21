@@ -35,7 +35,7 @@ public class PayrateImportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCodeValues);
         criteria.addEqualTo(KFSPropertyConstants.EMPLID, holdingRecord.getEmplid());
         criteria.addEqualTo(KFSPropertyConstants.POSITION_NUMBER, holdingRecord.getPositionNumber());
-        criteria.addEqualTo(BCPropertyConstants.APPOINTMENT_FUNDING_DELETE_INDICATOR, "N");
+        criteria.addEqualTo(KFSPropertyConstants.ACTIVE, "Y");
         
         List<PendingBudgetConstructionAppointmentFunding> records = (List<PendingBudgetConstructionAppointmentFunding>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PendingBudgetConstructionAppointmentFunding.class, criteria));
         

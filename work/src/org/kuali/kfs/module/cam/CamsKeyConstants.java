@@ -170,6 +170,7 @@ public class CamsKeyConstants {
 
     public static class AssetGlobal {
         public static final String ERROR_INVENTORY_STATUS_REQUIRED = "error.asset.inventory.status.code.required";
+        public static final String ERROR_INVENTORY_STATUS_REQUIRED_FOR_PAYMENT = "error.asset.inventory.status.code.required.for.payment";
         public static final String ERROR_OWNER_ACCT_NOT_ACTIVE = "error.asset.owner.account.not.active";
         public static final String ERROR_PAYMENT_ACCT_NOT_VALID = "error.asset.payment.account.not.valid";
         public static final String MIN_ONE_ASSET_REQUIRED = "error.document.min.one.asset.required";
@@ -188,6 +189,7 @@ public class CamsKeyConstants {
         public static final String ERROR_DOCUMENT_TYPE_CODE_NOT_ALLOWED = "error.document.type.code.not.allowed";
         public static final String ERROR_ASSET_TYPE_REQUIRED = "error.valid.capital.asset.type.required";
         public static final String ERROR_ASSET_LOCATION_DEPENDENCY = "error.asset.location.validation.dependecy";
+        public static final String ERROR_ASSET_PAYMENT_DEPENDENCY = "error.asset.payment.validation.dependecy";
         public static final String ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN = "error.capital.asset.payment.min.limit";
         public static final String ERROR_NON_CAPITAL_ASSET_PAYMENT_AMOUNT_MAX = "error.noncapital.asset.payment.max.limit";
         public static final String ERROR_DOCUMENT_POSTING_DATE_REQUIRED = "error.document.posting.date.required";

@@ -3421,7 +3421,7 @@
     <reference-descriptor name="contractManagerAssignmentDocument" class-ref="org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    <reference-descriptor name="requisition" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="requisition" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none"  >
         <foreignkey field-ref="requisitionIdentifier" />
     </reference-descriptor>
     <reference-descriptor name="contractManager" class-ref="org.kuali.kfs.vnd.businessobject.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >

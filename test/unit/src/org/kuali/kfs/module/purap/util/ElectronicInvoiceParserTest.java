@@ -44,6 +44,8 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.XMLParseException;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
 @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
 public class ElectronicInvoiceParserTest extends KualiTestBase {
@@ -53,6 +55,7 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
     private ElectronicInvoice eInvoice;
     private final String eInvoiceXMLFile = ".." + File.separator + "fixture" + File.separator + "electronicInvoiceFixture.xml";
     
+    @RelatesTo(JiraIssue.KULPURAP3047)
     public void testEInvoiceXMLParsing()
     throws Exception{
         

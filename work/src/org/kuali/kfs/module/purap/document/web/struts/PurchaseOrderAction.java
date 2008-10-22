@@ -676,10 +676,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         sdService.savePurchaseOrderSensitiveDatas(posds);
                 
+        /*
         // even though at this point, the sensitive data entries should be up-to-date in the form already, 
         // we still load them again; otherwise the PO screen won't be refreshed when display returns to it
         List<SensitiveData> newsds = sdService.getSensitiveDatasAssignedByPoId(poId);
         poForm.setSensitiveDatasAssigned(newsds);    
+        */
         
         // reset the sensitive data related fields in the po form
         poForm.setAssigningSensitiveData(false);

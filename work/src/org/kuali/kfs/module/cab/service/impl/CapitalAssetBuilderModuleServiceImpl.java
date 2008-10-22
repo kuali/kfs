@@ -92,6 +92,7 @@ import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
 
@@ -1145,13 +1146,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,
      *      java.lang.String)
      */
-    public void notifyRouteStatusChange(String documentNumber, String financialStatusCode) {
-        if (KFSConstants.DocumentStatusCodes.DISAPPROVED.equals(financialStatusCode) || KFSConstants.DocumentStatusCodes.CANCELLED.equals(financialStatusCode)) {
+    public void notifyRouteStatusChange(String documentNumber, KualiWorkflowDocument workflowDocument) {
+        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             // release CAB line items
             activateCabGlLines(documentNumber);
             activateCabPOLines(documentNumber);
         }
-        if (KFSConstants.DocumentStatusCodes.APPROVED.equals(financialStatusCode)) {
+        if (workflowDocument.stateIsProcessed() && workflowDocument.stateIsApproved()) {
             // report asset numbers to PO
             Integer poId = getPurchaseOrderIdentifier(documentNumber);
             if (poId != null) {

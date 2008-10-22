@@ -71,15 +71,17 @@ public class ExtractStep extends AbstractStep {
                 processLog.setTotalGlCount(elgibleGLEntries.size());
                 processLog.setNonPurApGlCount(fpLines.size());
                 processLog.setPurApGlCount(purapLines.size());
+                // Update the last extract time stamp
+                batchExtractService.updateLastExtractTime(startTs);
+                LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
+                processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
+                processLog.setSuccess(true);
             }
             else {
-                LOG.info("****** No records processed during CAB Extract *******");
+                LOG.warn("****** No records processed during CAB Extract *******");
+                processLog.setSuccess(false);
+                processLog.setErrorMessage("No GL records were found for CAB processing.");
             }
-            // Update the last extract time stamp
-            batchExtractService.updateLastExtractTime(startTs);
-            LOG.info("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
-            processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
-            processLog.setSuccess(true);
         }
         catch (Throwable e) {
             processLog.setSuccess(false);

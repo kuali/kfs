@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public interface CapitalAssetBuilderModuleService {
 
@@ -117,27 +118,28 @@ public interface CapitalAssetBuilderModuleService {
      * update other modules about the changes
      * 
      * @param documentNumber Document Number
-     * @param financialStatusCode Financial Document Status Code
+     * @param workflowDocument KualiWorkflowDocument
      */
-    public void notifyRouteStatusChange(String documentNumber, String financialStatusCode);
+    public void notifyRouteStatusChange(String documentNumber, KualiWorkflowDocument workflowDocument);
 
     public boolean doesItemNeedCapitalAsset(PurApItem item);
-    
+
     public boolean validateUpdateCAMSView(List<PurApItem> purapItems);
-    
+
     public boolean validateAccountsPayableItems(List<? extends AccountsPayableItem> apItems);
-    
+
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset);
-    
+
     public boolean validateCapitalAssetsForAutomaticPurchaseOrderRule(List<PurApItem> itemList);
-    
+
     /**
      * determine whether there is any object code of the given source accounting lines with a capital asset object sub type
      * 
      * @param accountingLines the given source accounting lines
-     * @return true if there is at least one object code of the given source accounting lines with a capital asset object sub type; otherwise, false
+     * @return true if there is at least one object code of the given source accounting lines with a capital asset object sub type;
+     *         otherwise, false
      */
     public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines);
-    
+
     public boolean doesUnitCostExceedThreshold(BigDecimal unitCost);
 }

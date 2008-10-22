@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
  * To group and hold the data presented to working reports of extract process
  */
 public class CustomerInvoiceReportDataHolder {
-  //  private CustomerCreditMemoReportDefinition reportDefinition;
+
     private Map<String, String> invoice;
     private Map<String, String> customer;
     private Map<String, String> sysinfo;
@@ -40,10 +40,9 @@ public class CustomerInvoiceReportDataHolder {
     public final static String KEY_OF_DETAILS_ENTRY = "details";
     
     /**
-     * Constructs a ExtractProcessReportDataHolder.java.
+     * Constructs a CustomerInvoiceReportDataHolder.java.
      */
     public CustomerInvoiceReportDataHolder() {
-      //this(null);
         
         this.invoice = new HashMap<String, String>();
         this.customer = new HashMap<String, String>();
@@ -53,22 +52,6 @@ public class CustomerInvoiceReportDataHolder {
         this.reportData = new HashMap<String, Object>();
     }
 
-    /**
-     * Constructs a ExtractProcessReportDataHolder.java.
-     * 
-     * @param reportDefinition
-     */
-//    public CustomerCreditMemoReportDataHolder(CustomerCreditMemoReportDefinition reportDefinition) {
-//        super();
-//        this.reportDefinition = reportDefinition;
-//        this.creditmemo = new HashMap<String, String>();
-//        this.invoice = new HashMap<String, String>();
-//        this.customer = new HashMap<String, String>();
-//        this.sysinfo = new HashMap<String, String>();       
-// 
-//        this.reportData = new HashMap<String, Object>();
-//    }
-   
 
     /**
      * Gets the invoice attribute. 

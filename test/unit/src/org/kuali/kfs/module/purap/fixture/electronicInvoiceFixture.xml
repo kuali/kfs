@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cXML payloadID="200807260401062080.964@eai002"
+	  timestamp="2008-07-26T04:01:06-08:00"
+	  version="1.2.014" xml:lang="en" 
+	  xmlns="http://www.kuali.org/kfs/purap/electronicInvoice" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Header>
+		<From>
+			<Credential domain="DUNS">
+				<Identity>121212</Identity>
+			</Credential>
+		</From>
+		<To>
+			<Credential domain="NetworkId">
+				<Identity>IUHIGHERM</Identity>
+			</Credential>
+		</To>
+		<Sender>
+			<Credential domain="DUNS">
+				<Identity>121212</Identity>
+				<SharedSecret>fisherscipass</SharedSecret>
+			</Credential>
+			<UserAgent>IUPUI</UserAgent>
+		</Sender>
+	</Header>
+	<Request deploymentMode="production">
+		<InvoiceDetailRequest>
+			<InvoiceDetailRequestHeader
+				invoiceDate="2008-07-25T00:00:00-08:00" invoiceID="133"
+				operation="new" purpose="standard" isInformationOnly='yes'>
+				<InvoiceDetailHeaderIndicator isHeaderInvoice="yes"/>
+				<InvoiceDetailLineIndicator isTaxInLine='yes'
+					isSpecialHandlingInLine='yes' isShippingInLine='yes'
+					isDiscountInLine='yes' />
+				<InvoicePartner>
+					<Contact addressID="" role="billTo">
+						<Name xml:lang="en">INDIANA UNIV@INDPLS</Name>
+						<PostalAddress>
+							<Street>ACCOUNTING DEPT</Street>
+							<Street>620 UNION DR</Street>
+							<Street>RM 443</Street>
+							<City>INDIANAPOLIS</City>
+							<State>IN</State>
+							<PostalCode>462025130</PostalCode>
+							<Country isoCountryCode="US">
+								United States
+							</Country>
+						</PostalAddress>
+					</Contact>
+				</InvoicePartner>
+				<InvoicePartner>
+					<Contact addressID="004321519" role="remitTo">
+						<Name xml:lang="en">
+							FISHER SCIENTIFIC COMPANY LLC
+						</Name>
+						<PostalAddress>
+							<Street>13551 COLLECTIONS CTR DR</Street>
+							<City>CHICAGO</City>
+							<State>IL</State>
+							<PostalCode>60693</PostalCode>
+							<Country isoCountryCode="US">
+								United States
+							</Country>
+						</PostalAddress>
+					</Contact>
+				</InvoicePartner>
+				<InvoiceDetailShipping
+					shippingDate="2008-07-25T00:00:00-08:00">
+					<Contact addressID="387520002" role="shipTo">
+						<Name xml:lang="en">INDIANA UNIVERSITY</Name>
+						<PostalAddress>
+							<Street>950 W WALNUT ST</Street>
+							<Street>ROOM #451</Street>
+							<City>INDIANAPOLIS</City>
+							<State>IN</State>
+							<PostalCode>462025188</PostalCode>
+							<Country isoCountryCode="US">
+								United States
+							</Country>
+						</PostalAddress>
+						<Email name="test1">abc@efg.com</Email>
+						<Email name="test2">efg@hij.com</Email>
+						<Phone name="testPhone">
+							<TelephoneNumber>
+								<CountryCode isoCountryCode="US">1</CountryCode>
+								<AreaOrCityCode>209</AreaOrCityCode>
+								<Number>9545333</Number>
+							</TelephoneNumber>
+						</Phone>
+						<Phone name="testFax">
+							<TelephoneNumber>
+								<CountryCode isoCountryCode="US">1</CountryCode>
+								<AreaOrCityCode>209</AreaOrCityCode>
+								<Number>9545331</Number>
+							</TelephoneNumber>
+						</Phone>
+						<URL name="sampleCompanyURL">www.abc.com</URL>
+					</Contact>
+				</InvoiceDetailShipping>
+				<InvoiceDetailPaymentTerm payInNumberOfDays="30"
+					percentageRate="0" />
+			</InvoiceDetailRequestHeader>
+			<InvoiceDetailOrder>
+				<InvoiceDetailOrderInfo>
+					<OrderReference
+						orderDate="2008-07-25T00:00:00-08:00" orderID="1085">
+						<DocumentReference payloadID="" />
+					</OrderReference>
+				</InvoiceDetailOrderInfo>
+
+				<InvoiceDetailItem invoiceLineNumber="1"
+					quantity="10">
+					<UnitOfMeasure>BG</UnitOfMeasure>
+					<UnitPrice>
+						<Money currency="USD">11</Money>
+					</UnitPrice>
+					<InvoiceDetailItemReference lineNumber="1">
+						<ItemID>
+							<SupplierPartID>1212</SupplierPartID>
+						</ItemID>
+						<Description xml:lang="en">
+							LABCOAT UNISEX LONG XL WHT
+						</Description>
+					</InvoiceDetailItemReference>
+					<SubtotalAmount>
+						<Money currency="USD" >110</Money>
+					</SubtotalAmount>
+					<Tax>
+				        <Money currency="USD" >2</Money>
+				        <Description xml:lang="en">
+							Sales Tax
+						</Description>
+				    </Tax>
+					<InvoiceDetailLineSpecialHandling>
+						<Money currency="USD">5.00</Money>
+					</InvoiceDetailLineSpecialHandling>
+					<InvoiceDetailLineShipping>
+						<Money currency="USD">10.00</Money>
+					</InvoiceDetailLineShipping>
+				</InvoiceDetailItem>
+			</InvoiceDetailOrder>
+
+			<InvoiceDetailSummary>
+				<SubtotalAmount>
+					<Money currency="USD">1.00</Money>
+				</SubtotalAmount>
+				<Tax>
+					<Money currency="USD">2.00</Money>
+					<Description xml:lang="en">Total Tax</Description>
+				</Tax>
+				<SpecialHandlingAmount>
+					<Money currency="USD">3.00</Money>
+				</SpecialHandlingAmount>
+				<ShippingAmount>
+					<Money currency="USD">4.00</Money>
+				</ShippingAmount>
+				<GrossAmount>
+					<Money currency="USD">5.00</Money>
+				</GrossAmount>
+				<InvoiceDetailDiscount>
+					<Money currency="USD">6.00</Money>
+					</InvoiceDetailDiscount>
+				<NetAmount>
+					<Money currency="USD">7.00</Money>
+				</NetAmount>
+				<DepositAmount>
+					<Money currency="USD">8.00</Money>
+				</DepositAmount>
+				<DueAmount>
+					<Money currency="USD">9.00</Money>
+				</DueAmount>
+			</InvoiceDetailSummary>
+		</InvoiceDetailRequest>
+	</Request>
+</cXML>

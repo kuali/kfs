@@ -21,10 +21,10 @@ public class ElectronicInvoiceContact {
   private String addressID;
   private String name;
   private List postalAddresses = new ArrayList();
-  private Map emailAddresses = new HashMap();
-  private Map phoneNumbers = new HashMap();
-  private Map faxNumbers = new HashMap();
-  private List webAddresses = new ArrayList();
+  private Map<String,String> emailAddresses = new HashMap<String,String>();
+  private Map<String,String> phoneNumbers = new HashMap<String,String>();
+  private Map<String,String> faxNumbers = new HashMap<String,String>();
+  private List<String> webAddresses = new ArrayList<String>();
 
   /**
    * 
@@ -78,7 +78,7 @@ public class ElectronicInvoiceContact {
   /**
    * @return Returns the emailAddresses.
    */
-  public Map getEmailAddresses() {
+  public Map<String,String> getEmailAddresses() {
     return emailAddresses;
   }
   /**
@@ -90,7 +90,7 @@ public class ElectronicInvoiceContact {
   /**
    * @return Returns the faxNumbers.
    */
-  public Map getFaxNumbers() {
+  public Map<String,String> getFaxNumbers() {
     return faxNumbers;
   }
   /**
@@ -114,7 +114,7 @@ public class ElectronicInvoiceContact {
   /**
    * @return Returns the phoneNumbers.
    */
-  public Map getPhoneNumbers() {
+  public Map<String,String> getPhoneNumbers() {
     return phoneNumbers;
   }
   /**
@@ -150,7 +150,7 @@ public class ElectronicInvoiceContact {
   /**
    * @return Returns the webAddresses.
    */
-  public List getWebAddresses() {
+  public List<String> getWebAddresses() {
     return webAddresses;
   }
   /**

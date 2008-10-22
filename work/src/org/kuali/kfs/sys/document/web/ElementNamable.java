@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+/**
+ * mark an element as namable
+ */
 public interface ElementNamable {
     
     /**

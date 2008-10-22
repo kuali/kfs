@@ -16,11 +16,21 @@
 package org.kuali.kfs.sys.document.web;
 
 /**
- * an interface that indicates the totaling is for the nested field 
+ * an interface that indicates the totaling is for the nested field
  */
 public interface NestedFieldTotaling {
 
-     public void setContainingPropertyName(String containingPropertyName);
-     
-     public boolean isNestedProperty();
+    /**
+     * set the property name of the containing object if the field for totaling is a nested property 
+     * 
+     * @param containingPropertyName the given property name of the containing object
+     */
+    public void setContainingPropertyName(String containingPropertyName);
+
+    /**
+     * determine whether the field for totaling is a nested property
+     * 
+     * @return true if the field for totaling is a nested property; otherwise, false
+     */
+    public boolean isNestedProperty();
 }

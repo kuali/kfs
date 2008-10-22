@@ -51,7 +51,7 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceParserTest.class);
     
     private ElectronicInvoice eInvoice;
-    private final String eInvoiceFileName = "..\\fixture\\electronicInvoiceFixture.xml";
+    private final String eInvoiceXMLFile = ".." + File.separator + "fixture" + File.separator + "electronicInvoiceFixture.xml";
     
     public void testEInvoiceXMLParsing()
     throws Exception{
@@ -79,7 +79,7 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
         ElectronicInvoiceInputFileType eInvoiceInputFileType = SpringContext.getBean(ElectronicInvoiceInputFileType.class);
         BatchInputFileService batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         
-        BufferedInputStream fileStream = new BufferedInputStream(getClass().getResourceAsStream(eInvoiceFileName));
+        BufferedInputStream fileStream = new BufferedInputStream(getClass().getResourceAsStream(eInvoiceXMLFile));
 
         byte[] fileByteContent = IOUtils.toByteArray(fileStream);
         eInvoice = (ElectronicInvoice) batchInputFileService.parse(eInvoiceInputFileType, fileByteContent);

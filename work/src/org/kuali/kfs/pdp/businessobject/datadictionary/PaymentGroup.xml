@@ -57,7 +57,7 @@
 				<ref bean="PaymentGroup-achAccountNumber.achBankAccountNbr" />
 				<ref bean="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr" />
 				<ref bean="PaymentGroup-paymentStatus.name" />
-				<ref bean="PaymentGroup-payeeIdTypeDesc" />
+				<!-- ref bean="PaymentGroup-payeeIdTypeDesc" /-->
 				<ref bean="PaymentGroup-nraPayment" />
 				
 			</list>
@@ -650,7 +650,7 @@
   <bean id="PaymentGroup-paymentStatus.name-parentBean" abstract="true" parent="PaymentStatus-name">
     <property name="name" value="paymentStatus.name" />
   </bean>
-  <bean id="PaymentGroup-payeeIdTypeDesc" parent="PaymentGroup-payeeIdTypeDesc-parentBean" />
+  <!-- bean id="PaymentGroup-payeeIdTypeDesc" parent="PaymentGroup-payeeIdTypeDesc-parentBean" />
 
   <bean id="PaymentGroup-payeeIdTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="payeeIdTypeDesc" />
@@ -668,7 +668,7 @@
     </property>
     <property name="summary" value="payeeIdTypeDesc" />
 	<property name="description" value="Payee ID Type." />
-  </bean>
+  </bean-->
   <bean id="PaymentGroup-nraPayment" parent="PaymentGroup-nraPayment-parentBean" />
 	
   <bean id="PaymentGroup-nraPayment-parentBean" abstract="true" parent="AttributeDefinition">

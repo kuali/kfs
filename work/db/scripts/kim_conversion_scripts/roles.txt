@@ -1,0 +1,59 @@
+KFS-SYS Tax Identification Number User
+KFS-SYS Asset Manager
+KFS-SYS Asset Processor
+KFS-CAM Processor
+KFS-CAM Manager
+KFS-SYS Plant Fund Accountant
+KFS-COA University Chart Manager
+KFS-COA Chart Manager
+KFS-SYS Contracts & Grants Manager
+KFS-SYS Contracts & Grants Processor
+KFS-SYS Contracts & Grants Project Director
+KFS-COA Chart Reviewer
+KFS-FP Cash Manager
+KFS-FP Service Bill Processor
+KR-SYS Administrator
+KFS-SYS Manager
+KR-SYS User
+KFS-PDP Manager
+KFS-PDP Processor
+KFS-SYS Operations
+KFS-PDP Tax Manager: Disbursement Holds
+KFS-SYS Active Faculty or Staff
+KFS-PURAP Contract Manager
+KFS-PURAP Content Reviewer
+KFS-PURAP Purchasing Manager
+KFS-PURAP Purchasing Processor
+KFS-SYS Accounts Payable Manager
+KFS-SYS Accounts Payable Processor
+KR-SYS System User
+KFS-SYS Fiscal Officer
+KFS-FP Tax Manager: Moving Expenses
+KFS-FP Travel Manager
+KFS-FP Treasury Manager: Money Moves
+KFS-FP Disbursement Manager
+KFS-PURAP Restricted Material Viewer
+KFS-PURAP Commodity Reviewer
+KFS-SYS Tax Manager
+KFS-SYS Treasury Manager: Electronic Funds Transfer
+KFS-SYS Fiscal Officer Primary Delegate
+KFS-SYS Fiscal Officer Secondary Delegate
+KFS-SYS Budget Manager
+KFS-SYS Accounting Reviewer
+KFS-SYS Sub-Fund
+KFS-SYS Document Reviewer
+KFS-VND Tax Manager: Employee Vendors
+KFS-VND Tax Manager: Non-Resident Alien Vendors
+KFS-VND Processor
+KR-KEW Document Initiator or Reviewer
+KR-SYS Application
+KFS-SYS Application
+KR-KEW Document Approve Request Recipient
+KR-KEW Document Acknowledgement Request Recipient
+KR-KEW Document Complete Request Recipient
+KR-KEW Document FYI Request Recipient
+KFS-AR Processing Organization User
+KFS-AR Billing Organization User
+KFS-SYS User
+KFS-SYS Administrator
+KFS-SYS Account Manager

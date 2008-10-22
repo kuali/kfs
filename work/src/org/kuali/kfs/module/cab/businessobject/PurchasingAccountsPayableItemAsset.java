@@ -554,14 +554,10 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public String getPreTagInquiryUrl() {
         Integer purchaseOrderIdentifier = null;
 
-        if (ObjectUtils.isNotNull(this.getPurchasingAccountsPayableDocument())) {
-            purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        if (ObjectUtils.isNull(this.getPurchasingAccountsPayableDocument())) {
+            this.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableItemAsset.PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT);
         }
-        else {
-            this.refreshReferenceObject("purchasingAccountsPayableDocument");
-            purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
-        }
-
+        purchaseOrderIdentifier = this.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
 
         PurApLineService purApLineService = SpringContext.getBean(PurApLineService.class);
         if (purApLineService.isPretaggingExisting(purApLineService.getPreTagLineItem(purchaseOrderIdentifier, this.getItemLineNumber()))) {

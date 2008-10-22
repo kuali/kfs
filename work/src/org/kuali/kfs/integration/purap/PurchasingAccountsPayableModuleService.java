@@ -35,7 +35,7 @@ public interface PurchasingAccountsPayableModuleService {
      * @param purchaseOrderNumber
      * @param assetNumbers
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers);
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers);
     
     /**
      * Returns a sensitive data record associated with the given code

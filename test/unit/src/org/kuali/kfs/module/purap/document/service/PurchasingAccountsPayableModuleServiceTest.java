@@ -49,9 +49,9 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         catch (Exception e) {
             assertTrue(false);
         }
-        List<Integer> assetNumbers = new ArrayList<Integer>();
-        assetNumbers.add(new Integer("12345"));
-        assetNumbers.add(new Integer("12346"));
+        List<Long> assetNumbers = new ArrayList<Long>();
+        assetNumbers.add(new Long("12345"));
+        assetNumbers.add(new Long("12346"));
         SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers);
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
         if( po == null ) {

@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
@@ -51,7 +52,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Integer> assetNumbers) {
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
               
         // Create and add the note.
@@ -65,6 +66,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         try {
             Note assetNote = documentService.createNoteFromDocument(document, noteText);
             document.addNote(assetNote);
+            // suggested to save note rather save the whole doc since it's final 
+            //KNSServiceLocator.getNoteService().save(assetNote);
         } catch ( Exception e ) {
             throw new RuntimeException(e);
         }

@@ -75,6 +75,7 @@ public class CabPropertyConstants {
         public static final String CAPITAL_ASSET_BUILDER_LINE_NUMBER = "capitalAssetBuilderLineNumber";
         public static final String ACCOUNTS_PAYABLE_ITEM_QUANTITY = "accountsPayableItemQuantity";
         public static final String SPLIT_QTY = "splitQty";
+        public static final String PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT = "purchasingAccountsPayableDocument";
     }
 
     public static class PurchasingAccountsPayableLineAssetAccount {

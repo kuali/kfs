@@ -2,8 +2,12 @@ package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.module.cab.CabPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -98,6 +102,20 @@ public class PurchasingAccountsPayableLineAssetAccount extends PersistableBusine
 
     public void setPurchasingAccountsPayableItemAsset(PurchasingAccountsPayableItemAsset purchasingAccountsPayableItemAsset) {
         this.purchasingAccountsPayableItemAsset = purchasingAccountsPayableItemAsset;
+    }
+
+    public String getPurchaseOrderInquiryUrl() {
+        Integer purchaseOrderIdentifier = null;
+
+        if (ObjectUtils.isNull(this.getGeneralLedgerEntry())) {
+            this.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableLineAssetAccount.GENERAL_LEDGER_ENTRY);
+        }
+        purchaseOrderIdentifier = new Integer(this.getGeneralLedgerEntry().getReferenceFinancialDocumentNumber());
+
+        if (purchaseOrderIdentifier != null) {
+            return SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderIdentifier);
+        }
+        return "";
     }
 
     /**

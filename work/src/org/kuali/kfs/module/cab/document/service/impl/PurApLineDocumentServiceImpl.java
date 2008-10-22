@@ -400,7 +400,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
                 AssetPaymentDetail assetPaymentDetail = new AssetPaymentDetail();
                 // initialize payment detail fields
                 assetPaymentDetail.setDocumentNumber(documentNumber);
-                assetPaymentDetail.setSequenceNumber(new Integer(seq++));
+                assetPaymentDetail.setSequenceNumber(Integer.valueOf(seq++));
                 assetPaymentDetail.setChartOfAccountsCode(glEntry.getChartOfAccountsCode());
                 assetPaymentDetail.setAccountNumber(replaceFiller(glEntry.getAccountNumber()));
                 assetPaymentDetail.setSubAccountNumber(replaceFiller(glEntry.getSubAccountNumber()));

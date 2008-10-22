@@ -24,6 +24,7 @@
 
 	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.versionNumber" />	
+	<html:hidden property="document.capitalAssetBuilderOriginIndicator" />	
     
     <cams:assetPayments /> 
 

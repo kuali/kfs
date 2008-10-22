@@ -29,7 +29,12 @@
    				</tr>
    				<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true" /></th>
-        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/></td>								
+        			<td class="grid" width="75%">
+						<a href="${ConfigProperties.application.url}/${KualiForm.purchaseOrderInquiryUrl }" target="_blank"> 
+        				<kul:htmlControlAttribute property="purchaseOrderIdentifier" attributeEntry="${cabPurApDocumentAttributes.purchaseOrderIdentifier}" readOnly="true"/>
+						&nbsp;
+						</a>
+        			</td>								
     			</tr>
     			<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactEmailAddress}" readOnly="true" /></th>
@@ -37,8 +42,8 @@
     			</tr>
     			<tr>
    					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></th>
-        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactPhoneNumber" attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true"/></td>								
-    			</tr>
+        			<td class="grid" width="75%"><kul:htmlControlAttribute property="purApContactPhoneNumber" attributeEntry="${cabPurApDocumentAttributes.purApContactPhoneNumber}" readOnly="true" /></td>
+        		</tr>
     		</table>
 		</div>
 	</kul:tabTop>

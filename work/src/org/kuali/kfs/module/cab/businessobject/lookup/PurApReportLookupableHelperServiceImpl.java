@@ -49,7 +49,6 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApReportLookupableHelperServiceImpl.class);
 
     private PurchasingAccountsPayableReportService purApReportService;
-
     /**
      * Custom action urls for CAB PurAp lines.
      * 
@@ -107,7 +106,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
         Long matchingResultsCount = Long.valueOf(purApReportCollection.size());
         if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
-            matchingResultsCount = new Long(0);
+            matchingResultsCount = Long.valueOf(0);
         }
         return new CollectionIncomplete(purApReportCollection, matchingResultsCount);
     }

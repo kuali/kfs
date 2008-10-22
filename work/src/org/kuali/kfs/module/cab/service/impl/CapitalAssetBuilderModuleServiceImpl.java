@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
@@ -49,6 +50,8 @@ import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -64,7 +67,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -75,16 +80,18 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
 
@@ -452,15 +459,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     /**
-     * 
-     * This method validates that if the purchasing item is assigned to trade in then the capital asset
-     * transaction type code must be "Asset Given In Trade" (TDIN). If that's not the transaction type code
-     * then return false.
+     * This method validates that if the purchasing item is assigned to trade in then the capital asset transaction type code must
+     * be "Asset Given In Trade" (TDIN). If that's not the transaction type code then return false.
      * 
      * @param item
      * @param prefix
-     * @return false if the purchasing item is assigned to trade in and the capital asset transaction
-     *         type code is not TDIN.
+     * @return false if the purchasing item is assigned to trade in and the capital asset transaction type code is not TDIN.
      */
     private boolean validationForTradeIn(PurchasingCapitalAssetItem item, String prefix) {
         String capitalAssetTransactionType = item.getCapitalAssetTransactionTypeCode();
@@ -471,7 +475,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return true;
     }
-    
+
     /**
      * Generic validation that if the capitalAssetTransactionTypeCode does not match the system parameter
      * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets contain a non-null
@@ -520,7 +524,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 if (!capitalAssetItem.getCapitalAssetTransactionType().getCapitalAssetNonquantityDrivenAllowIndicator()) {
                     if (capitalAssetItem.getPurchasingItem().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) {
-                        
+
                         String propertyName = prefix + PurapPropertyConstants.CAPITAL_ASSET_TRANSACTION_TYPE_CODE;
                         GlobalVariables.getErrorMap().putError(propertyName, PurapKeyConstants.ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS, capitalAssetItem.getCapitalAssetTransactionTypeCode());
                         valid &= false;
@@ -606,6 +610,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * This method validated purapItem giving a transtype
+     * 
      * @param recurringPaymentType
      * @param item
      * @param warn
@@ -618,7 +623,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         KualiDecimal itemQuantity = item.getItemQuantity();
         HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
 
-      
+
         // Do the checks that depend on Accounting Line information.
         for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
             // Because of ObjectCodeCurrent, we had to refresh this.
@@ -628,16 +633,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
 
             valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, warn, itemIdentifier, objectCode);
-            //TODO: Chris - revisit this logic, I think it may be incorrect (i.e. not using unit price, wrong parameter, always should be warning)
-//            if (warn) {
-//                valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
-//            }
-//            else {
-//                validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
-//            }
+            // TODO: Chris - revisit this logic, I think it may be incorrect (i.e. not using unit price, wrong parameter, always
+            // should be warning)
+            // if (warn) {
+            // valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+            // }
+            // else {
+            // validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+            // }
 
             // Do the checks involving capital asset transaction type.
-            if (capitalAssetTransactionType!=null) {
+            if (capitalAssetTransactionType != null) {
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier, quantityBased);
             }
         }
@@ -910,7 +916,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         CapitalAssetManagementAsset capitalAssetManagementAsset = capitalAssetInformation.getCapitalAssetManagementAsset();
         if (!dataEntryExpected) {
-            if ((capitalAssetManagementAsset != null) || !isCapitalAssetInformationBlank(capitalAssetInformation)){
+            if ((capitalAssetManagementAsset != null) || !isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 // If no parameter was found or determined that data shouldn't be collected, give error if data was entered
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_DO_NOT_ENTER_ANY_DATA);
                 return false;
@@ -921,9 +927,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         else {
-            if ((capitalAssetManagementAsset == null) && isCapitalAssetInformationBlank(capitalAssetInformation)){
+            if ((capitalAssetManagementAsset == null) && isCapitalAssetInformationBlank(capitalAssetInformation)) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, CabKeyConstants.CapitalAssetManagementAsset.ERROR_ASSET_REQUIRE_DATA_ENTRY);
-                return false;                
+                return false;
             }
         }
 
@@ -949,14 +955,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(java.util.List)
      */
     public boolean hasCapitalAssetObjectSubType(List<SourceAccountingLine> accountingLines) {
         List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(ParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
         boolean hasCapitalAssetObjectSubType = false;
-        
+
         for (SourceAccountingLine sourceAccountingLine : accountingLines) {
             String objectSubTypeCode = sourceAccountingLine.getObjectCode().getFinancialObjectSubTypeCode();
             if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
@@ -964,14 +970,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 break;
             }
         }
-        
+
         return hasCapitalAssetObjectSubType;
     }
 
     /**
      * To see if capitalAssetInformation is blank
      * 
-     * @param capitalAssetInformation  
+     * @param capitalAssetInformation
      * @return boolean false if the asset is not blank
      */
     private boolean isCapitalAssetInformationBlank(CapitalAssetInformation capitalAssetInformation) {
@@ -1022,7 +1028,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
-        
+
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetTagNumber())) {
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER);
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
@@ -1147,8 +1153,101 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         if (KFSConstants.DocumentStatusCodes.APPROVED.equals(financialStatusCode)) {
             // report asset numbers to PO
-            // TODO
+            Integer poId = getPurchaseOrderIdentifier(documentNumber);
+            if (poId != null) {
+                List<Long> assetNumbers = new ArrayList<Long>();
+                getAssetNumbersFromAssetGlobal(documentNumber, assetNumbers);
+                if (assetNumbers.isEmpty()) {
+                    getAssetNumbersFromAssetPayment(documentNumber, assetNumbers);
+                }
+                if (!assetNumbers.isEmpty()) {
+                    updatePurchaseOrderNotes(poId, assetNumbers);
+                }
+            }
         }
+    }
+
+    /**
+     * Update Purchase order document notes to include the asset numbers.
+     * 
+     * @param purchaseOrderNumber
+     * @param assetNumbers
+     */
+    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers) {
+        PurchaseOrderDocument document = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
+
+        // Create and add the note.
+        String noteText = "Asset Numbers have been created for this document: ";
+        for (int i = 0; i < assetNumbers.size(); i++) {
+            noteText += assetNumbers.get(i).toString();
+            if (i < assetNumbers.size() - 1) {
+                noteText += ", ";
+            }
+        }
+        try {
+            Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+            document.addNote(assetNote);
+            KNSServiceLocator.getNoteService().save(assetNote);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * Acquire asset numbers from CAMS asset payment document.
+     * 
+     * @param documentNumber
+     * @param assetNumbers
+     */
+    private void getAssetNumbersFromAssetGlobal(String documentNumber, List<Long> assetNumbers) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, documentNumber);
+        Collection<AssetGlobalDetail> assetGlobalDetails = this.getBusinessObjectService().findMatching(AssetGlobalDetail.class, fieldValues);
+        for (AssetGlobalDetail detail : assetGlobalDetails) {
+            if (ObjectUtils.isNotNull(detail.getAsset())) {
+                assetNumbers.add(detail.getCapitalAssetNumber());
+            }
+        }
+    }
+
+    /**
+     * Acquire asset numbers from CAMS asset global document.
+     * 
+     * @param documentNumber
+     * @param assetNumbers
+     */
+    private void getAssetNumbersFromAssetPayment(String documentNumber, List<Long> assetNumbers) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        Collection<AssetPaymentAssetDetail> paymentAssetDetails = this.getBusinessObjectService().findMatching(AssetPaymentAssetDetail.class, fieldValues);
+        for (AssetPaymentAssetDetail detail : paymentAssetDetails) {
+            if (ObjectUtils.isNotNull(detail.getAsset())) {
+                assetNumbers.add(detail.getCapitalAssetNumber());
+            }
+        }
+    }
+
+    /**
+     * Query PurchasingAccountsPayableItemAsset and return the purchaseOrderIdentifier if the given documentNumber is initiated from
+     * the PurAp line.
+     * 
+     * @param documentNumber
+     * @return
+     */
+    private Integer getPurchaseOrderIdentifier(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        Collection<PurchasingAccountsPayableItemAsset> matchingItems = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+
+        for (PurchasingAccountsPayableItemAsset item : matchingItems) {
+            if (ObjectUtils.isNull(item.getPurchasingAccountsPayableDocument())) {
+                item.refreshReferenceObject(CabPropertyConstants.PurchasingAccountsPayableItemAsset.PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT);
+            }
+            return item.getPurchasingAccountsPayableDocument().getPurchaseOrderIdentifier();
+        }
+        return null;
     }
 
     /**
@@ -1377,10 +1476,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public KualiModuleService getKualiModuleService() {
         return SpringContext.getBean(KualiModuleService.class);
     }
-    
+
     protected boolean validateAccountsPayableItem(AccountsPayableItem apItem) {
         boolean valid = true;
-        valid &=validatePurapItemCapitalAsset(apItem,false,(AssetTransactionType) apItem.getCapitalAssetTransactionType());
+        valid &= validatePurapItemCapitalAsset(apItem, false, (AssetTransactionType) apItem.getCapitalAssetTransactionType());
         return valid;
     }
 
@@ -1395,8 +1494,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     public boolean validateAccountsPayableItems(List<? extends AccountsPayableItem> apItems) {
         boolean valid = true;
         for (AccountsPayableItem accountsPayableItem : apItems) {
-            //only run on ap items that were cams items
-            if(StringUtils.isNotEmpty(accountsPayableItem.getCapitalAssetTransactionTypeCode())) {
+            // only run on ap items that were cams items
+            if (StringUtils.isNotEmpty(accountsPayableItem.getCapitalAssetTransactionTypeCode())) {
                 valid &= validateAccountsPayableItem(accountsPayableItem);
             }
         }

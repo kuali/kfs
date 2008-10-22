@@ -146,7 +146,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         // Set create asset and apply payment indicator.
-        if (selectedLineItem.isAdditionalChargeNonTradeInIndicator() | selectedLineItem.isTradeInAllowance()) {
+        if (selectedLineItem.isAdditionalChargeNonTradeInIndicator() || selectedLineItem.isTradeInAllowance()) {
             setAssetIndicator(purApForm);
         }
 
@@ -332,7 +332,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 if (ObjectUtils.isNotNull(candidateEntry)) {
                     allAccounts.add(account);
                     // For additional charge, select matching account when account number and object code both match.
-                    if (addtionalCharge & StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) & StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
+                    if (addtionalCharge && StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) && StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
                         matchingAccounts.add(account);
                     }
                 }
@@ -711,7 +711,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(currentItemAsset);
 
         Integer maxCabLineNbr = purApLineDao.getMaxCabLineNumber(currentItemAsset.getDocumentNumber(), currentItemAsset.getAccountsPayableLineItemIdentifier());
-        newItemAsset.setCapitalAssetBuilderLineNumber(++maxCabLineNbr);
+        newItemAsset.setCapitalAssetBuilderLineNumber(maxCabLineNbr);
         newItemAsset.setAccountsPayableItemQuantity(currentItemAsset.getSplitQty());
 
         // Set account list for new item asset and update current account amount value.
@@ -1091,7 +1091,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         List<ItemCapitalAsset> assetNumbers = new ArrayList<ItemCapitalAsset>();
 
         for (ItemCapitalAsset asset : itemCapitalAssets) {
-            if (asset.getCapitalAssetNumber() != null && !isAssetNumberDuplicate(asset.getCapitalAssetNumber().toString(), assetNumbers)) {
+            if (asset.getCapitalAssetNumber() != null && !isAssetNumberDuplicate(asset.getCapitalAssetNumber(), assetNumbers)) {
                 assetNumbers.add(asset);
             }
         }
@@ -1105,7 +1105,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @param assetNumbers
      * @return
      */
-    private boolean isAssetNumberDuplicate(String candidateNumber, List<ItemCapitalAsset> assetNumbers) {
+    private boolean isAssetNumberDuplicate(Long candidateNumber, List<ItemCapitalAsset> assetNumbers) {
         for (ItemCapitalAsset existingNumber : assetNumbers) {
             if (existingNumber.getCapitalAssetNumber().equals(candidateNumber)) {
                 return true;

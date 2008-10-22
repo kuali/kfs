@@ -202,7 +202,17 @@
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialObjectCode" attributeEntry="${generalLedgerAttributes.financialObjectCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialSubObjectCode" attributeEntry="${generalLedgerAttributes.financialSubObjectCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.projectCode" attributeEntry="${generalLedgerAttributes.projectCode}" readOnly="true"/></td>
-			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.referenceFinancialDocumentNumber" attributeEntry="${generalLedgerAttributes.referenceFinancialDocumentNumber}" readOnly="true"/></td>
+			<td class="infoline">
+			<c:set var="poUrl" value="${payment.purchaseOrderInquiryUrl}" />
+			<c:if test="${poUrl != ''}" >
+				<a href="${ConfigProperties.application.url}/${poUrl}" target="_blank"> 
+			</c:if>
+				<kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.referenceFinancialDocumentNumber" attributeEntry="${generalLedgerAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>
+			<c:if test="${poUrl != ''}" >
+				&nbsp;
+				</a>
+			</c:if>
+			</td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.documentNumber" attributeEntry="${generalLedgerAttributes.documentNumber}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.financialDocumentTypeCode" attributeEntry="${generalLedgerAttributes.financialDocumentTypeCode}" readOnly="true"/></td>
 			<td class="infoline"><kul:htmlControlAttribute property="${pmtStr}.generalLedgerEntry.transactionPostingDate" attributeEntry="${generalLedgerAttributes.transactionPostingDate}" readOnly="true"/></td>

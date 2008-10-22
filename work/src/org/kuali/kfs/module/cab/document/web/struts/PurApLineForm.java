@@ -21,10 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -44,6 +47,8 @@ public class PurApLineForm extends KualiForm {
     private boolean activeItemExist;
 
     private Integer requisitionIdentifier;
+    
+    private String PurchaseOrderInquiryUrl;
 
     public PurApLineForm() {
         this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
@@ -247,6 +252,18 @@ public class PurApLineForm extends KualiForm {
         this.purApDocs = purApDocs;
     }
 
+    public String getPurchaseOrderInquiryUrl() {
+        return PurchaseOrderInquiryUrl;
+    }
+    
+    /**
+     * Sets the purchaseOrderInquiryUrl attribute value.
+     * @param purchaseOrderInquiryUrl The purchaseOrderInquiryUrl to set.
+     */
+    public void setPurchaseOrderInquiryUrl(String purchaseOrderInquiryUrl) {
+        PurchaseOrderInquiryUrl = purchaseOrderInquiryUrl;
+    }
+
 
     @Override
     public void populate(HttpServletRequest request) {
@@ -263,6 +280,10 @@ public class PurApLineForm extends KualiForm {
             if (StringUtils.isNotBlank(itemAssetIndex)) {
                 this.setActionItemAssetIndex(Integer.parseInt(itemAssetIndex));
             }
+        }
+        
+        if (this.purchaseOrderIdentifier != null) {
+            this.setPurchaseOrderInquiryUrl(SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getPurchaseOrderInquiryUrl(purchaseOrderIdentifier));
         }
     }
 }

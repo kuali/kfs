@@ -998,7 +998,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
      * This method gets the payeeIdTypeDesc
      * @return the payeeIdTypeDesc
      */
-    public String getPayeeIdTypeDesc() {
+    /*public String getPayeeIdTypeDesc() {
         String payeeIdTypeCd = getPayeeIdTypeCd();
         for (PdpConstants.PayeeTypeCode payeeTypeCode : PdpConstants.PayeeTypeCode.values()) {
             if (payeeTypeCode.getTypeCode().equalsIgnoreCase(payeeIdTypeCd)) {
@@ -1006,5 +1006,5 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
             }
         }
         return KFSConstants.EMPTY_STRING;
-    }
+    }*/
 }

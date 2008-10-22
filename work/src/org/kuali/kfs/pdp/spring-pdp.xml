@@ -86,10 +86,6 @@
 		<property name="universalUserService" ref="universalUserService" />
 	</bean>
 
-	<bean id="pdpDisbursementNumberRangeDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.DisbursementNumberRangeDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
-	</bean>
-
 	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.FormatPaymentDaoOjb">
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 	</bean>
@@ -295,12 +291,10 @@
 	</bean>
 
 	<bean id="pdpDisbursementNumberRangeService" class="org.kuali.kfs.pdp.service.impl.DisbursementNumberRangeServiceImpl">
-		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="pdpFormatService" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl">
-		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
 		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
@@ -317,7 +311,6 @@
 	</bean>
 	
 	<bean id="pdpFormatProcessService" class="org.kuali.kfs.pdp.service.impl.FormatProcessServiceImpl">
-		<property name="disbursementNumberRangeDao" ref="pdpDisbursementNumberRangeDao"/>
 		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>

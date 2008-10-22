@@ -19,9 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 import org.kuali.kfs.pdp.service.FormatProcessService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
@@ -33,7 +33,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class FormatProcessServiceImpl implements FormatProcessService {
     
     private FormatProcessDao formatProcessDao;
-    private DisbursementNumberRangeDao disbursementNumberRangeDao;
     private BusinessObjectService businessObjectService;
     
     /**
@@ -50,7 +49,7 @@ public class FormatProcessServiceImpl implements FormatProcessService {
         //if format process not started yet populate the other data as well
         if (formatStartDate == null) {
             formatSelection.setCustomerList((List)this.businessObjectService.findAll(CustomerProfile.class));
-            formatSelection.setRangeList(disbursementNumberRangeDao.getAll());
+            formatSelection.setRangeList((List) this.businessObjectService.findAll(DisbursementNumberRange.class));
         }
 
         return formatSelection;
@@ -86,23 +85,6 @@ public class FormatProcessServiceImpl implements FormatProcessService {
      */
     public void setFormatProcessDao(FormatProcessDao formatProcessDao) {
         this.formatProcessDao = formatProcessDao;
-    }
-
-    /**
-     * This method gets the disbursementNumberRangeDao.
-     * @return disbursementNumberRangeDao
-     */
-    public DisbursementNumberRangeDao getDisbursementNumberRangeDao() {
-        return disbursementNumberRangeDao;
-    }
-
-
-    /**
-     * This method sets the disbursementNumberRangeDao.
-     * @param disbursementNumberRangeDao
-     */
-    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao disbursementNumberRangeDao) {
-        this.disbursementNumberRangeDao = disbursementNumberRangeDao;
     }
     
     /**

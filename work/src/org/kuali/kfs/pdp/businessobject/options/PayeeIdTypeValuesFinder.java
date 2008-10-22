@@ -15,14 +15,9 @@
  */
 package org.kuali.kfs.pdp.businessobject.options;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.pdp.PdpConstants.PayeeTypeCode;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
 
 public class PayeeIdTypeValuesFinder extends KeyValuesBase {
@@ -30,16 +25,17 @@ public class PayeeIdTypeValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public List<KeyLabelPair> getKeyValues() {
-        PayeeTypeCode[] boList =  PayeeTypeCode.values();
+        /*PayeeTypeCode[] boList =  PayeeTypeCode.values();
         List<KeyLabelPair> keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
         for (PayeeTypeCode element : boList) {
             keyValues.add(new KeyLabelPair(element.getTypeCode(), element.getDescription()));
         }
 
-        return keyValues;
+        return keyValues;*/
+        return null;
     }
 
 }

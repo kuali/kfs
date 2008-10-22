@@ -806,7 +806,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         paymentGroup.setPayeeName(paymentRequestDocument.getVendorName());
         paymentGroup.setPayeeId(paymentRequestDocument.getVendorHeaderGeneratedIdentifier() + "-" + paymentRequestDocument.getVendorDetailAssignedIdentifier());
-        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
+        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
 
         if (paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
             paymentGroup.setPayeeOwnerCd(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
@@ -864,7 +864,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         paymentGroup.setPayeeName(creditMemoDocument.getVendorName());
         paymentGroup.setPayeeId(creditMemoDocument.getVendorHeaderGeneratedIdentifier() + "-" + creditMemoDocument.getVendorDetailAssignedIdentifier());
-        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
+        paymentGroup.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
 
         if (creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
             paymentGroup.setPayeeOwnerCd(creditMemoDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());

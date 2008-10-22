@@ -29,34 +29,10 @@ public class PdpConstants {
     public static final String PDP_FDOC_ORIGIN_CODE = "PD";
 
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
-
-    public static class PayeeTypeCodes {
-        public static String VENDOR = "V";
-    }
-
-    public enum PayeeTypeCode {
-        SSN("S", "SSN"), EMPLOYEE_ID("E", "Employee ID"), FEIN("F", "FEIN"), VENDOR_ID("V", "Vendor ID"), OTHER("X", "Other");
-
-        private String typeCode;
-        private String description;
-
-        private PayeeTypeCode(String typeCode, String description) {
-            this.typeCode = typeCode;
-            this.description = description;
-        }
-
-        public String getTypeCode() {
-            return this.typeCode;
-        }
-
-        public String getDescription() {
-            return this.description;
-        }
-    }
-
+    
     // TODO Probably should become a table
     public static class PayeeIdTypeCodes {
-        public static String PAYEE_ID = "P";
+        //public static String PAYEE_ID = "P";
         public static String SSN = "S";
         public static String EMPLOYEE_ID = "E";
         public static String FEIN = "F";

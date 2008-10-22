@@ -59,7 +59,6 @@ public class PaymentDetailAction extends BaseAction {
 
         // TODO This should probably be a table
         payees = new HashMap();
-        payees.put(PdpConstants.PayeeIdTypeCodes.PAYEE_ID, "Payee ID");
         payees.put(PdpConstants.PayeeIdTypeCodes.SSN, "SSN");
         payees.put(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID, "Employee ID");
         payees.put(PdpConstants.PayeeIdTypeCodes.FEIN, "FEIN");

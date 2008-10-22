@@ -44,7 +44,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PostFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.PreFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
-import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
@@ -76,7 +75,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FormatServiceImpl implements FormatService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatServiceImpl.class);
 
-    private DisbursementNumberRangeDao disbursementNumberRangeDao;
     private FormatProcessDao formatProcessDao;
     private PaymentDetailDao paymentDetailDao;
     private PaymentGroupDao paymentGroupDao;
@@ -220,7 +218,7 @@ public class FormatServiceImpl implements FormatService {
             // If any one of the payment details in the group are negative, we always force a check
             PayeeAchAccount payeeAchAccount = null;
             boolean check = true;
-            if ((!PdpConstants.PayeeTypeCode.OTHER.getTypeCode().equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
+            if ((!PdpConstants.PayeeIdTypeCodes.OTHER.equals(pg.getPayeeIdTypeCd())) && (!"".equals(pg.getPayeeIdTypeCd())) && (pg.getPayeeIdTypeCd() != null) && (!"".equals(pg.getPayeeId())) && (pg.getPayeeId() != null) && (!pg.getPymtAttachment().booleanValue()) && (!pg.getProcessImmediate().booleanValue()) && (!pg.getPymtSpecialHandling().booleanValue()) && (customer.getPsdTransactionCode() != null) && (noNegativeDetails)) {
                 LOG.debug("performFormat() Checking ACH");
                 payeeAchAccount = achService.getAchInformation(pg.getPayeeIdTypeCd(), pg.getPayeeId(), customer.getPsdTransactionCode());
                 check = (payeeAchAccount == null);
@@ -688,14 +686,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setProcessDao(ProcessDao pd) {
         processDao = pd;
-    }
-
-    /**
-     * This method...
-     * @param dnrd
-     */
-    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao dnrd) {
-        disbursementNumberRangeDao = dnrd;
     }
 
     /**

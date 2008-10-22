@@ -21,10 +21,11 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
-import org.kuali.kfs.pdp.dataaccess.DisbursementNumberRangeDao;
 import org.kuali.kfs.pdp.service.DisbursementNumberRangeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,19 +34,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class DisbursementNumberRangeServiceImpl implements DisbursementNumberRangeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeServiceImpl.class);
 
-    private DisbursementNumberRangeDao disbursementNumberRangeDao;
     private BusinessObjectService businessObjectService;
     
-    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao d) {
-        disbursementNumberRangeDao = d;
-    }
-
     public List getAll() {
         return (List) this.businessObjectService.findAll(DisbursementNumberRange.class);
     }
 
     public DisbursementNumberRange get(Integer id) {
-        return disbursementNumberRangeDao.get(id);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put("id", id);
+        
+        return (DisbursementNumberRange) this.businessObjectService.findByPrimaryKey(DisbursementNumberRange.class, primaryKeys);
     }
 
     public void save(DisbursementNumberRange dnr) {

@@ -75,7 +75,7 @@
 		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.achBankAccountNbr" />
 		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr" />
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
-		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
+		<!--ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" /-->
 		
 				
 		
@@ -466,11 +466,11 @@
   <bean id="PaymentDetail-paymentGroup.paymentStatus.name-parentBean" abstract="true" parent="PaymentGroup-paymentStatus.name">
     <property name="name" value="paymentGroup.paymentStatus.name" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.payeeIdTypeDesc" parent="PaymentDetail-paymentGroup.payeeIdTypeDesc-parentBean" />
+  <!--bean id="PaymentDetail-paymentGroup.payeeIdTypeDesc" parent="PaymentDetail-paymentGroup.payeeIdTypeDesc-parentBean" />
 
   <bean id="PaymentDetail-paymentGroup.payeeIdTypeDesc-parentBean" abstract="true" parent="PaymentGroup-payeeIdTypeDesc">
     <property name="name" value="paymentGroup.payeeIdTypeDesc" />
-  </bean>
+  </bean-->
   
 
 <!-- Business Object Inquiry Definition -->
@@ -493,8 +493,8 @@
                     p:attributeName="paymentGroup.payeeName" />                     
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.disbursementType.name" />  
-              <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.payeeIdTypeDesc" /> 
+              <!-- bean parent="FieldDefinition"
+                    p:attributeName="paymentGroup.payeeIdTypeDesc" /--> 
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.disbursementNbr" />   
               <bean parent="FieldDefinition"

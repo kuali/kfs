@@ -154,7 +154,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             renderOverrideFields(pageContext, parentTag, renderingContext);
         }
         if (shouldRenderDynamicFeldLabel() && renderingContext.fieldsCanRenderDynamicLabels()) {
-            renderDynamicNameLabel(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath());
+            renderDynamicNameLabel(pageContext, parentTag, renderingContext);
         }
     }
     
@@ -182,8 +182,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
             if (!isHidden()) {
                 renderer.openNoWrapSpan(pageContext, parentTag);
             }
-                        
-            if(!(renderer instanceof ReadOnlyRenderer)) {
+            
+            // dynamically set the accessible title to the current field
+            if(!this.isReadOnly()) {
                 String accessibleTitle = getField().getFieldLabel(); 
                 
                 if(renderingContext.isNewLine()) {
@@ -310,7 +311,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param accountingLine the line which owns the field being rendered
      * @param accountingLinePropertyPath the path from the form to the accounting line
      */
-    protected void renderDynamicNameLabel(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLinePropertyPath) throws JspException {
+    protected void renderDynamicNameLabel(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
+        AccountingLine accountingLine = renderingContext.getAccountingLine();
+        String accountingLinePropertyPath = renderingContext.getAccountingLinePropertyPath();
+        
         DynamicNameLabelRenderer renderer = new DynamicNameLabelRenderer();
         if (definition.getDynamicNameLabelGenerator() != null) {
             renderer.setFieldName(definition.getDynamicNameLabelGenerator().getDynamicNameLabelFieldName(accountingLine, accountingLinePropertyPath));

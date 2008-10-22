@@ -231,7 +231,7 @@
 							</bean>
 							<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 								<property name="accountingDocumentParameterPropertyName" value="document" />
-								<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+								<property name="accountingLineParameterPropertyName" value="accountingLine" />
 							</bean>
 						</list>
 					</property>
@@ -244,7 +244,7 @@
 								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
 							</bean>
 							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="updatedAccountingLine" />
+								<property name="sourceEventProperty" value="accountingLine" />
 								<property name="targetValidationProperty" value="accountingLineForValidation" />
 							</bean>
 						</list>
@@ -253,9 +253,6 @@
 			</list>
 		</property>
 	</bean>
-
-	
-	
 
 	<bean id="AdvanceDeposit-deleteAccountingLineValidation" parent="AdvanceDeposit-deleteAccountingLineValidation-parentBean" scope="prototype" />
   

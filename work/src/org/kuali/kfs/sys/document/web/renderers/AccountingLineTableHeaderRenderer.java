@@ -161,6 +161,9 @@ public class AccountingLineTableHeaderRenderer implements Renderer {
         showHideTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"det-"+toggle+".gif");
         showHideTag.setAlt(toggle+" transaction details");
         showHideTag.setTitle(toggle+" transaction details");
+        
+        showHideTag.doStartTag();
+        showHideTag.doEndTag();
     }
     
     /**

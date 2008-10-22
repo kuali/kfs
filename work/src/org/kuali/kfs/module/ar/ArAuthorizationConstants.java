@@ -21,6 +21,7 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
 
     public static class CustomerInvoiceDocumentEditMode extends EditMode {
         public static final String SHOW_RECEIVABLE_FAU = "showReceivableFAU";
+        public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
 
     public static class CashControlDocumentEditMode extends EditMode {

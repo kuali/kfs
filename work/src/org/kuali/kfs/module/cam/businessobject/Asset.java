@@ -1923,6 +1923,17 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         return agency = (ContractsAndGrantsAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgency.class).retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
     }
 
+    /**
+     * Technically this is obsolete but necessary because MaintenanceDocumentBase.populateXmlDocumentContentsFromMaintainables has the following hack:<br>
+     * ObjectUtils.materializeAllSubObjects(oldBo); // hack to resolve XStream not dealing well with Proxies<br>
+     * so as long as that is there we need this setter otherwise a NoSuchMethodException occurs.
+     * 
+     * @deprecated
+     */
+    public void setAgency(ContractsAndGrantsAgency agency) {
+        this.agency = agency;
+    }
+    
     public Integer getQuantity() {
         return quantity;
     }

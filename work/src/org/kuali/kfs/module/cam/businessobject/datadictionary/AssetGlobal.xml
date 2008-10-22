@@ -45,6 +45,7 @@
         <ref bean="AssetGlobal-capitalAssetBuilderOriginIndicator" />
         <ref bean="AssetGlobal-calculateSeparateSourceRemainingAmountButton" />
         <ref bean="AssetGlobal-separateSourceRemainingAmount" />
+        <ref bean="AssetGlobal-totalAssetPaymentAmount" />        
       </list>
     </property>
 	<property name="relationships" >
@@ -349,6 +350,13 @@
     <property name="shortLabel" value="Remaining Amount" />
     <property name="summary" value="separateSourceRemainingAmount" />
     <property name="description" value="separateSourceRemainingAmount description..." />
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+  </bean>
+  
+  <bean id="AssetGlobal-totalAssetPaymentAmount" parent="AssetGlobal-totalAssetPaymentAmount-parentBean" />
+  <bean id="AssetGlobal-totalAssetPaymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalAssetPaymentAmount" />
+    <property name="label" value="Total Amount" />
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
   </bean>
   

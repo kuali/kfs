@@ -371,7 +371,7 @@
     <property name="id" value="Add Payments" />
     <property name="title" value="Add Payments" />
     <property name="maintainableItems" >
-      <list>
+      <list>      	
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="assetPaymentDetails" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" />
@@ -450,6 +450,11 @@
             </list>
           </property>
         </bean>
+        <bean parent="MaintainableSubSectionHeaderDefinition"
+              p:name="Total Payment Amount" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="totalAssetPaymentAmount"
+              p:readOnly="true" />
       </list>
     </property>
   </bean>

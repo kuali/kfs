@@ -99,6 +99,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
     private FinancialSystemDocumentHeader documentHeader;
+    private KualiDecimal totalAssetPaymentAmount;
 
     /**
      * Default constructor.
@@ -1087,7 +1088,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Technically this is obsolete but necessary because MaintenanceDocumentBase.populateXmlDocumentContentsFromMaintainables has the following hack:<br>
+     * Technically this is obsolete but necessary because MaintenanceDocumentBase.populateXmlDocumentContentsFromMaintainables has
+     * the following hack:<br>
      * ObjectUtils.materializeAllSubObjects(oldBo); // hack to resolve XStream not dealing well with Proxies<br>
      * so as long as that is there we need this setter otherwise a NoSuchMethodException occurs.
      * 
@@ -1096,7 +1098,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setAgency(ContractsAndGrantsAgency agency) {
         this.agency = agency;
     }
-    
+
     /**
      * Gets the generalLedgerPendingEntries attribute.
      * 
@@ -1232,5 +1234,30 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         managedLists.add(getAssetGlobalDetails());
         managedLists.add(getAssetPaymentDetails());
         return managedLists;
+    }
+
+    /**
+     * Gets the totalAssetPaymentAmount attribute.
+     * 
+     * @return Returns the totalAssetPaymentAmount.
+     */
+    public KualiDecimal getTotalAssetPaymentAmount() {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        List<AssetPaymentDetail> assetPaymentList = getAssetPaymentDetails();
+        if (assetPaymentList != null && !assetPaymentList.isEmpty()) {
+            for (AssetPaymentDetail assetPaymentDetail : assetPaymentList) {
+                totalAmount = totalAmount.add(assetPaymentDetail.getAmount());
+            }
+        }
+        return totalAmount;
+    }
+
+    /**
+     * Sets the totalAssetPaymentAmount attribute value.
+     * 
+     * @param totalAssetPaymentAmount The totalAssetPaymentAmount to set.
+     */
+    public void setTotalAssetPaymentAmount(KualiDecimal totalAssetPaymentAmount) {
+        this.totalAssetPaymentAmount = totalAssetPaymentAmount;
     }
 }

@@ -63,9 +63,9 @@ public class CustomerInvoiceReportServiceImpl implements CustomerInvoiceReportSe
     }
     
     /**
-     * Sets the effortExtractProcessReportInfo attribute value.
+     * Sets the customerInvoiceReportInfo attribute value.
      * 
-     * @param effortExtractProcessReportInfo The effortExtractProcessReportInfo to set.
+     * @param customerInvoiceReportInfo The customerInvoiceReportInfo to set.
      */
     public void setCustomerInvoiceReportInfo(ReportInfo customerInvoiceReportInfo) {
         this.customerInvoiceReportInfo = customerInvoiceReportInfo;

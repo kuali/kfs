@@ -91,7 +91,8 @@
             </tr>
         </logic:iterate>
 		<tr>
-	 		<td class="total-line" colspan="6">&nbsp;</td>
+			<c:set var="leadingColSpan" value="${KualiForm.documentActionFlags.canViewBank ? 5 : 4}" />
+	 		<td class="total-line" colspan="${leadingColSpan}">&nbsp;</td>
 	  		<td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalAdvanceDepositAmount}</strong></td>
             <c:if test="${not readOnly}">
                 <td class="total-line">&nbsp;</td>

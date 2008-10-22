@@ -22,20 +22,51 @@ import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 
-public interface SensitiveDataDao {
-    
+public interface SensitiveDataDao {    
+
+    /**
+     * Gets all sensitive data entries assigned to the specified purchase order.
+     * @param poId the ID of the specified purchase order
+     * @return a list of sensitive data entries assigned to the PO
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByPoId(Integer poId);
     
+    /**
+     * Gets all sensitive data entries assigned to the specified purchase order.
+     * @param reqId the ID of the requisition that's associated with the purchase order
+     * @return a list of sensitive data entries assigned to the PO
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByReqId(Integer reqId);
-
+    
+    /**
+     * Deletes all sensitive data entries assigned to the specified purchase order.
+     * @param poId the ID of the PO
+     */
     public void deletePurchaseOrderSensitiveDatas(Integer poId);
         
+    /**
+     * Saves the specified list of PurchaseOrderSensitiveData objects into the database.
+     * @param posds the PurchaseOrderSensitiveData objects to be saved
+     */
     public void savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData> posds);    
     
+    /**
+     * Gets the latest sensitive data assignment for the specified purchase order.
+     * @param poId the ID of the specified PO
+     * @return the latest sensitive data assignment for the PO
+     */
     public SensitiveDataAssignment getLastSensitiveDataAssignment(Integer poId);
 
+    /**
+     * Saves the specified SensitiveDataAssignment object into the database.
+     * @param sda the SensitiveDataAssignment object to be saved
+     */
     public void saveSensitiveDataAssignment(SensitiveDataAssignment sda);
     
+    /**
+     * Saves the specified list of SensitiveDataAssignmentDetail objects into the database.
+     * @param sdads the SensitiveDataAssignmentDetail objects to be saved
+     */
     public void saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sdads);
 
     //public void savePurchaseOrderSensitiveData(String poId, String reqId, String sensitiveDataCode);   

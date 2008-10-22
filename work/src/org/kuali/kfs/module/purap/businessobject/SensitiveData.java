@@ -22,7 +22,7 @@ import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
- * Restricted Material Business Object.
+ * Sensitive Data Business Object.
  */
 public class SensitiveData extends PersistableBusinessObjectBase implements PurchasingAccountsPayableSensitiveData {
 

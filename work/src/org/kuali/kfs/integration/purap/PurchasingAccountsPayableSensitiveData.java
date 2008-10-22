@@ -18,19 +18,19 @@ package org.kuali.kfs.integration.purap;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 /**
- * An interface that declares methods to retrieve information about Restricted Materials.
+ * An interface that declares methods to retrieve information about Sensitive Datas.
  */
 public interface PurchasingAccountsPayableSensitiveData extends ExternalizableBusinessObject {
 
     /**
-     * Gets the code for this restricted material
-     * @return the code for this restricted material
+     * Gets the code for this sensitive data
+     * @return the code for this sensitive data
      */
     public String getSensitiveDataCode();
     
     /**
-     * Gets the description for this restricted material
-     * @return the description for this restricted material
+     * Gets the description for this sensitive data
+     * @return the description for this sensitive data
      */
     public String getSensitiveDataDescription();
    

@@ -35,7 +35,7 @@ public class SensitiveDataValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
         for (SensitiveData sensitiveData : sensitiveDatas) {
-            //if (sensitiveData.isActive())
+            if (sensitiveData.isActive())
                 labels.add(new KeyLabelPair(sensitiveData.getSensitiveDataCode(), sensitiveData.getSensitiveDataDescription()));
         }
 

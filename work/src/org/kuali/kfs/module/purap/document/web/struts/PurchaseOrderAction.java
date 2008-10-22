@@ -612,7 +612,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         poForm.setLastSensitiveDataAssignment(sda);
         
         // even though at this point, the sensitive data entries should have been loaded into the form already, 
-        // we still load it again in case that someone else has changed that during the time period 
+        // we still load them again in case that someone else has changed that during the time period 
         List<SensitiveData> posds = sdService.getSensitiveDatasAssignedByPoId(poId);
         poForm.setSensitiveDatasAssigned(posds);    
                 
@@ -630,7 +630,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     public ActionForward submitSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("Process Sensitive Data started");
+        LOG.debug("Submit Sensitive Data started");
         
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
@@ -643,7 +643,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         SensitiveDataAssignment sda = new SensitiveDataAssignment();
         /*
-        //TODO remove the following 2 lines
+        //TODO remove the following 2 lines after sequence for assignment ID is added
         int sdaId = poForm.getLastSensitiveDataAssignment() == null ? 0 : poForm.getLastSensitiveDataAssignment().getSensitiveDataAssignmentIdentifier() + 1;
         sda.setSensitiveDataAssignmentIdentifier(poId*10000+sdaId);
         */
@@ -676,6 +676,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         sdService.savePurchaseOrderSensitiveDatas(posds);
                 
+        // even though at this point, the sensitive data entries should be up-to-date in the form already, 
+        // we still load them again; otherwise the PO screen won't be refreshed when display returns to it
+        List<SensitiveData> newsds = sdService.getSensitiveDatasAssignedByPoId(poId);
+        poForm.setSensitiveDatasAssigned(newsds);    
+        
         // reset the sensitive data related fields in the po form
         poForm.setAssigningSensitiveData(false);
         

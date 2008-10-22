@@ -39,6 +39,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         super();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#getSensitiveDatasAssignedByPoId(java.lang.Integer)
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByPoId(Integer poId) {
         LOG.debug("getSensitiveDatasAssignedByPoId(Integer) started");
 
@@ -54,6 +57,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         return sdList;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#getSensitiveDatasAssignedByReqId(java.lang.Integer)
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByReqId(Integer reqId) {
         LOG.debug("getSensitiveDatasAssignedByReqId(Integer) started");
 
@@ -69,6 +75,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         return sdList;
     }    
 
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#deletePurchaseOrderSensitiveDatas(java.lang.Integer)
+     */
     public void deletePurchaseOrderSensitiveDatas(Integer poId) {
         LOG.debug("deletePurchaseOrderSensitiveDatas(Integer) started");
         Criteria criteria = new Criteria();
@@ -76,6 +85,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(PurchaseOrderSensitiveData.class, criteria));
     }
     
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>)
+     */
     public void savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData> posds) {
         LOG.debug("savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>) started");
         if (posds == null)
@@ -85,6 +97,9 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         }
     }
     
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#getLastSensitiveDataAssignment(java.lang.Integer)
+     */
     public SensitiveDataAssignment getLastSensitiveDataAssignment(Integer poId) {
         LOG.debug("getLastSensitiveDataAssignment(Integer) started");
 
@@ -122,11 +137,17 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
     }
     */
 
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#saveSensitiveDataAssignment(SensitiveDataAssignment)
+     */
     public void saveSensitiveDataAssignment(SensitiveDataAssignment sda) {
         LOG.debug("saveSensitiveDataAssignment(SensitiveDataAssignment) started");
         getPersistenceBrokerTemplate().store(sda);        
     }
 
+    /**
+     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>)
+     */
     public void saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sdads) {
         LOG.debug("saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>) started");
         if (sdads == null)

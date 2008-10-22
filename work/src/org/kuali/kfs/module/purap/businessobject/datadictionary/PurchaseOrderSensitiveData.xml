@@ -35,6 +35,8 @@
 
 	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode" parent="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" />
 	<bean id="PurchaseOrderSensitiveData-sensitiveDataCode-parentBean" abstract="true" parent="SensitiveData-sensitiveDataCode" >
+	    <property name="label" value="Sensitive Data" />
+    	<property name="shortLabel" value="Sensitive Data" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
             	p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.SensitiveDataValuesFinder"

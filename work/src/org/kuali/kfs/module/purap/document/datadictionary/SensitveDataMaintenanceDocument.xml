@@ -19,13 +19,13 @@
         <value>sensitiveDataCode</value>
       </list>
     </property>
-    <property name="label" value="Restricted Material" />
+    <property name="label" value="Sensitive Data" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KFS-PURAP"
             p:parameterName="SENSITIVE_DATA"
             p:parameterDetailType="SensitiveData" />
     </property>
-    <property name="shortLabel" value="Restricted Material" />
+    <property name="shortLabel" value="Sensitive Data" />
     <property name="documentTypeName" value="SensitiveDataMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.SensitiveDataRule" /> 
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
@@ -53,8 +53,8 @@
   <bean id="SensitiveDataMaintenanceDocument-EditSensitiveData" parent="SensitiveDataMaintenanceDocument-EditSensitiveData-parentBean" />
 
   <bean id="SensitiveDataMaintenanceDocument-EditSensitiveData-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Restricted Material" />
-    <property name="title" value="Edit Restricted Material" />
+    <property name="id" value="Edit Sensitive Data" />
+    <property name="title" value="Edit Sensitive Data" />
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"

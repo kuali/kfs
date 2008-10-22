@@ -35,7 +35,7 @@
     <property name="name" value="sensitiveDataCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sensitive Data Code" />
-    <property name="shortLabel" value="Sensitive Code" />
+    <property name="shortLabel" value="Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
@@ -57,7 +57,7 @@
   <bean id="SensitiveData-sensitiveDataDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sensitiveDataDescription" />
     <property name="label" value="Sensitive Data Description" />
-    <property name="shortLabel" value="Sensitive Description" />
+    <property name="shortLabel" value="Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

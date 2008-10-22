@@ -48,58 +48,86 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
      * @see org.kuali.kfs.integration.service.SensitiveDataService#getSensitiveDataByCode(java.lang.String)
      */
     public SensitiveData getSensitiveDataByCode(String sensitiveDataCode) {
+        LOG.debug("getSensitiveDataByCode(String) started");        
         Map primaryKeys = new HashMap();
         primaryKeys.put("sensitiveDataCode", sensitiveDataCode);
         return (SensitiveData)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getAllSensitiveDataEntries()
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getAllSensitiveDatas()
      */
     public List<SensitiveData> getAllSensitiveDatas() {
-        List<SensitiveData> sensitiveDataEntries = new ArrayList<SensitiveData>();
-        Collection sensitiveDataColl = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
-        for (Object sd: sensitiveDataColl) {
-            sensitiveDataEntries.add((SensitiveData)sd);
+        LOG.debug("getSensitiveDataByPoId(Integer) started");     
+        
+        List<SensitiveData> sds = new ArrayList<SensitiveData>();
+        Collection sdColl = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
+        for (Object sd: sdColl) {
+            sds.add((SensitiveData)sd);
         }
-        return sensitiveDataEntries;
+        
+        return sds;
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getSensitiveDatasAssignedByPoId()
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByPoId(Integer poId) {
-        LOG.debug("getSensitiveDataByPoId(Integer) started");        
+        LOG.debug("getSensitiveDatasAssignedByPoId(Integer) started");        
         return sensitiveDataDao.getSensitiveDatasAssignedByPoId(poId);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getSensitiveDatasAssignedByReqId(Integer)
+     */
     public List<SensitiveData> getSensitiveDatasAssignedByReqId(Integer reqId) {
-        LOG.debug("getSensitiveDataByReqId(Integer) started");        
+        LOG.debug("getSensitiveDatasAssignedByReqId(Integer) started");        
         return sensitiveDataDao.getSensitiveDatasAssignedByReqId(reqId);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#deletePurchaseOrderSensitiveDatas(Integer)
+     */
     public void deletePurchaseOrderSensitiveDatas(Integer poId) {
-        LOG.debug("deletePurchaseOrderSensitiveData(Integer) started");
+        LOG.debug("deletePurchaseOrderSensitiveDatas(Integer) started");
         sensitiveDataDao.deletePurchaseOrderSensitiveDatas(poId);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>)
+     */
     public void savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData> posds) {
-        LOG.debug("savePurchaseOrderSensitiveData(List<PurchaseOrderSensitiveData>) started");
+        LOG.debug("savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>) started");
         sensitiveDataDao.savePurchaseOrderSensitiveDatas(posds);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getLastSensitiveDataAssignment(Integer)
+     */
     public SensitiveDataAssignment getLastSensitiveDataAssignment(Integer poId) {
-        LOG.debug("getSensitiveDataAssignment(Integer) started");
+        LOG.debug("getLastSensitiveDataAssignment(Integer) started");
         return sensitiveDataDao.getLastSensitiveDataAssignment(poId);
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#getLastSensitiveDataAssignmentId(Integer)
+     */
     public Integer getLastSensitiveDataAssignmentId(Integer poId) {
-        LOG.debug("getSensitiveDataAssignmentId(Integer) started");
+        LOG.debug("getLastSensitiveDataAssignmentId(Integer) started");
         return getLastSensitiveDataAssignment(poId).getSensitiveDataAssignmentIdentifier();
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#saveSensitiveDataAssignment(SensitiveDataAssignment)
+     */
     public void saveSensitiveDataAssignment(SensitiveDataAssignment sda) {
         LOG.debug("saveSensitiveDataAssignment(SensitiveDataAssignment) started");
         sensitiveDataDao.saveSensitiveDataAssignment(sda);
     }
 
+    /**
+     * @see org.kuali.kfs.module.purap.service.SensitiveDataService#saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>)
+     */
     public void saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sdads) {
         LOG.debug("saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>) started");
         sensitiveDataDao.saveSensitiveDataAssignmentDetails(sdads);

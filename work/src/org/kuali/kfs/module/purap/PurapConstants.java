@@ -93,6 +93,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
     public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
     public static final String QUESTION_CLEAR_ALL_COMMODITY_CODES = "question.document.pur.clearCommodityCodes";
+    // TODO - This constant is referenced, but has no corresponding value in ApplicationResources.properties????
     public static final String CONFIRM_CHANGE_DFLT_RVNG_ADDR = "confirm.change.dflt.rcvng.addr";
     public static final String CONFIRM_CHANGE_DFLT_RVNG_ADDR_TXT = "Setting this receiving address to be default will unset the current default address. Do you want to proceed?";
     
@@ -836,7 +837,7 @@ public class PurapConstants extends JSTLConstants {
         public final static String SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE = "STLV";
         public final static String SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE = "STUV";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
-
+        
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
         public final static String PREQ_DISCOUNT_ERROR = "PRDE";
         public final static String PREQ_ROUTING_FAILURE = "PRRF";
@@ -917,7 +918,7 @@ public class PurapConstants extends JSTLConstants {
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER, "capitalAssetModelDescription");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER, "capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER, "capitalAssetCountAssetNumber"); 
-
+            
             return Collections.unmodifiableMap(fieldsByParameterNames);
         }
         

@@ -125,6 +125,10 @@
   <bean id="AssetPayment-asset.inventoryStatusCode" parent="AssetPayment-asset.inventoryStatusCode-parentBean" />
   <bean id="AssetPayment-asset.inventoryStatusCode-parentBean" abstract="true" parent="Asset-inventoryStatusCode">
     <property name="name" value="asset.inventoryStatusCode" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="3" />
+    </property>
   </bean>
 
   <bean id="AssetPayment-asset.capitalAssetTypeCode" parent="AssetPayment-asset.capitalAssetTypeCode-parentBean" />

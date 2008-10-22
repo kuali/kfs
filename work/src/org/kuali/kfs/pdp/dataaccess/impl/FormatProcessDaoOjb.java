@@ -46,31 +46,31 @@ public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements Form
     /**
      * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#getByCampus(java.lang.String)
      */
-    public FormatProcess getByCampus(String campus) {
+    /*public FormatProcess getByCampus(String campus) {
         LOG.debug("getByCampus() starting");
 
         Criteria c = new Criteria();
         c.addEqualTo("physicalCampusProcessCode", campus);
 
         return (FormatProcess) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FormatProcess.class, c));
-    }
+    }*/
 
     /**
      * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#removeByCampus(java.lang.String)
      */
-    public void removeByCampus(String campus) {
+    /*public void removeByCampus(String campus) {
         LOG.debug("removeByCampus() starting");
 
         FormatProcess fp = getByCampus(campus);
         if (fp != null) {
             getPersistenceBrokerTemplate().delete(fp);
         }
-    }
+    }*/
 
     /**
      * @see org.kuali.kfs.pdp.dataaccess.FormatProcessDao#add(java.lang.String, java.util.Date)
      */
-    public void add(String campus, Date now) {
+    /*public void add(String campus, Date now) {
         LOG.debug("add() starting");
 
         FormatProcess fp = new FormatProcess();
@@ -78,6 +78,6 @@ public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         fp.setBeginFormat(new Timestamp(now.getTime()));
 
         getPersistenceBrokerTemplate().store(fp);
-    }
+    }*/
     
 }

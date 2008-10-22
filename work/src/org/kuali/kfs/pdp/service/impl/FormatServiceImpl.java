@@ -19,14 +19,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AchAccountNumber;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -129,8 +132,11 @@ public class FormatServiceImpl implements FormatService {
      */
     public Date getFormatProcessStartDate(String campus) {
         LOG.debug("getFormatProcessStartDate() started");
-
-        FormatProcess fp = formatProcessDao.getByCampus(campus);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PHYS_CAMPUS_PROCESS_CODE, campus);
+        FormatProcess fp = (FormatProcess) this.businessObjectService.findByPrimaryKey(FormatProcess.class, primaryKeys);
+        
         if (fp != null) {
             LOG.debug("getFormatProcessStartDate() found");
             return new Date(fp.getBeginFormat().getTime());
@@ -463,8 +469,11 @@ public class FormatServiceImpl implements FormatService {
         PaymentStatus formatStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.FORMAT);
 
         Date now = new Date();
-        formatProcessDao.add(campus, now);
-
+        FormatProcess fp = new FormatProcess();
+        fp.setPhysicalCampusProcessCode(campus);
+        fp.setBeginFormat(new Timestamp(now.getTime()));
+        this.businessObjectService.save(fp);
+        
         // Create the process
         PaymentProcess p = processDao.createProcess(campus, user);
 
@@ -496,8 +505,11 @@ public class FormatServiceImpl implements FormatService {
      */
     public void endFormatProcess(String campus) {
         LOG.debug("endFormatProcess() starting");
-
-        formatProcessDao.removeByCampus(campus);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PHYS_CAMPUS_PROCESS_CODE, campus);
+        
+        this.businessObjectService.deleteMatching(FormatProcess.class, primaryKeys);
     }
 
     /**

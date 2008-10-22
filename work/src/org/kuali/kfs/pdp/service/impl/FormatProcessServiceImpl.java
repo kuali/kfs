@@ -16,8 +16,11 @@
 package org.kuali.kfs.pdp.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
@@ -60,8 +63,9 @@ public class FormatProcessServiceImpl implements FormatProcessService {
      * @see org.kuali.kfs.pdp.service.FormatProcessService#getFormatProcessStartDate(java.lang.String)
      */
     public Date getFormatProcessStartDate(String campus) {
-
-        FormatProcess fp = formatProcessDao.getByCampus(campus);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PHYS_CAMPUS_PROCESS_CODE, campus);
+        FormatProcess fp = (FormatProcess) this.businessObjectService.findByPrimaryKey(FormatProcess.class, primaryKeys);
         
         if (fp != null) {
             return new Date(fp.getBeginFormat().getTime());

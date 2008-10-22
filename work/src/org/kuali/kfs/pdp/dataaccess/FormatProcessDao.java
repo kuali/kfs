@@ -34,18 +34,18 @@ public interface FormatProcessDao {
      * @param campus the format process campus
      * @return the format process for the given campus
      */
-    public FormatProcess getByCampus(String campus);
+    //public FormatProcess getByCampus(String campus);
 
     /**
      * This method removes an entry from the format process tbale by campus.
      * @param campus the campus of the format process to be removed
      */
-    public void removeByCampus(String campus);
+    //public void removeByCampus(String campus);
 
     /**
      * This method adds a new entry in the format process table.
      * @param campus the campus for which the format process runs
      * @param now the time the format process starts
      */
-    public void add(String campus, Date now);
+    //public void add(String campus, Date now);
 }

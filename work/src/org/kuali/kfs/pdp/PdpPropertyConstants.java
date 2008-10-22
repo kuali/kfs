@@ -45,6 +45,7 @@ public class PdpPropertyConstants {
     public static final String DISBURSEMENT_NBR = "disbursementNbr";
     public static final String PAYMENT_CHANGE_CODE = "paymentChangeCode";
     public static final String PHYS_CAMPUS_PROC_CODE = "physCampusProcCode";
+    public static final String PHYS_CAMPUS_PROCESS_CODE = "physicalCampusProcessCode";
     public static final String BEGIN_DISBURSEMENT_NBR = "beginDisbursementNbr";
     public static final String END_DISBURSEMENT_NBR = "endDisbursementNbr";
     public static final String PAYMENT_GROUP = "paymentGroup";

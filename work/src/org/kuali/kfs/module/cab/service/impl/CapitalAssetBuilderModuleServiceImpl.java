@@ -34,7 +34,6 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
@@ -80,6 +79,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -1146,7 +1146,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,
      *      java.lang.String)
      */
-    public void notifyRouteStatusChange(String documentNumber, KualiWorkflowDocument workflowDocument) {
+    public void notifyRouteStatusChange(DocumentHeader documentHeader) {
+
+        KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        String documentNumber = documentHeader.getDocumentNumber();
+
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             // release CAB line items
             activateCabGlLines(documentNumber);

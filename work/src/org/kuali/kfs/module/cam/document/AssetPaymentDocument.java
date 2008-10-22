@@ -149,7 +149,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
         }
 
         if (isCapitalAssetBuilderOriginIndicator()) {
-            SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(getDocumentHeader().getDocumentNumber(), workflowDocument);
+            SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(getDocumentHeader());
         }
     }
 

@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -117,10 +118,9 @@ public interface CapitalAssetBuilderModuleService {
      * External modules can notify CAB if a document changed its route status. CAB Uses this notification to release records or to
      * update other modules about the changes
      * 
-     * @param documentNumber Document Number
-     * @param workflowDocument KualiWorkflowDocument
+     * @param documentHeader DocumentHeader
      */
-    public void notifyRouteStatusChange(String documentNumber, KualiWorkflowDocument workflowDocument);
+    public void notifyRouteStatusChange(DocumentHeader documentHeader);
 
     public boolean doesItemNeedCapitalAsset(PurApItem item);
 

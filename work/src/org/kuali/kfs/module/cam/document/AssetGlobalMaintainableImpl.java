@@ -636,7 +636,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     public void handleRouteStatusChange(DocumentHeader documentHeader) {
         super.handleRouteStatusChange(documentHeader);
         if (((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator()) {
-            SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader.getDocumentNumber(), documentHeader.getWorkflowDocument());
+            SpringContext.getBean(CapitalAssetBuilderModuleService.class).notifyRouteStatusChange(documentHeader);
         }
     }
 }

@@ -19,6 +19,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public enum RequisitionItemFixture {
 
@@ -173,10 +174,10 @@ public enum RequisitionItemFixture {
         requisitionDocument.addItem(item);
         //Just for unit tests, we need these following lines so that we could set the commodity codes active status to true/false
         //and set the restricted indicator to true/false as we need to.
-        //if (item.getCommodityCode() != null) {
-        //    item.getCommodityCode().setActive(active);
-        //    item.getCommodityCode().setRestrictedItemsIndicator(restrictedItemsIndicator);
-        //}
+        if (ObjectUtils.isNotNull(item.getCommodityCode())) {
+            item.getCommodityCode().setActive(active);
+            item.getCommodityCode().setRestrictedItemsIndicator(restrictedItemsIndicator);
+        }
         // iterate over the accounts
         for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {
             requisitionAccountMultiFixture.addTo(item);

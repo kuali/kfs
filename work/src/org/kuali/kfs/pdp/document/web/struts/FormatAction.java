@@ -97,7 +97,7 @@ public class FormatAction extends KualiAction {
             }
 
             formatForm.setPaymentDate(dateTimeService.getCurrentTimestamp());
-            formatForm.setPaymentTypes(PdpConstants.PaymentType.ALL.getPaymentType());
+            formatForm.setPaymentTypes(PdpConstants.PaymentTypes.ALL);
             formatForm.setCustomers(customers);
             formatForm.setRanges(formatSelection.getRangeList());
         }

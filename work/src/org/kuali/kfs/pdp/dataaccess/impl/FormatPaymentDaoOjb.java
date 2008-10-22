@@ -68,24 +68,24 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         criteria.addIn("batch.customerId", customerIds);
         criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
 
-        if (PdpConstants.PaymentType.DISBURSEMENTS_WITH_SPECIAL_HANDLING.getPaymentType().equals(paymentTypes)) {
+        if (PdpConstants.PaymentTypes.DISBURSEMENTS_WITH_SPECIAL_HANDLING.equals(paymentTypes)) {
             // special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.TRUE);
         }
-        else if (PdpConstants.PaymentType.DISBURSEMENTS_NO_SPECIAL_HANDLING.getPaymentType().equals(paymentTypes)) {
+        else if (PdpConstants.PaymentTypes.DISBURSEMENTS_NO_SPECIAL_HANDLING.equals(paymentTypes)) {
             // no special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.FALSE);
         }
-        else if (PdpConstants.PaymentType.DISBURSEMENTS_WITH_ATTACHMENTS.getPaymentType().equals(paymentTypes)) {
+        else if (PdpConstants.PaymentTypes.DISBURSEMENTS_WITH_ATTACHMENTS.equals(paymentTypes)) {
             // attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.TRUE);
         }
-        else if (PdpConstants.PaymentType.DISBURSEMENTS_NO_ATTACHMENTS.getPaymentType().equals(paymentTypes)) {
+        else if (PdpConstants.PaymentTypes.DISBURSEMENTS_NO_ATTACHMENTS.equals(paymentTypes)) {
             // no attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.FALSE);
         }
 
-        if (PdpConstants.PaymentType.PROCESS_IMMEDIATE.getPaymentType().equals(paymentTypes)) {
+        if (PdpConstants.PaymentTypes.PROCESS_IMMEDIATE.equals(paymentTypes)) {
             criteria.addEqualTo("processImmediate", Boolean.TRUE);
         }
         else {

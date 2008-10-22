@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +35,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.DiscountCustomerInvoiceDetailEvent;
 import org.kuali.kfs.module.ar.document.validation.event.RecalculateCustomerInvoiceDetailEvent;
+import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,7 +46,14 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.SimpleBookmark;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
@@ -372,4 +385,78 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    
 
+    /**
+     * 
+     * This method...
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm)form;
+        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument) customerInvoiceDocumentForm.getDocument();
+        
+        AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
+        File report = reportService.generateInvoice(customerInvoiceDocument);
+        
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(customerInvoiceDocument.getOrganizationInvoiceNumber());
+        fileName.append("-");
+        fileName.append(customerInvoiceDocument.getDocumentNumber());
+        fileName.append(".pdf");
+        
+        if (report.length() == 0) {
+            //csForm.setMessage("No Report Generated");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+            
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ArrayList master = new ArrayList();
+            PdfCopy  writer = null;
+                    
+            // create a reader for the document
+            String reportName = report.getAbsolutePath();
+            PdfReader reader = new PdfReader(reportName);
+            reader.consolidateNamedDestinations();
+            
+            // retrieve the total number of pages
+            int n = reader.getNumberOfPages();
+            List bookmarks = SimpleBookmark.getBookmark(reader);
+            if (bookmarks != null) {
+                master.addAll(bookmarks);
+            }
+
+            // step 1: create a document-object
+            Document document = new Document(reader.getPageSizeWithRotation(1));
+            // step 2: create a writer that listens to the document
+            writer = new PdfCopy(document, baos);
+            // step 3: open the document
+            document.open();
+            // step 4: add content
+            PdfImportedPage page;
+            for (int i = 0; i < n; ) {
+                ++i;
+                page = writer.getImportedPage(reader, i);
+                writer.addPage(page);
+            }
+            writer.freeReader(reader);
+            if (!master.isEmpty()) {
+                writer.setOutlines(master);
+            }
+            // step 5: we close the document
+            document.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        } 
+
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName.toString());
+        //csForm.setMessage("Report Generated");
+        return null;
+    }
 }

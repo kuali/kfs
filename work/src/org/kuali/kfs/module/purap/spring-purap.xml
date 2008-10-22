@@ -119,6 +119,7 @@
         <property name="dateTimeService" ref="dateTimeService"/>
 		<property name="documentService" ref="documentService"/>
 		<property name="requisitionDao" ref="requisitionDao"/>
+		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
     	<property name="purapService" ref="purapService"/>
     	<property name="ruleService" ref="kualiRuleService"/>
@@ -272,7 +273,7 @@
         </property>      
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property>             
+        </property> 
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>                

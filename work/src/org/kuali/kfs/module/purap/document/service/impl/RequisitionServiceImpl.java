@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.module.purap.document.validation.event.ValidateCapitalAssetsForAutomaticPurchaseOrderEvent;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -47,6 +49,7 @@ import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -65,6 +68,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private KualiRuleService ruleService;
+    private KualiConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
@@ -325,7 +329,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition contains inactive commodity codes.";
         }
         else if (purItem.getCommodityCode().isRestrictedItemsIndicator()) {
-            return "Requisition contains an item that is marked as restricted.";
+            return kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
         }
         return "";
     }
@@ -345,7 +349,6 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
-
     
     public KualiRuleService getRuleService() {
         return ruleService;
@@ -370,4 +373,9 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
 }

@@ -1175,7 +1175,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         PurchaseOrderDocument poDoc = orderHolder.getPurchaseOrderDocument();
         if (poDoc == null){
-            throw new RuntimeException("Purchase Order document (POId=" + poDoc.getPurapDocumentIdentifier() + ") does not exists in the system");
+            throw new RuntimeException("Purchase Order document (POId=" + poDoc.getPurapDocumentIdentifier() + ") does not exist in the system");
         }
         
         preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));
@@ -1196,9 +1196,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             preqDoc.setBank(defaultBank);
         }
         
-        /**
-         * Commenting this for time being to allow the test case to simulate KULPURAP-2915
-         */
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(poDoc.getRequisitionIdentifier());
         String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         try {

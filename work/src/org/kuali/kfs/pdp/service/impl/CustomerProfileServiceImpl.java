@@ -55,8 +55,10 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         fieldValues.put("chartCode", chartCode);
         fieldValues.put("orgCode", orgCode);
         fieldValues.put("subUnitCode", subUnitCode);
+        List customerProfileList = (List) this.businessObjectService.findMatching(CustomerProfile.class, fieldValues);
+        if (customerProfileList.isEmpty()) return null;
         
-        return (CustomerProfile) this.businessObjectService.findMatching(CustomerProfile.class, fieldValues);
+        return (CustomerProfile) customerProfileList.get(0);
     }
 
     public void save(CustomerProfile cp) {

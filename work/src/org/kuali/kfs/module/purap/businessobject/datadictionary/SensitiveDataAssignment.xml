@@ -4,96 +4,74 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="SensitiveDataAssignment"
-		parent="SensitiveDataAssignment-parentBean" />
+	<bean id="SensitiveDataAssignment" parent="SensitiveDataAssignment-parentBean" />
 
-	<bean id="SensitiveDataAssignment-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" />
-		<!-- <property name="inquiryDefinition">
+	<bean id="SensitiveDataAssignment-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" />
+		<!-- 
+		<property name="inquiryDefinition">
 			<ref bean="SensitiveDataAssignment-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="SensitiveDataAssignment-lookupDefinition" />
-		</property> -->
-		<property name="titleAttribute"
-			value="SensitiveDataAssignmentCode" />
-		<property name="objectLabel"
-			value="Delivery Required Date Reason" />
+		</property>
+		-->
+		<property name="titleAttribute" value="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" />
+		<property name="objectLabel" value="Sensitive Data Assignment" />
 		<property name="attributes">
 			<list>
-				<ref
-					bean="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" />
-				<ref
-					bean="SensitiveDataAssignment-purapDocumentIdentifier" />
-				<ref
-					bean="SensitiveDataAssignment-sensitiveDataAssignmentReasonText" />
-				<ref
-					bean="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier" />
-				<ref
-					bean="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate" />
+				<ref bean="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" />
+				<ref bean="SensitiveDataAssignment-purapDocumentIdentifier" />
+				<ref bean="SensitiveDataAssignment-sensitiveDataAssignmentReasonText" />
+				<ref bean="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier" />
+				<ref bean="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier"
-		parent="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean" />
+<!-- Attribute Definitions -->
 
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" parent="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean" />
 	<bean
-		id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean"
-		abstract="true" parent="GenericAttributes-genericSystemId" >
+		id="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
 		<property name="name" value="sensitiveDataAssignmentIdentifier" />
 		<property name="label" value="Sensitive Data Assignment Identifier" />
 		<property name="shortLabel" value="Assignment Identifier" />
 		<property name="maxLength" value="9" />
 	</bean>
 
+	<bean id="SensitiveDataAssignment-purapDocumentIdentifier" parent="SensitiveDataAssignment-purapDocumentIdentifier-parentBean" />
+	<bean id="SensitiveDataAssignment-purapDocumentIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier" />
 
-	<bean id="SensitiveDataAssignment-purapDocumentIdentifier"
-		parent="SensitiveDataAssignment-purapDocumentIdentifier-parentBean" />
-
-	<bean
-		id="SensitiveDataAssignment-purapDocumentIdentifier-parentBean"
-		abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier" />
-
-
-	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentReasonText"
-		parent="SensitiveDataAssignment-sensitiveDataAssignmentReasonText-parentBean" />
-
-	<bean
-		id="SensitiveDataAssignment-sensitiveDataAssignmentReasonText-parentBean"
-		abstract="true" parent="GenericAttributes-genericBigText" >
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentReasonText" parent="SensitiveDataAssignment-sensitiveDataAssignmentReasonText-parentBean" />
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentReasonText-parentBean" abstract="true" parent="GenericAttributes-genericBigText" >
 		<property name="name" value="sensitiveDataAssignmentReasonText" />
-		<property name="label" value="Sensitive Data Assignment Identifier" />
-		<property name="shortLabel" value="Assignment Identifier" />
+		<property name="label" value="Sensitive Data Assignment Reason" />
+		<property name="shortLabel" value="Assignment Reason" />
+    	<property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	p:allowWhitespace="true" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="TextControlDefinition"
+            	p:size="100" />
+    	</property>		
 		<property name="maxLength" value="500" />
 	</bean>
 
-
-	<bean
-		id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier"
-		parent="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" />
-
-	<bean
-		id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean"
-		abstract="true" parent="UniversalUser-personUniversalIdentifier" >
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier" parent="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" />
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier" >
 		<property name="name" value="sensitiveDataAssignmentPersonIdentifier" />
 		<property name="label" value="Sensitive Data Assignment Person" />
 		<property name="shortLabel" value="Assignment Person" />
 		<property name="required" value="false" />
 	</bean>
 
-
-	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate"
-		parent="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate-parentBean" />
-
-	<bean
-		id="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate-parentBean"
-		abstract="true" parent="GenericAttributes-genericDate" >
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate" parent="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate-parentBean" />
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentChangeDate-parentBean" abstract="true" parent="GenericAttributes-genericDate" >
 		<property name="name" value="sensitiveDataAssignmentChangeDate" />
-		<property name="label" value="Sensitive Data Assignment Change Date" />
-		<property name="shortLabel" value="Assignment Change Date" />
+		<property name="label" value="Sensitive Data Assignment Date" />
+		<property name="shortLabel" value="Assignment Date" />
 	</bean>
 
 </beans>

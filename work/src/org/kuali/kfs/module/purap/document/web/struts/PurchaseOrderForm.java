@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation;
@@ -32,7 +31,8 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItemCapitalAsset;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
+import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
 import org.kuali.kfs.module.purap.document.authorization.PurchasingDocumentActionAuthorizer;
@@ -66,6 +66,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     
     private String splitNoteText;
 
+    // Assign Sensitive Data related fields
+    private boolean assigningSensitiveData = false; // flag to indicate whether the form is currently used for assigning sensitive data to the PO
+    private String sensitiveDataAssignmentReason = null; // reason for current assignment of sensitive data to the PO
+    private SensitiveDataAssignment lastSensitiveDataAssignment = null; // last sensitive data assignment info for the PO
+    private SensitiveData newSensitiveDataLine = null; // new sensitive data entry to be added to the PO
+    private List<SensitiveData> sensitiveDatasAssigned = null;  // sensitive data entries currently assigned to the PO
+
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -76,7 +83,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         this.accountingLineEditingMode = new HashMap();
-
     }
 
     public Map getAccountingLineEditingMode() {
@@ -136,22 +142,78 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
     
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
-        super.populateHeaderFields(workflowDocument);
-        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available"));
-        }
-        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription()));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available"));
-        }
+    public PurchasingDocumentActionAuthorizer getAuth() {
+        return auth;
     }
 
+    public void setAuth(PurchaseOrderDocumentActionAuthorizer auth) {
+        this.auth = auth;
+    }
+
+    public String getSplitNoteText() {
+        return splitNoteText;
+    }
+
+    public void setSplitNoteText(String splitNoteText) {
+        this.splitNoteText = splitNoteText;
+    }       
+
+    public boolean isAssigningSensitiveData() {
+        return assigningSensitiveData;
+    }
+
+    public void setAssigningSensitiveData(boolean assigningSensitiveData) {
+        this.assigningSensitiveData = assigningSensitiveData;
+    }
+    
+    public String getSensitiveDataAssignmentReason() {
+        return sensitiveDataAssignmentReason;
+    }
+
+    public void setSensitiveDataAssignmentReason(String sensitiveDataAssignmentReason) {
+        this.sensitiveDataAssignmentReason = sensitiveDataAssignmentReason;
+    }
+
+    public SensitiveDataAssignment getLastSensitiveDataAssignment() {
+        return lastSensitiveDataAssignment;
+    }
+
+    public void setLastSensitiveDataAssignment(SensitiveDataAssignment lastSensitiveDataAssignment) {
+        this.lastSensitiveDataAssignment = lastSensitiveDataAssignment;
+    }
+
+    public SensitiveData getNewSensitiveDataLine() {
+        return newSensitiveDataLine;
+    }
+
+    public void setNewSensitiveDataLine(SensitiveData newSensitiveDataLine) {
+        this.newSensitiveDataLine = newSensitiveDataLine;
+    }
+
+    public List<SensitiveData> getSensitiveDatasAssigned() {
+        return sensitiveDatasAssigned;
+    }
+
+    public void setSensitiveDatasAssigned(List<SensitiveData> poSensitiveData) {
+        this.sensitiveDatasAssigned = poSensitiveData;
+    }
+    
+    @Override
+    public Class getCapitalAssetLocationClass() {
+        return PurchaseOrderCapitalAssetLocation.class;
+    }
+
+    @Override
+    public Class getItemCapitalAssetClass() {
+        return PurchaseOrderItemCapitalAsset.class;
+    }
+
+    @Override
+    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
+        CapitalAssetLocation location = new RequisitionCapitalAssetLocation();
+        return location;
+    }    
+    
     /**
      * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#setupNewPurchasingItemLine()
      */
@@ -194,6 +256,45 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         return aPurchaseOrderVendorStipulationLine;
     }
 
+
+    @Override
+    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", ((PurchaseOrderDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", "Not Available"));
+        }
+        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getStatus())) {
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", ((PurchaseOrderDocument) this.getDocument()).getStatus().getStatusDescription()));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.statusCode", "Not Available"));
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
+
+        // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
+        po.getDocumentBusinessObject();
+        
+        super.populate(request);
+        
+        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
+            po.refreshDocumentBusinessObject();
+        }
+
+        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
+            note.refreshReferenceObject("attachment");
+        }        
+    }
+    
     /**
      * Override the superclass method to add appropriate buttons for
      * PurchaseOrderDocument.
@@ -206,17 +307,24 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // remove this if condition to accomodate the change from request to scope obj, so that auth always gets refreshed; 
         // otherwise extra buttons won't show correctly
         //if (auth == null) { 
-            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
-        //    
+        PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
+        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+            
         //add buttons from purapformbase
-        super.getExtraButtons();
-        
-        Map buttonsMap = createButtonsMap();
-
-        
+        super.getExtraButtons();        
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
+        Map buttonsMap = createButtonsMap();                    
         
+        // no other extra buttons except the following shall appear on "Assign Sensitive Data" page
+        if (isAssigningSensitiveData()) {
+            extraButtons.clear();
+            ExtraButton submitSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.submitSensitiveData");
+            extraButtons.add(submitSensitiveDataButton);
+            ExtraButton cancelSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.cancelSensitiveData");
+            extraButtons.add(cancelSensitiveDataButton);
+            return extraButtons;
+        }
+                
         if (auth.canRetransmit()) {
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
             extraButtons.add(retransmitButton);
@@ -285,8 +393,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         
         if (auth.canAssignSensitiveData()){
-            ExtraButton sensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData");
-            extraButtons.add(sensitiveDataButton);
+            ExtraButton assignSensitiveDataButton = (ExtraButton) buttonsMap.get("methodToCall.assignSensitiveData");
+            extraButtons.add(assignSensitiveDataButton);
         }
 
         return extraButtons;
@@ -385,10 +493,22 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         cancelSplitButton.setExtraButtonAltText("Cancel Splitting the PO");
         
         // Assign Sensitive Data button
-        ExtraButton sensitiveDataButton = new ExtraButton();
-        sensitiveDataButton.setExtraButtonProperty("methodToCall.assignSensitiveData");
-        sensitiveDataButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_sensitivedata.gif ");
-        sensitiveDataButton.setExtraButtonAltText("Assign sensitive data to the PO");
+        ExtraButton assignSensitiveDataButton = new ExtraButton();
+        assignSensitiveDataButton.setExtraButtonProperty("methodToCall.assignSensitiveData");
+        assignSensitiveDataButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_sensitivedata.gif ");
+        assignSensitiveDataButton.setExtraButtonAltText("Assign sensitive data to the PO");
+        
+        // Submit Sensitive Data Assignment button
+        ExtraButton submitSensitiveDataButton = new ExtraButton();
+        submitSensitiveDataButton.setExtraButtonProperty("methodToCall.submitSensitiveData");
+        submitSensitiveDataButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_submit.gif");
+        submitSensitiveDataButton.setExtraButtonAltText("Submit sensitive data assignment");
+        
+        // Cancel Sensitive Data Assignment button
+        ExtraButton cancelSensitiveDataButton = new ExtraButton();
+        cancelSensitiveDataButton.setExtraButtonProperty("methodToCall.cancelSensitiveData");
+        cancelSensitiveDataButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
+        cancelSensitiveDataButton.setExtraButtonAltText("Cancel sensitive data assignment");
         
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
@@ -403,64 +523,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(splitPoButton.getExtraButtonProperty(), splitPoButton);
         result.put(continueButton.getExtraButtonProperty(), continueButton);
         result.put(cancelSplitButton.getExtraButtonProperty(), cancelSplitButton);
-        result.put(sensitiveDataButton.getExtraButtonProperty(), sensitiveDataButton);
+        result.put(assignSensitiveDataButton.getExtraButtonProperty(), assignSensitiveDataButton);
+        result.put(submitSensitiveDataButton.getExtraButtonProperty(), submitSensitiveDataButton);
+        result.put(cancelSensitiveDataButton.getExtraButtonProperty(), cancelSensitiveDataButton);
         
         return result;
     }
-
-    /**
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void populate(HttpServletRequest request) {
-        PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
-
-        // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        po.getDocumentBusinessObject();
-        
-        super.populate(request);
-        
-        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
-            po.refreshDocumentBusinessObject();
-        }
-
-        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
-            note.refreshReferenceObject("attachment");
-        }
-        
-    }
     
-    @Override
-    public PurchasingDocumentActionAuthorizer getAuth() {
-        return auth;
-    }
-
-    public void setAuth(PurchaseOrderDocumentActionAuthorizer auth) {
-        this.auth = auth;
-    }
-
-    public String getSplitNoteText() {
-        return splitNoteText;
-    }
-
-    public void setSplitNoteText(String splitNoteText) {
-        this.splitNoteText = splitNoteText;
-    }
-
-    @Override
-    public Class getCapitalAssetLocationClass() {
-        return PurchaseOrderCapitalAssetLocation.class;
-    }
-
-    @Override
-    public Class getItemCapitalAssetClass() {
-        return PurchaseOrderItemCapitalAsset.class;
-    }
-
-    @Override
-    public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
-        CapitalAssetLocation location = new RequisitionCapitalAssetLocation();
-        return location;
-    }
-
 }

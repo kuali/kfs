@@ -156,7 +156,7 @@
     <field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="purchasingCommodityCode" column="PUR_COMM_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="itemSalesTaxAmount" column="ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	
+
     <reference-descriptor name="purapDocument" class-ref="org.kuali.kfs.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="purapDocumentIdentifier" />
     </reference-descriptor>
@@ -3008,6 +3008,9 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER" />
+	<reference-descriptor name="sensitiveData" class-ref="org.kuali.kfs.module.purap.businessobject.SensitiveData" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="sensitiveDataCode" />
+    </reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment" table="PUR_SNSTV_DTA_ASGN_T">
@@ -3021,7 +3024,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" table="PUR_SNSTV_DTA_ASGN_DTL_T">
-	<field-descriptor name="sensitiveDataAssignmentIdentifier" column="SNSTV_DTA_ASGN_ID" jdbc-type="INTEGER" primarykey="true" index="true"  />
+	<field-descriptor name="sensitiveDataAssignmentIdentifier" column="SNSTV_DTA_ASGN_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="sensitiveDataCode" column="SNSTV_DTA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

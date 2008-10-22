@@ -4,47 +4,34 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="SensitiveDataAssignmentDetail"
-		parent="SensitiveDataAssignmentDetail-parentBean" />
+	<bean id="SensitiveDataAssignmentDetail" parent="SensitiveDataAssignmentDetail-parentBean" />
 
-	<bean id="SensitiveDataAssignmentDetail-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" />
-		<!-- <property name="inquiryDefinition">
+	<bean id="SensitiveDataAssignmentDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail" />
+		<!-- 
+		<property name="inquiryDefinition">
 			<ref bean="SensitiveDataAssignmentDetail-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="SensitiveDataAssignmentDetail-lookupDefinition" />
-		</property> -->
-		<property name="titleAttribute"
-			value="SensitiveDataAssignmentDetailCode" />
-		<property name="objectLabel"
-			value="Delivery Required Date Reason" />
+		</property> 
+		-->
+		<property name="titleAttribute" value="sensitiveDataCode" />
+		<property name="objectLabel" value="sensitive Data Assignment Detail" />
 		<property name="attributes">
 			<list>
-				<ref
-					bean="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier" />
-				<ref
-					bean="SensitiveDataAssignmentDetail-sensitiveDataCode" />
+				<ref bean="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier" />
+				<ref bean="SensitiveDataAssignmentDetail-sensitiveDataCode" />
 			</list>
 		</property>
 	</bean>
 
-	<bean
-		id="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier"
-		parent="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier-parentBean" />
+<!-- Attribute Definitions -->
 
-	<bean
-		id="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier-parentBean"
-		abstract="true" parent="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" />
+	<bean id="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier" parent="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier-parentBean" />
+	<bean id="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier-parentBean" abstract="true" parent="SensitiveDataAssignment-sensitiveDataAssignmentIdentifier" />
 
-
-	<bean id="SensitiveDataAssignmentDetail-sensitiveDataCode"
-		parent="SensitiveDataAssignmentDetail-sensitiveDataCode-parentBean" />
-
-	<bean
-		id="SensitiveDataAssignmentDetail-sensitiveDataCode-parentBean"
-		abstract="true" parent="SensitiveData-sensitiveDataCode" />
+	<bean id="SensitiveDataAssignmentDetail-sensitiveDataCode" parent="SensitiveDataAssignmentDetail-sensitiveDataCode-parentBean" />
+	<bean id="SensitiveDataAssignmentDetail-sensitiveDataCode-parentBean" abstract="true" parent="SensitiveData-sensitiveDataCode" />
 
 </beans>

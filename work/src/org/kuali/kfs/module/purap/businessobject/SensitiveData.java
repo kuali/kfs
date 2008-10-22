@@ -64,15 +64,6 @@ public class SensitiveData extends PersistableBusinessObjectBase implements Purc
         this.active = active;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("restrictedMaterialCode", this.sensitiveDataCode);
-        return m;
-    }
-
     public boolean isSelected() {
         return selected;
     }
@@ -81,5 +72,13 @@ public class SensitiveData extends PersistableBusinessObjectBase implements Purc
         this.selected = isSelected;
     }
 
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("restrictedMaterialCode", this.sensitiveDataCode);
+        return m;
+    }
 
 }

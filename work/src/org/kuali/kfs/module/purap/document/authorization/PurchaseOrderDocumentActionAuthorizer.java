@@ -356,7 +356,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      */
     public boolean canAssignSensitiveData() {
         //TODO add workgroup auth check
-        return true;
+        return isUserAuthorized;
     }
     
     

@@ -273,7 +273,7 @@
         </property>      
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
-        </property> 
+        </property>             
         <property name="purapAccountingService">
             <ref bean="purapAccountingService" />
         </property>                
@@ -698,6 +698,14 @@
 	    <property name="schemaLocation">
 	       <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
 	    </property>
+	</bean>
+	
+	<bean id="sensitiveDataDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.SensitiveDataDaoOjb"/>
+	
+	<bean id="sensitiveDataService" class="org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl">
+		<property name="sensitiveDataDao">
+		    <ref bean="sensitiveDataDao" />
+		</property>
 	</bean>
 	
 </beans>

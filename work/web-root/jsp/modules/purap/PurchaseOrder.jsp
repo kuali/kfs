@@ -44,13 +44,23 @@
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
      
-	<c:if test="${splittingItemSelectionMode}">
+    <c:choose> 
+	<c:when test="${KualiForm.assigningSensitiveData}">
+		<purap:assignSensitiveData
+			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
+	        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+	        sensitiveDataAttributes="${DataDictionary.SensitiveData.attributes}"
+	        poSensitiveDataAttributes="${DataDictionary.PurchaseOrderSensitiveData.attributes}"
+	        sensitiveDataAssignAttributes="${DataDictionary.SensitiveDataAssignment.attributes}" />
+    </c:when>
+        
+	<c:when test="${splittingItemSelectionMode}">
 		<purap:splitPurchaseOrder
 			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 	        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}" />
-    </c:if>
-        
-    <c:if test="${not splittingItemSelectionMode}">
+    </c:when>
+
+    <c:otherwise>
 		<c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
 			<kfs:documentOverview editingMode="${KualiForm.editingMode}"
 		    	includePostingYear="true"
@@ -149,13 +159,23 @@
 		    <kul:routeLog />
 		
 		</c:if>
-	</c:if>
+	</c:otherwise>
+	</c:choose>
 	
     <kul:panelFooter />
 
-    <kfs:documentControls 
-        transactionalDocument="true" 
-        extraButtons="${KualiForm.extraButtons}" />
-
+	<c:choose>
+		<c:when test="${KualiForm.assigningSensitiveData}">
+    		<kfs:documentControls 
+        		transactionalDocument="true" 
+        		extraButtons="${KualiForm.extraButtons}"
+        		suppressRoutingControls="true" />
+		</c:when>
+		<c:otherwise>
+    		<kfs:documentControls 
+        		transactionalDocument="true" 
+        		extraButtons="${KualiForm.extraButtons}" />
+		</c:otherwise>
+	</c:choose>
 
 </kul:documentPage>

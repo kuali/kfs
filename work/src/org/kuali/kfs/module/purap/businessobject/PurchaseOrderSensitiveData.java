@@ -19,47 +19,49 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class PurchaseOrderSensitiveData  extends PersistableBusinessObjectBase {
+public class PurchaseOrderSensitiveData extends PersistableBusinessObjectBase {
 
+    private  Integer purapDocumentIdentifier;
     private  Integer requisitionIdentifier;
     private  String sensitiveDataCode;
-    private  Integer purapDocumentIdentifier;
-    
-    
+        
+    private SensitiveData sensitiveData;
+
     public Integer getPurapDocumentIdentifier() {
         return purapDocumentIdentifier;
     }
 
-
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
-
-
     public Integer getRequisitionIdentifier() {
         return requisitionIdentifier;
     }
-
 
     public void setRequisitionIdentifier(Integer requisitionIdentifier) {
         this.requisitionIdentifier = requisitionIdentifier;
     }
 
-
     public String getSensitiveDataCode() {
         return sensitiveDataCode;
     }
 
-
     public void setSensitiveDataCode(String sensitiveDataCode) {
         this.sensitiveDataCode = sensitiveDataCode;
     }
+    
+    public SensitiveData getSensitiveData() {
+        return sensitiveData;
+    }
 
+    public void setSensitiveData(SensitiveData sensitiveData) {
+        this.sensitiveData = sensitiveData;
+    }
 
     protected LinkedHashMap toStringMapper() {
-            LinkedHashMap m = new LinkedHashMap();
-            m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
-            return m;
-        }
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
+        return m;
+    }
 
 }

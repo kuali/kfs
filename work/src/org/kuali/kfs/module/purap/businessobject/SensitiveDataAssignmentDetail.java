@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class SensitiveDataAssignmentDetail   extends PersistableBusinessObjectBase {
+public class SensitiveDataAssignmentDetail extends PersistableBusinessObjectBase {
 
     private  Integer sensitiveDataAssignmentIdentifier;
     private  String sensitiveDataCode;
@@ -31,45 +31,37 @@ public class SensitiveDataAssignmentDetail   extends PersistableBusinessObjectBa
         return sensitiveDataAssignmentIdentifier;
     }
 
-
     public void setSensitiveDataAssignmentIdentifier(Integer sensitiveDataAssignmentIdentifier) {
         this.sensitiveDataAssignmentIdentifier = sensitiveDataAssignmentIdentifier;
     }
-
 
     public String getSensitiveDataCode() {
         return sensitiveDataCode;
     }
 
-
     public void setSensitiveDataCode(String sensitiveDataCode) {
         this.sensitiveDataCode = sensitiveDataCode;
     }
-
 
     public SensitiveData getSensitiveData() {
         return sensitiveData;
     }
 
-
     public void setSensitiveData(SensitiveData sensitiveData) {
         this.sensitiveData = sensitiveData;
     }
-
 
     public SensitiveDataAssignment getSensitiveDataAssignment() {
         return sensitiveDataAssignment;
     }
 
-
     public void setSensitiveDataAssignment(SensitiveDataAssignment sensitiveDataAssignment) {
         this.sensitiveDataAssignment = sensitiveDataAssignment;
     }
 
-
     protected LinkedHashMap toStringMapper() {
-            LinkedHashMap m = new LinkedHashMap();
-            m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
-            return m;
-        }
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
+        return m;
+    }
 }

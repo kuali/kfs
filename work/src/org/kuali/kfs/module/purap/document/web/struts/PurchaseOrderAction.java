@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +45,12 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
+import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
+import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
@@ -54,6 +59,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
 import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
+import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -61,6 +67,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -578,7 +585,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
     
     /**
-     * Invoked when am authorized user presses "Sensitive Data" on the purchase order page.
+     * Invoked when an authorized user presses "Sensitive Data" button on the purchase order page.
      * 
      * @param mapping       An ActionMapping
      * @param form          An ActionForm
@@ -590,13 +597,157 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward assignSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Assign Sensitive Data started");
         
-        PurchaseOrderForm purchaseOrderForm = (PurchaseOrderForm)form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument)purchaseOrderForm.getDocument();        
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
+        Integer poId = po.getPurapDocumentIdentifier();
+        SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
+        // set the assignment flag and reset input fields
+        poForm.setAssigningSensitiveData(true);     
+        poForm.setSensitiveDataAssignmentReason("");
+        poForm.setNewSensitiveDataLine(new SensitiveData());
+        
+        // load previous assignment info
+        SensitiveDataAssignment sda = sdService.getLastSensitiveDataAssignment(poId);
+        poForm.setLastSensitiveDataAssignment(sda);
+        
+        // even though at this point, the sensitive data entries should have been loaded into the form already, 
+        // we still load it again in case that someone else has changed that during the time period 
+        List<SensitiveData> posds = sdService.getSensitiveDatasAssignedByPoId(poId);
+        poForm.setSensitiveDatasAssigned(posds);    
+                
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
         
+    /**
+     * Invoked when an authorized user presses "Submit" button on the "Assign Sensitive Data" page.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
+    public ActionForward submitSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Process Sensitive Data started");
+        
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
+        Integer poId = po.getPurapDocumentIdentifier();
+        List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
+        SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
+        
+        // update table SensitiveDataAssignment
+        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        SensitiveDataAssignment sda = new SensitiveDataAssignment();
+        /*
+        //TODO remove the following 2 lines
+        int sdaId = poForm.getLastSensitiveDataAssignment() == null ? 0 : poForm.getLastSensitiveDataAssignment().getSensitiveDataAssignmentIdentifier() + 1;
+        sda.setSensitiveDataAssignmentIdentifier(poId*10000+sdaId);
+        */
+        sda.setPurapDocumentIdentifier(poId);
+        sda.setSensitiveDataAssignmentReasonText(poForm.getSensitiveDataAssignmentReason());
+        sda.setSensitiveDataAssignmentChangeDate(currentDate);
+        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPersonUserIdentifier());
+        sdService.saveSensitiveDataAssignment(sda);        
 
+        // update table SensitiveDataAssignmentDetail
+        Integer sdaId = sdService.getLastSensitiveDataAssignmentId(poId);
+        List<SensitiveDataAssignmentDetail> sdads = new ArrayList<SensitiveDataAssignmentDetail>();
+        for (SensitiveData sd : sds) {
+            SensitiveDataAssignmentDetail sdad = new SensitiveDataAssignmentDetail();
+            sdad.setSensitiveDataAssignmentIdentifier(sdaId);
+            sdad.setSensitiveDataCode(sd.getSensitiveDataCode());
+            sdads.add(sdad);
+        }
+        sdService.saveSensitiveDataAssignmentDetails(sdads);        
+        
+        // update table PurchaseOrderSensitiveData
+        sdService.deletePurchaseOrderSensitiveDatas(poId);
+        List<PurchaseOrderSensitiveData> posds = new ArrayList();
+        for (SensitiveData sd : sds) {
+            PurchaseOrderSensitiveData posd = new PurchaseOrderSensitiveData();
+            posd.setPurapDocumentIdentifier(poId);
+            posd.setRequisitionIdentifier(po.getRequisitionIdentifier());
+            posd.setSensitiveDataCode(sd.getSensitiveDataCode());
+            posds.add(posd);
+        }
+        sdService.savePurchaseOrderSensitiveDatas(posds);
+                
+        // reset the sensitive data related fields in the po form
+        poForm.setAssigningSensitiveData(false);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }          
+
+    /**
+     * Invoked when an authorized user presses "Cancel" button on the "Assign Sensitive Data" page.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
+    public ActionForward cancelSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Cancel Sensitive Data started");
+        
+        // reset the sensitive data flag in the po form, reload sensitive data from database to undo the canceled changes
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
+        poForm.setAssigningSensitiveData(false);
+        List<SensitiveData> posds = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByPoId(po.getPurapDocumentIdentifier());
+        poForm.setSensitiveDatasAssigned(posds);        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }                  
+    
+    /**
+     * Invoked when an authorized user presses "Add" button on the "Assign Sensitive Data" page.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
+    public ActionForward addSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Add Sensitive Data started");
+        
+        // reset the sensitive data related fields in the po form
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
+        sds.add(poForm.getNewSensitiveDataLine());
+        poForm.setNewSensitiveDataLine(new SensitiveData());        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }                  
+    
+    /**
+     * Invoked when an authorized user presses "Delete" button on the "Assign Sensitive Data" page.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          An ActionForm
+     * @param request       The HttpServeletRequest
+     * @param response      The HttpServeletResponse
+     * @return              An ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Delete Sensitive Data started");
+        
+        // reset the sensitive data related fields in the po form
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
+        sds.remove(getSelectedLine(request));      
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }                  
+    
     /**
      * This is a utility method used to prepare to and to return to a previous page, making sure that the buttons will be restored
      * in the process.
@@ -1634,11 +1785,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        PurchaseOrderForm form = (PurchaseOrderForm) kualiDocumentFormBase;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) form.getDocument();
-        form.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        PurchaseOrderForm poForm = (PurchaseOrderForm) kualiDocumentFormBase;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) poForm.getDocument();
+        poForm.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
-       
+
+        // load sensitive data from DB into the form whenever PO is loaded
+        List<SensitiveData> posds = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByPoId(po.getPurapDocumentIdentifier());
+        poForm.setSensitiveDatasAssigned(posds);       
     }
     
     /**

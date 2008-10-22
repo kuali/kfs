@@ -8,14 +8,14 @@
 
   <bean id="SensitiveData-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.SensitiveData" />
-     <property name="inquiryDefinition" >
+    <property name="inquiryDefinition" >
       <ref bean="SensitiveData-inquiryDefinition" />
     </property>
     <property name="lookupDefinition" >
       <ref bean="SensitiveData-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="SensitiveDataCode" />
-    <property name="objectLabel" value="Restricted Material" />
+    <property name="titleAttribute" value="sensitiveDataCode" />
+    <property name="objectLabel" value="Sensitive Data" />
     <property name="attributes" >
       <list>
         <ref bean="SensitiveData-sensitiveDataCode" />
@@ -35,23 +35,29 @@
     <property name="name" value="sensitiveDataCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Sensitive Data Code" />
-    <property name="shortLabel" value="Code" />
+    <property name="shortLabel" value="Sensitive Code" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
+	<!--    
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.SensitiveDataValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    -->  
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
   </bean>
-  
   <bean id="SensitiveData-sensitiveDataDescription" parent="SensitiveData-sensitiveDataDescription-parentBean" />
 
   <bean id="SensitiveData-sensitiveDataDescription-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="sensitiveDataDescription" />
     <property name="label" value="Sensitive Data Description" />
-    <property name="shortLabel" value="Description" />
+    <property name="shortLabel" value="Sensitive Description" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
@@ -90,14 +96,14 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
+          <property name="title" value="Sensitive Data" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="SensitiveDataCode" />
+                    p:attributeName="sensitiveDataCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="SensitiveDataDescription" />
+                    p:attributeName="sensitiveDataDescription" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>

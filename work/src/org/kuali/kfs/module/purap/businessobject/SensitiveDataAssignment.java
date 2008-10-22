@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class SensitiveDataAssignment  extends PersistableBusinessObjectBase {
+public class SensitiveDataAssignment extends PersistableBusinessObjectBase {
 
     private  Integer sensitiveDataAssignmentIdentifier;
     private  Integer purapDocumentIdentifier;
@@ -29,52 +29,37 @@ public class SensitiveDataAssignment  extends PersistableBusinessObjectBase {
     private  Date sensitiveDataAssignmentChangeDate;
     
     
-    protected LinkedHashMap toStringMapper() {
-            LinkedHashMap m = new LinkedHashMap();
-            m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
-            return m;
-        }
-
-
     public Integer getPurapDocumentIdentifier() {
         return purapDocumentIdentifier;
     }
-
 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
-
     public Date getSensitiveDataAssignmentChangeDate() {
         return sensitiveDataAssignmentChangeDate;
     }
-
 
     public void setSensitiveDataAssignmentChangeDate(Date sensitiveDataAssignmentChangeDate) {
         this.sensitiveDataAssignmentChangeDate = sensitiveDataAssignmentChangeDate;
     }
 
-
     public Integer getSensitiveDataAssignmentIdentifier() {
         return sensitiveDataAssignmentIdentifier;
     }
-
 
     public void setSensitiveDataAssignmentIdentifier(Integer sensitiveDataAssignmentIdentifier) {
         this.sensitiveDataAssignmentIdentifier = sensitiveDataAssignmentIdentifier;
     }
 
-
     public String getSensitiveDataAssignmentPersonIdentifier() {
         return sensitiveDataAssignmentPersonIdentifier;
     }
 
-
     public void setSensitiveDataAssignmentPersonIdentifier(String sensitiveDataAssignmentPersonIdentifier) {
         this.sensitiveDataAssignmentPersonIdentifier = sensitiveDataAssignmentPersonIdentifier;
     }
-
 
     public String getSensitiveDataAssignmentReasonText() {
         return sensitiveDataAssignmentReasonText;
@@ -85,4 +70,9 @@ public class SensitiveDataAssignment  extends PersistableBusinessObjectBase {
         this.sensitiveDataAssignmentReasonText = sensitiveDataAssignmentReasonText;
     }
 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("sensitiveDataAssignmentIdentifier", this.sensitiveDataAssignmentIdentifier);
+        return m;
+    }   
 }

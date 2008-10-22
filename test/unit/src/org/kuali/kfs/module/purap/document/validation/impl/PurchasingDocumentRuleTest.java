@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
 import org.kuali.kfs.module.purap.fixture.DeliveryRequiredDateFixture;
 import org.kuali.kfs.module.purap.fixture.ItemFieldsFixture;
@@ -44,9 +45,11 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCode
 import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.module.purap.fixture.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCapitalAssetItemsFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentWithCommodityCodeFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -364,5 +367,15 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         accountingLines.add(new RequisitionAccount());
         item.setSourceAccountingLines(accountingLines);
         assertFalse(rules.validateBelowTheLineItemNoUnitCost(item));
+    }
+    
+    public void testValidateOneSystemCapitalAssetSystemChartsRequiringParameters() {
+        RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);   
+        assertTrue(rules.processCapitalAssetValidation(requisition));
+        
+        //BA is one of the chart code that requires some fields (e.g. comments) to be filled in.
+        requisition.setChartOfAccountsCode("BA");
+        assertFalse(rules.processCapitalAssetValidation(requisition));
     }
 }

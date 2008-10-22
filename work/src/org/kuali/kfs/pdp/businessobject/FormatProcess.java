@@ -39,6 +39,25 @@ public class FormatProcess extends TimestampedBusinessObjectBase {
 
     private String physicalCampusProcessCode; // PHYS_CMP_PROC_CD
     private Timestamp beginFormat; // BEG_FMT_TS
+    private int paymentProcIdentifier;
+    
+    private PaymentProcess paymentProcess;
+
+    public PaymentProcess getPaymentProcess() {
+        return paymentProcess;
+    }
+
+    public void setPaymentProcess(PaymentProcess paymentProcess) {
+        this.paymentProcess = paymentProcess;
+    }
+
+    public int getPaymentProcIdentifier() {
+        return paymentProcIdentifier;
+    }
+
+    public void setPaymentProcIdentifier(int paymentProcIdentifier) {
+        this.paymentProcIdentifier = paymentProcIdentifier;
+    }
 
     public FormatProcess() {
         super();

@@ -21,6 +21,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <ref bean="FormatProcess-physicalCampusProcessCode" />
         <ref bean="FormatProcess-beginFormat" />
+        <ref bean="FormatProcess-paymentProcIdentifier" />
       </list>
     </property>
   </bean>
@@ -52,6 +53,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="shortLabel" value="Begin Process Date" />
   </bean>
   
+  <bean id="FormatProcess-paymentProcIdentifier" parent="FormatProcess-paymentProcIdentifier-parentBean" />
+  
+  <bean id="FormatProcess-paymentProcIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId" >
+  	<property name="name" value="paymentProcIdentifier" />
+  	<property name="shortLabel" value="Proc Id" />
+  	<property name="label" value="Payment Proc Identifier" />
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -70,6 +79,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                     p:attributeName="physicalCampusProcessCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="beginFormat" />
+              <bean parent="FieldDefinition"
+              		p:attributeName="paymentProcIdentifier" />
               
             </list>
           </property>
@@ -100,7 +111,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="physicalCampusProcessCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="beginFormat" />             
+              p:attributeName="beginFormat" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentProcIdentifier" />            
       </list>
     </property>
     <property name="resultFields" >
@@ -108,7 +121,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="physicalCampusProcessCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="beginFormat" />             
+              p:attributeName="beginFormat" /> 
+        <bean parent="FieldDefinition"
+              p:attributeName="paymentProcIdentifier" />            
       </list>
     </property>
   </bean>

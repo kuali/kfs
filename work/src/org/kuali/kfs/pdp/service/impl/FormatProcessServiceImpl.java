@@ -25,7 +25,6 @@ import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 import org.kuali.kfs.pdp.service.FormatProcessService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -35,7 +34,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class FormatProcessServiceImpl implements FormatProcessService {
     
-    private FormatProcessDao formatProcessDao;
     private BusinessObjectService businessObjectService;
     
     /**
@@ -74,23 +72,7 @@ public class FormatProcessServiceImpl implements FormatProcessService {
             return null;
         }
     }
-
-    /**
-     * This method gets the format process dao.
-     * @return
-     */
-    public FormatProcessDao getFormatProcessDao() {
-        return formatProcessDao;
-    }
-
-    /**
-     * This method sets the format process dao.
-     * @param formatProcessDao
-     */
-    public void setFormatProcessDao(FormatProcessDao formatProcessDao) {
-        this.formatProcessDao = formatProcessDao;
-    }
-    
+  
     /**
      * Sets the business object service
      * 

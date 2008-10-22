@@ -48,7 +48,6 @@ import org.kuali.kfs.pdp.businessobject.PostFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.PreFormatProcessSummary;
 import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
-import org.kuali.kfs.pdp.dataaccess.FormatProcessDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
@@ -78,7 +77,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FormatServiceImpl implements FormatService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatServiceImpl.class);
 
-    private FormatProcessDao formatProcessDao;
     private PaymentDetailDao paymentDetailDao;
     private PaymentGroupDao paymentGroupDao;
     private ProcessSummaryDao processSummaryDao;
@@ -698,14 +696,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setProcessDao(ProcessDao pd) {
         processDao = pd;
-    }
-
-    /**
-     * This method...
-     * @param fpd
-     */
-    public void setFormatProcessDao(FormatProcessDao fpd) {
-        formatProcessDao = fpd;
     }
 
     /**

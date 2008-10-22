@@ -90,8 +90,6 @@
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 	</bean>
 
-	<bean id="pdpFormatProcessDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.FormatProcessDaoOjb"/>
-
 	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PendingTransactionDaoOjb"/>
 
 	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentDetailDaoOjb">
@@ -295,7 +293,6 @@
 	</bean>
 
 	<bean id="pdpFormatService" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl">
-		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="processSummaryDao" ref="pdpProcessSummaryDao"/>
@@ -311,7 +308,6 @@
 	</bean>
 	
 	<bean id="pdpFormatProcessService" class="org.kuali.kfs.pdp.service.impl.FormatProcessServiceImpl">
-		<property name="formatProcessDao" ref="pdpFormatProcessDao"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 

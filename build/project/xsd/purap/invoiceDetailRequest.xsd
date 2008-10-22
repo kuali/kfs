@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <xsd:schema elementFormDefault="qualified"
-    targetNamespace="http://www.kuali.org/kfs/purap/invoiceDetailRequest"
-    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
-    xmlns="http://www.kuali.org/kfs/purap/invoiceDetailRequest" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
-    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="@externalizable.static.content.url@/xsd/sys/types.xsd" />
+			xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+			targetNamespace="http://www.w3.org/XML/1998/namespace" 
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <xsd:attribute name="lang" type="xsd:language" />
   <xsd:attribute name="base" type="xsd:anyURI" />

@@ -173,10 +173,10 @@ public enum RequisitionItemFixture {
         requisitionDocument.addItem(item);
         //Just for unit tests, we need these following lines so that we could set the commodity codes active status to true/false
         //and set the restricted indicator to true/false as we need to.
-        if (item.getCommodityCode() != null) {
-            item.getCommodityCode().setActive(active);
-            item.getCommodityCode().setRestrictedItemsIndicator(restrictedItemsIndicator);
-        }
+        //if (item.getCommodityCode() != null) {
+        //    item.getCommodityCode().setActive(active);
+        //    item.getCommodityCode().setRestrictedItemsIndicator(restrictedItemsIndicator);
+        //}
         // iterate over the accounts
         for (RequisitionAccountingLineFixture requisitionAccountMultiFixture : requisitionAccountingLineFixtures) {
             requisitionAccountMultiFixture.addTo(item);

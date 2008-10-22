@@ -30,6 +30,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.suite.RelatesTo;
+import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.document.Document;
@@ -100,6 +102,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         assertMatch(eirDoc, result);
     }
 
+    @RelatesTo(JiraIssue.KULPURAP3045)
     public final void testSaveDocumentWithMatchingPO() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
         BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();

@@ -75,7 +75,7 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         }
         
         radioButton.append(" title=\"");
-        radioButton.append(getField().getFieldLabel());
+        radioButton.append(this.getAccessibleTitle());
         radioButton.append("\"");
         
         radioButton.append(" name=\"");

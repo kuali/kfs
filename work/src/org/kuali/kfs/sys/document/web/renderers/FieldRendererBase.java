@@ -38,6 +38,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
     private int arbitrarilyHighTabIndex = -1;
     private String onBlur;
     private boolean showError;
+    private String accessibleTitle;
 
     /**
      * Sets the field to render
@@ -78,7 +79,15 @@ public abstract class FieldRendererBase implements FieldRenderer {
      * @return an accessible title for the field to render
      */
     protected String getAccessibleTitle() {
-        return field.getFieldLabel();
+        return accessibleTitle;
+    }
+    
+    /**
+     * Sets the accessible title of the current field 
+     * @param accessibleTitle the given the accessible title 
+     */
+    public void setAccessibleTitle(String accessibleTitle) {
+        this.accessibleTitle = accessibleTitle;
     }
     
     /**

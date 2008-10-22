@@ -767,4 +767,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DEPOSIT_NOT_SUPPORTED = "error.document.bank.depositNotSupported";
         public static final String ERROR_DISBURSEMENT_NOT_SUPPORTED = "error.document.bank.disbursementNotSupported";      
     }
+    
+    public static final String LABEL_NEW_ACCOUNTING_LINE_FIELD = "accounting.line.field.newLine.label";
+    public static final String LABEL_ACCOUNTING_LINE_FIELD = "accounting.line.field.line.label";
 }

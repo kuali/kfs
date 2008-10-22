@@ -74,7 +74,7 @@ public class DateRenderer extends TextRenderer {
         dateImage.append(getField().getFieldLabel());
         dateImage.append("\" ");
         dateImage.append("alt=\"Date selector for ");
-        dateImage.append(getField().getFieldLabel());
+        dateImage.append(this.getAccessibleTitle());
         dateImage.append("\" ");
         dateImage.append("onmouseover=\"this.style.backgroundColor='red';\" ");
         dateImage.append("onmouseout=\"this.style.backgroundColor='transparent';\"");

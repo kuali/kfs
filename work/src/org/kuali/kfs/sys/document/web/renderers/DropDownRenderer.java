@@ -64,7 +64,7 @@ public class DropDownRenderer extends FieldRendererBase {
         selectControl.append("\" ");
         
         selectControl.append(" title=\"");
-        selectControl.append(getField().getFieldLabel());
+        selectControl.append(this.getAccessibleTitle());
         selectControl.append("\"");
         
         final String onBlur = buildOnBlur();

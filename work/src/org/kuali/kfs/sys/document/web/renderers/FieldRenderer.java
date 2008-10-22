@@ -77,4 +77,10 @@ public interface FieldRenderer extends Renderer {
      * @param onBlur the onBlur value to set and return from buildOnBlur
      */
     public abstract void overrideOnBlur(String onBlur);
+    
+    /**
+     * Sets the accessible title of the current field 
+     * @param accessibleTitle the given the accessible title 
+     */
+    public abstract void setAccessibleTitle(String accessibleTitle);
 }

@@ -64,7 +64,7 @@ public class CheckboxRenderer extends FieldRendererBase {
         checkboxTag.setPageContext(pageContext);
         checkboxTag.setParent(parentTag);
         checkboxTag.setProperty(getFieldName());
-        checkboxTag.setTitle(getField().getFieldLabel());
+        checkboxTag.setTitle(this.getAccessibleTitle());
         checkboxTag.setOnblur(this.buildOnBlur());
         checkboxTag.setStyleId(getFieldName());
         if (!StringUtils.isBlank(getField().getPropertyValue())) {

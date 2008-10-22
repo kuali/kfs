@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.web;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
@@ -31,8 +33,10 @@ import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransforma
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.DynamicNameLabelRenderer;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
+import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -144,7 +148,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
-        renderField(pageContext, parentTag, renderingContext.getAccountingLine(), renderingContext.getAccountingLinePropertyPath(), renderingContext.getFieldNamesForAccountingLine(), renderingContext.getErrors());
+        renderField(pageContext, parentTag, renderingContext);
+        
         if (getOverrideFields() != null && getOverrideFields().size() > 0) {
             renderOverrideFields(pageContext, parentTag, renderingContext);
         }
@@ -157,20 +162,43 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * Renders the field portion of this tag
      * @param pageContext the page context to render to
      * @param parentTag the tag requesting rendering
-     * @param accountingLineProperty the property from the form to the accounting line
-     * @param fieldNames the names of all fields on this accounting line
+     * @param renderingContext the rendering context of the accounting line
+     * 
      * @throws JspException thrown if something goes wrong
      */
-    protected void renderField(PageContext pageContext, Tag parentTag, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames, List errors) throws JspException {
+    protected void renderField(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
+        AccountingLine accountingLine = renderingContext.getAccountingLine();
+        String accountingLineProperty = renderingContext.getAccountingLinePropertyPath();
+        List<String> fieldNames = renderingContext.getFieldNamesForAccountingLine();
+        List errors = renderingContext.getErrors();
+
         FieldRenderer renderer = SpringContext.getBean(AccountingLineRenderingService.class).getFieldRendererForField(getField(), accountingLine);
         if (renderer != null) {
             prepareFieldRenderer(renderer, getField(), accountingLine, accountingLineProperty, fieldNames);
             if (fieldInError(errors)) {
                 renderer.setShowError(true);
             }
+            
             if (!isHidden()) {
                 renderer.openNoWrapSpan(pageContext, parentTag);
             }
+                        
+            if(!(renderer instanceof ReadOnlyRenderer)) {
+                String accessibleTitle = getField().getFieldLabel(); 
+                
+                if(renderingContext.isNewLine()) {
+                    String format = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_NEW_ACCOUNTING_LINE_FIELD);
+                    accessibleTitle = MessageFormat.format(format, accessibleTitle, renderingContext.getGroupLabel());
+                }
+                else {
+                    Integer lineNumber = renderingContext.getCurrentLineCount() + 1;
+                    String format = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_FIELD);
+                    accessibleTitle = MessageFormat.format(format, accessibleTitle, renderingContext.getGroupLabel(), lineNumber);
+                }
+                
+                renderer.setAccessibleTitle(accessibleTitle);
+            }
+            
             renderer.render(pageContext, parentTag);
             if (!isHidden()) {
                 renderer.closeNoWrapSpan(pageContext, parentTag);

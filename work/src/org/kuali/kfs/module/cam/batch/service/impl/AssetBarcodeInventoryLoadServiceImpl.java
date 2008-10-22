@@ -443,14 +443,14 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, barcodeInventoryErrorDetail.getAssetTagNumber());
         Asset asset = ((List<Asset>) businessObjectService.findMatching(Asset.class, fieldValues)).get(0);
 
-        /*
-         * LOG.info("*********BEFORE *******************"); LOG.info("Asset:"+asset.getCapitalAssetNumber());
-         * LOG.info("BuildingCode:"+asset.getBuildingCode()); LOG.info("Room:"+asset.getBuildingRoomNumber());
-         * LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber()); LOG.info("Condition Code:"+asset.getConditionCode());
-         * LOG.info("************************************");
-         */
-
-
+//        LOG.info("*********BEFORE *******************"); 
+//        LOG.info("Asset:"+asset.getCapitalAssetNumber());
+//        LOG.info("BuildingCode:"+asset.getBuildingCode()); 
+//        LOG.info("Room:"+asset.getBuildingRoomNumber());
+//        LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber()); 
+//        LOG.info("Condition Code:"+asset.getConditionCode());
+//        LOG.info("************************************");
+         
         asset.setBuildingCode(barcodeInventoryErrorDetail.getBuildingCode());
         asset.setBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber());
         asset.setBuildingSubRoomNumber(barcodeInventoryErrorDetail.getBuildingSubRoomNumber());
@@ -460,16 +460,16 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
 
         // Updating asset information
         businessObjectService.save(asset);
-
         
-//          asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0); 
-//          LOG.info("********* After *******************"); 
-//          LOG.info("Asset:"+asset.getCapitalAssetNumber()); LOG.info("BuildingCode:"+asset.getBuildingCode());
-//          LOG.info("Room:"+asset.getBuildingRoomNumber()); 
-//          LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber());
-//          LOG.info("Condition Code:"+asset.getConditionCode()); 
-//          LOG.info("Last Inv Date:"+asset.getLastInventoryDate());
-//          LOG.info("************************************");
+//        asset = ((List<Asset>)businessObjectService.findMatching(Asset.class, fieldValues)).get(0); 
+//        LOG.info("********* After *******************"); 
+//        LOG.info("Asset:"+asset.getCapitalAssetNumber()); 
+//        LOG.info("BuildingCode:"+asset.getBuildingCode());
+//        LOG.info("Room:"+asset.getBuildingRoomNumber()); 
+//        LOG.info("SubRoom:"+asset.getBuildingSubRoomNumber());
+//        LOG.info("Condition Code:"+asset.getConditionCode()); 
+//        LOG.info("Last Inv Date:"+asset.getLastInventoryDate());
+//        LOG.info("************************************");
          
     }
 

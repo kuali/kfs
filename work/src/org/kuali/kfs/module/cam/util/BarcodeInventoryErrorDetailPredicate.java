@@ -18,9 +18,9 @@ package org.kuali.kfs.module.cam.util;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
-import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
 
 /**
  * 
@@ -28,7 +28,6 @@ import org.kuali.kfs.module.cam.document.web.struts.BarcodeInventoryErrorForm;
  */
 public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BarcodeInventoryErrorDetailPredicate.class);
-    //private BarcodeInventoryErrorForm bcieForm;
     private BarcodeInventoryErrorDocument doc;
 
     /**
@@ -38,7 +37,6 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
      */
     public BarcodeInventoryErrorDetailPredicate(BarcodeInventoryErrorDocument doc) {
         this.doc = doc;
-//        this.bcieForm = doc.getform;
     }
 
     /**
@@ -47,56 +45,60 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
      */
     public boolean evaluate(Object object) {
         boolean satisfies = true;
-
-        if (object instanceof BarcodeInventoryErrorDetail) {
+        
+        if (object instanceof BarcodeInventoryErrorDetail) {            
+            
             BarcodeInventoryErrorDetail detail = (BarcodeInventoryErrorDetail) object;
-
-            if (StringUtils.isBlank(this.doc.getCurrentTagNumber()) && StringUtils.isBlank(this.doc.getCurrentScanCode()) && StringUtils.isBlank(this.doc.getCurrentCampusCode()) && StringUtils.isBlank(this.doc.getCurrentBuildingNumber()) && StringUtils.isBlank(this.doc.getCurrentRoom()) && StringUtils.isBlank(this.doc.getCurrentSubroom()) && StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
-                return false;
-            }
-
-            if ((this.doc.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentTagNumber())) {
-                if (!StringUtils.equals(this.doc.getCurrentTagNumber(), detail.getAssetTagNumber())) {
-                    satisfies = false;
+            
+            // It will only replace when the status is equals to error
+            if (detail.getErrorCorrectionStatusCode().equals(CamsConstants.BarcodeInventoryError.STATUS_CODE_ERROR)) {            
+                if (StringUtils.isBlank(this.doc.getCurrentTagNumber()) && StringUtils.isBlank(this.doc.getCurrentScanCode()) && StringUtils.isBlank(this.doc.getCurrentCampusCode()) && StringUtils.isBlank(this.doc.getCurrentBuildingNumber()) && StringUtils.isBlank(this.doc.getCurrentRoom()) && StringUtils.isBlank(this.doc.getCurrentSubroom()) && StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
+                    return false;
+                }
+    
+                if ((this.doc.getCurrentTagNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentTagNumber())) {
+                    if (!StringUtils.equals(this.doc.getCurrentTagNumber(), detail.getAssetTagNumber())) {
+                        satisfies = false;
+                    }
+                }
+    
+                if (this.doc.getCurrentScanCode() != null && !StringUtils.isBlank(this.doc.getCurrentScanCode())) {
+                    satisfies = (this.doc.getCurrentScanCode().equals("Y") && detail.isUploadScanIndicator());
+                }
+    
+                if (this.doc.getCurrentCampusCode() != null && !StringUtils.isBlank(this.doc.getCurrentCampusCode())) {
+                    if (!StringUtils.equals(this.doc.getCurrentCampusCode(), detail.getCampusCode())) {
+                        satisfies = false;
+                    }
+                }
+    
+                if ((this.doc.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentBuildingNumber())) {
+                    if (!StringUtils.equals(this.doc.getCurrentBuildingNumber(), detail.getBuildingCode())) {
+                        satisfies = false;
+                    }
+                }
+    
+                if ((this.doc.getCurrentRoom() != null) && !StringUtils.isBlank(this.doc.getCurrentRoom())) {
+                    if (!StringUtils.equals(this.doc.getCurrentRoom(), detail.getBuildingRoomNumber())) {
+                        satisfies = false;
+                    }
+                }
+    
+                if ((this.doc.getCurrentSubroom() != null) && !StringUtils.isBlank(this.doc.getCurrentSubroom())) {
+                    if (!StringUtils.equals(this.doc.getCurrentSubroom(), detail.getBuildingSubRoomNumber())) {
+                        satisfies = false;
+                    }
+                }
+    
+                if ((this.doc.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
+                    if (!StringUtils.equals(this.doc.getCurrentConditionCode(), detail.getAssetConditionCode())) {
+                        satisfies = false;
+                    }
                 }
             }
-
-            if (this.doc.getCurrentScanCode() != null && !StringUtils.isBlank(this.doc.getCurrentScanCode())) {
-                satisfies = (this.doc.getCurrentScanCode().equals("Y") && detail.isUploadScanIndicator());
+            else {
+                satisfies = false;
             }
-
-            if (this.doc.getCurrentCampusCode() != null && !StringUtils.isBlank(this.doc.getCurrentCampusCode())) {
-                if (!StringUtils.equals(this.doc.getCurrentCampusCode(), detail.getCampusCode())) {
-                    satisfies = false;
-                }
-            }
-
-            if ((this.doc.getCurrentBuildingNumber() != null) && !StringUtils.isBlank(this.doc.getCurrentBuildingNumber())) {
-                if (!StringUtils.equals(this.doc.getCurrentBuildingNumber(), detail.getBuildingCode())) {
-                    satisfies = false;
-                }
-            }
-
-            if ((this.doc.getCurrentRoom() != null) && !StringUtils.isBlank(this.doc.getCurrentRoom())) {
-                if (!StringUtils.equals(this.doc.getCurrentRoom(), detail.getBuildingRoomNumber())) {
-                    satisfies = false;
-                }
-            }
-
-            if ((this.doc.getCurrentSubroom() != null) && !StringUtils.isBlank(this.doc.getCurrentSubroom())) {
-                if (!StringUtils.equals(this.doc.getCurrentSubroom(), detail.getBuildingSubRoomNumber())) {
-                    satisfies = false;
-                }
-            }
-
-            if ((this.doc.getCurrentConditionCode() != null) && !StringUtils.isBlank(this.doc.getCurrentConditionCode())) {
-                if (!StringUtils.equals(this.doc.getCurrentConditionCode(), detail.getAssetConditionCode())) {
-                    satisfies = false;
-                }
-            }
-        }
-        else {
-            satisfies = false;
         }
         return satisfies;
     }
@@ -127,7 +129,6 @@ public class BarcodeInventoryErrorDetailPredicate implements Predicate, Closure 
             if ((this.doc.getNewConditionCode() != null) && !StringUtils.isBlank(this.doc.getNewConditionCode())) {
                 detail.setAssetConditionCode(this.doc.getNewConditionCode());
             }
-
         }
     }
 }

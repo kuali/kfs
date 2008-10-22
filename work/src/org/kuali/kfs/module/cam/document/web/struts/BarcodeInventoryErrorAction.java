@@ -119,9 +119,8 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
 
         String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
 
-        BarcodeInventoryErrorDocument doc = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
-            
-        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(doc);
+        BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
+        //BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
 
         //searches and replaces
         CollectionUtils.forAllDo(barcodeInventoryErrorDetails, predicatedClosure);

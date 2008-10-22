@@ -15,18 +15,19 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
@@ -34,13 +35,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.web.ui.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
-
     private CustomerInvoiceDetail newCustomerInvoiceDetail;
 
     /**
@@ -52,6 +53,11 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         setDocument(new CustomerInvoiceDocument());
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public CustomerInvoiceDocument getCustomerInvoiceDocument() {
         return (CustomerInvoiceDocument) getDocument();
     }
@@ -82,8 +88,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
             throw new InfrastructureException("Unable to create a new customer invoice document accounting line", e);
         }
     }
-    
-    
 
     /**
      * By overriding this method, we can add the invoice total and open amount to the document header.
@@ -123,4 +127,44 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
         map.put("openAmount", Boolean.TRUE);
         return map;
     }
+    
+    /**
+     * Build additional customer invoice specific buttons and set extraButtons list.
+     * 
+     * @return - list of extra buttons to be displayed to the user
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        
+        // clear out the extra buttons array
+        extraButtons.clear();
+
+        String printButtonURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+ 
+        if (getEditingMode().containsKey(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON)) {
+            if (getEditingMode().get(ArAuthorizationConstants.CustomerInvoiceDocumentEditMode.DISPLAY_PRINT_BUTTON).equals("TRUE")) {
+                addExtraButton("methodToCall.print", printButtonURL + "buttonsmall_genprintfile.gif", "Print");
+            }
+        }
+        return extraButtons;
+    }
+        
+    /**
+     * Adds a new button to the extra buttons collection.
+     * 
+     * @param property - property for button
+     * @param source - location of image
+     * @param altText - alternate text for button if images don't appear
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
+        ExtraButton newButton = new ExtraButton();
+
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+
+        extraButtons.add(newButton);
+    }
+
 }

@@ -68,12 +68,13 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     public boolean validateItemDefaultPrice(CustomerInvoiceItemCode customerInvoiceItemCode) {
         
         boolean validEntry = true;
-        KualiDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice();
+        BigDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice();
         
         if (ObjectUtils.isNotNull(itemDefaultPrice)) {
-            validEntry = itemDefaultPrice.isPositive();
-            if (!validEntry)
+            validEntry = itemDefaultPrice.compareTo(BigDecimal.ZERO) == 1;
+            if (!validEntry) {
                 putFieldError("itemDefaultPrice",ArKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_PRICE, "Item Default Price" );
+            }
         }
         return validEntry;
     }

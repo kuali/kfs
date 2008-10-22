@@ -38,7 +38,7 @@ public enum CustomerInvoiceDetailFixture {
             null, // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(10), // invoiceItemUnitPrice
+            new BigDecimal(10), // invoiceItemUnitPrice
             new KualiDecimal(10), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null),
@@ -54,7 +54,7 @@ public enum CustomerInvoiceDetailFixture {
             null, // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(0), // invoiceItemQuantity
-            new KualiDecimal(0), // invoiceItemUnitPrice
+            new BigDecimal(0), // invoiceItemUnitPrice
             new KualiDecimal(0), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null),
@@ -70,7 +70,7 @@ public enum CustomerInvoiceDetailFixture {
             null, // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(-1), // invoiceItemUnitPrice
+            new BigDecimal(-1), // invoiceItemUnitPrice
             new KualiDecimal(-1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null),            
@@ -86,7 +86,7 @@ public enum CustomerInvoiceDetailFixture {
             null, // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(-1), // invoiceItemUnitPrice
+            new BigDecimal(-1), // invoiceItemUnitPrice
             new KualiDecimal(-1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , new CustomerInvoiceDetail()),            
@@ -102,7 +102,7 @@ public enum CustomerInvoiceDetailFixture {
             null, // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(1), // invoiceItemUnitPrice
+            new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , new CustomerInvoiceDetail()),            
@@ -118,7 +118,7 @@ public enum CustomerInvoiceDetailFixture {
             "8110", // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(1), // invoiceItemUnitPrice
+            new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null),
@@ -134,7 +134,7 @@ public enum CustomerInvoiceDetailFixture {
             "8118", // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
-            new KualiDecimal(1), // invoiceItemUnitPrice
+            new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null);
@@ -150,7 +150,7 @@ public enum CustomerInvoiceDetailFixture {
     public String accountsReceivableObjectCode;
     public Date invoiceItemServiceDate;
     public BigDecimal invoiceItemQuantity;
-    public KualiDecimal invoiceItemUnitPrice;
+    public BigDecimal invoiceItemUnitPrice;
     public KualiDecimal amount;
     public KualiDecimal invoiceItemTaxAmount;
     public CustomerInvoiceDetail parentCustomerInvoiceDetail;
@@ -158,7 +158,7 @@ public enum CustomerInvoiceDetailFixture {
     /**
      * Private Constructor.
      */
-    CustomerInvoiceDetailFixture(String documentNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String organizationReferenceId, String projectCode, String accountsReceivableObjectCode, Date invoiceItemServiceDate, BigDecimal invoiceItemQuantity, KualiDecimal invoiceItemUnitPrice, KualiDecimal amount, KualiDecimal invoiceItemTaxAmount, CustomerInvoiceDetail parentCustomerInvoiceDetail) {
+    CustomerInvoiceDetailFixture(String documentNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String organizationReferenceId, String projectCode, String accountsReceivableObjectCode, Date invoiceItemServiceDate, BigDecimal invoiceItemQuantity, BigDecimal invoiceItemUnitPrice, KualiDecimal amount, KualiDecimal invoiceItemTaxAmount, CustomerInvoiceDetail parentCustomerInvoiceDetail) {
         this.documentNumber = documentNumber;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;

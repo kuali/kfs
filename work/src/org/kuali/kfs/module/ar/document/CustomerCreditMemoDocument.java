@@ -1,5 +1,6 @@
 package org.kuali.kfs.module.ar.document;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -442,12 +443,12 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
     
     public KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
         KualiDecimal invoiceOpenItemQuantity;
-        KualiDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
+        BigDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
         if (ObjectUtils.isNull(invoiceItemUnitPrice) || invoiceItemUnitPrice.equals(KualiDecimal.ZERO))
             invoiceOpenItemQuantity = KualiDecimal.ZERO;
         else {
-            KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
-            invoiceOpenItemQuantity = invoiceOpenItemAmount.divide(invoiceItemUnitPrice);
+            BigDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount().bigDecimalValue();
+            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemAmount.divide(invoiceItemUnitPrice));
         }
         return invoiceOpenItemQuantity;
     }

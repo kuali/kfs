@@ -184,8 +184,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
     protected CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument){
         KualiDecimal quantity = new KualiDecimal(100*Math.random()); // random number 0 to 100 total items      // TODO FIXME  <-- InvoiceItemQuantities of more than 2 decimal places cause rule errors; BigDecimal values such as 5.3333333333 should be valid InvoiceItemQuantities
-        KualiDecimal unitprice = new KualiDecimal(1); // 0.00 to 100.00 dollars per item
-        KualiDecimal amount = quantity.multiply(unitprice); // setAmount has to be set explicitly below; so we calculate it here
+        BigDecimal unitprice = new BigDecimal(1); // 0.00 to 100.00 dollars per item
+        KualiDecimal amount = quantity.multiply(new KualiDecimal(unitprice)); // setAmount has to be set explicitly below; so we calculate it here
         LOG.info("\n\n\n\n\t\t\t\t randomquantity="+quantity.toString()+"\t\t\t\tunitprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
         
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();

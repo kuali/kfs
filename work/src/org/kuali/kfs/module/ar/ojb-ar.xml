@@ -427,7 +427,7 @@
 	<field-descriptor name="sequenceNumber" column="AR_INV_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="invoiceItemQuantity" column="AR_INV_ITM_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="invoiceItemUnitOfMeasureCode" column="AR_INV_ITM_UOM_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceItemUnitPrice" column="AR_INVITM_UNIT_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="invoiceItemUnitPrice" column="AR_INVITM_UNIT_PRC" jdbc-type="DECIMAL"/>
 	<field-descriptor name="amount" column="AR_INV_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="invoiceItemServiceDate" column="AR_INV_ITM_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="invoiceItemCode" column="AR_INV_ITM_CD" jdbc-type="VARCHAR"/>

@@ -67,7 +67,7 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
      * This method tests if the validateItemDefaultPrice rule returns true when itemDefaultPrice is positive.
      */
     public void testValidateItemDefaultPrice_True(){
-        customerInvoiceItemCode.setItemDefaultPrice(new KualiDecimal(POSITIVE_VALUE));
+        customerInvoiceItemCode.setItemDefaultPrice(new BigDecimal(POSITIVE_VALUE));
         CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
         
         boolean result = rule.validateItemDefaultPrice(customerInvoiceItemCode);
@@ -78,7 +78,7 @@ public class CustomerInvoiceItemCodeRuleTest extends MaintenanceRuleTestBase {
      * This method tests if the validateItemDefaultPrice rule returns false when itemDefaultPrice is not positive.
      */
     public void testValidateItemDefaultPrice_False(){  
-        customerInvoiceItemCode.setItemDefaultPrice(new KualiDecimal(NON_POSITIVE_VALUE));
+        customerInvoiceItemCode.setItemDefaultPrice(new BigDecimal(NON_POSITIVE_VALUE));
         CustomerInvoiceItemCodeRule rule = (CustomerInvoiceItemCodeRule) setupMaintDocRule(newMaintDoc(customerInvoiceItemCode), CustomerInvoiceItemCodeRule.class);
         
         boolean result = rule.validateItemDefaultPrice(customerInvoiceItemCode);

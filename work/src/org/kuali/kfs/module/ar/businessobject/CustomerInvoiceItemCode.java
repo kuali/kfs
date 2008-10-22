@@ -30,7 +30,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	private String defaultInvoiceFinancialSubObjectCode;
 	private String defaultInvoiceProjectCode;
 	private String defaultInvoiceOrganizationReferenceIdentifier;
-	private KualiDecimal itemDefaultPrice;
+	private BigDecimal itemDefaultPrice;
 	private String defaultUnitOfMeasureCode;
 	private BigDecimal itemDefaultQuantity;
 	private boolean active;
@@ -318,7 +318,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	 * @return Returns the itemDefaultPrice
 	 * 
 	 */
-	public KualiDecimal getItemDefaultPrice() { 
+	public BigDecimal getItemDefaultPrice() { 
 		return itemDefaultPrice;
 	}
 
@@ -328,7 +328,7 @@ public class CustomerInvoiceItemCode extends PersistableBusinessObjectBase {
 	 * @param itemDefaultPrice The itemDefaultPrice to set.
 	 * 
 	 */
-	public void setItemDefaultPrice(KualiDecimal itemDefaultPrice) {
+	public void setItemDefaultPrice(BigDecimal itemDefaultPrice) {
 		this.itemDefaultPrice = itemDefaultPrice;
 	}
 

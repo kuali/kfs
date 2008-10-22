@@ -29,7 +29,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     // private Integer invoiceItemNumber; using SourceAccountingLine.sequenceNumber
     private BigDecimal invoiceItemQuantity;
     private String invoiceItemUnitOfMeasureCode;
-    private KualiDecimal invoiceItemUnitPrice;
+    private BigDecimal invoiceItemUnitPrice;
     // private KualiDecimal invoiceItemTotalAmount; using SourceAccountingLine.amount for now
     private Date invoiceItemServiceDate;
     private String invoiceItemCode;
@@ -212,7 +212,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return Returns the invoiceItemUnitPrice
      * 
      */
-    public KualiDecimal getInvoiceItemUnitPrice() {
+    public BigDecimal getInvoiceItemUnitPrice() {
         return invoiceItemUnitPrice;
     }
 
@@ -222,7 +222,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.
      * 
      */
-    public void setInvoiceItemUnitPrice(KualiDecimal invoiceItemUnitPrice) {
+    public void setInvoiceItemUnitPrice(BigDecimal invoiceItemUnitPrice) {
         this.invoiceItemUnitPrice = invoiceItemUnitPrice;
     }
 
@@ -295,7 +295,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      */
     public KualiDecimal getInvoiceItemPreTaxAmount(){
         if( ObjectUtils.isNotNull(invoiceItemUnitPrice) && ObjectUtils.isNotNull(invoiceItemQuantity)){
-            return invoiceItemUnitPrice.multiply(new KualiDecimal(invoiceItemQuantity));
+            return new KualiDecimal(invoiceItemUnitPrice.multiply(invoiceItemQuantity));
         } else {
             return KualiDecimal.ZERO;
         }
@@ -395,7 +395,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * Update line amount based on quantity and unit price
      */
     public void updateAmountBasedOnQuantityAndUnitPrice() {
-            setAmount(getInvoiceItemPreTaxAmount());
+        setAmount(getInvoiceItemPreTaxAmount());
     }
 
 
@@ -441,8 +441,9 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
      * @return
      */
     public void setInvoiceItemUnitPriceToNegative(){
-        if( invoiceItemUnitPrice.isPositive() ){
-            invoiceItemUnitPrice = invoiceItemUnitPrice.negated();
+        // if unit price is positive
+        if( invoiceItemUnitPrice.compareTo(BigDecimal.ZERO) == 1 ){
+            invoiceItemUnitPrice = invoiceItemUnitPrice.negate();
         }
     }
 

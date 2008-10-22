@@ -156,7 +156,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return validQuantity; 
     }
     
-    public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, KualiDecimal unitPrice) {
+    public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, BigDecimal unitPrice) {
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         KualiDecimal creditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         

@@ -1330,7 +1330,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         CustomerInvoiceDetail customerInvoiceDetail;
         for( Iterator i = getSourceAccountingLines().iterator(); i.hasNext();  ){
             customerInvoiceDetail = (CustomerInvoiceDetail)i.next();
-            customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negated());
+            customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
         }
 
     }

@@ -59,11 +59,15 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", ((CreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));
         }
-        getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
+        }
         if (ObjectUtils.isNotNull(((CreditMemoDocument) getDocument()).getStatus())) {
             getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", ((CreditMemoDocument) getDocument()).getStatus().getStatusDescription()));
         }
-        getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available"));
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.CreditMemoDocument.attributes.statusCode", "Not Available"));
+        }
     }
 
     /**

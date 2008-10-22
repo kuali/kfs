@@ -469,7 +469,7 @@ public class BulkReceivingPdf extends PurapPdf {
          * Dept Contact 
          */
         p = new Paragraph();
-        p.add(new Chunk("  " + campusCode + " Dept Contact  ", ver_5_normal));
+        p.add(new Chunk("   Dept Contact  ", ver_5_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         additionalInfoTable.addCell(cell);
@@ -485,7 +485,7 @@ public class BulkReceivingPdf extends PurapPdf {
          * Dept Contact Phone 
          */
         p = new Paragraph();
-        p.add(new Chunk("  " + campusCode + " Dept Contact Phone  ", ver_5_normal));
+        p.add(new Chunk("  Dept Contact Phone  ", ver_5_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         additionalInfoTable.addCell(cell);
@@ -501,7 +501,7 @@ public class BulkReceivingPdf extends PurapPdf {
          * Dept Contact email 
          */
         p = new Paragraph();
-        p.add(new Chunk("  " + campusCode + " Dept Contact Email  ", ver_5_normal));
+        p.add(new Chunk("  Dept Contact Email  ", ver_5_normal));
         cell = new PdfPCell(p);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         additionalInfoTable.addCell(cell);

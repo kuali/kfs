@@ -129,7 +129,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" readOnly="${readOnly}"/>						
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.offCampusStateCode" lookupParameters="document.offCampusStateCode:postalStateCode," />
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.State" fieldConversions="postalStateCode:document.offCampusStateCode" lookupParameters="document.offCampusCountryCode:postalCountryCode,document.offCampusStateCode:postalStateCode," />
 	                </c:if>
 				</td>						
 			</tr>
@@ -139,7 +139,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusZipCode" attributeEntry="${assetTransferAttributes.offCampusZipCode}" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalCode" fieldConversions="postalZipCode:document.offCampusZipCode" lookupParameters="document.offCampusZipCode:postalZipCode,document.offCampusStateCode:postalStateCode" />
+		                <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PostalCode" fieldConversions="postalCode:document.offCampusZipCode" lookupParameters="document.offCampusCountryCode:postalCountryCode,document.offCampusZipCode:postalCode,document.offCampusStateCode:postalStateCode" />
 					</c:if>		                
 				</td>
 			</tr>

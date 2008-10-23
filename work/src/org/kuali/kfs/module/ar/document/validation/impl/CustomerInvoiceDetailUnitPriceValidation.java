@@ -36,7 +36,7 @@ public class CustomerInvoiceDetailUnitPriceValidation extends GenericValidation 
         BigDecimal unitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
 
         // if amount is = 0
-        if (ObjectUtils.isNull(unitPrice) || KualiDecimal.ZERO.equals(unitPrice)) {
+        if (ObjectUtils.isNull(unitPrice) || BigDecimal.ZERO.equals(unitPrice)) {
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_ITEM_UNIT_PRICE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DETAIL_UNIT_PRICE_LESS_THAN_OR_EQUAL_TO_ZERO);
             return false;
         }

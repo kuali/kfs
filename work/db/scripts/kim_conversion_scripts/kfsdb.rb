@@ -1,5 +1,6 @@
 include Java
 require 'yaml'
+#require 'mysql-connector-java-5.0.5-bin.jar'
 
 class JdbcConnection
 
@@ -7,7 +8,7 @@ class JdbcConnection
 		def db_connect(url, user, pass, driver, &block)
 			con = nil
 			begin
-				java.lang.Class.forName(driver)
+			  #java.lang.Class.forName(driver)
 				con = java.sql.DriverManager.getConnection(url, user, pass)
 				yield JdbcConnection.new(con)
 			ensure
@@ -128,6 +129,7 @@ def db_connect(connection_values, &block)
 	end
 	
 	db_connection_values = read_connection_values(connection_values)
+	puts db_connection_values.values.join(",")
 	JdbcConnection.db_connect(db_connection_values["url"], db_connection_values["user"], db_connection_values["pass"], determine_driver(db_connection_values["url"])) do |con|
 		yield con
 	end

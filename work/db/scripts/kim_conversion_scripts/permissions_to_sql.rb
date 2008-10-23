@@ -1,6 +1,7 @@
 require 'kfsdb'
-require 'local_dev_connect'
 require 'digest/sha1'
+require 'mysql-connector-java-5.0.5-bin.jar'
+include_class 'com.mysql.jdbc.Driver'
 
 INPUT_FILE = "permissions.txt"
 
@@ -36,6 +37,7 @@ class PermissionAttribute
 		obj_id = generate_obj_id(table_name, @attribute_permission_id)
 		"insert into #{table_name} (attrib_data_id, obj_id, ver_nbr, target_primary_key, kim_type_id, kim_attrib_id, attrib_val)\n\tvalues ('#{@attribute_permission_id}', '#{obj_id}', 0, '#{@permission_id}', '#{@type_id}','#{@attribute_type_id}', '#{@attribute_value.gsub(/'/,"''")}')\n/\n"
 	end
+	
 end
 
 class Permission
@@ -45,9 +47,10 @@ class Permission
 	attr_reader :template_type_id
 	attr_reader :roles
 	attr_reader :attributes
+	attr_reader :namespace
 	attr_accessor :description
 	
-	def initialize(count, name, template_id, template_type_id)
+	def initialize(count, name, template_id, template_type_id, namespace)
 		@permission_id = generate_id(count)
 		@name = name.nil? ? "" : name
 		@description = ""
@@ -55,6 +58,7 @@ class Permission
 		@template_type_id = template_type_id
 		@roles = []
 		@attributes = []
+		@namespace = namespace
 	end
 	
 	def add_attribute(attribute)
@@ -87,7 +91,7 @@ class Permission
 	def generate_sql()
 		table_name = "kr_kim_perm_t"
 		obj_id = generate_obj_id(table_name, @name)
-		permission_insert = "insert into #{table_name} (perm_id, obj_id, ver_nbr, perm_tmpl_id, name, description, actv_ind)\n\tvalues ('#{@permission_id}', '#{obj_id}', 0, '#{@template_id}', '#{@name.gsub(/'/,"''")}', '#{@description.gsub(/'/,"''")}', 'Y')\n/\n"
+		permission_insert = "insert into #{table_name} (perm_id, obj_id, ver_nbr, perm_tmpl_id, name, description, actv_ind, namespace_cd)\n\tvalues ('#{@permission_id}', '#{obj_id}', 0, '#{@template_id}', '#{@name.gsub(/'/,"''")}', '#{@description.gsub(/'/,"''")}', 'Y', #{@namespace})\n/\n"
 		role_count = 0
 		role_sql = @roles.collect {|role_id| role_count += 1; generate_role_sql(role_id, role_count)}.join()
 		"#{permission_insert}#{role_sql}#{@attributes.collect{|attribute|attribute.generate_sql()}.join()}"
@@ -102,8 +106,9 @@ class Permission
 end
 
 def parse_permission_line(line)
-	matches = line.strip.match(/([^\<]+)\<([^\(]+)\(([^\)]+)\)/)
-	return [matches[1],matches[2],matches[3]]
+  namespace = line.strip.split(/ /, 2)
+	matches = namespace[1].strip.match(/([^\<]+)\<([^\(]+)\(([^\)]+)\)/)
+	return [namespace[0],matches[1],matches[2],matches[3]]
 end
 
 def parse_roles(roles_line)
@@ -112,7 +117,7 @@ end
 
 def templates_map()
 	templates = nil
-	db_connect do |con|
+	db_connect("sample_db") do |con|
 		templates = con.table_to_map("kr_kim_perm_tmpl_t","name","perm_tmpl_id")
 	end
 	templates
@@ -120,7 +125,7 @@ end
 
 def roles_map()
 	roles = {}
-	db_connect do |con|
+	db_connect("sample_db") do |con|
 		con.query("select nmspc_cd, role_nm, role_id from kr_kim_role_t") do |row|
 			roles["#{row.getString("nmspc_cd")} #{row.getString("role_nm")}"] = row.getString("role_id")
 		end
@@ -130,7 +135,7 @@ end
 
 def attributes_map()
 	attributes = {}
-	db_connect do |con|
+	db_connect("sample_db") do |con|
 		attributes = con.table_to_map("kr_kim_attribute_t","attrib_nm","kim_attrib_id")
 	end
 	attributes
@@ -138,7 +143,7 @@ end
 
 def template_types_map()
 	template_types = {}
-	db_connect do |con|
+	db_connect("sample_db") do |con|
 		template_types = con.table_to_map("kr_kim_perm_tmpl_t","perm_tmpl_id","kim_type_id")
 	end
 	template_types
@@ -146,6 +151,7 @@ end
 
 def parse_attribute(line, attribute_count, permission_id, template_type_id, permission_attributes)
 	attribute_line = line.strip.gsub(/^\- /, "")
+	#puts attribute_line
 	attribute_type, attribute_value = attribute_line.split(/:/)
 	if !permission_attributes.keys.include?(attribute_type.strip)
 		puts "There is no attribute named #{attribute_type}"
@@ -166,14 +172,14 @@ def check_roles(roles_to_check, roles_map)
 end
 
 def parse_permission(line, permission_count, templates, template_types, roles)
-	permission_name, permission_template_name, assigned_roles_line = parse_permission_line(line)
+	namespace, permission_name, permission_template_name, assigned_roles_line = parse_permission_line(line)
 	assigned_roles = parse_roles(assigned_roles_line)
 	if !templates.keys.include?(permission_template_name.strip)
 		puts "There is no permission template named #{permission_template_name}"
 		exit
 	end
 	template_id = templates[permission_template_name.strip]
-	last_permission = Permission.new(permission_count, permission_name.strip, template_id, template_types[template_id])
+	last_permission = Permission.new(permission_count, permission_name.strip, template_id, template_types[template_id], namespace)
 	check_roles(assigned_roles, roles)
 	last_permission.add_roles(assigned_roles.collect{|role_name| roles[role_name]})
 	last_permission

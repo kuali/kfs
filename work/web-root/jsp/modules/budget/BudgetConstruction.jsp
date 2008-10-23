@@ -22,7 +22,7 @@
 	htmlFormAction="budgetBudgetConstruction" renderMultipart="false"
 	showTabButtons="false"
 	docTitle="Budget Construction Document"
-    transactionalDocument="false"
+    transactionalDocument="true"
 	>
 </kul:page>
 </c:if>
@@ -32,7 +32,7 @@
 	htmlFormAction="budgetBudgetConstruction" renderMultipart="true"
 	showTabButtons="true"
 	docTitle="Budget Construction Document"
-    transactionalDocument="false"
+    transactionalDocument="true"
 	>
 
 	<kfs:hiddenDocumentFields

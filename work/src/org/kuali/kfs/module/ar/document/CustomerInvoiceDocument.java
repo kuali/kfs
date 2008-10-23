@@ -17,6 +17,8 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjCd;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -783,6 +785,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 *
 	 */
 	public Chart getBillByChartOfAccount() {
+        if(billByChartOfAccount==null) {
+            if(StringUtils.isNotBlank(getBillByChartOfAccountCode())) {
+                billByChartOfAccount = SpringContext.getBean(ChartService.class).getByPrimaryId(getBillByChartOfAccountCode());
+            }
+        }
+        
 		return billByChartOfAccount;
 	}
 
@@ -803,6 +811,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 	 *
 	 */
 	public Org getBilledByOrganization() {
+	    if(billedByOrganization==null) {
+	        if(StringUtils.isNotBlank(getBilledByOrganizationCode()) && StringUtils.isNotBlank(getBillByChartOfAccountCode())) {
+	            billedByOrganization = SpringContext.getBean(OrganizationService.class).getByPrimaryId(getBillByChartOfAccountCode(), getBilledByOrganizationCode());
+	        }
+	    }
+	    
 		return billedByOrganization;
 	}
 

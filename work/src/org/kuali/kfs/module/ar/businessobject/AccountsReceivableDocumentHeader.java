@@ -3,8 +3,12 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -183,6 +187,12 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * 
 	 */
 	public Chart getProcessingChartOfAccount() { 
+        if(processingChartOfAccount==null) {
+            if(StringUtils.isNotBlank(getProcessingChartOfAccountCode())) {
+                processingChartOfAccount = SpringContext.getBean(ChartService.class).getByPrimaryId(getProcessingChartOfAccountCode());
+            }
+        }
+        
 		return processingChartOfAccount;
 	}
 
@@ -203,6 +213,12 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * 
 	 */
 	public Org getProcessingOrganization() { 
+        if(processingOrganization==null) {
+            if(StringUtils.isNotBlank(getProcessingOrganizationCode()) && StringUtils.isNotBlank(getProcessingChartOfAccountCode())) {
+                processingOrganization = SpringContext.getBean(OrganizationService.class).getByPrimaryId(getProcessingChartOfAccountCode(), getProcessingOrganizationCode());
+            }
+        }
+        
 		return processingOrganization;
 	}
 

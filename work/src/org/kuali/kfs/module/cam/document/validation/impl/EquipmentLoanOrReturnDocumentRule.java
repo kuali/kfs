@@ -204,14 +204,14 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
         if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageZipCode())) {
             PostalCode borrowStorageZipCode = equipmentLoanOrReturnDocument.getBorrowerStoragePostalZipCode();
             if (ObjectUtils.isNull(borrowStorageZipCode)) {
-                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STORAGE_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STORAGE_POSTAL_ZIP_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageZipCode());
                 valid = false;
             }
             else {
                 // validate postal zip code against state code
                 if (StringUtils.isNotBlank(equipmentLoanOrReturnDocument.getBorrowerStorageStateCode())) {
                     if (!equipmentLoanOrReturnDocument.getBorrowerStorageStateCode().equals(borrowStorageZipCode.getPostalStateCode())) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode(), equipmentLoanOrReturnDocument.getBorrowerStorageStateCode());
+                        GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.BORROWER_STAORAGE_STATE_CODE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_BORROWER_STORAGE_STATE_ZIP_CODE, equipmentLoanOrReturnDocument.getBorrowerStorageStateCode(), equipmentLoanOrReturnDocument.getBorrowerStorageZipCode());
                         valid &= false;
                     }
                 }

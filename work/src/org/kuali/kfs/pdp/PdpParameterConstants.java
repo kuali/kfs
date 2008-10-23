@@ -34,6 +34,10 @@ public class PdpParameterConstants {
         public static final String SHOW_PAYMENT_DETAIL = "showPaymentDetail";
     }
     
+    public static class FormatProcess {
+        public static final String PROCESS_ID_PARAM = "processId";
+    }
+    
     public static final String MESSAGE_PARAM = "message";
     public static final String ERROR_KEY_LIST_PARAM = "errorKeyList";
     public static final String ERROR_KEY_LIST_SEPARATOR = ";";

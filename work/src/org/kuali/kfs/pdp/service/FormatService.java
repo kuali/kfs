@@ -29,26 +29,24 @@ public interface FormatService {
     // Get disbursement numbers to list on the screen
     public List getAllDisbursementNumberRanges();
 
-    // Find out if the format is already running somewhere
+    /**
+     * This method gets the format process by campus code and returns the start date for that process.
+     * @param campus the campus code
+     * @return the format process start date if any process found for the given campus code, null otherwise
+     */
     public Date getFormatProcessStartDate(String campus);
 
-    // Mark the process log so a format only happens once per campus. Mark all the
-    // payments that will be formatted and return a summary. attachments will be Y, N or null for both.
-    public List startFormatProcess(UniversalUser user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
-
-    // Mark the process as ended.
-    public void endFormatProcess(String campus);
-
-    // Called from a struts action class, select data to format
-    public FormatSelection formatSelectionAction(UniversalUser user, boolean clearFormat);
+    /**
+     * This method gets the data for the format process
+     * @param user the user that initiated the format process
+     * @return FormatSelection
+     */
+    public FormatSelection getDataForFormat(UniversalUser user);
 
     // Actually format the data for check printing.
     // Return a list of Process Summaries to be displayed
     public List performFormat(Integer procId);
 
-    // If the start format process was run and the user doesn't want to continue,
-    // this needs to be run to set all payments back to open
-    public void clearUnfinishedFormat(Integer procId);
 
     // Get a list of FormatResults for a format
     public List getFormatSummary(Integer procId);
@@ -65,4 +63,32 @@ public interface FormatService {
      * @param paymentGroupService
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService);
+    
+
+    /**
+     * This method marks the process log so a format only happens once per campus. Mark all the
+     * payments that will be formatted and return a summary. attachments will be Y, N or null for both.
+     * 
+     * @param user
+     * @param campus
+     * @param customers
+     * @param paydate
+     * @param paymentTypes
+     * @return
+     */
+    public List startFormatProcess(UniversalUser user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
+
+    /**
+     * This method removes the format process from the format process table
+     * @param campus
+     */
+    public void endFormatProcess(String campus);
+    
+    /**
+     * If the start format process was run and the user doesn't want to continue,
+     * this needs to be run to set all payments back to open.
+     * This method unmarks the payments and removes the format process entry.
+     * @param processId
+     */
+    public void clearUnfinishedFormat(Integer processId) ;
 }

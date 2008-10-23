@@ -77,7 +77,7 @@
     		</map>
 		</property>
 	</bean>	
-	
+
 	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchMaintenanceDaoOjb">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
@@ -115,7 +115,7 @@
 	</bean>
 
 	<bean id="pdpProcessSummaryDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.ProcessSummaryDaoOjb"/>
-	
+
 	<bean id="pdpLoadPaymentsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -305,10 +305,7 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
-	</bean>
-	
-	<bean id="pdpFormatProcessService" class="org.kuali.kfs.pdp.service.impl.FormatProcessServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
 
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
@@ -408,7 +405,7 @@
 		<property name="kualiGroupService" ref="kualiGroupService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
-	
+
 	<bean id="pdpPaymentFileParser" class="org.kuali.kfs.pdp.service.impl.paymentparser.PaymentFileParserImpl" singleton="false">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
@@ -515,6 +512,34 @@
 			<ref bean="paymentDetailLookupableHelperService" />
 		</property>
 	</bean>	
+	
+	<bean id="formatProcessLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" singleton="false">
+	    <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
+	</bean>
+
+	<bean id="formatProcessLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="formatProcessLookupableHelperService" />
+		</property>
+	</bean>		
 	
 	<bean id="dailyReportComparator" class="org.kuali.kfs.pdp.businessobject.options.DailyReportComparator" singleton="false">
 		<property name="paymentGroupService">

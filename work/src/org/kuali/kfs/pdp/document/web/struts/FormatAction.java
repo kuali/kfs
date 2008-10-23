@@ -31,10 +31,10 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.FormatResult;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.kfs.pdp.service.FormatProcessService;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
@@ -52,15 +52,13 @@ import org.kuali.rice.kns.web.struts.action.KualiAction;
  * This class provides actions for the format process
  */
 public class FormatAction extends KualiAction {
-    
+
     private FormatService formatService;
-    private FormatProcessService formatProcessService;
-    
+
     public FormatAction() {
         formatService = SpringContext.getBean(FormatService.class);
-        formatProcessService = SpringContext.getBean(FormatProcessService.class);
     }
-    
+
     /**
      * This method...
      * @param mapping
@@ -74,7 +72,7 @@ public class FormatAction extends KualiAction {
 
         FormatForm formatForm = (FormatForm) form;
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
-        FormatSelection formatSelection = formatProcessService.getDataForFormat(kualiUser);
+        FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
         formatForm.setCampus(kualiUser.getCampusCode());
@@ -104,7 +102,7 @@ public class FormatAction extends KualiAction {
 
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
     }
-    
+
     /**
      * This method...
      * 
@@ -116,7 +114,7 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward prepare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        FormatForm formatForm = (FormatForm)form;
+        FormatForm formatForm = (FormatForm) form;
 
         if (formatForm.getCampus() == null) {
             return mapping.findForward(PdpConstants.MAPPING_SELECTION);
@@ -125,9 +123,8 @@ public class FormatAction extends KualiAction {
         // Figure out which ones they have selected
         List selectedCustomers = new ArrayList();
 
-        for(CustomerProfile customer : formatForm.getCustomers()){
-            if(customer.isSelectedForFormat())
-            {
+        for (CustomerProfile customer : formatForm.getCustomers()) {
+            if (customer.isSelectedForFormat()) {
                 selectedCustomers.add(customer);
             }
         }
@@ -144,7 +141,7 @@ public class FormatAction extends KualiAction {
         // Get the first one to get the process ID out of it
         FormatResult fr = (FormatResult) results.get(0);
         formatForm.setProcId(fr.getProcId());
-        
+
         int count = 0;
         KualiDecimal amount = KualiDecimal.ZERO;
 
@@ -159,7 +156,7 @@ public class FormatAction extends KualiAction {
 
         return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
     }
-    
+
     /**
      * This method...
      * @param mapping
@@ -170,7 +167,7 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        FormatForm formatForm = (FormatForm)form;
+        FormatForm formatForm = (FormatForm) form;
         try {
             List<FormatResult> results = formatService.performFormat(formatForm.getProcId());
             Collections.sort(results);
@@ -182,7 +179,7 @@ public class FormatAction extends KualiAction {
             formatForm.setResults(results);
             formatForm.setTotalAmount(total.getAmount());
             formatForm.setTotalPaymentCount(total.getPayments());
-            
+
             return mapping.findForward(PdpConstants.MAPPING_FINISHED);
         }
         catch (NoBankForCustomerException nbfce) {
@@ -207,7 +204,7 @@ public class FormatAction extends KualiAction {
             return mapping.findForward("pdp_message");
         }
     }
-    
+
     /**
      * This method...
      * @param mapping
@@ -222,6 +219,25 @@ public class FormatAction extends KualiAction {
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
-    
 
+
+    /**
+     * This method clears the unfinished format process.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
+        Integer processId = Integer.parseInt(processIdParam);
+        
+        formatService.resetFormatPayments(processId);
+
+        return mapping.findForward(KNSConstants.MAPPING_PORTAL);
+
+    }
 }

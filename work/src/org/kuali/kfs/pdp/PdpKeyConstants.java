@@ -150,6 +150,10 @@ public class PdpKeyConstants {
             public static final String CHANGE_IMMEDIATE_PAYMENT_QUESTION = "ChangeImmediatePayment";
         }
     }
+    
+    public static class FormatProcess {
+        public static final String CLEAR_UNFINISHED_FORMAT_PROCESS = "formatProcess.clearUnfinishedFormat.text";
+    }
 
     public static final String SORT_GROUP_SELECTION_PARAMETER_PREFIX = "pdp.sortGroupSelectionParameterPrefix";
     public static final String DEFAULT_SORT_GROUP_ID_PARAMETER = "pdp.defaultSortGroupIdParameter";

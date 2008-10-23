@@ -27,6 +27,9 @@
 <kul:page headerTitle="Format Disbursement Summary"
 	transactionalDocument="false" showDocumentInfo="false"
 	htmlFormAction="pdp/formatrice" docTitle="Format Disbursement Summary">
+	<html:hidden property="procId" />
+	<html:hidden property="paymentTypes" />
+	
 	<pdp:formatSelectedPayments
 		disbursementNumberRangeAttributes="${disbursementNumberRangeAttributes}"
 		customerProfileAttributes="${customerProfileAttributes}"

@@ -115,7 +115,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
         Timestamp now = new Timestamp((new Date()).getTime());
 
-        //PaymentStatus openStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus openStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processId", proc.getId());
@@ -125,7 +125,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         while (groupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(now);
-            //paymentGroup.setPaymentStatus(openStatus);
+            paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
     }

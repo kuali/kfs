@@ -123,6 +123,7 @@ public class PdpConstants {
     public static class Actions {
         public static final String BATCH_SEARCH_DETAIL_ACTION = "batchsearchDetail.do";
         public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetailrice.do";
+        public static final String FORMAT_PROCESS_ACTION = "pdp/formatrice.do";
     }
 
     public static class ActionMethods {
@@ -133,6 +134,7 @@ public class PdpConstants {
         public static final String CONFIRM_SET_IMMEDIATE_PRINT_ACTION = "confirmAndSetImmediate";
         public static final String CONFIRM_DISBURSEMENT_CANCEL_ACTION = "confirmAndCancelDisbursement";
         public static final String CONFIRM_REISSUE_CANCEL_ACTION = "confirmAndReIssueCancel";
+        public static final String CLEAR_FORMAT_PROCESS_ACTION = "clearUnfinishedFormat";
     }
 
     public static class AccountChangeCodes {
@@ -142,7 +144,7 @@ public class PdpConstants {
         public static final String INVALID_SUB_OBJECT = "SO";
         public static final String INVALID_PROJECT = "PROJ";
     }
-   
+
     public static class PaymentTypes {
         public static final String ALL = "all";
         public static final String DISBURSEMENTS_WITH_ATTACHMENTS = "pymtAttachment";
@@ -150,8 +152,8 @@ public class PdpConstants {
         public static final String DISBURSEMENTS_WITH_SPECIAL_HANDLING = "pymtSpecialHandling";
         public static final String DISBURSEMENTS_NO_SPECIAL_HANDLING = "pymtSpecialHandlingFalse";
         public static final String PROCESS_IMMEDIATE = "immediate";
-    }
-    
+        }
+
     public static final String MAPPING_SELECTION = "selection";
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";

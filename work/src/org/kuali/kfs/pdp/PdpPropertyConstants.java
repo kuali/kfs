@@ -114,4 +114,11 @@ public class PdpPropertyConstants {
 
         }
     }
+    
+    public static class PaymenProcess {
+        public static class Fields {
+            public static final String PAYMENT_PROCESS_ID = "id";
+        }
+    }
+        
 }

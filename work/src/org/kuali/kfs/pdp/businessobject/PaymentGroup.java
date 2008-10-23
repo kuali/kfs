@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -34,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -156,7 +156,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         }
         return bv;
     }
-    
+
     /**
      * This method gets the notle lines
      * @return the note lines
@@ -289,7 +289,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setSortValue(int sortGroupId) {
         String defaultSortOrderParameterName = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.DEFAULT_SORT_GROUP_ID_PARAMETER);
         String defaultSortOrderParameterValue = SpringContext.getBean(ParameterService.class).getParameterValue(PaymentGroup.class, defaultSortOrderParameterName);
-        
+
         StringBuffer sb = new StringBuffer();
 
         sb.append(sortGroupId);
@@ -299,7 +299,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         sb.append(getWidthString(4, cp.getOrgCode()));
         sb.append(getWidthString(4, cp.getSubUnitCode()));
 
-        if ( defaultSortOrderParameterValue.equals(String.valueOf(sortGroupId)) ) {
+        if (defaultSortOrderParameterValue.equals(String.valueOf(sortGroupId))) {
             sb.append(this.getPayeeId());
             sb.append(this.getPayeeIdTypeCd());
         }
@@ -308,7 +308,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         }
         this.sortValue = sb.toString();
     }
-    
+
     /**
      * @hibernate.property column="PMT_CTY_NM" length="30"
      * @return Returns the city.
@@ -683,7 +683,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setCreditMemoAmount(KualiDecimal decimal) {
         creditMemoAmount = decimal;
     }
-    
+
     public void setCreditMemoAmount(String decimal) {
         creditMemoAmount = new KualiDecimal(decimal);
     }
@@ -715,7 +715,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setDisbursementNbr(KualiInteger integer) {
         disbursementNbr = integer;
     }
-    
+
     public void setDisbursementNbr(String integer) {
         disbursementNbr = new KualiInteger(integer);
     }
@@ -740,7 +740,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setEmployeeIndicator(Boolean boolean1) {
         employeeIndicator = boolean1;
     }
-    
+
     /**
      * @param string
      */
@@ -810,7 +810,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setPaymentDate(Timestamp timestamp) {
         paymentDate = timestamp;
     }
-    
+
     /**
      * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
      * paymentDate field
@@ -975,11 +975,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public void setPaymentStatusCode(String paymentStatusCode) {
         this.paymentStatusCode = paymentStatusCode;
     }
-    
+
     public void setId_type(String idType) {
         this.payeeIdTypeCd = idType;
     }
-    
+
     /**
      * This method gets a string representation of the address lines
      * @return the street as a combined representation of the address lines
@@ -993,18 +993,20 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         street.append(StringUtils.isNotBlank(line4Address) ? (line4Address + KFSConstants.NEWLINE) : KFSConstants.EMPTY_STRING);
 
         return street.toString();
-}
+    }
+
     /**
      * This method gets the payeeIdTypeDesc
      * @return the payeeIdTypeDesc
      */
-    /*public String getPayeeIdTypeDesc() {
+    public String getPayeeIdTypeDesc() {
         String payeeIdTypeCd = getPayeeIdTypeCd();
-        for (PdpConstants.PayeeTypeCode payeeTypeCode : PdpConstants.PayeeTypeCode.values()) {
-            if (payeeTypeCode.getTypeCode().equalsIgnoreCase(payeeIdTypeCd)) {
-                return payeeTypeCode.getDescription();
+        List<PayeeType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PayeeType.class);
+        for (PayeeType payeeType : boList) {
+            if (payeeType.getPayeeTypeCode().equalsIgnoreCase(payeeIdTypeCd)) {
+                return payeeType.getDescription();
             }
         }
         return KFSConstants.EMPTY_STRING;
-    }*/
+    }
 }

@@ -65,7 +65,7 @@ public class FormatSelectionAction extends BaseAction {
         HttpSession session = request.getSession();
 
         UniversalUser user = getUser(request);
-        FormatSelection fs = formatService.formatSelectionAction(user, request.getParameter("clear") != null);
+        FormatSelection fs = formatService.getDataForFormat(user);
 
         // Get the user's campus
         session.setAttribute("campus", user.getCampusCode());

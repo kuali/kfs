@@ -35,6 +35,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
@@ -253,57 +254,26 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * 
      * This method returns the number of assets with pending transfers or retirements
      * 
-     * @return Object
+     * @return
      */
-    private Object getNumberOfAssetsBeingRetiredAndTransferred() {
+    private int getNumberOfAssetsBeingRetiredAndTransferred() {
         LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of assets being retired or transferred.");
 
-        Object result=null;
-        Long lCount = new Long(0);
-        BigDecimal bdCount = new BigDecimal(0);
+        int result = 0;
         
         List<String> notPendingDocStatuses = new ArrayList<String>();
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.APPROVED);
         notPendingDocStatuses.add(CamsConstants.NotPendingDocumentStatuses.CANCELED);
 
-        List<String> excludedAssets = new ArrayList<String>();
-
         //Criteria arCriteria = new Criteria();
         Criteria criteria = new Criteria();
         criteria.addNotIn(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, notPendingDocStatuses);
+        
+        result = getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetRetirementGlobal.class, criteria));
 
-        // Retired assets sub query
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
-        q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
-        Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        result += getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetTransferDocument.class, criteria));
         
-        Object[] data1 = (Object[]) i.next();
-        if (data1[0] instanceof BigDecimal)
-            bdCount=bdCount.add((BigDecimal)data1[0]);
-        else
-            lCount=lCount+(Long)data1[0];
-            
-        // transferred assets sub query
-        q = QueryFactory.newReportQuery(AssetTransferDocument.class, criteria);
-        q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER + ")" });
-        i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-
-        Object[] data2 = (Object[]) i.next();
-        if (data2[0] instanceof BigDecimal) {
-            bdCount=bdCount.add((BigDecimal)data2[0]);
-        } else {
-            lCount=lCount+(Long)data2[0];
-        }
-     
-        if (bdCount.compareTo(new BigDecimal(0)) != 0)
-            result=(Object)bdCount;
-        
-        if (lCount.compareTo(new Long(0)) != 0)
-            result=(Object)lCount;
-        
-        LOG.debug("getNumberOfAssetsBeingRetiredAndTransferred() -  Ended");
-        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of assets being retired or transferred.");        
         return result;
     }
 
@@ -576,13 +546,9 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         reportLine.add(columns.clone());
 
         if (beforeDepreciationReport) {
-            Object federallyOwnedAssetPaymentObjectCount = getFederallyOwnedAssetPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
-            Object retiredAndTransferredAssetObjectCount = getNumberOfAssetsBeingRetiredAndTransferred();
-
-            Integer federallyOwnedAssetPaymentCount;
-            Integer retiredAndTransferredAssetCount;
-            Integer eligibleAssetPaymentCount;
-
+            int federallyOwnedAssetPaymentCount = getFederallyOwnedAssetPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
+            int retiredAndTransferredAssetCount = getNumberOfAssetsBeingRetiredAndTransferred();
+            
             columns[0] = "Object code table - record count";
             columns[1] = (convertCountValueToString(this.getAssetObjectCodesCount(fiscalYear)));
             reportLine.add(columns.clone());
@@ -595,46 +561,35 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, false));
             q.setAttributes(new String[] { "count(distinct " + CamsPropertyConstants.AssetPayment.CAPITAL_ASSET_NUMBER + ")", "count(*)" });
             i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-            
             data = (Object[]) i.next();
-            
-            if (data[1] instanceof BigDecimal) {
-                eligibleAssetPaymentCount = new Integer(((BigDecimal) data[1]).toString());
-                federallyOwnedAssetPaymentCount = new Integer(((BigDecimal) federallyOwnedAssetPaymentObjectCount).toString());
-                retiredAndTransferredAssetCount = new Integer(((BigDecimal) retiredAndTransferredAssetObjectCount).toString());
-            }
-            else {
-                eligibleAssetPaymentCount = new Integer(((Long) data[1]).toString());
-                federallyOwnedAssetPaymentCount = new Integer(((Long) federallyOwnedAssetPaymentObjectCount).toString());
-                retiredAndTransferredAssetCount = new Integer(((Long) retiredAndTransferredAssetObjectCount).toString());
-            }
+            int eligibleAssetPaymentCount = new Integer(data[1].toString());
 
-            Integer totalAssetPayments = (eligibleAssetPaymentCount + retiredAndTransferredAssetCount + federallyOwnedAssetPaymentCount);
+            int totalAssetPayments = (eligibleAssetPaymentCount + retiredAndTransferredAssetCount + federallyOwnedAssetPaymentCount);
 
             columns[0] = "Asset payments eligible for depreciation";
-            columns[1] = totalAssetPayments.toString();
+            columns[1] = totalAssetPayments + "";
             reportLine.add(columns.clone());
 
             columns[0] = "Number of assets with pending AR or AT documents";
-            columns[1] = retiredAndTransferredAssetCount.toString();
+            columns[1] = retiredAndTransferredAssetCount + "";
             reportLine.add(columns.clone());
 
             totalAssetPayments = (eligibleAssetPaymentCount + federallyOwnedAssetPaymentCount);
             columns[0] = "Asset payments eligible for depreciation - After excluding AR and AT";
-            columns[1] = totalAssetPayments.toString();
+            columns[1] = totalAssetPayments + "";
             reportLine.add(columns.clone());
 
             columns[0] = "Asset payments ineligible for depreciation (Federally owned assets)";
-            columns[1] = (convertCountValueToString(getFederallyOwnedAssetPaymentCount(fiscalYear, fiscalMonth, depreciationDate)));
+            columns[1] = federallyOwnedAssetPaymentCount + "";
             reportLine.add(columns.clone());
 
             // payments eligible after deleting pending AR and AT documents.!!
             columns[0] = "Asset payments eligible for depreciation - After excluding federally owned assets";
-            columns[1] = eligibleAssetPaymentCount.toString();
+            columns[1] = eligibleAssetPaymentCount + "";
             reportLine.add(columns.clone());
 
             columns[0] = "Assets eligible for depreciation";
-            columns[1] = (convertCountValueToString(data[0]));
+            columns[1] = data[0].toString();
             reportLine.add(columns.clone());
         }
 
@@ -807,32 +762,23 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @param fiscalMonth
      * @param depreciationDate
      * 
-     * @return Object with the # of federally owned assets
+     * @return # of federally owned assets
      */
-    private Object getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+    private int getFederallyOwnedAssetPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  started");
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting the number of federally owned asset payments.");
 
-        String sNumber="0";
-        Object[] data=null;
+        int count = 0;
+        
         List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
         if (!federallyOwnedObjectSubTypes.isEmpty()) {
-            ReportQueryByCriteria q = QueryFactory.newReportQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true));
-            q.setAttributes(new String[] { "count(*)" });
-            Iterator<Object> i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-            if (i.hasNext()) {
-                data = (Object[]) i.next();
-                sNumber = this.convertCountValueToString(data[0]);
-            }
+            count =  getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(AssetPayment.class, this.getDepreciationCriteria(fiscalYear, fiscalMonth, depreciationDate, true)));
         }
 
         LOG.debug("DepreciableAssetsDaoOjb.getFederallyOwnedAssetPaymentCount() -  ended");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the number of federally owned asset payments.");
-        if (data[0] instanceof Long)
-            return new Long(sNumber);
-        else 
-            return new BigDecimal(sNumber);
+        return count;
     }
 
 

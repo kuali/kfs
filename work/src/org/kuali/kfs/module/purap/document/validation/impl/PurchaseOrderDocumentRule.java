@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,13 +24,13 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
-import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
+import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -58,7 +59,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 /**
  * Business rule(s) applicable to Purchase Order document.
  */
-public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implements PurchaseOrderSplitRule, AddVendorToQuoteRule {
+public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implements PurchaseOrderSplitRule, AddVendorToQuoteRule, AssignSensitiveDataRule {
 
     /**
      * Overrides the method in PurchasingDocumentRuleBase class in order to add validation for the Vendor Stipulation Tab. Tab
@@ -384,6 +385,34 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase implem
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME, KFSKeyConstants.ERROR_REQUIRED, "Vendor City Name");
             valid = false;
         }
+        GlobalVariables.getErrorMap().clearErrorPath();
+        return valid;
+    }
+    
+    /**
+     * Check whether the specified sensitive data list is valid for assignment to the specified purchase order.
+     * @param document the purchase order to have sensitive data assigned to 
+     * @param sensitiveDatas the sensitive data list to be checked for assignment
+     * @return true if all sensitive data entry in the list are active and unique; false otherwise
+     * @see org.kuali.kfs.module.purap.document.validation.impl.AssignSensitiveDataRule#processAssignSensitiveDataBusinessRules(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, java.util.List)
+     */
+    public boolean processAssignSensitiveDataBusinessRules (PurchaseOrderDocument document, List sensitiveDatas) {
+        boolean valid = true;
+        GlobalVariables.getErrorMap().clearErrorPath();        
+        HashSet sdset = new HashSet();
+        
+        for (Object sdobj : sensitiveDatas) {
+            SensitiveData sd = (SensitiveData)sdobj;
+            if (!sd.isActive()) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_INACTIVE_SENSITIVE_DATA, sd.getSensitiveDataDescription());
+                valid = false;                
+            }
+            else if (!sdset.add(sd.getSensitiveDataCode())) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS, PurapKeyConstants.ERROR_ASSIGN_REDUNDANT_SENSITIVE_DATA, sd.getSensitiveDataDescription());
+                valid = false;                                    
+            }            
+        }
+
         GlobalVariables.getErrorMap().clearErrorPath();
         return valid;
     }

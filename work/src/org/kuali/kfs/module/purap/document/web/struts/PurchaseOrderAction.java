@@ -57,6 +57,7 @@ import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.validation.event.AddVendorToQuoteEvent;
+import org.kuali.kfs.module.purap.document.validation.event.AssignSensitiveDataEvent;
 import org.kuali.kfs.module.purap.document.validation.event.SplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.document.validation.impl.PurchasingDocumentRuleBase;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
@@ -638,6 +639,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
         SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
         
+        // check business rules
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AssignSensitiveDataEvent("", po, sds));
+        if (!rulePassed) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
         // update table SensitiveDataAssignment
         UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
@@ -706,8 +713,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();        
         poForm.setAssigningSensitiveData(false);
-        List<SensitiveData> posds = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByPoId(po.getPurapDocumentIdentifier());
-        poForm.setSensitiveDatasAssigned(posds);        
+        List<SensitiveData> sds = SpringContext.getBean(SensitiveDataService.class).getSensitiveDatasAssignedByPoId(po.getPurapDocumentIdentifier());
+        poForm.setSensitiveDatasAssigned(sds);        
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }                  
@@ -725,10 +732,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward addSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Add Sensitive Data started");
         
-        // reset the sensitive data related fields in the po form
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        SensitiveDataService sdService = SpringContext.getBean(SensitiveDataService.class);        
+        
+        // retrieve new sensitive data by code, add the new line
+        SensitiveData newsd = poForm.getNewSensitiveDataLine();
+        newsd = sdService.getSensitiveDataByCode(newsd.getSensitiveDataCode());
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
-        sds.add(poForm.getNewSensitiveDataLine());
+        sds.add(newsd);
+        
+        // reset new line
         poForm.setNewSensitiveDataLine(new SensitiveData());        
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -747,7 +760,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward deleteSensitiveData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Delete Sensitive Data started");
         
-        // reset the sensitive data related fields in the po form
+        // remove the selected sensitive data line 
         PurchaseOrderForm poForm = (PurchaseOrderForm)form;
         List<SensitiveData> sds = poForm.getSensitiveDatasAssigned();
         sds.remove(getSelectedLine(request));      

@@ -179,6 +179,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate";
     public static final String CAPITAL_ASSET_TAB_ERRORS = "document.purchasingCapitalAsset*,newPurchasingItemCapitalAssetLine*";
     public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
+    public static final String ASSIGN_SENSITIVE_DATA_TAB_ERRORS = "document.assignSensitiveData";
 
     // PO/Quotes Tab Constants
     public static final String QUOTE_TAB_ERRORS = "document.quote*,quote*,purchaseOrderVendorQuotes*,newPurchaseOrderVendorQuote*";
@@ -837,7 +838,7 @@ public class PurapConstants extends JSTLConstants {
         public final static String SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE = "STLV";
         public final static String SALES_TAX_AMT_GREATER_THAN_UPPER_VARIANCE = "STUV";
         public final static String INVOICE_ORDER_DUPLICATE = "EIDU";
-        
+
         public final static String PREQ_WORKLOW_EXCEPTION = "PRWE";
         public final static String PREQ_DISCOUNT_ERROR = "PRDE";
         public final static String PREQ_ROUTING_FAILURE = "PRRF";
@@ -918,7 +919,7 @@ public class PurapConstants extends JSTLConstants {
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER, "capitalAssetModelDescription");
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER, "capitalAssetNotReceivedCurrentFiscalYearIndicator"); 
             fieldsByParameterNames.put(PurapParameterConstants.CapitalAsset.CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER, "capitalAssetCountAssetNumber"); 
-            
+
             return Collections.unmodifiableMap(fieldsByParameterNames);
         }
         

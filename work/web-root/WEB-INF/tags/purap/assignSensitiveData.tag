@@ -28,7 +28,7 @@
               
 <c:set var="lastSensitiveDataAssignment" value="${KualiForm.lastSensitiveDataAssignment}" />
               
-<kul:tabTop tabTitle="Assign Sensitive Data to Purchase Order" defaultOpen="true" >
+<kul:tabTop tabTitle="Assign Sensitive Data to Purchase Order" defaultOpen="true" tabErrorKey="${PurapConstants.ASSIGN_SENSITIVE_DATA_TAB_ERRORS}">
 	
     <div class="tab-container" align=center>
     	<h3>General Information</h3>

@@ -383,6 +383,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         valid &= processVendorValidation(document);
+        valid &= processContactValidation(document);
         if (ObjectUtils.isNotNull(newVendor.getVendorHeader().getVendorType())) {
             valid &= processAddressValidation(document);
             valid &= processContractValidation(document);
@@ -804,6 +805,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
 
+            this.getDictionaryValidationService().validateBusinessObject(address);
+            if (!GlobalVariables.getErrorMap().isEmpty()) {
+                valid = false;
+            }
+            
             if (address.getVendorAddressTypeCode().equals(vendorAddressTypeRequiredCode)) {
                 validAddressType = true;
             }
@@ -1110,7 +1116,18 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      */
     private boolean processContactValidation(MaintenanceDocument document) {
         boolean valid = true;
-        // leaving stub method here as placeholder for future Contact Validation
+        int i = 0;
+        for (VendorContact contact : newVendor.getVendorContacts()) {
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTACT + "[" + i + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+
+            this.getDictionaryValidationService().validateBusinessObject(contact);
+            if (!GlobalVariables.getErrorMap().isEmpty()) {
+                valid = false;
+            }
+            i++;
+            GlobalVariables.getErrorMap().clearErrorPath();
+        }
         return valid;
     }
 

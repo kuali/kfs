@@ -188,7 +188,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     public boolean canApprove() {
         boolean hasPermission = false;
 
-        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus()) || isAdHocRequested()) && (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false)) {
+        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus()) || isAdHocRequested()) && (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false)) {
             hasPermission = true;
         }
         return hasPermission;

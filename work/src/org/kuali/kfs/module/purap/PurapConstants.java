@@ -201,6 +201,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String AWAIT_CONTRACTS_GRANTS_REVIEW = "WCG";
         public static final String AWAIT_PURCHASING_REVIEW = "WPUR";
         public static final String AWAIT_COMMODITY_CODE_REVIEW = "WCOM";
+        public static final String AWAIT_NEW_UNORDERED_ITEM_REVIEW = "WNUI";
         public static final String DAPRVD_TAX = "DTAX";
         public static final String DAPRVD_BUDGET = "DBUD";
         public static final String DAPRVD_CONTRACTS_GRANTS = "DCG";
@@ -231,6 +232,7 @@ public class PurapConstants extends JSTLConstants {
             INCOMPLETE_STATUSES.add(AWAIT_BUDGET_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_CONTRACTS_GRANTS_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_PURCHASING_REVIEW);
+            INCOMPLETE_STATUSES.add(AWAIT_NEW_UNORDERED_ITEM_REVIEW);
             INCOMPLETE_STATUSES.add(QUOTE);
             INCOMPLETE_STATUSES.add(CXML_ERROR);
             INCOMPLETE_STATUSES.add(PENDING_CXML);
@@ -404,6 +406,7 @@ public class PurapConstants extends JSTLConstants {
         public static final String DEPARTMENT_APPROVED = "DPTA";
         public static final String AUTO_APPROVED = "AUTO";
         public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
+        public static final String AWAITING_RECEIVING_REVIEW = "ARVR"; // Waiting for Receiving approval 
         public static final String AWAITING_SUB_ACCT_MGR_REVIEW = "ASAA"; // Waiting for Sub Acct Manager approval
         public static final String AWAITING_FISCAL_REVIEW = "AFOA"; // Waiting for Fiscal Officer approval
         public static final String AWAITING_ORG_REVIEW = "ACHA"; // Waiting for Chart/Org approval
@@ -414,7 +417,7 @@ public class PurapConstants extends JSTLConstants {
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
         // easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER {
-            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), DEPARTMENT_APPROVED(
+            CANCELLED_IN_PROCESS(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.PaymentRequestStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.PaymentRequestStatuses.INITIATE, true), IN_PROCESS(PurapConstants.PaymentRequestStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_RECEIVING_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW, false), AWAITING_SUB_ACCT_MGR_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_FISCAL_REVIEW, false), AWAITING_ORG_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_ORG_REVIEW, false), AWAITING_TAX_REVIEW(PurapConstants.PaymentRequestStatuses.AWAITING_TAX_REVIEW, false), DEPARTMENT_APPROVED(
                     PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED, false), AUTO_APPROVED(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED, false), ;
 
             private String statusCode = new String();
@@ -458,7 +461,7 @@ public class PurapConstants extends JSTLConstants {
 
         public static final String[] STATUSES_ALLOWED_FOR_EXTRACTION = { AUTO_APPROVED, DEPARTMENT_APPROVED };
 
-        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, DEPARTMENT_APPROVED, AUTO_APPROVED, AWAITING_ACCOUNTS_PAYABLE_REVIEW, AWAITING_SUB_ACCT_MGR_REVIEW, AWAITING_FISCAL_REVIEW, AWAITING_ORG_REVIEW, AWAITING_TAX_REVIEW };
+        public static final String[] STATUSES_POTENTIALLY_ACTIVE = { IN_PROCESS, DEPARTMENT_APPROVED, AUTO_APPROVED, AWAITING_ACCOUNTS_PAYABLE_REVIEW, AWAITING_RECEIVING_REVIEW, AWAITING_SUB_ACCT_MGR_REVIEW, AWAITING_FISCAL_REVIEW, AWAITING_ORG_REVIEW, AWAITING_TAX_REVIEW };
         
         public static final Set CANCELLED_STATUSES = new HashSet();
         public static final Set STATUSES_DISALLOWING_HOLD = new HashSet();

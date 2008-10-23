@@ -189,8 +189,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="deliveryBuildingName" />
     <property name="forceUppercase" value="false" />
     <property name="required" value="false" />
-    <property name="label" value="Building" />
-    <property name="shortLabel" value="Building" />
+    <property name="label" value="Delivery" />
+    <property name="shortLabel" value="Delivery" />
     <property name="maxLength" value="45" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"

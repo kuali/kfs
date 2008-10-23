@@ -35,6 +35,7 @@
 	                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryBuildingName}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> 
+	                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" property="document.deliveryToName" readOnly="true" /><br>
 	                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingName}" property="document.deliveryBuildingName" readOnly="true" /><br>
 	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" property="document.deliveryBuildingLine1Address" readOnly="true" />&nbsp;
 	                   	<c:if test="${! empty KualiForm.document.deliveryBuildingLine2Address}">                   	

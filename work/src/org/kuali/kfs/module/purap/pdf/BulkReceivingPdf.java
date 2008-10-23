@@ -220,6 +220,14 @@ public class BulkReceivingPdf extends PurapPdf {
         infoTable.addCell(getPDFCell("# of Pieces\n", "" + blkRecDoc.getNoOfCartons()));
         infoTable.addCell(getPDFCell("Shipment Received Date\n", blkRecDoc.getShipmentReceivedDate().toString()));
 
+        if (blkRecDoc.getShipmentWeight() != null){
+            infoTable.addCell(getPDFCell("Weight\n", blkRecDoc.getShipmentWeight().toString()));
+        }else{
+            infoTable.addCell(getPDFCell("Weight\n", StringUtils.EMPTY));
+        }
+        
+        infoTable.addCell(getPDFCell("\n", StringUtils.EMPTY));
+
         return infoTable;
     }
     

@@ -841,7 +841,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.setHoldIndicator(false);
         document.setLastActionPerformedByUniversalUserId(null);
                         
-        return document;
+        return preqDoc;
     }
 
     /**

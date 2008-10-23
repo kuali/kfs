@@ -36,16 +36,6 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao#save(org.kuali.kfs.pdp.businessobject.PaymentGroupHistory)
-     */
-    public PaymentGroupHistory save(PaymentGroupHistory paymentGroupHistory) {
-        LOG.debug("save() started");
-        paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
-        getPersistenceBrokerTemplate().store(paymentGroupHistory);
-        return paymentGroupHistory;
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao#getCanceledChecks()
      */
     public Iterator getCanceledChecks() {

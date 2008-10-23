@@ -23,23 +23,9 @@ import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailDao {
-    public PaymentDetail get(Integer id);
-
-    public void save(PaymentDetail pd);
-
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
 
     public List getDisbursementNumberRanges(String campus);
-
-    public void saveDisbursementNumberRange(DisbursementNumberRange range);
-
-    /**
-     * This gets all the payment details by disbursement number
-     * 
-     * @param disbursementNumber
-     * @return
-     */
-    public Iterator getByDisbursementNumber(Integer disbursementNumber);
 
     /**
      * This returns the data required for the daily report

@@ -25,10 +25,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -79,10 +79,11 @@ public class PreFormatProcessSummary extends TransientBusinessObjectBase{
      * 
      * @param pdd
      */
-    public void save(ProcessSummaryDao psd) {
+    public void save() {
         for (Iterator iter = processSummary.iterator(); iter.hasNext();) {
             ProcessSummary ps = (ProcessSummary) iter.next();
-            psd.save(ps);
+            
+            SpringContext.getBean(BusinessObjectService.class).save(ps);
         }
     }
 

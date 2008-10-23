@@ -20,13 +20,6 @@ import java.util.Iterator;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 
 public interface PaymentGroupHistoryDao {
-    /**
-     * Save a row
-     * 
-     * @param paymentGroupHistory
-     * @return
-     */
-    public PaymentGroupHistory save(PaymentGroupHistory paymentGroupHistory);
 
     /**
      * Get the cancelled checks

@@ -84,7 +84,7 @@
     		</map>
 		</property>
 	</bean>	
-
+	
 	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchMaintenanceDaoOjb">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
@@ -111,18 +111,13 @@
 
 	<bean id="pdpPaymentFileLoadDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentFileLoadDaoOjb"/>
 
-	<bean id="pdpPaymentGroupDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentGroupDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
-	</bean>
-
+	<bean id="pdpPaymentGroupDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentGroupDaoOjb" />
+	
 	<bean id="pdpPaymentGroupHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentGroupHistoryDaoOjb"/>
 
-	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.ProcessDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
-	</bean>
-
-	<bean id="pdpProcessSummaryDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.ProcessSummaryDaoOjb"/>
-
+	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.ProcessDaoOjb" />
+	
+	
 	<bean id="pdpLoadPaymentsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -212,7 +207,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="pdpClearPendingTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -264,7 +259,7 @@
 	<bean id="pdpExtractChecksStep" class="org.kuali.kfs.pdp.batch.ExtractChecksStep" parent="step">
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>
-	
+
     <bean id="pdpClearPendingTransactionsStep" class="org.kuali.kfs.pdp.batch.ClearPendingTransactionsStep" parent="step">
 		<property name="pendingTransactionService" ref="pdpGlPendingTransactionService" />
 	</bean>
@@ -286,7 +281,7 @@
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="paymentFileEmailService" ref="paymentFileEmailService"/>
-	    <property name="businessObjectService" ref="businessObjectService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="pdpExtractGlTransactionService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractTransactionsServiceImpl">
@@ -298,7 +293,8 @@
 	</bean>
 
 	<bean id="pdpAchBankService" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">
-	    <property name="businessObjectService" ref="businessObjectService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		
 	</bean>
 
 	<bean id="pdpAchService" class="org.kuali.kfs.pdp.service.impl.AchServiceImpl">
@@ -307,9 +303,8 @@
 
 	<bean id="pdpBatchMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.BatchMaintenanceServiceImpl">
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
-		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
-		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
 
 	<bean id="pdpBatchSearchService" class="org.kuali.kfs.pdp.service.impl.BatchSearchServiceImpl">
@@ -328,7 +323,6 @@
 	<bean id="pdpFormatService" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl">
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
-		<property name="processSummaryDao" ref="pdpProcessSummaryDao"/>
 		<property name="processDao" ref="pdpProcessDao"/>
 		<property name="achService" ref="pdpAchService"/>
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
@@ -340,7 +334,7 @@
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 	</bean>
-
+	
 	<bean id="pdpGlPendingTransactionService" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
 		<property name="chartService" ref="chartService"/>
@@ -357,6 +351,7 @@
 
 	<bean id="pdpPaymentDetailService" class="org.kuali.kfs.pdp.service.impl.PaymentDetailServiceImpl">
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="paymentFileService" class="org.kuali.kfs.pdp.service.impl.PaymentFileServiceImpl">
@@ -427,20 +422,20 @@
 	<bean id="pdpPaymentMaintenanceService" class="org.kuali.kfs.pdp.document.service.impl.PaymentMaintenanceServiceImpl">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
-		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
 		<property name="mailService" ref="mailService"/>
 		<property name="parameterService" ref="parameterService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="bankService" ref="bankService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="paymentGroupService" ref="pdpPaymentGroupService" />
 	</bean>
 
 	<bean id="pdpPdpSecurityService" class="org.kuali.kfs.pdp.service.impl.PdpSecurityServiceImpl">
 		<property name="kualiGroupService" ref="kualiGroupService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
-
+	
 	<bean id="pdpPaymentFileParser" class="org.kuali.kfs.pdp.service.impl.paymentparser.PaymentFileParserImpl" singleton="false">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>

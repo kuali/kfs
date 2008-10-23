@@ -18,6 +18,8 @@
  */
 package org.kuali.kfs.pdp.document.service.impl;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
@@ -27,9 +29,8 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
-import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
-import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
+import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -46,9 +47,8 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
     private BatchMaintenanceDao batchMaintenanceDao;
     private KualiCodeService kualiCodeService;
-    private PaymentGroupDao paymentGroupDao;
-    private PaymentGroupHistoryDao paymentGroupHistoryDao;
     private BusinessObjectService businessObjectService;
+    private PaymentGroupService paymentGroupService;
     
     /**
      * This method changes the status for PaymentGroup and PaymentGroupHistory.
@@ -69,8 +69,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
-
-        paymentGroupHistoryDao.save(paymentGroupHistory);
+        paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
+        
+        this.businessObjectService.save(paymentGroupHistory);
 
         PaymentStatus paymentStatus = (PaymentStatus) kualiCodeService.getByCode(PaymentStatus.class, newPaymentStatus);
 
@@ -93,7 +94,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
-            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
@@ -133,7 +134,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
-            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
@@ -173,7 +174,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
-            List<PaymentGroup> paymentGroupList = paymentGroupDao.getByBatchId(paymentBatchId);
+            List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
@@ -235,24 +236,6 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     }
 
     /**
-     * This method sets paymentGroupDao
-     * 
-     * @param dao PaymentGroupDao
-     */
-    public void setPaymentGroupDao(PaymentGroupDao dao) {
-        paymentGroupDao = dao;
-    }
-
-    /**
-     * This method sets paymentGroupHistoryDao
-     * 
-     * @param dao PaymentGroupHistoryDao
-     */
-    public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao dao) {
-        paymentGroupHistoryDao = dao;
-    }
-
-    /**
      * This method sets the batchMaintenanceDao
      * 
      * @param batchMaintenanceDao BatchMaintenanceDao
@@ -295,6 +278,10 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
+        this.paymentGroupService = paymentGroupService;
     }
 
 }

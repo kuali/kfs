@@ -75,23 +75,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getByDisbursementNumber(java.lang.Integer)
-     */
-    public Iterator getByDisbursementNumber(Integer disbursementNumber) {
-        LOG.debug("getByDisbursementNumber() started");
-
-        Criteria crit = new Criteria();
-        crit.addEqualTo("paymentGroup.disbursementNbr", disbursementNumber);
-
-        QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, crit);
-
-        q.addOrderByAscending("financialDocumentTypeCode");
-        q.addOrderByAscending("custPaymentDocNbr");
-
-        return getPersistenceBrokerTemplate().getIteratorByQuery(q);
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDailyReportData()
      */
     public List<DailyReport> getDailyReportData() {
@@ -216,28 +199,13 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#get(java.lang.Integer)
-     */
-    public PaymentDetail get(Integer id) {
-        LOG.debug("get(id) started");
-        List data = new ArrayList();
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("id", id);
-
-        PaymentDetail cp = (PaymentDetail) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
-
-        return cp;
-    }
-
-    /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#save(org.kuali.kfs.pdp.businessobject.PaymentDetail)
      */
-    public void save(PaymentDetail pd) {
+    /*public void save(PaymentDetail pd) {
         LOG.debug("save(paymentDetail) started... ID: " + pd.getId());
 
         getPersistenceBrokerTemplate().store(pd);
-    }
+    }*/
 
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDetailForEpic(java.lang.String, java.lang.String)
@@ -270,17 +238,6 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             }
         }
 
-        /*if (cp != null) {
-            if (cp.getPaymentGroup().getBatch() != null) {
-                //updateBatchUser(cp.getPaymentGroup().getBatch());
-            }
-            if (cp.getPaymentGroup().getProcess() != null) {
-                //updateProcessUser(cp.getPaymentGroup().getProcess());
-            }
-            if (cp.getPaymentGroup().getPaymentGroupHistory() != null) {
-                //updateChangeUser(cp.getPaymentGroup().getPaymentGroupHistory());
-            }
-        }*/
         return cp;
     }
 
@@ -303,17 +260,8 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         qbc.addOrderBy("bankCode", true);
 
         List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        //updateDnr(l);
+        
         return l;
-    }
-
-    /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#saveDisbursementNumberRange(org.kuali.kfs.pdp.businessobject.DisbursementNumberRange)
-     */
-    public void saveDisbursementNumberRange(DisbursementNumberRange range) {
-        LOG.debug("saveDisbursementNumberRange() started");
-
-        getPersistenceBrokerTemplate().store(range);
     }
 
     /**

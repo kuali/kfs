@@ -18,6 +18,7 @@ package org.kuali.kfs.pdp.service.impl;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,12 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -66,8 +69,14 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      */
     public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {
         LOG.debug("getByDisbursementTypeStatusCode() started");
-
-        return paymentGroupDao.getByDisbursementTypeStatusCode(disbursementType, paymentStatusCode);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE, disbursementType);
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, paymentStatusCode);
+        List paymentGroupList = (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR);
+        
+        return paymentGroupList.iterator();
     }
 
     /**
@@ -75,8 +84,13 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      */
     public Iterator getByProcessId(Integer pid) {
         LOG.debug("getByProcessId() started");
-
-        return paymentGroupDao.getByProcessId(pid);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, pid);
+        List paymentGroupList = (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_SORT_VALUE, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS);
+        
+        return paymentGroupList.iterator();
     }
 
     /**
@@ -84,8 +98,13 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      */
     public Iterator getByProcess(PaymentProcess p) {
         LOG.debug("getByProcess() started");
-
-        return paymentGroupDao.getByProcess(p);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, p.getId());
+        List paymentGroupList = (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        DynamicCollectionComparator.sort(paymentGroupList, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_SORT_VALUE, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYEE_NAME, PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_LINE1_ADDRESS);
+        
+        return paymentGroupList.iterator();
     }
    
     /**
@@ -93,8 +112,10 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      */
     public PaymentGroup get(Integer id) {
         LOG.debug("get() started");
-
-        return paymentGroupDao.get(id);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID, id);
+        return (PaymentGroup) this.businessObjectService.findMatching(PaymentGroup.class, primaryKeys);
     }
 
     /**
@@ -102,8 +123,11 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
      */
     public List getByBatchId(Integer batchId) {
         LOG.debug("getByBatchId() started");
-
-        return paymentGroupDao.getByBatchId(batchId);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, batchId);
+        
+        return (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
     }
 
     /**
@@ -112,7 +136,10 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     public List getByDisbursementNumber(Integer disbursementNbr) {
         LOG.debug("getByDisbursementNumber() started");
 
-        return paymentGroupDao.getByDisbursementNumber(disbursementNbr);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_DISBURSEMENT_NBR, disbursementNbr);
+        
+        return (List) this.businessObjectService.findMatching(PaymentGroup.class, fieldValues);
     }
 
     /**

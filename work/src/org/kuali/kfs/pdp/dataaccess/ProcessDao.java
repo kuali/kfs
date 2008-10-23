@@ -30,10 +30,6 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
  */
 public interface ProcessDao {
 
-    public PaymentProcess createProcess(String campusCd, UniversalUser processUser);
-
-    public PaymentProcess get(Integer procId);
-
     public List getMostCurrentProcesses(Integer number);
     
     public PaymentProcess createProcessToRun(Integer procId);

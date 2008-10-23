@@ -15,20 +15,26 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class PaymentDetailServiceImpl implements PaymentDetailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailServiceImpl.class);
 
     private PaymentDetailDao paymentDetailDao;
-
+    private BusinessObjectService businessObjectService;
+    
     public void setPaymentDetailDao(PaymentDetailDao c) {
         paymentDetailDao = c;
     }
@@ -47,8 +53,13 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
      */
     public Iterator getByDisbursementNumber(Integer disbursementNumber) {
         LOG.debug("getByDisbursementNumber() started");
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
+        List<PaymentDetail> paymentDetailByDisbursementNumberList= (List<PaymentDetail>)this.businessObjectService.findMatching(PaymentDetail.class, fieldValues);
+        DynamicCollectionComparator.sort(paymentDetailByDisbursementNumberList, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE, PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR);
 
-        return paymentDetailDao.getByDisbursementNumber(disbursementNumber);
+        return paymentDetailByDisbursementNumberList.iterator();
     }
 
     /**
@@ -56,8 +67,10 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
      */
     public PaymentDetail get(Integer id) {
         LOG.debug("get() started");
-
-        return paymentDetailDao.get(id);
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, id);
+        
+        return (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
     }
 
     /**
@@ -85,5 +98,9 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
         LOG.debug("getUnprocessedPaidDetails() started");
 
         return paymentDetailDao.getUnprocessedPaidDetails(organization, subUnits);
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

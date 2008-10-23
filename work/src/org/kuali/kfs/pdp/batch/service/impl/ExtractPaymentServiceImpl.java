@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -64,7 +65,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     private PaymentFileEmailService paymentFileEmailService;
     private KualiCodeService kualiCodeService;
     private BusinessObjectService businessObjectService;
-
+    
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
     public static boolean testMode = false;
@@ -108,13 +109,13 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writePayee(os, 4, history.getPaymentGroup());
 
                 writeTag(os, 4, "netAmount", history.getPaymentGroup().getNetPaymentAmount().toString());
-                if (history.getOrigDisburseNbr() != null) {
-                    writeTag(os, 4, "disbursementNumber", history.getOrigDisburseNbr().toString());
+                if ( history.getOrigDisburseNbr() != null ) {
+                    writeTag(os, 4, "disbursementNumber", history.getOrigDisburseNbr().toString());                    
                 }
                 else {
                     writeTag(os, 4, "disbursementNumber", history.getPaymentGroup().getDisbursementNbr().toString());
                 }
-                if (history.getPaymentGroup().getDisbursementType() != null) {
+                if(history.getPaymentGroup().getDisbursementType() != null) {
                     writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
                 }
                 else {
@@ -127,7 +128,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     history.setLastUpdate(new Timestamp(processDate.getTime()));
                     history.setPmtCancelExtractDate(new Timestamp(processDate.getTime()));
                     history.setPmtCancelExtractStat(Boolean.TRUE);
-                    paymentGroupHistoryDao.save(history);
+                    history.setChangeTime(new Timestamp(new Date().getTime()));
+                    
+                    this.businessObjectService.save(history);
                 }
             }
 
@@ -238,7 +241,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                     Integer count = 1;
                     if (unitCounts.containsKey(unit)) {
                         count = 1 + unitCounts.get(unit);
-                    }
+                }
                     unitCounts.put(unit, count);
 
                     KualiDecimal unitTotal = paymentDetail.getNetPaymentAmount();
@@ -251,7 +254,6 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 writeCloseTag(os, 4, "payments");
                 writeCloseTag(os, 2, "ach");
             }
-
             writeCloseTag(os, 0, "achPayments");
             
             // send summary email
@@ -285,13 +287,13 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
         // Get the process ID
 
-        if (!parameterService.parameterExists(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID)) {
+        if ( ! parameterService.parameterExists(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID) ) {
             throw new RuntimeException("This job should only be triggered by the format process.  It should not be run manually");
         }
         String pids = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
         pids = pids.trim();
-
-
+        
+        
         Integer processId = null;
         try {
             processId = Integer.parseInt(pids);
@@ -299,21 +301,24 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("Unable to convert the process ID to a number");
         }
-
-        PaymentProcess p = processDao.get(processId);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
+        PaymentProcess p = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
+        
         if (p == null) {
             throw new IllegalArgumentException("Invalid process ID");
         }
 
         String filename = getOutputFile("pdp_check", processDate);
         LOG.debug("extractChecks() filename: " + filename);
-
+        
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
         for (PaymentProcess extractToRun : extractsToRun) {
             writeFile(extractToRun, filename, extractToRun.getId().intValue());
             this.processDao.setExtractProcessAsComplete(extractToRun);
         }
-    }
+                        }
 
     private void writeFile(PaymentProcess p, String filename, Integer processId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -327,23 +332,23 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
 
             List<Integer> disbNbrs = paymentGroupService.getDisbursementNumbersByDisbursementType(processId, PdpConstants.DisbursementTypeCodes.CHECK);
             for (Iterator iter = disbNbrs.iterator(); iter.hasNext();) {
-                Integer disbursementNbr = (Integer) iter.next();
+                Integer disbursementNbr = (Integer)iter.next();
 
                 boolean first = true;
 
                 Iterator i = paymentDetailService.getByDisbursementNumber(disbursementNbr);
-                while (i.hasNext()) {
-                    PaymentDetail pd = (PaymentDetail) i.next();
+                while ( i.hasNext() ) {
+                    PaymentDetail pd = (PaymentDetail)i.next();
                     PaymentGroup pg = pd.getPaymentGroup();
                     if (!testMode) {
-                        if (pg.getDisbursementDate() == null) {
+                        if ( pg.getDisbursementDate() == null ) {
                             pg.setDisbursementDate(new Timestamp(processDate.getTime()));
                             pg.setLastUpdate(new Timestamp(processDate.getTime()));
                             this.businessObjectService.save(pg);
                         }
                     }
 
-                    if (first) {
+                    if ( first ) {
                         writeOpenTagAttribute(os, 2, "check", "disbursementNbr", pg.getDisbursementNbr().toString());
 
                         // Write check level information
@@ -416,7 +421,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
             }
         }
     }
-
+    
     private static String SPACES = "                                                       ";
 
     private void writeTag(BufferedWriter os, int indent, String tag, String data) throws IOException {
@@ -447,7 +452,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     }
 
     private void writeBank(BufferedWriter os, int indent, Bank b) throws IOException {
-        if (b != null) {
+        if ( b != null ) {
             writeOpenTagAttribute(os, indent, "bank", "code", b.getBankCode());
             writeTag(os, indent + 2, "accountNumber", b.getBankAccountNumber());
             writeTag(os, indent + 2, "routingNumber", b.getBankRoutingNumber());
@@ -549,7 +554,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
     }
-
+ 
     /**
      * Sets the paymentDetailService attribute value.
      * 
@@ -585,7 +590,7 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setPaymentFileEmailService(PaymentFileEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
     }
-
+    
     /**
      * Sets the kualiCodeService attribute value.
      * 
@@ -594,8 +599,8 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
-    
-     /**
+
+    /**
      * Sets the business object service
      * 
      * @param businessObjectService
@@ -603,5 +608,4 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
 }

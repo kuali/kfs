@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -50,7 +51,6 @@ import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
-import org.kuali.kfs.pdp.dataaccess.ProcessSummaryDao;
 import org.kuali.kfs.pdp.exception.ConfigurationError;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.pdp.service.FormatService;
@@ -59,8 +59,7 @@ import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.pdp.service.impl.exception.DisbursementRangeExhaustedException;
 import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeException;
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
-import org.kuali.kfs.pdp.util.CustomerProfileListComparator;
-import org.kuali.kfs.pdp.util.DisbursementNumberRangeListComparator;
+import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -79,7 +78,6 @@ public class FormatServiceImpl implements FormatService {
 
     private PaymentDetailDao paymentDetailDao;
     private PaymentGroupDao paymentGroupDao;
-    private ProcessSummaryDao processSummaryDao;
     private ProcessDao processDao;
     private AchService achService;
     private PendingTransactionService glPendingTransactionService;
@@ -150,8 +148,14 @@ public class FormatServiceImpl implements FormatService {
         }
 
         // Create the process
-        PaymentProcess paymentProcess = processDao.createProcess(campus, user);
-
+        Date d = new Date();
+        PaymentProcess paymentProcess = new PaymentProcess();
+        paymentProcess.setCampus(campus);
+        paymentProcess.setProcessUser(user);
+        paymentProcess.setProcessTimestamp(new Timestamp(d.getTime()));
+        
+        this.businessObjectService.save(paymentProcess);
+        
         // add an entry in the format process table (to lock the format process)
         FormatProcess formatProcess = new FormatProcess();
         formatProcess.setPhysicalCampusProcessCode(campus);
@@ -164,9 +168,9 @@ public class FormatServiceImpl implements FormatService {
 
         // summarize them
         PreFormatProcessSummary preFormatProcessSummary = new PreFormatProcessSummary();
-
-        Iterator iterator = paymentGroupDao.getByProcess(paymentProcess);
-
+        
+        Iterator iterator = this.paymentGroupService.getByProcess(paymentProcess);
+        
         int count = 0;
         while (iterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) iterator.next();
@@ -206,8 +210,11 @@ public class FormatServiceImpl implements FormatService {
      */
     public List<FormatResult> performFormat(Integer processId) {
         LOG.debug("performFormat() started");
-
-        PaymentProcess paymentProcess = processDao.get(processId);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
+        PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
+        
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new ConfigurationError("Invalid proc ID");
@@ -223,8 +230,8 @@ public class FormatServiceImpl implements FormatService {
         int maxNoteLines = getMaxNoteLines();
 
         // Step one, get ACH or Check, Bank info, ACH info, sorting
-        Iterator paymentGroupIterator = paymentGroupDao.getByProcess(paymentProcess);
-
+        Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
+        
         PostFormatProcessSummary postFormatProcessSummary = new PostFormatProcessSummary();
         while (paymentGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
@@ -341,7 +348,7 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("performFormat() Combining");
 
         PaymentInfo lastPaymentInfo = new PaymentInfo();
-        paymentGroupIterator = paymentGroupDao.getByProcess(paymentProcess);
+        paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
 
         while (paymentGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
@@ -392,7 +399,7 @@ public class FormatServiceImpl implements FormatService {
 
         // step 4 save the summarizing info
         LOG.debug("performFormat() Save summarizing information");
-        postFormatProcessSummary.save(processSummaryDao);
+        postFormatProcessSummary.save();
 
         // step 5 tell the extract batch job to start
         LOG.debug("performFormat() Start extract batch job");
@@ -403,7 +410,10 @@ public class FormatServiceImpl implements FormatService {
         endFormatProcess(paymentProcess.getCampus());
 
         // step 7 return all the process summaries
-        List processSummaryResults = processSummaryDao.getByPaymentProcess(paymentProcess);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, paymentProcess);
+        
+        List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
@@ -471,8 +481,10 @@ public class FormatServiceImpl implements FormatService {
      */
     public void clearUnfinishedFormat(Integer processId) {
         LOG.debug("clearUnfinishedFormat() started");
-
-        PaymentProcess paymentProcess = processDao.get(processId);
+        
+        Map primaryKeys = new HashMap();
+        primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
+        PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
         LOG.debug("clearUnfinishedFormat() Process: " + paymentProcess);
 
         formatPaymentDao.unmarkPaymentsForFormat(paymentProcess);
@@ -511,8 +523,8 @@ public class FormatServiceImpl implements FormatService {
 
         List<CustomerProfile> customerProfileList = (List<CustomerProfile>) this.businessObjectService.findAll(CustomerProfile.class);
 
-        Collections.sort(customerProfileList, new CustomerProfileListComparator());
-
+        DynamicCollectionComparator.sort(customerProfileList, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_ORG_CODE, PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE);
+        
         return customerProfileList;
     }
 
@@ -523,9 +535,8 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("getAllDisbursementNumberRanges() started");
 
         List<DisbursementNumberRange> disbursementNumberRangeList = (List<DisbursementNumberRange>) this.businessObjectService.findAll(DisbursementNumberRange.class);
-
-        Collections.sort(disbursementNumberRangeList, new DisbursementNumberRangeListComparator());
-
+        DynamicCollectionComparator.sort(disbursementNumberRangeList, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_PHYS_CAMPUS_PROC_CODE, PdpPropertyConstants.DisbursementNumberRange.DISBURSEMENT_NUMBER_RANGE_TYPE_CODE);
+        
         return disbursementNumberRangeList;
     }
 
@@ -547,7 +558,7 @@ public class FormatServiceImpl implements FormatService {
 
         int checkNumber = 0;
 
-        Iterator payGroupIterator = paymentGroupDao.getByProcess(paymentProcess);
+        Iterator payGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
         while (payGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = (PaymentGroup) payGroupIterator.next();
             LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
@@ -610,7 +621,7 @@ public class FormatServiceImpl implements FormatService {
         int savedRangesCount = 0;
         for (DisbursementNumberRange element : disbursementRanges) {
             savedRangesCount++;
-            paymentDetailDao.saveDisbursementNumberRange(element);
+            this.businessObjectService.save(element);
         }
         LOG.debug("pass2() " + savedRangesCount + " ranges saved");
     }
@@ -642,7 +653,11 @@ public class FormatServiceImpl implements FormatService {
      */
     public List getFormatSummary(Integer procId) {
         LOG.debug("getFormatSummary() starting");
-        List processSummaryResults = processSummaryDao.getByProcessId(procId);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, procId);
+        
+        List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
 
@@ -700,14 +715,6 @@ public class FormatServiceImpl implements FormatService {
      */
     public void setPaymentDetailDao(PaymentDetailDao pdd) {
         paymentDetailDao = pdd;
-    }
-
-    /**
-     * This method...
-     * @param psd
-     */
-    public void setProcessSummaryDao(ProcessSummaryDao psd) {
-        processSummaryDao = psd;
     }
 
     /**

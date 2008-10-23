@@ -51,7 +51,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         super();
     }
 
-    public PaymentProcess createProcess(String campusCd, UniversalUser processUser) {
+    /*public PaymentProcess createProcess(String campusCd, UniversalUser processUser) {
         LOG.debug("createProcess() started");
 
         Date d = new Date();
@@ -65,7 +65,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         getPersistenceBrokerTemplate().store(p);
         
         return p;
-    }
+    }*/
 
     public PaymentProcess createProcessToRun(Integer procId) {
         LOG.debug("createProcess() started");

@@ -64,7 +64,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
             int processId = formatProcess.getPaymentProcIdentifier();
 
             Map primaryKeys = new HashMap();
-            primaryKeys.put(PdpPropertyConstants.PaymenProcess.Fields.PAYMENT_PROCESS_ID, processId);
+            primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
             PaymentProcess paymentProcess = (PaymentProcess) getBusinessObjectService().findByPrimaryKey(PaymentProcess.class, primaryKeys);
 
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();

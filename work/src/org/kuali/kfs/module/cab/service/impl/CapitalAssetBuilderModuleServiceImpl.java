@@ -82,6 +82,7 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -1173,7 +1174,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
 
                 if (!assetNumbers.isEmpty()) {
-                    updatePurchaseOrderNotes(poId, assetNumbers, workflowDocument.getInitiatorNetworkId());
+                    updatePurchaseOrderNotes(poId, assetNumbers, workflowDocument.getInitiatorNetworkId(), documentType);
                 }
             }
         }
@@ -1186,11 +1187,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param purchaseOrderNumber
      * @param assetNumbers
      */
-    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId) {
+    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType) {
         PurchaseOrderDocument document = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
-
+        String noteText=null;
+        
         // Create and add the note.
-        String noteText = "Asset Numbers have been created for this document: ";
+        if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+            noteText = "Asset Numbers have been created for this document: ";
+        }
+        else {
+            noteText = "Existing Asset Numbers have been applied for this document: ";
+        }
+        
         for (int i = 0; i < assetNumbers.size(); i++) {
             noteText += assetNumbers.get(i).toString();
             if (i < assetNumbers.size() - 1) {
@@ -1199,8 +1207,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
-            // This setting won't work because authorId is a network Id and method expects an universal Id.
-            assetNote.setAuthorUniversalIdentifier(authorId);
+            // set the initiator user info to the new note
+            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authorId);
+            assetNote.setAuthorUniversalIdentifier(initiator.getPersonUniversalIdentifier());
             document.addNote(assetNote);
             KNSServiceLocator.getNoteService().save(assetNote);
         }
@@ -1221,9 +1230,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, documentNumber);
         Collection<AssetGlobalDetail> assetGlobalDetails = this.getBusinessObjectService().findMatching(AssetGlobalDetail.class, fieldValues);
         for (AssetGlobalDetail detail : assetGlobalDetails) {
-            if (ObjectUtils.isNotNull(detail.getAsset())) {
-                assetNumbers.add(detail.getCapitalAssetNumber());
-            }
+            assetNumbers.add(detail.getCapitalAssetNumber());
         }
     }
 

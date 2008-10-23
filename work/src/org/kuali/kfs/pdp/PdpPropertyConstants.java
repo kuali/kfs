@@ -92,6 +92,8 @@ public class PdpPropertyConstants {
             public static final String PAYMENT_DATE = "paymentGroup.paymentDate";
             public static final String PAYMENT_ID = "id";
             public static final String PAYMENT_NET_AMOUNT = "netPaymentAmount";
+            public static final String PAYMENT_DISBURSEMENT_FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
+            public static final String PAYMENT_DISBURSEMENT_CUST_PAYMENT_DOC_NBR = "custPaymentDocNbr";
             public static final String PAYMENT_DISBURSEMENT_TYPE_NAME = "paymentGroup.disbursementType.name";
         }
     }
@@ -119,10 +121,36 @@ public class PdpPropertyConstants {
         }
     }
     
-    public static class PaymenProcess {
-        public static class Fields {
-            public static final String PAYMENT_PROCESS_ID = "id";
-        }
+    public static class PaymentGroup {
+        public static final String PAYMENT_GROUP_ID = "id";
+        public static final String PAYMENT_GROUP_DISBURSEMENT_TYPE_CODE = "disbursementTypeCode";
+        public static final String PAYMENT_GROUP_PAYMENT_STATUS_CODE = "paymentStatusCode";
+        public static final String PAYMENT_GROUP_DISBURSEMENT_NBR = "disbursementNbr";
+        public static final String PAYMENT_GROUP_PROCESS_ID = "processId";
+        public static final String PAYMENT_GROUP_SORT_VALUE = "sortValue";
+        public static final String PAYMENT_GROUP_PAYEE_NAME = "payeeName";
+        public static final String PAYMENT_GROUP_LINE1_ADDRESS = "line1Address";
+        public static final String PAYMENT_GROUP_BATCH_ID = "batchId";
     }
+    
+    public static class PaymentProcess {
+        public static final String PAYMENT_PROCESS_ID = "id";
+    }
+    
+    public static class ProcessSummary {
+        public static final String PROCESS_SUMMARY_PROCESS_ID = "processId";
+    }
+    
+    public static class CustomerProfile {
+        public static final String CUSTOMER_PROFILE_CHART_CODE = "chartCode";
+        public static final String CUSTOMER_PROFILE_ORG_CODE = "orgCode";
+        public static final String CUSTOMER_PROFILE_SUB_UNIT_CODE = "subUnitCode";
+    }
+    
+    public static class DisbursementNumberRange {
+        public static final String DISBURSEMENT_NUMBER_RANGE_PHYS_CAMPUS_PROC_CODE = "physCampusProcCode";
+        public static final String DISBURSEMENT_NUMBER_RANGE_TYPE_CODE = "disbursementTypeCode";
         
+    }
+
 }

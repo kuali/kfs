@@ -176,7 +176,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             cxml.append("  <Request deploymentMode=\"test\">\n");
         }
         cxml.append("    <OrderRequest>\n");
-        cxml.append("      <OrderRequestHeader orderId=\"").append(purchaseOrder.getPurapDocumentIdentifier()).append("\" orderDate=\"").append(date.format(d)).append("\" type=\"new\">\n");
+        cxml.append("      <OrderRequestHeader orderID=\"").append(purchaseOrder.getPurapDocumentIdentifier()).append("\" orderDate=\"").append(date.format(d)).append("\" type=\"new\">\n");
         cxml.append("        <Total>\n");
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalDollarAmount()).append("</Money>\n");
         cxml.append("        </Total>\n");
@@ -204,7 +204,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getDeliveryCityName().trim()).append("]]></City>\n");
         cxml.append("              <State>").append(purchaseOrder.getDeliveryStateCode()).append("</State>\n");
         cxml.append("              <PostalCode>").append(purchaseOrder.getDeliveryPostalCode()).append("</PostalCode>\n");
-        cxml.append("              <CountryisoCountryCode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryName()).append("</Country>\n");
+        cxml.append("              <Country isoCountryCode=\"").append(purchaseOrder.getDeliveryCountryCode()).append("\">").append(purchaseOrder.getDeliveryCountryName()).append("</Country>\n");
         cxml.append("            </PostalAddress>\n");
         cxml.append("          </Address>\n");
         cxml.append("        </ShipTo>\n");
@@ -219,20 +219,20 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("              <City><![CDATA[").append(purchaseOrder.getBillingCityName().trim()).append("]]></City>\n");
         cxml.append("              <State>").append(purchaseOrder.getBillingStateCode()).append("</State>\n");
         cxml.append("              <PostalCode>").append(purchaseOrder.getBillingPostalCode()).append("</PostalCode>\n");
-        cxml.append("              <CountryisoCountryCode=\"").append(purchaseOrder.getBillingCountryCode()).append("\">").append(purchaseOrder.getBillingCountryName()).append("</Country>\n");
+        cxml.append("              <Country isoCountryCode=\"").append(purchaseOrder.getBillingCountryCode()).append("\">").append(purchaseOrder.getBillingCountryName()).append("</Country>\n");
         cxml.append("            </PostalAddress>\n");
         cxml.append("          </Address>\n");
         cxml.append("        </BillTo>\n");
         cxml.append("        <Tax>\n");
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalTaxAmount()).append("</Money>\n");
-        cxml.append("          <Description xml:lang=\"en\">").append("tax description").append("</Money>\n");
+        cxml.append("          <Description xml:lang=\"en\">").append("tax description").append("</Description>\n");
         cxml.append("        </Tax>\n");
         cxml.append("      </OrderRequestHeader>\n");
         
         for (Object tmpPoi : purchaseOrder.getItems()) {
             PurchaseOrderItem poi = (PurchaseOrderItem) tmpPoi;
 
-            cxml.append("      <ItemOut quantity=\"").append(poi.getItemQuantity()).append("\" linenumber=\"").append(poi.getItemLineNumber()).append("\">\n");
+            cxml.append("      <ItemOut quantity=\"").append(poi.getItemQuantity()).append("\" lineNumber=\"").append(poi.getItemLineNumber()).append("\">\n");
             cxml.append("        <ItemID>\n");
             cxml.append("          <SupplierPartID><![CDATA[").append(poi.getItemCatalogNumber()).append("]]></SupplierPartID>\n");
             if (ObjectUtils.isNotNull(poi.getItemAuxiliaryPartIdentifier())) {
@@ -243,8 +243,9 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             cxml.append("          <UnitPrice>\n");
             cxml.append("            <Money currency=\"USD\">").append(poi.getItemUnitPrice()).append("</Money>\n");
             cxml.append("          </UnitPrice>\n");
-            cxml.append("          <Description><![CDATA[").append(poi.getItemDescription()).append("]]></Description>\n"); // Required.
-            cxml.append("          <UnitOfMeasure<![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]><]</UnitOfMeasure>\n");
+            cxml.append("          <Description xml:lang=\"en\"><![CDATA[").append(poi.getItemDescription()).append("]]></Description>\n"); // Required.
+            cxml.append("          <UnitOfMeasure><![CDATA[").append(poi.getItemUnitOfMeasureCode()).append("]]></UnitOfMeasure>\n");
+            cxml.append("          <Classification domain=\"UNSPSC\"></Classification>\n");
             if (poi.getExternalOrganizationB2bProductTypeName().equals("Punchout")) {
                 cxml.append("          <ManufacturerPartID></ManufacturerPartID>\n");
             }

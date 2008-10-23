@@ -27,8 +27,8 @@ import org.kuali.rice.kns.service.DocumentService;
 public enum CustomerInvoiceDocumentFixture {
     
     BASE_CIDOC_NO_CUSTOMER(null, // customerNumber
-            "BA", // processingChartOfAccountsCode
-            "ACAC", // processingOrganizationCode
+            "UA", // processingChartOfAccountsCode
+            "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode
             null, // paymentAccountNumber
             null, // paymentSubAccountNumber
@@ -42,8 +42,8 @@ public enum CustomerInvoiceDocumentFixture {
     ),
 
     BASE_CIDOC_WITH_CUSTOMER("ABB2", // customerNumber
-            "BA", // processingChartOfAccountsCode
-            "ACAC", // processingOrganizationCode
+            "UA", // processingChartOfAccountsCode
+            "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode
             null, // paymentAccountNumber
             null, // paymentSubAccountNumber
@@ -53,8 +53,8 @@ public enum CustomerInvoiceDocumentFixture {
             null, null, null, null),
             
     BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO("ABB2", // customerNumber
-            "BA", // processingChartOfAccountsCode
-            "ACAC", // processingOrganizationCode
+            "UP", // processingChartOfAccountsCode
+            "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode
             null, // paymentAccountNumber
             null, // paymentSubAccountNumber
@@ -68,8 +68,8 @@ public enum CustomerInvoiceDocumentFixture {
     ),            
 
     REVERSAL_CIDOC(null, // customerNumber
-            "BA", // processingChartOfAccountsCode
-            "ACAC", // processingOrganizationCode
+            "UA", // processingChartOfAccountsCode
+            "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode
             null, // paymentAccountNumber
             null, // paymentSubAccountNumber
@@ -79,8 +79,8 @@ public enum CustomerInvoiceDocumentFixture {
             null, "123456", null, null),
 
     CIDOC_WITH_FAU_RECEIVABLE("ABB2", // customerNumber
-            "BA", // processingChartOfAccountsCode
-            "ACAC", // processingOrganizationCode
+            "UP", // processingChartOfAccountsCode
+            "VPIT", // processingOrganizationCode
             "BA", // paymentChartOfAccountsCode
             "6044900", // paymentAccountNumber
             "ARREC", // paymentSubAccountNumber

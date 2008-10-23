@@ -117,7 +117,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         boolean existsInPo = false;
                 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("purchaseOrder.documentNumber", docNumber);
+        criteria.addEqualTo("documentNumber", docNumber);
         criteria.addEqualTo("itemLineNumber", poItemLineNumber);
 
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderItem.class, criteria);

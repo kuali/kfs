@@ -53,7 +53,7 @@ public enum CustomerInvoiceDocumentFixture {
             null, null, null, null),
             
     BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO("ABB2", // customerNumber
-            "UP", // processingChartOfAccountsCode
+            "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
             null, // paymentChartOfAccountsCode
             null, // paymentAccountNumber
@@ -79,7 +79,7 @@ public enum CustomerInvoiceDocumentFixture {
             null, "123456", null, null),
 
     CIDOC_WITH_FAU_RECEIVABLE("ABB2", // customerNumber
-            "UP", // processingChartOfAccountsCode
+            "UA", // processingChartOfAccountsCode
             "VPIT", // processingOrganizationCode
             "BA", // paymentChartOfAccountsCode
             "6044900", // paymentAccountNumber

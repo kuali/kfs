@@ -63,6 +63,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="capitalAssetNonquantityDrivenAllowIndicator" />
         <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetQuantitySubtypeRequiredText" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="capitalAssetNonquantitySubtypeRequiredText" />             
+        <bean parent="MaintainableFieldDefinition"
               p:name="active" />
       </list>
     </property>

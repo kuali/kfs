@@ -19,8 +19,6 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for item's fields." %>
-<%@ attribute name="sensitiveDataAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for sensitive data's fields." %>
 <%@ attribute name="poSensitiveDataAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for purchase order sensitive data's fields." %>
 <%@ attribute name="sensitiveDataAssignAttributes" required="true" type="java.util.Map"
@@ -121,7 +119,7 @@
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign New Sensitive Data Entry">             
             <tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${sensitiveDataAttributes.sensitiveDataCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${poSensitiveDataAttributes.sensitiveDataCode}" />
 				<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
         	</tr>
         	<tr>
@@ -140,7 +138,7 @@
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Delete/Update Current Sensitive Data Entries">             
             <tr>
-				<kul:htmlAttributeHeaderCell attributeEntry="${sensitiveDataAttributes.sensitiveDataCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${poSensitiveDataAttributes.sensitiveDataCode}" />
 				<kul:htmlAttributeHeaderCell literalLabel="Actions"/>
         	</tr>
             <logic:iterate indexId="ctr" name="KualiForm" property="sensitiveDatasAssigned" id="sd">

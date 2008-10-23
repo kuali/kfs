@@ -49,7 +49,6 @@
 		<purap:assignSensitiveData
 			documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 	        itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-	        sensitiveDataAttributes="${DataDictionary.SensitiveData.attributes}"
 	        poSensitiveDataAttributes="${DataDictionary.PurchaseOrderSensitiveData.attributes}"
 	        sensitiveDataAssignAttributes="${DataDictionary.SensitiveDataAssignment.attributes}" />
     </c:when>

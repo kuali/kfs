@@ -944,7 +944,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionDocument.getAccountNumber());
             searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionDocument.getSubAccountNumber());
             A21SubAccount a21SubAccount = (A21SubAccount) businessObjectService.findByPrimaryKey(A21SubAccount.class, searchCriteria);
-            if (a21SubAccount != null) {
+            if ( ObjectUtils.isNotNull( a21SubAccount ) ) {
                 if (a21SubAccount.getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;
                     this.putError(errors, propertyName, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);

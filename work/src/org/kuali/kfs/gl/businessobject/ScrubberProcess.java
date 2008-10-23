@@ -619,7 +619,7 @@ public class ScrubberProcess {
                     // major assumption: the a21 subaccount is proxied, so we don't want to query the database if the subacct
                     // number is dashes
                     A21SubAccount scrubbedEntryA21SubAccount = referenceLookup.get().getA21SubAccount(scrubbedEntry);
-                    if (!KFSConstants.getDashSubAccountNumber().equals(scrubbedEntry.getSubAccountNumber()) && scrubbedEntryA21SubAccount != null) {
+                    if (!KFSConstants.getDashSubAccountNumber().equals(scrubbedEntry.getSubAccountNumber()) && ObjectUtils.isNotNull(scrubbedEntryA21SubAccount) ) {
                         subAccountTypeCode = scrubbedEntryA21SubAccount.getSubAccountTypeCode();
 
                     }

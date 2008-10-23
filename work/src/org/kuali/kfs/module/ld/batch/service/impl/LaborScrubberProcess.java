@@ -61,6 +61,7 @@ import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance
@@ -381,7 +382,7 @@ public class LaborScrubberProcess {
 
                 // The sub account type code will only exist if there is a valid sub account
                 String subAccountTypeCode = "  ";
-                if (scrubbedEntry.getA21SubAccount() != null) {
+                if (ObjectUtils.isNotNull( scrubbedEntry.getA21SubAccount() ) ) {
                     subAccountTypeCode = scrubbedEntry.getA21SubAccount().getSubAccountTypeCode();
                 }
 

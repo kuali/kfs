@@ -82,6 +82,7 @@ import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -745,7 +746,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
         // sub account must not be flagged cost share
         A21SubAccount a21SubAccount = subAccount.getA21SubAccount();
-        if (a21SubAccount != null && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+        if ( ObjectUtils.isNotNull(a21SubAccount) && StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
             return false;
         }
 

@@ -244,7 +244,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
 
             if (isCostShareExcluded) {
-                if ((pendingEntry.getSubAccount() != null) && (pendingEntry.getSubAccount().getA21SubAccount() != null)) {
+                if (ObjectUtils.isNotNull(pendingEntry.getSubAccount()) && ObjectUtils.isNotNull(pendingEntry.getSubAccount().getA21SubAccount())) {
                     if (KFSConstants.SubAccountType.COST_SHARE.equals(pendingEntry.getSubAccount().getA21SubAccount().getSubAccountTypeCode())) {
                         // Don't process this one
                         continue;

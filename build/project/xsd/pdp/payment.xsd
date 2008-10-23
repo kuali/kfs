@@ -85,7 +85,10 @@
     <xsd:element name="payment_text" type="kfs:zeroToNinetyCharType"/>
     <xsd:element name="detail_count" type="xsd:integer"/>
     <xsd:element name="detail_tot_amt" type="xsd:decimal"/>
-    <xsd:element name="bank_code" type="kfs:zeroToFourCharType"/>   
+    <xsd:element name="bank_code" type="kfs:zeroToFourCharType"/> 
+    <xsd:element name="fs_origin_cd" type="kfs:zeroToTwoCharType"/> 
+    <xsd:element name="fdoc_typ_cd" type="kfs:zeroToFourCharType"/> 
+    
     <!-- definition of attributes -->
     
     <xsd:attribute name="id_type" type="idTypeType"/>
@@ -194,6 +197,8 @@
                 <xsd:element maxOccurs="1" minOccurs="0" ref="invoice_tot_ship_amt"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="invoice_tot_other_debits"/>
                 <xsd:element maxOccurs="1" minOccurs="0" ref="invoice_tot_other_credits"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="fs_origin_cd"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="fdoc_typ_cd"/>
                 <xsd:element maxOccurs="unbounded" minOccurs="1" ref="accounting"/>
                 <!--  Default check stub holds 27 note lines.  There is a line printed for each detail
                       so the number of detail items on a check needs to be subtracted from the 

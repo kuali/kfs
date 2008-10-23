@@ -69,6 +69,12 @@
             <xsd:maxLength value="120"/>
         </xsd:restriction>
     </xsd:simpleType>
+    
+    <xsd:simpleType name="zeroToTwoCharType">
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:simpleType name="oneToTwoCharType">
         <xsd:restriction base="xsd:string">

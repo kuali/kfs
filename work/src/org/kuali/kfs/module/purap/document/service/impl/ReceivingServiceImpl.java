@@ -596,7 +596,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             //if a new item has been added spawn a purchase order amendment
             if( hasNewUnorderedItem((ReceivingLineDocument)receivingDocument) ){
                 //create a PO amendment
-                PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
+                PurchaseOrderAmendmentDocument amendmentPo = (PurchaseOrderAmendmentDocument) purchaseOrderService.createAndSavePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AWAIT_NEW_UNORDERED_ITEM_REVIEW);
 
                 //add new lines to amendement
                 addUnorderedItemsToAmendment(amendmentPo, rlDoc);

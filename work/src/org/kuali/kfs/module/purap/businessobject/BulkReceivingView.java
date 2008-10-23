@@ -24,6 +24,15 @@ import org.kuali.rice.kns.bo.Note;
  */
 public class BulkReceivingView extends AbstractRelatedView {
     private Integer purchaseOrderIdentifier;
+    private boolean deliveryBuildingOtherIndicator;
+    
+    public boolean isDeliveryBuildingOtherIndicator() {
+        return deliveryBuildingOtherIndicator;
+    }
+
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
+    }
 
     public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;

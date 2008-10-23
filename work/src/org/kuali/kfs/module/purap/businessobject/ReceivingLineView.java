@@ -23,14 +23,23 @@ import org.kuali.rice.kns.bo.Note;
  * Requisition View Business Object.
  */
 public class ReceivingLineView extends AbstractRelatedView {
-    private Integer purchaseOrderId;
-
-    public Integer getPurchaseOrderId() {
-        return purchaseOrderId;
+    private Integer purchaseOrderIdentifier;
+    private boolean deliveryBuildingOtherIndicator;
+    
+    public boolean isDeliveryBuildingOtherIndicator() {
+        return deliveryBuildingOtherIndicator;
     }
 
-    public void setPurchaseOrderId(Integer purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
+    public void setDeliveryBuildingOtherIndicator(boolean deliveryBuildingOtherIndicator) {
+        this.deliveryBuildingOtherIndicator = deliveryBuildingOtherIndicator;
+    }
+
+    public Integer getPurchaseOrderIdentifier() {
+        return purchaseOrderIdentifier;
+    }
+
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
+        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
     /**

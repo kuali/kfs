@@ -64,6 +64,8 @@ public class ReceivingLineAction extends ReceivingBaseAction {
             return forward;
         }
         
+        //TODO: Must check if able to create receiving document, if not throw an error
+        
         //populate and save Receiving Line Document from Purchase Order        
         SpringContext.getBean(ReceivingService.class).populateAndSaveReceivingLineDocument(rlDoc);
         

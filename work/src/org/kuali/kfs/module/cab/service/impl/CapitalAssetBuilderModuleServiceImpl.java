@@ -89,6 +89,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -1151,25 +1152,32 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
         String documentNumber = documentHeader.getDocumentNumber();
 
+        String documentType = workflowDocument.getDocumentType();
+
         if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
             // release CAB line items
-            activateCabGlLines(documentNumber);
             activateCabPOLines(documentNumber);
+            activateCabGlLines(documentNumber);
         }
         if (workflowDocument.stateIsProcessed() && workflowDocument.stateIsApproved()) {
             // report asset numbers to PO
             Integer poId = getPurchaseOrderIdentifier(documentNumber);
             if (poId != null) {
                 List<Long> assetNumbers = new ArrayList<Long>();
-                getAssetNumbersFromAssetGlobal(documentNumber, assetNumbers);
-                if (assetNumbers.isEmpty()) {
+
+                if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+                    getAssetNumbersFromAssetGlobal(documentNumber, assetNumbers);
+                }
+                else if (CabConstants.ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
                     getAssetNumbersFromAssetPayment(documentNumber, assetNumbers);
                 }
+
                 if (!assetNumbers.isEmpty()) {
-                    updatePurchaseOrderNotes(poId, assetNumbers);
+                    updatePurchaseOrderNotes(poId, assetNumbers, workflowDocument.getInitiatorNetworkId());
                 }
             }
         }
+
     }
 
     /**
@@ -1178,7 +1186,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param purchaseOrderNumber
      * @param assetNumbers
      */
-    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers) {
+    private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId) {
         PurchaseOrderDocument document = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
 
         // Create and add the note.
@@ -1191,6 +1199,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+            // This setting won't work because authorId is a network Id and method expects an universal Id.
+            assetNote.setAuthorUniversalIdentifier(authorId);
             document.addNote(assetNote);
             KNSServiceLocator.getNoteService().save(assetNote);
         }
@@ -1243,7 +1253,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private Integer getPurchaseOrderIdentifier(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<PurchasingAccountsPayableItemAsset> matchingItems = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         for (PurchasingAccountsPayableItemAsset item : matchingItems) {
@@ -1262,7 +1272,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected void activateCabGlLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
@@ -1282,7 +1292,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected void activateCabPOLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("capitalAssetManagementDocumentNumber", documentNumber);
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
         Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         if (matchingPoAssets != null && !matchingPoAssets.isEmpty()) {

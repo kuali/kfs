@@ -428,8 +428,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             // Manually save preq summary accounts
             saveAccountsPayableSummaryAccounts(summaryAccounts, preq.getPurapDocumentIdentifier());
             
-            // Manually save preq account history (CAMS needs this)
+            // Manually save preq account history
             savePaymentRequestAccountHistories(preq.getItems(), preq.getPostingYearFromPendingGLEntries(), preq.getPostingPeriodCodeFromPendingGLEntries());
+            
+            // manually save cm account change tables (CAMS needs this)
+            // FIXME (hjs) - Harsha add the call to your method here
         }
 
         
@@ -507,8 +510,11 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 sequenceHelper.increment(); // increment for the next line
             }
 
-            // Manually save cm account history (CAMS needs this)
+            // Manually save cm account history
             saveCreditMemoAccountHistories(cm.getItems(), cm.getPostingYearFromPendingGLEntries(), cm.getPostingPeriodCodeFromPendingGLEntries());
+            
+            // manually save cm account change tables (CAMS needs this)
+            // FIXME (hjs) - Harsha add the call to your method here
         }
 
         saveGLEntries(cm.getGeneralLedgerPendingEntries());

@@ -160,7 +160,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         KualiDecimal creditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
         
-        boolean validFlag = (creditMemoItemAmount.divide(creditMemoItemQty)).equals(unitPrice);
+        // Need to convert unit price to KualiDecimal so .equals method works properly
+        boolean validFlag = (creditMemoItemAmount.divide(creditMemoItemQty)).equals(new KualiDecimal(unitPrice));
         if (!validFlag){
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);

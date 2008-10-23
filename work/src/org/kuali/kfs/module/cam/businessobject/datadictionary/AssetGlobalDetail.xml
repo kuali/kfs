@@ -73,7 +73,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="postalZipCode">
         	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" /> 
-            <dd:primitiveAttribute source="offCampusZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="offCampusZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusState">
         	<dd:primitiveAttribute source="offCampusCountryCode" target="postalCountryCode" />
@@ -342,7 +342,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Off Campus Postal Code" />
     <property name="shortLabel" value="Postal Code" />

@@ -24,7 +24,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="postalZip">
         	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="postalCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="postalCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="country">
             <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode" />
@@ -46,7 +46,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="postalCode" />
   </bean>
   

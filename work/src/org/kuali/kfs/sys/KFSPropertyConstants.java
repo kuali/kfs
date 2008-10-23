@@ -988,7 +988,7 @@ public class KFSPropertyConstants {
     public static final String POSTAL_STATE_CODE = "postalStateCode";
     public static final String POSTAL_STATE_NAME = "postalStateName";
     public static final String POSTAL_ZIP = "postalZip";
-    public static final String POSTAL_ZIP_CODE = "postalZipCode";
+    public static final String POSTAL_CODE = "postalCode";
     public static final String POSTING_PERIOD_CODE = "postingPeriodCode";
     public static final String POSTING_YEAR = "postingYear";
     public static final String PREPAID_EXPENSE = "prepaidExpense";

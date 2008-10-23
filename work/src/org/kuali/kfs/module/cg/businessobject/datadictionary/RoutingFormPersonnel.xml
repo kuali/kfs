@@ -48,7 +48,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="personZip">
         	<dd:primitiveAttribute source="personCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="personZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="personZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="personState">
         	<dd:primitiveAttribute source="personCountryCode" target="postalCountryCode" />
@@ -469,7 +469,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="personZipCode" />
     <property name="label" value="Zip" />
     <property name="shortLabel" value="Code" />

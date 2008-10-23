@@ -14,16 +14,14 @@
     <property name="lookupDefinition" >
       <ref bean="PostalCode-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="postalZipCode" />
+    <property name="titleAttribute" value="postalCode" />
     <property name="objectLabel" value="Postal Code" />
     <property name="attributes" >
       <list>
       	<ref bean="PostalCode-postalCountryCode" />
-        <ref bean="PostalCode-postalZipCode" />
+        <ref bean="PostalCode-postalCode" />
         <ref bean="PostalCode-postalStateCode" />
         <ref bean="PostalCode-postalCityName" />
-        <ref bean="PostalCode-buildingCode" />
-        <ref bean="PostalCode-buildingRoomNumber" />
         <ref bean="PostalCode-active" />
         <ref bean="PostalCode-countyCode" />
       </list>
@@ -33,13 +31,13 @@
 <!-- Attribute Definitions -->
   <bean id="PostalCode-postalCountryCode" parent="Country-postalCountryCode-parentBean" />
 
-  <bean id="PostalCode-postalZipCode" parent="PostalCode-postalZipCode-parentBean" />
+  <bean id="PostalCode-postalCode" parent="PostalCode-postalCode-parentBean" />
 
-  <bean id="PostalCode-postalZipCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="postalZipCode" />
+  <bean id="PostalCode-postalCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="postalCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Postal Code" />
-    <property name="shortLabel" value="Zip" />
+    <property name="shortLabel" value="Postal Code" />
     <property name="maxLength" value="20" />
     <property name="validationPattern" >
       <bean parent="ZipcodeValidationPattern" />
@@ -80,44 +78,7 @@
     <property name="summary" value="City Name" />
     <property name="description" value="City Name" />
   </bean>
-  <bean id="PostalCode-buildingCode" parent="PostalCode-buildingCode-parentBean" />
 
-  <bean id="PostalCode-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Building Code" />
-    <property name="shortLabel" value="Building" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="6" />
-    </property>
-    <property name="summary" value="Building Code" />
-    <property name="description" value="Building Code" />
-  </bean>
-  <bean id="PostalCode-buildingRoomNumber" parent="PostalCode-buildingRoomNumber-parentBean" />
-
-  <bean id="PostalCode-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="buildingRoomNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Building Room Number" />
-    <property name="shortLabel" value="Building Room Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Building Room Number" />
-    <property name="description" value="Building Room Number" />
-  </bean>
   <bean id="PostalCode-active" parent="PostalCode-active-parentBean" />
 
   <bean id="PostalCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -160,15 +121,11 @@
               <bean parent="FieldDefinition"
               		p:attributeName="postalCountryCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="postalZipCode" />
+                    p:attributeName="postalCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="postalStateCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="postalCityName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="buildingRoomNumber" />
               <bean parent="FieldDefinition"
               		p:attributeName="countyCode" />
               <bean parent="FieldDefinition"
@@ -192,7 +149,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>postalZipCode</value>
+            <value>postalCode</value>
           </list>
         </property>
       </bean>
@@ -202,15 +159,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="postalCountryCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="postalZipCode" />
+              p:attributeName="postalCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="countyCode" />
         <bean parent="FieldDefinition"
@@ -222,15 +175,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="postalCountryCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="postalZipCode" />
+              p:attributeName="postalCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalStateCode" />
         <bean parent="FieldDefinition"
               p:attributeName="postalCityName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="buildingRoomNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>

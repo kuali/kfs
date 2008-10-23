@@ -36,7 +36,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:relationship objectAttribute="buildingAddressZip">
             <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode" /> 
-            <dd:primitiveAttribute source="buildingAddressZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="buildingAddressZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="buildingAddressState">
         	<dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode" />
@@ -174,7 +174,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="buildingAddressZipCode" />
     <property name="label" value="Building Address Postal Code" />
     <property name="shortLabel" value="Bldg. Postal Code" />

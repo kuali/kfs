@@ -135,7 +135,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="postalZip">
         	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="organizationZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="organizationZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="organizationCountry">
             <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode" />
@@ -331,7 +331,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="Org-organizationZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationZipCode" />
     <property name="label" value="Organization Postal Code" />
     <property name="shortLabel" value="Postal Code" />

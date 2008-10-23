@@ -156,7 +156,7 @@
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
-  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-postalZipCode" abstract="true"
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-postalCode" abstract="true"
         p:name="capitalAssetPostalCode"
         p:forceUppercase="false"
         p:label="Capital Asset Postal Code"

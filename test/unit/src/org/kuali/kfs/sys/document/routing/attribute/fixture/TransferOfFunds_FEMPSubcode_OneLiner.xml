@@ -350,7 +350,7 @@
                             <organizationPlantChart reference="../../chartOfAccounts" />
                             <campusPlantChart reference="../../chartOfAccounts" />
                             <postalZip class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--386998e7">
-                                <postalZipCode>47405</postalZipCode>
+                                <postalCode>47405</postalCode>
                                 <postalStateCode>IN</postalStateCode>
                                 <postalCityName>BLOOMINGTON</postalCityName>
                                 <buildingCode></buildingCode>

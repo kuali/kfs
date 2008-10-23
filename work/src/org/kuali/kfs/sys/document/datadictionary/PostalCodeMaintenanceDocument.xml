@@ -27,7 +27,7 @@
     <property name="lockingKeys" >
       <list>
       	<value>postalCountryCode</value>
-        <value>postalZipCode</value>
+        <value>postalCode</value>
       </list>
     </property>
     <property name="label" value="Postal Code" />
@@ -71,7 +71,7 @@
               p:name="postalCountryCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="postalZipCode"
+              p:name="postalCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="postalStateCode"
@@ -81,10 +81,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="postalCityName"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingCode" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="buildingRoomNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:defaultValue="true"
               p:name="active" />

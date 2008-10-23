@@ -174,7 +174,7 @@
 
   <bean id="ProcurementCardHolder-cardHolderZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="cardHolderZipCode" />
     <property name="label" value="Card Holder Postal (ZIP) Code" />
     <property name="shortLabel" value="Code" />

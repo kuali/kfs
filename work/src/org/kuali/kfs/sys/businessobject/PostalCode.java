@@ -21,18 +21,18 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 public interface PostalCode extends ExternalizableBusinessObject{
 
     /**
-     * Gets the postalZipCode attribute.
+     * Gets the postalCode attribute.
      * 
-     * @return Returns the postalZipCode
+     * @return Returns the postalCode
      */
-    public abstract String getPostalZipCode();
+    public abstract String getPostalCode();
 
     /**
-     * Sets the postalZipCode attribute.
+     * Sets the postalCode attribute.
      * 
-     * @param postalZipCode The postalZipCode to set.
+     * @param postalCode The postalCode to set.
      */
-    public abstract void setPostalZipCode(String postalZipCode);
+    public abstract void setPostalCode(String postalCode);
 
     /**
      * Gets the postalStateCode attribute.
@@ -61,34 +61,6 @@ public interface PostalCode extends ExternalizableBusinessObject{
      * @param postalCityName The postalCityName to set.
      */
     public abstract void setPostalCityName(String postalCityName);
-
-    /**
-     * Gets the buildingCode attribute.
-     * 
-     * @return Returns the buildingCode
-     */
-    public abstract String getBuildingCode();
-
-    /**
-     * Sets the buildingCode attribute.
-     * 
-     * @param buildingCode The buildingCode to set.
-     */
-    public abstract void setBuildingCode(String buildingCode);
-
-    /**
-     * Gets the buildingRoomNumber attribute.
-     * 
-     * @return Returns the buildingRoomNumber
-     */
-    public abstract String getBuildingRoomNumber();
-
-    /**
-     * Sets the buildingRoomNumber attribute.
-     * 
-     * @param buildingRoomNumber The buildingRoomNumber to set.
-     */
-    public abstract void setBuildingRoomNumber(String buildingRoomNumber);
 
     /**
      * Gets the state attribute.

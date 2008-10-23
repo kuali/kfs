@@ -323,7 +323,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationRemitToZipCode" />
     <property name="required" value="true" />
     <property name="summary" value="organizationRemitToZipCode" />
@@ -370,7 +370,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="OrganizationOptions-organizationPostalZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationPostalZipCode" />
     <property name="required" value="false" />
     <property name="summary" value="Organization Postal Zip Code" />

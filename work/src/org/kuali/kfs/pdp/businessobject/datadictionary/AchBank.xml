@@ -43,7 +43,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <dd:primitiveAttribute source="bankStateCode" target="postalStateCode" />
         </dd:relationship> 
         <dd:relationship objectAttribute="postalCode">
-            <dd:primitiveAttribute source="bankZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="bankZipCode" target="postalCode" />
         </dd:relationship> 
       </list>
     </property>    
@@ -230,7 +230,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AchBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="bankZipCode" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Bank Zip Code" />

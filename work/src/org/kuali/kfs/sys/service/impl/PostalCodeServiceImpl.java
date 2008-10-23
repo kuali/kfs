@@ -45,15 +45,15 @@ public class PostalCodeServiceImpl implements PostalCodeService {
     /**
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    public PostalCode getByPrimaryId(String postalCountryCode, String postalZipCode) {
-        if (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank(postalZipCode)) {
-            LOG.info("neither postalCountryCode nor postalZipCode can be empty String.");
+    public PostalCode getByPrimaryId(String postalCountryCode, String postalCode) {
+        if (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank(postalCode)) {
+            LOG.info("neither postalCountryCode nor postalCode can be empty String.");
             return null;
         }
 
         Map<String, Object> postalCodeMap = new HashMap<String, Object>();
         postalCodeMap.put(KFSPropertyConstants.POSTAL_COUNTRY_CODE, postalCountryCode);
-        postalCodeMap.put(KFSPropertyConstants.POSTAL_ZIP_CODE, postalZipCode);
+        postalCodeMap.put(KFSPropertyConstants.POSTAL_CODE, postalCode);
 
         return kualiModuleService.getResponsibleModuleService(PostalCode.class).getExternalizableBusinessObject(PostalCode.class, postalCodeMap);
     }
@@ -62,26 +62,26 @@ public class PostalCodeServiceImpl implements PostalCodeService {
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String, org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCode, PostalCode existingPostalCode) {
         String postalCountryCode = countryService.getDefaultCountry().getPostalCountryCode();
 
-        return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalZipCode, existingPostalCode);
+        return this.getByPrimaryIdIfNecessary(businessObject, postalCountryCode, postalCode, existingPostalCode);
     }
 
     /**
      * @see org.kuali.kfs.sys.service.PostalCodeService#getByPrimaryIdIfNecessary(org.kuali.rice.kns.bo.BusinessObject,
      *      java.lang.String, java.lang.String, org.kuali.kfs.sys.businessobject.PostalCode)
      */
-    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalZipCode, PostalCode existingPostalCode) {
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalCode, PostalCode existingPostalCode) {
         if (existingPostalCode != null) {
             String existingCountryCode = existingPostalCode.getPostalCountryCode();
-            String existingPostalZipCode = existingPostalCode.getPostalZipCode();
-            if (StringUtils.equals(postalCountryCode, existingCountryCode) && StringUtils.equals(postalZipCode, existingPostalZipCode)) {
+            String existingPostalZipCode = existingPostalCode.getPostalCode();
+            if (StringUtils.equals(postalCountryCode, existingCountryCode) && StringUtils.equals(postalCode, existingPostalZipCode)) {
                 return existingPostalCode;
             }
         }
 
-        return this.getByPrimaryId(postalCountryCode, postalZipCode);
+        return this.getByPrimaryId(postalCountryCode, postalCode);
     }
 
     /**

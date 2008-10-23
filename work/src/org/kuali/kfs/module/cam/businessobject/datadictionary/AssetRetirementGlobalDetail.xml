@@ -73,7 +73,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="postalZipCode">
-            <dd:primitiveAttribute source="retirementZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="retirementZipCode" target="postalCode" />
             <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">
@@ -338,7 +338,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="AssetRetirementGlobalDetail-retirementZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="retirementZipCode" />
     <property name="label" value="Retirement Postal Code" />
     <property name="shortLabel" value="Postal Code" />

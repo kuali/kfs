@@ -21,45 +21,45 @@ import org.kuali.rice.kns.bo.BusinessObject;
 public interface PostalCodeService {
 
     /**
-     * get the postal zip code object based on the given zip code and default country code. The default country code is set up in
+     * get the postal code object based on the given postal code and default country code. The default country code is set up in
      * the system.
      * 
-     * @param postalZipCode the given zip code
-     * @return the postal zip code object with the given zip code and default country code.
+     * @param postalCode the given postal code
+     * @return the postal code object with the given postal code and default country code.
      */
-    public PostalCode getByPrimaryId(String postalZipCode);
+    public PostalCode getByPrimaryId(String postalCode);
 
     /**
-     * get the postal zip code object based on the given zip code and country code
+     * get the postal zip code object based on the given postal code and country code
      * 
      * @param postalCountryCode the given country code
-     * @param postalZipCode the given zip code
-     * @return the postal zip code object with the given zip code and country code.
+     * @param postalCode the given postal code
+     * @return the postal code object with the given postal code and country code.
      */
-    public PostalCode getByPrimaryId(String postalCountryCode, String postalZipCode);
+    public PostalCode getByPrimaryId(String postalCountryCode, String postalCode);
 
     /**
-     * get the postal zip code object based on the given zip code and default country code. The default country code is set up in
-     * the system. If the given postal zip code is same as that of the given existing postal code, return the existing postal code;
+     * get the postal code obpostalt based on the given postal code and default country code. The default country code is set up in
+     * the system. If the given postal postale is same as that of the given existing postal code, return the existing postal code;
      * otherwise, retrieve a postal code object.
      * 
      * @param businessObject the business object that references to a country object 
-     * @param postalZipCode the given zip code
+     * @param postalCode the given postal code
      * @param existingPostalCode the given existing postal code
-     * @return the postal zip code object with the given zip code and default country code if necessary
+     * @return the postal code object with the given postal code and default country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCode, PostalCode existingPostalCode);
 
     /**
-     * get the postal zip code object based on the given zip code and country code. If the given postal zip code and country code
+     * get the postal code object based on the given postal code and country code. If the given postal code and country code
      * are same as those of the given existing postal code, return the existing postal code; otherwise, retrieve a postal code
      * object.
      * 
      * @param businessObject the business object that references to a country object
      * @param postalCountryCode the given country code
-     * @param postalZipCode the given zip code
+     * @param postalCode the given postal code
      * @param existingPostalCode the given existing postal code
-     * @return the postal zip code object with the given zip code and country code if necessary
+     * @return the postal code object with the given postal code and country code if necessary
      */
-    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalZipCode, PostalCode existingPostalCode);
+    public PostalCode getByPrimaryIdIfNecessary(BusinessObject businessObject, String postalCountryCode, String postalCode, PostalCode existingPostalCode);
 }

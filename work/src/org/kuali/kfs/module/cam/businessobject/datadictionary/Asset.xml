@@ -206,7 +206,7 @@
         </bean>
         <dd:relationship objectAttribute="offCampusLocation.postalZipCode">
         	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusLocation.assetLocationState">
         	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode" />

@@ -28,7 +28,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 public class PostalCodeImpl extends PersistableBusinessObjectBase implements Inactivateable, PostalCode {
 
     private String postalCountryCode;
-    private String postalZipCode;
+    private String postalCode;
     private String postalStateCode;
     private String postalCityName;
     private String buildingCode;
@@ -47,21 +47,21 @@ public class PostalCodeImpl extends PersistableBusinessObjectBase implements Ina
     }
 
     /**
-     * Gets the postalZipCode attribute.
+     * Gets the postalCode attribute.
      * 
-     * @return Returns the postalZipCode
+     * @return Returns the postalCode
      */
-    public String getPostalZipCode() {
-        return postalZipCode;
+    public String getPostalCode() {
+        return postalCode;
     }
 
     /**
-     * Sets the postalZipCode attribute.
+     * Sets the postalCode attribute.
      * 
-     * @param postalZipCode The postalZipCode to set.
+     * @param postalCode The postalZipCode to set.
      */
-    public void setPostalZipCode(String postalZipCode) {
-        this.postalZipCode = postalZipCode;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     /**
@@ -101,42 +101,6 @@ public class PostalCodeImpl extends PersistableBusinessObjectBase implements Ina
     }
 
     /**
-     * Gets the buildingCode attribute.
-     * 
-     * @return Returns the buildingCode
-     */
-    public String getBuildingCode() {
-        return buildingCode;
-    }
-
-    /**
-     * Sets the buildingCode attribute.
-     * 
-     * @param buildingCode The buildingCode to set.
-     */
-    public void setBuildingCode(String buildingCode) {
-        this.buildingCode = buildingCode;
-    }
-
-    /**
-     * Gets the buildingRoomNumber attribute.
-     * 
-     * @return Returns the buildingRoomNumber
-     */
-    public String getBuildingRoomNumber() {
-        return buildingRoomNumber;
-    }
-
-    /**
-     * Sets the buildingRoomNumber attribute.
-     * 
-     * @param buildingRoomNumber The buildingRoomNumber to set.
-     */
-    public void setBuildingRoomNumber(String buildingRoomNumber) {
-        this.buildingRoomNumber = buildingRoomNumber;
-    }
-
-    /**
      * Gets the state attribute.
      * 
      * @return Returns the state.
@@ -159,7 +123,7 @@ public class PostalCodeImpl extends PersistableBusinessObjectBase implements Ina
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("postalZipCode", this.postalZipCode);
+        m.put("postalCode", this.postalCode);
         return m;
     }
 

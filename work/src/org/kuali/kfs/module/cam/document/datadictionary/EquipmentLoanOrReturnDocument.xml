@@ -87,7 +87,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </bean>
         <dd:relationship objectAttribute="borrowerPostalZipCode">
         	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="borrowerZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="borrowerZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerState">
         	<dd:primitiveAttribute source="borrowerCountryCode" target="postalCountryCode" />
@@ -98,7 +98,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStoragePostalZipCode">
         	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
-            <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalZipCode" />
+            <dd:primitiveAttribute source="borrowerStorageZipCode" target="postalCode" />
         </dd:relationship>
         <dd:relationship objectAttribute="borrowerStorageState">
         	<dd:primitiveAttribute source="borrowerStorageCountryCode" target="postalCountryCode" />
@@ -291,7 +291,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerStorageZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="borrowerStorageZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />
@@ -303,7 +303,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EquipmentLoanOrReturnDocument-borrowerZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
   	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
-	p:sourceAttributeName="postalZipCode">
+	p:sourceAttributeName="postalCode">
     <property name="name" value="borrowerZipCode" />
     <property name="label" value="Postal Code" />
     <property name="shortLabel" value="Postal Code" />

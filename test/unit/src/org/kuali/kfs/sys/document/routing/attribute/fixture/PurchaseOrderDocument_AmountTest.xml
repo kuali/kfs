@@ -954,7 +954,7 @@
             <reportsToAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
             <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
             <postalZipCode>
-              <postalZipCode>47405</postalZipCode>
+              <postalCode>47405</postalCode>
               <postalStateCode>IN</postalStateCode>
               <postalCityName>BLOOMINGTON</postalCityName>
               <buildingCode> </buildingCode>

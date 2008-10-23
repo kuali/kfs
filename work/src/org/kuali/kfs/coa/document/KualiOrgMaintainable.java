@@ -86,7 +86,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
 
                             // build the fieldConversions for the UserID field lookup
                             Map fieldConversions = new HashMap();
-                            fieldConversions.put(KFSPropertyConstants.POSTAL_ZIP_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME);
 

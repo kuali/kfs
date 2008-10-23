@@ -75,7 +75,7 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="zipCode"
-                    p:targetName="postalZipCode" />
+                    p:targetName="postalCode" />
             </list>
           </property>
         </bean>

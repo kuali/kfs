@@ -1,782 +1,782 @@
 # Ailish properties
 
-Initiate General Ledger Correction < Initiate Document (KFS-SYS Operations)
+KFS-GL Initiate General Ledger Correction < Initiate Document (KFS-SYS Operations)
 	- Document Type Name : CorrectionDocument
 	
-Edit Organization Plant Chart Code < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
+KFS-COA Edit Organization Plant Chart Code < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
 	- Document Type Name : OrganizationMaintenanceDocument
 	- Property Name : organizationPlantChartCode
 	
-Edit Organization Plant Account Number < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
+KFS-COA Edit Organization Plant Account Number < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
 	- Document Type Name : OrganizationMaintenanceDocument
 	- Property Name : organizationPlantAccountNumber
 	
-Edit Campus Plant Chart Code < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
+KFS-COA Edit Campus Plant Chart Code < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
 	- Document Type Name : OrganizationMaintenanceDocument
 	- Property Name : campusPlantChartCode
 	
-Edit Campus Plant Account Number < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
+KFS-COA Edit Campus Plant Account Number < Edit Property (KFS-COA Chart Manager, KFS-SYS Plant Fund Accountant)
 	- Document Type Name : OrganizationMaintenanceDocument
 	- Property Name : campusPlantAccountNumber
 	
-Access Capital Asset Builder Namespace < Access Namespace (KFS-SYS Asset Processor)
+KFS-CAB Access Capital Asset Builder Namespace < Access Namespace (KFS-SYS Asset Processor)
 	- Namespace Code : KFS-CAB
 	
-Edit Customer Tax Number < Edit Property (KFS-SYS Tax Identification Number User)
+KFS-SYS Edit Customer Tax Number < Edit Property (KFS-SYS Tax Identification Number User)
 	- Document Type Name : CustomerMaintenanceDocument
 	- Property Name : customerTaxNbr
 	
-Unmask Customer Tax Number < Completely Unmask Property (KFS-SYS Tax Identification Number User)
+KFS-SYS Unmask Customer Tax Number < Completely Unmask Property (KFS-SYS Tax Identification Number User)
 	- Namespace Code : KFS-AR
 	- Component: Customer
 	- Property Name : customerTaxNbr
 
-Initiate Asset Payment < Initiate Document (KFS-SYS Asset Processor)
+KFS-CAM Initiate Asset Payment < Initiate Document (KFS-SYS Asset Processor)
 	- Document Type Name : AssetPaymentDocument
 	
-Initiate Capital Asset Document < Initiate Document (KFS-CAM Processor)
+KFS-CAM Initiate Capital Asset Document < Initiate Document (KFS-CAM Processor)
 	- Namespace Code : KFS-CAM
 	
-Edit Asset Organization Owner Chart < Edit Property (KFS-CAM Manager)
+KFS-CAM Edit Asset Organization Owner Chart < Edit Property (KFS-CAM Manager)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.organizationOwnerChartOfAccountsCode
 	
-Edit Asset Organization Owner Account < Edit Property (KFS-CAM Manager)
+KFS-CAM Edit Asset Organization Owner Account < Edit Property (KFS-CAM Manager)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.organizationOwnerAccountNumber
 	
-Edit Asset In Service Date < Edit Property (KFS-CAM Manager)
+KFS-CAM Edit Asset In Service Date < Edit Property (KFS-CAM Manager)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.capitalAssetInServiceDate
 	
-Edit Asset Replacement Amount < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Replacement Amount < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.replacementAmount
 	
-Edit Asset Estimated Selling Price < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Estimated Selling Price < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.estimatedSellingPrice
 	
-Edit Asset Old Tag Number < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Old Tag Number < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.oldTagNumber
 	
-Edit Asset Condition < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Condition < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.conditionCode
 	
-Edit Asset Land County < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Land County < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code: KFS-CAM
 	- Property Name: asset.landCountyName
 	
-Edit Asset Land Acerage Size < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Land Acerage Size < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Property Name : asset.landAcerageSize
 	
-Edit Asset Land Parcel Number < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Edit Asset Land Parcel Number < Edit Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Property Name : asset.landParcelNumber
 	
-Edit Asset Type Code < Edit Property (KFS-CAM Manager)
+KFS-CAM Edit Asset Type Code < Edit Property (KFS-CAM Manager)
 	- Namespace Code : KFS-CAM
 	- Property Name : asset.capitalAssetTypeCode
 	
-Edit Asset Description < Edit Property (KFS-CAM Manager)
+KFS-CAM Edit Asset Description < Edit Property (KFS-CAM Manager)
 	- Namespace Code : KFS-CAM
 	- Property Name : asset.capitalAssetDescription
 	
-Merge Assets < Perform Action in Lookup (KFS-CAM Manager)
+KFS-CAM Merge Assets < Perform Action in Lookup (KFS-CAM Manager)
 	- Namespace Code : KFS-CAM
 	- Component: Asset
 	- Action Name : Merge
 	
-Raze Asset < Perform Action in Lookup (KFS-SYS Plant Fund Accountant)
+KFS-CAM Raze Asset < Perform Action in Lookup (KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Component: Asset
 	- Action Name : Raze
 	
-Retire Multiple Assets < Perform Action in Lookup (KFS-SYS Asset Processor, KFS-CAM Manager)
+KFS-CAM Retire Multiple Assets < Perform Action in Lookup (KFS-SYS Asset Processor, KFS-CAM Manager)
 	- Namespace Code : KFS-CAM
 	- Component: Asset
 	- Action Name : Retire Multiple
 	
-Retire Non-Moveable Assets < Perform Action in Lookup (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Retire Non-Moveable Assets < Perform Action in Lookup (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Component: Asset
 	- Action Name : Retire Non-Moveable
 	
-Separate Asset < Perform Action in Lookup (KFS-CAM Manager)
+KFS-CAM Separate Asset < Perform Action in Lookup (KFS-CAM Manager)
 	- Namespace Code : KFS-CAM
 	- Component : Asset
 	- Action Name : Separate Asset
 	
-Transfer Non-Moveable Assets < Perform Action in Lookup (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM Transfer Non-Moveable Assets < Perform Action in Lookup (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Component: Asset
 	- Action Name : Transfer Non-Moveable
 	
-Edit A21 Sub-Account < Edit Property (KFS-SYS Contracts & Grants Manager, KFS-SYS Contracts & Grants Processor)
+KFS-COA Edit A21 Sub-Account < Edit Property (KFS-SYS Contracts & Grants Manager, KFS-SYS Contracts & Grants Processor)
 	- Document Type Name : SubAccountMaintenanceDocument
 	- Property Name : a21SubAccount.*
 	
-Initiate Cash Management < Initiate Document (KFS-FP Cash Manager)
+KFS-FP Initiate Cash Management < Initiate Document (KFS-FP Cash Manager)
 	- Document Type Name : CashManagementDocument
 	
-Initiate Service Billing < Initiate Document (KFS-FP Service Bill Processor)
+KFS-FP Initiate Service Billing < Initiate Document (KFS-FP Service Bill Processor)
 	- Document Type Name : ServiceBillingDocument
 	
-Edit Service Billing Source Accounting Line < Edit Component (KFS-FP Service Bill Processor)
+KFS-FP Edit Service Billing Source Accounting Line < Edit Component (KFS-FP Service Bill Processor)
 	- Namespace Code : KFS-FP
 	- Component: Source Accounting Line
 
-Initiate Rice Document < Initiate Document (KR-SYS Administrator, KFS-SYS Manager)
+KR-NS Initiate Rice Document < Initiate Document (KR-SYS Administrator, KFS-SYS Manager)
 	- Document Type Name : RiceDocument
 	
-View Any Document < View Document (KR-SYS User)
+KR-NS View Any Document < View Document (KR-SYS User)
 	- Document Type Name : KualiBaseDocument
 	
-Inquire Any Rice Record < Inquire Record (KR-SYS User)
+KR-NS Inquire Any Rice Record < Inquire Record (KR-SYS User)
 	- Namespace Code : KR-*
 	
-Lookup Any Rice Record < Lookup Record (KR-SYS User)
+KR-NS Lookup Any Rice Record < Lookup Record (KR-SYS User)
 	- Namespace Code : KR-*
 	
-Edit Salary Expense Target Line Object Code < Edit Property (KFS-SYS Contracts & Grants Manager, KFS-SYS Contracts & Grants Processor)
+KFS-LD Edit Salary Expense Target Line Object Code < Edit Property (KFS-SYS Contracts & Grants Manager, KFS-SYS Contracts & Grants Processor)
 	- Document Type Name : SalaryExpenseTransferDocument
 	- Property Name : targetAccountingLines.financialObjectCode
 	
-Upload Any PDP Batch File < Upload for Batch Job (KFS-PDP Processor)
+KFS-PDP Upload Any PDP Batch File < Upload for Batch Job (KFS-PDP Processor)
 	- Namespace Code : KFS-PDP
 	
-Initiate Any PDP Document < Initiate Document (KFS-SYS Operations)
+KFS-PDP Initiate Any PDP Document < Initiate Document (KFS-SYS Operations)
 	- Namespace Code : KFS-PDP
 	
-Lookup Any PDP Record < Lookup Record (KFS-SYS Operations, KFS-PDP Manager, KFS-PDP Processor)
+KFS-PDP Lookup Any PDP Record < Lookup Record (KFS-SYS Operations, KFS-PDP Manager, KFS-PDP Processor)
 	- Namespace Code : KFS-PDP
 	
-Cancel Payment < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
+KFS-PDP Cancel Payment < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
 	- Namespace Code : KFS-PDP
 	- Component : Payment Group
 	- Action Name: Cancel Payment
 	
-Hold Payment < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
+KFS-PDP Hold Payment < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
 	- Namespace Code : KFS-PDP
 	- Component: Payment Group
 	- Action Name: Hold Payment
 	
-Process Payments < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
+KFS-PDP Process Payments < Perform Action in Lookup (KFS-SYS Operations, KFS-PDP Manager)
 	- Namespace Code : KFS-PDP
 	- Component : Payment Group
 	- Action Name: Process Payments
 	
-Initiate Requisition < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Requisition < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : RequisitionDocument
 	
-Initiate Purchasing Document < Initiate Document (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
+KFS-PURAP Initiate Purchasing Document < Initiate Document (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
 	- Document Type Name : PurchasingTransactionalDocument
 	
-Initiate Purchase Order Close < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Purchase Order Close < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : PurchaseOrderCloseDocument
 	
-Initiate Purchase Order Retransmit < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Purchase Order Retransmit < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : PurchaseOrderRetransmitDocument
 	
-Initiate Accounts Payable Document < Initiate Document (KFS-SYS Accounts Payable Manager, KFS-SYS Accounts Payable Processor)
+KFS-PURAP Initiate Accounts Payable Document < Initiate Document (KFS-SYS Accounts Payable Manager, KFS-SYS Accounts Payable Processor)
 	- Document Type Name : AccountsPayableTransactionalDocument
 	
-Initiate Receiving Document < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Receiving Document < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : ReceivingTransactionalDocument
 	
-Initiate Electronic Invoice Reject < Initiate Document (KFS-SYS Application)
+KFS-PURAP Initiate Electronic Invoice Reject < Initiate Document (KFS-SYS Application)
 	- Document Type Name : ElectronicInvoiceRejectDocument
 	
-Attach Invoice Image < Perform Action in Document (KFS-SYS Accounts Payable Processor)
+KFS-PURAP Attach Invoice Image < Perform Action in Document (KFS-SYS Accounts Payable Processor)
 	- Namespace Code : KFS-PURAP
 	- Action Name : Attach Invoice Image
 	
-Remove Payment Request Hold < Perform Action in Document (KFS-SYS Accounts Payable Manager)
+KFS-PURAP Remove Payment Request Hold < Perform Action in Document (KFS-SYS Accounts Payable Manager)
 	- Namespace Code : KFS-PURAP
 	- Action Name : Remove Payment Request Hold
 	
-Execute Any Batch Job < Execute Batch Job (KFS-SYS Operations)
+KFS-SYS Execute Any Batch Job < Execute Batch Job (KFS-SYS Operations)
 	- Namespace Code : KFS-*
 	
-Upload Any Batch Job File < Upload for Batch Job (KFS-SYS Operations)
+KFS-SYS Upload Any Batch Job File < Upload for Batch Job (KFS-SYS Operations)
 	- Namespace Code : KFS-*
 	
-Blanket Approve Any Document < Blanket Approve Document (KFS-SYS Manager)
+KR-NS Blanket Approve Any Document < Blanket Approve Document (KFS-SYS Manager)
 	- Document Type Name : FinancialSystemDocument
 	
-Initiate Bank Maintenance < Initiate Document (KFS-SYS Operations)
+KFS-SYS Initiate Bank Maintenance < Initiate Document (KFS-SYS Operations)
 	- Document Type Name : BankMaintenanceDocument
 	
-Initiate Any Document < Initiate Document (KFS-SYS User)
+KFS-SYS Initiate Any Document < Initiate Document (KFS-SYS User)
 	- Document Type Name : FinancialSystemDocument
 	
-Initiate Simple Maintenance Document < Initiate Document (KFS-SYS Manager)
-	- Document Type Name : FinancialSystemMaintenanceDocument
+KFS-SYS Initiate Simple Maintenance Document < Initiate Document (KFS-SYS Manager)
+	- Document Type Name : FinancialSystemSimpleMaintenanceDocument
 	
-Receive Any Ad Hoc Request < Ad Hoc Request (KFS-SYS User)
+KR-NS Receive Any Ad Hoc Request < Ad Hoc Request (KFS-SYS User)
 	- Document Type Name : FinancialSystemDocument
 	- Action Request Type Code : A
 	
-Edit Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-SYS Edit Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-SYS
 	- Document Type Name : FinancialSystemTransactionalDocument
 	- Component: Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-SYS Edit Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-SYS
 	- Document Type Name : FinancialSystemTransactionalDocument
 	- Component: Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Bank Code < Edit Property (KFS-SYS Operations)
+KFS-SYS Edit Bank Code < Edit Property (KFS-SYS Operations)
 	- Document Type Name : FinancialSystemTransactionalDocument
 	- Property Name : financialDocumentBankCode
 	
-Inquire Any Financial System Record < Inquire Record (KFS-SYS User)
+KFS-SYS Inquire Any Financial System Record < Inquire Record (KFS-SYS User)
 	- Namespace Code : KFS-*
 	
-Lookup Any Financial System Record < Lookup Record (KFS-SYS User)
+KFS-SYS Lookup Any Financial System Record < Lookup Record (KFS-SYS User)
 	- Namespace Code : KFS-*
 	
-Partially Unmask Bank Account Number < Partially Unmask Property (KFS-SYS Manager)
+KFS-SYS Partially Unmask Bank Account Number < Partially Unmask Property (KFS-SYS Manager)
 	- Namespace Code : KFS-SYS
 	- Component : Bank
 	- Property Name : bankAccountNumber
 	
-Unmask Bank Account Number < Completely Unmask Property (KFS-SYS Operations)
+KFS-SYS Unmask Bank Account Number < Completely Unmask Property (KFS-SYS Operations)
 	- Namespace Code : KFS-SYS
 	- Component : Bank
 	- Property Name : bankAccountNumber
 	
-Maintain Any Parameter < Maintain Parameter (KFS-SYS Manager)
+KFS-SYS Maintain Any Parameter < Maintain Parameter (KFS-SYS Manager)
 	- Namespace Code: KFS-*
 	
-Initiate Vendor Detail Maintenance < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-VND Initiate Vendor Detail Maintenance < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : VendorDetailMaintenanceDocument
 	
-Edit Vendor Tax Number < Edit Property (KFS-SYS Tax Identification Number User)
+KFS-VND Edit Vendor Tax Number < Edit Property (KFS-SYS Tax Identification Number User)
 	- Document Type Name : VendorDetailMaintenanceDocument
 	- Property Name : vendorTaxNumber
 	
-Unmask Vendor Tax Number < Completely Unmask Property (KFS-SYS Tax Identification Number User)
+KFS-VND Unmask Vendor Tax Number < Completely Unmask Property (KFS-SYS Tax Identification Number User)
 	- Document Type Name : VendorDetailMaintenanceDocument
 	- Property Name : vendorTaxNumber
 	
 # M&I permissions
 
-View Asset Replacement Amount < View Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
+KFS-CAM View Asset Replacement Amount < View Property (KFS-SYS Asset Manager, KFS-SYS Plant Fund Accountant)
 	- Namespace Code : KFS-CAM
 	- Property Name: asset.replacementAmount
 	
-Edit Budget Adjustment Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Budget Adjustment Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : BudgetAdjustmentDocument
 	- Component: Budget Adjustment Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Budget Ajdustment Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Budget Ajdustment Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : BudgetAdjustmentDocument
 	- Component: Budget Adjustment Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Year End Budget Adjustment Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Year End Budget Adjustment Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : YearEndBudgetAdjustmentDocument
 	- Component: Budget Adjustment Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Year End Budget Ajdustment Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFs-FP Edit Year End Budget Ajdustment Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : YearEndBudgetAdjustmentDocument
 	- Component: Budget Adjustment Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Year End General Error Correction Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFs-FP Edit Year End General Error Correction Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : YearEndGeneralErrorCorrectionDocument
 	- Component: General Error Correction Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Year End General Error Correction Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Year End General Error Correction Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : YearEndGeneralErrorCorrectionDocument
 	- Component: General Error Correction Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit General Error Correction Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit General Error Correction Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : GeneralErrorCorrectionDocument
 	- Component: General Error Correction Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit General Error Correction Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit General Error Correction Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : GeneralErrorCorrectionDocument
 	- Component: General Error Correction Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Procurement Card Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Procurement Card Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : ProcurementCardDocument
 	- Component: Procurement Card Source Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Procurement Card Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Procurement Card Target Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : Procurement Card Target Accounting Line
 	- Component: Target Accounting Line
 	- Route Node Name : Account Review
 	
-Edit Journal Voucher Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
+KFS-FP Edit Journal Voucher Source Accounting Lines < Edit Component (KFS-SYS Fiscal Officer)
 	- Namespace Code : KFS-FP
 	- Document Type Name : JournalVoucherDocument
 	- Component: Voucher Source Accounting Line
 	- Route Node Name : Account Review
 	
-View Proposal Research Risks < View Component (KFS-SYS Contracts & Grants Processor)
+KFS-CG View Proposal Research Risks < View Component (KFS-SYS Contracts & Grants Processor)
 	- Namespace Code: KFS-CG
 	- Component: Research Risk Type
 	
-Edit Proposal Research Risks < Edit Component (KFS-SYS Contracts & Grants Processor)
+KFS-CG Edit Proposal Research Risks < Edit Component (KFS-SYS Contracts & Grants Processor)
 	- Namespace Code : KFS-CG
 	- Component : Research Risk Type
 	
-Edit Research Documents < Edit Document (KFS-SYS Contracts & Grants Manager)
+KFS-CG Edit Research Documents < Edit Document (KFS-SYS Contracts & Grants Manager)
 	- Document Type Name: ContractsAndGrantsTransactionalDocument
 	
-View Research Documents < View Document (KFS-SYS Contracts & Grants Processor)
+KFS-CG View Research Documents < View Document (KFS-SYS Contracts & Grants Processor)
 	- Document Type Name: ContractsAndGrantsTransactionalDocument
 	
-Edit Routing Form by Project Director < Edit Document (KFS-SYS Contracts & Grants Project Director)
+KFS-CG Edit Routing Form by Project Director < Edit Document (KFS-SYS Contracts & Grants Project Director)
 	- Document Type Name : KualiRoutingFormDocument
 	
-Edit Research Budget by Project Director < Edit Document (KFS-SYS Contracts & Grants Project Director)
+KFS-CG Edit Research Budget by Project Director < Edit Document (KFS-SYS Contracts & Grants Project Director)
 	- Document Type Name : KualiBudgetDocument
 	
-Edit Account Maintenance < Edit Document (KFS-SYS Administrator)
+KFS-COA Edit Account Maintenance < Edit Document (KFS-SYS Administrator)
 	- Document Type Name : AccountMaintenanceDocument
 	
-Modify Closed Account in Maintenance < Modify Record (KFS-SYS Account Manager)
+KFS-COA Modify Closed Account in Maintenance < Modify Record (KFS-SYS Account Manager)
 	- Document Type Name : AccountMaintenanceDocument
 	
-Initiate Cash Receipt < Initiate Document (KFS-SYS User)
+KFS-FP Initiate Cash Receipt < Initiate Document (KFS-SYS User)
 	- Document Type Name : CashReceiptDocument
 	
-Edit Disbursement Voucher Foreign Wire < Edit Property (KFS-SYS Accounts Payable Manager)
+KFS-FP Edit Disbursement Voucher Foreign Wire < Edit Property (KFS-SYS Accounts Payable Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.*
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Non-Employee Travel @ Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Non-Employee Travel @ Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonEmployeeTravel.*
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Non-Employee Expense Line @ Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Non-Employee Expense Line @ Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : newNonEmployeeExpenseLine.*
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Non-Employee Travel @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Non-Employee Travel @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonEmployeeTravel.*
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Non-Employee Expense Line @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Non-Employee Expense Line @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : newNonEmployeeExpenseLine.*
 	- Route Node Name : Alien Indicator+Payment Reason
 
-Edit Disbursement Voucher Non-Resident Alien Tax @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Non-Resident Alien Tax @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonResidentAlienTax.*
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Non-Resident Alien Tax @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Non-Resident Alien Tax @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonResidentAlienTax.*
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Non-Resident Alien Tax @ Alien < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Non-Resident Alien Tax @ Alien < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonResidentAlienTax.*
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Non-Resident Alien Tax @ Payment Reason < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Non-Resident Alien Tax @ Payment Reason < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonResidentAlienTax.*
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Non-Resident Alien Tax @ Campus + Payment Reason < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Non-Resident Alien Tax @ Campus + Payment Reason < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvNonResidentAlienTax.*
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee City < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager, KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee City < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager, KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCityName
 
-Edit Disbursement Voucher Payee Address 1 @ Alien + Travel Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Alien + Travel Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Payee Address 1 @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Payee Address 1 @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Payee Address 1 @ Alien < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Alien < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Payee Address 1 @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Payee Address 1 @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee Address 1 @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee Address 1 @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine1Addr
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Payee Address 2 @ Payment Reason + Alien < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Payment Reason + Alien < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Payee Address 2 @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Payee Address 2 @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Payee Address 2 @ Alien < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Alien < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Payee Address 2 @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Payee Address 2 @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee Address 2 @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee Address 2 @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeLine2Addr
 	- Route Node Name: Payment Method
 	
-Edit Disbursement Voucher Payee State @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Payee State @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Payee State @ Alien Indicator < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Alien Indicator < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Alien Indicator 
 	
-Edit Disbursement Voucher Payee State @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Payee State @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee State @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Payee State @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Payee State @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee State @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeStateCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Payee Zip @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Payee Zip @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Payee Zip @ Alien Indicator < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Alien Indicator < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Payee Zip @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Payee Zip @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee Zip @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Payee Zip @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee Zip @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeZipCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Payee Country @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Payee Country @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Payee Country @ Alien < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Alien < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Payee Country @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Payee Country @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Payee Country @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Payee Country @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Payee Country @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Payee Country @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.dvPayeeDetail.disbVchrPayeeCountryCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Check Total @ Alien + Paymen Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Alien + Paymen Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Alien Indicator+PaymentReason
 	
-Edit Disbursement Voucher Check Total @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Payment Reason < Edit Property (KFS-FP Travel Manager, KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Check Total @ Employee < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Employee < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Employee Indicator
 	
-Edit Disbursement Voucher Check Total @ Tax Control < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Tax Control < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Tax Control Code
 	
-Edit Disbursement Voucher Check Total @ Alien < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Alien < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Alien Indicator
 	
-Edit Disbursement Voucher Check Total @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
+KFS-FP Edit Disbursement Voucher Check Total @ Payment Reason + Campus < Edit Property (KFS-SYS Tax Manager)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Payment Reason+Campus Code
 	
-Edit Disbursement Voucher Check Total @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves, KFS-SYS Fiscal Officer)
+KFS-FP Edit Disbursement Voucher Check Total @ Payment Method < Edit Property (KFS-SYS Accounts Payable Manager, KFS-FP Treasury Manager: Money Moves, KFS-SYS Fiscal Officer)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Check Total @ Account Review < Edit Property (KFS-SYS Fiscal Officer)
+KFS-FP Edit Disbursement Voucher Check Total @ Account Review < Edit Property (KFS-SYS Fiscal Officer)
 	- Document Type Name : DisbursementVoucherDocument
 	- Property Name : document.disbVchrCheckTotalAmount
 	- Route Node Name : Account Review
 	
-Edit Disbursement Voucher Payment Method < Edit Property (KFS-SYS Accounts Payable Manager)
+KFS-FP Edit Disbursement Voucher Payment Method < Edit Property (KFS-SYS Accounts Payable Manager)
 	- Document Type Name : DisbusementVoucherDocument
 	- Property Name : document.disbVchrPaymentMethodCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Pre-Conference Detail @ Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Pre-Conference Detail @ Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbusementVoucherDocument
 	- Property Name : document.dvPreConferenceDetail.*
 	- Route Node Name : Payment Reason
 
-Edit Disbursement Voucher Pre-Conference Detail @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Pre-Conference Detail @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbusementVoucherDocument
 	- Property Name : document.dvPreConferenceDetail.*
 	- Route Node Name : Alien Indicator+Payment Reason	
 	
-Edit Disbursement Voucher Pre-Conference New Registrant Line @ Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Pre-Conference New Registrant Line @ Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbusementVoucherDocument
 	- Property Name : newPreConferenceRegistrantLine.*
 	- Route Node Name : Payment Reason
 	
-Edit Disbursement Voucher Pre-Conference New Registrant Line @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
+KFS-FP Edit Disbursement Voucher Pre-Conference New Registrant Line @ Alien + Payment Reason < Edit Property (KFS-FP Travel Manager)
 	- Document Type Name : DisbusementVoucherDocument
 	- Property Name : newPreConferenceRegistrantLine.*
 	- Route Node Name : Alien Indicator+Payment Reason
 	
-Edit Disbursement Voucher Wire Clearing House Profile Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Clearing House Profile Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbursementVoucherAutomatedClearingHouseProfileNumber
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Fee Waiver < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Fee Waiver < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbursementVoucherWireTransferFeeWaiverIndicator
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Bank Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Bank Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbursementVoucherBankName
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Additional Text < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Additional Text < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrAdditionalWireText
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Bank Routing Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Bank Routing Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrBankRoutingNumber
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Attention Line < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Attention Line < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrAttentionLineText
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Bank City < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Bank City < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrBankCityName
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Currency Code < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Currency Code < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrCurrencyTypeCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Bank State < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Bank State < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrBankStateCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Currency Type Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Currency Type Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrCurrencyTypeName
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Bank Country < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Bank Country < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrBankCountryCode
 	- Route Node Name : Payment Method
 	
-Edit Disbursement Voucher Wire Payee Account Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Payee Account Number < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrPayeeAccountNumber
 	- Route Node Name : Payment Method
 	
-Unmask Disbursement Voucher Wire Account Number < Completely Unmask Property (KFS-FP Treasury Manager: Money Moves, KFS-SYS Accounts Payable Manager)
+KFS-FP Unmask Disbursement Voucher Wire Account Number < Completely Unmask Property (KFS-FP Treasury Manager: Money Moves, KFS-SYS Accounts Payable Manager)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbVchrPayeeAccountNumber
 	
-Edit Disbursement Voucher Wire Account Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
+KFS-FP Edit Disbursement Voucher Wire Account Name < Edit Property (KFS-FP Treasury Manager: Money Moves)
 	- Document Type Name: DisbursementVoucherDocument
 	- Property Name : document.dvWireTransfer.disbursementVoucherPayeeAccountName
 	- Route Node Name : Payment Method
 	
-Partially Unmask Procurement Card Credit Card < Partially Unmask Property (KFS-SYS Account Manager)
+KFS-FP Partially Unmask Procurement Card Credit Card < Partially Unmask Property (KFS-SYS Account Manager)
 	- Document Type Name : ProcurementCardDocument
 	- Property Name : document.transactionEntries.transactionCreditCardNumber
 	
 # AR permissions
 
-Initiate Payment Application < Initiate Document (KFS-AR Processing Organization User)
+KFS-AR Initiate Payment Application < Initiate Document (KFS-AR Processing Organization User)
 	- Document Type Name : PaymentApplicationDocument
 	
-Initiate Customer Invoice < Initiate Document (KFS-AR Processing Organization User, KFS-AR Billing Organization User)
+KFS-AR Initiate Customer Invoice < Initiate Document (KFS-AR Processing Organization User, KFS-AR Billing Organization User)
 	- Document Type Name : CustomerInvoiceDocument
 	
-Initiate Billing Statement < Perform Action in Lookup (KFS-AR Processing Organization User, KFS-AR Billing Organization User)
+KFS-AR Initiate Billing Statement < Perform Action in Lookup (KFS-AR Processing Organization User, KFS-AR Billing Organization User)
 	- Namespace Code : KFS-AR
 	
-Initiate Cash Control < Initiate Document (KFS-AR Processing Organization User)
+KFS-AR Initiate Cash Control < Initiate Document (KFS-AR Processing Organization User)
 	- Document Type Name : CashControlDocument
 
 # LD/EC permissions
 
-Initiate Effort Certification < Initiate Document (KFS-SYS Contracts & Grants Manager)
+KFS-EC Initiate Effort Certification < Initiate Document (KFS-SYS Contracts & Grants Manager)
 	- Document Type Name : EffortCertificationDocument
 	
-Initiate Labor Journal Voucher < Initiate Document (KFS-SYS Manager)
+KFS-LD Initiate Labor Journal Voucher < Initiate Document (KFS-SYS Manager)
 	- Document Type Name : LaborJournalVoucherDocument
 	
-Initiate Labor Correction < Initiate Document (KFS-SYS Operations)
+KFS-LD Initiate Labor Correction < Initiate Document (KFS-SYS Operations)
 	- Document Type Name : LaborCorrectionDocument
 	
-Override Transfer Impacting Open Effort Certification < Perform Action in Document (KFS-SYS Contracts & Grants Manager)
+KFS-LD Override Transfer Impacting Open Effort Certification < Perform Action in Document (KFS-SYS Contracts & Grants Manager)
 	- Namespace Code : KFS-LD
 	- Action Name : Override Transfer Impacting Open Effort Certification
 
 # PurAP/VND permissions
 
-Edit Vendor Contacts < Edit Property (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
+KFS-VND Edit Vendor Contacts < Edit Property (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
 	- Document Type Name : VendorDetailMaintenanceDocument
 	- Property Name : vendorContacts.*
 	
-Initiate Contract Manager Assignment < Initiate Document (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
+KFS-PURAP Initiate Contract Manager Assignment < Initiate Document (KFS-PURAP Contract Manager, KFS-PURAP Purchasing Processor)
 	- Document Type Name : ContractManagerAssignmentDocument
 
-Initiate Receiving Line < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Receiving Line < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : ReceivingLineDocument
 	
-Initiate Receiving Correction < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Receiving Correction < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : ReceivingCorrectionDocument
 	
-Initiate Bulk Receiving < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
+KFS-PURAP Initiate Bulk Receiving < Initiate Document (KFS-SYS Active Faculty or Staff, KFS-SYS User)
 	- Document Type Name : BulkReceivingDocument

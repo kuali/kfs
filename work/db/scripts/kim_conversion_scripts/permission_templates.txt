@@ -1,23 +1,23 @@
-Access Namespace :: Access any element - lookup, inquiry, document, or batch job - within a given namespace. :: Namespace Type
-Administrate Routing :: Administer the routing of a document of a given type. :: Document Type
-Blanket Approve Document :: Blanket approve a document of a given type. :: Document Type
-Initiate Document :: Initiate a document of a given type. :: Document Type
-Receive Ad Hoc :: Receive ad hoc routing requests for a given document type. :: Document Type
-Lookup Record :: Perform lookups of business object components of a given type. :: Component Type
-Inquire Record :: Open inquiry screens on business object components of a given type. :: Component Type
-Modify Record :: Modify, via maintenance document, business object components of a given type. :: Component Type
-View Document :: View a document of a given type. :: Document with Routing Type
-View Component :: View a component - likely within a document - of a given type. :: Component with Routing Type
-View Property :: View a property of a component or document of a given type. :: Property with Routing Type
-Completely Unmask Property :: Completely remove masking of a property of a component or document of a given type. :: Property with Routing Type
-Partially Unmask Property :: Partially remove masking of a property of a component or document with a given type. :: Property with Routing Type
-Edit Document :: Make changes to a document of a given type. :: Document with Routing Type
-Edit Component :: Make changes to a business object component - likekly on a document - of a given type. :: Component with Routing Type
-Edit Property :: Make changes to a property on a business object component or document of a given type. :: Property with Routing Type
-Upload for Batch Job :: Upload input files for a given batch job. :: Batch Input File Type
-Execute Batch Job :: Run a given batch job. :: Batch Job Type
-Claim :: Claim an electronic payment claim with a given document. :: Document Type
-Perform Action in Lookup :: Permit performance of action from lookup for given component. :: Component Action with Routing Type
-Perform Action in Document :: Permit performance of action in document. :: Document Action with Routing Type
-Maintain Parameter :: Permit the maintenace of a parameter. :: Parameter Type
-Ad Hoc Request :: Permit an Ad Hoc Request. :: Document with Action Request
+KR-NS Access Namespace :: Access any element - lookup, inquiry, document, or batch job - within a given namespace. :: Namespace Type
+KR-NS Administrate Routing :: Administer the routing of a document of a given type. :: Document Type
+KR-NS Blanket Approve Document :: Blanket approve a document of a given type. :: Document Type
+KR-NS Initiate Document :: Initiate a document of a given type. :: Document Type
+KR-NS Receive Ad Hoc :: Receive ad hoc routing requests for a given document type. :: Document Type
+KR-NS Lookup Record :: Perform lookups of business object components of a given type. :: Component Type
+KR-NS Inquire Record :: Open inquiry screens on business object components of a given type. :: Component Type
+KR-NS Modify Record :: Modify, via maintenance document, business object components of a given type. :: Component Type
+KR-NS View Document :: View a document of a given type. :: Document with Routing Type
+KR-NS View Component :: View a component - likely within a document - of a given type. :: Component with Routing Type
+KR-NS View Property :: View a property of a component or document of a given type. :: Property with Routing Type
+KR-NS Completely Unmask Property :: Completely remove masking of a property of a component or document of a given type. :: Property with Routing Type
+KR-NS Partially Unmask Property :: Partially remove masking of a property of a component or document with a given type. :: Property with Routing Type
+KR-NS Edit Document :: Make changes to a document of a given type. :: Document with Routing Type
+KR-NS Edit Component :: Make changes to a business object component - likekly on a document - of a given type. :: Component with Routing Type
+KR-NS Edit Property :: Make changes to a property on a business object component or document of a given type. :: Property with Routing Type
+KFS-SYS Upload for Batch Job :: Upload input files for a given batch job. :: Batch Input File Type
+KFS-SYS Execute Batch Job :: Run a given batch job. :: Batch Job Type
+KFS-SYS Claim :: Claim an electronic payment claim with a given document. :: Document Type
+KR-NS Perform Action in Lookup :: Permit performance of action from lookup for given component. :: Component Action with Routing Type
+KR-NS Perform Action in Document :: Permit performance of action in document. :: Document Action with Routing Type
+KFS-SYS Maintain Parameter :: Permit the maintenace of a parameter. :: Parameter Type
+KR-NS Ad Hoc Request :: Permit an Ad Hoc Request. :: Document with Action Request

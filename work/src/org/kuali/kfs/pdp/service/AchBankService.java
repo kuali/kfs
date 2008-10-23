@@ -32,4 +32,12 @@ public interface AchBankService {
      * @param filename
      */
     public boolean reloadTable(String filename);
+    
+    /**
+     * Returns the AchBank for the given routing number
+     * 
+     * @param bankRoutingNumber pk for AchBank
+     * @return AchBank
+     */
+    public AchBank getByPrimaryId(String bankRoutingNumber);
 }

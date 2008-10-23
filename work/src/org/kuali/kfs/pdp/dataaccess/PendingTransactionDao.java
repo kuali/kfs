@@ -24,14 +24,19 @@ import java.util.Iterator;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 
 /**
- * @author jsissom
+ * DAO Interface for <code>GlPendingTransaction</code>
  */
 public interface PendingTransactionDao {
-    
+
     /**
      * Get all of the GL transactions where the extract flag is null
      * 
      * @return Iterator of all the transactions
      */
-    public Iterator getUnextractedTransactions();
+    public Iterator<GlPendingTransaction> getUnextractedTransactions();
+    
+    /**
+     * Deletes all transaction records where the process indicator is true
+     */
+    public void clearExtractedTransactions();
 }

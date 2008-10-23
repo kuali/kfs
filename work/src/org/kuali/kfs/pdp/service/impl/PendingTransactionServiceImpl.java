@@ -69,7 +69,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private static String FDOC_TYP_CD_CANCEL_ACH = "ACHC";
     private static String FDOC_TYP_CD_CANCEL_CHECK = "CHKC";
     private BusinessObjectService businessObjectService;
-    
+
     private PendingTransactionDao glPendingTransactionDao;
     private ChartService chartService;
     private AccountingPeriodService accountingPeriodService;
@@ -120,8 +120,14 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             GlPendingTransaction glPendingTransaction = new GlPendingTransaction();
             glPendingTransaction.setSequenceNbr(new KualiInteger(sequenceHelper.getSequenceCounter()));
 
-            glPendingTransaction.setFdocRefTypCd(PdpConstants.PDP_FDOC_TYPE_CODE);
-            glPendingTransaction.setFsRefOriginCd(PdpConstants.PDP_FDOC_ORIGIN_CODE);
+            if (StringUtils.isNotBlank(paymentAccountDetail.getPaymentDetail().getFinancialSystemOriginCode()) && StringUtils.isNotBlank(paymentAccountDetail.getPaymentDetail().getFinancialDocumentTypeCode())) {
+                glPendingTransaction.setFdocRefTypCd(paymentAccountDetail.getPaymentDetail().getFinancialDocumentTypeCode());
+                glPendingTransaction.setFsRefOriginCd(paymentAccountDetail.getPaymentDetail().getFinancialSystemOriginCode());
+            }
+            else {
+                glPendingTransaction.setFdocRefTypCd(PdpConstants.PDP_FDOC_TYPE_CODE);
+                glPendingTransaction.setFsRefOriginCd(PdpConstants.PDP_FDOC_ORIGIN_CODE);
+            }
 
             glPendingTransaction.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
 
@@ -367,22 +373,20 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#getUnextractedTransactions()
      */
-    public Iterator getUnextractedTransactions() {
+    public Iterator<GlPendingTransaction> getUnextractedTransactions() {
         LOG.debug("getUnextractedTransactions() started");
 
         return glPendingTransactionDao.getUnextractedTransactions();
     }
-    
+
     /**
-     * Gets the business object service
-     * 
-     * @return
+     * @see org.kuali.kfs.pdp.service.PendingTransactionService#clearExtractedTransactions()
      */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public void clearExtractedTransactions() {
+        glPendingTransactionDao.clearExtractedTransactions();
     }
     
-    /**
+     /**
      * Sets the business object service
      * 
      * @param businessObjectService
@@ -390,4 +394,5 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
 }

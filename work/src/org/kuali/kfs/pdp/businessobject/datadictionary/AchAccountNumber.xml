@@ -8,16 +8,12 @@
 
   <bean id="AchAccountNumber-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchAccountNumber" />
-    <property name="inquiryDefinition" >
-      <ref bean="AchAccountNumber-inquiryDefinition" />
-    </property>
     <property name="titleAttribute" value="achBankAccountNbr" />
     <property name="objectLabel" value="ACH Account Number" />
     <property name="attributes" >
       <list>
         <ref bean="AchAccountNumber-id" />
         <ref bean="AchAccountNumber-achBankAccountNbr" />
-        <ref bean="AchAccountNumber-partialMaskAchBankAccountNbr" />  
       </list>
     </property>
   </bean>
@@ -60,52 +56,5 @@
     <property name="summary" value="achBankAccountNbr" />
     <property name="description" value="Payee Bank Account Number." />
   </bean>
-  <bean id="AchAccountNumber-partialMaskAchBankAccountNbr" parent="AchAccountNumber-partialMaskAchBankAccountNbr-parentBean" />
-
-  <bean id="AchAccountNumber-partialMaskAchBankAccountNbr-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="partialMaskAchBankAccountNbr" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Payee Partial Bank Account Number" />
-    <property name="shortLabel" value="Partial Bank Account Number" />
-    <property name="maxLength" value="32" />
-    <property name="validationPattern" >
-       <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="32" />
-    </property>
-    <property name="summary" value="partialMaskAchBankAccountNbr" />
-    <property name="description" value="Partial Payee Bank Account Number." />
-  </bean>
- 
-
-<!-- Business Object Inquiry Definition -->
-
-
-  <bean id="AchAccountNumber-inquiryDefinition" parent="AchAccountNumber-inquiryDefinition-parentBean" />
-
-  <bean id="AchAccountNumber-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="AchAccountNumber Inquiry" />
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="id" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="achBankAccountNbr" />                                                      
-              <bean parent="FieldDefinition"
-                    p:attributeName="partialMaskAchBankAccountNbr" />                     
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
   
 </beans>

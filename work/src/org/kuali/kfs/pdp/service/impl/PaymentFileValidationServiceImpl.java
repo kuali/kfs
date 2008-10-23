@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -50,16 +49,20 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.KualiCodeService;
+import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +83,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     private ProjectCodeService projectCodeService;
     private KualiCodeService kualiCodeService;
     private BankService bankService;
+    private OriginationCodeService originationCodeService;
+    private DocumentTypeService documentTypeService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -87,7 +92,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void doHardEdits(PaymentFileLoad paymentFile, ErrorMap errorMap) {
         processHeaderValidation(paymentFile, errorMap);
-        processGroupValidation(paymentFile, errorMap);
+
+        if (errorMap.isEmpty()) {
+            processGroupValidation(paymentFile, errorMap);
+        }
 
         if (errorMap.isEmpty()) {
             processTrailerValidation(paymentFile, errorMap);
@@ -109,6 +117,9 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         else {
             if (!customer.isActive()) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_CUSTOMER, paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
+            }
+            else {
+                paymentFile.setCustomer(customer);
             }
         }
     }
@@ -135,8 +146,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         // Check to see if this is a duplicate batch
         Timestamp now = new Timestamp(paymentFile.getCreationDate().getTime());
 
-        CustomerProfile customer = customerProfileService.get(paymentFile.getChart(), paymentFile.getOrg(), paymentFile.getSubUnit());
-        if (paymentFileLoadDao.isDuplicateBatch(customer, paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount().bigDecimalValue(), now)) {
+        if (paymentFileLoadDao.isDuplicateBatch(paymentFile.getCustomer(), paymentFile.getPaymentCount(), paymentFile.getPaymentTotalAmount().bigDecimalValue(), now)) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_DUPLICATE_BATCH);
         }
     }
@@ -157,6 +167,27 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             int noteLineCount = 0;
             int detailCount = 0;
+            
+            // verify payee id and owner code if customer requires them to be filled in
+            if (paymentFile.getCustomer().getPayeeIdRequired() && StringUtils.isBlank(paymentGroup.getPayeeId())) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_ID_REQUIRED, Integer.toString(groupCount));
+            }
+            
+            if (paymentFile.getCustomer().getOwnershipCodeRequired() && StringUtils.isBlank(paymentGroup.getPayeeOwnerCd())) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_PAYEE_OWNER_CODE, Integer.toString(groupCount));           
+            }
+            
+            // validate bank
+            String bankCode = paymentGroup.getBankCode();
+            if (StringUtils.isNotBlank(bankCode)) {
+                Bank bank = bankService.getByPrimaryId(bankCode);
+                if (bank == null) {
+                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_BANK_CODE, Integer.toString(groupCount), bankCode);
+                }
+                else if (!bank.isActive()) {
+                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_BANK_CODE, Integer.toString(groupCount), bankCode);
+                }
+            }
 
             KualiDecimal groupTotal = KualiDecimal.ZERO;
             for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
@@ -177,15 +208,21 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_DETAIL_TOTAL_MISMATCH, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getAccountTotal().toString(), paymentDetail.getNetPaymentAmount().toString());
                 }
 
-                // validate bank
-                String bankCode = paymentGroup.getBankCode();
-                if (StringUtils.isNotBlank(bankCode)) {
-                    Bank bank = bankService.getByPrimaryId(bankCode);
-                    if (bank == null) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_BANK_CODE, Integer.toString(groupCount), bankCode);
+                // validate origin code if given
+                if (StringUtils.isNotBlank(paymentDetail.getFinancialSystemOriginCode())) {
+                    OriginationCode originationCode = originationCodeService.getByPrimaryKey(paymentDetail.getFinancialSystemOriginCode());
+                    if (originationCode == null) {
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_ORIGIN_CODE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialSystemOriginCode());  
                     }
-                    else if (!bank.isActive()) {
-                        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INACTIVE_BANK_CODE, Integer.toString(groupCount), bankCode);
+                }
+                
+                // validate doc type if given
+                if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
+                    try {
+                        DocumentType documentType = documentTypeService.getDocumentTypeByCode(paymentDetail.getFinancialDocumentTypeCode());
+                    }
+                    catch (UnknownDocumentTypeException e) {
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
                     }
                 }
 
@@ -203,7 +240,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             }
         }
     }
-
+    
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileValidationService#doSoftEdits(org.kuali.kfs.pdp.businessobject.PaymentFile)
      */
@@ -688,6 +725,24 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
+    }
+
+    /**
+     * Sets the originationCodeService attribute value.
+     * 
+     * @param originationCodeService The originationCodeService to set.
+     */
+    public void setOriginationCodeService(OriginationCodeService originationCodeService) {
+        this.originationCodeService = originationCodeService;
+    }
+
+    /**
+     * Sets the documentTypeService attribute value.
+     * 
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 }

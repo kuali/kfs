@@ -35,7 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
- *
+ * General Ledger Pending Table for PDP
  */
 public class GlPendingTransaction extends PersistableBusinessObjectBase implements FlexibleAccountUpdateable {
     private KualiInteger id; // GL_PENDING_ENTRY_ID NUMBER 8 0
@@ -67,10 +67,12 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     private String fdocApprovedCd; // FDOC_APPROVED_CD VARCHAR2 1
     private String acctSfFinObjCd; // ACCT_SF_FINOBJ_CD VARCHAR2 4
     private String trnEntrOfstCd; // TRN_ENTR_OFST_CD VARCHAR2 1
-    private String processInd; // TRN_EXTRT_IND VARCHAR2 7
+    private boolean processInd; // TRN_EXTRT_IND VARCHAR2 7
 
     public GlPendingTransaction() {
         super();
+        
+        processInd = false;
     }
 
     public OriginEntryFull getOriginEntry() {
@@ -279,11 +281,21 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
         this.orgReferenceId = orgReferenceId;
     }
 
-    public String getProcessInd() {
+    /**
+     * Gets the processInd attribute.
+     * 
+     * @return Returns the processInd.
+     */
+    public boolean isProcessInd() {
         return processInd;
     }
 
-    public void setProcessInd(String processInd) {
+    /**
+     * Sets the processInd attribute value.
+     * 
+     * @param processInd The processInd to set.
+     */
+    public void setProcessInd(boolean processInd) {
         this.processInd = processInd;
     }
 
@@ -366,14 +378,15 @@ public class GlPendingTransaction extends PersistableBusinessObjectBase implemen
     public String toString() {
         return new ToStringBuilder(this).append("id", id).toString();
     }
-    
-    public void setAccount(Account a) { /* don't do nada; we're just fulfilling the contract of FlexibleAccountUpdateable */ }
+
+    public void setAccount(Account a) { /* don't do nada; we're just fulfilling the contract of FlexibleAccountUpdateable */
+    }
 
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap(); 
+        LinkedHashMap m = new LinkedHashMap();
         m.put("id", this.id);
-        
+
         return m;
     }
 }

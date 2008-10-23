@@ -111,7 +111,9 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
     private A21SubAccount getA21SubAccount(LaborLedgerBalance ledgerBalance) {
         A21SubAccount a21SubAccount = null;
         try {
-            a21SubAccount = ledgerBalance.getSubAccount().getA21SubAccount();
+            if (ObjectUtils.isNotNull(ledgerBalance.getSubAccount())) {
+                a21SubAccount = ledgerBalance.getSubAccount().getA21SubAccount();
+            }
         }
         catch (NullPointerException npe) {
             LOG.debug(npe);

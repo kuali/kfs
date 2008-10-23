@@ -26,10 +26,11 @@ public class PdpConstants {
     public static final String PAYMENT_LOAD_CREATE_DATE_SEPARATOR = "T";
     public static final String PAYMENT_LOAD_CREATE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String PDP_FDOC_TYPE_CODE = "PDP";
-    public static final String PDP_FDOC_ORIGIN_CODE = "PD";
+    public static final String PDP_FDOC_ORIGIN_CODE = "01";
+    public static final String ACH_ACCOUNT_IDENTIFIER_SEQUENCE_NAME = "PDP_ACH_ACCT_GNRTD_ID_SEQ";
 
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
-    
+
     // TODO Probably should become a table
     public static class PayeeIdTypeCodes {
         //public static String PAYEE_ID = "P";
@@ -113,20 +114,20 @@ public class PdpConstants {
         public static final String HELD_TAX_NRA_CD = "HTXN";
         public static final String HELD_TAX_NRA_EMPL_CD = "HTXB";
     }
-
+    
     public static class PurapParameterConstants {
         public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String PURAP_PDP_EPIC_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
         public static final String PURAP_PDP_USER_ID = "PRE_DISBURSEMENT_EXTRACT_USER";
     }
-
-    public static class Actions {
+    
+    public static class Actions{
         public static final String BATCH_SEARCH_DETAIL_ACTION = "batchsearchDetail.do";
         public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetailrice.do";
         public static final String FORMAT_PROCESS_ACTION = "pdp/formatrice.do";
     }
-
-    public static class ActionMethods {
+    
+    public static class ActionMethods{
         public static final String CONFIRM_CANCEL_ACTION = "confirmAndCancel";
         public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmAndRemoveHold";
         public static final String CONFIRM_HOLD_ACTION = "confirmAndHold";
@@ -136,7 +137,7 @@ public class PdpConstants {
         public static final String CONFIRM_REISSUE_CANCEL_ACTION = "confirmAndReIssueCancel";
         public static final String CLEAR_FORMAT_PROCESS_ACTION = "clearUnfinishedFormat";
     }
-
+    
     public static class AccountChangeCodes {
         public static final String INVALID_ACCOUNT = "ACCT";
         public static final String INVALID_SUB_ACCOUNT = "SA";
@@ -144,7 +145,7 @@ public class PdpConstants {
         public static final String INVALID_SUB_OBJECT = "SO";
         public static final String INVALID_PROJECT = "PROJ";
     }
-
+    
     public static class PaymentTypes {
         public static final String ALL = "all";
         public static final String DISBURSEMENTS_WITH_ATTACHMENTS = "pymtAttachment";
@@ -152,8 +153,8 @@ public class PdpConstants {
         public static final String DISBURSEMENTS_WITH_SPECIAL_HANDLING = "pymtSpecialHandling";
         public static final String DISBURSEMENTS_NO_SPECIAL_HANDLING = "pymtSpecialHandlingFalse";
         public static final String PROCESS_IMMEDIATE = "immediate";
-        }
-
+    }
+    
     public static final String MAPPING_SELECTION = "selection";
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";

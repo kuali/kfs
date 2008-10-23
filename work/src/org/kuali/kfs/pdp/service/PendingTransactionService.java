@@ -65,5 +65,10 @@ public interface PendingTransactionService {
      * 
      * @return Iterator of all the transactions
      */
-    public Iterator getUnextractedTransactions();
+    public Iterator<GlPendingTransaction> getUnextractedTransactions();
+    
+    /**
+     * Deletes transactions records that have been copied to the GL
+     */
+    public void clearExtractedTransactions();
 }

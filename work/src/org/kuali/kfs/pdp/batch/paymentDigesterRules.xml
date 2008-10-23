@@ -76,7 +76,9 @@
                 <call-method-rule pattern="invoice_tot_ship_amt" methodname="setInvTotShipAmount" paramcount="0"/>
                 <call-method-rule pattern="invoice_tot_other_debits" methodname="setInvTotOtherDebitAmount" paramcount="0" />
                 <call-method-rule pattern="invoice_tot_other_credits" methodname="setInvTotOtherCreditAmount" paramcount="0" />
-                
+                <call-method-rule pattern="fs_origin_cd" methodname="setFinancialSystemOriginCode" paramcount="0" />
+                <call-method-rule pattern="fdoc_typ_cd" methodname="setFinancialDocumentTypeCode" paramcount="0" />
+                         
                 <pattern value="accounting">  
                     <object-create-rule classname="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail" />
                     

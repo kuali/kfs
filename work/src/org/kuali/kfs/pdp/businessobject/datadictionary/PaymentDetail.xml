@@ -45,6 +45,8 @@
         <ref bean="PaymentDetail-netPaymentAmount" />
         <ref bean="PaymentDetail-paymentGroup.paymentStatusCode" />
         <ref bean="PaymentDetail-paymentGroup.disbursementType.name" />
+        <ref bean="PaymentDetail-financialSystemOriginCode" />
+        <ref bean="PaymentDetail-financialDocumentTypeCode" />
         <ref bean="PaymentDetail-invoiceDate" />
         <ref bean="PaymentDetail-paymentGroup.physCampusProcessCd" />
         <ref bean="PaymentDetail-paymentGroup.process.processUser.personUserIdentifier" />
@@ -73,12 +75,8 @@
 		<ref bean="PaymentDetail-paymentGroup.bank.bankName" />
 		<ref bean="PaymentDetail-paymentGroup.achBankRoutingNbr" />
 		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.achBankAccountNbr" />
-		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr" />
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
-		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
-		
-				
-		
+		<!-- ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" /-->
       </list>
     </property>
     <property name="collections" >
@@ -303,7 +301,7 @@
   <bean id="PaymentDetail-paymentGroup.batch.paymentFileName-parentBean" abstract="true" parent="PaymentGroup-batch.paymentFileName">
     <property name="name" value="paymentGroup.batch.paymentFileName" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.disbursementType.name" parent="PaymentDetail-paymentGroup.disbursementType.name-parentBean" />
+   <bean id="PaymentDetail-paymentGroup.disbursementType.name" parent="PaymentDetail-paymentGroup.disbursementType.name-parentBean" />
 
   <bean id="PaymentDetail-paymentGroup.disbursementType.name-parentBean" abstract="true" parent="PaymentGroup-disbursementType.name">
     <property name="name" value="paymentGroup.disbursementType.name" />
@@ -456,11 +454,7 @@
   <bean id="PaymentDetail-paymentGroup.achAccountNumber.achBankAccountNbr-parentBean" abstract="true" parent="PaymentGroup-achAccountNumber.achBankAccountNbr">
     <property name="name" value="paymentGroup.achAccountNumber.achBankAccountNbr" />
   </bean> 
-  <bean id="PaymentDetail-paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr" parent="PaymentDetail-paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr-parentBean" />
 
-  <bean id="PaymentDetail-paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr-parentBean" abstract="true" parent="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr">
-    <property name="name" value="paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr" />
-  </bean>
   <bean id="PaymentDetail-paymentGroup.paymentStatus.name" parent="PaymentDetail-paymentGroup.paymentStatus.name-parentBean" />
 
   <bean id="PaymentDetail-paymentGroup.paymentStatus.name-parentBean" abstract="true" parent="PaymentGroup-paymentStatus.name">
@@ -472,9 +466,20 @@
     <property name="name" value="paymentGroup.payeeIdTypeDesc" />
   </bean>
   
+  
+   <bean id="PaymentDetail-financialSystemOriginCode" parent="PaymentDetail-financialSystemOriginCode-parentBean" />
+
+  <bean id="PaymentDetail-financialSystemOriginCode-parentBean" abstract="true" parent="OriginationCode-financialSystemOriginationCode">
+    <property name="name" value="financialSystemOriginCode" />
+  </bean>
+  
+  <bean id="PaymentDetail-financialDocumentTypeCode" parent="PaymentDetail-financialDocumentTypeCode-parentBean" />
+
+  <bean id="PaymentDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-documentTypeCode">
+    <property name="name" value="financialDocumentTypeCode" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
-
 
   <bean id="PaymentDetail-inquiryDefinition" parent="PaymentDetail-inquiryDefinition-parentBean" />
 
@@ -518,7 +523,11 @@
               <bean parent="FieldDefinition"
                     p:attributeName="netPaymentAmount" />                                                                                        
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.customerInstitutionNumber" />                    
+                    p:attributeName="paymentGroup.customerInstitutionNumber" />              
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialSystemOriginCode" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="financialDocumentTypeCode" />
             </list>
           </property>
         </bean>
@@ -694,8 +703,6 @@
                     p:attributeName="paymentGroup.achBankRoutingNbr" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.achAccountNumber.achBankAccountNbr" />     
-              <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.achAccountNumber.partialMaskAchBankAccountNbr" />                                                                                                                                                  
             </list>
           </property>
         </bean>
@@ -771,7 +778,7 @@
   <bean id="PaymentDetail-lookupDefinition" parent="PaymentDetail-lookupDefinition-parentBean" />
 
   <bean id="PaymentDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Payment Detail Lookup" />
+    <property name="title" value="PaymentDetail Lookup" />
     <property name="lookupableID" value="paymentDetailLookupable" />
     <property name="instructions" value="Look up a PaymentDetail" />
     <property name="defaultSort" >
@@ -835,7 +842,7 @@
       </list>
     </property>
     <property name="resultFields" >
-      <list>                                                                                              
+      <list>     
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerProfile.customerShortName" />
               <bean parent="FieldDefinition"

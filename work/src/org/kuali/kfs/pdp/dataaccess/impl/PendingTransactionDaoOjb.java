@@ -23,13 +23,15 @@ import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 /**
- * @author jsissom
+ * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao
  */
 public class PendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements PendingTransactionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingTransactionDaoOjb.class);
@@ -41,12 +43,32 @@ public class PendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao#getUnextractedTransactions()
      */
-    public Iterator getUnextractedTransactions() {
+    public Iterator<GlPendingTransaction> getUnextractedTransactions() {
         LOG.debug("save() started");
 
         Criteria criteria = new Criteria();
-        criteria.addIsNull("processInd");
+        criteria.addEqualTo(PdpPropertyConstants.PROCESS_IND, false);
+        
+        Criteria criteria2 = new Criteria();
+        criteria.addIsNull(PdpPropertyConstants.PROCESS_IND);
+        
+        criteria.addOrCriteria(criteria2);
+        
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(GlPendingTransaction.class, criteria));
+    }
+    
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.PendingTransactionDao#clearExtractedTransactions()
+     */
+    public void clearExtractedTransactions() {
+        LOG.debug("clearExtractedTransactions() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PdpPropertyConstants.PROCESS_IND, true);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(GlPendingTransaction.class, criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
 }

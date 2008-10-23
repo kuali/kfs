@@ -17,14 +17,16 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiInteger;
 
-public class PayeeAchAccount extends PersistableBusinessObjectBase {
+public class PayeeAchAccount extends PersistableBusinessObjectBase implements Inactivateable {
 
     private KualiInteger achAccountGeneratedIdentifier;
     private String bankRoutingNumber;
@@ -34,8 +36,6 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     private KualiInteger vendorHeaderGeneratedIdentifier;
     private KualiInteger vendorDetailAssignedIdentifier;
     private String personUniversalIdentifier;
-    private String payeeSocialSecurityNumber;
-    private String payeeFederalEmployerIdentificationNumber;
     private String payeeIdentifierTypeCode;
     private String psdTransactionCode;
     private boolean active;
@@ -202,45 +202,6 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
         this.personUniversalIdentifier = personUniversalIdentifier;
     }
 
-
-    /**
-     * Gets the payeeSocialSecurityNumber attribute.
-     * 
-     * @return Returns the payeeSocialSecurityNumber
-     */
-    public String getPayeeSocialSecurityNumber() {
-        return payeeSocialSecurityNumber;
-    }
-
-    /**
-     * Sets the payeeSocialSecurityNumber attribute.
-     * 
-     * @param payeeSocialSecurityNumber The payeeSocialSecurityNumber to set.
-     */
-    public void setPayeeSocialSecurityNumber(String payeeSocialSecurityNumber) {
-        this.payeeSocialSecurityNumber = payeeSocialSecurityNumber;
-    }
-
-
-    /**
-     * Gets the payeeFederalEmployerIdentificationNumber attribute.
-     * 
-     * @return Returns the payeeFederalEmployerIdentificationNumber
-     */
-    public String getPayeeFederalEmployerIdentificationNumber() {
-        return payeeFederalEmployerIdentificationNumber;
-    }
-
-    /**
-     * Sets the payeeFederalEmployerIdentificationNumber attribute.
-     * 
-     * @param payeeFederalEmployerIdentificationNumber The payeeFederalEmployerIdentificationNumber to set.
-     */
-    public void setPayeeFederalEmployerIdentificationNumber(String payeeFederalEmployerIdentificationNumber) {
-        this.payeeFederalEmployerIdentificationNumber = payeeFederalEmployerIdentificationNumber;
-    }
-
-
     /**
      * Gets the payeeIdentifierTypeCode attribute.
      * 
@@ -333,7 +294,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     public void setBankRouting(AchBank bankRouting) {
         this.bankRouting = bankRouting;
     }
-    
+
     /**
      * Gets the user attribute.
      * 
@@ -374,17 +335,23 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
     public String getVendorNumber() {
         // using the code from the VendorDetail to generate the vendor number
-        VendorDetail vDUtil = new VendorDetail();
-        vDUtil.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier.intValue());
-        vDUtil.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier.intValue());
-        return vDUtil.getVendorNumber();
+        if (vendorHeaderGeneratedIdentifier != null && vendorDetailAssignedIdentifier != null) {
+            VendorDetail vDUtil = new VendorDetail();
+            vDUtil.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedIdentifier.intValue());
+            vDUtil.setVendorDetailAssignedIdentifier(vendorDetailAssignedIdentifier.intValue());
+            return vDUtil.getVendorNumber();
+        }
+
+        return "";
     }
 
     public void setVendorNumber(String vendorNumber) {
         // using the code from the VendorDetail to set the 2 component fields of the vendor number
-        VendorDetail vDUtil = new VendorDetail();
-        vDUtil.setVendorNumber(vendorNumber);
-        setVendorHeaderGeneratedIdentifier(new KualiInteger(vDUtil.getVendorHeaderGeneratedIdentifier()));
-        setVendorDetailAssignedIdentifier(new KualiInteger(vDUtil.getVendorDetailAssignedIdentifier()));
+        if (StringUtils.isNotBlank(vendorNumber)) {
+            VendorDetail vDUtil = new VendorDetail();
+            vDUtil.setVendorNumber(vendorNumber);
+            setVendorHeaderGeneratedIdentifier(new KualiInteger(vDUtil.getVendorHeaderGeneratedIdentifier()));
+            setVendorDetailAssignedIdentifier(new KualiInteger(vDUtil.getVendorDetailAssignedIdentifier()));
+        }
     }
 }

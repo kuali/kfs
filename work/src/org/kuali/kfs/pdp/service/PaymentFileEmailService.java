@@ -15,11 +15,14 @@
  */
 package org.kuali.kfs.pdp.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.rice.kns.util.ErrorMap;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Defines methods for sending payment status emails.
@@ -65,4 +68,13 @@ public interface PaymentFileEmailService {
      * @param maxNoteLines maximum number of lines allowed
      */
     public void sendExceedsMaxNotesWarningEmail(List<String> creditMemos, List<String> paymentRequests, int lineTotal, int maxNoteLines);
+
+    /**
+     * Sends summary email for an ACH extract
+     * 
+     * @param unitCounts Map containing payment counts for each unit
+     * @param unitTotals Map containing total payment amount for each unit
+     * @param extractDate date of ACH extraction
+     */
+    public void sendAchSummaryEmail(Map<String, Integer> unitCounts, Map<String, KualiDecimal> unitTotals, Date extractDate);
 }

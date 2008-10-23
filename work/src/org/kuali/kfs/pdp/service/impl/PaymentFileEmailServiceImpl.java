@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.GeneralUtilities;
@@ -26,6 +27,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.batch.ExtractAchPaymentsStep;
 import org.kuali.kfs.pdp.batch.LoadPaymentsStep;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -322,9 +324,7 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
         }
 
         MailMessage message = new MailMessage();
-
         message.setFromAddress(mailService.getBatchMailingList());
-        message.setSubject(getEmailSubject(PdpParameterConstants.PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME));
 
         StringBuffer body = new StringBuffer();
 
@@ -353,6 +353,47 @@ public class PaymentFileEmailServiceImpl implements PaymentFileEmailService {
         }
         catch (InvalidAddressException e) {
             LOG.error("sendExceedsMaxNotesWarningEmail() Invalid email address. Message not sent", e);
+        }
+    }
+    
+    /**
+     * @see org.kuali.kfs.pdp.service.PaymentFileEmailService#sendAchSummaryEmail(java.util.Map, java.util.Map, java.util.Date)
+     */
+    public void sendAchSummaryEmail(Map<String, Integer> unitCounts, Map<String, KualiDecimal> unitTotals, Date disbursementDate) {
+        LOG.debug("sendAchSummaryEmail() starting");
+
+        MailMessage message = new MailMessage();
+
+        List<String> toAddressList = parameterService.getParameterValues(ExtractAchPaymentsStep.class, PdpParameterConstants.ACH_SUMMARY_TO_EMAIL_ADDRESS_PARMAETER_NAME);
+        message.getToAddresses().addAll(toAddressList);
+
+        message.setFromAddress(mailService.getBatchMailingList());
+
+        String subject = parameterService.getParameterValue(ExtractAchPaymentsStep.class, PdpParameterConstants.ACH_SUMMARY_EMAIL_SUBJECT_PARAMETER_NAME);
+        message.setSubject(subject);
+
+        StringBuffer body = new StringBuffer();
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_SUMMARY_EMAIL_DISB_DATE, disbursementDate) + "\n");
+
+        Integer totalCount = 0;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (String unit : unitCounts.keySet()) {
+            body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_SUMMARY_EMAIL_UNIT_TOTAL, StringUtils.leftPad(unit, 13), StringUtils.leftPad(unitCounts.get(unit).toString(), 10), StringUtils.leftPad(unitTotals.get(unit).toString(), 20)) + "\n");
+
+            totalCount = totalCount + unitCounts.get(unit);
+            totalAmount = totalAmount.add(unitTotals.get(unit));
+        }
+
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_SUMMARY_EMAIL_EXTRACT_TOTALS, StringUtils.leftPad(totalCount.toString(), 10), StringUtils.leftPad(totalAmount.toString(), 20)) + "\n");
+        body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_SUMMARY_EMAIL_COMPLETE));
+
+        message.setMessage(body.toString());
+
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendAchSummaryEmail() Invalid email address. Message not sent", e);
         }
     }
 

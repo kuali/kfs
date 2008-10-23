@@ -19,7 +19,9 @@ package org.kuali.kfs.pdp;
  * Contains property name constants.
  */
 public class PdpPropertyConstants {
+    public static final String ACH_ACCOUNT_GENERATED_IDENTIFIER = "achAccountGeneratedIdentifier";
     public static final String BATCH_ID = "batchId";
+    public static final String BANK_ROUTING_NUMBER = "bankRoutingNumber";
     public static final String CUSTOMER_ID = "customerId";
     public static final String CUSTOMER_FILE_CREATE_TIMESTAMP = "customerFileCreateTimestamp";
     public static final String DISBURSEMENT_TYPE_CODE = "disbursementTypeCode";
@@ -48,8 +50,10 @@ public class PdpPropertyConstants {
     public static final String PHYS_CAMPUS_PROCESS_CODE = "physicalCampusProcessCode";
     public static final String BEGIN_DISBURSEMENT_NBR = "beginDisbursementNbr";
     public static final String END_DISBURSEMENT_NBR = "endDisbursementNbr";
+    public static final String PAYEE_NAME = "payeeName";
     public static final String PAYMENT_GROUP = "paymentGroup";
     public static final String PAYMENT_GROUP_HISTORY = "paymentGroupHistory";
+    public static final String PROCESS_IND = "processInd";
     
     public static class BatchConstants{
         public static class Fields{

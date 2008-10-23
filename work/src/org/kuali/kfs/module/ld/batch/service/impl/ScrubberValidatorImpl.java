@@ -51,6 +51,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Service implementation of ScrubberValidator.
@@ -240,7 +241,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = laborOriginEntry.getAccount();
         boolean suspenseAccountLogicInd = parameterService.getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
-        if (account == null) {
+        if (ObjectUtils.isNull(account)) {
             if (suspenseAccountLogicInd) {
                 return useSuspenseAccount(laborWorkingEntry);
             }

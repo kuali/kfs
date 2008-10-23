@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.AchBank;
 import org.kuali.kfs.pdp.service.AchBankService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -32,14 +33,24 @@ public class AchBankServiceImpl implements AchBankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchBankServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * @see org.kuali.kfs.pdp.service.AchBankService#save(org.kuali.kfs.pdp.businessobject.AchBank)
      */
     public void save(AchBank ab) {
         LOG.debug("save() started");
-        
+
         this.businessObjectService.save(ab);
+    }
+    
+    /**
+     * @see org.kuali.kfs.pdp.service.AchBankService#getByPrimaryId(java.lang.String)
+     */
+    public AchBank getByPrimaryId(String bankRoutingNumber) {
+        Map<String, String> fieldKeys = new HashMap<String, String>();
+        fieldKeys.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, bankRoutingNumber);
+
+        return (AchBank) businessObjectService.findByPrimaryKey(AchBank.class, fieldKeys);
     }
 
     /**
@@ -56,13 +67,13 @@ public class AchBankServiceImpl implements AchBankService {
             String str = null;
             while ((str = inputStream.readLine()) != null) {
                 String bankRoutingNumber = getField(str, 1, 9);
-                
+
                 Map fieldValues = new HashMap();
                 fieldValues.put("bankRoutingNumber", bankRoutingNumber);
                 AchBank tableBank = (AchBank) this.businessObjectService.findMatching(AchBank.class, fieldValues);
                 
                 AchBank ab = new AchBank(str);
-                if ( tableBank != null ) {
+                if (tableBank != null) {
                     ab.setVersionNumber(tableBank.getVersionNumber());
                 }
                 this.businessObjectService.save(ab);
@@ -92,22 +103,14 @@ public class AchBankServiceImpl implements AchBankService {
     private String getField(String data, int startChar, int length) {
         return data.substring(startChar - 1, startChar + length - 1).trim();
     }
-    
+
     /**
-     * Gets the business object service
+     * Sets the businessObjectService attribute value.
      * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    /**
-     * Sets the business object service
-     * 
-     * @param businessObjectService
+     * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
 }

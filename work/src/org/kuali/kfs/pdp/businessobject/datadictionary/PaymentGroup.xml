@@ -55,7 +55,6 @@
 				<ref bean="PaymentGroup-bank.bankName" />
 				<ref bean="PaymentGroup-achBankRoutingNbr" />
 				<ref bean="PaymentGroup-achAccountNumber.achBankAccountNbr" />
-				<ref bean="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr" />
 				<ref bean="PaymentGroup-paymentStatus.name" />
 				<ref bean="PaymentGroup-payeeIdTypeDesc" />
 				<ref bean="PaymentGroup-nraPayment" />
@@ -638,13 +637,7 @@
     <property name="label" value="Payee Bank Account Number" />
     <property name="shortLabel" value="Payee Bank Account Number" />
   </bean>
-  <bean id="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr" parent="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr-parentBean" />
 
-  <bean id="PaymentGroup-achAccountNumber.partialMaskAchBankAccountNbr-parentBean" abstract="true" parent="AchAccountNumber-partialMaskAchBankAccountNbr">
-    <property name="name" value="achAccountNumber.partialMaskAchBankAccountNbr" />
-    <property name="label" value="Partial Payee Bank Account Number" />
-    <property name="shortLabel" value="Partial Payee Bank Account Number" />
-  </bean>
   <bean id="PaymentGroup-paymentStatus.name" parent="PaymentGroup-paymentStatus.name-parentBean" />
 
   <bean id="PaymentGroup-paymentStatus.name-parentBean" abstract="true" parent="PaymentStatus-name">

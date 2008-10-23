@@ -108,26 +108,6 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 criteria.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorAsndId);
             }
         }
-        else if (payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.FEIN)) {
-            identifierField = PdpPropertyConstants.PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER;
-
-            feinNumber = newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber();
-            if (feinNumber == null) {
-                validEntry = false;
-            }
-            else
-                criteria.put(identifierField, feinNumber);
-        }
-        else if (payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.SSN)) {
-            identifierField = PdpPropertyConstants.PAYEE_SOCIAL_SECURITY_NUMBER;
-
-            ssn = newPayeeAchAccount.getPayeeSocialSecurityNumber();
-            if (ssn == null) {
-                validEntry = false;
-            }
-            else
-                criteria.put(identifierField, ssn);
-        }
 
         if (validEntry) {
             validEntry &= checkForDuplicateRecord(criteria, identifierField);
@@ -165,14 +145,6 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
                 }
                 else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.VENDOR_ID)) {
                     if (newPayeeAchAccount.getVendorHeaderGeneratedIdentifier().equals(oldPayeeAchAccount.getVendorHeaderGeneratedIdentifier()) && newPayeeAchAccount.getVendorDetailAssignedIdentifier().equals(oldPayeeAchAccount.getVendorDetailAssignedIdentifier()))
-                        return valid;
-                }
-                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.FEIN)) {
-                    if (newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber().equals(oldPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber()))
-                        return valid;
-                }
-                else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.SSN)) {
-                    if (newPayeeAchAccount.getPayeeSocialSecurityNumber().equals(oldPayeeAchAccount.getPayeeSocialSecurityNumber()))
                         return valid;
                 }
             }

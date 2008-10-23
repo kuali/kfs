@@ -184,7 +184,7 @@ public class CustomerProfileForm extends ActionForm {
         this.setCheckHeaderNoteTextLine4(cp.getCheckHeaderNoteTextLine4());
         this.setCity(cp.getCity());
         this.setContactFullName(cp.getContactFullName());
-        this.setCountryName(cp.getCountryName());
+        this.setCountryName(cp.getCountryCode());
         this.setCustomerActive(cp.isActive());
         this.setCustomerDescription(cp.getCustomerDescription());
         this.setDefaultAccountNumber(cp.getDefaultAccountNumber());
@@ -242,7 +242,7 @@ public class CustomerProfileForm extends ActionForm {
         cp.setCheckHeaderNoteTextLine4(this.getCheckHeaderNoteTextLine4());
         cp.setCity(this.getCity());
         cp.setContactFullName(this.getContactFullName());
-        cp.setCountryName(this.getCountryName());
+        cp.setCountryCode(this.getCountryName());
         cp.setActive(this.getCustomerActive());
         cp.setCustomerDescription(this.getCustomerDescription());
         cp.setDefaultAccountNumber(this.getDefaultAccountNumber());

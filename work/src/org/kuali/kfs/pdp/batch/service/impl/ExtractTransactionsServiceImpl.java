@@ -61,7 +61,7 @@ public class ExtractTransactionsServiceImpl implements ExtractTransactionsServic
 
             originEntryService.createEntry(tran.getOriginEntry(), oeg);
 
-            tran.setProcessInd("Y");
+            tran.setProcessInd(true);
             glPendingTransactionService.save(tran);
         }
 

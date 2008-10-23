@@ -279,6 +279,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
         
         pg.setBankCode(document.getDisbVchrBankCode());
+        pg.setPaymentStatusCode(KFSConstants.PdpConstants.PAYMENT_OPEN_STATUS_CODE);
 
         return pg;
     }
@@ -309,6 +310,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount());
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
         pd.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
+        pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
         // Handle accounts
         for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
@@ -515,18 +517,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
         for (DisbursementVoucherDocument element : docs) {
-
             String dvdCampusCode = element.getCampusCode();
-
-            DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
-            if (dvpd != null) {
-                List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
-                if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
-                    dvdCampusCode = campusCodes.get(0);
-                }
-                campusSet.add(dvdCampusCode);
-            }
+            campusSet.add(dvdCampusCode);
         }
+
         return campusSet;
     }
 
@@ -545,16 +539,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         try {
             Collection<DisbursementVoucherDocument> docs = SpringContext.getBean(FinancialSystemDocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
             for (DisbursementVoucherDocument element : docs) {
-
                 String dvdCampusCode = element.getCampusCode();
-
-                DisbursementVoucherPayeeDetail dvpd = element.getDvPayeeDetail();
-                if (dvpd != null) {
-                    List<String> campusCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_CAMPUS_BY_PAYMENT_REASON_PARAM, dvpd.getDisbVchrPaymentReasonCode());
-                    if (campusCodes.size() > 0 && StringUtils.isNotBlank(campusCodes.get(0))) {
-                        dvdCampusCode = campusCodes.get(0);
-                    }
-                }
 
                 if (dvdCampusCode.equals(campusCode)) {
                     list.add(element);
@@ -565,6 +550,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             LOG.error("Could not load Disbursement Voucher Documents with status code = " + statusCode + ": " + we);
             throw new RuntimeException(we);
         }
+
         return list;
     }
 

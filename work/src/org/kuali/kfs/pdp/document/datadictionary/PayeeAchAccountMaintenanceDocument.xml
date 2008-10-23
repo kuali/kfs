@@ -35,6 +35,11 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer" />
     <property name="preRulesCheckClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountPreRules" />
     <property name="documentTypeCode" value="PAAT" />
+    <property name="webScriptFiles" >
+      <list>
+        <value>../scripts/pdp/objectInfo.js</value>
+      </list>
+    </property>
     <property name="workflowProperties" >
       <ref bean="PayeeAchAccountMaintenanceDocument-workflowProperties" />
     </property>
@@ -63,7 +68,18 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="achAccountGeneratedIdentifier" />
+              p:name="achAccountGeneratedIdentifier"
+              p:readOnly="true"
+              p:defaultValueFinderClass="org.kuali.kfs.pdp.businessobject.defaultvalue.NextAchAccountIdentifierFinder" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="payeeIdentifierTypeCode"
+              p:required="true" />
+        <bean parent="MaintainableFieldDefinition"
+              p:name="user.personUserIdentifier"
+              p:readOnlyAfterAdd="true" />   
+        <bean parent="MaintainableFieldDefinition"
+              p:name="vendorNumber"
+              p:readOnlyAfterAdd="true" />
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankRoutingNumber" />
           <property name="required" value="true" />
@@ -76,7 +92,11 @@
             </bean>
           </property>
           <property name="displayEditMode" value="entry" />
+          <property name="webUILeaveFieldFunction" value="loadAchBankInfo" />
         </bean>
+        <bean parent="MaintainableFieldDefinition"
+              p:name="bankRouting.bankName"
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="bankAccountNumber" />
           <property name="required" value="true" />
@@ -102,27 +122,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="psdTransactionCode"
               p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="payeeIdentifierTypeCode"
-              p:required="true" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="vendorNumber" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversalIdentifier" />
-        <bean parent="MaintainableFieldDefinition">
-          <property name="name" value="payeeSocialSecurityNumber" />
-          <property name="displayMask" >
-            <bean parent="Mask">
-              <property name="maskFormatter" >
-                <bean parent="MaskFormatterLiteral"
-                      p:literal="*********" />
-              </property>
-            </bean>
-          </property>
-          <property name="displayEditMode" value="entry" />
-        </bean>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="payeeFederalEmployerIdentificationNumber" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:required="true" />

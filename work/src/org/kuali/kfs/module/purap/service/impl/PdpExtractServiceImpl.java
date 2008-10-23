@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -523,6 +524,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         String creditMemoDocType = documentTypeService.getDocumentTypeCodeByClass(CreditMemoDocument.class);
         paymentDetail.setFinancialDocumentTypeCode(creditMemoDocType);
+        paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
         paymentDetail.setInvoiceDate(new Timestamp(creditMemoDocument.getCreditMemoDate().getTime()));
         paymentDetail.setOrigInvoiceAmount(creditMemoDocument.getCreditMemoAmount().negated());
@@ -545,6 +547,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode())) {
                 shippingAmount = shippingAmount.subtract(itemAmount);
+            }
+            else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE.equals(item.getItemTypeCode())) {
+                shippingAmount = shippingAmount.add(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE.equals(item.getItemTypeCode())) {
                 debitAmount = debitAmount.subtract(itemAmount);
@@ -604,7 +609,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         String paymentRequestDocType = documentTypeService.getDocumentTypeCodeByClass(PaymentRequestDocument.class);
         paymentDetail.setFinancialDocumentTypeCode(paymentRequestDocType);
-
+        paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
+        
         paymentDetail.setInvoiceDate(new Timestamp(paymentRequestDocument.getInvoiceDate().getTime()));
         paymentDetail.setOrigInvoiceAmount(paymentRequestDocument.getVendorInvoiceAmount());
         paymentDetail.setNetPaymentAmount(paymentRequestDocument.getDocumentHeader().getFinancialDocumentTotalAmount());
@@ -625,6 +631,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 discountAmount = discountAmount.add(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode())) {
+                shippingAmount = shippingAmount.add(itemAmount);
+            }
+            else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE.equals(item.getItemTypeCode())) {
                 shippingAmount = shippingAmount.add(itemAmount);
             }
             else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE.equals(item.getItemTypeCode())) {
@@ -832,7 +841,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         paymentGroup.setPymtAttachment(paymentRequestDocument.getPaymentAttachmentIndicator());
         paymentGroup.setProcessImmediate(paymentRequestDocument.getImmediatePaymentIndicator());
-        paymentGroup.setPymtSpecialHandling((paymentRequestDocument.getSpecialHandlingInstructionLine1Text() != null) || (paymentRequestDocument.getSpecialHandlingInstructionLine2Text() != null) || (paymentRequestDocument.getSpecialHandlingInstructionLine3Text() != null));
+        paymentGroup.setPymtSpecialHandling(StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine1Text()) || StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine2Text()) || StringUtils.isNotBlank(paymentRequestDocument.getSpecialHandlingInstructionLine3Text()));
         paymentGroup.setTaxablePayment(Boolean.FALSE);
         paymentGroup.setNraPayment(VendorConstants.OwnerTypes.NR.equals(paymentRequestDocument.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
         paymentGroup.setCombineGroups(Boolean.TRUE);

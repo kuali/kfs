@@ -39,7 +39,7 @@
 		<ref bean="CustomerProfile-city" />
 		<ref bean="CustomerProfile-stateCode" />
 		<ref bean="CustomerProfile-zipCode" />
-		<ref bean="CustomerProfile-countryName" />
+		<ref bean="CustomerProfile-countryCode" />
 		<ref bean="CustomerProfile-fileThresholdAmount" />
 		<ref bean="CustomerProfile-fileThresholdEmailAddress" />
 		<ref bean="CustomerProfile-paymentThresholdAmount" />
@@ -76,6 +76,26 @@
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="zipCode"
                     p:targetName="postalCode" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="state" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="stateCode"
+                    p:targetName="postalStateCode" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="country" />
+          <property name="primitiveAttributes" >
+            <list>
+              <bean parent="PrimitiveAttributeDefinition"
+                    p:sourceName="countryCode"
+                    p:targetName="postalCountryCode" />
             </list>
           </property>
         </bean>
@@ -409,9 +429,9 @@
     </property>
   </bean>
   
-  <bean id="CustomerProfile-countryName" parent="CustomerProfile-countryName-parentBean" />
-  <bean id="CustomerProfile-countryName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="countryName" />
+  <bean id="CustomerProfile-countryCode" parent="CustomerProfile-countryCode-parentBean" />
+  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="countryCode" />
     <property name="label" value="Country" />
     <property name="shortLabel" value="Country" />
     <property name="summary" value="Country" />
@@ -855,7 +875,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="zipCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="countryName" />
+                    p:attributeName="countryCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />                   
             </list>

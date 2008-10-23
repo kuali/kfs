@@ -49,6 +49,7 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
     private Timestamp invoiceDate; 
     private String purchaseOrderNbr; 
     private String custPaymentDocNbr; 
+    private String financialSystemOriginCode;
     private String financialDocumentTypeCode; 
     private String requisitionNbr; 
     private String organizationDocNbr; 
@@ -468,6 +469,23 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
         this.paymentGroupId = paymentGroupId;
     }
     
+    /**
+     * Gets the financialSystemOriginCode attribute.
+     * 
+     * @return Returns the financialSystemOriginCode.
+     */
+    public String getFinancialSystemOriginCode() {
+        return financialSystemOriginCode;
+    }
+
+    /**
+     * Sets the financialSystemOriginCode attribute value.
+     * 
+     * @param financialSystemOriginCode The financialSystemOriginCode to set.
+     */
+    public void setFinancialSystemOriginCode(String financialSystemOriginCode) {
+        this.financialSystemOriginCode = financialSystemOriginCode;
+    }
 
     public boolean equals(Object obj) {
         if (!(obj instanceof PaymentDetail)) {

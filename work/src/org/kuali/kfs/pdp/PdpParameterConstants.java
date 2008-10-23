@@ -24,6 +24,8 @@ public class PdpParameterConstants {
     public static final String PAYMENT_LOAD_SUCCESS_EMAIL_SUBJECT_PARAMETER_NAME = "SUCCESS_EMAIL_SUBJECT";
     public static final String PAYMENT_LOAD_THRESHOLD_EMAIL_SUBJECT_PARAMETER_NAME = "THRESHOLD_EMAIL_SUBJECT";
     public static final String PAYMENT_LOAD_TAX_EMAIL_SUBJECT_PARAMETER_NAME = "TAX_EMAIL_SUBJECT";
+    public static final String ACH_SUMMARY_EMAIL_SUBJECT_PARAMETER_NAME = "ACH_SUMMARY_EMAIL_SUBJECT";
+    public static final String ACH_SUMMARY_TO_EMAIL_ADDRESS_PARMAETER_NAME = "ACH_SUMMARY_TO_EMAIL_ADDRESSES";
     
     public static class BatchConstants{
         public static final String BATCH_ID_PARAM = "batchId";

@@ -38,6 +38,11 @@
 				<value>org/kuali/kfs/pdp/ojb-pdp.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/kfs/pdp/dwr-pdp.xml</value>
+			</list>
+		</property>
 		<property name="jobNames">
 			<list>
 				<value>pdpLoadFederalReserveBankDataJob</value>
@@ -48,6 +53,8 @@
 				<value>pdpDailyReportJob</value>
 				<value>pdpLoadPaymentsJob</value>
 				<value>pdpNightlyLoadPaymentsJob</value>
+				<value>pdpClearPendingTransactionsJob</value>
+				<value>processPdpCancelsAndPaidJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -205,6 +212,28 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="pdpClearPendingTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpClearPendingTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
+	    <property name="steps">
+			<list>
+				<ref bean="processPdpCancelsAndPaidStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.kfs.pdp.batch.ProcessPdPCancelsAndPaidStep" parent="step">
+		<property name="processPdpCancelPaidService">
+			<ref bean="processPdpCancelPaidService"/>
+		</property>
+	</bean>
 
 	<bean id="pdpLoadPaymentsStep" class="org.kuali.kfs.pdp.batch.LoadPaymentsStep" parent="step">
 		<property name="paymentFileService" ref="paymentFileService"/>
@@ -235,6 +264,10 @@
 	<bean id="pdpExtractChecksStep" class="org.kuali.kfs.pdp.batch.ExtractChecksStep" parent="step">
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>
+	
+    <bean id="pdpClearPendingTransactionsStep" class="org.kuali.kfs.pdp.batch.ClearPendingTransactionsStep" parent="step">
+		<property name="pendingTransactionService" ref="pdpGlPendingTransactionService" />
+	</bean>
 
 	<bean id="pdpDailyReportService" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl">
 		<property name="directoryName" value="${reports.directory}/"/>
@@ -252,7 +285,8 @@
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="kualiCodeService" ref="kualiCodeService"/>
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
-		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="paymentFileEmailService" ref="paymentFileEmailService"/>
+	    <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="pdpExtractGlTransactionService" class="org.kuali.kfs.pdp.batch.service.impl.ExtractTransactionsServiceImpl">
@@ -264,8 +298,7 @@
 	</bean>
 
 	<bean id="pdpAchBankService" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		
+	    <property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
 	<bean id="pdpAchService" class="org.kuali.kfs.pdp.service.impl.AchServiceImpl">
@@ -359,6 +392,8 @@
 		<property name="projectCodeService" ref="projectCodeService" />
 		<property name="kualiCodeService" ref="kualiCodeService" />
 		<property name="bankService" ref="bankService" />
+		<property name="originationCodeService" ref="originationCodeService" />
+		<property name="documentTypeService" ref="documentTypeService" />
 	</bean>
 	
 	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
@@ -438,15 +473,6 @@
 		<property name="dvExtractService">
 			<ref bean="disbursementVoucherExtractService" />
 		</property>
-	</bean>
-
-	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.kfs.pdp.batch.ProcessPdPCancelsAndPaidStep" parent="step">
-		<property name="processPdpCancelPaidService">
-			<ref bean="processPdpCancelPaidService"/>
-		</property>
-	</bean>
-
-	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
 	</bean>
 
 	<bean id="batchLookupableHelperService" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService" singleton="false">

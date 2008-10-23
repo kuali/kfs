@@ -97,7 +97,7 @@
     <field-descriptor name="checkHeaderNoteTextLine4" column="CHK_HDR_NTE_LN4_TXT" jdbc-type="VARCHAR"/>
     <field-descriptor name="city" column="CUST_CTY_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="contactFullName" column="CUST_CNTC_FULL_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="countryName" column="CUST_CNTRY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="countryCode" column="CUST_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="customerDescription" column="CUST_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="defaultAccountNumber" column="DFLT_ACCT_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="defaultChartCode" column="DFLT_COA_CD" jdbc-type="VARCHAR"/>
@@ -247,7 +247,7 @@
      <field-descriptor name="fdocApprovedCd" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="acctSfFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="trnEntrOfstCd" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="processInd" column="TRN_EXTRT_IND" jdbc-type="VARCHAR"/>
+     <field-descriptor name="processInd" column="TRN_EXTRT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
      <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
   </class-descriptor>
 
@@ -387,6 +387,7 @@
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentDetail" table="PDP_PMT_DTL_T">
     <field-descriptor name="id" column="PMT_DTL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="PDP_PMT_DTL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
     <field-descriptor name="custPaymentDocNbr" column="CUST_PMT_DOC_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="financialSystemOriginCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="invoiceNbr" column="INV_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="TIMESTAMP"/>
@@ -528,7 +529,7 @@
       <foreignkey field-ref="customerId"/>
     </reference-descriptor>
   </class-descriptor>
-  
+
   <class-descriptor class="org.kuali.kfs.pdp.businessobject.PayeeType" table="PDP_PAYEE_TYP_T">
     <field-descriptor name="payeeTypeCode" column="PAYEE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="description" column="PAYEE_TYP_DESC" jdbc-type="VARCHAR" />
@@ -536,12 +537,12 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   </class-descriptor>
   
-  <class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentType" table="PDP_PMT_TYP_T">
+<class-descriptor class="org.kuali.kfs.pdp.businessobject.PaymentType" table="PDP_PMT_TYP_T">
     <field-descriptor name="paymentTypeCode" column="PMT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="description" column="PMT_TYP_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  </class-descriptor>
+</class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.pdp.businessobject.AchBank" table="PDP_ACH_BNK_T">
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -575,8 +576,6 @@
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="payeeSocialSecurityNumber" column="PAYEE_SSN_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
-	<field-descriptor name="payeeFederalEmployerIdentificationNumber" column="PAYEE_FEIN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeIdentifierTypeCode" column="PAYEE_ID_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="psdTransactionCode" column="PSD_TRN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>

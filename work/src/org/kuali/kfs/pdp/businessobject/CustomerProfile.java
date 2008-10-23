@@ -38,7 +38,9 @@ import org.kuali.kfs.sys.businessobject.Country;
 import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -68,7 +70,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private String checkHeaderNoteTextLine4;
     private String city; // CUST_CTY_NM
     private String contactFullName; // CUST_CNTC_FULL_NM
-    private String countryName; // CUST_CNTRY_NM
+    private String countryCode; // CUST_CNTRY_NM
     private String customerDescription; // CUST_DESC
     private String defaultChartCode; // DFLT_COA_CD
     private String defaultAccountNumber; // DFLT_ACCT_NBR
@@ -328,13 +330,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
         return contactFullName;
     }
 
-    /**
-     * @hibernate.property column="CUST_CNTRY_NM" length="25" not-null="false"
-     * @return Returns the countryName.
-     */
-    public String getCountryName() {
-        return countryName;
-    }
 
     /**
      * @hibernate.property column="CUST_DESC" length="50" not-null="false"
@@ -681,13 +676,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @param countryName The countryName to set.
-     */
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
-    }
-
-    /**
      * @param customerDescription The customerDescription to set.
      */
     public void setCustomerDescription(String customerDescription) {
@@ -989,6 +977,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the state.
      */
     public State getState() {
+        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this, this.stateCode, this.state);
         return state;
     }
 
@@ -1026,6 +1015,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the country.
      */
     public Country getCountry() {
+        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this, this.countryCode, this.country);
         return country;
     }
 
@@ -1050,6 +1040,22 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * Gets the countryCode attribute. 
+     * @return Returns the countryCode.
+     */
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    /**
+     * Sets the countryCode attribute value.
+     * @param countryCode The countryCode to set.
+     */
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     /**

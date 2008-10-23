@@ -55,6 +55,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * This class...
  */
@@ -83,7 +84,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
-
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
@@ -110,7 +110,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user, PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
-
         KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
         paymentGroupHistory.setPaymentChange((PaymentChangeCode) cd);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
@@ -135,7 +134,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelPendingPayment() Enter method to cancel pending payment with group id = " + paymentGroupId);
         LOG.debug("cancelPendingPayment() payment detail id being cancelled = " + paymentDetailId);
-
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("cancelPendingPayment() Pending payment not found; throw exception.");
@@ -144,15 +142,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-
         if (!(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT.equals(paymentStatus))) {
             LOG.debug("cancelPendingPayment() Payment status is " + paymentStatus + "; continue with cancel.");
-
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
                 if (user.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || user.isMember(PdpConstants.Groups.SYSADMIN_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
-
                     // set primary cancel indicator for EPIC to use
                     PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
                     if (pd != null) {
@@ -160,7 +155,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     }
                     paymentDetailDao.save(pd);
                     sendCancelEmail(paymentGroup, note, user);
-
                     LOG.debug("cancelPendingPayment() Pending payment cancelled and mail was sent; exit method.");
                 }
                 else {
@@ -174,7 +168,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 if (user.isMember(PdpConstants.Groups.CANCEL_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT, PdpConstants.PaymentChangeCodes.CANCEL_PAYMENT_CHNG_CD, note, user);
-
                     // set primary cancel indicator for EPIC to use
                     PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
                     if (pd != null) {
@@ -184,9 +177,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                         payNoteText.setCustomerNoteText(note);
                         pd.addNote(payNoteText);
                     }
-
                     paymentDetailDao.save(pd);
-
                     LOG.debug("cancelPendingPayment() Pending payment cancelled; exit method.");
                 }
                 else {
@@ -215,7 +206,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public boolean holdPendingPayment(Integer paymentGroupId, String note, UniversalUser user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
-
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("holdPendingPayment() Pending payment not found; throw exception.");
@@ -224,13 +214,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-
         if (!(PdpConstants.PaymentStatusCodes.HELD_CD.equals(paymentStatus))) {
             if (PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus)) {
                 LOG.debug("holdPendingPayment() Payment status is " + paymentStatus + "; continue with hold.");
-
                 changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.HELD_CD, PdpConstants.PaymentChangeCodes.HOLD_CHNG_CD, note, user);
-
                 LOG.debug("holdPendingPayment() Pending payment was put on hold; exit method.");
             }
             else {
@@ -262,10 +249,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
             LOG.debug("removeHoldPendingPayment() Payment status is " + paymentStatus + "; continue with hold removal.");
-
             if ((PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD.equals(paymentStatus)) || (PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD.equals(paymentStatus))) {
                 if (user.isMember(PdpConstants.Groups.TAXHOLDERS_GROUP) || user.isMember(PdpConstants.Groups.SYSADMIN_GROUP)) {
 
@@ -283,7 +268,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 if (user.isMember(PdpConstants.Groups.HOLD_GROUP)) {
 
                     changeStatus(paymentGroup, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REMOVE_HOLD_CHNG_CD, note, user);
-
                     LOG.debug("removeHoldPendingPayment() Pending payment was taken off hold; exit method.");
                 }
                 else {
@@ -325,7 +309,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         changeStatus(paymentGroup, paymentGroup.getPaymentStatus().getCode(), PdpConstants.PaymentChangeCodes.CHANGE_IMMEDIATE_CHNG_CD, note, user, paymentGroupHistory);
-
         LOG.debug("changeImmediateFlag() exit method.");
     }
 
@@ -335,9 +318,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
-
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
-
         if (paymentGroup == null) {
             LOG.debug("cancelDisbursement() Disbursement not found; throw exception.");
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
@@ -345,32 +326,24 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-
         if (!(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
-
                 List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
-
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
-
                     if ((element.getDisbursementType() != null) && (element.getDisbursementType().getCode().equals("CHCK"))) {
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
-
                     changeStatus(element, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
-
                     glPendingTransactionService.generateCancellationGeneralLedgerPendingEntry(element);
                 }
-
                 // set primary cancel indicator for EPIC to use
                 PaymentDetail pd = paymentDetailDao.get(paymentDetailId);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                 }
-
                 paymentDetailDao.save(pd);
 
                 LOG.debug("cancelDisbursement() Disbursement cancelled; exit method.");
@@ -394,7 +367,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, UniversalUser user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
-
         PaymentGroup paymentGroup = paymentGroupDao.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("cancelReissueDisbursement() Disbursement not found; throw exception.");
@@ -403,11 +375,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
 
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
-
         if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
             if (((PdpConstants.PaymentStatusCodes.EXTRACTED.equals(paymentStatus)) && (paymentGroup.getDisbursementDate() != null)) || (PdpConstants.PaymentStatusCodes.PENDING_ACH.equals(paymentStatus))) {
                 LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + "; continue with cancel.");
-
                 List<PaymentGroup> allDisbursementPaymentGroups = paymentGroupDao.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
@@ -416,7 +386,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     if ((pg.getDisbursementType() != null) && (pg.getDisbursementType().getCode().equals("CHCK"))) {
                         pgh.setPmtCancelExtractStat(new Boolean("False"));
                     }
-
                     pgh.setOrigProcessImmediate(pg.getProcessImmediate());
                     pgh.setOrigPmtSpecHandling(pg.getPymtSpecialHandling());
                     pgh.setBank(pg.getBank());
@@ -429,11 +398,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pgh.setProcess(pg.getProcess());
 
                     glPendingTransactionService.generateReissueGeneralLedgerPendingEntry(pg);
-
                     LOG.debug("cancelReissueDisbursement() Status is '" + paymentStatus + "; delete row from AchAccountNumber table.");
-
                     AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
-
                     if (achAccountNumber != null) {
                         this.businessObjectService.delete(achAccountNumber);
                         pg.setAchAccountNumber(null);
@@ -443,7 +409,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     if (!bankService.isBankSpecificationEnabled() || !pg.getBank().isActive()) {
                         pg.setBank(null);
                     }
-
+                    
                     pg.setDisbursementDate(null);
                     pg.setAchBankRoutingNbr(null);
                     pg.setAchAccountType(null);
@@ -452,7 +418,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     pg.setAdviceEmailAddress(null);
                     pg.setDisbursementType(null);
                     pg.setProcess(null);
-
+                    pg.setProcessImmediate(false);
+                    
                     changeStatus(pg, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT, note, user, pgh);
                 }
 
@@ -479,7 +446,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      */
     public void sendCancelEmail(PaymentGroup paymentGroup, String note, UniversalUser user) {
         LOG.debug("sendCancelEmail() starting");
-
         MailMessage message = new MailMessage();
 
         if (environmentService.isProduction()) {
@@ -514,77 +480,70 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             }
         }
 
-        String fromAddressList[] = { mailService.getBatchMailingList() };
+        String fromAddressList[] = {mailService.getBatchMailingList()};
 
-        if (fromAddressList.length > 0) {
+        if(fromAddressList.length > 0) {
             for (int i = 0; i < fromAddressList.length; i++) {
                 if (fromAddressList[i] != null) {
                     message.setFromAddress(fromAddressList[i].trim());
                 }
             }
         }
-
+        
         StringBuffer body = new StringBuffer();
-
         //TODO: this if statement seems unnecessary
         if (paymentGroup.getPaymentDetails().size() > 1) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");          
         }
         else {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");   
         }
-
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(ParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpConstants.ApplicationParameterKeys.TAX_GROUP_EMAIL_ADDRESS);
-
         if (GeneralUtilities.isStringEmpty(taxEmail)) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_2);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");   
         }
         else {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_3);
-            body.append(MessageFormat.format(messageKey, new Object[] { taxEmail }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{taxEmail}) + " \n\n");   
         }
-
         //TODO: unnecessary if statement?
         if (paymentGroup.getPaymentDetails().size() > 1) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
         else {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_4);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
-
         for (PaymentDetail pd : paymentGroup.getPaymentDetails()) {
-
             String payeeMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYEE_NAME);
             String netPaymentAccountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_NET_PAYMENT_AMOUNT);
             String sourceDocumentNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_SOURCE_DOCUMENT_NUMBER);
             String invoiceNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_INVOICE_NUMBER);
             String purchaseOrderNumberMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PURCHASE_ORDER_NUMBER);
             String paymentDetailIdMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_DETAIL_ID);
-
-            body.append(MessageFormat.format(payeeMessageKey, new Object[] { paymentGroup.getPayeeName() }) + " \n");
-            body.append(MessageFormat.format(netPaymentAccountMessageKey, new Object[] { pd.getNetPaymentAmount() }) + " \n");
-            body.append(MessageFormat.format(sourceDocumentNumberMessageKey, new Object[] { pd.getCustPaymentDocNbr() }) + " \n");
-            body.append(MessageFormat.format(invoiceNumberMessageKey, new Object[] { pd.getInvoiceNbr() }) + " \n");
-            body.append(MessageFormat.format(purchaseOrderNumberMessageKey, new Object[] { pd.getPurchaseOrderNbr() }) + " \n");
-            body.append(MessageFormat.format(paymentDetailIdMessageKey, new Object[] { pd.getId() }) + " \n");
+            
+            body.append(MessageFormat.format(payeeMessageKey, new Object[]{paymentGroup.getPayeeName()}) + " \n");  
+            body.append(MessageFormat.format(netPaymentAccountMessageKey, new Object[]{pd.getNetPaymentAmount()}) + " \n");  
+            body.append(MessageFormat.format(sourceDocumentNumberMessageKey, new Object[]{pd.getCustPaymentDocNbr()}) + " \n");  
+            body.append(MessageFormat.format(invoiceNumberMessageKey, new Object[]{pd.getInvoiceNbr()}) + " \n");  
+            body.append(MessageFormat.format(purchaseOrderNumberMessageKey, new Object[]{pd.getPurchaseOrderNbr()}) + " \n");  
+            body.append(MessageFormat.format(paymentDetailIdMessageKey, new Object[]{pd.getId()}) + " \n");  
 
         }
-
         //TODO: unnecessary if statement?
         if (paymentGroup.getPaymentDetails().size() > 1) {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
 
         }
         else {
             String messageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_INFORMATION_HEADER);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+            body.append(MessageFormat.format(messageKey, new Object[]{null}) + " \n\n");  
         }
 
         String batchIdMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_BATCH_ID);
@@ -594,15 +553,15 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         String creationDateMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_CREATION_DATE);
         String paymentCountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_COUNT);
         String paymentTotalAmountMessageKey = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_PAYMENT_TOTAL_AMOUNT);
-
-        body.append(MessageFormat.format(batchIdMessageKey, new Object[] { paymentGroup.getBatch().getId() }) + " \n");
-        body.append(MessageFormat.format(chartMessageKey, new Object[] { cp.getChartCode() }) + " \n");
-        body.append(MessageFormat.format(organizationMessageKey, new Object[] { cp.getOrgCode() }) + " \n");
-        body.append(MessageFormat.format(subUnitMessageKey, new Object[] { cp.getSubUnitCode() }) + " \n");
-        body.append(MessageFormat.format(creationDateMessageKey, new Object[] { paymentGroup.getBatch().getCustomerFileCreateTimestamp() }) + " \n");
-        body.append(MessageFormat.format(paymentCountMessageKey, new Object[] { paymentGroup.getBatch().getPaymentCount() }) + " \n");
-        body.append(MessageFormat.format(paymentTotalAmountMessageKey, new Object[] { paymentGroup.getBatch().getPaymentTotalAmount() }) + " \n");
-
+        
+        body.append(MessageFormat.format(batchIdMessageKey, new Object[]{paymentGroup.getBatch().getId()}) + " \n");  
+        body.append(MessageFormat.format(chartMessageKey, new Object[]{cp.getChartCode()}) + " \n");  
+        body.append(MessageFormat.format(organizationMessageKey, new Object[]{cp.getOrgCode()}) + " \n");  
+        body.append(MessageFormat.format(subUnitMessageKey, new Object[]{cp.getSubUnitCode()}) + " \n");  
+        body.append(MessageFormat.format(creationDateMessageKey, new Object[]{paymentGroup.getBatch().getCustomerFileCreateTimestamp()}) + " \n");  
+        body.append(MessageFormat.format(paymentCountMessageKey, new Object[]{paymentGroup.getBatch().getPaymentCount()}) + " \n");  
+        body.append(MessageFormat.format(paymentTotalAmountMessageKey, new Object[]{paymentGroup.getBatch().getPaymentTotalAmount()}) + " \n");  
+        
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
@@ -638,8 +597,8 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao dao) {
         paymentGroupHistoryDao = dao;
     }
-    
-    
+
+
     /**
      * inject
      * 

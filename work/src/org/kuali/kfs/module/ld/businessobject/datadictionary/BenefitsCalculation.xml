@@ -26,6 +26,14 @@
         <ref bean="BenefitsCalculation-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="positionBenefitType"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="positionFringeBenefitObject"/>
+      </list>      
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->

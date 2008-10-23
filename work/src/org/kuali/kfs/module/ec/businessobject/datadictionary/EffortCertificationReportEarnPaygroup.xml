@@ -25,6 +25,12 @@
         <ref bean="EffortCertificationReportEarnPaygroup-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="effortCertificationReportType"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

@@ -25,6 +25,14 @@
         <ref bean="PositionObjectBenefit-active" />
       </list>
     </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="laborObject"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="financialObjectBenefitsType"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

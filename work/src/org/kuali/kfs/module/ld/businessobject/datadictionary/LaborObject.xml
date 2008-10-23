@@ -33,6 +33,8 @@
       <list>
         <bean parent="InactivationBlockingDefinition"
           p:blockedReferencePropertyName="financialObject"/>
+        <bean parent="InactivationBlockingDefinition"
+          p:blockedReferencePropertyName="positionObjectGroup"/>
       </list>
     </property>
   </bean>

@@ -16,7 +16,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
-import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -793,7 +792,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
             asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
             asset.setActive(true);
-            asset.setTotalCostAmount(assetGlobalService.totalPaymentByAsset(this, !iterator.hasNext()));
             asset.setFinancialObjectSubTypeCode(financialObjectSubTypeCode);
             asset.setFinancialDocumentPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalYear());
             asset.setFinancialDocumentPostingPeriodCode(SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
@@ -806,6 +804,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             // set specific values for new asset if document is Asset Separate
             // capitalAssetTypeCode is over written from above
             if (assetGlobalService.isAssetSeparateDocument(this)) {
+                asset.setTotalCostAmount(detail.getSeparateSourceAmount());
+                
                 asset.setRepresentativeUniversalIdentifier(detail.getRepresentativeUniversalIdentifier());
                 asset.setCapitalAssetTypeCode(detail.getCapitalAssetTypeCode());
                 asset.setCapitalAssetDescription(detail.getCapitalAssetDescription());
@@ -819,6 +819,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 asset.setAssetOrganization(assetOrganization);
             }
             else {
+                asset.setTotalCostAmount(assetGlobalService.totalPaymentByAsset(this, !iterator.hasNext()));
+                
                 // set AssetOrganization data, this time from the main object though since it's not coming from separate
                 AssetOrganization assetOrganization = new AssetOrganization();
                 assetOrganization.setCapitalAssetNumber(detail.getCapitalAssetNumber());
@@ -839,6 +841,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             }
         }
 
+        List <AssetPayment>targetAssetPayments = new ArrayList<AssetPayment>();
+        
         // set new AssetPayment(s) from each AssetPaymentDetails
         for (AssetPaymentDetail payment : assetPaymentDetails) {
             newAssetCount = assetGlobalDetails.size();
@@ -849,25 +853,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 isDepreciablePayment = true;
                 actualDepreciationAmount = depreciationPaymentAmount.divide(new KualiDecimal(newAssetCount));
             }
-
+            
             // Distribute asset payments from AssetPaymentDetails to AssetPayment
             // Divide each payment to records in Asset AssetGlobalDetails
             for (AssetGlobalDetail detail : assetGlobalDetails) {
-                AssetPayment assetPayment = new AssetPayment();
+                AssetPayment assetPayment = new AssetPayment(payment);
                 assetPayment.setCapitalAssetNumber(detail.getCapitalAssetNumber());
                 assetPayment.setPaymentSequenceNumber(payment.getSequenceNumber());
-                assetPayment.setChartOfAccountsCode(payment.getChartOfAccountsCode());
-                assetPayment.setAccountNumber(payment.getAccountNumber());
-                assetPayment.setSubAccountNumber(payment.getSubAccountNumber());
-                assetPayment.setFinancialObjectCode(payment.getFinancialObjectCode());
-                assetPayment.setFinancialSubObjectCode(payment.getFinancialSubObjectCode());
-                assetPayment.setProjectCode(payment.getProjectCode());
-                assetPayment.setOrganizationReferenceId(payment.getOrganizationReferenceId());
-                assetPayment.setFinancialSystemOriginationCode(payment.getExpenditureFinancialSystemOriginationCode());
-                assetPayment.setDocumentNumber(payment.getExpenditureFinancialDocumentNumber());
-                assetPayment.setFinancialDocumentTypeCode(payment.getExpenditureFinancialDocumentTypeCode());
-                assetPayment.setRequisitionNumber(payment.getRequisitionNumber());
-                assetPayment.setPurchaseOrderNumber(payment.getPurchaseOrderNumber());
 
                 if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE, acquisitionTypeCode)) {
                     assetPayment.setFinancialDocumentPostingDate(payment.getExpenditureFinancialDocumentPostedDate());
@@ -883,9 +875,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
                 // set specific values for new assets if document is Asset Separate
                 if (assetGlobalService.isAssetSeparateDocument(this)) {
-                    assetPayment.setAccountChargeAmount(payment.getAmount().subtract(detail.getSeparateSourceAmount()));
+                    // account amount from current payment source asset * target total cost / source total cost
+                    assetPayment.setAccountChargeAmount(payment.getAmount().multiply(detail.getSeparateSourceAmount()).divide(separateSourceCapitalAsset.getTotalCostAmount()));
+                    
                     assetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
                     assetPayment.setPrimaryDepreciationBaseAmount(primaryDepreciationBaseAmount);
+                    
+                    targetAssetPayments.add(assetPayment);
                 }
                 else {
                     if (isDepreciablePayment) {
@@ -907,20 +903,23 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
                 persistables.add(assetPayment);
             }
         }
-
-        // reduce source total amount and asset payment if document is Asset Separate
+        
+        // add all target payment to the source assets
         if (assetGlobalService.isAssetSeparateDocument(this)) {
             Asset separateSourceCapitalAsset = this.getSeparateSourceCapitalAsset();
             separateSourceCapitalAsset.setTotalCostAmount(getTotalCostAmount().subtract(assetGlobalService.getUniqueAssetsTotalAmount(this)));
             persistables.add(separateSourceCapitalAsset);
 
-            // copy and set AssetPayment from source Asset into new AssetPayment object
-            for (AssetPayment assetPayment : separateSourceCapitalAsset.getAssetPayments()) {
-                AssetPayment offsetAssetPayment = new AssetPayment();
-                ObjectValueUtils.copySimpleProperties(assetPayment, offsetAssetPayment);
-                offsetAssetPayment.setAccountChargeAmount(assetPaymentService.getProratedAssetPayment(this, assetPayment));
-                offsetAssetPayment.setFinancialDocumentTypeCode(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE);
-                persistables.add(offsetAssetPayment);
+            int sequenceNumber = assetPaymentService.getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber()) + 1;
+            
+            for (AssetPayment targetAssetPayment : targetAssetPayments) {
+                AssetPayment assetPayment = new AssetPayment(targetAssetPayment);
+                
+                assetPayment.setCapitalAssetNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
+                assetPayment.setPaymentSequenceNumber(sequenceNumber++);
+                assetPayment.setAccountChargeAmount(assetPayment.getAccountChargeAmount().negated());
+                
+                persistables.add(assetPayment);
             }
         }
 

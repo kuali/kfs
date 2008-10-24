@@ -20,6 +20,8 @@ package org.kuali.kfs.module.cam;
  * Holds error key constants.
  */
 public class CamsKeyConstants {
+    //public static final String ERROR_ASSET_LOCKED_BY_DOC="error.document.asset.locked";
+    
     public static final String CONTINUE_QUESTION="document.question.continue.text";
     public static final String ERROR_INVALID_BUILDING_CODE = "error.invalid.building.code";
     public static final String ERROR_INVALID_ROOM_NUMBER = "error.invalid.room.number";
@@ -81,6 +83,7 @@ public class CamsKeyConstants {
         public static final String ERROR_TRFR_FDOC_INVALID = "error.transfer.fund.financial.doc.invalid";
         public static final String ERROR_TRFR_FDOC_REQUIRED = "error.transfer.fund.financial.doc.required";
         public static final String WARN_TRFR_AST_LOAN_ACTIVE = "warn.asset.loan.active";
+        public static final String ERROR_TRFR_LOANED = "error.transfer.asset.loaned";
         public static final String ASSET_LOAN_NOTE = "note.asset.loan.active";
         public static final String ERROR_INVALID_USER_AUTH_ID = "error.representative.user.invalid";
         public static final String ERROR_ASSET_OBJECT_CODE_NOT_FOUND = "error.asset.object.code.not.found";

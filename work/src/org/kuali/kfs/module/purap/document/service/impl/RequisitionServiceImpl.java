@@ -275,7 +275,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         if (StringUtils.isNotEmpty(requisition.getAlternate1VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate2VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate3VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate4VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
-            return "Requisition contains alternate vendor names.";
+            return kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
         }
         
         if (!ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {

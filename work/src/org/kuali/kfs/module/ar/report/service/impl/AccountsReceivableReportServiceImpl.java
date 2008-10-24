@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -469,7 +468,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         for (CustomerInvoiceDocument doc : invoices) {
             if (doc.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                if (doc.getPrintInvoiceOption().getPrintInvoiceIndicator().equals(ArConstants.PrintInvoiceOptions.PRINT_BY_BILLING_ORG) && doc.getPrintInvoiceIndicator().equals(ArConstants.PrintInvoiceOptions.PRINT_DO_NOT_PRINT)) {
+                if (ArConstants.PrintInvoiceOptions.PRINT_BY_BILLING_ORG.equalsIgnoreCase(doc.getPrintInvoiceIndicator())) {
                     if (date == null) {
                         reports.add(generateInvoice(doc));
                     }
@@ -495,7 +494,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument doc : invoices) {
             if (doc.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                if (doc.getPrintInvoiceOption().getPrintInvoiceIndicator().equals(ArConstants.PrintInvoiceOptions.PRINT_BY_PROCESSING_ORG)) {
+                if (ArConstants.PrintInvoiceOptions.PRINT_BY_PROCESSING_ORG.equalsIgnoreCase(doc.getPrintInvoiceIndicator())) {
                     if (date == null) {
                         reports.add(generateInvoice(doc));
                     }
@@ -520,7 +519,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getAllCustomerInvoiceDocuments();
         for (CustomerInvoiceDocument invoice : invoices) {
-            if (invoice.getPrintInvoiceOption().getPrintInvoiceIndicator().equals(ArConstants.PrintInvoiceOptions.PRINT_BY_USER)) {
+            if (ArConstants.PrintInvoiceOptions.PRINT_BY_USER.equalsIgnoreCase(invoice.getPrintInvoiceIndicator())) {
                 if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equals(initiator)) {
                     reports.add(generateInvoice(invoice));
                 }

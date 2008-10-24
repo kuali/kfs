@@ -298,10 +298,6 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
             errors.append("Create Date\n");
         }
-        if (StringUtils.isEmpty(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier())) {
-            LOG.error("verifyCxmlPOData()  The External Organization Supplier Id is required for the cXML PO but is missing.");
-            errors.append("Missing Data: External Organization Supplier Id\n");
-        }
         if (StringUtils.isEmpty(vendorDuns)) {
             LOG.error("verifyCxmlPOData()  The Duns Number is required for the cXML PO but is missing.");
             errors.append("Missing Data: Duns Number\n");

@@ -178,7 +178,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
-            req.setExternalOrganizationB2bSupplierIdentifier(getExternalSupplierId(items, vendor.getVendorDunsNumber()));
             req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
 
             // retrieve default PO address and set address
@@ -289,20 +288,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         reqItem.setItemRestrictedIndicator(false);
 
         return reqItem;
-    }
-
-    private String getExternalSupplierId(List items, String vendorDuns) {
-        LOG.debug("getExternalSupplierId() ");
-
-        String id = null;
-        List scItems = new ArrayList();
-        for (Iterator iter = items.iterator(); iter.hasNext();) {
-            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            if (vendorDuns.equals(item.getSupplier("DUNS"))) {
-                return item.getSupplier("SystemSupplierID");
-            }
-        }
-        return "";
     }
 
     public void setDocumentService(DocumentService documentService) {

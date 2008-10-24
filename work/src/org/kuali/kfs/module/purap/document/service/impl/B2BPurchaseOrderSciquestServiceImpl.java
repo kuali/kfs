@@ -168,7 +168,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("      <AccountingDate>").append(purchaseOrder.getPurchaseOrderCreateDate()).append("</AccountingDate>\n");
 
         /** *** SUPPLIER SECTION **** */
-        cxml.append("      <Supplier id=\"").append(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier()).append("\">\n");
+        cxml.append("      <Supplier>\n");
         cxml.append("        <DUNS>").append(vendorDuns).append("</DUNS>\n");
         cxml.append("        <SupplierNumber>").append(purchaseOrder.getVendorNumber()).append("</SupplierNumber>\n");
 
@@ -332,10 +332,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateDate())) {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
             errors.append("Create Date\n");
-        }
-        if (StringUtils.isEmpty(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier())) {
-            LOG.error("verifyCxmlPOData()  The External Organization Supplier Id is required for the cXML PO but is missing.");
-            errors.append("Missing Data: External Organization Supplier Id\n");
         }
         if (StringUtils.isEmpty(vendorDuns)) {
             LOG.error("verifyCxmlPOData()  The Duns Number is required for the cXML PO but is missing.");

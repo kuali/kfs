@@ -59,8 +59,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization;
 import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
@@ -740,8 +738,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private boolean isUserInArBillingOrProcessingOrg(FinancialSystemUser fsUser) {
         
         Org fsUserOrg = fsUser.getOrganization();
-        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
-        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
+//        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
+//        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
         
         String userChart, userOrg; 
         Map<String,String> pkMap;
@@ -753,27 +751,27 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         pkMap.put("organizationCode", fsUserOrg.getOrganizationCode());
         searchOrgs.put(fsUserOrg.getChartOfAccountsCode() + fsUserOrg.getOrganizationCode(), pkMap);
         
-        //  gather up all chart/org combos we want to search for
-        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
-            userChart = userPrimaryOrg.getChartOfAccountsCode();
-            userOrg = userPrimaryOrg.getOrganizationCode();
-            if (!searchOrgs.containsKey(userChart + userOrg)) {
-                pkMap = new HashMap<String,String>();
-                pkMap.put("chartOfAccountsCode", userChart);
-                pkMap.put("organizationCode", userOrg);
-                searchOrgs.put(userChart + userOrg, pkMap);
-            }
-        }
-        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
-            userChart = userOrgSecurity.getChartOfAccountsCode();
-            userOrg = userOrgSecurity.getOrganizationCode();
-            if (!searchOrgs.containsKey(userChart + userOrg)) {
-                pkMap = new HashMap<String,String>();
-                pkMap.put("chartOfAccountsCode", userChart);
-                pkMap.put("organizationCode", userOrg);
-                searchOrgs.put(userChart + userOrg, pkMap);
-            }
-        }
+//        //  gather up all chart/org combos we want to search for
+//        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
+//            userChart = userPrimaryOrg.getChartOfAccountsCode();
+//            userOrg = userPrimaryOrg.getOrganizationCode();
+//            if (!searchOrgs.containsKey(userChart + userOrg)) {
+//                pkMap = new HashMap<String,String>();
+//                pkMap.put("chartOfAccountsCode", userChart);
+//                pkMap.put("organizationCode", userOrg);
+//                searchOrgs.put(userChart + userOrg, pkMap);
+//            }
+//        }
+//        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
+//            userChart = userOrgSecurity.getChartOfAccountsCode();
+//            userOrg = userOrgSecurity.getOrganizationCode();
+//            if (!searchOrgs.containsKey(userChart + userOrg)) {
+//                pkMap = new HashMap<String,String>();
+//                pkMap.put("chartOfAccountsCode", userChart);
+//                pkMap.put("organizationCode", userOrg);
+//                searchOrgs.put(userChart + userOrg, pkMap);
+//            }
+//        }
         
         OrganizationOptions orgOpts = null;
         SystemInformation sysInfo = null;

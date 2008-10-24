@@ -51,6 +51,7 @@ public class FormatForm extends KualiForm {
         super();
         customers = new ArrayList<CustomerProfile>();
         ranges = new ArrayList<DisbursementNumberRange>();
+        results =  new ArrayList<FormatResult>();
     }
 
     /**

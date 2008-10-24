@@ -171,37 +171,34 @@ public class FormatAction extends KualiAction {
         try {
             List<FormatResult> results = formatService.performFormat(formatForm.getProcId());
             Collections.sort(results);
-            FormatResult total = new FormatResult();
+            
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
+            int totalPaymentsCount = 0;
             for (FormatResult element : results) {
-                total.setPayments(total.getPayments() + element.getPayments());
-                total.setAmount(total.getAmount().add(element.getAmount()));
+                totalAmount = totalAmount.add(element.getAmount());
+                totalPaymentsCount += element.getPayments();
             }
+            
             formatForm.setResults(results);
-            formatForm.setTotalAmount(total.getAmount());
-            formatForm.setTotalPaymentCount(total.getPayments());
+            formatForm.setTotalAmount(totalAmount);
+            formatForm.setTotalPaymentCount(totalPaymentsCount);
 
             return mapping.findForward(PdpConstants.MAPPING_FINISHED);
         }
         catch (NoBankForCustomerException nbfce) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING,  nbfce.getCustomerProfile());
 
-            ActionErrors ae = new ActionErrors();
-            ae.add("global", new ActionMessage("format.bank.missing", nbfce.getCustomerProfile()));
-            saveErrors(request, ae);
-            return mapping.findForward("pdp_message");
+            return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
-        catch (DisbursementRangeExhaustedException e) {
+        catch (DisbursementRangeExhaustedException dre) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_EXHAUSTED);
 
-            ActionErrors ae = new ActionErrors();
-            ae.add("global", new ActionMessage("format.disb.exhausted"));
-            saveErrors(request, ae);
-            return mapping.findForward("pdp_message");
+            return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
         catch (MissingDisbursementRangeException e) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_DISBURSEMENT_MISSING);
 
-            ActionMessages ae = new ActionMessages();
-            ae.add("global", new ActionMessage("format.disb.missing"));
-            saveErrors(request, ae);
-            return mapping.findForward("pdp_message");
+            return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
     }
 
@@ -216,13 +213,20 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        FormatForm formatForm = (FormatForm) form;
+
+        if (formatForm.getProcId() != null) {
+            formatService.clearUnfinishedFormat(formatForm.getProcId());
+        }
+
         return mapping.findForward(KNSConstants.MAPPING_PORTAL);
 
     }
 
 
     /**
-     * This method clears the unfinished format process.
+     * This method clears the unfinished format process and is called from the FormatProcess lookup page.
+     * 
      * @param mapping
      * @param form
      * @param request

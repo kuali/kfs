@@ -38,6 +38,9 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
     private KualiCodeService kualiCodeService;
     
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess, java.util.List, java.util.Date, java.lang.String)
+     */
     public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes) {
         LOG.debug("markPaymentsForFormat() started");
 
@@ -110,6 +113,9 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         }
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#unmarkPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess)
+     */
     public void unmarkPaymentsForFormat(PaymentProcess proc) {
         LOG.debug("unmarkPaymentsForFormat() started");
 

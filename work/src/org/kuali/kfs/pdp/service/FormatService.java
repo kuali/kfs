@@ -51,7 +51,11 @@ public interface FormatService {
     // Get a list of FormatResults for a format
     public List getFormatSummary(Integer procId);
 
-    // Reset Payments after a format error
+    /**
+     *  If the start format process was run and errored out,
+     *  this needs to be run to allow formats to continue to function
+     * @param procId
+     */
     public void resetFormatPayments(Integer procId);
 
     // Gets the most current Processes for Format Summary Viewing

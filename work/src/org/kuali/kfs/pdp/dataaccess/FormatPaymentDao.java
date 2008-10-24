@@ -29,7 +29,18 @@ import org.kuali.kfs.pdp.businessobject.PaymentProcess;
  * @author jsissom
  */
 public interface FormatPaymentDao {
+    /**
+     * This method mark payments for format
+     * @param proc
+     * @param customers
+     * @param paydate
+     * @param paymentTypes
+     */
     public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes);
 
+    /**
+     * This method unmark payments that were marked for format.
+     * @param proc
+     */
     public void unmarkPaymentsForFormat(PaymentProcess proc);
 }

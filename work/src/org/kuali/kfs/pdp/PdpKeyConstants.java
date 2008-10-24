@@ -192,5 +192,11 @@ public class PdpKeyConstants {
     public static class Format {
         public static final String ERROR_PDP_FORMAT_PROCESS_ALREADY_RUNNING = "error.pdp.format.alreadyRunning";
         public static final String ERROR_PDP_NO_MATCHING_PAYMENT_FOR_FORMAT = "error.pdp.format.NoMatchingPayments";
+        
+        public static final class ErrorMessages{
+            public static final String ERROR_FORMAT_BANK_MISSING = "format.bank.missing";
+            public static final String ERROR_FORMAT_DISBURSEMENT_EXHAUSTED = "format.disb.exhausted";
+            public static final String ERROR_FORMAT_DISBURSEMENT_MISSING = "format.disb.missing";
+        }
     }
 }

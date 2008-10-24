@@ -25,10 +25,10 @@
 <%@ attribute name="formatResultAttributes" required="true"
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for format result."%>
-<kul:tabTop tabTitle="Payments selected for format process" defaultOpen="true" tabErrorKey="ranges*">
+<kul:tabTop tabTitle="Payments Selected for Format Process" defaultOpen="true" tabErrorKey="ranges*">
 	<div id="disbursementRanges" class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable"
-			summary="Payments selected for format process">
+			summary="Payments Selected for Format Process">
 			<tr>
 				<td colspan="3" class="subhead">
 					Your Default Campus Code is <kul:htmlControlAttribute attributeEntry="${disbursementNumberRangeAttributes.physCampusProcCode}" property="campus" readOnly="true" />
@@ -47,6 +47,13 @@
 			
 			<logic:iterate id="result" name="KualiForm" property="results" indexId="ctr">
             <tr>
+              
+               <html:hidden property="result[${ctr}].cust.chartCode" />
+               <html:hidden property="result[${ctr}].cust.orgCode" />
+               <html:hidden property="result[${ctr}].cust.subUnitCode" />
+               <html:hidden property="result[${ctr}].cust.customerShortName" />
+               <html:hidden property="result[${ctr}].payments" />
+               <html:hidden property="result[${ctr}].amount" />
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${customerProfileAttributes.customerShortName}" property="result[${ctr}].cust.customerShortName" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.payments}" property="result[${ctr}].payments" readOnly="true" /></td>
                <td class="${dataCell}"><kul:htmlControlAttribute attributeEntry="${formatResultAttributes.amount}" property="result[${ctr}].amount" readOnly="true" /></td>
@@ -55,6 +62,7 @@
             
              <tr>
             <td class="total-line">Total</td>
+            <html:hidden property="totalPaymentCount" />
             <td class="total-line">${KualiForm.totalPaymentCount}</td>
             <td class="total-line"><b>${KualiForm.currencyFormattedTotalAmount}</b></td>
             <html:hidden property="totalAmount" />

@@ -76,7 +76,7 @@
 		<ref bean="PaymentDetail-paymentGroup.achBankRoutingNbr" />
 		<ref bean="PaymentDetail-paymentGroup.achAccountNumber.achBankAccountNbr" />
 		<ref bean="PaymentDetail-paymentGroup.paymentStatus.name" />
-		<!-- ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" /-->
+		<ref bean="PaymentDetail-paymentGroup.payeeIdTypeDesc" />
       </list>
     </property>
     <property name="collections" >

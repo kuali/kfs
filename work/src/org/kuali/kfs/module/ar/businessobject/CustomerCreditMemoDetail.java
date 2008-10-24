@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -217,27 +218,27 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
         this.invoiceLineTotalAmount = invoiceLineTotalAmount;
     }
     
-    public void recalculateBasedOnEnteredItemQty(KualiDecimal invTaxPercent) {
-        if (ObjectUtils.isNull(invTaxPercent))
-            invTaxPercent = KualiDecimal.ZERO;
-        
+    public void recalculateBasedOnEnteredItemQty(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
 
         creditMemoItemTotalAmount = new KualiDecimal(creditMemoItemQuantity.multiply(invItemUnitPrice));
         
-        creditMemoItemTaxAmount = creditMemoItemTotalAmount.multiply(invTaxPercent);
+        if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
+            creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);
+        else
+            creditMemoItemTaxAmount = KualiDecimal.ZERO;
         creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
     }
 
-    public void recalculateBasedOnEnteredItemAmount(KualiDecimal invTaxPercent) {
-        if (ObjectUtils.isNull(invTaxPercent))
-            invTaxPercent = KualiDecimal.ZERO;
-        
+    public void recalculateBasedOnEnteredItemAmount(CustomerCreditMemoDocument customerCreditMemoDocument) {
         BigDecimal invItemUnitPrice = getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
         
         creditMemoItemQuantity = creditMemoItemTotalAmount.bigDecimalValue().divide(invItemUnitPrice);
         
-        creditMemoItemTaxAmount = creditMemoItemTotalAmount.multiply(invTaxPercent);
+        if (customerCreditMemoDocument.getArTaxService().isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), getCustomerInvoiceDetail()))
+            creditMemoItemTaxAmount = customerCreditMemoDocument.getTaxService().getTotalSalesTaxAmount(customerCreditMemoDocument.getInvoice().getBillingDate(), customerCreditMemoDocument.getPostalCode(), creditMemoItemTotalAmount);
+        else
+            creditMemoItemTaxAmount = KualiDecimal.ZERO;
         creditMemoLineTotalAmount = creditMemoItemTotalAmount.add(creditMemoItemTaxAmount);
     }
 
@@ -337,6 +338,14 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
         return getCustomerInvoiceDetail().getBalanceTypeCode();
     }
     
+    public ObjectCode getAccountsReceivableObject() {
+        return getCustomerInvoiceDetail().getAccountsReceivableObject();
+    }
+    
+    public String getAccountsReceivableObjectCode() {
+        return getCustomerInvoiceDetail().getAccountsReceivableObjectCode();
+    }
+    
     public CustomerInvoiceDetail getCustomerInvoiceDetail(){
         if (ObjectUtils.isNull(customerInvoiceDetail) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) && ObjectUtils.isNotNull(referenceInvoiceItemNumber)){
             customerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetail(financialDocumentReferenceInvoiceNumber, referenceInvoiceItemNumber);
@@ -379,5 +388,4 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     public String getInvoiceReferenceNumber() {
         return financialDocumentReferenceInvoiceNumber;
     }
-
 }

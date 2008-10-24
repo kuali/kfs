@@ -176,8 +176,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-
-            if (universalUser.isMember(PdpConstants.Groups.HOLD_GROUP)) {
+            else if (universalUser.isMember(PdpConstants.Groups.HOLD_GROUP)) {
 
                 if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(batchId)) {
 
@@ -203,6 +202,12 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     anchorHtmlDataList.add(anchorHtmlData);
                 }
             }
+
+            else {
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, "&nbsp;", "&nbsp;");
+                anchorHtmlDataList.add(anchorHtmlData);
+            }
+
             return anchorHtmlDataList;
         }
         return super.getEmptyActionUrls();

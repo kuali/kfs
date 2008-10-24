@@ -148,7 +148,7 @@ public class FormatServiceImpl implements FormatService {
             LOG.debug("startFormatProcess() Customer: " + element);
         }
 
-          // Create the process
+        // Create the process
         Date d = new Date();
         PaymentProcess paymentProcess = new PaymentProcess();
         paymentProcess.setCampus(campus);
@@ -156,14 +156,14 @@ public class FormatServiceImpl implements FormatService {
         paymentProcess.setProcessTimestamp(new Timestamp(d.getTime()));
 
         this.businessObjectService.save(paymentProcess);
-        
+
         // add an entry in the format process table (to lock the format process)
         FormatProcess formatProcess = new FormatProcess();
-        
+
         formatProcess.setPhysicalCampusProcessCode(campus);
         formatProcess.setBeginFormat(dateTimeService.getCurrentTimestamp());
         formatProcess.setPaymentProcIdentifier(paymentProcess.getId().intValue());
-        
+
         this.businessObjectService.save(formatProcess);
 
         // Mark all of them ready for format
@@ -215,10 +215,10 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("performFormat() started");
 
         // get the PaymentProcess for the given id
-       Map primaryKeys = new HashMap();
+        Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-        
+
         if (paymentProcess == null) {
             LOG.error("performFormat() Invalid proc ID " + processId);
             throw new ConfigurationError("Invalid proc ID");
@@ -234,21 +234,21 @@ public class FormatServiceImpl implements FormatService {
         Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
 
         PostFormatProcessSummary postFormatProcessSummary = new PostFormatProcessSummary();
-        
+
         while (paymentGroupIterator.hasNext()) {
-            
+
             PaymentGroup paymentGroup = (PaymentGroup) paymentGroupIterator.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
 
             // hold original bank code to log any change
             String originalBankCode = paymentGroup.getBankCode();
-            
+
             // process payment group data
             processPaymentGroup(paymentGroup, paymentProcess, checkDisbursementType, achDisbursementType, extractedPaymentStatus, pendingPaymentStatus);
-            
+
             // create payment history record if bank was changed
             if (!paymentGroup.getBankCode().equals(originalBankCode)) {
-                
+
                 PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
 
                 paymentGroupHistory.setPaymentChangeCode(PdpConstants.PaymentChangeCodes.BANK_CHNG_CD);
@@ -263,16 +263,15 @@ public class FormatServiceImpl implements FormatService {
 
             // save payment group
             this.businessObjectService.save(paymentGroup);
-            
+
             // Add to summary information
             postFormatProcessSummary.add(paymentGroup);
         }
 
         // step 2 figure out if we combine checks into one
         LOG.debug("performFormat() Combining");
-        
-        combineChecksIntoOne(paymentProcess, checkDisbursementType);
 
+        combineChecksIntoOne(paymentProcess, checkDisbursementType);
 
         // step 3 now assign disbursement numbers
         LOG.debug("performFormat() Assigning disbursement numbers");
@@ -293,11 +292,11 @@ public class FormatServiceImpl implements FormatService {
         // step 7 return all the process summaries
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, paymentProcess);
-        
+
         List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }
-    
+
     /**
      * This method processes the payment group data.
      * @param paymentGroup
@@ -308,7 +307,7 @@ public class FormatServiceImpl implements FormatService {
      * @param pendingPaymentStatus
      */
     private void processPaymentGroup(PaymentGroup paymentGroup, PaymentProcess paymentProcess, DisbursementType checkDisbursementType, DisbursementType achDisbursementType, PaymentStatus extractedPaymentStatus, PaymentStatus pendingPaymentStatus) {
-        
+
         CustomerProfile customer = paymentGroup.getBatch().getCustomerProfile();
 
         // Set the sort field to be saved in the database
@@ -394,17 +393,16 @@ public class FormatServiceImpl implements FormatService {
             paymentGroup.setAchAccountNumber(achAccountNumber);
         }
     }
-    
+
     /**
      * This method...
      * @param paymentProcess
      * @param checkDisbursementType
      */
-    private void combineChecksIntoOne(PaymentProcess paymentProcess, DisbursementType checkDisbursementType)
-    {
+    private void combineChecksIntoOne(PaymentProcess paymentProcess, DisbursementType checkDisbursementType) {
         PaymentInfo lastPaymentInfo = new PaymentInfo();
-       Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
-        
+        Iterator paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
+
         int maxNoteLines = getMaxNoteLines();
 
         while (paymentGroupIterator.hasNext()) {
@@ -497,23 +495,23 @@ public class FormatServiceImpl implements FormatService {
      */
     private List<FormatResult> convertProcessSummary2FormatResult(List<ProcessSummary> processSummaryResults) {
         List<FormatResult> results = new ArrayList();
-        
+
         for (ProcessSummary processSummary : processSummaryResults) {
-            
+
             FormatResult formatResult = new FormatResult(processSummary.getProcess().getId().intValue(), processSummary.getCustomer());
-            
+
             formatResult.setSortGroupOverride(processSummary.getSortGroupId());
             formatResult.setAmount(processSummary.getProcessTotalAmount());
             formatResult.setPayments(processSummary.getProcessTotalCount().intValue());
             formatResult.setBeginDisbursementNbr(processSummary.getBeginDisbursementNbr().intValue());
             formatResult.setEndDisbursementNbr(processSummary.getEndDisbursementNbr().intValue());
             formatResult.setDisbursementType(processSummary.getDisbursementType());
-            
+
             results.add(formatResult);
         }
-        
+
         Collections.sort(results);
-        
+
         return results;
     }
 
@@ -692,10 +690,10 @@ public class FormatServiceImpl implements FormatService {
      */
     public List getFormatSummary(Integer procId) {
         LOG.debug("getFormatSummary() starting");
-        
+
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.ProcessSummary.PROCESS_SUMMARY_PROCESS_ID, procId);
-        
+
         List processSummaryResults = (List) this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
         return convertProcessSummary2FormatResult(processSummaryResults);
     }

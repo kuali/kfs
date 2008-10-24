@@ -58,6 +58,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         if (businessObject instanceof FormatProcess) {
             UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
             FormatProcess formatProcess = (FormatProcess) businessObject;
@@ -67,7 +68,6 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
             primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
             PaymentProcess paymentProcess = (PaymentProcess) getBusinessObjectService().findByPrimaryKey(PaymentProcess.class, primaryKeys);
 
-            List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             String linkText = KFSConstants.EMPTY_STRING;
             String url = KFSConstants.EMPTY_STRING;
             String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.FORMAT_PROCESS_ACTION;
@@ -82,15 +82,19 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
-                return anchorHtmlDataList;
+            }
+            else {
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData("&nbsp;","" , "");
+                anchorHtmlDataList.add(anchorHtmlData);
             }
 
         }
-        return super.getEmptyActionUrls();
+        return anchorHtmlDataList;
     }
 
     /**
      * This method gets the configurationService.
+     * 
      * @return configurationService
      */
     public KualiConfigurationService getConfigurationService() {

@@ -101,8 +101,17 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
         MaintenanceDocument maintDocument = (MaintenanceDocument) document;
         String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
 
+        //  this is used for batch processing of customer records
+        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
+           actionFlags.setCanApprove(true);
+           actionFlags.setCanBlanketApprove(true);
+           actionFlags.setCanAdHocRoute(true);
+           actionFlags.setCanRoute(true);
+           return actionFlags;
+        }
+        
         // if user is not AR SUPERVISOR he cannot approve the customer creation document
-        if (maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) && !ARUtil.isUserInArSupervisorGroup(user)) {
+        if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(maintenanceAction) && !ARUtil.isUserInArSupervisorGroup(user)) {
 
             actionFlags.setCanApprove(false);
             actionFlags.setCanBlanketApprove(false);

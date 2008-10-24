@@ -277,12 +277,11 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         LOG.info("Routing Customer Maintenance document for [" + customer.getCustomerNumber() + "] " + customer.getCustomerName());
         
         try {
-            if (realMaintDoc.isNew()) {
-                docService.blanketApproveDocument(realMaintDoc, "Routed New Customer Maintenance from CustomerLoad Batch Process", null);
-            }
-            else {
-                docService.routeDocument(realMaintDoc, "Routed Edit/Update Customer Maintenance from CustomerLoad Batch Process", null);
-            }
+            docService.routeDocument(realMaintDoc, "Routed Edit/Update Customer Maintenance from CustomerLoad Batch Process", null);
+            //if (realMaintDoc.isNew()) {
+            //    LOG.info("Attempting to BlanketApprove Customer Maintenance document for [" + customer.getCustomerNumber() + "] " + customer.getCustomerName());
+            //    docService.blanketApproveDocument(realMaintDoc, "Routed New Customer Maintenance from CustomerLoad Batch Process", null);
+            //}
         }
         catch (WorkflowException e) {
             LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.", e);

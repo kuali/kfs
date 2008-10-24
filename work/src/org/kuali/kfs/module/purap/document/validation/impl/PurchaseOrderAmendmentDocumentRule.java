@@ -167,9 +167,12 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     @Override
     public boolean processAccountValidation(AccountingDocument accountingDocument, List<PurApAccountingLine> purAccounts, String itemLineNumber) {
         PurchaseOrderDocument document = (PurchaseOrderDocument)accountingDocument;
+        /* Well, the following doesn't always work, not for below-line items. This caused Number Format Exception. 
         //This is because the itemLineNumber in the input parameter is "Item x", so we only need the x for the int
         int itemLineNumberInt = Integer.parseInt(itemLineNumber.substring(5));
         PurchaseOrderItem itemLine = (PurchaseOrderItem) document.getItemByLineNumber(itemLineNumberInt);
+        */
+        PurchaseOrderItem itemLine = (PurchaseOrderItem) document.getItemByStringIdentifier(itemLineNumber);
         if (itemLine.isItemActiveIndicator() && (! (document.getContainsUnpaidPaymentRequestsOrCreditMemos() && itemLine.getItemInvoicedTotalAmount() != null))) {
             //This means the accounts on the item are editable, so we'll call super's processAccountValidation.
             return super.processAccountValidation(accountingDocument, purAccounts, itemLineNumber);

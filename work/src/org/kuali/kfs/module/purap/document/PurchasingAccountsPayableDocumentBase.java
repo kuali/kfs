@@ -462,6 +462,36 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return null;
     }
+    
+    /**
+     * Find the item in the document via its string identifier.
+     * @param itemStrID the string identifier of the item being searched for
+     * @return the item being searched for
+     */
+    public PurApItem getItemByStringIdentifier(String itemStrID) {
+        for (Iterator iter = items.iterator(); iter.hasNext();) {
+            PurApItem item = (PurApItem) iter.next();
+            if (StringUtils.equalsIgnoreCase(item.getItemIdentifierString(), itemStrID)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Find the item in the document via its identifier.
+     * @param itemID the string identifier of the item being searched for
+     * @return the item being searched for
+     */
+    public PurApItem getItemByItemIdentifier(Integer itemID) {
+        for (Iterator iter = items.iterator(); iter.hasNext();) {
+            PurApItem item = (PurApItem) iter.next();
+            if (item.getItemIdentifier() == itemID) {
+                return item;
+            }
+        }
+        return null;
+    }
 
     /**
      * Overriding the parent method so that we can just set the posting year without the other stuff that the parent does to the

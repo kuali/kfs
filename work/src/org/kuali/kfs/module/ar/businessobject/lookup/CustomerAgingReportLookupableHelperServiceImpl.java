@@ -461,6 +461,12 @@ if (knownCustomers.containsKey(customerNumber)) {
                     propValue = displayMask.maskValue(propValue);
                 }
                 col.setPropertyValue(propValue);
+                
+                // add correct label for sysparam
+                if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
+                    col.setColumnTitle(cutoffdate91toSYSPRlabel);
+                if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
+                    col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
 
                 if (StringUtils.isNotBlank(propValue)) {
                     // do not add link to the values in column "Customer Name"
@@ -469,13 +475,6 @@ if (knownCustomers.containsKey(customerNumber)) {
                     else
                         col.setPropertyURL(getCustomerOpenItemReportUrl(element, col.getColumnTitle()));
                 }
-
-      
-                    // add correct label for sysparam
-                    if (StringUtils.equals("unpaidBalance91toSYSPR", col.getPropertyName()))
-                        col.setColumnTitle(cutoffdate91toSYSPRlabel);
-                    if (StringUtils.equals("unpaidBalanceSYSPRplus1orMore", col.getPropertyName()))
-                        col.setColumnTitle(cutoffdateSYSPRplus1orMorelabel);
                 
             }
 

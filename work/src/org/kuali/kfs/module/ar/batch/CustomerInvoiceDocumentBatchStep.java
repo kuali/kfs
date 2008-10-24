@@ -17,12 +17,14 @@ package org.kuali.kfs.module.ar.batch;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.collections.list.AbstractLinkedList;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -42,9 +44,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 
+import com.sun.xml.internal.fastinfoset.util.StringArray;
+
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     
-    CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    CustomerInvoiceDocumentService customerInvoiceDocumentService; 
     BusinessObjectService businessObjectService;
     DocumentService documentService;
     DateTimeService dateTimeService;
@@ -74,30 +78,32 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         } 
         
         Date billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
-
-        for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){    
-              
-            billingDate = DateUtils.addDays(billingDate, -30);
-              
-            createCustomerInvoiceDocumentForFunctionalTesting("ABB2",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("3MC17500",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ACE21725",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("ANT7297",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CAR23612",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("CON19567",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("DEL14448",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("EAT17609",billingDate);
-            Thread.sleep(5000);
-            createCustomerInvoiceDocumentForFunctionalTesting("GAP17272",billingDate);            
-            Thread.sleep(5000);
+        List<String> customernames;
+        
+        if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
+            setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class)); 
+            setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+            setDocumentService(SpringContext.getBean(DocumentService.class));
+            setDateTimeService(SpringContext.getBean(DateTimeService.class));
             
+            customernames = Arrays.asList(jobName);
+        }
+        else {
+            customernames = Arrays.asList("ABB2","3MC17500","ACE21725","ANT7297","CAR23612", "CON19567", "DEL14448", "EAT17609", "GAP17272"); 
+        }
+        
+        for (String customername : customernames) {
+            
+            billingDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+            
+            for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){    
+                  
+                billingDate = DateUtils.addDays(billingDate, -30);
+                  
+                createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate);
+                Thread.sleep(5000);
+    
+            }
         }
         setInitiatedParameter();
         return true;

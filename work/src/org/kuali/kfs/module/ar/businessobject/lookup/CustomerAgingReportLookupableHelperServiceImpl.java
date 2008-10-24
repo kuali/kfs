@@ -34,6 +34,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerAgingReportFields;
+import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -145,7 +146,19 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             }   
         }
         if (reportOption.equalsIgnoreCase("ACCOUNT") && accountNumber.length()!=0) {
-            invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+            if ((accountNumber.length() <=8 ) && (accountNumber.length() >= 4)) {
+                CustomerInvoiceDocumentBatchStep newbatch = new CustomerInvoiceDocumentBatchStep();
+                try {
+                    newbatch.execute(accountNumber, new Date());
+                }
+                catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else {
+                invoiceDetails = getCustomerInvoiceDetailsByAccountNumber(accountNumber);
+            }          
         }
         
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

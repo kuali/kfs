@@ -28,7 +28,7 @@
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="rowHeader" required="true"
 	description="The value of the header cell of this row.
-              It would be 'add:' or the number of this row's accounting line within its group."%>
+              It would be the number of this row's accounting line within its group."%>
 
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 <c:set var="customerCreditMemoDetailAttributes" value="${DataDictionary.CustomerCreditMemoDetail.attributes}" />

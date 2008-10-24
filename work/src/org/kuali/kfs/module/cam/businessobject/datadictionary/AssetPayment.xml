@@ -308,7 +308,7 @@
   <bean id="AssetPayment-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingPeriodCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Posting Period Code" />
+    <property name="label" value="Fiscal Period" />
     <property name="shortLabel" value="Period Code" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >
@@ -326,7 +326,7 @@
   <bean id="AssetPayment-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentPostingYear" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Posting Year" />
+    <property name="label" value="Fiscal Year" />
     <property name="shortLabel" value="Posting Year" />
     <property name="maxLength" value="4" />
     <property name="validationPattern" >
@@ -380,7 +380,7 @@
   <bean id="AssetPayment-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialSubObjectCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub-Object Code" />
+    <property name="label" value="Sub-Object" />
     <property name="shortLabel" value="Sub-Obj. Code" />
     <property name="maxLength" value="3" />
     <property name="validationPattern" >
@@ -452,7 +452,7 @@
   <bean id="AssetPayment-period10Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period10Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period10 Depreciation1 Amount" />
+    <property name="label" value="Period10 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -489,7 +489,7 @@
   <bean id="AssetPayment-period11Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period11Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period11 Depreciation1 Amount" />
+    <property name="label" value="Period11 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -527,7 +527,7 @@
   <bean id="AssetPayment-period12Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period12Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period12 Depreciation1 Amount" />
+    <property name="label" value="Period12 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -565,7 +565,7 @@
   <bean id="AssetPayment-period1Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period1Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period1 Depreciation1 Amount" />
+    <property name="label" value="Period1 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -603,7 +603,7 @@
   <bean id="AssetPayment-period2Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period2Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period2 Depreciation1 Amount" />
+    <property name="label" value="Period2 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -641,7 +641,7 @@
   <bean id="AssetPayment-period3Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period3Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period3 Depreciation1 Amount" />
+    <property name="label" value="Period3 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -679,7 +679,7 @@
   <bean id="AssetPayment-period4Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period4Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period4 Depreciation1 Amount" />
+    <property name="label" value="Period4 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -717,7 +717,7 @@
   <bean id="AssetPayment-period5Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period5Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period5 Depreciation1 Amount" />
+    <property name="label" value="Period5 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -755,7 +755,7 @@
   <bean id="AssetPayment-period6Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period6Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period6 Depreciation1 Amount" />
+    <property name="label" value="Period6 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -793,7 +793,7 @@
   <bean id="AssetPayment-period7Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period7Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period7 Depreciation1 Amount" />
+    <property name="label" value="Period7 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -831,7 +831,7 @@
   <bean id="AssetPayment-period8Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period8Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period8 Depreciation1 Amount" />
+    <property name="label" value="Period8 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -869,7 +869,7 @@
   <bean id="AssetPayment-period9Depreciation1Amount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="period9Depreciation1Amount" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Period9 Depreciation1 Amount" />
+    <property name="label" value="Period9 Depreciation Amount" />
     <property name="shortLabel" value="Amount" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
@@ -1037,7 +1037,7 @@
   <bean id="AssetPayment-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAccountNumber" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Sub Account Number" />
+    <property name="label" value="Sub-Account" />
     <property name="shortLabel" value="Sub Accnt No" />
     <property name="maxLength" value="5" />
     <property name="validationPattern" >

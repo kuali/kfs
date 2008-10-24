@@ -92,7 +92,7 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         for (Iterator iter = itemMappings.iterator(); iter.hasNext();) {
             ElectronicInvoiceItemMapping mapping = (ElectronicInvoiceItemMapping) iter.next();
-            hm.put(mapping.getItemTypeCode(), mapping);
+            hm.put(mapping.getInvoiceItemTypeCode(), mapping);
         }
         return hm;
     }

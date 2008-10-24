@@ -277,7 +277,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 FileUtils.forceDelete(getInvoiceFile(filesToBeProcessed[i].getName()));
             }catch (IOException e) {
                 throw new PurError(e);
-        	}
+        }
         }
 
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
@@ -1034,7 +1034,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 mailService.sendMessage(mailMessage);
             }catch (InvalidAddressException e) {
                 LOG.error("Invalid email address. Message not sent", e);
-            }
+        }
         }
         
         /**
@@ -1076,7 +1076,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
 
-        message.setFromAddress(toAddressList[0]); 
+//        message.setFromAddress(toAddressList[0]); 
 
         String mailTitle = "E-Invoice Load Results for " + ElectronicInvoiceUtils.getDateDisplayText(new Date());
         
@@ -1260,21 +1260,21 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             }
         }
         
-        boolean isFakeElectronicInvoicing = false; // USE PARAM 
-        
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Fake electronic invoice flag is set to " + isFakeElectronicInvoicing);
-        }
-        
-        if (isFakeElectronicInvoicing){
-            if (LOG.isInfoEnabled()){
-                LOG.info("------------------------------------------------------------------------------");
-                LOG.info("PAYMENT REQUEST NOT SAVED DUE TO FAKE ELECTRONIC INVOICING FLAG IS SET TO TRUE");
-                LOG.info("PAYMENT REQUEST FOR PO NUMBER '" + orderHolder.getInvoicePurchaseOrderID() + "' WOULD HAVE SAVED");
-                LOG.info("------------------------------------------------------------------------------");
-            }
-            return preqDoc;
-        }
+//        boolean isFakeElectronicInvoicing = false; // USE PARAM 
+//        
+//        if (LOG.isDebugEnabled()){
+//            LOG.debug("Fake electronic invoice flag is set to " + isFakeElectronicInvoicing);
+//        }
+//        
+//        if (isFakeElectronicInvoicing){
+//            if (LOG.isInfoEnabled()){
+//                LOG.info("------------------------------------------------------------------------------");
+//                LOG.info("PAYMENT REQUEST NOT SAVED DUE TO FAKE ELECTRONIC INVOICING FLAG IS SET TO TRUE");
+//                LOG.info("PAYMENT REQUEST FOR PO NUMBER '" + orderHolder.getInvoicePurchaseOrderID() + "' WOULD HAVE SAVED");
+//                LOG.info("------------------------------------------------------------------------------");
+//            }
+//            return preqDoc;
+//        }
 
         addBillToAndShipToNotes(preqDoc,orderHolder);
         
@@ -1441,26 +1441,20 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             PaymentRequestItem preqItem = (PaymentRequestItem)preqItems.get(i);
             
-            if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE,orderHolder)){
-                hasShippingItem = true;
+            if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING,orderHolder)){
                 processShippingItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE,orderHolder)){
+            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING,orderHolder)){
                 processSpecialHandlingItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,orderHolder)){
+            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT,orderHolder)){
+                processDepositItem(preqItem, orderHolder);
+            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE,orderHolder)){
+                processDueItem(preqItem, orderHolder);
+            }else{
+                //These should be only items with line numbers or below the line items we do not care about
                 processAboveTheLineItem(preqItem, orderHolder);
-//            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT,orderHolder)){
-//                processDepositItem(preqItem, orderHolder);
-//            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(),PurapConstants.ItemTypeCodes.INVOICE_AMOUNT_TYPE_CODE_DUE,orderHolder)){
-//                processDueItem(preqItem, orderHolder);
             }
-        }
-        
-        if (!hasShippingItem && orderHolder.isItemTypeAvailableInItemMapping(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE)){
-            LOG.debug("Creating new Shipping item since it's not available in the existing items");
-            PaymentRequestItem newItem = processShippingItem(null, orderHolder);
-            if (newItem != null){
-                preqDocument.addItem(newItem);
-            }
+            
+            setItemDefaultDescription(preqItem);
         }
         
         if (LOG.isDebugEnabled()){
@@ -1487,7 +1481,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         purapItem.setItemTaxAmount(new KualiDecimal(itemHolder.getTaxAmount()));
         
         if (itemHolder.getSubTotalAmount() != null && 
-            itemHolder.getSubTotalAmount().compareTo(KualiDecimal.ZERO) > 0){
+            itemHolder.getSubTotalAmount().compareTo(KualiDecimal.ZERO) != 0){
 
             purapItem.setExtendedPrice(itemHolder.getSubTotalAmount());
             
@@ -1546,11 +1540,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             return null;
         }
         
-        if (preqItem == null){
-            preqItem = new PaymentRequestItem();
-            preqItem.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIPPING_CODE);
-        }
-        
         preqItem.addToUnitPrice(orderHolder.getInvoiceShippingAmount());
         preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceShippingAmount()));
         
@@ -1570,33 +1559,27 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
         LOG.info("Processing Deposit Item");
         
-        preqItem.addToUnitPrice(orderHolder.getInvoiceShippingAmount());
-        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceShippingAmount()));
-        
-        if (StringUtils.isNotEmpty(orderHolder.getInvoiceShippingDescription())) {
-            if (StringUtils.isEmpty(preqItem.getItemDescription())) {
-                preqItem.setItemDescription(orderHolder.getInvoiceShippingDescription());
-            } else {
-                preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getInvoiceShippingDescription());
-            }
-        }
+        preqItem.addToUnitPrice(orderHolder.getInvoiceDepositAmount());
+        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDepositAmount()));
         
     }
     
     private void processDueItem(PaymentRequestItem preqItem,
                                 ElectronicInvoiceOrderHolder orderHolder){
 
+        LOG.info("Processing Deposit Item");
+        
+        preqItem.addToUnitPrice(orderHolder.getInvoiceDueAmount());
+        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDueAmount()));
+        
     }
     
-    private void setItemDefaultDescription(PaymentRequestItem preqItem,
-                                           String itemTypeCode){
+    private void setItemDefaultDescription(PaymentRequestItem preqItem){
         
-        //This should be moved to purapconstants and should have proper field list
-        String[] ITEM_TYPES_REQUIRES_DESCRIPTION = {PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE,
-                                                    PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE};
-        
-        if (StringUtils.isEmpty(preqItem.getItemDescription())){
-            if (ArrayUtils.contains(ITEM_TYPES_REQUIRES_DESCRIPTION, itemTypeCode)){
+        //If description is empty and item is not type "ITEM"... use default description
+        if (StringUtils.isEmpty(preqItem.getItemDescription()) &&
+            !StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE, preqItem.getItemTypeCode())){
+            if (ArrayUtils.contains(PurapConstants.ElectronicInvoice.ITEM_TYPES_REQUIRES_DESCRIPTION, preqItem.getItemTypeCode())){
                 preqItem.setItemDescription(PurapConstants.ElectronicInvoice.DEFAULT_BELOW_LINE_ITEM_DESCRIPTION);
             }
         }
@@ -1606,7 +1589,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                            String invoiceItemTypeCode,
                                            ElectronicInvoiceOrderHolder orderHolder){
         
-        return orderHolder.isItemTypeAvailableInItemMapping(invoiceItemTypeCode) && invoiceItemTypeCode.equals(itemTypeCode);
+        return orderHolder.isItemTypeAvailableInItemMapping(invoiceItemTypeCode) && 
+               StringUtils.equals(orderHolder.getKauliItemTypeCodeFromMappings(invoiceItemTypeCode),itemTypeCode);
     }
      
     

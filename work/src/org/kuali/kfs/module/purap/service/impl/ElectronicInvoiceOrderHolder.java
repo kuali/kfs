@@ -81,6 +81,9 @@ public class ElectronicInvoiceOrderHolder {
                                         Map itemTypeMappings,
                                         Map itemTypes){
         
+        /**
+         * This class has been designed based on good citizen pattern. - vpremcha
+         */
         if (rejectDocument == null){
             throw new NullPointerException("ElectronicInvoiceRejectDocument should not be null");
         }
@@ -507,12 +510,12 @@ public class ElectronicInvoiceOrderHolder {
         }
     }*/
     
-    public boolean isItemTypeAvailableInItemMapping(String kualiItemTypeCode) {
+    public boolean isItemTypeAvailableInItemMapping(String invoiceItemTypeCode) {
         if (itemTypeMappings == null) {
             return false;
         }
         else {
-            return itemTypeMappings.containsKey(kualiItemTypeCode);
+            return itemTypeMappings.containsKey(invoiceItemTypeCode);
         }
     }
 
@@ -527,14 +530,13 @@ public class ElectronicInvoiceOrderHolder {
     }
 
     
-    public String getInvoiceItemTypeCodeFromMappings(String invoiceItemTypeCode) {
+    public String getKauliItemTypeCodeFromMappings(String invoiceItemTypeCode) {
         
         ElectronicInvoiceItemMapping itemMapping = getInvoiceItemMapping(invoiceItemTypeCode);
         
         if (itemMapping != null) {
             return itemMapping.getItemTypeCode();
-        }
-        else {
+        } else {
             return null;
         }
     }

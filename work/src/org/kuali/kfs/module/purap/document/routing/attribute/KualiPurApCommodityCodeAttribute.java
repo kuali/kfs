@@ -344,7 +344,7 @@ public class KualiPurApCommodityCodeAttribute implements WorkflowAttribute, Mass
                     return true;
                 }
             }
-            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) || (StringUtils.equals(commodityCode.getSensitiveDataCode(), getSensitiveDataCode())) ) {
+            else if ((StringUtils.equals(commodityCode.getPurchasingCommodityCode(), getPurchasingCommodityCode())) && (StringUtils.equals(commodityCode.getSensitiveDataCode(), getSensitiveDataCode())) ) {
                 return true;
             }
         }

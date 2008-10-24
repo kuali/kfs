@@ -26,7 +26,7 @@
 
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 
-	<kul:tab tabTitle="Asset" defaultOpen="${!defaultTabHide}"> 
+	<kul:tab tabTitle="Asset" defaultOpen="${!defaultTabHide}" tabErrorKey="document.asset.capitalAssetNumber"> 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">								
 

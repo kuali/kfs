@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
@@ -45,6 +46,8 @@ import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -80,15 +83,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
-
         return checkReferencesExist(assetTransferDocument);
-
-        /*
-         * if (checkReferencesExist(assetTransferDocument) && validateAssetObjectCodeDefn(assetTransferDocument, asset)) {
-         * SpringContext.getBean(AssetTransferService.class).createGLPostables(assetTransferDocument); if
-         * (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(assetTransferDocument)) {
-         * throw new ValidationException("General Ledger GLPE generation failed"); } return true; } return false;
-         */
     }
 
     private boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
@@ -198,6 +193,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     protected boolean checkReferencesExist(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
+
+        assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ASSET);
+        // If asset is loaned, ask a confirmation question
+        if (assetTransferDocument.getAsset().getExpectedReturnDate() != null && assetTransferDocument.getAsset().getLoanReturnDate() == null) {
+            putError(CamsPropertyConstants.AssetTransferDocument.ASSET+"."+CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, CamsKeyConstants.Transfer.ERROR_TRFR_LOANED);
+            valid &= false;
+        }
+        
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode())) {
             assetTransferDocument.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS);
             if (ObjectUtils.isNull(assetTransferDocument.getOrganizationOwnerChartOfAccounts())) {

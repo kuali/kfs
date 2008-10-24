@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabParameterConstants;
@@ -1174,7 +1175,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
 
                 if (!assetNumbers.isEmpty()) {
-                    updatePurchaseOrderNotes(poId, assetNumbers, workflowDocument.getInitiatorNetworkId(), documentType);
+                    SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(poId, assetNumbers, workflowDocument.getInitiatorNetworkId(), documentType);
                 }
             }
         }
@@ -1189,8 +1190,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     private void updatePurchaseOrderNotes(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType) {
         PurchaseOrderDocument document = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
-        String noteText=null;
-        
+        String noteText = null;
+
         // Create and add the note.
         if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
             noteText = "Asset Numbers have been created for this document: ";
@@ -1198,7 +1199,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else {
             noteText = "Existing Asset Numbers have been applied for this document: ";
         }
-        
+
         for (int i = 0; i < assetNumbers.size(); i++) {
             noteText += assetNumbers.get(i).toString();
             if (i < assetNumbers.size() - 1) {

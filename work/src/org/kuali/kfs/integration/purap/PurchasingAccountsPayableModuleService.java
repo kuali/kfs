@@ -24,42 +24,47 @@ import java.util.List;
  */
 public interface PurchasingAccountsPayableModuleService {
     /**
-     * Provides the inquiry Url for a purchase order. Used by the PurAp / CAMs document to show user further information about the PO.
+     * Provides the inquiry Url for a purchase order. Used by the PurAp / CAMs document to show user further information about the
+     * PO.
+     * 
      * @param purchaseOrderNumber
      * @return
      */
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber);
-    
+
     /**
      * Adds asset numbers that were created to a Purchase Order that caused the creation.
+     * 
      * @param purchaseOrderNumber
      * @param assetNumbers
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers);
-    
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType);
+
     /**
      * Returns a sensitive data record associated with the given code
+     * 
      * @param sensitiveDataCode the code of the sensitive data
      * @return a record of sensitive data information
      */
     public PurchasingAccountsPayableSensitiveData getSensitiveDataByCode(String sensitiveDataCode);
-    
+
     /**
      * Returns all sensitive data records known to the module
+     * 
      * @return a List of all sensitive data known to the module
      */
     public List<PurchasingAccountsPayableSensitiveData> getAllSensitiveDatas();
-    
+
     /**
-     * 
      * This method...
+     * 
      * @param documentTypeCode
      * @return
      */
     public boolean isPurchasingBatchDocument(String documentTypeCode);
-    
+
     public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment);
-    
+
     public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate);
-    
+
 }

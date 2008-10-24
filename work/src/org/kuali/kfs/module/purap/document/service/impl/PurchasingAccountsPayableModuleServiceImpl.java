@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
@@ -37,43 +38,53 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
-    
+
     private PurchaseOrderService purchaseOrderService;
     private PurapService purapService;
     private DocumentService documentService;
 
     /**
-     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer, java.util.List)
+     * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer,
+     *      java.util.List)
      */
-    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers) {
+    public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
-              
+        String noteText = null;
+
         // Create and add the note.
-        String noteText = "Asset Numbers have been created for this document: ";
-        for(int i=0; i < assetNumbers.size(); i++) {
+        if (CabConstants.ASSET_GLOBAL_MAINTENANCE_DOCUMENT.equalsIgnoreCase(documentType)) {
+            noteText = "Asset Numbers have been created for this document: ";
+        }
+        else if (CabConstants.ASSET_PAYMENT_DOCUMENT.equalsIgnoreCase(documentType)) {
+            noteText = "Existing Asset Numbers have been applied for this document: ";
+        }
+
+        for (int i = 0; i < assetNumbers.size(); i++) {
             noteText += assetNumbers.get(i).toString();
-            if(i < assetNumbers.size() - 1) {
+            if (i < assetNumbers.size() - 1) {
                 noteText += ", ";
             }
         }
         try {
-            Note assetNote = documentService.createNoteFromDocument(document, noteText);
+            Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
+            // set the initiator user info to the new note
+            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authorId);
+            assetNote.setAuthorUniversalIdentifier(initiator.getPersonUniversalIdentifier());
             document.addNote(assetNote);
-            // suggested to save note rather save the whole doc since it's final 
-            //KNSServiceLocator.getNoteService().save(assetNote);
-        } catch ( Exception e ) {
+            KNSServiceLocator.getNoteService().save(assetNote);
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
-        // Save the document.
-        purapService.saveDocumentNoValidation(document);
     }
 
     /**
@@ -95,8 +106,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     public List<PurchasingAccountsPayableSensitiveData> getAllSensitiveDatas() {
         List<PurchasingAccountsPayableSensitiveData> sensitiveDatas = new ArrayList<PurchasingAccountsPayableSensitiveData>();
         Collection sensitiveDatasAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
-        for (Object rm: sensitiveDatasAsObjects) {
-            sensitiveDatas.add((PurchasingAccountsPayableSensitiveData)rm);
+        for (Object rm : sensitiveDatasAsObjects) {
+            sensitiveDatas.add((PurchasingAccountsPayableSensitiveData) rm);
         }
         return sensitiveDatas;
     }
@@ -107,11 +118,10 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     public PurchasingAccountsPayableSensitiveData getSensitiveDataByCode(String sensitiveDataCode) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("sensitiveDataCode", sensitiveDataCode);
-        return (PurchasingAccountsPayableSensitiveData)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
+        return (PurchasingAccountsPayableSensitiveData) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
 
     /**
-     * 
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#isPurchasingBatchDocument(java.lang.String)
      */
     public boolean isPurchasingBatchDocument(String documentTypeCode) {
@@ -122,19 +132,18 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * 
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchCancels(java.lang.String)
      */
     public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
         CreditMemoService creditMemoService = SpringContext.getBean(CreditMemoService.class);
-        
+
         String preqCancelNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
         String preqResetNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
         String cmCancelNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
         String cmResetNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
-        
+
         if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode)) {
             PaymentRequestDocument pr = paymentRequestService.getPaymentRequestByDocumentNumber(documentNumber);
             if (pr != null) {
@@ -166,7 +175,6 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     /**
-     * 
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchPaids(java.lang.String)
      */
     public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate) {
@@ -192,7 +200,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
                 LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
             }
         }
-        
+
     }
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {

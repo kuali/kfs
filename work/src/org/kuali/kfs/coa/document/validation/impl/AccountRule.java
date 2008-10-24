@@ -91,6 +91,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         this.setGeneralLedgerPendingEntryService(SpringContext.getBean(GeneralLedgerPendingEntryService.class));
         this.setBalanceService(SpringContext.getBean(BalanceService.class));
         this.setAccountService(SpringContext.getBean(AccountService.class));
+        this.setContractsAndGrantsModuleService(SpringContext.getBean(ContractsAndGrantsModuleService.class));
     }
 
     /**
@@ -1121,6 +1122,14 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      */
     public final void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    /**
+     * Sets the contractsAndGrantsModuleService attribute value.
+     * @param contractsAndGrantsModuleService The contractsAndGrantsModuleService to set.
+     */
+    public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
+        this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
     }
 
 }

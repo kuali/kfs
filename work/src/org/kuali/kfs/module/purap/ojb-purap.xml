@@ -528,7 +528,7 @@
     <reference-descriptor name="status" class-ref="org.kuali.kfs.module.purap.businessobject.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
-    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>

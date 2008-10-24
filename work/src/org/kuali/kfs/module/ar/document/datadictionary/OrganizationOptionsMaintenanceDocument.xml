@@ -31,6 +31,12 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="processingOrganization"
               p:attributeToHighlightOnFail="processingOrganizationCode" />
+        <bean parent="ReferenceDefinition"
+        	  p:attributeName="orgPostalZipCode" 
+        	  p:attributeToHighlightOnFail="organizationPostalZipCode" />
+        <bean parent="ReferenceDefinition"
+        	  p:attributeName="orgRemitToZipCode" 
+        	  p:attributeToHighlightOnFail="organizationRemitToZipCode" />
       </list>
     </property>
     <property name="lockingKeys" >

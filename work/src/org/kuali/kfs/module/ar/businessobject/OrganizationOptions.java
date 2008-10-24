@@ -4,10 +4,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
+import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -40,6 +43,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private Org processingOrganization;
     private State organizationRemitToState;
     private PrintInvoiceOptions printInvoiceOptions;
+    private PostalCode orgPostalZipCode;
+    private PostalCode orgRemitToZipCode;
     
 
     /**
@@ -566,6 +571,28 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 
     public void setOrganizationPostalZipCode(String organizationPostalZipCode) {
         this.organizationPostalZipCode = organizationPostalZipCode;
+    }
+
+    public PostalCode getOrgPostalZipCode() {
+        if(ObjectUtils.isNull(orgPostalZipCode)) {
+            orgPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationPostalZipCode);
+        }
+        return orgPostalZipCode;
+    }
+
+    public void setOrgPostalZipCode(PostalCode orgPostalZipCode) {
+        this.orgPostalZipCode = orgPostalZipCode;
+    }
+
+    public PostalCode getOrgRemitToZipCode() {
+        if(ObjectUtils.isNull(orgRemitToZipCode)) {
+            orgRemitToZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryId(organizationRemitToZipCode);
+        }
+        return orgRemitToZipCode;
+    }
+
+    public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
+        this.orgRemitToZipCode = orgRemitToZipCode;
     }
 
 }

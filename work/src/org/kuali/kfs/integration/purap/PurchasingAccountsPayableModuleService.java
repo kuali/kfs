@@ -37,6 +37,8 @@ public interface PurchasingAccountsPayableModuleService {
      * 
      * @param purchaseOrderNumber
      * @param assetNumbers
+     * @param authorId
+     * @param documentType
      */
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, List<Long> assetNumbers, String authorId, String documentType);
 

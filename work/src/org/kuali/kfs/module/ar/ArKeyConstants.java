@@ -164,7 +164,7 @@ public class ArKeyConstants {
         public static final String AMOUNT_TO_BE_APPLIED_MUST_BE_POSTIIVE = "error.document.paymentApplication.amountToBeAppliedMustBePositive";
         public static final String NON_AR_AMOUNT_REQUIRED = "error.document.paymentApplication.nonArLineRequired";
         public static final String NON_AR_AMOUNT_MUST_BE_POSITIVE = "error.document.paymentApplication.nonArLineAmountMustBePositive";
-
+        public static final String NON_AR_AMOUNT_EXCEEDS_SELECTED_INVOICE_BALANCE = "error.document.paymentApplication.nonArLineAmountExceedsInvoiceBalance";
     }
     
 }

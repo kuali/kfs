@@ -18,18 +18,13 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.Collection;
 
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PaymentApplicationDocumentRuleUtil {
@@ -40,28 +35,39 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param nonInvoiced
      * @return
      */
-    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced) {
+    public static boolean validateNonInvoiced(NonInvoiced nonInvoiced, KualiDecimal selectedInvoiceBalance) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
         
+        //  validate the NonInvoiced BO
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(nonInvoiced);
-        boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
+        if (errorMap.getErrorCount() != originalErrorCount) {
+            return false;
+        }
+        
+        boolean isValid = true;
+        KualiDecimal nonArLineAmount = nonInvoiced.getFinancialDocumentLineAmount();
+        
+        //  check that we're not trying to apply more funds to the invoice than the invoice has balance (ie, over-applying)
+        if (nonArLineAmount.isGreaterThan(selectedInvoiceBalance)) {
+            isValid = false;
+            errorMap.putError(
+                    ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_EXCEEDS_SELECTED_INVOICE_BALANCE);
+        }
         
         // check that dollar amount is not zero before continuing
-        if (isValid) {
-            KualiDecimal amount = nonInvoiced.getFinancialDocumentLineAmount();
-            if(null == amount) {
+        if(null == nonArLineAmount) {
+            isValid = false;
+            errorMap.putError(
+                ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
+                ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
+        } else {
+            if (nonArLineAmount.isZero()) {
                 isValid = false;
                 errorMap.putError(
                     ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_REQUIRED);
-            } else {
-                if (amount.isZero()) {
-                    isValid = false;
-                    errorMap.putError(
-                        ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_AMOUNT,
-                        ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
-                }
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_AMOUNT_MUST_BE_POSITIVE);
             }
         }
         

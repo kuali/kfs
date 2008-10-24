@@ -22,16 +22,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.CfdaService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -39,50 +40,53 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getAwardWorkgroupForAccount(java.lang.String,
+     *      java.lang.String)
+     */
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber) {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Long maxProposalNumber;
-        Map awardAccountMap = new HashMap();
-        Map awardMap = new HashMap();
-        awardAccountMap.put("chartOfAccountsCode", chartOfAccountsCode);
-        awardAccountMap.put("accountNumber", accountNumber);
-        Collection proposals = boService.findMatchingOrderBy(AwardAccount.class, awardAccountMap, "proposalNumber", false);
+        Map<String, Object> awardAccountMap = new HashMap<String, Object>();
+        awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+
+        Collection<AwardAccount> proposals = getBusinessObjectService().findMatchingOrderBy(AwardAccount.class, awardAccountMap, KFSPropertyConstants.PROPOSAL_NUMBER, false);
         if (proposals != null && !proposals.isEmpty()) {
-            maxProposalNumber = ((AwardAccount) proposals.iterator().next()).getProposalNumber();
-            awardMap.put("proposalNumber", maxProposalNumber);
-            return ((Award) boService.findByPrimaryKey(Award.class, awardMap)).getWorkgroupName();
-        }
-        else {
-            return null;
+            Long maxProposalNumber = proposals.iterator().next().getProposalNumber();
+
+            Map<String, Object> awardMap = new HashMap<String, Object>();
+            awardMap.put(KFSPropertyConstants.PROPOSAL_NUMBER, maxProposalNumber);
+
+            return ((Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardMap)).getWorkgroupName();
         }
 
+        return null;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
+     *      java.lang.String)
+     */
     public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        Long maxProposalNumber;
-        Map awardAccountMap = new HashMap();
-        Map awardMap = new HashMap();
-        awardAccountMap.put("chartOfAccountsCode", chartOfAccountsCode);
-        awardAccountMap.put("accountNumber", accountNumber);
-        Collection proposals = boService.findMatchingOrderBy(AwardAccount.class, awardAccountMap, "proposalNumber", false);
+        Map<String, Object> awardAccountMap = new HashMap<String, Object>();
+        awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+
+        Collection<AwardAccount> proposals = getBusinessObjectService().findMatchingOrderBy(AwardAccount.class, awardAccountMap, KFSPropertyConstants.PROPOSAL_NUMBER, false);
         if (proposals != null && !proposals.isEmpty()) {
-            maxProposalNumber = ((AwardAccount) proposals.iterator().next()).getProposalNumber();
-            awardMap.put("proposalNumber", maxProposalNumber);
-            return ((AwardAccount) boService.findByPrimaryKey(AwardAccount.class, awardMap)).getProjectDirector().getUniversalUser();
-        }
-        else {
-            return null;
+            AwardAccount proposalWithMaxProposalNumber = proposals.iterator().next();
+
+            return proposalWithMaxProposalNumber.getProjectDirector().getUniversalUser();
         }
 
+        return null;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
     public UniversalUser getProjectDirectorForAccount(Account account) {
-        if(account != null) {
-            String chartOfAccountsCode = account.getChartOfAccountsCode(); 
+        if (account != null) {
+            String chartOfAccountsCode = account.getChartOfAccountsCode();
             String accountNumber = account.getAccountNumber();
             return this.getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);
         }
@@ -90,7 +94,8 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String, java.lang.String, java.util.List)
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
+     *      java.lang.String, java.util.List)
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
         AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
@@ -105,7 +110,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
         return false;
     }
-    
+
     /**
      * get the primary award account for the given account
      * 
@@ -115,13 +120,13 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     private AwardAccount getPrimaryAwardAccount(String chartOfAccountsCode, String accountNumber) {
         AwardAccount primaryAwardAccount = null;
         long highestProposalNumber = 0;
-        
-        Map accountKeyValues = new HashMap();
-        accountKeyValues.put("chartOfAccountsCode", chartOfAccountsCode);
-        accountKeyValues.put("accountNumber", accountNumber);
+
+        Map<String, Object> accountKeyValues = new HashMap<String, Object>();
+        accountKeyValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        accountKeyValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
 
         for (Object awardAccountAsObject : getBusinessObjectService().findMatching(AwardAccount.class, accountKeyValues)) {
-            AwardAccount awardAccount = (AwardAccount)awardAccountAsObject;
+            AwardAccount awardAccount = (AwardAccount) awardAccountAsObject;
             Long proposalNumber = awardAccount.getProposalNumber();
 
             if (proposalNumber >= highestProposalNumber) {
@@ -132,9 +137,57 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
         return primaryAwardAccount;
     }
-    
+
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getAllAccountReponsiblityIds()
+     */
+    public List<Integer> getAllAccountReponsiblityIds() {
+        int maxResponsibilityId = this.getMaxiumAccountResponsibilityId();
+
+        List<Integer> contractsAndGrantsReponsiblityIds = new ArrayList<Integer>();
+        for (int id = 1; id <= maxResponsibilityId; id++) {
+            contractsAndGrantsReponsiblityIds.add(id);
+        }
+
+        return contractsAndGrantsReponsiblityIds;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#hasValidAccountReponsiblityIdIfExists(org.kuali.kfs.coa.businessobject.Account)
+     */
+    public boolean hasValidAccountReponsiblityIdIfNotNull(Account account) {
+        Integer accountResponsiblityId = account.getContractsAndGrantsAccountResponsibilityId();
+
+        if (accountResponsiblityId == null) {
+            return true;
+        }
+
+        return accountResponsiblityId >= 1 && accountResponsiblityId <= this.getMaxiumAccountResponsibilityId();
+    }
+
+    /**
+     * retieve the maxium account responsiblity id from system parameter
+     * 
+     * @return the maxium account responsiblity id from system parameter
+     */
+    private int getMaxiumAccountResponsibilityId() {
+        String maxResponsibilityId = getParameterService().getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, CGConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
+
+        return Integer.valueOf(maxResponsibilityId);
+    }
+
+    /**
+     * Returns an implementation of the parameterService
+     * 
+     * @return an implementation of the parameterService
+     */
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
+    }
+
     /**
      * Returns the default implementation of the C&G AgencyService
+     * 
      * @return an implementation of AgencyService
      */
     public AgencyService getAgencyService() {
@@ -149,7 +202,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     public CfdaService getCfdaService() {
         return SpringContext.getBean(CfdaService.class);
     }
-    
+
     /**
      * Returns an implementation of the BusinessObjectService
      * 

@@ -24,9 +24,9 @@ public interface ContractsAndGrantsModuleService {
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);
 
     public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
-    
+
     public UniversalUser getProjectDirectorForAccount(Account account);
-    
+
     /**
      * determine if the given account is awarded by a federal agency
      * 
@@ -37,4 +37,19 @@ public interface ContractsAndGrantsModuleService {
      *         false
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes);
+
+    /**
+     * get all possible account responsibility ids on contracts & grants Accounts
+     * 
+     * @return all possible account responsibility ids on contracts & grants Accounts
+     */
+    public List<Integer> getAllAccountReponsiblityIds();
+
+    /**
+     * determine whether the given account has a valid responsibility id if its responsibility id is not null
+     * 
+     * @param account the given account
+     * @return true if the given account is a contracts & grants account with a valid responsibility id; otherwise, return false
+     */
+    public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
 }

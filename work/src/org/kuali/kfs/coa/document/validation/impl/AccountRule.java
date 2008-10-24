@@ -32,6 +32,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -74,6 +75,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private BalanceService balanceService;
     private AccountService accountService;
+    private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     private Account oldAccount;
     private Account newAccount;
@@ -665,6 +667,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         // Income Stream account is required if this account is CG fund group,
         // or GF (general fund) fund group (with some exceptions)
         success &= checkIncomeStreamValid(newAccount);
+        
+        // check if the new account has a valid responsibility id
+        success &= contractsAndGrantsModuleService.hasValidAccountReponsiblityIdIfNotNull(newAccount);
 
         return success;
     }

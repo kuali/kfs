@@ -108,6 +108,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String incomeStreamAccountNumber;
     private String indirectCostRcvyFinCoaCode;
     private String indirectCostRecoveryAcctNbr;
+    private Integer contractsAndGrantsAccountResponsibilityId;
 
     private Chart chartOfAccounts;
     private Chart endowmentIncomeChartOfAccounts;
@@ -157,7 +158,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Account() {
         active = true; // assume active is true until set otherwise
     }
-    
+
     /**
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
@@ -751,22 +752,20 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     /**
      * Gets the related CFDA record for this account
+     * 
      * @return a CFDA record
      */
     public ContractsAndGrantsCfda getCfda() {
-        return cfda = (ContractsAndGrantsCfda)SpringContext.getBean(KualiModuleService.class)
-                    .getResponsibleModuleService(ContractsAndGrantsCfda.class)
-                    .retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
+        return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
     }
-    
+
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
-        // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the pike
-        awards = (List)SpringContext.getBean(KualiModuleService.class)
-                        .getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class)
-                        .retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
+        // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the
+        // pike
+        awards = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class).retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
         return awards;
     }
-    
+
     public void setAwards(List awards) {
         this.awards = awards;
     }
@@ -809,12 +808,13 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     /**
      * Returns whether this account is not active or not
+     * 
      * @return the opposite of isActive()
      */
     public boolean isClosed() {
         return !active;
     }
-    
+
     /**
      * Sets the closed attribute.
      * 
@@ -1519,7 +1519,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     /**
      * @param subFundGroupCode The subFundGroupCode to set.
      */
-    public void setSubFundGroupCode(String subFundGroupCode) {        
+    public void setSubFundGroupCode(String subFundGroupCode) {
         this.subFundGroupCode = subFundGroupCode;
         forContractsAndGrants = null;
     }
@@ -1822,7 +1822,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the forContractsAndGrants.
      */
     public boolean isForContractsAndGrants() {
-        if ( forContractsAndGrants == null ) {
+        if (forContractsAndGrants == null) {
             forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
         }
         return forContractsAndGrants;
@@ -1840,5 +1840,21 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         return SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(getChartOfAccountsCode(), getAccountNumber(), federalAgencyTypeCodes);
     }
 
-    
+    /**
+     * Gets the contractsAndGrantsAccountResponsibilityId attribute.
+     * 
+     * @return Returns the contractsAndGrantsAccountResponsibilityId.
+     */
+    public Integer getContractsAndGrantsAccountResponsibilityId() {
+        return contractsAndGrantsAccountResponsibilityId;
+    }
+
+    /**
+     * Sets the contractsAndGrantsAccountResponsibilityId attribute value.
+     * 
+     * @param contractsAndGrantsAccountResponsibilityId The contractsAndGrantsAccountResponsibilityId to set.
+     */
+    public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
+        this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
+    }
 }

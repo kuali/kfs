@@ -91,6 +91,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-accountDescription.responsibilityCenterDescription" />
         <ref bean="Account-accountDescription.campusCode" />
         <ref bean="Account-accountDescription.buildingCode" />
+        <ref bean="Account-contractsAndGrantsAccountResponsibilityId" />
       </list>
     </property>
     <property name="collections" >
@@ -890,6 +891,25 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountDescription.buildingCode-parentBean" abstract="true" parent="AccountDescription-buildingCode">
     <property name="name" value="accountDescription.buildingCode" />
   </bean>
+  
+  <bean id="Account-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean" />
+  <bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="contractsAndGrantsAccountResponsibilityId" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="CG Account Responsibility Id" />
+    <property name="shortLabel" value="Responsibility Id" />
+    <property name="maxLength" value="4" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="&amp;nbsp;" />
+    <property name="description" value="The Contracts &amp; Grants Responsibility Id on a Contracts &amp; Grants Account" />
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -963,6 +983,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <dd:field attributeName="indirectCostRcvyFinCoaCode" />
               <dd:field attributeName="indirectCostRecoveryAcctNbr" />
               <dd:field attributeName="accountCfdaNumber" />
+              <dd:field attributeName="contractsAndGrantsAccountResponsibilityId" />
             </list>
           </property>
         </bean>

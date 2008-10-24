@@ -231,4 +231,7 @@ public class CGConstants extends JSTLConstants {
     public static class AuthorizationConstants extends org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";
     }
+    
+    // Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. 
+    public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 }

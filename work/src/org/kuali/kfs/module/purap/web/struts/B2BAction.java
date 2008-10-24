@@ -25,9 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
-import org.kuali.kfs.module.purap.document.web.struts.RequisitionForm;
-import org.kuali.kfs.module.purap.exception.CxmlParseError;
-import org.kuali.kfs.module.purap.exception.MissingContractIdError;
+import org.kuali.kfs.module.purap.exception.B2BConnectionException;
+import org.kuali.kfs.module.purap.exception.B2BShoppingException;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,7 +42,7 @@ public class B2BAction extends KualiAction {
         String url = SpringContext.getBean(B2BShoppingService.class).getPunchOutUrl(GlobalVariables.getUserSession().getFinancialSystemUser());
 
         if (ObjectUtils.isNull(url)) {
-            // FIXME blow up
+            throw new B2BConnectionException("Unable to connect to remote site for punchout.");
         }
 
         b2bForm.setShopUrl(url);
@@ -58,7 +57,6 @@ public class B2BAction extends KualiAction {
 
         if (cart.isSuccess()) {
             List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getFinancialSystemUser());
-            LOG.debug("executeLogic() REQS RETURNED TO ACTION");
             if (requisitions.size() > 1) {
                 request.getSession().setAttribute("multipleB2BRequisitions", "true");
             }
@@ -66,9 +64,8 @@ public class B2BAction extends KualiAction {
             request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
         }
         else {
-            LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful.");
-            GlobalVariables.getErrorMap().putError("errorkey", "errors.b2b.nocart");
-            //FIXME goto error page
+            LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful. Error message:" + cart.getStatusText());
+            throw new B2BShoppingException("Retrieving shopping cart from cxml was unsuccessful. Error message:" + cart.getStatusText());
         }
 
         return (mapping.findForward("removeframe"));

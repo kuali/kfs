@@ -21,18 +21,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.B2BDao;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.exception.B2BRemoteError;
+import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -109,14 +107,14 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
                         String errorMessage = (String) iter.next();
                         if (ObjectUtils.isNotNull(errorMessage)) {
                             LOG.error("sendPurchaseOrder(): SciQuest error message for po number " + purchaseOrder.getPurapDocumentIdentifier() + ": " + errorMessage);
-                            transmitErrors.append("Error sending PO: " + errorMessage);
+                            transmitErrors.append("Error sending Purchase Order: " + errorMessage);
                         }
                     }
                 }
             }
         }
-        catch (B2BRemoteError sqre) {
-            LOG.error("sendPurchaseOrder() Error sendng", sqre);
+        catch (B2BConnectionException e) {
+            LOG.error("sendPurchaseOrder() Error connecting to b2b", e);
             transmitErrors.append("Connection to Sciquest failed.");
         }
         catch (CxmlParseError e) {

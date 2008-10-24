@@ -16,19 +16,20 @@
 package org.kuali.kfs.module.purap.exception;
 
 public class CxmlParseError extends Error {
-  public CxmlParseError() {
-    super();
-  }
 
-  public CxmlParseError(String arg0) {
-    super(arg0);
-  }
+    public CxmlParseError() {
+        super();
+    }
 
-  public CxmlParseError(String arg0, Throwable arg1) {
-    super(arg0, arg1);
-  }
+    public CxmlParseError(String arg0) {
+        super(arg0);
+    }
 
-  public CxmlParseError(Throwable arg0) {
-    super(arg0);
-  }
+    public CxmlParseError(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
+
+    public CxmlParseError(Throwable arg0) {
+        super(arg0);
+    }
 }

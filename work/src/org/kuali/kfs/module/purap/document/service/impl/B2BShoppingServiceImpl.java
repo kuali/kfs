@@ -35,13 +35,12 @@ import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
-import org.kuali.kfs.module.purap.exception.MissingContractIdError;
+import org.kuali.kfs.module.purap.exception.B2BShoppingException;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -64,10 +63,12 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(B2BShoppingServiceImpl.class);
 
     private B2BDao b2bDao;
+    private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private DocumentService documentService;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
+    private PersistenceService persistenceService;
     private PhoneNumberService phoneNumberService;
     private PurchasingService purchasingService;
     private PurapService purapService;
@@ -151,14 +152,12 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
                 }
             }
             else {
-                throw new MissingContractIdError("Contract ID is missing for vendor " + vendor.getVendorName());
+                LOG.error("createRequisitionsFromCxml() Contract is missing for vendor " + vendor.getVendorName() + " (" + vendor.getVendorNumber() + ")");
+                throw new B2BShoppingException("Contract is missing for vendor " + vendor.getVendorName() + " (" + vendor.getVendorNumber() + ")");
             }
 
-            String dunsNumber = vendor.getVendorDunsNumber();
-
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, dunsNumber, user.getPersonUserIdentifier());
-            String supplierId = getExternalSupplierId(items, dunsNumber);
+            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber(), user.getPersonUserIdentifier());
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
@@ -179,35 +178,20 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
-            req.setExternalOrganizationB2bSupplierIdentifier(supplierId);
+            req.setExternalOrganizationB2bSupplierIdentifier(getExternalSupplierId(items, vendor.getVendorDunsNumber()));
             req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
 
-            // set address
+            // retrieve default PO address and set address
             VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.PURCHASE_ORDER, user.getCampusCode());
             if (ObjectUtils.isNotNull(vendorAddress)) {
                 req.templateVendorAddress(vendorAddress);
-                req.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
-            }
-            else {
-                // FIXME (hjs-b2b) not sure this data is populated; may need to call updateDefault method (should
-                // updateDefaultvendoraddress be moved from PO service into vendor?)
-                req.setVendorLine1Address(vendor.getDefaultAddressLine1());
-                req.setVendorLine2Address(vendor.getDefaultAddressLine2());
-                req.setVendorCityName(vendor.getDefaultAddressCity());
-                req.setVendorStateCode(vendor.getDefaultAddressStateCode());
-                req.setVendorPostalCode(vendor.getDefaultAddressPostalCode());
-                req.setVendorCountryCode(vendor.getDefaultAddressCountryCode());
-                req.setVendorFaxNumber(vendor.getDefaultFaxNumber());
-                req.setVendorAddressGeneratedIdentifier(vendor.getVendorHeaderGeneratedIdentifier());
             }
 
-            // retrieve billing address based on delivery campus
+            // retrieve billing address based on delivery campus and populate REQ with retrieved billing address
             BillingAddress billingAddress = new BillingAddress();
             billingAddress.setBillingCampusCode(req.getDeliveryCampusCode());
-            Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-            billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
-
-            // populate REQ with retrieved billing address
+            Map keys = persistenceService.getPrimaryKeyFieldValues(billingAddress);
+            billingAddress = (BillingAddress) businessObjectService.findByPrimaryKey(BillingAddress.class, keys);
             req.templateBillingAddress(billingAddress);
 
             // populate receiving address with the default one for the chart/org
@@ -222,36 +206,6 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             requisitions.add(req);
         }
         return requisitions;
-    }
-
-    /**
-     * Get all the vendors in a single shopping cart by the DUNS number. Currently not using this, but leaving it in case an
-     * institutions prefers to track DUNS #s
-     * 
-     * @param items Items in the shopping cart
-     * @return List of VendorDetails for each vendor in the shopping cart
-     */
-    private List getAllVendorsByDuns(List items) {
-        LOG.debug("getAllVendorsByDuns() started");
-
-        Set vendorDuns = new HashSet();
-        for (Iterator iter = items.iterator(); iter.hasNext();) {
-            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            vendorDuns.add(item.getSupplier("DUNS"));
-        }
-
-        ArrayList vendors = new ArrayList();
-        for (Iterator iter = vendorDuns.iterator(); iter.hasNext();) {
-            String duns = (String) iter.next();
-            VendorDetail vd = vendorService.getVendorByDunsNumber(duns);
-            if (vd == null) {
-                LOG.error("getAllVendorsByDuns() Invalid DUNS number from shopping cart: " + duns);
-                throw new IllegalArgumentException("Invalid DUNS number from shopping cart: " + duns);
-            }
-            vendors.add(vd);
-        }
-
-        return vendors;
     }
 
     /**
@@ -273,11 +227,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
             String vendorNumber = (String) iter.next();
             VendorDetail vd = vendorService.getVendorDetail(vendorNumber);
-            if (vd == null) {
-                LOG.error("getAllVendors() Invalid vendor number from shopping cart: " + vendorNumber);
-                throw new IllegalArgumentException("Invalid vendor number from shopping cart: " + vendorNumber);
+            if (ObjectUtils.isNotNull(vd)) {
+                vendors.add(vd);
             }
-            vendors.add(vd);
+            else {
+                LOG.error("getAllVendors() Invalid vendor number from shopping cart: " + vendorNumber);
+                throw new B2BShoppingException("Invalid vendor number from shopping cart: " + vendorNumber);
+            }
         }
 
         return vendors;
@@ -287,18 +243,18 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * Get all the items for a specific vendor
      * 
      * @param items List of all items
-     * @param vendorDuns Vendor DUNS
+     * @param vendorId  String containing "vendorHeaderId-vendorDetailId"
      * @param updateUserId last update user id
-     * @return list of RequisitionItems for a specific DUNS
+     * @return list of RequisitionItems for a specific vendor id
      */
-    private List getAllVendorItems(List items, String vendorDuns, String updateUserId) {
+    private List getAllVendorItems(List items, String vendorId, String updateUserId) {
         LOG.debug("getAllVendorItems() started");
 
         // First get all the ShoppingCartItems for this vendor in a list
         List scItems = new ArrayList();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            if (vendorDuns.equals(item.getSupplier("DUNS"))) {
+            if (vendorId.equals(item.getExtrinsic("ExternalSupplierId"))) {
                 scItems.add(item);
             }
         }
@@ -342,14 +298,11 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         List scItems = new ArrayList();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-
             if (vendorDuns.equals(item.getSupplier("DUNS"))) {
-                id = item.getSupplier("SystemSupplierID");
+                return item.getSupplier("SystemSupplierID");
             }
-
         }
-
-        return id;
+        return "";
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -386,6 +339,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
     }
 
 }

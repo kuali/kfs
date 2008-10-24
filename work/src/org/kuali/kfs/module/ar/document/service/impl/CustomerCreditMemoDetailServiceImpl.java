@@ -34,14 +34,13 @@ public class CustomerCreditMemoDetailServiceImpl implements CustomerCreditMemoDe
         Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();
         
         BigDecimal itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
-        KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
 
         // if item quantity was entered
         if (ObjectUtils.isNotNull(itemQuantity))
-            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate);
+            customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(customerCreditMemoDocument);
         // if item amount was entered
         else
-            customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate);
+            customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(customerCreditMemoDocument);
         
         customerCreditMemoDocument.recalculateTotalsBasedOnChangedItemAmount(customerCreditMemoDetail);                                                                                                                                                           
     }

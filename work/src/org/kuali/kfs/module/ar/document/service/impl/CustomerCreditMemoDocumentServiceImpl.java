@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -36,7 +37,6 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         BigDecimal itemQuantity;
         
         String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
-        KualiDecimal taxRate = customerCreditMemoDocument.getTaxRate();
         List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
         
         if (!blanketApproveDocumentEventFlag)
@@ -54,16 +54,17 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
             
             // if item quantity was entered
             if (ObjectUtils.isNotNull(itemQuantity)) {
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(taxRate);
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemQty(customerCreditMemoDocument);
                 if (!blanketApproveDocumentEventFlag)
                     customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             } // if item amount was entered
             else {
-                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(taxRate);
+                customerCreditMemoDetail.recalculateBasedOnEnteredItemAmount(customerCreditMemoDocument);
             }
             if (!blanketApproveDocumentEventFlag) {
                 customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
-                customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount);
+                boolean isCustomerInvoiceDetailTaxable = SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail());
+                customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount,isCustomerInvoiceDetailTaxable);
             }
         }
     }

@@ -24,12 +24,16 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kns.bo.Campus;
@@ -64,7 +68,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String bankCode;
     
     private boolean unmatchedOverride; // not persisted
-
+    
     // NOT PERSISTED IN DB
     // BELOW USED BY ROUTING
     private String chartOfAccountsCode;
@@ -74,6 +78,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     // BELOW USED BY GL ENTRY CREATION
     private boolean generateEncumbranceEntries;
     private String debitCreditCodeForGLEntries;
+    protected PurApItemUseTax offsetUseTax;
 
     // REFERENCE OBJECTS
     private Campus processingCampus;
@@ -556,6 +561,29 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             return (KualiDecimal.ZERO.equals(this.getTotalTaxAmount()))?null:this.getTotalTaxAmount();
         }
         return null;
+    }
+
+    @Override
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean value = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+        if(offsetEntry != null && this.offsetUseTax != null) {
+            offsetEntry.setChartOfAccountsCode(this.offsetUseTax.getChartOfAccountsCode());
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.CHART);
+            offsetEntry.setAccountNumber(this.offsetUseTax.getAccountNumber());
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+            offsetEntry.setFinancialObjectCode(this.offsetUseTax.getFinancialObjectCode());
+            offsetEntry.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
+        } else {
+            value=false;
+        }
+        return value;
+    }
+
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PurApItemUseTax offsetUseTax) {
+        this.offsetUseTax = offsetUseTax; 
+        boolean value = this.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
+        this.offsetUseTax = null;
+        return value;
     }
     
 }

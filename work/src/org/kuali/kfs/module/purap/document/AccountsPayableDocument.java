@@ -18,8 +18,12 @@ package org.kuali.kfs.module.purap.document;
 import java.sql.Date;
 
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -128,6 +132,6 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
 
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
     
-    
+    public abstract boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PurApItemUseTax offsetUseTax); 
 
 }

@@ -17,8 +17,8 @@ package org.kuali.kfs.module.purap.util;
 
 import java.util.List;
 
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
-import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -26,20 +26,24 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * .
  * This is a special class used to hold accounts that are used for use tax and the associated offset
  */
-public class UseTaxAccount {
+public class UseTaxContainer {
 
     private PurApItemUseTax useTax;
     private List<SourceAccountingLine> accounts;
+    private List<PurApItem> items;
     
-    public UseTaxAccount() {
+    public UseTaxContainer() {
         super();
         accounts = new TypedArrayList(SourceAccountingLine.class);
+        items = new TypedArrayList(PurApItem.class);
     }
 
-    public UseTaxAccount(PurApItemUseTax useTax) {
+    public UseTaxContainer(PurApItemUseTax useTax,PurApItem item) {
         super();
         this.useTax = useTax;
         accounts = new TypedArrayList(SourceAccountingLine.class);
+        items = new TypedArrayList(PurApItem.class);
+        items.add(item);
     }
     
     public PurApItemUseTax getUseTax() {
@@ -53,6 +57,14 @@ public class UseTaxAccount {
     }
     public void setAccounts(List<SourceAccountingLine> accounts) {
         this.accounts = accounts;
+    }
+
+    public List<PurApItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<PurApItem> items) {
+        this.items = items;
     }
 
  

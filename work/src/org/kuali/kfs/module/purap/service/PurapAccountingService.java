@@ -23,6 +23,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
+import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -219,4 +220,12 @@ public interface PurapAccountingService {
      * @param pr The payment request document containing the accounts whose percentage would be set.
      */
     public void convertMoneyToPercent(PaymentRequestDocument pr);
+    
+    /**
+     * 
+     * Generates use tax helper class for a purap document
+     * @param document
+     * @return useTaxContainer
+     */
+    public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document);
 }

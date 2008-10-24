@@ -18,13 +18,12 @@ package org.kuali.kfs.module.purap.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -33,6 +32,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTaxBase;
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -42,7 +42,7 @@ import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
-import org.kuali.kfs.module.purap.util.UseTaxAccount;
+import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -556,8 +556,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
 
         // convert list of PurApAccountingLine objects to SourceAccountingLineObjects
+        Iterator<PurApAccountingLine> iterator = accountMap.keySet().iterator();
         List<SourceAccountingLine> sourceAccounts = new ArrayList<SourceAccountingLine>();
-        for (Iterator<PurApAccountingLine> iter = accountMap.keySet().iterator(); iter.hasNext();) {
+        for (Iterator<PurApAccountingLine> iter = iterator; iter.hasNext();) {
             PurApAccountingLine accountToConvert = (PurApAccountingLine) iter.next();
             if (accountToConvert.isEmpty()) {
                 String errorMessage = "Found an 'empty' account in summary generation " + accountToConvert.toString();
@@ -684,14 +685,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @param sourceAccountingLines
      * @param totalAmount
      */
-    private void updateAccountAmountsWithTotal(List<PurApAccountingLine> sourceAccountingLines, KualiDecimal totalAmount) {
+    private <T extends PurApAccountingLine> void updateAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
         if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
 
             KualiDecimal accountTotal = KualiDecimal.ZERO;
-            PurApAccountingLine lastAccount = null;
+            T lastAccount = null;
 
             
-            for (PurApAccountingLine account : sourceAccountingLines) {
+            for (T account : sourceAccountingLines) {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
                     account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString()))));
@@ -711,7 +712,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
         else {
             // zero out if extended price is zero
-            for (PurApAccountingLine account : sourceAccountingLines) {
+            for (T account : sourceAccountingLines) {
                 account.setAmount(KualiDecimal.ZERO);
             }
         }
@@ -818,7 +819,110 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return vendorSummaryAccounts;
     }
     
-
+    /**
+     * 
+     * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateUseTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document) {
+        List<UseTaxContainer> useTaxAccounts = new ArrayList<UseTaxContainer>();
+        
+        HashMap<PurApItemUseTax,UseTaxContainer> useTaxItemMap = new  HashMap<PurApItemUseTax,UseTaxContainer>();
+        Class accountingLineClass = null;
+          if(!document.isUseTaxIndicator()) {
+              //not useTax, return
+              return useTaxAccounts;
+          }
+        for (PurApItem purApItem : document.getItems()) {
+            if(!purApItem.getUseTaxItems().isEmpty()) {
+                if(accountingLineClass==null) {
+                    accountingLineClass = purApItem.getAccountingLineClass();
+                }
+                UseTaxContainer useTaxContainer=new UseTaxContainer();
+                for (PurApItemUseTax itemUseTax : purApItem.getUseTaxItems()) {
+                    if(useTaxItemMap.containsKey(itemUseTax)) {
+                       useTaxContainer = useTaxItemMap.get(itemUseTax);
+                       PurApItemUseTax exisitingItemUseTax = useTaxContainer.getUseTax();
+                       //if already in set we need to add on the old amount
+                       exisitingItemUseTax.getTaxAmount().add(itemUseTax.getTaxAmount());
+                       useTaxContainer.getItems().add(purApItem);
+                    } else {
+                        useTaxContainer = new UseTaxContainer(itemUseTax,purApItem);
+                        useTaxItemMap.put(itemUseTax, useTaxContainer);
+                    }
+                    
+                }
+                useTaxAccounts.add(useTaxContainer);
+            }
+        }
+        // iterate over useTaxAccounts and set summary accounts using proration
+        for (UseTaxContainer useTaxContainer : useTaxAccounts) {
+            
+            //create summary from items
+            List<SourceAccountingLine> origSourceAccounts = this.generateSummaryWithNoZeroTotals(useTaxContainer.getItems());
+            //prorate to update amounts and come back with one list
+            List<PurApAccountingLine> accountingLines = generateAccountDistributionForProration(origSourceAccounts, useTaxContainer.getUseTax().getTaxAmount(), PurapConstants.PRORATION_SCALE, 
+                                                        accountingLineClass);
+            List<SourceAccountingLine> newSourceLines = new ArrayList<SourceAccountingLine>();
+            //convert back to source
+            for (PurApAccountingLine purApAccountingLine : accountingLines) {
+                newSourceLines.add(purApAccountingLine.generateSourceAccountingLine());
+            }
+            //do we need an update accounts here?
+            useTaxContainer.setAccounts(newSourceLines);
+        }
+        
+        
+        useTaxAccounts=new ArrayList<UseTaxContainer>(useTaxItemMap.values());
+        return useTaxAccounts;
+//        List<PurApItem> taxableItems = new ArrayList<PurApItem>();
+//        List<SourceAccountingLine> sourceAccounts = new ArrayList<SourceAccountingLine>();
+//        Set<PurApItemUseTax> useTaxSet = new HashSet<PurApItemUseTax>(10);
+//        if(!document.isUseTaxIndicator()) {
+//            //not use, return
+//            return useTaxAccounts;
+//        }
+//        for (PurApItem purApItem : document.getItems()) {
+//            if(!purApItem.getUseTaxItems().isEmpty()) {
+//                taxableItems.add(purApItem);
+//            }
+//        }
+//        if(taxableItems.isEmpty()) {
+//            //no taxable items? return I guess
+//            return useTaxAccounts;
+//        }
+//        sourceAccounts = generateSummaryWithNoZeroTotals(taxableItems);
+//        boolean firstItem = true;
+//        //FIXME: don't seem to be gaining much from the set here
+//        for (PurApItem item : taxableItems) {
+//            for (PurApItemUseTax useTaxItem : item.getUseTaxItems()) {
+//                PurApItemUseTax foundUseTaxItem = null;
+//                if(useTaxSet.contains(useTaxItem)) {
+//                    for (PurApItemUseTax purApItemUseTax : useTaxSet) {
+//                        if(useTaxItem.equals(purApItemUseTax)) {
+//                            foundUseTaxItem = purApItemUseTax;
+//                            break;
+//                        }
+//                    }
+//                    if(foundUseTaxItem!=null) {
+//                        foundUseTaxItem.setTaxAmount(foundUseTaxItem.getTaxAmount().add(useTaxItem.getTaxAmount()));
+//                    } else {
+//                        LOG.error("PurApAccountingService.generateUseTaxAmount(): broken assumption, guessing .equals != .hashcode on useTaxItem"); 
+//                    }
+//                } else {
+//                    if(firstItem){
+//                        useTaxSet.add(useTaxItem);
+//                    } else {
+//                        LOG.error("PurApAccountingService.generateUseTaxAmount(): broken assumption, use tax items not the same on all items");
+//                        //TODO: should this be runtime exception?
+//                    }
+//                }
+//            }
+//            firstItem=false;
+//        }
+//        //TODO: refactor above to get all (nonzero?) items associated with a specific useTaxItem
+//        //consider using MultiValueMap
+//        MultiValueMap useTaxItemMap = new MultiValueMap();
+    }
     
     public PurApAccountingDao getPurApAccountingDao() {
         return purApAccountingDao;

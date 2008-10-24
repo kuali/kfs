@@ -393,11 +393,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        // The acquisition type code of (C, F, G, N, P, S, T) requires a capital object code.
-        if (assetGlobalService.existsInGroup(CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACCQUISITION_CODE_GROUP, assetGlobal.getAcquisitionTypeCode()) && !assetGlobalService.isCapitablObjectCode(objectCode)) {
-            GlobalVariables.getErrorMap().putError(CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_OBJECT_CODE_REQUIRED);
-            valid = false;
-        }
+        // The acquisition type code of (F, G, N, S, T) requires a capital object code.
+        valid &= SpringContext.getBean(ParameterService.class).getParameterEvaluator(AssetGlobal.class, CamsConstants.Parameters.VALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, CamsConstants.Parameters.INVALID_OBJECT_SUB_TYPES_BY_ACQUISITION_TYPE, assetGlobal.getAcquisitionTypeCode(), objectCode.getFinancialObjectSubTypeCode()).evaluateAndAddError(ObjectCode.class, CamsPropertyConstants.Asset.FINANCIAL_OBJECT_SUB_TYP_CODE, CamsPropertyConstants.AssetPaymentDetail.FINANCIAL_OBJECT_CODE);
         return valid;
     }
 

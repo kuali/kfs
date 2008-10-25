@@ -110,7 +110,7 @@
 		</javadoc>
 	</target>
 
-	<target name="clean-help" if="do.filter-project-help" depends="init-property-files">
+	<target name="clean-help" if="do.filter.project.help" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${help.directory}/**" />
@@ -118,7 +118,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-rice" unless="dont.filter-project-rice" depends="init-property-files">
+	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-property-files">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${licenses.directory}/${rice.name}/**" />
@@ -152,7 +152,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-local-work" if="is.local.build" unless="dont.clean-local-work" depends="init-property-files">
+	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-property-files">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
 		</delete>
@@ -196,11 +196,11 @@
 		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
 	
-	<target name="filter-project-help" if="do.filter-project-help" depends="init-properties">
+	<target name="filter-project-help" if="do.filter.project.help" depends="init-properties">
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
 	</target>
 
-	<target name="filter-project-rice" unless="dont.filter-project-rice" depends="init-properties">
+	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>

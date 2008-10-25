@@ -46,7 +46,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
         // populate BudgetConstructionIntendedIncumbent
         BudgetConstructionIntendedIncumbent bcIncumbent = new BudgetConstructionIntendedIncumbent();
         bcIncumbent.setEmplid(incumbent.getEmplid());
-        bcIncumbent.setPersonName(incumbent.getPersonName());
+        bcIncumbent.setName(incumbent.getName());
 
         // check if incumbent already exists in budget incumbent table, if not add incumbent
         BudgetConstructionIntendedIncumbent retrievedIncumbent = getByPrimaryId(emplid);
@@ -67,7 +67,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
         // populate BudgetConstructionIntendedIncumbent
         BudgetConstructionIntendedIncumbent bcIncumbent = new BudgetConstructionIntendedIncumbent();
         bcIncumbent.setEmplid(incumbent.getEmplid());
-        bcIncumbent.setPersonName(incumbent.getPersonName());
+        bcIncumbent.setName(incumbent.getName());
 
         // update budget record
         BudgetConstructionIntendedIncumbent retrievedIncumbent = getByPrimaryId(emplid);
@@ -104,3 +104,4 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
         this.humanResourcesPayrollService = humanResourcesPayrollService;
     }
 }
+

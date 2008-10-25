@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import static org.kuali.kfs.module.purap.fixture.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchaseOrderDocumentTest extends KualiTestBase {
     public static final Class<PurchaseOrderDocument> DOCUMENT_CLASS = PurchaseOrderDocument.class;
 
@@ -76,12 +76,12 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildSimpleDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildSimpleDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -93,7 +93,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {    
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -160,10 +160,11 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
     }
 
     private UserNameFixture getInitialUserName() {
-        return RJWEISS;
+        return rjweiss;
     }
 
     protected UserNameFixture getTestUserName() {
-        return RORENFRO;
+        return rorenfro;
     }
 }
+

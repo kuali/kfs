@@ -32,7 +32,7 @@ import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.service.KualiCodeService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -58,7 +58,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param changeStatus the payment change status code
      * @param note a note from the user
      */
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
@@ -90,7 +90,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public boolean cancelPendingBatch(Integer paymentBatchId, String note, UniversalUser user) {
+    public boolean cancelPendingBatch(Integer paymentBatchId, String note, Person user) {
         LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
@@ -130,7 +130,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public boolean holdPendingBatch(Integer paymentBatchId, String note, UniversalUser user) {
+    public boolean holdPendingBatch(Integer paymentBatchId, String note, Person user) {
         LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
@@ -170,7 +170,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note (String) Change note text entered by user.
      * @param user (User) Actor making change.
      */
-    public boolean removeBatchHold(Integer paymentBatchId, String note, UniversalUser user) {
+    public boolean removeBatchHold(Integer paymentBatchId, String note, Person user) {
         LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
 
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
@@ -285,3 +285,4 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     }
 
 }
+

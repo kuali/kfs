@@ -52,7 +52,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationType;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.service.DocumentService;
@@ -109,9 +109,9 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), bcAuthorizationType)) {
+        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
         }
     }
 
@@ -371,8 +371,8 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         // check if current user is an budget approver at the top level (root) org
         String[] chartOrg = SpringContext.getBean(OrganizationService.class).getRootOrganizationCode();
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(chartOrg[0], chartOrg[1], universalUser);
+        Person person = GlobalVariables.getUserSession().getPerson();
+        boolean isRootApprover = SpringContext.getBean(PermissionService.class).isOrgReviewApprover(chartOrg[0], chartOrg[1], person);
         urlParms.put(KFSConstants.SUPPRESS_ACTIONS, Boolean.toString(!isRootApprover));
 
         // forward to temp list action for displaying results
@@ -426,7 +426,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
 
         // call service to build account list and give message if empty
-        int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier(), budgetConstructionSelectionForm.getUniversityFiscalYear());
+        int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountManagerDelegateList(GlobalVariables.getUserSession().getPerson().getPrincipalId(), budgetConstructionSelectionForm.getUniversityFiscalYear());
         if (rowCount == 0) {
             GlobalVariables.getMessageList().add(BCKeyConstants.ERROR_NO_RECORDS_MY_ACCOUNTS);
 
@@ -456,3 +456,4 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return forward;
     }
 }
+

@@ -251,8 +251,8 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
     
     }
 
-    public void cleanReportsSalaryStatisticsTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsSalaryStatisticsTable(String principalName) {
+        clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -268,7 +268,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         clearTempTableBySesId("LD_BCN_BUILD_SALTOT05_MT","SESID",idForSession);
     }
 
-    public void updateReportsSalaryStatisticsTable(String personUserIdentifier, Integer previousFiscalYear) {
+    public void updateReportsSalaryStatisticsTable(String principalName, Integer previousFiscalYear) {
 
         // get a unique session ID
         String idForSession = (new Guid()).toString();
@@ -278,12 +278,12 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         leaveCodeToInsert.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         
         // remove any previous reporting rows geneterated by this user
-        cleanReportsSalaryStatisticsTable(personUserIdentifier);
+        cleanReportsSalaryStatisticsTable(principalName);
         
         // get appointment funding information for people with no leave
-        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(0).getSQL(leaveCodeToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(0).getSQL(leaveCodeToInsert), idForSession, principalName);
         // get appointment funding information for people with a leave requested
-        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(1).getSQL(leaveCodeToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(1).getSQL(leaveCodeToInsert), idForSession, principalName);
         // take the request appointment attributes for each individual from the request row with the largest request amount
         getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(2).getSQL(), idForSession, idForSession);
         // take the previous year's appointment attributes for each individual from the previous year's (base) row with the largest amount
@@ -297,11 +297,11 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         // calculate the request FTE for each person
         getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(7).getSQL(), idForSession);
         // fetch the detail rows by organization for continuing people (both base and request)
-        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(8).getSQL(), idForSession, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(8).getSQL(), idForSession, principalName, idForSession);
         // fetch the dtail rows by organization for new people (zero out the base)
-        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(9).getSQL(), idForSession, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(9).getSQL(), idForSession, principalName, idForSession);
         // sum the salary and FTE from the detail to get the statistics
-        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(10).getSQL(), personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalaryStatisticsTable.get(10).getSQL(), principalName, idForSession);
         
         // clean out the working tables used in this session
         cleanWorkTables(idForSession);
@@ -317,3 +317,4 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
     }
 
 }
+

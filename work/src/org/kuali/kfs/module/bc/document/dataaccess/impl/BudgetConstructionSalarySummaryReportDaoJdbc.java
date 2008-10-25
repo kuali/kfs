@@ -314,11 +314,11 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     /**
      * 
      * clean out all rows in the report tables associated with this user
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      */
-    private void clearUserPreviouSalarySummaryReports(String personUserIdentifier) {
-        this.clearTempTableByUnvlId("ld_bcn_sal_ssn_t", "PERSON_UNVL_ID", personUserIdentifier);
-        this.clearTempTableByUnvlId("ld_bcn_sal_fnd_t", "PERSON_UNVL_ID", personUserIdentifier);
+    private void clearUserPreviouSalarySummaryReports(String principalName) {
+        this.clearTempTableByUnvlId("ld_bcn_sal_ssn_t", "PERSON_UNVL_ID", principalName);
+        this.clearTempTableByUnvlId("ld_bcn_sal_fnd_t", "PERSON_UNVL_ID", principalName);
     }
     
     /**
@@ -345,12 +345,12 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     /**
      * 
      * runs SQL used by every report
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      * @param idForSession--the session of the user
      */
-    private void runCommonSQLForSalaryReports(String personUserIdentifier, String idForSession) {
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+    private void runCommonSQLForSalaryReports(String principalName, String idForSession) {
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
         clearCommonWorkTable(idForSession);
     }
     
@@ -358,13 +358,13 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public void updateSalaryAndReasonSummaryReportsWithThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
+    public void updateSalaryAndReasonSummaryReportsWithThreshold(String principalName, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
         
         // clean out anything left from a previous report requested by this user
-        clearUserPreviouSalarySummaryReports(personUserIdentifier);
+        clearUserPreviouSalarySummaryReports(principalName);
         
         // default duration code is inserted into a couple of the SQL queries--get it now
         ArrayList<String> durationCodeDefault = new ArrayList<String>(2);
@@ -372,9 +372,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         durationCodeDefault.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         
         // fetch the base and request salary parameters for people who are marked as not going on leave
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(0).getSQL(durationCodeDefault), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(0).getSQL(durationCodeDefault), idForSession, principalName);
         // fetch the base and request salary parameters for people who are marked as going on leave
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(1).getSQL(durationCodeDefault), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(1).getSQL(durationCodeDefault), idForSession, principalName);
         // take request percent time, months appointment, and position months from the row with the largest request salary
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(2).getSQL(), idForSession, idForSession);
         // take base percent time, months appointment, and position months from the row with the largest base salary
@@ -401,9 +401,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         // populate the holding table with the rows to be reported
         // (only request is reported--the base was manipulated above to identify people above and below the threshold)
         // name records for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
         // salary data for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
         
         // clear out the threshold work tables for this session
         clearThresholdWorkTables(idForSession);
@@ -420,7 +420,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
      */
-    public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String personUserIdentifier, boolean listSalariesWithReasonCodes) {
+    public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String principalName, boolean listSalariesWithReasonCodes) {
         
         // get the session ID
         Guid guid = new Guid();
@@ -431,22 +431,22 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         vacantEmplid.add(BCConstants.VACANT_EMPLID);
         
         // clean out anything left from a previous report requested by this user
-        clearUserPreviouSalarySummaryReports(personUserIdentifier);
+        clearUserPreviouSalarySummaryReports(principalName);
         
         //  the option exists to report only those people with a salary increase reason code, or to report everyone
         if (listSalariesWithReasonCodes)
         {
-            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdReason.get(0).getSQL(vacantEmplid), idForSession, personUserIdentifier);
+            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdReason.get(0).getSQL(vacantEmplid), idForSession, principalName);
         }
         else
         {
-            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdNoReason.get(0).getSQL(vacantEmplid), idForSession, personUserIdentifier);
+            getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdNoReason.get(0).getSQL(vacantEmplid), idForSession, principalName);
         }
         // populate the holding table with the rows to be reported
         // name records for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
         // salary data for the rows to be reported
-        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
         
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
@@ -462,5 +462,6 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
     }
 
 }
+
 
 

@@ -42,13 +42,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -251,15 +251,14 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
                 valid &= false;
             }
         }
-        if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier())) {
-            UniversalUserService universalUserService = SpringContext.getBean(UniversalUserService.class);
-            try {
-                UniversalUser universalUser = universalUserService.getUniversalUserByAuthenticationUserId(assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
-                assetTransferDocument.setAssetRepresentative(universalUser);
-                assetTransferDocument.setRepresentativeUniversalIdentifier(universalUser.getPersonUniversalIdentifier());
-            }
-            catch (UserNotFoundException e) {
-                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPersonUserIdentifier());
+        if (StringUtils.isNotBlank(assetTransferDocument.getAssetRepresentative().getPrincipalName())) {
+            org.kuali.rice.kim.service.PersonService personService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
+            Person person = personService.getPersonByPrincipalName(assetTransferDocument.getAssetRepresentative().getPrincipalName());
+            if (person != null) {
+                assetTransferDocument.setAssetRepresentative(person);
+                assetTransferDocument.setRepresentativeUniversalIdentifier(person.getPrincipalId());
+            } else {
+                putError(CamsPropertyConstants.AssetTransferDocument.REP_USER_AUTH_ID, Transfer.ERROR_INVALID_USER_AUTH_ID, assetTransferDocument.getAssetRepresentative().getPrincipalName());
                 valid &= false;
             }
         }
@@ -351,3 +350,4 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         this.assetService = assetService;
     }
 }
+

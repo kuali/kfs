@@ -73,16 +73,16 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Account-closed" />
         <ref bean="Account-accountFiscalOfficerSystemIdentifier" />
         <ref bean="Account-accountFiscalOfficerUserPersonUserIdentifier" />
-        <ref bean="Account-accountFiscalOfficerUser.personUserIdentifier" />
-        <ref bean="Account-accountFiscalOfficerUser.personName" />
+        <ref bean="Account-accountFiscalOfficerUser.principalName" />
+        <ref bean="Account-accountFiscalOfficerUser.name" />
         <ref bean="Account-accountsSupervisorySystemsIdentifier" />
         <ref bean="Account-accountSupervisoryUserPersonUserIdentifier" />
-        <ref bean="Account-accountSupervisoryUser.personUserIdentifier" />
-        <ref bean="Account-accountSupervisoryUser.personName" />
+        <ref bean="Account-accountSupervisoryUser.principalName" />
+        <ref bean="Account-accountSupervisoryUser.name" />
         <ref bean="Account-accountManagerSystemIdentifier" />
         <ref bean="Account-accountManagerUserPersonUserIdentifier" />
-        <ref bean="Account-accountManagerUser.personUserIdentifier" />
-        <ref bean="Account-accountManagerUser.personName" />
+        <ref bean="Account-accountManagerUser.principalName" />
+        <ref bean="Account-accountManagerUser.name" />
         <ref bean="Account-accountGuideline.accountExpenseGuidelineText" />
         <ref bean="Account-accountGuideline.accountIncomeGuidelineText" />
         <ref bean="Account-accountGuideline.accountPurposeText" />
@@ -109,19 +109,19 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="relationships" >
       <list>
         <dd:relationship objectAttribute="accountFiscalOfficerUser">
-            <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="personUniversalIdentifier" />
-            <dd:supportAttribute source="accountFiscalOfficerUser.personUserIdentifier" target="personUserIdentifier" identifier="true" />
-            <dd:supportAttribute source="accountFiscalOfficerUser.personName" target="personName" />
+            <dd:primitiveAttribute source="accountFiscalOfficerSystemIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountFiscalOfficerUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountFiscalOfficerUser.name" target="name" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountSupervisoryUser">
-            <dd:primitiveAttribute source="accountsSupervisorySystemsIdentifier" target="personUniversalIdentifier" />
-            <dd:supportAttribute source="accountSupervisoryUser.personUserIdentifier" target="personUserIdentifier" identifier="true" />
-            <dd:supportAttribute source="accountSupervisoryUser.personName" target="personName" />
+            <dd:primitiveAttribute source="accountsSupervisorySystemsIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountSupervisoryUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountSupervisoryUser.name" target="name" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountManagerUser">
-            <dd:primitiveAttribute source="accountManagerSystemIdentifier" target="personUniversalIdentifier" />
-            <dd:supportAttribute source="accountManagerUser.personUserIdentifier" target="personUserIdentifier" identifier="true" />
-            <dd:supportAttribute source="accountManagerUser.personName" target="personName" />
+            <dd:primitiveAttribute source="accountManagerSystemIdentifier" target="principalId" />
+            <dd:supportAttribute source="accountManagerUser.principalName" target="principalName" identifier="true" />
+            <dd:supportAttribute source="accountManagerUser.name" target="name" />
         </dd:relationship>
         <dd:relationship objectAttribute="accountGuideline">
             <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
@@ -719,18 +719,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
 
-  <bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="accountFiscalOfficerSystemIdentifier" />
     <property name="label" value="Fiscal Officer Unvl ID" />
     <property name="shortLabel" value="FiscOffId" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="accountFiscalOfficerUser.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
   </bean>
   <bean id="Account-accountFiscalOfficerUserPersonUserIdentifier" parent="Account-accountFiscalOfficerUserPersonUserIdentifier-parentBean" />
 
-  <bean id="Account-accountFiscalOfficerUserPersonUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+  <bean id="Account-accountFiscalOfficerUserPersonUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountFiscalOfficerUserPersonUserIdentifier" />
     <property name="label" value="Account Fiscal Officer Network ID" />
     <property name="shortLabel" value="AcctFONetID" />
@@ -739,37 +739,37 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Account-accountFiscalOfficerUser.personUserIdentifier" parent="Account-accountFiscalOfficerUser.personUserIdentifier-parentBean" />
+  <bean id="Account-accountFiscalOfficerUser.principalName" parent="Account-accountFiscalOfficerUser.principalName-parentBean" />
 
-  <dd:boAttributeRef id="Account-accountFiscalOfficerUser.personUserIdentifier-parentBean" parent="UniversalUser-personUserIdentifier" abstract="true"
-                     attributeName="accountFiscalOfficerUser.personUserIdentifier"
+  <dd:boAttributeRef id="Account-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true"
+                     attributeName="accountFiscalOfficerUser.principalName"
                      label="Fiscal Officer UserID"
                      shortLabel="UserID"
                      required="false">
     <dd:user universalIdAttribute="accountFiscalOfficerSystemIdentifier" userObjectAttribute="accountFiscalOfficerUser" />
   </dd:boAttributeRef>
 
-  <bean id="Account-accountFiscalOfficerUser.personName" parent="Account-accountFiscalOfficerUser.personName-parentBean" />
+  <bean id="Account-accountFiscalOfficerUser.name" parent="Account-accountFiscalOfficerUser.name-parentBean" />
 
-  <bean id="Account-accountFiscalOfficerUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="accountFiscalOfficerUser.personName" />
+  <bean id="Account-accountFiscalOfficerUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="accountFiscalOfficerUser.name" />
     <property name="label" value="Fiscal Officer Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="Account-accountsSupervisorySystemsIdentifier" parent="Account-accountsSupervisorySystemsIdentifier-parentBean" />
 
-  <bean id="Account-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Account-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="accountsSupervisorySystemsIdentifier" />
     <property name="label" value="Supervisor Unvl ID" />
     <property name="shortLabel" value="SprvsrId" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="accountSupervisoryUser.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
   </bean>
   <bean id="Account-accountSupervisoryUserPersonUserIdentifier" parent="Account-accountSupervisoryUserPersonUserIdentifier-parentBean" />
 
-  <bean id="Account-accountSupervisoryUserPersonUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+  <bean id="Account-accountSupervisoryUserPersonUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountSupervisoryUserPersonUserIdentifier" />
     <property name="label" value="Account Supervisor Network ID" />
     <property name="shortLabel" value="AcctSprNetID" />
@@ -778,41 +778,41 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Account-accountSupervisoryUser.personUserIdentifier" parent="Account-accountSupervisoryUser.personUserIdentifier-parentBean" />
+  <bean id="Account-accountSupervisoryUser.principalName" parent="Account-accountSupervisoryUser.principalName-parentBean" />
 
-  <bean id="Account-accountSupervisoryUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="accountSupervisoryUser.personUserIdentifier" />
+  <bean id="Account-accountSupervisoryUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="accountSupervisoryUser.principalName" />
     <property name="label" value="Account Supervisor UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="accountSupervisoryUser.personName"
+            p:personNameAttributeName="accountSupervisoryUser.name"
             p:universalIdAttributeName="accountsSupervisorySystemsIdentifier"
-            p:userIdAttributeName="accountSupervisoryUser.personUserIdentifier" />
+            p:userIdAttributeName="accountSupervisoryUser.principalName" />
     </property>
   </bean>
-  <bean id="Account-accountSupervisoryUser.personName" parent="Account-accountSupervisoryUser.personName-parentBean" />
+  <bean id="Account-accountSupervisoryUser.name" parent="Account-accountSupervisoryUser.name-parentBean" />
 
-  <bean id="Account-accountSupervisoryUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="accountSupervisoryUser.personName" />
+  <bean id="Account-accountSupervisoryUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="accountSupervisoryUser.name" />
     <property name="label" value="Account Supervisor Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="Account-accountManagerSystemIdentifier" parent="Account-accountManagerSystemIdentifier-parentBean" />
 
-  <bean id="Account-accountManagerSystemIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Account-accountManagerSystemIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="accountManagerSystemIdentifier" />
     <property name="label" value="Manager Unvl ID" />
     <property name="shortLabel" value="MgrId" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="accountManagerUser.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="accountManagerUser.principalName" />
   </bean>
   <bean id="Account-accountManagerUserPersonUserIdentifier" parent="Account-accountManagerUserPersonUserIdentifier-parentBean" />
 
-  <bean id="Account-accountManagerUserPersonUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+  <bean id="Account-accountManagerUserPersonUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="accountManagerUserPersonUserIdentifier" />
     <property name="label" value="Account Manager Network ID" />
     <property name="shortLabel" value="AcctMgrNetID" />
@@ -821,24 +821,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Account-accountManagerUser.personUserIdentifier" parent="Account-accountManagerUser.personUserIdentifier-parentBean" />
+  <bean id="Account-accountManagerUser.principalName" parent="Account-accountManagerUser.principalName-parentBean" />
 
-  <bean id="Account-accountManagerUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="accountManagerUser.personUserIdentifier" />
+  <bean id="Account-accountManagerUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="accountManagerUser.principalName" />
     <property name="label" value="Account Manager UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="accountManagerUser.personName"
+            p:personNameAttributeName="accountManagerUser.name"
             p:universalIdAttributeName="accountManagerSystemIdentifier"
-            p:userIdAttributeName="accountManagerUser.personUserIdentifier" />
+            p:userIdAttributeName="accountManagerUser.principalName" />
     </property>
   </bean>
-  <bean id="Account-accountManagerUser.personName" parent="Account-accountManagerUser.personName-parentBean" />
+  <bean id="Account-accountManagerUser.name" parent="Account-accountManagerUser.name-parentBean" />
 
-  <bean id="Account-accountManagerUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="accountManagerUser.personName" />
+  <bean id="Account-accountManagerUser.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="accountManagerUser.name" />
     <property name="label" value="Account Manager Name" />
     <property name="required" value="false" />
   </bean>
@@ -954,11 +954,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
 
               <dd:field attributeName="accountFiscalOfficerUserPersonUserIdentifier" />
-              <dd:field attributeName="accountFiscalOfficerUser.personName" />
+              <dd:field attributeName="accountFiscalOfficerUser.name" />
               <dd:field attributeName="accountSupervisoryUserPersonUserIdentifier" />
-              <dd:field attributeName="accountSupervisoryUser.personName" />
+              <dd:field attributeName="accountSupervisoryUser.name" />
               <dd:field attributeName="accountManagerUserPersonUserIdentifier" />
-              <dd:field attributeName="accountManagerUser.personName" />
+              <dd:field attributeName="accountManagerUser.name" />
               <dd:field attributeName="continuationFinChrtOfAcctCd" />
               <dd:field attributeName="continuationAccountNumber" />
               <dd:field attributeName="incomeStreamFinancialCoaCode" />
@@ -1015,9 +1015,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
                 <property name="inquiryFields" >
                   <list>
                     <dd:field attributeName="proposalNumber" />
-                    <dd:field attributeName="projectDirector.universalUser.personName" />
+                    <dd:field attributeName="projectDirector.person.name" />
                     <dd:field attributeName="award.workgroupName" />
-                    <dd:field attributeName="award.kualiGroupNames" />
+                    <dd:field attributeName="award.kimGroupNames" />
                     <dd:field attributeName="award.proposal.proposalFederalPassThroughIndicator" />
                     <dd:field attributeName="award.proposal.federalPassThroughAgencyNumber" />
                   </list>
@@ -1060,8 +1060,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="accountTypeCode"  />
         <dd:field attributeName="subFundGroupCode"  />
         <dd:field attributeName="accountFiscalOfficerSystemIdentifier"  />
-        <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
-        <dd:field attributeName="accountFiscalOfficerUser.personName"  />
+        <dd:field attributeName="accountFiscalOfficerUser.principalName"  />
+        <dd:field attributeName="accountFiscalOfficerUser.name"  />
         <dd:field attributeName="closed" defaultValue="N" />
       </list>
     </property>
@@ -1073,13 +1073,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <dd:field attributeName="organizationCode"  />
         <dd:field attributeName="accountTypeCode"  />
         <dd:field attributeName="subFundGroupCode"  />
-        <dd:field attributeName="accountFiscalOfficerUser.personUserIdentifier"  />
-        <dd:field attributeName="accountFiscalOfficerUser.personName" inquiry="force" />
+        <dd:field attributeName="accountFiscalOfficerUser.principalName"  />
+        <dd:field attributeName="accountFiscalOfficerUser.name" inquiry="force" />
         <dd:field attributeName="closed"  />
-        <dd:field attributeName="accountManagerUser.personName" inquiry="force" />
+        <dd:field attributeName="accountManagerUser.name" inquiry="force" />
         <dd:field attributeName="accountCreateDate" />
         <dd:field attributeName="accountExpirationDate" />
       </list>
     </property>
   </bean>
 </beans>
+

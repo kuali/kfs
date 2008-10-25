@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String organizationChartOfAccountsCode;
     private String organizationCode;
     private String personName;
@@ -44,21 +44,21 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -105,7 +105,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
      * 
      * @return Returns the personName
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -114,7 +114,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -181,11 +181,12 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-        m.put("personName", this.personName);
+        m.put("name", this.personName);
         m.put("emplid", this.emplid);
         return m;
     }
 }
+

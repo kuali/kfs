@@ -37,7 +37,7 @@ import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTE
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_SOURCE_PENDING_ENTRY;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_OFFSET_TARGET_PENDING_ENTRY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -70,7 +70,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
     public static final Class<TransferOfFundsDocument> DOCUMENT_CLASS = TransferOfFundsDocument.class;
 
@@ -644,3 +644,4 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         assertEquals(expected, result);
     }
 }
+

@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.BUTT;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.butt;
 
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
@@ -40,7 +40,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 /**
  * This class tests the rules in CashControlDocumentRule
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CashControlDocumentRuleTest extends KualiTestBase {
 
     private CashControlDocumentRule rule;
@@ -153,7 +153,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
      */
     public void testCheckUserOrgOptions_False() throws Exception {
         // change to a user that does not have user organization options set up
-        changeCurrentUser(BUTT);
+        changeCurrentUser(butt);
         assertFalse(rule.checkUserOrgOptions(document));
     }
 
@@ -261,3 +261,4 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
     }
 
 }
+

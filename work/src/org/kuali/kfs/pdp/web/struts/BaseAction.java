@@ -37,9 +37,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * This Action will do most request processing for the PDP part of appliation. Your action should override the proper methods to do
@@ -52,7 +52,7 @@ public abstract class BaseAction extends Action {
     /**
      * User Service (to lookup users)
      */
-    protected UniversalUserService userService = null;
+    protected org.kuali.rice.kim.service.PersonService userService = null;
 
     /**
      * Application Settings Service (to check global app settings)
@@ -76,7 +76,7 @@ public abstract class BaseAction extends Action {
         // For some reason, these don't always get set when they are in the constructor. We'll get them here
         // the first time they are needed.
         if (userService == null) {
-            setUniversalUserService(SpringContext.getBean(UniversalUserService.class));
+            setPersonService(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class));
             setKualiConfigurationService(SpringContext.getBean(KualiConfigurationService.class));
             setSecurityService(SpringContext.getBean(PdpSecurityService.class));
         }
@@ -107,11 +107,11 @@ public abstract class BaseAction extends Action {
         // Do authorization (check again if backdoorId is set)
         SecurityRecord securityRecord = (SecurityRecord) session.getAttribute("SecurityRecord");
         String srUser = (String) session.getAttribute("SecurityRecordUser");
-        if ((securityRecord == null) || (srUser == null) || !srUser.equals(getUser(request).getPersonUserIdentifier())) {
+        if ((securityRecord == null) || (srUser == null) || !srUser.equals(getUser(request).getPrincipalName())) {
             LOG.debug("execute() Security Check");
             securityRecord = securityService.getSecurityRecord(getUser(request));
             session.setAttribute("SecurityRecord", securityRecord);
-            session.setAttribute("SecurityRecordUser", getUser(request).getPersonUserIdentifier());
+            session.setAttribute("SecurityRecordUser", getUser(request).getPrincipalName());
         }
 
         if (!isAuthorized(mapping, form, request, response)) {
@@ -194,7 +194,7 @@ public abstract class BaseAction extends Action {
         UserSession userSession = (UserSession) request.getSession().getAttribute(KFSConstants.USER_SESSION_KEY);
 
         // This is needed for PDP. At some point, PDP should be refactored to use UserSession
-        session.setAttribute("user", userSession.getUniversalUser());
+        session.setAttribute("user", userSession.getPerson());
 
         MDC.put("user", userSession.getNetworkId());
 
@@ -223,8 +223,8 @@ public abstract class BaseAction extends Action {
      * @param request
      * @return The user object
      */
-    protected UniversalUser getUser(HttpServletRequest request) {
-        return (UniversalUser) request.getSession().getAttribute("user");
+    protected Person getUser(HttpServletRequest request) {
+        return (Person) request.getSession().getAttribute("user");
     }
 
     /**
@@ -307,14 +307,14 @@ public abstract class BaseAction extends Action {
      * @return
      */
     protected String getNetworkId(HttpServletRequest request) {
-        UniversalUser user = getUser(request);
+        Person user = getUser(request);
 
         if (user == null) {
             LOG.error("getNetworkId() not authenticated");
             return null;
         }
         else {
-            return user.getPersonUserIdentifier();
+            return user.getPrincipalName();
         }
     }
 
@@ -323,7 +323,7 @@ public abstract class BaseAction extends Action {
      * 
      * @param us
      */
-    public void setUniversalUserService(UniversalUserService us) {
+    public void setPersonService(org.kuali.rice.kim.service.PersonService us) {
         this.userService = us;
     }
 
@@ -345,3 +345,4 @@ public abstract class BaseAction extends Action {
         this.securityService = ss;
     }
 }
+

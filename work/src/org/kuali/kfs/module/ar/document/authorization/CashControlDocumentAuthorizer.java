@@ -27,12 +27,12 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -47,7 +47,7 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
 
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         CashControlDocument cashControlDocument = (CashControlDocument) document;
@@ -125,14 +125,14 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
+    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
-        FinancialSystemUser financialSystemUser = ValueFinderUtil.getCurrentFinancialSystemUser();
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(financialSystemUser, "ar");
+        Person financialSystemUser = ValueFinderUtil.getCurrentPerson();
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(financialSystemUser, "ar");
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOrg.getChartOfAccountsCode());
@@ -148,7 +148,7 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map getEditMode(Document d, UniversalUser u) {
+    public Map getEditMode(Document d, Person u) {
         Map editMode = super.getEditMode(d, u);
         CashControlDocument cashControlDocument = (CashControlDocument) d;
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
@@ -192,3 +192,4 @@ public class CashControlDocumentAuthorizer extends FinancialSystemTransactionalD
     }
 
 }
+

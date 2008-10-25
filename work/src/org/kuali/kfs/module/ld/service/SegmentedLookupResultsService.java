@@ -44,17 +44,18 @@ public interface SegmentedLookupResultsService extends LookupResultsService {
 
     /**
      * @param lookupResultsSequenceNumber
-     * @param universalUserId
+     * @param personId
      * @return Set<String>
      */
-    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception;
+    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String personId) throws Exception;
 
     /**
      * @param lookupResultsSequenceNumber
      * @param setOfSelectedObjIds
      * @param boClass
-     * @param universalUserId
+     * @param personId
      * @return Collection<PersistableBusinessObject>
      */
-    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String universalUserId) throws Exception;
+    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String personId) throws Exception;
 }
+

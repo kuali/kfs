@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
@@ -46,13 +46,13 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields read-only if necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
 
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
-        if (user.isSupervisorUser()) {
+        if (org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
             return auths;
         }
 
@@ -69,3 +69,4 @@ public class OrgDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAut
         return auths;
     }
 }
+

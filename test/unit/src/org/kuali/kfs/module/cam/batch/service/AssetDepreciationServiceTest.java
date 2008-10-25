@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.batch.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 
-@ConfigureContext(session = KHUNTLEY)
-//@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+@ConfigureContext(session = khuntley)
+//@ConfigureContext(session = khuntley, shouldCommitTransactions=true)
 public class AssetDepreciationServiceTest extends KualiTestBase {
     private AssetDepreciationService camsAssetDepreciationService;
     private ParameterService parameterService;
@@ -42,3 +42,4 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
         assertEquals(1, 1);
     }
 }
+

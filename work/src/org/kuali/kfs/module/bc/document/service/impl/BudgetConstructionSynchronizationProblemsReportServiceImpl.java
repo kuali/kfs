@@ -47,19 +47,19 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
     BusinessObjectService businessObjectService;
 
 
-    public void updateSynchronizationProblemsReport(String personUserIdentifier) {
-        budgetConstructionSynchronizationProblemsReportDao.updateReportsSynchronizationProblemsTable(personUserIdentifier);
+    public void updateSynchronizationProblemsReport(String principalName) {
+        budgetConstructionSynchronizationProblemsReportDao.updateReportsSynchronizationProblemsTable(principalName);
 
     }
 
-    public Collection<BudgetConstructionOrgSynchronizationProblemsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgSynchronizationProblemsReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgSynchronizationProblemsReport> reportSet = new ArrayList();
 
 
         BudgetConstructionOrgSynchronizationProblemsReport orgSynchronizationProblemsReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
@@ -114,7 +114,7 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
         orgSynchronizationProblemsReportEntry.setFinancialSubObjectCode(positionFunding.getFinancialSubObjectCode());
         orgSynchronizationProblemsReportEntry.setPositionNumber(positionFunding.getPositionNumber());
         orgSynchronizationProblemsReportEntry.setEmplid(positionFunding.getEmplid());
-        orgSynchronizationProblemsReportEntry.setPersonName(positionFunding.getPersonName());
+        orgSynchronizationProblemsReportEntry.setName(positionFunding.getName());
         
         orgSynchronizationProblemsReportEntry.setPositionObjectChangeIndicator(booleanToString(positionFunding.getPendingAppointmentFunding().isPositionObjectChangeIndicator()));
         orgSynchronizationProblemsReportEntry.setPositionSalaryChangeIndicator(booleanToString(positionFunding.getPendingAppointmentFunding().isPositionSalaryChangeIndicator()));
@@ -189,3 +189,4 @@ public class BudgetConstructionSynchronizationProblemsReportServiceImpl implemen
     }
 
 }
+

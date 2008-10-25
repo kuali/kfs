@@ -49,10 +49,10 @@
         <ref bean="PaymentDetail-financialDocumentTypeCode" />
         <ref bean="PaymentDetail-invoiceDate" />
         <ref bean="PaymentDetail-paymentGroup.physCampusProcessCd" />
-        <ref bean="PaymentDetail-paymentGroup.process.processUser.personUserIdentifier" />
+        <ref bean="PaymentDetail-paymentGroup.process.processUser.principalName" />
         <ref bean="PaymentDetail-paymentGroup.batch.fileProcessTimestamp" />
         <ref bean="PaymentDetail-paymentGroup.process.processTimestamp" />
-        <ref bean="PaymentDetail-paymentGroup.batch.submiterUser.personUserIdentifier" />
+        <ref bean="PaymentDetail-paymentGroup.batch.submiterUser.principalName" />
         <ref bean="PaymentDetail-origInvoiceAmount" />
         <ref bean="PaymentDetail-invTotDiscountAmount" />
         <ref bean="PaymentDetail-invTotShipAmount" />
@@ -317,10 +317,10 @@
   <bean id="PaymentDetail-paymentGroup.physCampusProcessCd-parentBean" abstract="true" parent="PaymentGroup-physCampusProcessCd">
     <property name="name" value="paymentGroup.physCampusProcessCd" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.process.processUser.personUserIdentifier" parent="PaymentDetail-paymentGroup.process.processUser.personUserIdentifier-parentBean" />
+  <bean id="PaymentDetail-paymentGroup.process.processUser.principalName" parent="PaymentDetail-paymentGroup.process.processUser.principalName-parentBean" />
 
-  <bean id="PaymentDetail-paymentGroup.process.processUser.personUserIdentifier-parentBean" abstract="true" parent="PaymentGroup-process.processUser.personUserIdentifier">
-    <property name="name" value="paymentGroup.process.processUser.personUserIdentifier" />
+  <bean id="PaymentDetail-paymentGroup.process.processUser.principalName-parentBean" abstract="true" parent="PaymentGroup-process.processUser.principalName">
+    <property name="name" value="paymentGroup.process.processUser.principalName" />
   </bean>
   <bean id="PaymentDetail-paymentGroup.batch.fileProcessTimestamp" parent="PaymentDetail-paymentGroup.batch.fileProcessTimestamp-parentBean" />
 
@@ -332,10 +332,10 @@
   <bean id="PaymentDetail-paymentGroup.process.processTimestamp-parentBean" abstract="true" parent="PaymentGroup-process.processTimestamp">
     <property name="name" value="paymentGroup.process.processTimestamp" />
   </bean>
-  <bean id="PaymentDetail-paymentGroup.batch.submiterUser.personUserIdentifier" parent="PaymentDetail-paymentGroup.batch.submiterUser.personUserIdentifier-parentBean" />
+  <bean id="PaymentDetail-paymentGroup.batch.submiterUser.principalName" parent="PaymentDetail-paymentGroup.batch.submiterUser.principalName-parentBean" />
 
-  <bean id="PaymentDetail-paymentGroup.batch.submiterUser.personUserIdentifier-parentBean" abstract="true" parent="PaymentGroup-batch.submiterUser.personUserIdentifier">
-    <property name="name" value="paymentGroup.batch.submiterUser.personUserIdentifier" />
+  <bean id="PaymentDetail-paymentGroup.batch.submiterUser.principalName-parentBean" abstract="true" parent="PaymentGroup-batch.submiterUser.principalName">
+    <property name="name" value="paymentGroup.batch.submiterUser.principalName" />
   </bean> 
   <bean id="PaymentDetail-origInvoiceAmount" parent="PaymentDetail-origInvoiceAmount-parentBean" />
 
@@ -547,7 +547,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.paymentFileName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.process.processUser.personUserIdentifier" />  
+                    p:attributeName="paymentGroup.process.processUser.principalName" />  
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.customerFileCreateTimestamp" />  
               <bean parent="FieldDefinition"
@@ -555,7 +555,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentGroup.batch.fileProcessTimestamp" />  
               <bean parent="FieldDefinition"
-                    p:attributeName="paymentGroup.batch.submiterUser.personUserIdentifier" />                                                                                                                            
+                    p:attributeName="paymentGroup.batch.submiterUser.principalName" />                                                                                                                            
             </list>
           </property>
         </bean>
@@ -722,7 +722,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="paymentChange.name" /> 
                     <bean parent="FieldDefinition"
-                          p:attributeName="changeUser.personUserIdentifier" /> 
+                          p:attributeName="changeUser.principalName" /> 
                     <bean parent="FieldDefinition"
                           p:attributeName="disbursementType.name" />   
                     <bean parent="FieldDefinition"
@@ -869,3 +869,4 @@
     </property>
   </bean>
 </beans>
+

@@ -35,8 +35,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetGlobalDetail-newCollectionRecord" />
         <!-- Asset Separate - START -->
         <ref bean="AssetGlobalDetail-representativeUniversalIdentifier" />
-        <ref bean="AssetGlobalDetail-assetRepresentative.personUserIdentifier" />
-        <ref bean="AssetGlobalDetail-assetRepresentative.personName" />
+        <ref bean="AssetGlobalDetail-assetRepresentative.principalName" />
+        <ref bean="AssetGlobalDetail-assetRepresentative.name" />
 		<ref bean="AssetGlobalDetail-capitalAssetTypeCode" />
 		<ref bean="AssetGlobalDetail-capitalAssetDescription" />
 		<ref bean="AssetGlobalDetail-manufacturerName" />
@@ -56,18 +56,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="representativeUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="assetRepresentative.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="assetRepresentative.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="assetRepresentative.personName"
-                    p:targetName="personName" />
+                    p:sourceName="assetRepresentative.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -447,22 +447,22 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   -->
 
   <bean id="AssetGlobalDetail-representativeUniversalIdentifier" parent="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" />
-  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="AssetGlobalDetail-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="representativeUniversalIdentifier" />
     <property name="label" value="Asset Representative" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="assetRepresentative.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="assetRepresentative.principalName" />
   </bean>
 
-  <bean id="AssetGlobalDetail-assetRepresentative.personUserIdentifier" parent="AssetGlobalDetail-assetRepresentative.personUserIdentifier-parentBean" />
-  <bean id="AssetGlobalDetail-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.personUserIdentifier-parentBean">
+  <bean id="AssetGlobalDetail-assetRepresentative.principalName" parent="AssetGlobalDetail-assetRepresentative.principalName-parentBean" />
+  <bean id="AssetGlobalDetail-assetRepresentative.principalName-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.principalName-parentBean">
   </bean>
   
-  <bean id="AssetGlobalDetail-assetRepresentative.personName" parent="AssetGlobalDetail-assetRepresentative.personName-parentBean" />
-  <bean id="AssetGlobalDetail-assetRepresentative.personName-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.personName-parentBean">
+  <bean id="AssetGlobalDetail-assetRepresentative.name" parent="AssetGlobalDetail-assetRepresentative.name-parentBean" />
+  <bean id="AssetGlobalDetail-assetRepresentative.name-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.name-parentBean">
   </bean>
   
   <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean" />
@@ -497,3 +497,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
+

@@ -29,9 +29,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -41,9 +41,9 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessDaoOjb.class);
 
-    private UniversalUserService userService;
+    private org.kuali.rice.kim.service.PersonService userService;
 
-    public void setUniversalUserService(UniversalUserService u) {
+    public void setPersonService(org.kuali.rice.kim.service.PersonService u) {
         userService = u;
     }
 
@@ -51,7 +51,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         super();
     }
 
-    /*public PaymentProcess createProcess(String campusCd, UniversalUser processUser) {
+    /*public PaymentProcess createProcess(String campusCd, Person processUser) {
         LOG.debug("createProcess() started");
 
         Date d = new Date();
@@ -128,3 +128,4 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
     }
 
 }
+

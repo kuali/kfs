@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -37,7 +37,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
  * This class tests the business rules of the service billing document. This is not implemented yet and needs to extend
  * AccountingDocumentRuleTestBase.
  */
-@ConfigureContext(session = DFOGLE)
+@ConfigureContext(session = dfogle)
 public class ServiceBillingDocumentRuleTest extends KualiTestBase {
 
 
@@ -890,3 +890,4 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
      * "1000" ); targetLines.add( targetLine1 ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
      */
 }
+

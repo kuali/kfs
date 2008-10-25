@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-@ConfigureContext(session = UserNameFixture.KULUSER)
+@ConfigureContext(session = UserNameFixture.kuluser)
 public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 
@@ -56,3 +56,4 @@ public class LaborBatchRunner extends KualiTestBase {
         }
     }
 }
+

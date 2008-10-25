@@ -249,7 +249,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         KualiWorkflowDocument workflowDocument = null;
         
         try{
-            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rl.getDocumentNumber()), GlobalVariables.getUserSession().getUniversalUser());
+            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rl.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
         }catch(WorkflowException we){
             throw new RuntimeException(we);
         }
@@ -272,7 +272,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -300,7 +300,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getUniversalUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -328,7 +328,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -408,7 +408,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -723,14 +723,14 @@ public class ReceivingServiceImpl implements ReceivingService {
                     for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
 
                         //check for dupes of fiscal officer
-                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier()) == false ){
+                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName()) == false ){
 
                             //add fiscal officer to list
-                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier(), account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName(), account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
 
                             //create AdHocRoutePerson object and add to list
                             adHocRoutePerson = new AdHocRoutePerson();
-                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
                             adHocRoutePerson.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
                             adHocRoutePersons.add(adHocRoutePerson);
                         }
@@ -793,7 +793,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             
             for(ReceivingLineView rView : rViews){
                 try{
-                    workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getFinancialSystemUser());
+                    workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(rView.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                     
                     //if latest create date is null or the latest is before the current, current is newer
                     if( ObjectUtils.isNull(latestCreateDate) || latestCreateDate.before(workflowDocument.getCreateDate()) ){
@@ -832,7 +832,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -847,3 +847,4 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
 }
+

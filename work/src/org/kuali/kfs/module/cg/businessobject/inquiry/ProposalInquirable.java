@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -59,7 +59,7 @@ public class ProposalInquirable extends KfsInquirableImpl {
         Collection inquirySections = SpringContext.getBean(BusinessObjectDictionaryService.class).getInquirySections(getBusinessObjectClass());
         for (Iterator iter = inquirySections.iterator(); iter.hasNext();) {
 
-            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+            Person user = GlobalVariables.getUserSession().getPerson();
             InquirySectionDefinition inquirySection = (InquirySectionDefinition) iter.next();
             Section section = SectionBridge.toSection(this, inquirySection, bo);
             if (inquirySection.getTitle().equals("Research Risks")) {
@@ -91,3 +91,4 @@ public class ProposalInquirable extends KfsInquirableImpl {
 
 
 }
+

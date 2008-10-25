@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.batch.service;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -44,8 +44,8 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
     private BatchInputFileType pcdoBatchInputFileType;
     private BatchInputFileType collectorBatchInputFileType;
 
-    private UniversalUser validWorkgroupUser;
-    private UniversalUser invalidWorkgroupUser;
+    private Person validWorkgroupUser;
+    private Person invalidWorkgroupUser;
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -59,8 +59,8 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
         collectorBatchInputFileType = SpringContext.getBean(CollectorInputFileType.class);
 
-        validWorkgroupUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        invalidWorkgroupUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        validWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
+        invalidWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
     }
 
     /**
@@ -130,3 +130,4 @@ public class BatchInputServiceSystemParametersTest extends KualiTestBase {
     }
 
 }
+

@@ -19,7 +19,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.kew.exception.KEWUserNotFoundException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 public interface PurApWorkflowIntegrationService {
@@ -32,7 +32,7 @@ public interface PurApWorkflowIntegrationService {
      * @param user
      * @return boolean indicating if action is requested of user at given node name
      */
-    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, UniversalUser user);
+    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, Person user);
 
     /**
      * Take all actions on the given document based on the given criteria
@@ -44,7 +44,7 @@ public interface PurApWorkflowIntegrationService {
      * @param networkIdToImpersonate
      * @return
      */
-    public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser user, String superUserNetworkId);
+    public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, Person user, String superUserNetworkId);
 
     /**
      * Determine if the document will stop at the given node in the future routing process
@@ -57,3 +57,4 @@ public interface PurApWorkflowIntegrationService {
 
     public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws KEWUserNotFoundException;
 }
+

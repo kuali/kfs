@@ -40,7 +40,7 @@
         <ref bean="BudgetConstructionMonthSummary-incomeExpenseCode" />
         <ref bean="BudgetConstructionMonthSummary-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionMonthSummary-organizationCode" />
-        <ref bean="BudgetConstructionMonthSummary-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionMonthSummary-principalId" />
         <ref bean="BudgetConstructionMonthSummary-subFundGroupCode" />
       </list>
     </property>
@@ -463,10 +463,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionMonthSummary-personUniversalIdentifier" parent="BudgetConstructionMonthSummary-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionMonthSummary-principalId" parent="BudgetConstructionMonthSummary-principalId-parentBean" />
 
-  <bean id="BudgetConstructionMonthSummary-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionMonthSummary-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -478,8 +478,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionMonthSummary-subFundGroupCode" parent="BudgetConstructionMonthSummary-subFundGroupCode-parentBean" />
 
@@ -561,7 +561,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="subFundGroupCode" />
             </list>
@@ -632,7 +632,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subFundGroupCode" />
       </list>
@@ -686,10 +686,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subFundGroupCode" />
       </list>
     </property>
   </bean>
 </beans>
+

@@ -34,12 +34,11 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -51,17 +50,16 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+    public boolean hasInitiateAuthorization(Document document, Person user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-        try {
-            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        if (group == null) {
+            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
         }
-        catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
-        }
+        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
     }
 
     /**
@@ -75,10 +73,10 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
      * the other tabs and display the retransmit tab when the user clicks on the Retransmit button (is that what we want ?)
      * 
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map getEditMode(Document d, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document d, Person user, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
@@ -199,7 +197,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
     }
 
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         PurchaseOrderDocument po = (PurchaseOrderDocument) document;
         String statusCode = po.getStatusCode();
@@ -208,7 +206,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             flags.setCanRoute(false);
         }
         else if (PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(statusCode)) {
-            if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getFinancialSystemUser())) {
+            if (SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(po.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson())) {
                 /*
                  * code below for overriding workflow buttons has to do with hiding the workflow buttons but still allowing the
                  * actions... this is needed because document service calls this method (getDocumentActionFlags) before it will
@@ -243,3 +241,4 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
         return flags;
     }
 }
+

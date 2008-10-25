@@ -15,9 +15,10 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.KualiModuleAuthorizer;
 
 public interface FinancialSystemModuleAuthorizer extends KualiModuleAuthorizer {
-    public boolean canAccessModule( FinancialSystemUser user );
+    public boolean canAccessModule( Person user );
 }
+

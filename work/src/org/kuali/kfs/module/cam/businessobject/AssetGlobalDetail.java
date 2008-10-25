@@ -14,8 +14,8 @@ import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -63,15 +63,15 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     // Non persistent
     private List<AssetGlobalDetail> assetGlobalUniqueDetails;
-    private UniversalUser assetRepresentative;
+    private Person assetRepresentative;
     private transient String hiddenFieldForError;
     
-    public UniversalUser getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+    public Person getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+    public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
 
@@ -676,3 +676,4 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
 }
+

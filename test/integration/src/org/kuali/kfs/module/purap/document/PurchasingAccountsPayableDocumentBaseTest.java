@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.ArrayList;
 
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {
 
     PurchasingAccountsPayableDocument purapDoc;
@@ -74,3 +74,4 @@ public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {
     }
 
 }
+

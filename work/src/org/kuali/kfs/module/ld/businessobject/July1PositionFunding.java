@@ -21,11 +21,8 @@ import java.math.BigDecimal;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.PersonPayrollId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.bo.user.UserId;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -123,18 +120,13 @@ public class July1PositionFunding extends LedgerBalance {
      * 
      * @return Returns the personsName
      */
-    public String getPersonName() {
-        UserId empl = new PersonPayrollId(getEmplid());
-        UniversalUser universalUser = null;
-
-        try {
-            universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(empl);
-        }
-        catch (UserNotFoundException e) {
+    public String getName() {
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, getEmplid()).get(0);
+        if (person == null) {
             return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
-
-        return universalUser.getPersonName();
+        
+        return person.getName();
     }
 
     /**
@@ -142,7 +134,8 @@ public class July1PositionFunding extends LedgerBalance {
      * 
      * @param personName
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 }
+

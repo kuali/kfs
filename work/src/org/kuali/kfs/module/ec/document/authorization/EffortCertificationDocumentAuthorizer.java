@@ -23,7 +23,7 @@ import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -35,10 +35,10 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
 
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
 
         boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
@@ -63,16 +63,16 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map<String, String> getEditMode(Document document, UniversalUser universalUser) {
+    public Map<String, String> getEditMode(Document document, Person person) {
         Map<String, String> editModeMap = new HashMap<String, String>();
         String editMode = EffortCertificationEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            if (hasInitiateAuthorization(document, universalUser)) {
+            if (hasInitiateAuthorization(document, person)) {
                 editModeMap.put(EffortCertificationEditMode.FULL_ENTRY, Boolean.TRUE.toString());
             }
         }
@@ -117,3 +117,4 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
         return editableIndicators;
     }
 }
+

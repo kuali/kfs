@@ -27,9 +27,9 @@ public interface BudgetConstructionList2PLGReportService {
     /**
      * updates account FundingDetail table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void updateList2PLGReport(String personUserIdentifier, Integer universityFiscalYear);
+    public void updateList2PLGReport(String principalName, Integer universityFiscalYear);
 
     
     /**
@@ -39,6 +39,7 @@ public interface BudgetConstructionList2PLGReportService {
      * @param universityFiscalYear
      * @param accountFundingDetailList
      */
-    public Collection<BudgetConstructionOrgList2PLGReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgList2PLGReport> buildReports(Integer universityFiscalYear, String principalName);
     
 }
+

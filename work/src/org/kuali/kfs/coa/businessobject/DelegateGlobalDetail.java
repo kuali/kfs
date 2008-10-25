@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -42,7 +42,7 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
     private boolean accountDelegatePrimaryRoutingIndicator;
     private Date accountDelegateStartDate;
 
-    private UniversalUser accountDelegate;
+    private Person accountDelegate;
     private DocumentType documentType;
 
     /**
@@ -194,8 +194,8 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
         this.accountDelegateStartDate = accountDelegateStartDate;
     }
 
-    public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
+    public Person getAccountDelegate() {
+        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 
@@ -203,7 +203,7 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param accountDelegate The accountDelegate to set.
      * @deprecated
      */
-    public void setAccountDelegate(UniversalUser accountDelegate) {
+    public void setAccountDelegate(Person accountDelegate) {
         this.accountDelegate = accountDelegate;
     }
 
@@ -246,3 +246,4 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
         return m;
     }
 }
+

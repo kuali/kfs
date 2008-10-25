@@ -23,7 +23,7 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.businessobject.SalarySettingExpansion;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -244,19 +244,19 @@ public interface SalarySettingService {
      * @param appointmentFunding the given appointment funding
      * @param salarySettingFieldsHolder the field holder that contains the values passed from the user
      * @param budgetByObjectMode the budget by object mode flag
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, UniversalUser universalUser);
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Person person);
 
     /**
      * update the access flags of the given appointment funding according to the user level and document organization level
      * 
      * @param appointmentFunding the given appointment funding
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the access flags are updated successfully; otherwsie, false
      */
-    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person);
 
     /**
      * update the fields before saving the given appointment fundings
@@ -280,3 +280,4 @@ public interface SalarySettingService {
      */
     public boolean hasExistingFundingReason(BudgetConstructionAppointmentFundingReasonCode budgetConstructionAppointmentFundingReasonCode);
 }
+

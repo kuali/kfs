@@ -58,7 +58,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -74,7 +74,7 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -356,7 +356,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getPerson().getPrincipalName() };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
 
             LOG.info("accountIsAccessible check failed: account " + errorParams[0] + ", user " + errorParams[1]);
@@ -378,7 +378,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         boolean isAccessible = false;
 
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             isAccessible = true;
@@ -389,14 +389,14 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                 String accountNumber = accountingLine.getAccountNumber();
 
                 // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = currentUser.isResponsibleForAccount(chartCode, accountNumber);
+                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isResponsibleForAccount(currentUser.getPrincipalId(), chartCode, accountNumber);
             }
             else {
                 if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
+                    if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                         isAccessible = true;
                     }
                 }
@@ -420,7 +420,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (workflowDocument.stateIsEnroute()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
@@ -439,7 +439,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
+            if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                 hasLines = true;
             }
             else {
@@ -1329,3 +1329,4 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         return balancingFundGroups;
     }
 }
+

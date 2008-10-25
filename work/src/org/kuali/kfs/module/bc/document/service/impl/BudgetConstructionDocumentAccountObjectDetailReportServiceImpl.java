@@ -43,20 +43,20 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
     private KualiConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
-    public void updateDocumentAccountObjectDetailReportTable(String personUserIdentifier, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        budgetConstructionDocumentAccountObjectDetailReportDao.updateDocumentAccountObjectDetailReportTable(personUserIdentifier, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
+    public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+        budgetConstructionDocumentAccountObjectDetailReportDao.updateDocumentAccountObjectDetailReportTable(principalName, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionAccountObjectDetailReport> buildReports(String personUserIdentifier) {
+    public Collection<BudgetConstructionAccountObjectDetailReport> buildReports(String principalName) {
         Collection<BudgetConstructionAccountObjectDetailReport> reportSet = new ArrayList();
 
         // build order list
         List<String> orderList = buildOrderByList();
-        Collection<BudgetConstructionBalanceByAccount> balanceByAccountList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionBalanceByAccount.class, personUserIdentifier, orderList);
+        Collection<BudgetConstructionBalanceByAccount> balanceByAccountList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionBalanceByAccount.class, principalName, orderList);
 
         
         
@@ -515,3 +515,4 @@ public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl impl
     }
 
 }
+

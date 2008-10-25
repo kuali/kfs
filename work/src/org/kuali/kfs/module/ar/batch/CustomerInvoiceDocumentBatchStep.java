@@ -65,7 +65,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
         
         GlobalVariables.clear();
         try {
-            GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
+            GlobalVariables.setUserSession(new UserSession("khuntley"));
         }
         catch (WorkflowException wfex) {
         }
@@ -244,3 +244,4 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep {
     }    
 
 }
+

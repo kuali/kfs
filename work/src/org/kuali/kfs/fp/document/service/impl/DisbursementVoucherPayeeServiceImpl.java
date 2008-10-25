@@ -25,15 +25,15 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -89,10 +89,10 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
                 
                 // Send out FYIs to all previous approvers so they're aware of the changes to the address
                 try {
-                    Set<UniversalUser> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
+                    Set<Person> priorApprovers = dvDoc.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
                     String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiator().getUuId();
-                    FinancialSystemUser finSysUser = SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(initiatorUserId);
-                    setupFYIs(dvDoc, priorApprovers, finSysUser.getPersonUserIdentifier());
+                    Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
+                    setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());
                 } catch(WorkflowException we) {
                     LOG.error("Exception while attempting to retrieve all prior approvers from workflow: "+we);
                 } catch(UserNotFoundException unfe) {
@@ -169,12 +169,12 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
      * @param dvDoc
      * @param priorApprovers
      */
-    private void setupFYIs(DisbursementVoucherDocument dvDoc, Set<UniversalUser> priorApprovers, String initiatorUserId) {
+    private void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
         List<AdHocRouteRecipient> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
 
         // Add FYI for each approver who has already approved the document
-        for(UniversalUser approver : priorApprovers) {
-            String approverPersonUserId = approver.getPersonUserIdentifier();
+        for(Person approver : priorApprovers) {
+            String approverPersonUserId = approver.getPrincipalName();
             adHocRoutePersons.add(buildFyiRecipient(approverPersonUserId));
         }
 
@@ -246,3 +246,4 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
 
 }
+

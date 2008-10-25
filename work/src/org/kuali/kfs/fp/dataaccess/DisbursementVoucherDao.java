@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.dataaccess;
 import java.util.Collection;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
@@ -45,3 +45,4 @@ public interface DisbursementVoucherDao {
      */
     public Collection getDocumentsByHeaderStatus(String statusCode);
 }
+

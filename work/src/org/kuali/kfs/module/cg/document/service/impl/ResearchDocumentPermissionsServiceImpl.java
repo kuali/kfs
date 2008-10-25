@@ -43,10 +43,10 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
 
     /**
      * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocPermission(String documentNumber, String
-     *      personUniversalIdentifier)
+     *      principalId)
      */
-    public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier) {
-        return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
+    public AdhocPerson getAdHocPerson(String documentNumber, String principalId) {
+        return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, principalId));
     }
 
     /**
@@ -135,3 +135,4 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         this.businessObjectService = businessObjectService;
     }
 }
+

@@ -30,8 +30,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -52,8 +52,8 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private UniversalUser budgetLockUser;
-    private UniversalUser budgetTransactionLockUser;
+    private Person budgetLockUser;
+    private Person budgetTransactionLockUser;
     private Org organizationLevelOrganization;
     private DocumentHeader financialDocument;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
@@ -296,9 +296,9 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
         this.account = account;
     }
 
-    public UniversalUser getBudgetLockUser() {
+    public Person getBudgetLockUser() {
         if (budgetLockUserIdentifier != null){
-            budgetLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+            budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         }
         return budgetLockUser;
     }
@@ -309,7 +309,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
      * @param budgetLockUser The budgetLockUser to set.
      * @deprecated
      */
-    public void setBudgetLockUser(UniversalUser budgetLockUser) {
+    public void setBudgetLockUser(Person budgetLockUser) {
         this.budgetLockUser = budgetLockUser;
     }
 
@@ -331,9 +331,9 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
         this.budgetConstructionAccountSelect = budgetConstructionAccountSelect;
     }
 
-    public UniversalUser getBudgetTransactionLockUser() {
+    public Person getBudgetTransactionLockUser() {
         if (budgetTransactionLockUserIdentifier != null){
-            budgetTransactionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+            budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         }
         return budgetTransactionLockUser;
     }
@@ -344,7 +344,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
      * @param budgetTransactionLockUser The budgetTransactionLockUser to set.
      * @deprecated
      */
-    public void setBudgetTransactionLockUser(UniversalUser budgetTransactionLockUser) {
+    public void setBudgetTransactionLockUser(Person budgetTransactionLockUser) {
         this.budgetTransactionLockUser = budgetTransactionLockUser;
     }
 
@@ -455,3 +455,4 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     }
 
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
@@ -45,7 +45,7 @@ import org.kuali.kfs.sys.suite.CrossSectionSuite;
  * Test class for testing <code>{@link ItemParser}</code>
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class ItemParserTest extends KualiTestBase {
     PurchasingDocument purDoc;
     ItemParser parser;
@@ -215,3 +215,4 @@ public class ItemParserTest extends KualiTestBase {
         }
     }    
 }
+

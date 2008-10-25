@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.businessobject.BatchUpload;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.kns.authorization.AuthorizationType;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -80,15 +80,15 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         BatchInputFileSetType batchInputFileType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
 
         AuthorizationType defaultAuthorizationType = new AuthorizationType.Default(batchInputFileType.getClass());
-        if (!getKualiModuleService().isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), defaultAuthorizationType)) {
+        if (!getKualiModuleService().isAuthorized(GlobalVariables.getUserSession().getPerson(), defaultAuthorizationType)) {
             LOG.error("User not authorized for lookup action for this object: " + batchInputFileType.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), defaultAuthorizationType, getKualiModuleService().getResponsibleModuleService(batchInputFileType.getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), defaultAuthorizationType, getKualiModuleService().getResponsibleModuleService(batchInputFileType.getClass()));
         }
 
-        boolean isAuthorizedForType = SpringContext.getBean(BatchInputFileSetService.class).isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getFinancialSystemUser());
+        boolean isAuthorizedForType = SpringContext.getBean(BatchInputFileSetService.class).isUserAuthorizedForBatchType(batchInputFileType, GlobalVariables.getUserSession().getPerson());
         if (!isAuthorizedForType) {
-            LOG.error("User " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier() + " is not authorized for batch type " + batchInputFileType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), "upload", batchInputFileType.getFileSetTypeIdentifer());
+            LOG.error("User " + GlobalVariables.getUserSession().getPerson().getPrincipalName() + " is not authorized for batch type " + batchInputFileType.getFileSetTypeIdentifer());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "upload", batchInputFileType.getFileSetTypeIdentifer());
         }
     }
 
@@ -141,7 +141,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         }
 
         try {
-            Map<String, String> typeToSavedFileNames = batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((KualiBatchInputFileSetForm) form).isSupressDoneFileCreation());
+            Map<String, String> typeToSavedFileNames = batchInputFileSetService.save(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((KualiBatchInputFileSetForm) form).isSupressDoneFileCreation());
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
@@ -179,7 +179,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
 
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         try {
-            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getExistingFileName());
+            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getExistingFileName());
 
             if (deleteSuccessful) {
                 GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);
@@ -220,7 +220,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         File batchInputFile = null;
         try {
-            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
+            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getPerson(), batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors downloading file " + e1.getMessage(), e1);
@@ -255,7 +255,7 @@ public class KualiBatchInputFileSetAction extends KualiAction {
     public void setupForm(KualiBatchInputFileSetForm form) {
         List<KeyLabelPair> userFiles = new ArrayList<KeyLabelPair>();
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         BatchInputFileSetType batchInputFileSetType = retrieveBatchInputFileSetTypeImpl(form.getBatchUpload().getBatchInputTypeName());
 
         if (batchInputFileSetType == null) {
@@ -296,3 +296,4 @@ public class KualiBatchInputFileSetAction extends KualiAction {
     }
 
 }
+

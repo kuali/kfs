@@ -30,14 +30,14 @@ import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
  */
 public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -65,21 +65,21 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -269,7 +269,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(UniversalUserService.class).getUniversalUser(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPersonUserIdentifier();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
                 }
                 else {
@@ -319,7 +319,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
                 ActionTakenService actionTakenService = KEWServiceLocator.getActionTakenService();
                 List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByRouteHeaderIdIgnoreCurrentInd(docNum);
                 if (actionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(UniversalUserService.class).getUniversalUser(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPersonUserIdentifier();
+                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(actionsTaken.get(actionsTaken.size() - 1).getWorkflowId()).getPrincipalName();
                     this.financialDocumentCreateDate = new Date(actionsTaken.get(actionsTaken.size() - 1).getActionDate().getTime());
                 }
 
@@ -468,7 +468,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -481,3 +481,4 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
 
 }
+

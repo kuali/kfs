@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface LaborLedgerBalance extends PersistableBusinessObject, ExternalizableBusinessObject{
@@ -290,14 +290,14 @@ public interface LaborLedgerBalance extends PersistableBusinessObject, Externali
      * 
      * @return Returns the ledgerPerson.
      */
-    public UniversalUser getLedgerPerson();
+    public Person getLedgerPerson();
 
     /**
      * Sets the ledgerPerson attribute value.
      * 
      * @param ledgerPerson The ledgerPerson to set.
      */
-    public void setLedgerPerson(UniversalUser ledgerPerson);
+    public void setLedgerPerson(Person ledgerPerson);
 
     /**
      * Gets the month10Amount attribute.
@@ -607,3 +607,4 @@ public interface LaborLedgerBalance extends PersistableBusinessObject, Externali
      */
     public void addAmount(String period, KualiDecimal amount);
 }
+

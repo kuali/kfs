@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.GHATTEN;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.STROUD;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.ghatten;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.stroud;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurapFullProcessDocumentTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentServiceImpl.class);
 
@@ -65,7 +65,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     * Close PO
      */
     @RelatesTo(JiraIssue.KULPURAP2666)
-    @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
+    @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public final void testFullProcess() throws Exception {
         // 1. use the ACM document to create the REQ and PO
         ContractManagerAssignmentDocumentTest acmDocTest = new ContractManagerAssignmentDocumentTest();
@@ -76,7 +76,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         // approve the PO
         poDoc.setPurchaseOrderVendorChoiceCode("LPRC");
         // submit then approve the PO
-        documentService.routeDocument(poDoc, "Test routing as PARKE", null); 
+        documentService.routeDocument(poDoc, "Test routing as parke", null); 
 
         poDoc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poNumber);
         
@@ -84,20 +84,20 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         PaymentRequestDocument preqDoc = routePREQDocumentToFinal(poDoc);
         
         // 4. use the PO number to create a Credit Memo and have it go final
-        changeCurrentUser(APPLETON);
+        changeCurrentUser(appleton);
         CreditMemoDocumentTest cmDocTest = new CreditMemoDocumentTest();
         CreditMemoDocument cmDoc = cmDocTest.routeDocument(preqDoc);
         
         // 2. based on the PO document number, create the Amend PO doc and let it go final (with philips?)
-        changeCurrentUser(PARKE);
+        changeCurrentUser(parke);
         PurchaseOrderAmendmentDocument amendDoc = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.AMENDMENT);
-        documentService.routeDocument(amendDoc, "Test routing as PARKE", null);
+        documentService.routeDocument(amendDoc, "Test routing as parke", null);
         WorkflowTestUtils.waitForStatusChange(amendDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         // 5. use the PO number to create a Close PO and have it go final
-        changeCurrentUser(PARKE);
+        changeCurrentUser(parke);
         PurchaseOrderCloseDocument closeDoc = (PurchaseOrderCloseDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PurchaseOrderStatuses.PENDING_CLOSE);
-        documentService.routeDocument(closeDoc, "Test routing as PARKE", null);
+        documentService.routeDocument(closeDoc, "Test routing as parke", null);
         WorkflowTestUtils.waitForStatusChange(closeDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
         LOG.info("Requisition document: " + reqDoc.getDocumentNumber());
@@ -110,7 +110,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     
     
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public final PaymentRequestDocument routePREQDocumentToFinal(PurchaseOrderDocument POdoc) throws Exception {
 //        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
@@ -121,25 +121,25 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.routeDocument(paymentRequestDocument, documentService);
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), SUB_ACCOUNT_REVIEW);
 
-        // the document should now be routed to VPUTMAN as Fiscal Officer
-        changeCurrentUser(STROUD);
+        // the document should now be routed to vputman as Fiscal Officer
+        changeCurrentUser(stroud);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, SUB_ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue("STROUD should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(paymentRequestDocument, "Test approving as STROUD", null); 
+        assertTrue("stroud should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        documentService.approveDocument(paymentRequestDocument, "Test approving as stroud", null); 
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-        changeCurrentUser(RORENFRO);
+        changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument,     
                 ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue("RORENFRO should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(paymentRequestDocument, "Test approving as RORENFRO", null); 
+        assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
-        changeCurrentUser(GHATTEN);
+        changeCurrentUser(ghatten);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        documentService.approveDocument(paymentRequestDocument, "Test approving as GHATTEN", null); 
+        documentService.approveDocument(paymentRequestDocument, "Test approving as ghatten", null); 
 
         WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 //
@@ -149,10 +149,11 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     }
  
     private UserNameFixture getInitialUserName() {
-        return KHUNTLEY;
+        return khuntley;
     }
 
     protected UserNameFixture getTestUserName() {
-        return KHUNTLEY;
+        return khuntley;
     }
 }
+

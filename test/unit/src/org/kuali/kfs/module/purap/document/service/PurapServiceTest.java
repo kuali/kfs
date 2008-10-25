@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurapServiceTest extends KualiTestBase {
 
     private Date currentDate;
@@ -228,3 +228,4 @@ public class PurapServiceTest extends KualiTestBase {
         assertEquals(reqDoc.getItem(0).getTotalAmount(), new KualiDecimal("1.00"));
     }
 }
+

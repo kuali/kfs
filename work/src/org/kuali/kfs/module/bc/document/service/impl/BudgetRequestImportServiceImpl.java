@@ -54,7 +54,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -103,10 +103,10 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      *      java.lang.String, java.lang.String)
      */
     @Transactional
-    public List processImportFile(InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException {
+    public List processImportFile(InputStream fileImportStream, String principalId, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException {
         List fileErrorList = new ArrayList();
         
-        deleteBudgetConstructionMoveRecords(personUniversalIdentifier);
+        deleteBudgetConstructionMoveRecords(principalId);
 
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
 
@@ -123,7 +123,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             if (budgetConstructionRequestMove == null) {
                 fileErrorList.add(BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + currentLine + ".");
                 // clean out table since file processing has stopped
-                deleteBudgetConstructionMoveRecords(personUniversalIdentifier);
+                deleteBudgetConstructionMoveRecords(principalId);
                 return fileErrorList;
             }
 
@@ -132,7 +132,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             if ( StringUtils.isNotEmpty(lineValidationError) ) {
                 fileErrorList.add(lineValidationError);
                 // clean out table since file processing has stopped
-                deleteBudgetConstructionMoveRecords(personUniversalIdentifier);
+                deleteBudgetConstructionMoveRecords(principalId);
                 return fileErrorList;
             }
 
@@ -158,7 +158,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             
             //check for duplicate key exception, since it requires a different error message
             Map searchCriteria = new HashMap();
-            searchCriteria.put("personUniversalIdentifier", personUniversalIdentifier);
+            searchCriteria.put("principalId", principalId);
             searchCriteria.put("chartOfAccountsCode", budgetConstructionRequestMove.getChartOfAccountsCode());
             searchCriteria.put("accountNumber", budgetConstructionRequestMove.getAccountNumber());
             searchCriteria.put("subAccountNumber", budgetConstructionRequestMove.getSubAccountNumber());
@@ -168,12 +168,12 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 LOG.error("Move table store error, import aborted");
                 fileErrorList.add("Duplicate Key for " + budgetConstructionRequestMove.getErrorLinePrefixForLogFile());
                 fileErrorList.add("Move table store error, import aborted");
-                deleteBudgetConstructionMoveRecords(personUniversalIdentifier);
+                deleteBudgetConstructionMoveRecords(principalId);
                 
                 return fileErrorList;
             }
             try {
-                budgetConstructionRequestMove.setPersonUniversalIdentifier(personUniversalIdentifier);
+                budgetConstructionRequestMove.setPrincipalId(principalId);
                 importRequestDao.save(budgetConstructionRequestMove, false);
             }
             catch (RuntimeException e) {
@@ -203,9 +203,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#validateData()
      */
     @Transactional
-    public List<String> validateData(Integer budgetYear, String personUniversalIdentifier) {
+    public List<String> validateData(Integer budgetYear, String principalId) {
         Map searchCriteria = new HashMap();
-        searchCriteria.put("personUniversalIdentifier", personUniversalIdentifier);
+        searchCriteria.put("principalId", principalId);
         List<BudgetConstructionRequestMove> dataToValidateList = new ArrayList<BudgetConstructionRequestMove>(businessObjectService.findMatching(BudgetConstructionRequestMove.class, searchCriteria));
         List<String> errorMessages = new ArrayList<String>();
 
@@ -298,8 +298,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#loadBudget()
      */
     @Transactional
-    public List<String> loadBudget(UniversalUser user, String fileType, Integer budgetYear) throws Exception {
-        List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords(user.getPersonUniversalIdentifier());
+    public List<String> loadBudget(Person user, String fileType, Integer budgetYear) throws Exception {
+        List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords(user.getPrincipalId());
         List<String> errorMessages = new ArrayList<String>();
         Map<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
         
@@ -323,7 +323,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 }
 
                 if (recordToLoad.getHasAccess()) {
-                    BudgetConstructionLockStatus lockStatus = this.lockService.lockAccountAndCommit(header, user.getPersonUniversalIdentifier());
+                    BudgetConstructionLockStatus lockStatus = this.lockService.lockAccountAndCommit(header, user.getPrincipalId());
                     if (lockStatus.getLockStatus().equals(KFSConstants.BudgetConstructionConstants.LockStatus.SUCCESS)) {
                         recordToLoad.setHasLock(true);
                     } else {
@@ -359,7 +359,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             }
         }
 
-        deleteBudgetConstructionMoveRecords(user.getPersonUniversalIdentifier());
+        deleteBudgetConstructionMoveRecords(user.getPrincipalId());
         return errorMessages;
     }
 
@@ -640,11 +640,11 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     /**
      * Clears BudgetConstructionRequestMove
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      */
-    private void deleteBudgetConstructionMoveRecords(String personUniversalIdentifier) {
+    private void deleteBudgetConstructionMoveRecords(String principalId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, fieldValues);
     }
     
@@ -709,3 +709,4 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     
     
 }
+

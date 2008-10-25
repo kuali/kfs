@@ -48,7 +48,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -517,9 +517,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, org.kuali.core.bo.user.UniversalUser)
+     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, org.kuali.core.bo.user.Person)
      */
-    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, UniversalUser universalUser) {
+    public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, Person person) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
         String budgetAccountNumber = salarySettingFieldsHolder.getAccountNumber();
         String budgetSubAccountNumber = salarySettingFieldsHolder.getSubAccountNumber();
@@ -538,7 +538,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             return true;
         }
 
-        boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, universalUser);
+        boolean isUpdatedByUserLevel = this.updateAccessOfAppointmentFundingByUserLevel(appointmentFunding, person);
         if (isUpdatedByUserLevel) {
             return true;
         }
@@ -548,9 +548,9 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser) {
+    public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
         if (budgetConstructionHeader == null) {
             return false;
@@ -560,18 +560,18 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         Account account = appointmentFunding.getAccount();
 
         // account manager or delegate could edit the appointment funding if the document is in the beginning level
-        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, universalUser)) {
+        if (documentOrganizationLevelCode == 0 && permissionService.isAccountManagerOrDelegate(account, person)) {
             appointmentFunding.setDisplayOnlyMode(false);
             return true;
         }
 
         // get the organization review hierachy path for which the user could be an approver
-        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(universalUser);
+        List<Org> organazationReviewHierachy = permissionService.getOrganizationReviewHierachy(person);
         if (organazationReviewHierachy == null || organazationReviewHierachy.isEmpty()) {
             return false;
         }
 
-        String accessMode = budgetDocumentService.getAccessMode(budgetConstructionHeader, universalUser);
+        String accessMode = budgetDocumentService.getAccessMode(budgetConstructionHeader, person);
         if (StringUtils.equals(accessMode, KfsAuthorizationConstants.BudgetConstructionEditMode.FULL_ENTRY)) {
             appointmentFunding.setDisplayOnlyMode(false);
         }
@@ -783,3 +783,4 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         this.permissionService = permissionService;
     }
 }
+

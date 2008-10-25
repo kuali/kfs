@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
@@ -33,7 +33,7 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @param user
      * @return Map with field names as keys that are allowed to be edited in special edit modes.
      */
-    public Map getAccountingLineEditableFields(Document document, UniversalUser user);
+    public Map getAccountingLineEditableFields(Document document, Person user);
 
     /**
      * Variant version of getEditMode which uses passed-in sourceAccountingLines and targetAccountingLines instead of getting them
@@ -47,7 +47,7 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @return Map with keys AuthorizationConstants.EditMode value (String) which indicates what operations the user is currently
      *         allowed to take on that document.
      */
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines);
+    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines);
 
 
     /**
@@ -61,7 +61,7 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @return Map of Account objects, indexed by accountKey (return value of account.buildAccountKey), which the given user should
      *         be allowed to edit
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user);
+    public Map getEditableAccounts(TransactionalDocument document, Person user);
 
     /**
      * This method takes a list of accounting lines, and it returns a map with the keys being well-formatted representations of the
@@ -71,5 +71,6 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      * @param user the user to authorize each accounting line for
      * @return a map with keys holding well formated primary keys of the editable accounts.
      */
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user);
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user);
 }
+

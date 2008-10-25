@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Timestamp;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 public interface TimestampedBusinessObject {
     /**
@@ -28,10 +28,11 @@ public interface TimestampedBusinessObject {
     /**
      * @return Returns the lastUpdateUser.
      */ 
-    public UniversalUser getLastUpdateUser();
+    public Person getLastUpdateUser();
     
     /**
      * @return Returns the lastUpdate.
      */ 
     public Timestamp getLastUpdate();
 }
+

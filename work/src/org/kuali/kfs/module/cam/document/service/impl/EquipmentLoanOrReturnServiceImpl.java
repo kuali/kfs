@@ -115,9 +115,9 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
                 borrowerLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER);
                 updateAsset.getAssetLocations().add(borrowerLocation);
             }
-            borrowerLocation.setAssetLocationContactName(document.getBorrowerUniversalUser().getPersonName());
+            borrowerLocation.setAssetLocationContactName(document.getBorrowerPerson().getName());
             borrowerLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
-            borrowerLocation.setAssetLocationInstitutionName(document.getBorrowerUniversalUser().getPrimaryDepartmentCode());
+            borrowerLocation.setAssetLocationInstitutionName(document.getBorrowerPerson().getPrimaryDepartmentCode());
             borrowerLocation.setAssetLocationPhoneNumber(document.getBorrowerPhoneNumber());
             borrowerLocation.setAssetLocationStreetAddress(document.getBorrowerAddress());
             borrowerLocation.setAssetLocationCityName(document.getBorrowerCityName());
@@ -150,9 +150,9 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
                 storeAtLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.BORROWER_STORAGE);
                 updateAsset.getAssetLocations().add(storeAtLocation);
             }
-            storeAtLocation.setAssetLocationContactName(document.getBorrowerUniversalUser().getPersonName());
+            storeAtLocation.setAssetLocationContactName(document.getBorrowerPerson().getName());
             storeAtLocation.setAssetLocationContactIdentifier(document.getBorrowerUniversalIdentifier());
-            storeAtLocation.setAssetLocationInstitutionName(document.getBorrowerUniversalUser().getPrimaryDepartmentCode());
+            storeAtLocation.setAssetLocationInstitutionName(document.getBorrowerPerson().getPrimaryDepartmentCode());
             storeAtLocation.setAssetLocationPhoneNumber(document.getBorrowerStoragePhoneNumber());
             storeAtLocation.setAssetLocationStreetAddress(document.getBorrowerStorageAddress());
             storeAtLocation.setAssetLocationCityName(document.getBorrowerStorageCityName());
@@ -178,3 +178,4 @@ public class EquipmentLoanOrReturnServiceImpl implements EquipmentLoanOrReturnSe
     }
 
 }
+

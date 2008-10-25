@@ -44,14 +44,14 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
 
-    private UniversalUserService userService;
+    private org.kuali.rice.kim.service.PersonService userService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
 
@@ -298,7 +298,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
 
-    public void setUniversalUserService(UniversalUserService us) {
+    public void setPersonService(org.kuali.rice.kim.service.PersonService us) {
         userService = us;
     }
     
@@ -310,3 +310,4 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         parameterService = ps;
     }
 }
+

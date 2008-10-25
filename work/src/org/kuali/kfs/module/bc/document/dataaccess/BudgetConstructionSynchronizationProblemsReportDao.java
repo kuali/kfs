@@ -21,9 +21,10 @@ public interface BudgetConstructionSynchronizationProblemsReportDao {
     /**
      *  creates rows for report indicating invalid object classes or inactive positions in the detailed salary list.
      * 
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      * @return
      */
-    public void updateReportsSynchronizationProblemsTable(String personUserIdentifier);
+    public void updateReportsSynchronizationProblemsTable(String principalName);
 
 }
+

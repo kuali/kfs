@@ -380,8 +380,8 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
      */
-    public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
-        this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T","PERSON_UNVL_ID",personUserIdentifier);
+    public void cleanGeneralLedgerObjectSummaryTable(String principalName) {
+        this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T","PERSON_UNVL_ID",principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -392,33 +392,33 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String)
      */
-    public void updateGeneralLedgerObjectSummaryTable(String personUserIdentifier) {
+    public void updateGeneralLedgerObjectSummaryTable(String principalName) {
         String  idForSession      = (new Guid()).toString();
         ArrayList<String> inLists = new ArrayList<String>(2);
         inLists.add(this.getRevenueINList());
         inLists.add(this.getExpenditureINList());
         
         // get rid of anything left over from the last time this user ran this report
-        cleanGeneralLedgerObjectSummaryTable(personUserIdentifier);
+        cleanGeneralLedgerObjectSummaryTable(principalName);
 
         // insert the general ledger amounts into the report table, with 0 placeholders for the FTE
-        getSimpleJdbcTemplate().update(objectSummarySql.get(0).getSQL(inLists),personUserIdentifier,personUserIdentifier,personUserIdentifier,personUserIdentifier);
+        getSimpleJdbcTemplate().update(objectSummarySql.get(0).getSQL(inLists),principalName,principalName,principalName,principalName);
 
         // sum up the FTE from the appointment funding and stick it in a holding table
-        getSimpleJdbcTemplate().update(objectSummarySql.get(1).getSQL(),idForSession,personUserIdentifier);
+        getSimpleJdbcTemplate().update(objectSummarySql.get(1).getSQL(),idForSession,principalName);
 
         // set the FTE in the report table using the appointment funding FTE from the holding table
-        getSimpleJdbcTemplate().update(objectSummarySql.get(2).getSQL(),personUserIdentifier,idForSession,personUserIdentifier,idForSession,personUserIdentifier,personUserIdentifier,idForSession);
+        getSimpleJdbcTemplate().update(objectSummarySql.get(2).getSQL(),principalName,idForSession,principalName,idForSession,principalName,principalName,idForSession);
 
         // sum up the FTE from the CSF tracker (base funding) table and stick it in a holding table
         ArrayList<String> csfLeaveIndicator = new ArrayList<String>(3);
         csfLeaveIndicator.add(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue());
         csfLeaveIndicator.add(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue());
         csfLeaveIndicator.add(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue());
-        getSimpleJdbcTemplate().update(objectSummarySql.get(3).getSQL(csfLeaveIndicator),idForSession,personUserIdentifier,idForSession,personUserIdentifier);
+        getSimpleJdbcTemplate().update(objectSummarySql.get(3).getSQL(csfLeaveIndicator),idForSession,principalName,idForSession,principalName);
         
         // set the CSF FTE in the report table using the FTE from the holding table
-        getSimpleJdbcTemplate().update(objectSummarySql.get(4).getSQL(),personUserIdentifier,idForSession,personUserIdentifier,idForSession,personUserIdentifier,personUserIdentifier,idForSession);
+        getSimpleJdbcTemplate().update(objectSummarySql.get(4).getSQL(),principalName,idForSession,principalName,idForSession,principalName,principalName,idForSession);
         
         // clean out this session's rows from the holding tables used
         this.clearTempTableBySesId("LD_BCN_BUILD_OBJTSUMM01_MT","SESID",idForSession);
@@ -436,3 +436,4 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
     }
 
 }
+

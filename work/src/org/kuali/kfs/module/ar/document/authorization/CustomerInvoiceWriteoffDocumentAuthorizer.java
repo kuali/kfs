@@ -29,8 +29,8 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -40,7 +40,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
 
         Map<String, String> editModeMap = super.getEditMode(document, user);
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
@@ -54,10 +54,10 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
@@ -71,13 +71,13 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
+    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
         super.canInitiate(documentTypeName, user);
         // to initiate, the user must have the organization options set up.
-        ChartOrgHolder chartUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder chartUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("chartOfAccountsCode", chartUser.getChartOfAccountsCode());
@@ -117,3 +117,4 @@ public class CustomerInvoiceWriteoffDocumentAuthorizer extends FinancialSystemTr
     }
 
 }
+

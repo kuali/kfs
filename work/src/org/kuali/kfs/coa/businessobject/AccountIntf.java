@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 public interface AccountIntf {
@@ -673,35 +673,35 @@ public interface AccountIntf {
     /**
      * @return Returns the accountFiscalOfficerUser.
      */
-    public UniversalUser getAccountFiscalOfficerUser();
+    public Person getAccountFiscalOfficerUser();
 
     /**
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
-    public void setAccountFiscalOfficerUser(UniversalUser accountFiscalOfficerUser);
+    public void setAccountFiscalOfficerUser(Person accountFiscalOfficerUser);
 
     /**
      * @return Returns the accountManagerUser.
      */
-    public UniversalUser getAccountManagerUser();
+    public Person getAccountManagerUser();
 
     /**
      * @param accountManagerUser The accountManagerUser to set.
      * @deprecated
      */
-    public void setAccountManagerUser(UniversalUser accountManagerUser);
+    public void setAccountManagerUser(Person accountManagerUser);
 
     /**
      * @return Returns the accountSupervisoryUser.
      */
-    public UniversalUser getAccountSupervisoryUser();
+    public Person getAccountSupervisoryUser();
 
     /**
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
      */
-    public void setAccountSupervisoryUser(UniversalUser accountSupervisoryUser);
+    public void setAccountSupervisoryUser(Person accountSupervisoryUser);
 
     /**
      * @return Returns the continuationAccount.
@@ -1127,3 +1127,4 @@ public interface AccountIntf {
     public String getGuidelinesAndPurposeSectionBlank();
 
 }
+

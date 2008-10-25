@@ -20,7 +20,7 @@ import java.util.Date;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionRate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
@@ -34,10 +34,10 @@ public class TaxRegionDocumentAuthorizer extends MaintenanceDocumentAuthorizerBa
     /**
      * If a effective date for a tax rate is not in future, make it read only.
      *   
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kim.bo.Person)
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(
-            MaintenanceDocument document, UniversalUser user) {
+            MaintenanceDocument document, Person user) {
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         TaxRegion taxRegion = (TaxRegion)document.getNewMaintainableObject().getBusinessObject();
         if(taxRegion!=null)

@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 
 import com.lowagie.text.DocumentException;
@@ -44,7 +44,7 @@ public interface BudgetRequestImportService {
      * @return list of errors encountered during file processing
      * @throws IOException
      */
-    public List processImportFile (InputStream fileImportStream, String personUniversalIdentifier, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException;
+    public List processImportFile (InputStream fileImportStream, String principalId, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException;
     
     /**
      * Generates the log file
@@ -61,14 +61,14 @@ public interface BudgetRequestImportService {
      * @return true if no data validation errors were found. false otherwise
      * 
      */
-    public List<String> validateData(Integer budgetYear, String personUniversalIdentifier);
+    public List<String> validateData(Integer budgetYear, String principalId);
     
     /**
      * Loads all budget request records that do not have error codes
      * 
      * @return
      */
-    public List<String> loadBudget(UniversalUser user, String fileType, Integer budgetYear) throws Exception;
+    public List<String> loadBudget(Person user, String fileType, Integer budgetYear) throws Exception;
     
     /**
      * Gets ImportRequestDao
@@ -105,3 +105,4 @@ public interface BudgetRequestImportService {
      */
     public void setLockService(LockService lockService);
 }
+

@@ -29,8 +29,8 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -48,7 +48,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     private String financialObjectFringeOrSalaryCode;
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
-    private UniversalUser ledgerPerson;
+    private Person ledgerPerson;
     private LaborObject laborObject;
 
     /**
@@ -469,14 +469,14 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
     }
 
     /**
-     * Gets the UniversalUser
+     * Gets the Person
      * 
-     * @return Returns the UniversalUser
+     * @return Returns the Person
      */
-    public UniversalUser getLedgerPerson() {
+    public Person getLedgerPerson() {
         if (ledgerPerson == null) {
             // Try to find a ledger person for this emplid if one exists
-            setLedgerPerson(SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(emplid));
+            setLedgerPerson((Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, emplid).get(0));
         }
 
         return ledgerPerson;
@@ -487,7 +487,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * 
      * @param ledgerPerson The ledgerPerson to set.
      */
-    public void setLedgerPerson(UniversalUser ledgerPerson) {
+    public void setLedgerPerson(Person ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
     }
 
@@ -531,3 +531,4 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
         return map;
     }
 }
+

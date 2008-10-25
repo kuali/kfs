@@ -34,16 +34,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.user.PersonTaxId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.bo.user.UserId;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -58,7 +56,6 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private MaintenanceDocumentService maintenanceDocumentService;
-    private UniversalUserService universalUserService;
 
     /**
      * This method retrieves the universal id of the individual or business entity who matches the tax id number and type
@@ -76,18 +73,11 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return null;
         }
 
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, taxIDNumber).get(0);
+        
         String universalId = null;
-        UserId userId = (UserId) new PersonTaxId(taxIDNumber);
-        UniversalUser universalUser = null;
-
-        try {
-            universalUser = universalUserService.getUniversalUser(userId);
-        }
-        catch (UserNotFoundException e) {
-        }
-
-        if (universalUser != null) {
-            universalId = universalUser.getPersonUniversalIdentifier();
+        if (person != null) {
+            universalId = person.getPrincipalId();
         }
         return universalId;
     }
@@ -539,19 +529,5 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         this.maintenanceDocumentService = maintenanceDocumentService;
     }
 
-    /**
-     * Gets the value of the universalUserService instance.
-     * @return Returns the universalUserService.
-     */
-    public UniversalUserService getUniversalUserService() {
-        return universalUserService;
-    }
-
-    /**
-     * This method sets the universalUserService attribute to the value given.
-     * @param universalUserService The universalUserService to set.
-     */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
-    }
 }
+

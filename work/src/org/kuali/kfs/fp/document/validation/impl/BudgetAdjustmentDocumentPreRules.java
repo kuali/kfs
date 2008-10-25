@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PreRulesContinuationBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -75,8 +75,8 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         // and check that the user can edit the document
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
         BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
-        UniversalUser universalUser = GlobalVariables.getUserSession().getFinancialSystemUser();
-        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, universalUser, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
+        Person person = GlobalVariables.getUserSession().getPerson();
+        Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, person, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
 
         if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
@@ -112,3 +112,4 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         return copiedLines;
     }
 }
+

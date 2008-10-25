@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -36,7 +36,7 @@ public class PayeeDocumentAuthorizer extends FinancialSystemMaintenanceDocumentA
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         Map editMode = super.getEditMode(document, user);
 
         if (user.isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
@@ -47,3 +47,4 @@ public class PayeeDocumentAuthorizer extends FinancialSystemMaintenanceDocumentA
     }
 
 }
+

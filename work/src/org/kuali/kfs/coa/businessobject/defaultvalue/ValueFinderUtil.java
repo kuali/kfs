@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.businessobject.defaultvalue;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -27,33 +27,18 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ValueFinderUtil {
 
     /**
-     * This method returns the currently logged in KFS User.
-     * 
-     * @return the currently logged in Chart User
-     * @see ChartUser
-     */
-    public static FinancialSystemUser getCurrentFinancialSystemUser() {
-        UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
-        if (currentUser != null) {
-            return SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(currentUser);
-        }
-        else {
-            return null;
-        }
-    }
-
-    /**
      * This method returns the currently logged in Universal User.
      * 
      * @return the currently logged in Universal User
-     * @see UniversalUser
+     * @see Person
      */
-    private static UniversalUser getCurrentUniversalUser() {
+    public static Person getCurrentPerson() {
         if (GlobalVariables.getUserSession() != null) {
-            return GlobalVariables.getUserSession().getFinancialSystemUser();
+            return GlobalVariables.getUserSession().getPerson();
         }
         else {
             return null;
         }
     }
 }
+

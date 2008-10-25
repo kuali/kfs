@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
 
@@ -34,7 +34,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
     private String effortCertificationReportNumber;
     private String emplid;
     
-    private UniversalUser employee;
+    private Person employee;
     private Options options;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     
@@ -107,11 +107,11 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @return Returns the employee.
      */
-    public UniversalUser getEmployee() {
+    public Person getEmployee() {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, getEmplid());
 
-        return new ArrayList<UniversalUser>(SpringContext.getBean(UniversalUserService.class).findUniversalUsers(searchCriteria)).get(0);
+        return new ArrayList<Person>(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(searchCriteria)).get(0);
     }
 
     /**
@@ -119,7 +119,7 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * 
      * @param employee The employee to set.
      */
-    public void setEmployee(UniversalUser employee) {
+    public void setEmployee(Person employee) {
         this.employee = employee;
     }
     
@@ -159,3 +159,4 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
         this.effortCertificationReportDefinition = effortCertificationReportDefinition;
     }
 }
+

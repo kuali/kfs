@@ -51,22 +51,22 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
-    public void updateAccountObjectDetailReport(String personUserIdentifier, boolean consolidated) {
+    public void updateAccountObjectDetailReport(String principalName, boolean consolidated) {
         if (consolidated) {
-            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectConsolidatedTable(personUserIdentifier);
+            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectConsolidatedTable(principalName);
         }
         else {
-            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectDetailTable(personUserIdentifier);
+            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectDetailTable(principalName);
         }
     }
 
-    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidated) {
+    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountObjectDetailReport> reportSet = new ArrayList();
         Collection<BudgetConstructionAccountBalance> accountObjectDetailList;
 
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
@@ -826,3 +826,4 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     }
 
 }
+

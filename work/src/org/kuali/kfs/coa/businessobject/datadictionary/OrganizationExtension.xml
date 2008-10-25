@@ -20,11 +20,11 @@
         <ref bean="OrganizationExtension-hrmsIuCampusBuilding" />
         <ref bean="OrganizationExtension-hrmsIuCampusRoom" />
         <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversalId" />
-        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier" />
-        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.personName" />
+        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName" />
+        <ref bean="OrganizationExtension-hrmsPersonnelApproverUniversal.name" />
         <ref bean="OrganizationExtension-fiscalApproverUniversalId" />
-        <ref bean="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier" />
-        <ref bean="OrganizationExtension-fiscalApproverUniversal.personName" />
+        <ref bean="OrganizationExtension-fiscalApproverUniversal.principalName" />
+        <ref bean="OrganizationExtension-fiscalApproverUniversal.name" />
         <ref bean="OrganizationExtension-hrmsIuPositionAllowedFlag" />
         <ref bean="OrganizationExtension-hrmsIuTenureAllowedFlag" />
         <ref bean="OrganizationExtension-hrmsIuTitleAllowedFlag" />
@@ -40,18 +40,18 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="hrmsPersonnelApproverUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="hrmsPersonnelApproverUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="hrmsPersonnelApproverUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="hrmsPersonnelApproverUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="hrmsPersonnelApproverUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -61,18 +61,18 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="fiscalApproverUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="fiscalApproverUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="fiscalApproverUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="fiscalApproverUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="fiscalApproverUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -198,7 +198,7 @@
   </bean>
   <bean id="OrganizationExtension-hrmsPersonnelApproverUniversalId" parent="OrganizationExtension-hrmsPersonnelApproverUniversalId-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="hrmsPersonnelApproverUniversalId" />
     <property name="label" value="Personnel Approver UserID" />
     <property name="shortLabel" value="Personnel Approver UserID" />
@@ -206,30 +206,30 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" />
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="hrmsPersonnelApproverUniversal.personUserIdentifier" />
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="hrmsPersonnelApproverUniversal.principalName" />
     <property name="label" value="Personnel Approver UserID" />
     <property name="shortLabel" value="Personnel Approver" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="hrmsPersonnelApproverUniversal.personName"
+            p:personNameAttributeName="hrmsPersonnelApproverUniversal.name"
             p:universalIdAttributeName="hrmsPersonnelApproverUniversalId"
-            p:userIdAttributeName="hrmsPersonnelApproverUniversal.personUserIdentifier" />
+            p:userIdAttributeName="hrmsPersonnelApproverUniversal.principalName" />
     </property>
   </bean>
-  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personName" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.personName-parentBean" />
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.name" parent="OrganizationExtension-hrmsPersonnelApproverUniversal.name-parentBean" />
 
-  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="hrmsPersonnelApproverUniversal.personName" />
+  <bean id="OrganizationExtension-hrmsPersonnelApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="hrmsPersonnelApproverUniversal.name" />
     <property name="label" value="Personnel Approver Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="OrganizationExtension-fiscalApproverUniversalId" parent="OrganizationExtension-fiscalApproverUniversalId-parentBean" />
 
-  <bean id="OrganizationExtension-fiscalApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="OrganizationExtension-fiscalApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="fiscalApproverUniversalId" />
     <property name="label" value="Fiscal Approver UserID" />
     <property name="shortLabel" value="Fiscal Approver UserID" />
@@ -237,24 +237,24 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier" parent="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier-parentBean" />
+  <bean id="OrganizationExtension-fiscalApproverUniversal.principalName" parent="OrganizationExtension-fiscalApproverUniversal.principalName-parentBean" />
 
-  <bean id="OrganizationExtension-fiscalApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="fiscalApproverUniversal.personUserIdentifier" />
+  <bean id="OrganizationExtension-fiscalApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="fiscalApproverUniversal.principalName" />
     <property name="label" value="Fiscal Approver UserID" />
     <property name="shortLabel" value="Fiscal Approver" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="fiscalApproverUniversal.personName"
+            p:personNameAttributeName="fiscalApproverUniversal.name"
             p:universalIdAttributeName="fiscalApproverUniversalId"
-            p:userIdAttributeName="fiscalApproverUniversal.personUserIdentifier" />
+            p:userIdAttributeName="fiscalApproverUniversal.principalName" />
     </property>
   </bean>
-  <bean id="OrganizationExtension-fiscalApproverUniversal.personName" parent="OrganizationExtension-fiscalApproverUniversal.personName-parentBean" />
+  <bean id="OrganizationExtension-fiscalApproverUniversal.name" parent="OrganizationExtension-fiscalApproverUniversal.name-parentBean" />
 
-  <bean id="OrganizationExtension-fiscalApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="fiscalApproverUniversal.personName" />
+  <bean id="OrganizationExtension-fiscalApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="fiscalApproverUniversal.name" />
     <property name="label" value="Fiscal Approver Name" />
     <property name="required" value="false" />
   </bean>
@@ -298,3 +298,4 @@
     <property name="shortLabel" value="Last Update Date" />
   </bean>
 </beans>
+

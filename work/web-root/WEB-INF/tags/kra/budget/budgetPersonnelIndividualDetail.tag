@@ -26,13 +26,13 @@
             <div align="center">
               <!-- TAB -->
               <c:choose>
-	              <c:when test="${empty person.personUniversalIdentifier}">
-	                <c:set var="personName" value="TO BE NAMED" />
+	              <c:when test="${empty person.principalId}">
+	                <c:set var="name" value="TO BE NAMED" />
 	                <c:set var="personId" value="-1" />
 	              </c:when>
 	              <c:otherwise>
-	                <c:set var="personName" value="${person.user.personName}" />
-	                <c:set var="personId" value="${person.personUniversalIdentifier }"/>
+	                <c:set var="name" value="${person.user.name}" />
+	                <c:set var="personId" value="${person.principalId }"/>
 	              </c:otherwise>
               </c:choose>
 		    <c:set var="transparentBackground" value="false" />
@@ -58,18 +58,18 @@
 			                <html:hidden property="document.budget.personFromList[${listIndex}].budgetUserSequenceNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].fiscalCampusCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].primaryDepartmentCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].personUniversalIdentifier" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].principalId" />
                       <html:hidden property="document.budget.personFromList[${listIndex}].personProjectDirectorIndicator" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].versionNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].objectId" />
 			                 
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personUniversalIdentifier" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personName" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalId" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.name" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeStatusCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeTypeCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personUniversalIdentifier" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalId" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.primaryDepartmentCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personUserIdentifier" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalName" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personEmailAddress" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personFirstName" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personLastName" />

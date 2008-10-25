@@ -164,7 +164,7 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
 
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.EFFORT_ADMIN_WORKGROUP_PARM_NM);
-        boolean isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
+        boolean isAdmin = GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
 
         if (isAdmin && !questionAsked) {
             // error found, ask admin user if they want to override
@@ -201,3 +201,4 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
 }
+

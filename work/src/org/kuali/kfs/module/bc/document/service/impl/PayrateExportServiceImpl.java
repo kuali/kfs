@@ -40,16 +40,16 @@ public class PayrateExportServiceImpl implements PayrateExportService {
      * @see org.kuali.kfs.module.bc.service.PayrateExportService#buildExportFile()
      */
     @Transactional(propagation=Propagation.REQUIRES_NEW)
-    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate, String personUniversalIdentifier) {
+    public StringBuilder buildExportFile(Integer budgetYear, String positionUnionCode, String csfFreezeDate, String principalId) {
         this.exportCount = 0;
         Map payRateHoldingPersonUniversalIdentifierKey = new HashMap();
-        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         
         this.businessObjectService.deleteMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
         
         StringBuilder results = new StringBuilder();
         
-        this.payrateExportDao.buildPayRateHoldingRows(budgetYear, positionUnionCode, personUniversalIdentifier);
+        this.payrateExportDao.buildPayRateHoldingRows(budgetYear, positionUnionCode, principalId);
         List<BudgetConstructionPayRateHolding> holdingRecords = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
         for (BudgetConstructionPayRateHolding record : holdingRecords) {
             results.append(buildExportLine(record, csfFreezeDate));
@@ -101,7 +101,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         StringBuilder line = new StringBuilder();
         String emplid = padString(holdingRecord.getEmplid(), 11, true);
         String positionNumber = padString(holdingRecord.getPositionNumber(), 8, true);
-        String personName = padString(holdingRecord.getPersonName(), 50, true);
+        String personName = padString(holdingRecord.getName(), 50, true);
         String setIdSalary = padString(holdingRecord.getSetidSalary(), 5, true);
         String salAdminPlan = padString(holdingRecord.getSalaryAdministrationPlan(), 4, true);
         String grade = padString(holdingRecord.getGrade(), 3, true);
@@ -141,3 +141,4 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         return stringToPad;
     }
 }
+

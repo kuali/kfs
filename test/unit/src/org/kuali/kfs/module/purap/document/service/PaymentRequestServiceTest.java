@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 
 import org.kuali.rice.kew.exception.WorkflowException;
 
-@ConfigureContext(session = UserNameFixture.APPLETON)
+@ConfigureContext(session = UserNameFixture.appleton)
 public class PaymentRequestServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
 
@@ -103,8 +103,8 @@ public class PaymentRequestServiceTest extends KualiTestBase {
 
         // paymentRequestDocument.setPurchaseOrderIdentifier(1);
         // paymentRequestDocument.setInvoiceDate(today);
-        // UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getKfsUser();
-        // paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        // Person currentUser = (Person)GlobalVariables.getUserSession().getKfsUser();
+        // paymentRequestDocument.setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         // paymentRequestDocument.getDocumentHeader().setDocumentDescription("test description");
 
         // PurchaseOrderDocument purchaseOrderDocument =
@@ -119,13 +119,13 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         return paymentRequestDocument;
     }
 
-    @ConfigureContext(session = UserNameFixture.APPLETON)
+    @ConfigureContext(session = UserNameFixture.appleton)
     public void testFoo() throws Exception {
         // PaymentRequestDocument document = createBasicDocument();
         // boolean isApprovalRequested = document.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
         // documentService.routeDocument(document, "", new ArrayList());
         // document.setChartOfAccountsCode("BA");
-        // //changeCurrentUser(UserNameFixture.KHUNTLEY);
+        // //changeCurrentUser(UserNameFixture.khuntley);
         // boolean approved = SpringContext.getBean(PaymentRequestService.class).autoApprovePaymentRequest(document,
         // defaultMinimumLimit);
         // Map map = GlobalVariables.getErrorMap();
@@ -187,3 +187,4 @@ public class PaymentRequestServiceTest extends KualiTestBase {
     }
 
 }
+

@@ -54,26 +54,26 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
      */
-    public void updateAccountFundingDetailTable(String personUserIdentifier) {
-        budgetConstructionAccountFundingDetailReportDao.updateReportsAccountFundingDetailTable(personUserIdentifier);
+    public void updateAccountFundingDetailTable(String principalName) {
+        budgetConstructionAccountFundingDetailReportDao.updateReportsAccountFundingDetailTable(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgAccountFundingDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgAccountFundingDetailReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgAccountFundingDetailReport> reportSet = new ArrayList();
         List<BudgetConstructionOrgAccountFundingDetailReportTotal> orgAccountFundingDetailReportTotalList;
         BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry;
-        Collection<BudgetConstructionObjectDump> accountFundingDetailList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectDump.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionObjectDump> accountFundingDetailList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectDump.class, principalName, buildOrderByList());
 
         Map appointmentFundingEntireMap = new HashMap();
         for (BudgetConstructionObjectDump accountFundingDetailEntry : accountFundingDetailList) {
             appointmentFundingEntireMap.put(accountFundingDetailEntry, budgetConstructionReportsServiceHelper.getPendingBudgetConstructionAppointmentFundingList(universityFiscalYear, accountFundingDetailEntry));
         }
 
-        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(personUserIdentifier);
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalName);
 
         List<BudgetConstructionObjectDump> listForCalculateTotalObject = BudgetConstructionReportHelper.deleteDuplicated((List) accountFundingDetailList, fieldsForObject());
         List<BudgetConstructionObjectDump> listForCalculateTotalAccount = BudgetConstructionReportHelper.deleteDuplicated((List) accountFundingDetailList, fieldsForAccount());
@@ -211,17 +211,17 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
         // set report body
         if (budgetConstructionIntendedIncumbent != null) {
-            if (budgetConstructionIntendedIncumbent.getPersonName() == null) {
-                orgAccountFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
+            if (budgetConstructionIntendedIncumbent.getName() == null) {
+                orgAccountFundingDetailReportEntry.setName(BCConstants.Report.VACANT);
             }
             else {
-                orgAccountFundingDetailReportEntry.setPersonName(budgetConstructionIntendedIncumbent.getPersonName());
+                orgAccountFundingDetailReportEntry.setName(budgetConstructionIntendedIncumbent.getName());
             }
 
             orgAccountFundingDetailReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
         }
         else {
-            orgAccountFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
+            orgAccountFundingDetailReportEntry.setName(BCConstants.Report.VACANT);
             orgAccountFundingDetailReportEntry.setIuClassificationLevel(BCConstants.Report.BLANK);
         }
 
@@ -454,3 +454,4 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     }
 
 }
+

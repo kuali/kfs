@@ -94,7 +94,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
                             // add the fieldConversions, lookupParameters and the lookup class
                             field.setFieldConversions(fieldConversions);
                             // field.setLookupParameters(lookupParameters);
-                            // field.setQuickFinderClassNameImpl(UniversalUser.class.getName());
+                            // field.setQuickFinderClassNameImpl(Person.class.getName());
                         }
                     }
                 }
@@ -167,3 +167,4 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl implements Gener
         return new OrgReviewRoutingData(org.getChartOfAccountsCode(), org.getOrganizationCode());
     }
 }
+

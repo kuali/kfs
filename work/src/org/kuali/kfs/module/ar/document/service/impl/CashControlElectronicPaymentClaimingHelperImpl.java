@@ -31,11 +31,11 @@ import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
@@ -58,16 +58,16 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
 
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user) {
+    public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user) {
         CashControlDocument document = null;
         try {
             document = (CashControlDocument) documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
             document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.WIRE_TRANSFER);
 
             //create and set AccountsReceivableDocumentHeader
-            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+            ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
             AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
             accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
@@ -102,7 +102,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      * @param claims the list of electronic payments being claimed
      * @param user the current user
      */
-    protected void addNotesToDocument(CashControlDocument claimingDoc, List<ElectronicPaymentClaim> claims, UniversalUser user) {
+    protected void addNotesToDocument(CashControlDocument claimingDoc, List<ElectronicPaymentClaim> claims, Person user) {
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
@@ -190,9 +190,9 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
-    public boolean userMayUseToClaim(UniversalUser claimingUser) {
+    public boolean userMayUseToClaim(Person claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
     }
 
@@ -303,3 +303,4 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     }
 
 }
+

@@ -48,7 +48,7 @@ public class PreAssetTaggingServiceTest extends KualiTestBase {
      * Tests the whole step completes successfully.
      */
  // To prevent rolling back the data
- //   @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+ //   @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
     public void testAll() throws Exception {
 /*
         LOG.info("Done file Name: " + testUploadFilename);
@@ -140,3 +140,4 @@ public class PreAssetTaggingServiceTest extends KualiTestBase {
     }
      
 }
+

@@ -96,25 +96,25 @@
               p:name="accountFiscalOfficerSystemIdentifier"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountFiscalOfficerUser.personUserIdentifier" />
+              p:name="accountFiscalOfficerUser.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountFiscalOfficerUser.personName"
+              p:name="accountFiscalOfficerUser.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountsSupervisorySystemsIdentifier"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountSupervisoryUser.personUserIdentifier" />
+              p:name="accountSupervisoryUser.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountSupervisoryUser.personName"
+              p:name="accountSupervisoryUser.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="accountManagerSystemIdentifier"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountManagerUser.personUserIdentifier" />
+              p:name="accountManagerUser.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountManagerUser.personName"
+              p:name="accountManagerUser.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationCode" />
@@ -225,3 +225,4 @@
     </property>
   </bean>
 </beans>
+

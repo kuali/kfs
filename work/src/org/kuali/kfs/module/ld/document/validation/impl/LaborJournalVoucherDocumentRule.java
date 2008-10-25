@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -97,7 +97,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, emplid);
 
-            Collection emplidMatches = SpringContext.getBean(UniversalUserService.class).findUniversalUsers(criteria);
+            Collection emplidMatches = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(criteria);
             if (emplidMatches == null || emplidMatches.isEmpty()) {
                 String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborJournalVoucherDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.EMPLID).getLabel();
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label);
@@ -170,3 +170,4 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
         return true;
     }
 }
+

@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -54,7 +54,7 @@ public class Delegate extends PersistableBusinessObjectBase {
     private Chart chart;
     private Account account;
     private DocumentType documentType;
-    private UniversalUser accountDelegate;
+    private Person accountDelegate;
 
     /**
      * Gets the accountNumber attribute.
@@ -257,8 +257,8 @@ public class Delegate extends PersistableBusinessObjectBase {
         this.documentType = documentType;
     }
 
-    public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountDelegateSystemId, accountDelegate);
+    public Person getAccountDelegate() {
+        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateSystemId, accountDelegate);
         return accountDelegate;
     }
 
@@ -267,7 +267,7 @@ public class Delegate extends PersistableBusinessObjectBase {
      * 
      * @param accountDelegate The accountDelegate to set.
      */
-    public void setAccountDelegate(UniversalUser accountDelegate) {
+    public void setAccountDelegate(Person accountDelegate) {
         this.accountDelegate = accountDelegate;
     }
 
@@ -331,3 +331,4 @@ public class Delegate extends PersistableBusinessObjectBase {
         return m;
     }
 }
+

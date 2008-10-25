@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -70,7 +70,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-    private UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+    private Person person = GlobalVariables.getUserSession().getPerson();
 
     /**
      * get the refresh caller name of the current form
@@ -140,7 +140,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         useBCAuthorizer(documentAuthorizer);
 
         if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
     }
 
@@ -174,7 +174,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public Map<String, String> getInitialEditingMode(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         if (this.isBudgetByAccountMode()) {
-            UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+            Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
             return documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser);
         }
@@ -605,12 +605,12 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     }
 
     /**
-     * Gets the universalUser attribute.
+     * Gets the person attribute.
      * 
-     * @return Returns the universalUser.
+     * @return Returns the person.
      */
-    public UniversalUser getUniversalUser() {
-        return universalUser;
+    public Person getPerson() {
+        return person;
     }
 
     /**
@@ -672,3 +672,4 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         return BudgetParameterFinder.getPayrollPositionFeedIndicator();
     }
 }
+

@@ -337,14 +337,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             errorMap.addToErrorPath("routingFormPersonnel[" + i + "]");
 
-            if (person.getPersonUniversalIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
+            if (person.getPrincipalId() == null && !person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                errorMap.putError("personUniversalIdentifier", CGKeyConstants.ERROR_PERSON_NOT_NAMED);
+                errorMap.putError("principalId", CGKeyConstants.ERROR_PERSON_NOT_NAMED);
             }
 
             if (person.getChartOfAccountsCode() == null || person.getOrganizationCode() == null) {
                 valid = false;
-                errorMap.putError("personUniversalIdentifier", CGKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
+                errorMap.putError("principalId", CGKeyConstants.ERROR_MISSING, "Routing Form Personnel Chart and/or Org");
             }
 
             errorMap.removeFromErrorPath("routingFormPersonnel[" + i + "]");
@@ -505,7 +505,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
 
                     // see if this user can vew/modify the budget
                     BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
-                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getFinancialSystemUser());
+                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getPerson());
                     if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) || (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
                         errorMap.putError("routingFormBudgetNumber1", CGKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                         return false;
@@ -565,3 +565,4 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         return valid;
     }
 }
+

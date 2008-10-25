@@ -25,7 +25,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -57,7 +57,7 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
      */
     public PaymentRequestDocumentActionAuthorizer(PaymentRequestDocument preq) {
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         // doc indicators
         this.docStatus = preq.getStatusCode();
@@ -321,3 +321,4 @@ public class PaymentRequestDocumentActionAuthorizer implements Serializable {
     }
     
 }
+

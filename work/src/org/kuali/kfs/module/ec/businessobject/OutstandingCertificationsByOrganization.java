@@ -22,9 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
@@ -69,19 +67,15 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         try {
             List<String> approverUUIDs = SpringContext.getBean(KualiWorkflowInfo.class).getApprovalRequestedUsers(Long.valueOf(getDocumentHeader().getDocumentNumber()));
             for (String approverUUID : approverUUIDs) {
-                UniversalUser approveUser = null;
-                try {
-                    approveUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(approverUUID);
+                Person approveUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(approverUUID);
+                if (approveUser == null) {
+                    LOG.error("User information not found for UUID: " + approverUUID);
                 }
-                catch (UserNotFoundException e) {
-                    LOG.error("User information not found for UUID: " + approverUUID, e);
-                }
-
                 if (StringUtils.isBlank(nextApprovers)) {
-                    nextApprovers = approveUser.getPersonName();
+                    nextApprovers = approveUser.getName();
                 }
                 else {
-                    nextApprovers += "; " + approveUser.getPersonName();
+                    nextApprovers += "; " + approveUser.getName();
                 }
             }
         }
@@ -92,3 +86,4 @@ public class OutstandingCertificationsByOrganization extends EffortCertification
         return nextApprovers;
     }
 }
+

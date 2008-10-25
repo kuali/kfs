@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.InactiveDocumentTypeAuthorizationException;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -40,7 +40,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         return flags;
@@ -52,7 +52,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
         Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
         if (SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) document).getPostingYear())) {
             editModeMap.put(KfsAuthorizationConstants.BudgetAdjustmentEditMode.BASE_AMT_ENTRY, "TRUE");
@@ -67,7 +67,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
         List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
 
         // if no allowed years found, BA document is not allowed to be initiated
@@ -78,3 +78,4 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
         super.canInitiate(documentTypeName, user);
     }
 }
+

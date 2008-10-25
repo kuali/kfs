@@ -29,35 +29,35 @@ public interface BudgetReportsControlListDao {
     /**
      * Builds the report controls list for the given user, point of view, and build mode.
      * 
-     * @param personUserIdentifier - person id to build data for
+     * @param principalName - person id to build data for
      * @param universityFiscalYear - budget fiscal year
      * @param chartOfAccountsCode - point of view chart of accounts code
      * @param organizationCode - point of view organization code
      * @param buildMode - indicates whether the accounts should be restricted to GL pending budget, monthly budget, or bnc
      *        appointment funding
      */
-    public void updateReportControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
+    public void updateReportControlList(String principalName, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
 
     /**
      * Builds the sub-fund control list table for the given user.
      * 
-     * @param personUserIdentifier - person id to build data for
+     * @param principalName - person id to build data for
      */
-    public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
+    public void updateReportsSubFundGroupSelectList(String principalName);
 
     /**
      * Builds the object code control list table for the given user.
      * 
-     * @param personUserIdentifier - person id to build data for
+     * @param principalName - person id to build data for
      */
-    public void updateReportsObjectCodeSelectList(String personUserIdentifier);
+    public void updateReportsObjectCodeSelectList(String principalName);
 
     /**
      * Builds the reason code control list table for the given user.
      * 
-     * @param personUserIdentifier - person id to build data for
+     * @param principalName - person id to build data for
      */
-    public void updateReportsReasonCodeSelectList(String personUserIdentifier);
+    public void updateReportsReasonCodeSelectList(String principalName);
 
     /**
      * Updates the select flag for each sub fund selection record.
@@ -81,3 +81,4 @@ public interface BudgetReportsControlListDao {
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList);
 
 }
+

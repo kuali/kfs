@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
@@ -42,7 +42,7 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
      * @return true if the line is editable, false otherwise 
      */
     @Override
-    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
         boolean isEditable = super.isAccountingLineEditable(document, accountingLine, currentUser);
 
         if (isEditable) {
@@ -63,3 +63,4 @@ public class DistributionOfIncomeAndExpenseAccountingLineAuthorizer extends Fina
         return isEditable;
     }
 }
+

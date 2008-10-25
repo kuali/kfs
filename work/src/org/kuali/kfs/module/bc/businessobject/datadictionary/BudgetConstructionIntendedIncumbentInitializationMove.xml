@@ -20,8 +20,8 @@
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-emplid" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-grade" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-iuClassificationLevel" />
-        <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-personName" />
-        <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-name" />
+        <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-principalId" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionIntendedIncumbentInitializationMove-setidSalary" />
       </list>
@@ -85,10 +85,10 @@
     <property name="summary" value="iuClassificationLevel" />
     <property name="description" value="iuClassificationLevel description..." />
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-personName" parent="BudgetConstructionIntendedIncumbentInitializationMove-personName-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-name" parent="BudgetConstructionIntendedIncumbentInitializationMove-name-parentBean" />
 
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
@@ -100,13 +100,13 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="personName" />
+    <property name="summary" value="name" />
     <property name="description" value="personName description..." />
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-personUniversalIdentifier" parent="BudgetConstructionIntendedIncumbentInitializationMove-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-principalId" parent="BudgetConstructionIntendedIncumbentInitializationMove-principalId-parentBean" />
 
-  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionIntendedIncumbentInitializationMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -118,8 +118,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionIntendedIncumbentInitializationMove-salaryAdministrationPlan" parent="BudgetConstructionIntendedIncumbentInitializationMove-salaryAdministrationPlan-parentBean" />
 
@@ -179,9 +179,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="iuClassificationLevel" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="salaryAdministrationPlan" />
               <bean parent="FieldDefinition"
@@ -214,9 +214,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="iuClassificationLevel" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="salaryAdministrationPlan" />
         <bean parent="FieldDefinition"
@@ -232,9 +232,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="iuClassificationLevel" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="salaryAdministrationPlan" />
         <bean parent="FieldDefinition"
@@ -243,3 +243,4 @@
     </property>
   </bean>
 </beans>
+

@@ -23,8 +23,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
     private Account account;
     private Chart chartOfAccounts;
     private SubAccount subAccount;
-    private UniversalUser appointmentFundingLockUser;
+    private Person appointmentFundingLockUser;
 
     // dummy field associated with locked position
     // value of "NotFnd" indicates an orphan lock
@@ -310,8 +310,8 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
      * 
      * @return Returns the appointmentFundingLockUser.
      */
-    public UniversalUser getAppointmentFundingLockUser() {
-        appointmentFundingLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
+    public Person getAppointmentFundingLockUser() {
+        appointmentFundingLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(appointmentFundingLockUserId, appointmentFundingLockUser);
         return appointmentFundingLockUser;
     }
 
@@ -321,7 +321,7 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
      * @param appointmentFundingLockUser The appointmentFundingLockUser to set.
      * @deprecated
      */
-    public void setAppointmentFundingLockUser(UniversalUser appointmentFundingLockUser) {
+    public void setAppointmentFundingLockUser(Person appointmentFundingLockUser) {
         this.appointmentFundingLockUser = appointmentFundingLockUser;
     }
 
@@ -359,3 +359,4 @@ public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase
         return m;
     }
 }
+

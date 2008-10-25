@@ -24,7 +24,7 @@
         <ref bean="BalanceByGeneralLedgerKey-financialObjectCode" />
         <ref bean="BalanceByGeneralLedgerKey-financialSubObjectCode" />
         <ref bean="BalanceByGeneralLedgerKey-july1BudgetAmount" />
-        <ref bean="BalanceByGeneralLedgerKey-personUniversalIdentifier" />
+        <ref bean="BalanceByGeneralLedgerKey-principalId" />
         <ref bean="BalanceByGeneralLedgerKey-positionNumber" />
         <ref bean="BalanceByGeneralLedgerKey-subAccountNumber" />
       </list>
@@ -130,10 +130,10 @@
             p:size="21" />
     </property>
   </bean>
-  <bean id="BalanceByGeneralLedgerKey-personUniversalIdentifier" parent="BalanceByGeneralLedgerKey-personUniversalIdentifier-parentBean" />
+  <bean id="BalanceByGeneralLedgerKey-principalId" parent="BalanceByGeneralLedgerKey-principalId-parentBean" />
 
-  <bean id="BalanceByGeneralLedgerKey-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BalanceByGeneralLedgerKey-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -206,7 +206,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="july1BudgetAmount" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionNumber" />
               <bean parent="FieldDefinition"
@@ -246,7 +246,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="july1BudgetAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -268,7 +268,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="july1BudgetAmount" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -277,3 +277,4 @@
     </property>
   </bean>
 </beans>
+

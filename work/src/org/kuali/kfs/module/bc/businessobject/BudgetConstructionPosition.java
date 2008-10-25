@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -71,7 +71,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     private List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding;
     private List<BudgetConstructionPositionSelect> budgetConstructionPositionSelect;
     private ResponsibilityCenter responsibilityCenter;
-    private UniversalUser positionLockUser;
+    private Person positionLockUser;
 
     /**
      * Default constructor.
@@ -611,9 +611,9 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * 
      * @return Returns the positionLockUser
      */
-    public UniversalUser getPositionLockUser() {
+    public Person getPositionLockUser() {
         if (positionLockUserIdentifier != null) {
-            positionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+            positionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(positionLockUserIdentifier, positionLockUser);
         }
         return positionLockUser;
     }
@@ -624,7 +624,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
      * @param positionLockUser The positionLockUser to set.
      * @deprecated
      */
-    public void setPositionLockUser(UniversalUser positionLockUser) {
+    public void setPositionLockUser(Person positionLockUser) {
         this.positionLockUser = positionLockUser;
     }
 
@@ -731,3 +731,4 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase im
     }
 
 }
+

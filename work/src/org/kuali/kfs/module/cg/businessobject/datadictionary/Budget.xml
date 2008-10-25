@@ -36,10 +36,10 @@
         <ref bean="Budget-budgetAgencyNumber" />
         <ref bean="Budget-federalPassThroughAgency" />
         <ref bean="Budget-budgetProjectDirectorUniversalIdentifier" />
-        <ref bean="Budget-projectDirector.universalUser.personUserIdentifier" />
-        <ref bean="Budget-projectDirector.universalUser.personName" />
-        <ref bean="Budget-universalUser.personUserIdentifier" />
-        <ref bean="Budget-universalUser.personName" />
+        <ref bean="Budget-projectDirector.person.principalName" />
+        <ref bean="Budget-projectDirector.person.name" />
+        <ref bean="Budget-person.principalName" />
+        <ref bean="Budget-person.name" />
         <ref bean="Budget-budgetAgency.agencyNumber" />
         <ref bean="Budget-budgetAgency.fullName" />
       </list>
@@ -63,23 +63,23 @@
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="universalUser" />
+          <property name="objectAttributeName" value="person" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="budgetProjectDirectorUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="universalUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="person.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="universalUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="person.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -391,7 +391,7 @@
   </bean>
   <bean id="Budget-budgetProjectDirectorUniversalIdentifier" parent="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" />
 
-  <bean id="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Budget-budgetProjectDirectorUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="budgetProjectDirectorUniversalIdentifier" />
     <property name="label" value="Project Director" />
     <property name="shortLabel" value="Project Director" />
@@ -400,53 +400,53 @@
     </property>
     <property name="summary" value="Project Director ..." />
     <property name="description" value="Project Director ..." />
-    <property name="displayLabelAttribute" value="universalUser.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="person.principalName" />
   </bean>
-  <bean id="Budget-projectDirector.universalUser.personUserIdentifier" parent="Budget-projectDirector.universalUser.personUserIdentifier-parentBean" />
+  <bean id="Budget-projectDirector.person.principalName" parent="Budget-projectDirector.person.principalName-parentBean" />
 
-  <bean id="Budget-projectDirector.universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="projectDirector.universalUser.personUserIdentifier" />
+  <bean id="Budget-projectDirector.person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="projectDirector.person.principalName" />
     <property name="label" value="Project Director UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="universalUser.personName"
+            p:personNameAttributeName="person.name"
             p:universalIdAttributeName="budgetProjectDirectorUniversalIdentifier"
-            p:userIdAttributeName="universalUser.personUserIdentifier" />
+            p:userIdAttributeName="person.principalName" />
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The username of the Project Director for the Budget." />
   </bean>
-  <bean id="Budget-projectDirector.universalUser.personName" parent="Budget-projectDirector.universalUser.personName-parentBean" />
+  <bean id="Budget-projectDirector.person.name" parent="Budget-projectDirector.person.name-parentBean" />
 
-  <bean id="Budget-projectDirector.universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="projectDirector.universalUser.personName" />
+  <bean id="Budget-projectDirector.person.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="projectDirector.person.name" />
     <property name="label" value="Project Director Name" />
     <property name="required" value="false" />
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The Name of the Project Director." />
   </bean>
-  <bean id="Budget-universalUser.personUserIdentifier" parent="Budget-universalUser.personUserIdentifier-parentBean" />
+  <bean id="Budget-person.principalName" parent="Budget-person.principalName-parentBean" />
 
-  <bean id="Budget-universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="universalUser.personUserIdentifier" />
+  <bean id="Budget-person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="person.principalName" />
     <property name="label" value="Project Director UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="universalUser.personName"
+            p:personNameAttributeName="person.name"
             p:universalIdAttributeName="budgetProjectDirectorUniversalIdentifier"
-            p:userIdAttributeName="universalUser.personUserIdentifier" />
+            p:userIdAttributeName="person.principalName" />
     </property>
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="The username of the Project Director for the Budget." />
   </bean>
-  <bean id="Budget-universalUser.personName" parent="Budget-universalUser.personName-parentBean" />
+  <bean id="Budget-person.name" parent="Budget-person.name-parentBean" />
 
-  <bean id="Budget-universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="universalUser.personName" />
+  <bean id="Budget-person.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="person.name" />
     <property name="label" value="Project Director Name" />
     <property name="required" value="false" />
     <property name="summary" value="&amp;nbsp;" />
@@ -523,9 +523,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="budgetProjectDirectorUniversalIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personUserIdentifier" />
+              p:attributeName="person.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personName" />
+              p:attributeName="person.name" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetAgency.fullName" />
       </list>
@@ -543,9 +543,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="budgetTypeCodeText" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectDirector.universalUser.personUserIdentifier" />
+              p:attributeName="projectDirector.person.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectDirector.universalUser.personName"
+              p:attributeName="projectDirector.person.name"
               p:forceInquiry="true" />
         <bean parent="FieldDefinition"
               p:attributeName="budgetAgency.agencyNumber" />
@@ -555,3 +555,4 @@
     </property>
   </bean>
 </beans>
+

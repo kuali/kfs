@@ -43,13 +43,13 @@ import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.CountryService;
 import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
@@ -86,7 +86,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     private State borrowerStorageState;
     private Country borrowerCountry;
     private Country borrowerStorageCountry;
-    private UniversalUser borrowerUniversalUser;
+    private Person borrowerPerson;
     private Asset asset;
     private PostalCode borrowerPostalZipCode;
     private PostalCode borrowerStoragePostalZipCode;
@@ -199,22 +199,22 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * Gets the borrowerUniversalUser attribute.
+     * Gets the borrowerPerson attribute.
      * 
-     * @return Returns the borrowerUniversalUser
+     * @return Returns the borrowerPerson
      */
-    public UniversalUser getBorrowerUniversalUser() {
-        borrowerUniversalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(borrowerUniversalIdentifier, borrowerUniversalUser);
-        return borrowerUniversalUser;
+    public Person getBorrowerPerson() {
+        borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(borrowerUniversalIdentifier, borrowerPerson);
+        return borrowerPerson;
     }
 
     /**
-     * Sets the borrowerUniversalUser attribute.
+     * Sets the borrowerPerson attribute.
      * 
-     * @param borrowerUniversalUser The borrowerUniversalUser to set.
+     * @param borrowerPerson The borrowerPerson to set.
      */
-    public void setBorrowerUniversalUser(UniversalUser borrowerUniversalUser) {
-        this.borrowerUniversalUser = borrowerUniversalUser;
+    public void setBorrowerPerson(Person borrowerPerson) {
+        this.borrowerPerson = borrowerPerson;
     }
 
     /**

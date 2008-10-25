@@ -96,10 +96,10 @@ public class KualiBatchJobModifyAction extends KualiAction {
         if (getParameterService().parameterExists(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX)) {
             String jobSpecificAdminWorkgroup = getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_BATCH.class, job.getFullName() + KFSConstants.SystemGroupParameterNames.JOB_WORKGROUP_SUFFIX);
             System.out.println("Job Specific Admin Work Group: "+adminWorkgroup);
-            if (!(GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminWorkgroup) || GlobalVariables.getUserSession().getFinancialSystemUser().isMember(jobSpecificAdminWorkgroup))) {
-                System.out.println("I'm in Admin Work Group: "+GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup));
-                System.out.println("I'm in Job Specific Admin Work Group: "+GlobalVariables.getUserSession().getUniversalUser().isMember(jobSpecificAdminWorkgroup));
-                throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), actionType, job.getFullName());
+            if (!(GlobalVariables.getUserSession().getPerson().isMember(adminWorkgroup) || GlobalVariables.getUserSession().getPerson().isMember(jobSpecificAdminWorkgroup))) {
+                System.out.println("I'm in Admin Work Group: "+GlobalVariables.getUserSession().getPerson().isMember(adminWorkgroup));
+                System.out.println("I'm in Job Specific Admin Work Group: "+GlobalVariables.getUserSession().getPerson().isMember(jobSpecificAdminWorkgroup));
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), actionType, job.getFullName());
             }
         }
     }
@@ -112,7 +112,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         request.setAttribute("canSchedule", canModifyJob(job, "schedule"));
         request.setAttribute("canUnschedule", canModifyJob(job, "unschedule"));
         request.setAttribute("canStopJob", canModifyJob(job, "stopJob"));
-        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getFinancialSystemUser().getPersonEmailAddress());
+        request.setAttribute("userEmailAddress", GlobalVariables.getUserSession().getPerson().getEmailAddress());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -178,3 +178,4 @@ public class KualiBatchJobModifyAction extends KualiAction {
         return new ActionForward(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode(job.getName()) + "&group=" + UrlFactory.encode(job.getGroup()), true);
     }
 }
+

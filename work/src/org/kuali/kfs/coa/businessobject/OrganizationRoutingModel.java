@@ -23,8 +23,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentType;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -45,7 +45,7 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
 
     private Chart chartOfAccounts;
     private DocumentType documentType;
-    private UniversalUser accountDelegate;
+    private Person accountDelegate;
 
     /**
      * Default constructor.
@@ -143,8 +143,8 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
      * 
      * @return Returns the accountDelegate.
      */
-    public UniversalUser getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
+    public Person getAccountDelegate() {
+        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 
@@ -153,7 +153,7 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
      * 
      * @param accountDelegate The accountDelegate to set.
      */
-    public void setAccountDelegate(UniversalUser accountDelegate) {
+    public void setAccountDelegate(Person accountDelegate) {
         this.accountDelegate = accountDelegate;
     }
 
@@ -334,3 +334,4 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase impl
     }
 
 }
+

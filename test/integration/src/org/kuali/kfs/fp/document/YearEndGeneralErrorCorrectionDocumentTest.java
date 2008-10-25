@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.GEC_LINE1;
 
@@ -41,7 +41,7 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 /**
  * This class is used to test GeneralErrorCorrectionDocument.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
 
     public static final Class<YearEndGeneralErrorCorrectionDocument> DOCUMENT_CLASS = YearEndGeneralErrorCorrectionDocument.class;
@@ -109,22 +109,22 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
@@ -154,3 +154,4 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
     }
 
 }
+

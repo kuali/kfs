@@ -399,7 +399,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setInputGroupIdFromLastDocumentLoad(document.getCorrectionInputGroupId());
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
+            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
 
             if (editingMode.get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null) {
                 // They have saved the document and they are retreiving it to be completed
@@ -1344,7 +1344,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
+            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
             if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
                 // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
                 updateDocumentSummary(document, null, true);
@@ -1804,3 +1804,4 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return present;
     }
 }
+

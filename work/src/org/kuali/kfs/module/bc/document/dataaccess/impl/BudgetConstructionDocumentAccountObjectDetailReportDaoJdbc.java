@@ -173,22 +173,22 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDocumentAccountObjectDetailReportDao#updateDocumentAccountObjectDetailReportTable(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void updateDocumentAccountObjectDetailReportTable(String personUserIdentifier, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         // eliminate any rows already extant in the table for this user
-        this.clearTempTableByUnvlId("LD_BCN_BAL_BY_ACCT_T", "PERSON_UNVL_ID", personUserIdentifier);
+        this.clearTempTableByUnvlId("LD_BCN_BAL_BY_ACCT_T", "PERSON_UNVL_ID", principalName);
         // insert the substring function into the SQL string
         StringBuilder sqlText = this.getSqlSubStringFunction("t.fin_report_sort_cd",1,1);
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(sqlText.toString());
-        getSimpleJdbcTemplate().update(initialInsert.getSQL(stringsToInsert),personUserIdentifier, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber); 
+        getSimpleJdbcTemplate().update(initialInsert.getSQL(stringsToInsert),principalName, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber); 
         // set the non-leave CSF FTE
         stringsToInsert.clear();
         stringsToInsert.add(new String(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue()));
         stringsToInsert.add(stringsToInsert.get(0));
-        getSimpleJdbcTemplate().update(setNonLeaveCSFFTE.getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(setNonLeaveCSFFTE.getSQL(stringsToInsert), principalName, principalName);
         // set the CSF FTE for people on leave
         // (we are inserting the same set of leave flags as in the previous step)
-        getSimpleJdbcTemplate().update(setLeaveCSFFTE.getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(setLeaveCSFFTE.getSQL(stringsToInsert), principalName, principalName);
         // clear the cache (OJB data from the last report for this user might still be cached)
         persistenceService.clearCache();
     }
@@ -200,3 +200,4 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
 
 
 }
+

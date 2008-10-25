@@ -41,8 +41,8 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         CustomerInvoiceWriteoffLookupSummaryForm customerInvoiceWriteoffLookupSummaryForm = (CustomerInvoiceWriteoffLookupSummaryForm) form;
         String lookupResultsSequenceNumber = customerInvoiceWriteoffLookupSummaryForm.getLookupResultsSequenceNumber();
         if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
-            String universalUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
-            Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,universalUserId);
+            String personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+            Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,personId);
             customerInvoiceWriteoffLookupSummaryForm.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -59,3 +59,4 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
     }        
 }
+

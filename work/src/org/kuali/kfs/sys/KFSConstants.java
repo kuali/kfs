@@ -62,7 +62,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     // special user used in the post-processor
-    public static final String SYSTEM_USER = "KULUSER";
+    public static final String SYSTEM_USER = "kuluser";
 
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";
@@ -322,7 +322,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String LOOKUP_RESULTS_SEQUENCE = "LOOKUP_RESULT_SEQUENCE_NBR_SEQ";
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
     public static final String KUALI_VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
-    public static final String KUALI_USER_LOOKUPABLE_IMPL = "universalUserLookupable";
+    public static final String KUALI_USER_LOOKUPABLE_IMPL = "personLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
     public static final String DOC_HANDLER_METHOD = "docHandler";
@@ -1252,3 +1252,4 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
 }
+

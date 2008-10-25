@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -49,13 +49,13 @@ public class PreAssetTaggingInputFileType extends BatchInputFileTypeBase {
      * Builds the file name using the following construction: All pre-asset tagging files start with pre_asset_tagging the username of the user
      * uploading the file append the supplied user identifier finally append the current timestamp
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(Person user, Object parsedFileContents, String userIdentifier) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
-        String fileName = "pre_asset_tagging_" + user.getPersonUserIdentifier().toLowerCase();
+        String fileName = "pre_asset_tagging_" + user.getPrincipalName().toLowerCase();
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -70,9 +70,9 @@ public class PreAssetTaggingInputFileType extends BatchInputFileTypeBase {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+    public boolean checkAuthorization(Person user, File batchFile) {
         return true;
     }
 
@@ -105,3 +105,4 @@ public class PreAssetTaggingInputFileType extends BatchInputFileTypeBase {
     }
 
 }
+

@@ -102,14 +102,14 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @param accountNumber
      * @param subAccountNumber
      * @param fiscalYear
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionFundingLock
      */
-    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
+    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId) {
         // LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("appointmentFundingLockUserId", personUniversalIdentifier);
+        criteria.addEqualTo("appointmentFundingLockUserId", principalId);
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
         criteria.addEqualTo("subAccountNumber", subAccountNumber);
@@ -225,10 +225,10 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#deleteBudgetConstructionPullupByUserId(java.lang.String)
      */
-    public void deleteBudgetConstructionPullupByUserId(String personUserIdentifier) {
+    public void deleteBudgetConstructionPullupByUserId(String principalName) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("personUniversalIdentifier", personUserIdentifier);
+        criteria.addEqualTo("principalId", principalName);
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
 
     }
@@ -236,11 +236,11 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBudgetConstructionPullupFlagSetByUserId(java.lang.String)
      */
-    public List getBudgetConstructionPullupFlagSetByUserId(String personUserIdentifier) {
+    public List getBudgetConstructionPullupFlagSetByUserId(String principalName) {
         List orgs = new ArrayList();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        criteria.addEqualTo(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
         criteria.addGreaterThan("pullFlag", OrgSelControlOption.NO.getKey());
         orgs = (List) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
         if (orgs.isEmpty() || orgs.size() == 0) {
@@ -253,7 +253,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
+    public List getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
         List orgs = new ArrayList();
 
         Criteria cycleCheckCriteria = new Criteria();
@@ -265,7 +265,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
-        criteria.addEqualTo("personUniversalIdentifier", personUniversalIdentifier);
+        criteria.addEqualTo("principalId", principalId);
         criteria.addAndCriteria(cycleCheckCriteria);
 
         QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionPullup.class, criteria);
@@ -334,7 +334,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String personUniversalIdentifier) {
+    public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String principalId) {
 
         boolean retval = false;
 
@@ -346,7 +346,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("accountDelegateSystemId", personUniversalIdentifier);
+        criteria.addEqualTo("accountDelegateSystemId", principalId);
         criteria.addEqualTo("accountDelegateActiveIndicator", "Y");
         criteria.addIn("financialDocumentTypeCode", docTypes);
         QueryByCriteria query = QueryFactory.newQuery(Delegate.class, criteria);
@@ -528,3 +528,4 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
 }
+

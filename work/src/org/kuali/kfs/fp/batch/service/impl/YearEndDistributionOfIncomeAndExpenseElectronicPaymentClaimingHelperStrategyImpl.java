@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.batch.service.impl;
 
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * An implementation of ElectronicPaymentClaimingHelper for YearEndDisbursementOfIncomeAndExpense documents.  Most of the behaviors have been inherited from
@@ -36,10 +36,10 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
 
     /**
      * This uses the parent's userMayUseToClaim method, but then also checks that the YearEndDistributionOfIncomeAndExpenseDocument is actually currently active within the system.
-     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#userMayUseToClaim(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public boolean userMayUseToClaim(UniversalUser claimingUser) {
+    public boolean userMayUseToClaim(Person claimingUser) {
         boolean userMayUse = super.userMayUseToClaim(claimingUser);
         if (userMayUse) {
             userMayUse = getDocumentTypeService().getDocumentTypeByName(getClaimingDocumentWorkflowDocumentType()).isDocumentTypeActiveIndicator();
@@ -47,3 +47,4 @@ public class YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelpe
         return userMayUse;
     }
 }
+

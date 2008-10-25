@@ -82,11 +82,11 @@ public class TempListLookupAction extends KualiLookupAction {
         // determine requested lookup action
         switch (tempListLookupForm.getTempListLookupMode()) {
             case BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT:
-                SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+                SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPrincipalId(), tempListLookupForm.getUniversityFiscalYear());
                 break;
 
             case BCConstants.TempListLookupMode.POSITION_SELECT:
-                SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+                SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPrincipalId(), tempListLookupForm.getUniversityFiscalYear());
                 break;
 
             case BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV:
@@ -136,7 +136,7 @@ public class TempListLookupAction extends KualiLookupAction {
 
     /**
      * This differs from KualiLookupAction.clearValues in that any atributes marked hidden will not be cleared. This is to support
-     * BC temp tables that use personUniversalIdentifier to operate on the set of rows associated with the current user.
+     * BC temp tables that use principalId to operate on the set of rows associated with the current user.
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -172,15 +172,15 @@ public class TempListLookupAction extends KualiLookupAction {
 
         switch (tempListLookupForm.getTempListLookupMode()) {
             case BCConstants.TempListLookupMode.INTENDED_INCUMBENT_SELECT:
-                SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
+                SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPrincipalId());
                 break;
 
             case BCConstants.TempListLookupMode.POSITION_SELECT:
-                SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
+                SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPrincipalId());
                 break;
 
             default:
-                SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+                SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPrincipalId(), tempListLookupForm.getUniversityFiscalYear());
         }
 
         return super.cancel(mapping, form, request, response);
@@ -201,7 +201,7 @@ public class TempListLookupAction extends KualiLookupAction {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionPosition.class.getName());
@@ -278,7 +278,7 @@ public class TempListLookupAction extends KualiLookupAction {
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
         parameters.put(KNSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionIntendedIncumbent.class.getName());
@@ -356,7 +356,7 @@ public class TempListLookupAction extends KualiLookupAction {
             parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
         }
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
-        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         parameters.put(BCConstants.Report.REPORT_MODE, tempListLookupForm.getReportMode());
         parameters.put(BCConstants.CURRENT_POINT_OF_VIEW_KEYCODE, tempListLookupForm.getCurrentPointOfViewKeyCode());
 
@@ -500,3 +500,4 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
 }
+

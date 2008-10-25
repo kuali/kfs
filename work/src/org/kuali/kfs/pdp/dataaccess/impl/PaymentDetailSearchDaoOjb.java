@@ -35,7 +35,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetailSearch;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailSearchDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 
 
 /**
@@ -43,7 +43,7 @@ import org.kuali.rice.kns.service.UniversalUserService;
  */
 public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailSearchDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailSearchDaoOjb.class);
-    private UniversalUserService userService;
+    private org.kuali.rice.kim.service.PersonService userService;
 
     // TODO hard code
     private static String HELD_TAX_ALL = "HTXA";
@@ -52,7 +52,7 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
         super();
     }
 
-    public void setUniversalUserService(UniversalUserService us) {
+    public void setPersonService(org.kuali.rice.kim.service.PersonService us) {
         userService = us;
     }
 
@@ -303,3 +303,4 @@ public class PaymentDetailSearchDaoOjb extends PlatformAwareDaoBaseOjb implement
         }
     }*/
 }
+

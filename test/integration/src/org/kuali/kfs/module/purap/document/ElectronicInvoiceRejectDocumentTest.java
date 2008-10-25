@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Used to create and test populated Requisition Documents of various kinds.
  */
-@ConfigureContext(session = APPLETON)
+@ConfigureContext(session = appleton)
 public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     public static final Class<ElectronicInvoiceRejectDocument> DOCUMENT_CLASS = ElectronicInvoiceRejectDocument.class;
 
@@ -57,7 +57,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         super.tearDown();
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions = true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
         BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
@@ -76,15 +76,15 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         assertMatch(eirDoc, result);
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions = true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions = true)
     public final void testSaveDocumentWithNonMatchingPO() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
         BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
         boService.save(eils);
 
-        changeCurrentUser(PARKE);
+        changeCurrentUser(parke);
         Integer poId = routePO();
-        changeCurrentUser(APPLETON);
+        changeCurrentUser(appleton);
         
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
         eirDoc.setPurchaseOrderIdentifier(poId);
@@ -105,9 +105,9 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
 //        boService.save(eils);
 //
-//        changeCurrentUser(PARKE);
+//        changeCurrentUser(parke);
 //        Integer poId = routePO();
-//        changeCurrentUser(APPLETON);
+//        changeCurrentUser(appleton);
 //        
 //        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
 //        eirDoc.setPurchaseOrderIdentifier(poId);
@@ -122,7 +122,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        assertMatch(eirDoc, result);
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)
+    @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRouteDocument() throws Exception {
 //        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
 //        BusinessObjectService boService =  KNSServiceLocator.getBusinessObjectService();
@@ -139,7 +139,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        assertTrue("Document should  be final.", result.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions = false)
+    @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRouteDocumentToFinal() throws Exception {
 //        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument();
 
@@ -147,17 +147,17 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
 //        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 //
-//        // the document should now be routed to VPUTMAN as Fiscal Officer
-//        changeCurrentUser(RORENFRO);
+//        // the document should now be routed to vputman as Fiscal Officer
+//        changeCurrentUser(rorenfro);
 //        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
 //        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
 //        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-//        assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-//        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
+//        assertTrue("rorenfro should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+//        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 //
 //        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 //
-//        changeCurrentUser(KHUNTLEY);
+//        changeCurrentUser(khuntley);
 //        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
 //        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
@@ -238,3 +238,4 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
     }
 
 }
+

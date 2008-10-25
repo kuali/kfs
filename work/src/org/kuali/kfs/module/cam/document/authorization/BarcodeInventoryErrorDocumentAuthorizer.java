@@ -17,7 +17,7 @@ package org.kuali.kfs.module.cam.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -25,7 +25,7 @@ import org.kuali.rice.kns.document.Document;
  */
 public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanSave(false);
@@ -37,10 +37,11 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
          */
         /*
          * if
-         * (((BarcodeInventoryErrorDocument)document).getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier())) {
+         * (((BarcodeInventoryErrorDocument)document).getUploaderUniversalIdentifier().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
          * flags.setCanApprove(true); flags.setCanBlanketApprove(true); flags.setCanRoute(true); }
          */
         return flags;
     }
 
 }
+

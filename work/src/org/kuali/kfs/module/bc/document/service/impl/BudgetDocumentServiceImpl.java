@@ -69,7 +69,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -538,10 +538,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Transactional
-    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser universalUser) {
+    public String getAccessMode(BudgetConstructionHeader bcHeader, Person person) {
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
         boolean isFiscalOfcOrDelegate = false;
 
@@ -558,7 +558,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         Integer hdrLevel = bcHeader.getOrganizationLevelCode();
 
         bcHeader.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), universalUser);
+        isFiscalOfcOrDelegate = permissionService.isAccountManagerOrDelegate(bcHeader.getAccount(), person);
 
         // special case level 0 access, check if user is fiscal officer or delegate
         if (hdrLevel == 0) {
@@ -569,7 +569,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         }
 
         // drops here if we need to check for org approver access for any doc level
-        editMode = this.getOrgApproverAcessMode(bcHeader, universalUser);
+        editMode = this.getOrgApproverAcessMode(bcHeader, person);
         if (isFiscalOfcOrDelegate && (editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER) || editMode.equalsIgnoreCase(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER))) {
 
             // user is a FO or delegate and not an Organization approver or not in account's hierarchy,
@@ -583,13 +583,13 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getAccessMode(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
     @Transactional
-    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser universalUser) {
+    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Person person) {
 
         BudgetConstructionHeader bcHeader = this.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        return this.getAccessMode(bcHeader, universalUser);
+        return this.getAccessMode(bcHeader, person);
     }
 
     /**
@@ -1065,7 +1065,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      * @return
      */
     @Transactional
-    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, UniversalUser universalUser) {
+    private String getOrgApproverAcessMode(BudgetConstructionHeader bcHeader, Person person) {
 
         // default the edit mode is just unviewable
         String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.UNVIEWABLE;
@@ -1085,7 +1085,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
             // get the subset of hier rows where the user is an approver
             try {
-                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(universalUser);
+                List<Org> povOrgs = (List<Org>) permissionService.getOrgReview(person);
                 if (povOrgs.isEmpty()) {
 
                     editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
@@ -1132,7 +1132,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
                 // returning unviewable will cause an authorization exception
                 // write a log message with the specific problem
-                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + universalUser.getPersonUserIdentifier(), e);
+                LOG.error("Can't get the list of pointOfView Orgs from permissionService.getOrgReview() for: " + person.getPrincipalName(), e);
             }
         }
         else {
@@ -1219,10 +1219,10 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getPushPullLevelList(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Transactional
-    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser universalUser) {
+    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, Person person) {
         List<BudgetConstructionAccountOrganizationHierarchy> pushOrPullList = new ArrayList<BudgetConstructionAccountOrganizationHierarchy>();
 
         pushOrPullList.addAll(budgetConstructionDao.getAccountOrgHierForAccount(bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getUniversityFiscalYear()));
@@ -1396,3 +1396,4 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         this.kualiModuleService = kualiModuleService;
     }
 }
+

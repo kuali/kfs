@@ -22,7 +22,7 @@
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-calculatedSalaryFoundationAmount" />
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-financialObjectCode" />
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-financialSubObjectCode" />
-        <ref bean="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier" />
+        <ref bean="BalanceGlobalCalculatedSalaryFoundation-principalId" />
         <ref bean="BalanceGlobalCalculatedSalaryFoundation-subAccountNumber" />
       </list>
     </property>
@@ -95,10 +95,10 @@
             p:size="5" />
     </property>
   </bean>
-  <bean id="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier" parent="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier-parentBean" />
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-principalId" parent="BalanceGlobalCalculatedSalaryFoundation-principalId-parentBean" />
 
-  <bean id="BalanceGlobalCalculatedSalaryFoundation-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BalanceGlobalCalculatedSalaryFoundation-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -151,7 +151,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="subAccountNumber" />
             </list>
@@ -184,7 +184,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>
@@ -200,10 +200,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>
     </property>
   </bean>
 </beans>
+

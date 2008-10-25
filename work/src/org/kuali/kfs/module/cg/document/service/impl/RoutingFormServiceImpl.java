@@ -372,7 +372,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
 
                 ProposalProjectDirector newProposalProjectDirector = new ProposalProjectDirector();
                 newProposalProjectDirector.setProposalNumber(newProposalNumber);
-                newProposalProjectDirector.setPersonUniversalIdentifier(projectDirector.getPersonUniversalIdentifier());
+                newProposalProjectDirector.setPrincipalId(projectDirector.getPrincipalId());
                 newProposalProjectDirector.setProposalPrimaryProjectDirectorIndicator(true);
 
 
@@ -433,3 +433,4 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     }
 
 }
+

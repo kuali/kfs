@@ -25,7 +25,7 @@ import static org.kuali.kfs.sys.fixture.AccountingLineFixture.ACCRUED_INCOME_LIN
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.ACCRUED_SICK_PAY_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE10;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE8;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -48,7 +48,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.IsDebitTestUtils;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
     public static final Class<NonCheckDisbursementDocument> DOCUMENT_CLASS = NonCheckDisbursementDocument.class;
 
@@ -330,3 +330,4 @@ public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
         return ACCRUED_SICK_PAY_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 }
+

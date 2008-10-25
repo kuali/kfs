@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurApItemValidationTest extends MaintenanceRuleTestBase {
 
     private CapitalAssetBuilderModuleService cabModuleService;
@@ -274,3 +274,4 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     }   
     
 }
+

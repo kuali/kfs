@@ -51,10 +51,10 @@ public class BudgetPersonnelRule {
         for (Iterator iter = personnel.iterator(); iter.hasNext();) {
             BudgetUser person = (BudgetUser) iter.next();
             if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
-                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPersonUniversalIdentifier() + ".status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                personnelAuditErrors.add(new AuditError("document.budget.audit.personnel." + person.getPrincipalId() + ".status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "personnel", new String[] { person.getUser().getName(), person.getUser().getEmployeeStatusCode() }));
                 if (person.isPersonProjectDirectorIndicator()) {
                     List<AuditError> parametersAuditErrors = new ArrayList<AuditError>();
-                    parametersAuditErrors.add(new AuditError("document.budget.audit.parameters.pd.status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "parameters", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                    parametersAuditErrors.add(new AuditError("document.budget.audit.parameters.pd.status", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "parameters", new String[] { person.getUser().getName(), person.getUser().getEmployeeStatusCode() }));
                     GlobalVariables.getAuditErrorMap().put("parametersAuditErrors", new AuditCluster("Parameters", parametersAuditErrors));
                 }
             }
@@ -213,9 +213,9 @@ public class BudgetPersonnelRule {
     protected boolean processInsertPersonnelBusinessRules(List personnelList, BudgetUser newBudgetUser, boolean isToBeNamed) {
         boolean valid = true;
 
-        if (StringUtils.isNotEmpty(newBudgetUser.getPersonUniversalIdentifier())) {
+        if (StringUtils.isNotEmpty(newBudgetUser.getPrincipalId())) {
             for (Iterator budgetUserIter = personnelList.iterator(); budgetUserIter.hasNext();) {
-                if (StringUtils.equals(newBudgetUser.getPersonUniversalIdentifier(), ((BudgetUser) budgetUserIter.next()).getPersonUniversalIdentifier())) {
+                if (StringUtils.equals(newBudgetUser.getPrincipalId(), ((BudgetUser) budgetUserIter.next()).getPrincipalId())) {
                     GlobalVariables.getErrorMap().putError("newPersonnel", CGKeyConstants.ERROR_PERSON_ALREADY_EXISTS_ON_BUDGET, new String[] {});
                     valid = false;
                     break;
@@ -276,7 +276,7 @@ public class BudgetPersonnelRule {
             GlobalVariables.getErrorMap().addToErrorPath("budget.personFromList[" + personnelListIndex + "]");
 
             // salary justification required for changes to personnel salary
-            if (budgetUser.getUser() != null && budgetUser.getUser().getPersonBaseSalaryAmount() != null && budgetUser.getBaseSalary() != null && !budgetUser.getBaseSalary().equals(budgetUser.getUser().getPersonBaseSalaryAmount()) && StringUtils.isEmpty(budgetUser.getPersonSalaryJustificationText())) {
+            if (budgetUser.getUser() != null && budgetUser.getUser().getBaseSalaryAmount() != null && budgetUser.getBaseSalary() != null && !budgetUser.getBaseSalary().equals(budgetUser.getUser().getBaseSalaryAmount()) && StringUtils.isEmpty(budgetUser.getPersonSalaryJustificationText())) {
                 GlobalVariables.getErrorMap().putError("personSalaryJustificationText", CGKeyConstants.ERROR_PERSONNEL_SALARY_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
                 valid = false;
             }
@@ -505,3 +505,4 @@ public class BudgetPersonnelRule {
         return valid;
     }
 }
+

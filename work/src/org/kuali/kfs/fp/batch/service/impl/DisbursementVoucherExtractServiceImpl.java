@@ -58,12 +58,10 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -79,7 +77,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private ParameterService parameterService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private CustomerProfileService customerProfileService;
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
@@ -113,11 +111,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         String userId = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_USER_ID);
-        UniversalUser uuser;
-        try {
-            uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
-        }
-        catch (UserNotFoundException e) {
+        Person uuser = personService.getPersonByPrincipalName(userId);
+        if (uuser != null) {
             LOG.debug("extractPayments() Unable to find user " + userId);
             throw new IllegalArgumentException("Unable to find user " + userId);
         }
@@ -141,7 +136,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
-    private void extractPaymentsForCampus(String campusCode, UniversalUser user, Date processRunDate) {
+    private void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, user, processRunDate);
@@ -478,7 +473,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
      * @return A fully populated batch instance.
      */
-    private Batch createBatch(String campusCode, UniversalUser user, Date processRunDate) {
+    private Batch createBatch(String campusCode, Person user, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
@@ -712,12 +707,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * This method sets the universalUserService instance.
+     * This method sets the personService instance.
      * 
-     * @param universalUserService The UniversalUserService to be set.
+     * @param personService The org.kuali.rice.kim.service.PersonService to be set.
      */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -766,3 +761,4 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
 }
+

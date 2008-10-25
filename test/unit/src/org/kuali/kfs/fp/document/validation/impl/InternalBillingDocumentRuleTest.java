@@ -19,7 +19,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapCont
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.EXPENSE_LINE;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.PFIP_SUB_FUND_LINE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
  * This class tests the business rules of the internal billing document. This is not implemented yet and needs to extend
  * AccountingDocumentRuleTestBase. We'll fully implement this when we get to this document during development.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 // @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class InternalBillingDocumentRuleTest extends KualiTestBase {
 
@@ -915,3 +915,4 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
      * "1000" ); targetLines.add( targetLine1 ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
      */
 }
+

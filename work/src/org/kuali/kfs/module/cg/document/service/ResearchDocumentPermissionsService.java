@@ -28,16 +28,16 @@ import org.kuali.kfs.module.cg.businessobject.ResearchAdhocPermissionType;
 public interface ResearchDocumentPermissionsService {
 
     /**
-     * Retrieve the AdHocPerson for the given documentNumber and personUniversalIdentifier.
+     * Retrieve the AdHocPerson for the given documentNumber and principalId.
      * 
      * @param documentNumber
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return AdHocPerson
      */
-    public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier);
+    public AdhocPerson getAdHocPerson(String documentNumber, String principalId);
 
     /**
-     * Retrieve the AdHocWorkgroup for the given documentNumber and personUniversalIdentifier.
+     * Retrieve the AdHocWorkgroup for the given documentNumber and principalId.
      * 
      * @param documentNumber
      * @param workgroupName
@@ -78,3 +78,4 @@ public interface ResearchDocumentPermissionsService {
      */
     public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid);
 }
+

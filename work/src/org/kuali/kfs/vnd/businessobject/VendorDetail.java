@@ -26,8 +26,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -88,7 +88,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private VendorDetail soldToVendorDetail;
-    private UniversalUser vendorRestrictedPerson;
+    private Person vendorRestrictedPerson;
 
     private String defaultAddressLine1; // not persisted in the db
     private String defaultAddressLine2; // not persisted in the db
@@ -637,8 +637,8 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         this.vendorStateForLookup = vendorStateForLookup;
     }
 
-    public UniversalUser getVendorRestrictedPerson() {
-        vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
+    public Person getVendorRestrictedPerson() {
+        vendorRestrictedPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
 
         return vendorRestrictedPerson;
     }
@@ -649,7 +649,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * @param vendorRestrictedPerson The vendorRestrictedPerson to set.
      * @deprecated
      */
-    public void setVendorRestrictedPerson(UniversalUser vendorRestrictedPerson) {
+    public void setVendorRestrictedPerson(Person vendorRestrictedPerson) {
         this.vendorRestrictedPerson = vendorRestrictedPerson;
     }
 
@@ -756,3 +756,4 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
 }
+

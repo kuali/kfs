@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Budget Construction Sub Fund Pick" />
     <property name="attributes" >
       <list>
-        <ref bean="BudgetConstructionSubFundPick-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSubFundPick-principalId" />
         <ref bean="BudgetConstructionSubFundPick-reportFlag" />
         <ref bean="BudgetConstructionSubFundPick-subFundGroupCode" />
         <ref bean="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription" />
@@ -28,10 +28,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionSubFundPick-personUniversalIdentifier" parent="BudgetConstructionSubFundPick-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionSubFundPick-principalId" parent="BudgetConstructionSubFundPick-principalId-parentBean" />
 
-  <bean id="BudgetConstructionSubFundPick-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionSubFundPick-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionSubFundPick-reportFlag" parent="BudgetConstructionSubFundPick-reportFlag-parentBean" />
 
@@ -104,7 +104,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="reportFlag" />
               <bean parent="FieldDefinition"
@@ -131,7 +131,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="reportFlag" />
         <bean parent="FieldDefinition"
@@ -141,7 +141,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="reportFlag" />
         <bean parent="FieldDefinition"
@@ -150,3 +150,4 @@
     </property>
   </bean>
 </beans>
+

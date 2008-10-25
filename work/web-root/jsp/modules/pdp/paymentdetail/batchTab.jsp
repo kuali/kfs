@@ -66,7 +66,7 @@
 				            	Formatted by User:
 				            </th>
 				            <td align=left class="datacell">						
-				              <c:out value="${KualiForm.paymentDetail.paymentGroup.process.processUser.personUserIdentifier}"/>
+				              <c:out value="${KualiForm.paymentDetail.paymentGroup.process.processUser.principalName}"/>
 				            	&nbsp;
 										</td>	
 				          </tr>
@@ -108,3 +108,4 @@
 							</table>
 						</td>
 					</tr>
+

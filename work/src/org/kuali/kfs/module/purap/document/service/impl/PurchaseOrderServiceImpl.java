@@ -87,11 +87,11 @@ import org.kuali.kfs.vnd.businessobject.VendorPhoneNumber;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.DocumentBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.UserNotFoundException;
@@ -107,7 +107,6 @@ import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.MaintenanceDocumentService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -138,7 +137,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiWorkflowInfo workflowInfoService;
     private MaintenanceDocumentService maintenanceDocumentService;
     private ParameterService parameterService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private MailService mailService;
     private B2BPurchaseOrderService b2bPurchaseOrderService;
 
@@ -210,8 +209,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.parameterService = parameterService;
     }
 
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     public void setMailService(MailService mailService) {
@@ -504,9 +503,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPurchaseOrderFirstTransmissionDate(currentDate);
         po.setPurchaseOrderLastTransmitDate(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
-        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getFinancialSystemUser(), null);
+        boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
@@ -1439,14 +1438,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
 
                         //check for dupes of fiscal officer
-                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier()) == false ){
+                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName()) == false ){
                         
                             //add fiscal officer to list
-                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier(), account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName(), account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
                             
                             //create AdHocRoutePerson object and add to list
                             adHocRoutePerson = new AdHocRoutePerson();
-                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPersonUserIdentifier());
+                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
                             adHocRoutePerson.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
                             adHocRoutePersons.add(adHocRoutePerson);
                         }
@@ -1462,18 +1461,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         boolean valid = true;
         // Check that the user is in purchasing workgroup.
         String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        UniversalUser user = null;
-        try {
-            user = universalUserService.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-            String purchasingGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
-            if (!universalUserService.isMember(user, purchasingGroup)) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, actionType , PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
-            }
+        Person user = personService.getPersonByPrincipalName(initiatorNetworkId);
+        if (user == null) {
+            return false;
         }
-        catch (UserNotFoundException ue) {
+        String purchasingGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_PURCHASING);
+        if (!personService.isMemberOfGroup(user, "KFS", purchasingGroup)) {
             valid = false;
-        }
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, actionType, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
+        }        
         return valid;
     }
     
@@ -1910,3 +1906,4 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
 }
+

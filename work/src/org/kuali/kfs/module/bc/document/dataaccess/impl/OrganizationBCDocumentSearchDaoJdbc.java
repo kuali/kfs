@@ -229,10 +229,10 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
-    public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
+    public int buildAccountSelectPullList(String principalName, Integer universityFiscalYear) {
         LOG.debug("buildAccountSelectPullList() started");
 
-        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], principalName, universityFiscalYear, principalName, universityFiscalYear);
         return rowsAffected;
     }
 
@@ -240,10 +240,10 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildBudgetedAccountsAbovePointsOfView(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public int buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
+    public int buildBudgetedAccountsAbovePointsOfView(String principalName, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
         LOG.debug("buildBudgetedAccountsAbovePointsOfView() started");
 
-        int rowsAffected = getSimpleJdbcTemplate().update(buildBudgetedAccountsAbovePointsOfView[0], personUserIdentifier, personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildBudgetedAccountsAbovePointsOfView[0], principalName, principalName, universityFiscalYear, chartOfAccountsCode, organizationCode);
         return rowsAffected;
     }
 
@@ -251,13 +251,13 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#buildAccountManagerDelegateList(java.lang.String,
      *      java.lang.Integer)
      */
-    public int buildAccountManagerDelegateList(String personUserIdentifier, Integer universityFiscalYear) {
+    public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
         String budgetDocumentType = documentTypeService.getDocumentTypeCodeByClass(BudgetConstructionDocument.class);
-        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, budgetDocumentType, BCConstants.DOCUMENT_TYPE_CODE_ALL, personUserIdentifier, universityFiscalYear, personUserIdentifier);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, budgetDocumentType, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
       
         // update level chart and org
-        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], personUserIdentifier);
-        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[2], personUserIdentifier);
+        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], principalName);
+        getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[2], principalName);
 
         return rowsAffected;
     }
@@ -265,8 +265,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
      */
-    public void cleanAccountSelectPullList(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_acctsel_t", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanAccountSelectPullList(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_acctsel_t", "PERSON_UNVL_ID", principalName);
     }
 
     /**
@@ -279,3 +279,4 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
 }
+

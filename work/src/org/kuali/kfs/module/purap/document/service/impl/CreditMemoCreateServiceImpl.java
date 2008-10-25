@@ -166,7 +166,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
         cmDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         // populate cm vendor address with the default remit address type for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
+        String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
         VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier(), purchaseOrderDocument.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress != null) {
             cmDocument.templateVendorAddress(vendorAddress);
@@ -228,7 +228,7 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
 
 
         // credit memo type vendor uses the default remit type address for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
+        String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
         VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress == null) {
             // pick up the default vendor po address type
@@ -299,3 +299,4 @@ public class CreditMemoCreateServiceImpl implements CreditMemoCreateService {
     
     
 }
+

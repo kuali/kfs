@@ -201,8 +201,8 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>		
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
@@ -388,7 +388,7 @@
 			<ref bean="organizationService" />
 		</property>					
 		<property name="fsUserService">
-			<ref bean="financialSystemUserService" />
+			<ref bean="personService" />
 		</property>					
 		<property name="sysInfoService">
 			<ref bean="systemInformationService" />
@@ -658,3 +658,4 @@
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 </beans>
+

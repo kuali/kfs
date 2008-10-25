@@ -47,15 +47,15 @@ public class ReportExportServiceImpl implements ReportExportService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#updateAccountDump(java.lang.String)
      */
-    public void updateAccountDump(String personUniversalIdentifier) {
-        reportDumpDao.updateAccountDump(personUniversalIdentifier);
+    public void updateAccountDump(String principalId) {
+        reportDumpDao.updateAccountDump(principalId);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public StringBuilder buildOrganizationAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter) {
+    public StringBuilder buildOrganizationAccountDumpFile(String principalId, String fieldSeperator, String textDelimiter) {
 
         // read u_where %\
         // (univ_fiscal_yr.ld_pnd_bcnstr_gl_t = univ_fiscal_yr.ld_bcn_acct_dump_t & %\
@@ -65,7 +65,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         // order by "fin_object_cd, fin_sub_obj_cd"
 
         /*
-         * Find all BudgetConstructionAccountDump objects for personUniversalIdentifier and iterate through returned collection
+         * Find all BudgetConstructionAccountDump objects for principalId and iterate through returned collection
          * then, retrieve all PendingBudgetConstructionGeneralLedger objects for fiscal year, chart, account and sub-account of
          * account dump record (order by object and sub object code). Iterate through this collection. Build up a String with the
          * fields below and add new line character and then add built up String to StringBuilder. Finally return StringBuilder.
@@ -102,11 +102,11 @@ public class ReportExportServiceImpl implements ReportExportService {
          */
 
         // update account dump table
-        updateAccountDump(personUniversalIdentifier);
+        updateAccountDump(principalId);
 
         StringBuilder results = new StringBuilder();
 
-        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(personUniversalIdentifier);
+        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(principalId);
         for (BudgetConstructionAccountDump accountRecord : accountDumpRecords) {
             List<PendingBudgetConstructionGeneralLedger> pendingEntryList = getPendingBudgetConstructionGeneralLedgerRecords(accountRecord);
 
@@ -114,7 +114,7 @@ public class ReportExportServiceImpl implements ReportExportService {
                 results.append(constructAccountDumpLine(pendingEntry, textDelimiter, fieldSeperator));
             }
         }
-        reportDumpDao.cleanAccountDump(personUniversalIdentifier);
+        reportDumpDao.cleanAccountDump(principalId);
 
         return results;
     }
@@ -159,13 +159,13 @@ public class ReportExportServiceImpl implements ReportExportService {
      *      "%%$line$%%$dlm$%%appt_fnd_reason_cd.ld_bcn_af_reason_t%%$dlm$%%$sep$" // ; rc_cd added 12/20/2004 - gwp // $line$ =
      *      "%%$line$%%$dlm$%%$rc_cd$%%$dlm$" // // $line$ = "%%$line$%%^"
      */
-    public StringBuilder buildOrganizationFundingDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter) {
+    public StringBuilder buildOrganizationFundingDumpFile(String principalId, String fieldSeperator, String textDelimiter) {
         // update account dump table
-        updateAccountDump(personUniversalIdentifier);
+        updateAccountDump(principalId);
 
         StringBuilder results = new StringBuilder();
 
-        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(personUniversalIdentifier);
+        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(principalId);
         for (BudgetConstructionAccountDump accountRecord : accountDumpRecords) {
             List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFundingList = getPendingBudgetConstructionAppointmentFundingRecords(accountRecord);
             for (PendingBudgetConstructionAppointmentFunding fundingRecord : pendingBudgetConstructionAppointmentFundingList) {
@@ -173,7 +173,7 @@ public class ReportExportServiceImpl implements ReportExportService {
             }
         }
 
-        reportDumpDao.cleanAccountDump(personUniversalIdentifier);
+        reportDumpDao.cleanAccountDump(principalId);
 
         return results;
     }
@@ -208,20 +208,20 @@ public class ReportExportServiceImpl implements ReportExportService {
      *      fdoc_ln_mo12_amt.ld_bcnstr_month_t // $line$ = "%%$line$%%$gennum$%%$sep$" // ; rc_cd added 12/20/2004 - gwp // $line$ =
      *      "%%$line$%%$dlm$%%$rc_cd$%%$dlm$" // // $line$ = "%%$line$%%^"
      */
-    public StringBuilder buildOrganizationMonthlyDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter) {
+    public StringBuilder buildOrganizationMonthlyDumpFile(String principalId, String fieldSeperator, String textDelimiter) {
         // update account dump table
-        updateAccountDump(personUniversalIdentifier);
+        updateAccountDump(principalId);
 
         StringBuilder results = new StringBuilder();
 
-        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(personUniversalIdentifier);
+        List<BudgetConstructionAccountDump> accountDumpRecords = getBudgetConstructionAccountDump(principalId);
         for (BudgetConstructionAccountDump accountRecord : accountDumpRecords) {
             List<BudgetConstructionMonthly> budgetConstructionMonthlyList = getBudgetConstructionMonthlyRecords(accountRecord);
             for (BudgetConstructionMonthly monthlyRecord : budgetConstructionMonthlyList) {
                 results.append(this.constructMonthlyDumpLine(monthlyRecord, fieldSeperator, textDelimiter));
             }
         }
-        reportDumpDao.cleanAccountDump(personUniversalIdentifier);
+        reportDumpDao.cleanAccountDump(principalId);
 
         return results;
     }
@@ -230,7 +230,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountDumpFile(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public StringBuilder buildAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    public StringBuilder buildAccountDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
         Map searchFields = new HashMap();
         searchFields.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -251,7 +251,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountFundingDumpFile(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public StringBuilder buildAccountFundingDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    public StringBuilder buildAccountFundingDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
         Map searchFields = new HashMap();
         searchFields.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -271,7 +271,7 @@ public class ReportExportServiceImpl implements ReportExportService {
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#buildAccountMonthlyDumpFile(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public StringBuilder buildAccountMonthlyDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+    public StringBuilder buildAccountMonthlyDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         StringBuilder results = new StringBuilder();
         Map searchFields = new HashMap();
         searchFields.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -365,14 +365,14 @@ public class ReportExportServiceImpl implements ReportExportService {
     }
 
     /**
-     * Retrieves all BudgetConstructionAccountDump by personUniversalIdentifier
+     * Retrieves all BudgetConstructionAccountDump by principalId
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return
      */
-    private List<BudgetConstructionAccountDump> getBudgetConstructionAccountDump(String personUniversalIdentifier) {
+    private List<BudgetConstructionAccountDump> getBudgetConstructionAccountDump(String principalId) {
         HashMap searchParameters = new HashMap();
-        searchParameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        searchParameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
         return new ArrayList<BudgetConstructionAccountDump>(this.businessObjectService.findMatching(BudgetConstructionAccountDump.class, searchParameters));
     }
@@ -446,7 +446,7 @@ public class ReportExportServiceImpl implements ReportExportService {
         line = line + textDelimiter + fundingRecord.getEmplid() + textDelimiter + fieldSeperator;
 
         if (ObjectUtils.isNotNull(fundingRecord.getBudgetConstructionIntendedIncumbent())) {
-            line = line + textDelimiter + fundingRecord.getBudgetConstructionIntendedIncumbent().getPersonName() + textDelimiter + fieldSeperator;
+            line = line + textDelimiter + fundingRecord.getBudgetConstructionIntendedIncumbent().getName() + textDelimiter + fieldSeperator;
             line = line + textDelimiter + fundingRecord.getBudgetConstructionIntendedIncumbent().getIuClassificationLevel() + textDelimiter + fieldSeperator;
         }
         else {
@@ -537,3 +537,4 @@ public class ReportExportServiceImpl implements ReportExportService {
     }
 
 }
+

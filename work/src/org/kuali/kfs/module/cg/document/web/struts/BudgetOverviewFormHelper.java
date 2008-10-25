@@ -227,7 +227,7 @@ public class BudgetOverviewFormHelper {
                                     if (budgetOverviewBoHelper.getBudgetUserSequenceNumber().equals(userAppointmentTaskPeriod.getBudgetUserSequenceNumber()) && budgetOverviewBoHelper.getInstitutionAppointmentTypeCode().equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
                                         budgetOverviewBoHelper.aggregation(userAppointmentTaskPeriod);
                                         itemAdded = true;
-                                        budgetUserLabel = budgetOverviewBoHelper.getPersonName();
+                                        budgetUserLabel = budgetOverviewBoHelper.getName();
                                     }
                                 }
                             }
@@ -235,11 +235,11 @@ public class BudgetOverviewFormHelper {
                             // if it was not found for aggregation, just add it
                             if (!itemAdded) {
                                 // Handle display of to be nameds' properly
-                                if (budgetUser.getPersonUniversalIdentifier() == null) {
+                                if (budgetUser.getPrincipalId() == null) {
                                     budgetUserLabel = this.TO_BE_NAMED;
                                 }
                                 else {
-                                    budgetUserLabel = budgetUser.getUser().getPersonName();
+                                    budgetUserLabel = budgetUser.getUser().getName();
                                 }
 
                                 BudgetOverviewPersonnelHelper budgetOverviewBoHelper = new BudgetOverviewPersonnelHelper(budgetUserLabel, budgetUser.getRole(), budgetUser.isPersonProjectDirectorIndicator(), userAppointmentTaskPeriod);
@@ -865,14 +865,14 @@ public class BudgetOverviewFormHelper {
         /**
          * @return Returns the personName.
          */
-        public String getPersonName() {
+        public String getName() {
             return personName;
         }
 
         /**
          * @param personName The personName to set.
          */
-        public void setPersonName(String personName) {
+        public void setName(String personName) {
             this.personName = personName;
         }
 
@@ -1081,3 +1081,4 @@ public class BudgetOverviewFormHelper {
         this.selected = selected;
     }
 }
+

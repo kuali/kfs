@@ -22,8 +22,8 @@
         <ref bean="ProjectCode-chartOfAccountsCode" />
         <ref bean="ProjectCode-organizationCode" />
         <ref bean="ProjectCode-projectManagerUniversalId" />
-        <ref bean="ProjectCode-projectManagerUniversal.personUserIdentifier" />
-        <ref bean="ProjectCode-projectManagerUniversal.personName" />
+        <ref bean="ProjectCode-projectManagerUniversal.principalName" />
+        <ref bean="ProjectCode-projectManagerUniversal.name" />
         <ref bean="ProjectCode-code" />
         <ref bean="ProjectCode-projectDescription" />
         <ref bean="ProjectCode-name" />
@@ -37,18 +37,18 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="projectManagerUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="projectManagerUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="projectManagerUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="projectManagerUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="projectManagerUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -84,24 +84,24 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.personUserIdentifier" parent="ProjectCode-projectManagerUniversal.personUserIdentifier-parentBean" />
+  <bean id="ProjectCode-projectManagerUniversal.principalName" parent="ProjectCode-projectManagerUniversal.principalName-parentBean" />
 
-  <bean id="ProjectCode-projectManagerUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="projectManagerUniversal.personUserIdentifier" />
+  <bean id="ProjectCode-projectManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="projectManagerUniversal.principalName" />
     <property name="label" value="Project Manager UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="projectManagerUniversal.personName"
+            p:personNameAttributeName="projectManagerUniversal.name"
             p:universalIdAttributeName="projectManagerUniversalId"
-            p:userIdAttributeName="projectManagerUniversal.personUserIdentifier" />
+            p:userIdAttributeName="projectManagerUniversal.principalName" />
     </property>
   </bean>
-  <bean id="ProjectCode-projectManagerUniversal.personName" parent="ProjectCode-projectManagerUniversal.personName-parentBean" />
+  <bean id="ProjectCode-projectManagerUniversal.name" parent="ProjectCode-projectManagerUniversal.name-parentBean" />
 
-  <bean id="ProjectCode-projectManagerUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="projectManagerUniversal.personName" />
+  <bean id="ProjectCode-projectManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="projectManagerUniversal.name" />
     <property name="label" value="Project Manager Name" />
     <property name="required" value="false" />
   </bean>
@@ -184,7 +184,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="projectManagerUniversal.personName"
+                    p:attributeName="projectManagerUniversal.name"
                     p:forceInquiry="true" />
               <bean parent="FieldDefinition"
                     p:attributeName="projectDescription" />
@@ -220,7 +220,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="code" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.personName" />
+              p:attributeName="projectManagerUniversal.name" />
         <bean parent="FieldDefinition"
               p:attributeName="name" />
         <bean parent="FieldDefinition"
@@ -244,9 +244,10 @@
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
-              p:attributeName="projectManagerUniversal.personName"
+              p:attributeName="projectManagerUniversal.name"
               p:forceInquiry="true" />
       </list>
     </property>
   </bean>
 </beans>
+

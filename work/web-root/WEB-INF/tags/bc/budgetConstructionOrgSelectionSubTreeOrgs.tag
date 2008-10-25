@@ -35,7 +35,7 @@
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToChartOfAccountsCode" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].reportsToOrganizationCode" />
                	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].versionNumber" />
-               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].personUniversalIdentifier" />
+               	<html:hidden write="false" property="selectionSubTreeOrgs[${status.index}].principalId" />
                 
                 <c:choose>
                    	<c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">                   
@@ -133,3 +133,4 @@
 	        </c:choose>
 		</tr>
 		</table>
+

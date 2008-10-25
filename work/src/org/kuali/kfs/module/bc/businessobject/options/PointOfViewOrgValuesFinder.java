@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.bc.document.service.PermissionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.KeyLabelPair;
@@ -39,9 +39,9 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
             pointOfViewOrgKeyLabels = new ArrayList();
             pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
             for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
@@ -57,3 +57,4 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
     }
 
 }
+

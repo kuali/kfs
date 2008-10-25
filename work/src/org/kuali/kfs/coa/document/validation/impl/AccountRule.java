@@ -38,12 +38,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -254,7 +254,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if: document is an edit document, old was closed and new is open, and the user is not one of the System
      *         Supervisors
      */
-    protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, UniversalUser user) {
+    protected boolean isNonSystemSupervisorEditingAClosedAccount(MaintenanceDocument document, Person user) {
 
         boolean result = false;
 
@@ -265,7 +265,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
             Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
 
             // do the test
-            if (!oldAccount.isActive() && !user.isSupervisorUser()) {
+            if (!oldAccount.isActive() && !org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
                 result = true;
             }
         }
@@ -322,9 +322,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkGeneralRules called");
-        UniversalUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
-        UniversalUser accountManager = newAccount.getAccountManagerUser();
-        UniversalUser accountSupervisor = newAccount.getAccountSupervisoryUser();
+        Person fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
+        Person accountManager = newAccount.getAccountManagerUser();
+        Person accountSupervisor = newAccount.getAccountSupervisoryUser();
 
         boolean success = true;
 
@@ -338,7 +338,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         // we need to get the old maintanable doc here
-        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
+        if (isNonSystemSupervisorEditingAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getPerson())) {
             success &= false;
             putFieldError("active", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
@@ -354,9 +354,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkFringeBenefitAccountRule(newAccount);
 
         // the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
-        success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountSupervisor);
-        success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountManager);
+        success &= checkUserStatusAndType("accountFiscalOfficerUser.principalName", fiscalOfficer);
+        success &= checkUserStatusAndType("accountSupervisoryUser.principalName", accountSupervisor);
+        success &= checkUserStatusAndType("accountManagerUser.principalName", accountManager);
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
         if (isSupervisorSameAsFiscalOfficer(newAccount)) {
@@ -477,7 +477,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method is a helper method for checking if the supervisor user is the same as the fiscal officer Calls
-     * {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * {@link AccountRule#areTwoUsersTheSame(Person, Person)}
      * 
      * @param accountGlobals
      * @return true if the two users are the same
@@ -488,7 +488,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method is a helper method for checking if the supervisor user is the same as the manager Calls
-     * {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * {@link AccountRule#areTwoUsersTheSame(Person, Person)}
      * 
      * @param accountGlobals
      * @return true if the two users are the same
@@ -504,7 +504,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @param user2
      * @return true if these two users are the same
      */
-    protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
+    protected boolean areTwoUsersTheSame(Person user1, Person user2) {
         if (ObjectUtils.isNull(user1)) {
             return false;
         }
@@ -524,10 +524,10 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * and adds an error to the GlobalErrors.
      * 
      * @param propertyName - property to attach error to
-     * @param user - UniversalUser to be tested
+     * @param user - Person to be tested
      * @return true if user is of the requested employee type, false if not, true if the user object is null
      */
-    protected boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
+    protected boolean checkUserStatusAndType(String propertyName, Person user) {
 
         boolean success = true;
 
@@ -952,11 +952,11 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      */
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
-        FinancialSystemUser fiscalOfficer = getKfsUserService().getFinancialSystemUser(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !fiscalOfficer.isActiveFinancialSystemUser() ) {
+        Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
+        if (fiscalOfficer == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(fiscalOfficer) ) {
             result = false;
             if ( fiscalOfficer != null ) {
-                putFieldError("accountFiscalOfficerUser.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+                putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
             }
         }
 
@@ -1133,3 +1133,4 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
     }
 
 }
+

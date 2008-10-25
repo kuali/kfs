@@ -49,11 +49,11 @@ public interface ContractsAndGrantsAccountAwardInformation extends CGProjectDire
     public String getAccountNumber();
     
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier();
+    public String getPrincipalId();
     
     /**
      * Gets the account attribute.
@@ -84,3 +84,4 @@ public interface ContractsAndGrantsAccountAwardInformation extends CGProjectDire
     public ContractsAndGrantsAward getAward();
 
 }
+

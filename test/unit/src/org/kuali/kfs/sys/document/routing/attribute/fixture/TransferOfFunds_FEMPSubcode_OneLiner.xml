@@ -19,8 +19,8 @@
             <kualiTransactionalDocumentInformation>
                 <documentInitiator>
                     <kualiUser>
-                        <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-                        <personUserIdentifier>khuntley</personUserIdentifier>
+                        <principalId>6162502038</principalId>
+                        <principalName>khuntley</principalName>
                         <emplid>0000202278</emplid>
                         <personActiveIndicator>true</personActiveIndicator>
                         <personInFinancialProcessCode>true</personInFinancialProcessCode>
@@ -32,9 +32,9 @@
                         <personUpdateAbilityNumber>1</personUpdateAbilityNumber>
                         <chartOfAccountsCode>UA</chartOfAccountsCode>
                         <organizationCode>VPIT</organizationCode>
-                        <universalUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
-                            <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-                            <personUserIdentifier>KHUNTLEY</personUserIdentifier>
+                        <person class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3">
+                            <principalId>6162502038</principalId>
+                            <principalName>khuntley</principalName>
                             <personName>HUNTLEY,KEISHA Y</personName>
                             <employeeStatusCode>A</employeeStatusCode>
                             <employeeTypeCode>P</employeeTypeCode>
@@ -51,7 +51,7 @@
                             </campus>
                             <objectId>03A4E0C0DE44BB0CE043814FD881BB0C</objectId>
                             <versionNumber>1</versionNumber>
-                        </universalUser>
+                        </person>
                         <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                             <finChartOfAccountDescription>UNIV ADMIN</finChartOfAccountDescription>
                             <active>true</active>
@@ -209,16 +209,16 @@
                                 <finObjMandatoryTrnfrelimCd>N</finObjMandatoryTrnfrelimCd>
                                 <financialFederalFundedCode>N</financialFederalFundedCode>
                             </icrExpenseFinancialObject>
-                            <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
-                                <personUniversalIdentifier>1271304676</personUniversalIdentifier>
-                                <personUserIdentifier>WBRAZIL</personUserIdentifier>
+                            <finCoaManagerUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3">
+                                <principalId>1271304676</principalId>
+                                <principalName>WBRAZIL</principalName>
                                 <personName>BRAZIL,WELDON B</personName>
                                 <employeeStatusCode>A</employeeStatusCode>
                                 <employeeTypeCode>P</employeeTypeCode>
                                 <emplid>0000066138</emplid>
                                 <deptid>BL-BUDU</deptid>
                                 <campusCode>BL</campusCode>
-                                <campus reference="../../../universalUser/campus" />
+                                <campus reference="../../../person/campus" />
                                 <objectId>03A4E0BECA78BB0CE043814FD881BB0C</objectId>
                                 <versionNumber>1</versionNumber>
                             </finCoaManagerUniversal>
@@ -248,7 +248,7 @@
                                 <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                 <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                 <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
-                                <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                                <finCoaManagerUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
                                 <reportsToChartOfAccounts reference=".." />
                                 <objectId>014F3DAF7490A448E043814FD28EA448</objectId>
                                 <versionNumber>1</versionNumber>
@@ -278,16 +278,16 @@
                             <campusPlantChartCode>UA</campusPlantChartCode>
                             <chartOfAccounts reference="../../chartOfAccounts" />
                             <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
-                            <organizationManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
-                                <personUniversalIdentifier>4706809038</personUniversalIdentifier>
-                                <personUserIdentifier>NDORTON</personUserIdentifier>
+                            <organizationManagerUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3">
+                                <principalId>4706809038</principalId>
+                                <principalName>NDORTON</principalName>
                                 <personName>DORTON,NICOLE K</personName>
                                 <employeeStatusCode>A</employeeStatusCode>
                                 <employeeTypeCode>P</employeeTypeCode>
                                 <emplid>0000190894</emplid>
                                 <deptid>BL-VPIT</deptid>
                                 <campusCode>BL</campusCode>
-                                <campus reference="../../../universalUser/campus" />
+                                <campus reference="../../../person/campus" />
                                 <objectId>03A4E0C0B1CCBB0CE043814FD881BB0C</objectId>
                                 <versionNumber>1</versionNumber>
                             </organizationManagerUniversal>
@@ -299,7 +299,7 @@
                                 <objectId>014A17B043CE9D5EE043814FD8819D5E</objectId>
                                 <versionNumber>1</versionNumber>
                             </responsibilityCenter>
-                            <organizationPhysicalCampus reference="../../universalUser/campus" />
+                            <organizationPhysicalCampus reference="../../person/campus" />
                             <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--50985015">
                                 <organizationTypeCode>R</organizationTypeCode>
                                 <organizationTypeName>RESPONSIBILITY CENTER</organizationTypeName>
@@ -330,7 +330,7 @@
                                 <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
                                 <organizationManagerUniversal reference="../../../chartOfAccounts/finCoaManagerUniversal" />
                                 <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--7c6cf958" />
-                                <organizationPhysicalCampus reference="../../../universalUser/campus" />
+                                <organizationPhysicalCampus reference="../../../person/campus" />
                                 <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--50985015" />
                                 <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--6d3e64ab" />
                                 <reportsToChartOfAccounts reference="../../../chartOfAccounts/reportsToChartOfAccounts" />
@@ -387,47 +387,47 @@
                             <versionNumber>17</versionNumber>
                         </personOrigination>
                         <groups>
-                            <org.kuali.rice.kns.bo.user.KualiGroup>
+                            <org.kuali.rice.kns.bo.user.KimGroup>
                                 <groupName>KUALI_ROLE_CASH_RECEIPT_VERIFICATION_GROUP</groupName>
                                 <groupDescription>This workgroup represents individuals who are authorized to approve Cash Receipts.</groupDescription>
                                 <groupUsers>
-                                    <string>DFOGLE</string>
-                                    <string>RJWEISS</string>
-                                    <string>KHUNTLEY</string>
+                                    <string>dfogle</string>
+                                    <string>rjweiss</string>
+                                    <string>khuntley</string>
                                 </groupUsers>
-                            </org.kuali.rice.kns.bo.user.KualiGroup>
-                            <org.kuali.rice.kns.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KimGroup>
+                            <org.kuali.rice.kns.bo.user.KimGroup>
                                 <groupName>KUALI_ROLE_BANK_DEPOSIT_PREPARATION_GROUP</groupName>
                                 <groupDescription>This group should not be used and should not be part of the standard DML for Kuali.</groupDescription>
                                 <groupUsers>
-                                    <string>KHUNTLEY</string>
+                                    <string>khuntley</string>
                                 </groupUsers>
-                            </org.kuali.rice.kns.bo.user.KualiGroup>
-                            <org.kuali.rice.kns.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KimGroup>
+                            <org.kuali.rice.kns.bo.user.KimGroup>
                                 <groupName>WorkflowAdmin</groupName>
                                 <groupDescription>Workflow Admin Group</groupDescription>
                                 <groupUsers>
-                                    <string>KHUNTLEY</string>
+                                    <string>khuntley</string>
                                     <string>KWESTERN</string>
                                 </groupUsers>
-                            </org.kuali.rice.kns.bo.user.KualiGroup>
-                            <org.kuali.rice.kns.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KimGroup>
+                            <org.kuali.rice.kns.bo.user.KimGroup>
                                 <groupName>KUALI_AAPOSREV</groupName>
                                 <groupDescription>Affirmative Action Work Group</groupDescription>
                                 <groupUsers>
-                                    <string>KHUNTLEY</string>
+                                    <string>khuntley</string>
                                 </groupUsers>
-                            </org.kuali.rice.kns.bo.user.KualiGroup>
-                            <org.kuali.rice.kns.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KimGroup>
+                            <org.kuali.rice.kns.bo.user.KimGroup>
                                 <groupName>SY_BLANKET_APPROVERS</groupName>
                                 <groupDescription>Kuali Administrator User Role</groupDescription>
                                 <groupUsers>
-                                    <string>KHUNTLEY</string>
+                                    <string>khuntley</string>
                                     <string>EARENAS</string>
                                     <string>AMDELGAD</string>
-                                    <string>KULUSER</string>
+                                    <string>kuluser</string>
                                 </groupUsers>
-                            </org.kuali.rice.kns.bo.user.KualiGroup>
+                            </org.kuali.rice.kns.bo.user.KimGroup>
                             <org.kuali.rice.kns.bo.user.KualiUniversalGroup>
                                 <groupName>kualiUniversalGroup</groupName>
                                 <groupDescription>Universal group (group of which all users are members)</groupDescription>
@@ -454,7 +454,7 @@
                                     <finAccountsReceivableObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                     <finInternalEncumbranceObj class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
                                     <icrExpenseFinancialObject class="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent--EnhancerByCGLIB--95affbc" />
-                                    <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" reference="../../../../universalUser" />
+                                    <finCoaManagerUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" reference="../../../../person" />
                                     <reportsToChartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--c2bbb1f5">
                                         <finChartOfAccountDescription>BLOOMINGTON</finChartOfAccountDescription>
                                         <active>true</active>
@@ -613,16 +613,16 @@
                                             <finObjMandatoryTrnfrelimCd>N</finObjMandatoryTrnfrelimCd>
                                             <financialFederalFundedCode>N</financialFederalFundedCode>
                                         </icrExpenseFinancialObject>
-                                        <finCoaManagerUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3">
-                                            <personUniversalIdentifier>1872708343</personUniversalIdentifier>
-                                            <personUserIdentifier>CSWINSON</personUserIdentifier>
+                                        <finCoaManagerUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3">
+                                            <principalId>1872708343</principalId>
+                                            <principalName>cswinson</principalName>
                                             <personName>SWINSON,CHARLEY H</personName>
                                             <employeeStatusCode>A</employeeStatusCode>
                                             <employeeTypeCode>P</employeeTypeCode>
                                             <emplid>0000066697</emplid>
                                             <deptid>BL-VPGA</deptid>
                                             <campusCode>BL</campusCode>
-                                            <campus reference="../../../../../../universalUser/campus" />
+                                            <campus reference="../../../../../../person/campus" />
                                             <objectId>03A4E0BECCA7BB0CE043814FD881BB0C</objectId>
                                             <versionNumber>1</versionNumber>
                                         </finCoaManagerUniversal>
@@ -946,15 +946,15 @@
                             <chartOfAccounts reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                             <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--6d3e64ab" />
                             <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--2721eed2" />
-                            <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/universalUser/campus" />
+                            <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/person/campus" />
                             <accountState reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip/state" />
                             <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--67c08407" />
                             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--c9c6f6d3" />
                             <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--9579812" />
                             <incomeStreamAccount reference=".." />
-                            <accountFiscalOfficerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountSupervisoryUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountManagerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountFiscalOfficerUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
+                            <accountSupervisoryUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
+                            <accountManagerUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
                             <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
@@ -1044,16 +1044,16 @@
                             <chartOfAccounts reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/chartResponsibilities/entry/org.kuali.module.chart.bo.Chart/reportsToChartOfAccounts" />
                             <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--6d3e64ab" />
                             <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--2721eed2" />
-                            <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/universalUser/campus" />
+                            <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/person/campus" />
                             <accountState reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip/state" />
                             <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--67c08407" />
                             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--c9c6f6d3" />
                             <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--9579812" />
                             <continuationAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
                             <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--d41c531c" />
-                            <accountFiscalOfficerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountSupervisoryUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
-                            <accountManagerUser class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--c03b2ce3" />
+                            <accountFiscalOfficerUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
+                            <accountSupervisoryUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
+                            <accountManagerUser class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--c03b2ce3" />
                             <postalZipCode reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/kualiUser/organization/postalZip" />
                             <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--bf108932" />
                             <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--dbbff804" />
@@ -1301,3 +1301,4 @@
             </document>
         </org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>    </applicationContent>
 </documentContent>
+

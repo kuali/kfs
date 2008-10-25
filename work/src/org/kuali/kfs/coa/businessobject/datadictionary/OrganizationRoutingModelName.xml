@@ -130,7 +130,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="approvalToThisAmount" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="accountDelegate.personName" />
+                          p:attributeName="accountDelegate.name" />
                   </list>
                 </property>
               </bean>
@@ -181,3 +181,4 @@
     </property>
   </bean>
 </beans>
+

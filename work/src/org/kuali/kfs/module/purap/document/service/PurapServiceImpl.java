@@ -552,7 +552,7 @@ public class PurapServiceImpl implements PurapService {
 
         String documentLabel = dataDictionaryService.getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
-        String userName = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName();
+        String userName = GlobalVariables.getUserSession().getPerson().getName();
         closeReopenNote.append(dataDictionaryService.getDocumentLabelByClass(PurchaseOrderDocument.class));
         closeReopenNote.append(" will be manually ");
         closeReopenNote.append(action);
@@ -571,18 +571,18 @@ public class PurapServiceImpl implements PurapService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurapService#performLogicWithFakedUserSession(java.lang.String, org.kuali.kfs.module.purap.document.service.LogicContainer, java.lang.Object[])
      */
-    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
+    public Object performLogicWithFakedUserSession(String requiredPersonPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
         LOG.debug("performLogicWithFakedUserSession() started");
 
-        if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
-            throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");
+        if (StringUtils.isBlank(requiredPersonPersonUserId)) {
+            throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredPersonPersonUserId + "'");
         }
         if (ObjectUtils.isNull(logicToRun)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with no logic to run");
         }
         UserSession actualUserSession = GlobalVariables.getUserSession();
         try {
-            GlobalVariables.setUserSession(new UserSession(requiredUniversalUserPersonUserId));
+            GlobalVariables.setUserSession(new UserSession(requiredPersonPersonUserId));
             return logicToRun.runLogic(objects);
         }
         finally {
@@ -1025,3 +1025,4 @@ public class PurapServiceImpl implements PurapService {
     }
 
 }
+

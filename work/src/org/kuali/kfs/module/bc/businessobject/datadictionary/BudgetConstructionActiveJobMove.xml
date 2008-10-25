@@ -23,7 +23,7 @@
         <ref bean="BudgetConstructionActiveJobMove-emplid" />
         <ref bean="BudgetConstructionActiveJobMove-employeeRecord" />
         <ref bean="BudgetConstructionActiveJobMove-employeeStatus" />
-        <ref bean="BudgetConstructionActiveJobMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionActiveJobMove-principalId" />
         <ref bean="BudgetConstructionActiveJobMove-positionNumber" />
       </list>
     </property>
@@ -140,10 +140,10 @@
     <property name="summary" value="employeeStatus" />
     <property name="description" value="employeeStatus description..." />
   </bean>
-  <bean id="BudgetConstructionActiveJobMove-personUniversalIdentifier" parent="BudgetConstructionActiveJobMove-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionActiveJobMove-principalId" parent="BudgetConstructionActiveJobMove-principalId-parentBean" />
 
-  <bean id="BudgetConstructionActiveJobMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionActiveJobMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -155,8 +155,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionActiveJobMove-positionNumber" parent="BudgetConstructionActiveJobMove-positionNumber-parentBean" />
 
@@ -204,7 +204,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="employeeStatus" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionNumber" />
             </list>
@@ -241,7 +241,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="employeeStatus" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
       </list>
@@ -261,10 +261,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="employeeStatus" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
       </list>
     </property>
   </bean>
 </beans>
+

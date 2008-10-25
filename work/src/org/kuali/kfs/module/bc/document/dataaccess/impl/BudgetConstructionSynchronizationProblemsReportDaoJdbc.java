@@ -97,29 +97,29 @@ public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends Budg
     /**
      * 
      * removes any rows from a previous report for this uear
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      */
-    private void cleanReportsSynchronizationProblemsTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", personUserIdentifier);
+    private void cleanReportsSynchronizationProblemsTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", principalName);
     }
     
     /**
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSynchronizationProblemsReportDao#updateReportsSynchronizationProblemsTable(java.lang.String)
      */
-    public void updateReportsSynchronizationProblemsTable(String personUserIdentifier) {
+    public void updateReportsSynchronizationProblemsTable(String principalName) {
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);
         // get rid of any old reports sitting around for this user
-        cleanReportsSynchronizationProblemsTable(personUserIdentifier);
+        cleanReportsSynchronizationProblemsTable(principalName);
         //  insert the code for an active position
         stringsToInsert.add(BudgetConstructionPositionConstants.POSITION_EFFECTIVE_STATUS_ACTIVE);
         //  insert into the report table filled or vacant lines with an object code change, a position change, or an inactive position
-        getSimpleJdbcTemplate().update(updateReportsSynchronizationProblemsTable.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSynchronizationProblemsTable.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName);
         //  change the name field for any line with a vacant position
         stringsToInsert.clear();
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
-        getSimpleJdbcTemplate().update(updateReportsSynchronizationProblemsTable.get(1).getSQL(stringsToInsert), personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSynchronizationProblemsTable.get(1).getSQL(stringsToInsert), principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -132,3 +132,4 @@ public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends Budg
     }
 
 }
+

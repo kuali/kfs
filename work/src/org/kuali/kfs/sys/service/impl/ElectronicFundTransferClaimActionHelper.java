@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStra
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.kfs.sys.web.struts.ElectronicPaymentClaimClaimedHelper;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -61,9 +61,9 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?
-        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
-            throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
+            throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }
         
         // did the user say they have documentation?  If not, give an error...
@@ -121,7 +121,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * @throws AuthorizationException thrown if the user entered an invalid or unusable ElectronicPaymentClaimingDocumentGenerationStrategy code
      * @return an ElectronicPaymentClaimingDocumentGenerationStrategy helper to use to create the document
      */
-    private ElectronicPaymentClaimingDocumentGenerationStrategy getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocs, UniversalUser currentUser) {
+    private ElectronicPaymentClaimingDocumentGenerationStrategy getRequestedClaimingHelper(String chosenDoc, List<ElectronicPaymentClaimingDocumentGenerationStrategy> availableClaimingDocs, Person currentUser) {
         ElectronicPaymentClaimingDocumentGenerationStrategy chosenDocHelper = null;
         int count = 0;
         while (count < availableClaimingDocs.size() && chosenDocHelper == null) {
@@ -132,7 +132,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             count += 1;
         }
         if (chosenDocHelper == null || !chosenDocHelper.userMayUseToClaim(currentUser)) {
-            throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
+            throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
         }
         return chosenDocHelper;
     }
@@ -237,3 +237,4 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     }
     
 }
+

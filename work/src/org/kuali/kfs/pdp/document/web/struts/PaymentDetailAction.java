@@ -47,7 +47,7 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -89,7 +89,7 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                 return performCancel( paymentDetailId, changeText, user);
             }
         };
@@ -104,7 +104,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that perfomed the change
      * @return true if payment successfully canceled, false otherwise
      */
-    private boolean performCancel(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performCancel(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
@@ -132,7 +132,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                 return performHold( paymentDetailId, changeText, user);
             }
         };
@@ -149,7 +149,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that performed the change
      * @return true if payment successfully held, false otherwise
      */
-    private boolean performHold(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performHold(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
@@ -177,7 +177,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                 return performRemoveHold( paymentDetailId, changeText, user);
             }
         };
@@ -191,7 +191,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that performs the change
      * @return true if hold successfully removed from payment, false otherwise
      */
-    private boolean performRemoveHold(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performRemoveHold(int paymentDetailId, String changeText, Person user) {
 
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
@@ -219,7 +219,7 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndSetImmediate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                  return performSetImmediate(paymentDetailId, changeText, user);
                  
             }
@@ -234,7 +234,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that performed the change
      * @return true if flag successfully set on payment, false otherwise
      */
-    private boolean performSetImmediate(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performSetImmediate(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
 
@@ -262,7 +262,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     public ActionForward confirmAndRemoveImmediate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                  return performSetImmediate(paymentDetailId, changeText, user);
                  
             }
@@ -281,7 +281,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     public ActionForward confirmAndCancelDisbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                 return performCancelDisbursement( paymentDetailId, changeText, user);
             }
         };
@@ -295,7 +295,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that canceled the disbursement
      * @return true if disbursement successfully canceled, false otherwise
      */
-    private boolean performCancelDisbursement(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performCancelDisbursement(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
 
@@ -321,7 +321,7 @@ public class PaymentDetailAction extends KualiAction {
      */
     public ActionForward confirmAndReIssueCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
-            public boolean doPostQuestion(int paymentDetailId, String changeText, UniversalUser user) {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
                 return performReIssueDisbursement( paymentDetailId, changeText, user);
             }
         };
@@ -335,7 +335,7 @@ public class PaymentDetailAction extends KualiAction {
      * @param user the user that canceled the disbursement
      * @return true if disbursement successfully reissued/canceled, false otherwise
      */
-    private boolean performReIssueDisbursement(int paymentDetailId, String changeText, UniversalUser user) {
+    private boolean performReIssueDisbursement(int paymentDetailId, String changeText, Person user) {
         Map keyMap = new HashMap();
         keyMap.put(PdpPropertyConstants.PaymentDetail.Fields.PAYMENT_ID, paymentDetailId);
 
@@ -368,7 +368,7 @@ public class PaymentDetailAction extends KualiAction {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = KFSConstants.EMPTY_STRING;
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
         boolean actionStatus;
         String message = KFSConstants.EMPTY_STRING;
 
@@ -408,7 +408,7 @@ public class PaymentDetailAction extends KualiAction {
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
 
-                actionStatus = callback.doPostQuestion(Integer.parseInt(paymentDetailId), noteText, universalUser);
+                actionStatus = callback.doPostQuestion(Integer.parseInt(paymentDetailId), noteText, person);
                 if (actionStatus) {
                     message = successMessage;
                 }
@@ -509,3 +509,4 @@ public class PaymentDetailAction extends KualiAction {
     }
 
 }
+

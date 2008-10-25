@@ -28,11 +28,11 @@
         <ref bean="PayeeAchAccount-vendorHeaderGeneratedIdentifier" />
         <ref bean="PayeeAchAccount-vendorDetailAssignedIdentifier" />
         <ref bean="PayeeAchAccount-vendorNumber" />
-        <ref bean="PayeeAchAccount-personUniversalIdentifier" />
+        <ref bean="PayeeAchAccount-principalId" />
         <ref bean="PayeeAchAccount-active" />
         <ref bean="PayeeAchAccount-bankRouting.bankName" />
-        <ref bean="PayeeAchAccount-user.personUserIdentifier" />
-        <ref bean="PayeeAchAccount-user.personName" />
+        <ref bean="PayeeAchAccount-user.principalName" />
+        <ref bean="PayeeAchAccount-user.name" />
       </list>
     </property>
     <property name="relationships" >
@@ -62,18 +62,18 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="user.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="user.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="user.personName"
-                    p:targetName="personName" />
+                    p:sourceName="user.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>  
@@ -234,9 +234,9 @@
   <bean id="PayeeAchAccount-vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
   </bean>
   
-  <bean id="PayeeAchAccount-personUniversalIdentifier" parent="PayeeAchAccount-personUniversalIdentifier-parentBean" />
+  <bean id="PayeeAchAccount-principalId" parent="PayeeAchAccount-principalId-parentBean" />
 
-  <bean id="PayeeAchAccount-personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="PayeeAchAccount-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="label" value="Payee Universal ID" />
     <property name="shortLabel" value="Payee Univ ID" />
     <property name="required" value="false" />
@@ -246,24 +246,24 @@
   </bean>
   
 
-  <bean id="PayeeAchAccount-user.personUserIdentifier" parent="PayeeAchAccount-user.personUserIdentifier-parentBean" />
+  <bean id="PayeeAchAccount-user.principalName" parent="PayeeAchAccount-user.principalName-parentBean" />
 
-  <bean id="PayeeAchAccount-user.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="user.personUserIdentifier" />
+  <bean id="PayeeAchAccount-user.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="user.principalName" />
     <property name="label" value="Payee User ID" />
     <property name="shortLabel" value="PayeeID" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="KualiUserControlDefinition" p:universalIdAttributeName="personUniversalIdentifier" 
-                                                p:userIdAttributeName="user.personUserIdentifier" 
-                                                p:personNameAttributeName="user.personName"/>
+      <bean parent="KualiUserControlDefinition" p:universalIdAttributeName="principalId" 
+                                                p:userIdAttributeName="user.principalName" 
+                                                p:personNameAttributeName="user.name"/>
     </property>
   </bean>
 
-  <bean id="PayeeAchAccount-user.personName" parent="PayeeAchAccount-user.personName-parentBean" />
+  <bean id="PayeeAchAccount-user.name" parent="PayeeAchAccount-user.name-parentBean" />
 
-  <bean id="PayeeAchAccount-user.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="user.personName" />
+  <bean id="PayeeAchAccount-user.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="user.name" />
     <property name="label" value="Payee Name" />
     <property name="required" value="false" />
     <property name="control" >
@@ -302,7 +302,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="achAccountGeneratedIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="user.personUserIdentifier" />
+                    p:attributeName="user.principalName" />
               <bean parent="FieldDefinition"
                     p:attributeName="vendorHeaderGeneratedIdentifier" />
               <bean parent="FieldDefinition"
@@ -352,7 +352,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="payeeIdentifierTypeCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="user.personUserIdentifier" />
+              p:attributeName="user.principalName" />
         <bean parent="FieldDefinition"
               p:attributeName="vendorNumber" />
         <bean parent="FieldDefinition"
@@ -385,3 +385,4 @@
     </property>
   </bean>
 </beans>
+

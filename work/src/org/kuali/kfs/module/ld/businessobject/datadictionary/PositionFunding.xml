@@ -34,7 +34,7 @@
         <ref bean="PositionFunding-earnCode" />
         <ref bean="PositionFunding-effectiveDate" />
         <ref bean="PositionFunding-emplid" />
-        <ref bean="PositionFunding-personName" />
+        <ref bean="PositionFunding-name" />
         <ref bean="PositionFunding-positionNumber" />
       </list>
     </property>
@@ -45,8 +45,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="ledgerPerson.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -128,12 +128,12 @@
   </bean>
   <bean id="PositionFunding-emplid" parent="PositionFunding-emplid-parentBean" />
 
-  <bean id="PositionFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
-  <bean id="PositionFunding-personName" parent="PositionFunding-personName-parentBean" />
+  <bean id="PositionFunding-name" parent="PositionFunding-name-parentBean" />
 
-  <bean id="PositionFunding-personName-parentBean" abstract="true" parent="UniversalUser-personName">
+  <bean id="PositionFunding-name-parentBean" abstract="true" parent="PersonImpl-name">
   </bean>
   <bean id="PositionFunding-positionNumber" parent="PositionFunding-positionNumber-parentBean" />
 
@@ -230,7 +230,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -243,3 +243,4 @@
     </property>
   </bean>
 </beans>
+

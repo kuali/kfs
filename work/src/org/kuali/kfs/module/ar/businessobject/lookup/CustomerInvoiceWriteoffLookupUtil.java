@@ -94,10 +94,10 @@ public class CustomerInvoiceWriteoffLookupUtil {
         return customerInvoiceDocumentsByCustomerNumberMap;
     }
     
-    public static Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId) {
+    public static Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
         try {
-            for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, CustomerInvoiceDocument.class, universalUserId)) {
+            for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, CustomerInvoiceDocument.class, personId)) {
                 customerInvoiceDocuments.add((CustomerInvoiceDocument) obj);
             }
         }
@@ -108,8 +108,9 @@ public class CustomerInvoiceWriteoffLookupUtil {
         return customerInvoiceDocuments;
     }
     
-    public static Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String universalUserId){
-        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, universalUserId));
+    public static Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId){
+        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(getCustomerInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId));
     }    
 
 }
+

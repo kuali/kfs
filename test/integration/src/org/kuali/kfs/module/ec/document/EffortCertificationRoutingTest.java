@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ec.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,7 +38,7 @@ import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -49,7 +49,7 @@ import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
-@ConfigureContext(session = KHUNTLEY)//, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley)//, shouldCommitTransactions = true)
 public class EffortCertificationRoutingTest extends KualiTestBase {
     
     private Set<String> databaseNodes;
@@ -145,8 +145,8 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         DocumentInitiator initiatior = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-            initiatior.setUniversalUser(initiatorUser);
+            Person initiatorUser = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
+            initiatior.setPerson(initiatorUser);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -186,3 +186,4 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         System.out.println("Document Routed");
     }
 }
+

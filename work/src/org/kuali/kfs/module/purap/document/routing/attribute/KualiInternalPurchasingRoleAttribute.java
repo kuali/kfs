@@ -41,7 +41,7 @@ import org.kuali.rice.kew.rule.UnqualifiedRoleAttribute;
 import org.kuali.rice.kew.workgroup.GroupNameId;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -89,7 +89,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             authenticationId = docContent.getRouteContext().getDocument().getRoutedByUser().getAuthenticationUserId().getAuthenticationId();
             if (StringUtils.isNotEmpty(authenticationId)) {
                 String contractManagersGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.WorkflowParameters.PurchaseOrderDocument.CONTRACT_MANAGERS_WORKGROUP_NAME);
-                if (!SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authenticationId.toUpperCase()).isMember(contractManagersGroupName)) {
+                if (!SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authenticationId.toLowerCase()).isMember(contractManagersGroupName)) {
                     // get the document id number from the routeContext doc content
                     PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
                     document.refreshNonUpdateableReferences();
@@ -114,7 +114,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             String errorMsg = "Error while processing doc id '" + documentNumber + "'... User not found using Authentication Id '" + authenticationId + "'";
             LOG.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
@@ -135,3 +135,4 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
         return new ResolvedQualifiedRole(INTERNAL_PURCHASING_ROLE_LABEL, Arrays.asList(new Id[] { new GroupNameId(workgroupName) }));
     }
 }
+

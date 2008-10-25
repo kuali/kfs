@@ -36,14 +36,14 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
@@ -84,7 +84,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             }
 
             try {
-                UniversalUser initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+                Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
                 documentTitle += initUser.getCampusCode();
             }
             catch (Exception e) {
@@ -406,7 +406,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public List getSections(Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(oldMaintainable);
-        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
         boolean isVendorParent = ((VendorDetail) getBusinessObject()).isVendorParentIndicator();
         boolean isInVendorContractGroup = currentUser.isMember(vendorContractWorkgroup);
@@ -478,3 +478,4 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
 }
+

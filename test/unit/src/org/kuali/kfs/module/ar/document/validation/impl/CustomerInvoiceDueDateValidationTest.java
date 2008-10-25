@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CustomerInvoiceDueDateValidationTest extends KualiTestBase {
     
     private CustomerInvoiceDueDateValidation validation;
@@ -170,3 +170,4 @@ public class CustomerInvoiceDueDateValidationTest extends KualiTestBase {
     }    
     
 }
+

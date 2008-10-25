@@ -54,21 +54,21 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService#updatePositionFundingDetailReport(java.lang.String,
      *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings)
      */
-    public void updatePositionFundingDetailReport(String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public void updatePositionFundingDetailReport(String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
-        budgetConstructionPositionFundingDetailReportDao.updateReportsPositionFundingDetailTable(personUserIdentifier, applyAThreshold, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+        budgetConstructionPositionFundingDetailReportDao.updateReportsPositionFundingDetailTable(principalName, applyAThreshold, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService#buildReports(java.lang.Integer,
      *      java.lang.String)
      */
-    public Collection<BudgetConstructionOrgPositionFundingDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgPositionFundingDetailReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgPositionFundingDetailReport> reportSet = new ArrayList();
 
-        Collection<BudgetConstructionPositionFunding> positionFundingDetailList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionPositionFunding.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionPositionFunding> positionFundingDetailList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionPositionFunding.class, principalName, buildOrderByList());
 
         List<BudgetConstructionPositionFunding> listForCalculateTotalPerson = BudgetConstructionReportHelper.deleteDuplicated((List) positionFundingDetailList, fieldsForPerson());
         List<BudgetConstructionPositionFunding> listForCalculateTotalOrg = BudgetConstructionReportHelper.deleteDuplicated((List) positionFundingDetailList, fieldsForOrg());
@@ -78,7 +78,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         Collection<BudgetConstructionOrgPositionFundingDetailReportTotal> fundingDetailTotalOrg = calculateOrgTotal(positionFundingDetailList, listForCalculateTotalOrg);
 
         // Get selected objectCodes
-        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(personUserIdentifier);
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalName);
         for (BudgetConstructionPositionFunding positionFundingDetailEntry : positionFundingDetailList) {
             BudgetConstructionOrgPositionFundingDetailReport orgPositionFundingDetailReportEntry = new BudgetConstructionOrgPositionFundingDetailReport();
             buildReportsHeader(universityFiscalYear, objectCodes, orgPositionFundingDetailReportEntry, positionFundingDetailEntry);
@@ -141,8 +141,8 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         orgPositionFundingDetailReportEntry.setAccountNumber(positionFundingDetailEntry.getAccountNumber());
         orgPositionFundingDetailReportEntry.setSubAccountNumber(positionFundingDetailEntry.getSubAccountNumber());
         orgPositionFundingDetailReportEntry.setFinancialSubObjectCode(positionFundingDetailEntry.getFinancialSubObjectCode());
-        if (positionFundingDetailEntry.getPersonName() != null) {
-            orgPositionFundingDetailReportEntry.setPersonName(positionFundingDetailEntry.getPersonName());
+        if (positionFundingDetailEntry.getName() != null) {
+            orgPositionFundingDetailReportEntry.setName(positionFundingDetailEntry.getName());
             if (budgetConstructionIntendedIncumbent != null){
                 if (budgetConstructionIntendedIncumbent.getIuClassificationLevel() == null){
                     orgPositionFundingDetailReportEntry.setCls(BCConstants.Report.UNDF);
@@ -152,7 +152,7 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
             }
         }
         else {
-            orgPositionFundingDetailReportEntry.setPersonName(BCConstants.Report.VACANT);
+            orgPositionFundingDetailReportEntry.setName(BCConstants.Report.VACANT);
             orgPositionFundingDetailReportEntry.setCls(BCConstants.Report.BLANK);
         } 
                 
@@ -405,3 +405,4 @@ public class BudgetConstructionPositionFundingDetailReportServiceImpl implements
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
+

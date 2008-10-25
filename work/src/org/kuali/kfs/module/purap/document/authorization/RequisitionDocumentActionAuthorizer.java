@@ -20,7 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -40,7 +40,7 @@ public class RequisitionDocumentActionAuthorizer extends PurchasingDocumentActio
      */
     public RequisitionDocumentActionAuthorizer(RequisitionDocument req, Map editingMode) {
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         this.requisition = req;
         this.editMode = editingMode;
         
@@ -55,3 +55,4 @@ public class RequisitionDocumentActionAuthorizer extends PurchasingDocumentActio
         return (requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.IN_PROCESS)||requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTENT_REVIEW)||requisition.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_FISCAL_REVIEW)) && this.editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY);
     }
 }
+

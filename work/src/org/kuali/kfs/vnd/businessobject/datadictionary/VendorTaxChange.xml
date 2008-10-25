@@ -13,8 +13,8 @@
       <list>
         <ref bean="VendorTaxChange-vendorTaxChangeGeneratedIdentifier" />
         <ref bean="VendorTaxChange-vendorTaxChangePersonIdentifier" />
-        <ref bean="VendorTaxChange-vendorTaxChangePerson.personUserIdentifier" />
-        <ref bean="VendorTaxChange-vendorTaxChangePerson.personName" />
+        <ref bean="VendorTaxChange-vendorTaxChangePerson.principalName" />
+        <ref bean="VendorTaxChange-vendorTaxChangePerson.name" />
         <ref bean="VendorTaxChange-vendorTaxChangeDate" />
         <ref bean="VendorTaxChange-vendorPreviousTaxTypeCode" />
         <ref bean="VendorTaxChange-vendorPreviousTaxNumber" />
@@ -44,33 +44,33 @@
   </bean>
   <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier" parent="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean" />
 
-  <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="VendorTaxChange-vendorTaxChangePersonIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="vendorTaxChangePersonIdentifier" />
     <property name="label" value="Vendor Tax Change Person Identifier" />
     <property name="shortLabel" value="Vendor Tax Change Person ID" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="vendorTaxChangePerson.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="vendorTaxChangePerson.principalName" />
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangePerson.personUserIdentifier" parent="VendorTaxChange-vendorTaxChangePerson.personUserIdentifier-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.principalName" parent="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean" />
 
-  <bean id="VendorTaxChange-vendorTaxChangePerson.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="vendorTaxChangePerson.personUserIdentifier" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="vendorTaxChangePerson.principalName" />
     <property name="label" value="Vendor Tax Change Person Identifier" />
     <property name="shortLabel" value="Vendor Tax Change Person ID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="vendorRestrictedPerson.personName"
+            p:personNameAttributeName="vendorRestrictedPerson.name"
             p:universalIdAttributeName="vendorRestrictedPersonIdentifier"
-            p:userIdAttributeName="vendorRestrictedPerson.personUserIdentifier" />
+            p:userIdAttributeName="vendorRestrictedPerson.principalName" />
     </property>
   </bean>
-  <bean id="VendorTaxChange-vendorTaxChangePerson.personName" parent="VendorTaxChange-vendorTaxChangePerson.personName-parentBean" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.name" parent="VendorTaxChange-vendorTaxChangePerson.name-parentBean" />
 
-  <bean id="VendorTaxChange-vendorTaxChangePerson.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="vendorTaxChangePerson.personName" />
+  <bean id="VendorTaxChange-vendorTaxChangePerson.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="vendorTaxChangePerson.name" />
     <property name="label" value="Vendor Tax Change Person" />
     <property name="required" value="false" />
   </bean>
@@ -100,3 +100,4 @@
   <bean id="VendorTaxChange-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier">
   </bean>
 </beans>
+

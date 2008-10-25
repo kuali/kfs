@@ -48,26 +48,26 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
     BusinessObjectService businessObjectService;
 
 
-    public void updateSalaryStatisticsReport(String personUserIdentifier, Integer universityFiscalYear) {
-        budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(personUserIdentifier, universityFiscalYear);
+    public void updateSalaryStatisticsReport(String principalName, Integer universityFiscalYear) {
+        budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(principalName, universityFiscalYear);
 
     }
 
-    public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgSalaryStatisticsReport> reportSet = new ArrayList();
 
 
         BudgetConstructionOrgSalaryStatisticsReport orgSalaryStatisticsReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
         Collection<BudgetConstructionSalaryTotal> salaryStatisticsList = budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(BudgetConstructionSalaryTotal.class, searchCriteria, orderList);
         // get object codes
         searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
         for (BudgetConstructionObjectPick objectPick : objectPickList) {
@@ -172,3 +172,4 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
     }
 
 }
+

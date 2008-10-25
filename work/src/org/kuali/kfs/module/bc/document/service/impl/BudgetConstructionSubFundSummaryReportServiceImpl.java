@@ -47,20 +47,20 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
-    public void updateSubFundSummaryReport(String personUserIdentifier) {
-        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-        budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(personUserIdentifier);
+    public void updateSubFundSummaryReport(String principalName) {
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
+        budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionSubFundSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgSubFundSummaryReport> reportSet = new ArrayList();
 
         // build order list
-        Collection<BudgetConstructionAccountSummary> subFundSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionAccountSummary.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionAccountSummary> subFundSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionAccountSummary.class, principalName, buildOrderByList());
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List subTotalList = BudgetConstructionReportHelper.deleteDuplicated((List) subFundSummaryList, fieldsForSubTotal());
@@ -390,3 +390,4 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
+

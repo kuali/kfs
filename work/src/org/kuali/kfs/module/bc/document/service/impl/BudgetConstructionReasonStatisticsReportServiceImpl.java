@@ -52,27 +52,27 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
     BusinessObjectService businessObjectService;
 
 
-    public void updateReasonStatisticsReport(String personUserIdentifier, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public void updateReasonStatisticsReport(String principalName, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(personUserIdentifier, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithAThreshold(principalName, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
-            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(personUserIdentifier, universityFiscalYear);
+            budgetConstructionReasonStatisticsReportDao.updateReasonStatisticsReportsWithoutAThreshold(principalName, universityFiscalYear);
         }
 
     }
 
-    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public Collection<BudgetConstructionOrgReasonStatisticsReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList();
 
 
         BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
@@ -80,7 +80,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
 
         // get object codes  --> helper class?
         searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectCodePickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
         for (BudgetConstructionObjectPick objectCode : objectCodePickList) {
@@ -89,7 +89,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         
         // get reason codes  --> helper class?
         searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
         String reasonCodes = "";
         for (BudgetConstructionObjectPick reasonCode : reasonCodePickList) {
@@ -206,3 +206,4 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
     }
 
 }
+

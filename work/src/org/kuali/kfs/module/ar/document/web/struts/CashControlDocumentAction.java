@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -115,7 +115,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocument document = form.getCashControlDocument();
 
         // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
-        ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
@@ -249,3 +249,4 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
     }
 
 }
+

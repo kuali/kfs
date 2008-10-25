@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class EntryMove extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -72,21 +72,21 @@ public class EntryMove extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -664,7 +664,7 @@ public class EntryMove extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -685,3 +685,4 @@ public class EntryMove extends PersistableBusinessObjectBase {
         return m;
     }
 }
+

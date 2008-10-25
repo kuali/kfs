@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.TransactionalDocument;
 
 /**
@@ -38,7 +38,7 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -49,8 +49,9 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 
 }
+

@@ -38,7 +38,7 @@ public interface ImportRequestDao {
      * 
      * @return List<BudgetConstructionRequestMove>
      */
-    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String personUniversalIdentifier);
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String principalId);
     
     /**
      * Save or update business object based on isUpdate
@@ -49,3 +49,4 @@ public interface ImportRequestDao {
     public void save(BusinessObject businessObject, boolean isUpdate);
    
 }
+

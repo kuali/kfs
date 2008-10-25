@@ -7,8 +7,8 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -30,7 +30,7 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private CustomerInvoiceDocument customerInvoiceDocument;
     private Customer customer;
-    private UniversalUser documentInitiatorUser;
+    private Person documentInitiatorUser;
     
     
     /**
@@ -210,15 +210,15 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     }
 
 
-    public UniversalUser getDocumentInitiatorUser() {
-        documentInitiatorUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
+    public Person getDocumentInitiatorUser() {
+        documentInitiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(documentInitiatorUserIdentifier, documentInitiatorUser);
         return documentInitiatorUser;
     }
 
     /**
      * @param documentInitiatorUser The documentInitiatorUser to set.
      */
-    public void setDocumentInitiatorUser(UniversalUser documentInitiatorUser) {
+    public void setDocumentInitiatorUser(Person documentInitiatorUser) {
         this.documentInitiatorUser = documentInitiatorUser;
     }
     
@@ -228,7 +228,7 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
      * @return the network id of the document initiator
      */
     public String getDocumentInitiatorUserPersonUserIdentifier() {
-        return this.getDocumentInitiatorUser().getPersonUserIdentifier();
+        return this.getDocumentInitiatorUser().getPrincipalName();
     }
 
 
@@ -340,3 +340,4 @@ public class CustomerInvoiceRecurrenceDetails extends PersistableBusinessObjectB
     }
 
 }
+

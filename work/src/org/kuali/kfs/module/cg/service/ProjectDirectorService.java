@@ -23,7 +23,7 @@ import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 public interface ProjectDirectorService {
 
     /**
-     * Finds a ProjectDirector by username. That's a secondary key to UniversalUser, used to get the ProjectDirector's primary key,
+     * Finds a ProjectDirector by username. That's a secondary key to Person, used to get the ProjectDirector's primary key,
      * the universal user ID number.
      * 
      * @param username the person user identifier of the ProjectDirector to get
@@ -33,7 +33,7 @@ public interface ProjectDirectorService {
 
     /**
      * Finds a ProjectDirector by universal user ID number. That's the primary key to ProjectDirector, and coincidentally to
-     * UniversalUser too.
+     * Person too.
      * 
      * @param universalIdentifier the universal user ID number of the ProjectDirector to get
      * @return the corresponding ProjectDirector, or null if none
@@ -42,10 +42,11 @@ public interface ProjectDirectorService {
 
     /**
      * Checks for the existence of a ProjectDirector by universal user ID number. That's the primary key to ProjectDirector, and
-     * coincidentally to UniversalUser too.
+     * coincidentally to Person too.
      * 
      * @param universalIdentifier the universal user ID number of the ProjectDirector to get
      * @return whether the corresponding ProjectDirector exists
      */
     public boolean primaryIdExists(String universalIdentifier);
 }
+

@@ -68,10 +68,10 @@ public interface BudgetConstructionDao {
      * @param accountNumber
      * @param subAccountNumber
      * @param fiscalYear
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionFundingLock
      */
-    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * This saves a BudgetConstructionFundingLock to the database
@@ -127,28 +127,28 @@ public interface BudgetConstructionDao {
     /**
      * This method deletes all BudgetConstructionPullup rows associated with a user.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void deleteBudgetConstructionPullupByUserId(String personUserIdentifier);
+    public void deleteBudgetConstructionPullupByUserId(String principalName);
 
     /**
      * This method returns a list of BudgetConstructionPullup objects (organizations) ownded by the user that have the pullflag set
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public List getBudgetConstructionPullupFlagSetByUserId(String personUserIdentifier);
+    public List getBudgetConstructionPullupFlagSetByUserId(String principalName);
 
     /**
      * This returns a list of BudgetConstructionPullup objects (organizations) that are children to the passed in organization for
      * the user
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return
      */
-    public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
+    public List getBudgetConstructionPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
 
     /**
      * Returns the sum of the salary detail request amounts for an accounting line
@@ -173,10 +173,10 @@ public interface BudgetConstructionDao {
      * 
      * @param chartCd
      * @param accountNbr
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return
      */
-    public boolean isDelegate(String chartCd, String accountNbr, String personUniversalIdentifier);
+    public boolean isDelegate(String chartCd, String accountNbr, String principalId);
 
     /**
      * Returns a list of account organization hierarchy levels for an account
@@ -260,3 +260,4 @@ public interface BudgetConstructionDao {
      */
     public void deleteExistingAccountOrganizationHierarchy(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 }
+

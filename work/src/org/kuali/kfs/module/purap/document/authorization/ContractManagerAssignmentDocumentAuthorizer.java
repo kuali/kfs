@@ -27,7 +27,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -40,10 +40,10 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
@@ -63,10 +63,10 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
      * assign contract manager, an error mesage will be displayed, instead of creating an
      * ContractManagerAssignmentDocument.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, UniversalUser user)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, Person user)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
         super.canInitiate(documentTypeName, user);
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
@@ -78,3 +78,4 @@ public class ContractManagerAssignmentDocumentAuthorizer extends FinancialSystem
     }
     
 }
+

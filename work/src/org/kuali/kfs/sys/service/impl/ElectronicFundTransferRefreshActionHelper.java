@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -49,9 +49,9 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map params, String basePath) {
         // is the current user able to claim electronic funds?
-        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (!electronicPaymentClaimingService.isUserMemberOfClaimingGroup(currentUser)) {
-            throw new AuthorizationException(currentUser.getPersonUserIdentifier(), ElectronicFundTransferRefreshActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
+            throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferRefreshActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getObjectLabel());
         }
         // does the current user have claimed funds waiting for them?
         String lookupResultsSequenceNumber = null;
@@ -77,10 +77,10 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
      * @param lookupResultsSequenceNumber the parameter for the lookup results sequence number
      * @return a list of claims
      */
-    private List<ElectronicPaymentClaim> getClaimedPayments(UniversalUser currentUser, String lookupResultsSequenceNumber) {
+    private List<ElectronicPaymentClaim> getClaimedPayments(Person currentUser, String lookupResultsSequenceNumber) {
         List<ElectronicPaymentClaim> claims = new ArrayList<ElectronicPaymentClaim>();
         try {
-            Collection selectedClaims = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPersonUniversalIdentifier());
+            Collection selectedClaims = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPrincipalId());
             for (Object claimAsObj : selectedClaims) {
                 ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsObj;
                 if (!claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED) && StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())) {
@@ -110,3 +110,4 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
         this.ddService = ddService;
     }
 }
+

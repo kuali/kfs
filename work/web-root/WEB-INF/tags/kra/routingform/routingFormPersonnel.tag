@@ -15,14 +15,14 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="universalUser" value="${DataDictionary.UniversalUser.attributes}" />
+<c:set var="person" value="${DataDictionary.PersonImpl.attributes}" />
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 <div id="workarea">
   <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
-    <c:set var="personName">
-      ${person.user.personName}
+    <c:set var="name">
+      ${person.user.name}
       <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
     </c:set>
     
@@ -49,7 +49,7 @@
     </c:set>
     
     <kul:tab tabTitle="${personName}" tabDescription="${personRoleDescription}" defaultOpen="${defaultOpen}" transparentBackground="${status.index eq 0}" tabErrorKey="document.routingFormPersonnel[${status.index}]*">
-      <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].principalId" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
@@ -60,7 +60,7 @@
       <html:hidden property="document.routingFormPersonnel[${status.index}].personCreditPercent" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
-      <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personFirstName" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personMiddleName" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personLastName" />
@@ -78,7 +78,7 @@
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personLine1Address" attributeEntry="${routingFormPersonnel.personLine1Address}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
-            <th align="right"><kul:htmlAttributeLabel attributeEntry="${universalUser.personFirstName}" skipHelpUrl="true" readOnly="true"/></th>
+            <th align="right"><kul:htmlAttributeLabel attributeEntry="${person.firstName}" skipHelpUrl="true" readOnly="true"/></th>
             <td>
               <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
               <c:if test="${empty person.user.personFirstName}">&nbsp</c:if>${person.user.personFirstName}
@@ -87,13 +87,13 @@
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personLine2Address" attributeEntry="${routingFormPersonnel.personLine2Address}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
-            <th align="right"><kul:htmlAttributeLabel attributeEntry="${universalUser.personMiddleName}" skipHelpUrl="true" readOnly="true"/></th>
+            <th align="right"><kul:htmlAttributeLabel attributeEntry="${person.middleName}" skipHelpUrl="true" readOnly="true"/></th>
             <td><c:if test="${empty person.user.personMiddleName}">&nbsp</c:if>${person.user.personMiddleName}</td>
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCityName}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCityName" attributeEntry="${routingFormPersonnel.personCityName}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
-            <th align="right"><kul:htmlAttributeLabel attributeEntry="${universalUser.personLastName}" skipHelpUrl="true" readOnly="true"/></th>
+            <th align="right"><kul:htmlAttributeLabel attributeEntry="${person.lastName}" skipHelpUrl="true" readOnly="true"/></th>
             <td><c:if test="${empty person.user.personLastName}">&nbsp</c:if>${person.user.personLastName}</td>
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCountyName}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCountyName" attributeEntry="${routingFormPersonnel.personCountyName}" readOnly="${viewOnly}"/></td>
@@ -154,3 +154,4 @@
     </c:otherwise>
   </c:choose>
 </div>
+

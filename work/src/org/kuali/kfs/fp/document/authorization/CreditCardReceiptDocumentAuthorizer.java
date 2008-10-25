@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 
@@ -37,7 +37,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanErrorCorrect(false); // CCR, CR, DV, andd PCDO don't allow error correction
@@ -51,7 +51,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.module.financial.document.FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(org.kuali.rice.kns.bo.user.KualiUser,
      *      java.util.List)
      */
-    protected boolean userOwnsAnyAccountingLine(UniversalUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
         return false;
     }
 
@@ -61,7 +61,7 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -72,8 +72,9 @@ public class CreditCardReceiptDocumentAuthorizer extends AccountingDocumentAutho
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 
 }
+

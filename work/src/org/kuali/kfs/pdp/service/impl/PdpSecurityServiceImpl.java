@@ -19,16 +19,15 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.PdpSecurityService;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiGroupService;
 
 
 /**
@@ -40,7 +39,7 @@ import org.kuali.rice.kns.service.KualiGroupService;
 public class PdpSecurityServiceImpl implements PdpSecurityService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpSecurityServiceImpl.class);
 
-    private KualiGroupService kualiGroupService;
+    private GroupService groupService;
     private KualiConfigurationService kualiConfigurationService;
 
     /**
@@ -55,8 +54,8 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
      * Sets the groupService attribute value.
      * @param groupService The groupService to set.
      */
-    public void setKualiGroupService(KualiGroupService groupService) {
-        this.kualiGroupService = groupService;
+    public void setGroupService(GroupService groupService) {
+        this.groupService = groupService;
     }
 
     /**
@@ -68,12 +67,12 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
     }
     /**
      * 
-     * @see org.kuali.kfs.pdp.service.PdpSecurityService#getSecurityRecord(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.service.PdpSecurityService#getSecurityRecord(org.kuali.rice.kim.bo.Person)
      */
-    public SecurityRecord getSecurityRecord(UniversalUser user) {
+    public SecurityRecord getSecurityRecord(Person user) {
         LOG.debug("getSecurityRecord() started");
 
-        List<KualiGroup> groups = user.getGroups();
+        List<KimGroup> groups = user.getGroups();
 
         // All of these group names are names in the application settings table.
         SecurityRecord sr = new SecurityRecord();
@@ -100,8 +99,8 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
      * @param groupName
      * @return
      */
-    private boolean isGroupMember(List<KualiGroup> groups, String groupName) {
-        for (KualiGroup element : groups) {
+    private boolean isGroupMember(List<KimGroup> groups, String groupName) {
+        for (KimGroup element : groups) {
             if (element.getGroupName().equals(groupName)) {
                 return true;
             }
@@ -111,3 +110,4 @@ public class PdpSecurityServiceImpl implements PdpSecurityService {
     }
 
 }
+

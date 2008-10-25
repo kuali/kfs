@@ -23,10 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public abstract class TimestampedBusinessObjectBase extends PersistableBusinessObjectBase implements TimestampedBusinessObject {
@@ -57,16 +55,11 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
      * 
      * @see org.kuali.kfs.sys.businessobject.TimestampedBusinessObject#getLastUpdateUser()
      */
-    public UniversalUser getLastUpdateUser() {
-        UniversalUser user = null;
-        try {
-            if (StringUtils.isNotBlank(lastUpdateUserId)) {
-                user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(lastUpdateUserId);
-            }
+    public Person getLastUpdateUser() {
+        Person user = null;
+        if (StringUtils.isNotBlank(lastUpdateUserId)) {
+            user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(lastUpdateUserId);
         }
-        catch (UserNotFoundException e) {
-            LOG.error(e);
-        } 
         
         return user;
     }
@@ -98,13 +91,14 @@ public abstract class TimestampedBusinessObjectBase extends PersistableBusinessO
         super.beforeInsert(broker);
         
         lastUpdate = new Timestamp((new Date()).getTime());
-        lastUpdateUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 
     public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
         super.beforeUpdate(broker);
         
         lastUpdate = new Timestamp((new Date()).getTime());
-        lastUpdateUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        lastUpdateUserId = GlobalVariables.getUserSession().getPerson().getPrincipalName();
     } 
 }
+

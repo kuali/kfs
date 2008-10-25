@@ -46,7 +46,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -81,7 +81,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         if (arDocumentHeaders.size() == 0)
             return results;
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         List finSysDocHeaderIds = new ArrayList();
         List invoiceIds = new ArrayList();
@@ -581,3 +581,4 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         this.customerInvoiceDetailDao = customerInvoiceDetailDao;
     }
 }
+

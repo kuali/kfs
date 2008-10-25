@@ -20,18 +20,19 @@ public interface BudgetConstructionSalaryStatisticsReportDao {
     /**
      *  cleans Salary Statistics table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void cleanReportsSalaryStatisticsTable(String personUserIdentifier);
+    public void cleanReportsSalaryStatisticsTable(String principalName);
 
     /**
      *  updates Salary Statistics table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void updateReportsSalaryStatisticsTable(String personUserIdentifier, Integer previousFiscalYear);
+    public void updateReportsSalaryStatisticsTable(String principalName, Integer previousFiscalYear);
 
 
 }
+

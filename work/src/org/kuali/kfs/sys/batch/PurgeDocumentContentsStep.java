@@ -63,7 +63,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
     public void setFinalDocumentDocumentContent(DocumentHeader finalDocumentHeader) throws WorkflowException {
         // Added the special XML content flag here which indicates to the KEW engine not to execute searchable attribute indexing.
         // This allows for us to clear the content without worrying about losing our search capabilities
-        finalDocumentHeader.setWorkflowDocument(SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(finalDocumentHeader.getDocumentNumber()), GlobalVariables.getUserSession().getUniversalUser()));
+        finalDocumentHeader.setWorkflowDocument(SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(finalDocumentHeader.getDocumentNumber()), GlobalVariables.getUserSession().getPerson()));
         finalDocumentHeader.getWorkflowDocument().setApplicationContent("<final><doNotExecuteSearchableAttributeIndexing/></final>");
         finalDocumentHeader.getWorkflowDocument().saveRoutingData();
     }
@@ -77,3 +77,4 @@ public class PurgeDocumentContentsStep extends AbstractStep {
         this.documentService = documentService;
     }
 }
+

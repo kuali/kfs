@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 
 /**
@@ -42,7 +42,7 @@ public interface BatchInputFileSetService {
      * @return a Map of type to file name mappings of the saved files
      * @throws FileStorageException - if errors were encountered while attempting to write the file
      */
-    public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException;
+    public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException;
 
     /**
      * Returns the contents of a batch input file contained on the server if the user has permissions for the files batch input
@@ -57,7 +57,7 @@ public interface BatchInputFileSetService {
      * @throws AuthorizationException - if user does not have permission to view batch files of this type FileNotFoundException - if
      *         given file does not exist on the file system
      */
-    public File download(UniversalUser user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
+    public File download(Person user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
 
     /**
      * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes
@@ -71,7 +71,7 @@ public interface BatchInputFileSetService {
      * @throws AuthorizationException - if user does not have permission to delete batch files of this type FileNotFoundException -
      *         if given file does not exist on the file system
      */
-    public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
+    public boolean delete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
 
     /**
      * Checks if the batch input type is active (can be used for upload).
@@ -88,7 +88,7 @@ public interface BatchInputFileSetService {
      * @param user - user to check
      * @return boolean - true if user has permissions for the type, false if the user does not have permission
      */
-    public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, UniversalUser user);
+    public boolean isUserAuthorizedForBatchType(BatchInputFileSetType batchInputFileSetType, Person user);
 
     /**
      * Returns a list of batch type file names (including path) that the given user has permissions to manage.
@@ -96,7 +96,7 @@ public interface BatchInputFileSetService {
      * @param user - user for checking permissions
      * @return List<String> - List of filenames
      */
-    public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, UniversalUser user) throws AuthorizationException;
+    public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, Person user) throws AuthorizationException;
 
     /**
      * Returns whether a file set identifier is properly formatted.
@@ -114,5 +114,6 @@ public interface BatchInputFileSetService {
      * @param fileUserIdentifier
      * @return
      */
-    public boolean hasBeenProcessed(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier);
+    public boolean hasBeenProcessed(Person user, BatchInputFileSetType inputType, String fileUserIdentifier);
 }
+

@@ -75,7 +75,7 @@
               p:name="payeeIdentifierTypeCode"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="user.personUserIdentifier"
+              p:name="user.principalName"
               p:readOnlyAfterAdd="true" />   
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorNumber"
@@ -137,3 +137,4 @@
   <bean id="PayeeAchAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

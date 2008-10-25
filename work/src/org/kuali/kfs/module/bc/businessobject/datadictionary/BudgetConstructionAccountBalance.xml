@@ -31,7 +31,7 @@
         <ref bean="BudgetConstructionAccountBalance-incomeExpenseCode" />
         <ref bean="BudgetConstructionAccountBalance-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionAccountBalance-organizationCode" />
-        <ref bean="BudgetConstructionAccountBalance-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionAccountBalance-principalId" />
         <ref bean="BudgetConstructionAccountBalance-positionCsfLeaveFteQuantity" />
         <ref bean="BudgetConstructionAccountBalance-positionFullTimeEquivalencyQuantity" />
         <ref bean="BudgetConstructionAccountBalance-subAccountNumber" />
@@ -296,10 +296,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionAccountBalance-personUniversalIdentifier" parent="BudgetConstructionAccountBalance-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionAccountBalance-principalId" parent="BudgetConstructionAccountBalance-principalId-parentBean" />
 
-  <bean id="BudgetConstructionAccountBalance-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionAccountBalance-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -311,8 +311,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionAccountBalance-positionCsfLeaveFteQuantity" parent="BudgetConstructionAccountBalance-positionCsfLeaveFteQuantity-parentBean" />
 
@@ -448,7 +448,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionCsfLeaveFteQuantity" />
               <bean parent="FieldDefinition"
@@ -509,7 +509,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionCsfLeaveFteQuantity" />
         <bean parent="FieldDefinition"
@@ -553,7 +553,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionCsfLeaveFteQuantity" />
         <bean parent="FieldDefinition"
@@ -568,3 +568,4 @@
     </property>
   </bean>
 </beans>
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchasingServiceTest extends KualiTestBase {
 
 
@@ -69,7 +69,7 @@ public class PurchasingServiceTest extends KualiTestBase {
         
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public void testDeleteCapitalAssetItems() {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_IND_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         requisition.getDocumentHeader().setDocumentDescription("From PurchasingServiceTest)");

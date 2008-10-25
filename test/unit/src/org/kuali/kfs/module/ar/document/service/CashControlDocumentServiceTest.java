@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 import org.kuali.rice.kew.exception.WorkflowException;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CashControlDocumentServiceTest extends KualiTestBase {
     CashControlDocumentService service;
     DocumentService documentService;
@@ -76,3 +76,4 @@ public class CashControlDocumentServiceTest extends KualiTestBase {
     }
 
 }
+

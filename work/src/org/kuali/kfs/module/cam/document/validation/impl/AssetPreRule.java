@@ -33,7 +33,7 @@ public class AssetPreRule extends MaintenancePreRulesBase {
 
     private Asset newAsset;
     private Asset copyAsset;
-    private String universalUserId;
+    private String personId;
 
     public AssetPreRule() {
     }
@@ -41,14 +41,14 @@ public class AssetPreRule extends MaintenancePreRulesBase {
     /**
      * Returns the Universal User Id of the current logged-in user
      * 
-     * @return String the UniversalUserId
+     * @return String the PersonId
      */
 
-    public String getUniversalUserId() {
-        if (ObjectUtils.isNull(universalUserId)) {
-            this.universalUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+    public String getPersonId() {
+        if (ObjectUtils.isNull(personId)) {
+            this.personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         }
-        return this.universalUserId;
+        return this.personId;
     }
 
     /**
@@ -85,3 +85,4 @@ public class AssetPreRule extends MaintenancePreRulesBase {
 
     
 }
+

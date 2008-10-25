@@ -27,10 +27,10 @@ public interface BudgetConstructionSubFundSummaryReportService {
     /**
      * updates account summary table for SubFundSummaryReport.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void updateSubFundSummaryReport(String personUserIdentifier);
+    public void updateSubFundSummaryReport(String principalName);
     
     /**
      * builds BudgetConstructionOrgSubFundSummaryReports
@@ -39,6 +39,7 @@ public interface BudgetConstructionSubFundSummaryReportService {
      * @param accountSummaryList
      * @return
      */
-    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear,  String personUserIdentifier);
+    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear,  String principalName);
 
 }
+

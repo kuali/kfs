@@ -49,7 +49,7 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
     }
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -132,3 +132,4 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
 
 
 }
+

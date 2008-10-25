@@ -25,15 +25,16 @@ public interface BudgetConstructionObjectSummaryReportDao {
     /**
      * 
      * clean out any rows left by this user from a previous general ledger object summary report
-     * @param personUserIdentifier--the user currently logged in making the on-line report request
+     * @param principalName--the user currently logged in making the on-line report request
      */
-    public void cleanGeneralLedgerObjectSummaryTable(String personUserIdentifier);
+    public void cleanGeneralLedgerObjectSummaryTable(String principalName);
     
     /**
      * 
      * populate the table to feed the report with the rows which match the current request
-     * @param personUserIdentifier--the user currently logged in making the on-line report request
+     * @param principalName--the user currently logged in making the on-line report request
      */
-    public void updateGeneralLedgerObjectSummaryTable(String personUserIdentifier);
+    public void updateGeneralLedgerObjectSummaryTable(String principalName);
 
 }
+

@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * This class...
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class DelegateRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRuleTest.class);
@@ -514,7 +514,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
@@ -547,7 +547,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
     }
 
     /**
@@ -653,3 +653,4 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
 }
+

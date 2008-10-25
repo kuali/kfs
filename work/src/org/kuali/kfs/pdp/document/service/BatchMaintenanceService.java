@@ -18,7 +18,7 @@
  */
 package org.kuali.kfs.pdp.document.service;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * @author HSTAPLET
@@ -35,7 +35,7 @@ public interface BatchMaintenanceService {
      * @param user the user that performed the batch cancelation
      * @return true if batch successfully canceled, false otherwise
      */
-    public boolean cancelPendingBatch(Integer batchId, String note, UniversalUser user);
+    public boolean cancelPendingBatch(Integer batchId, String note, Person user);
 
     /**
      * This method holds a pending Batch.
@@ -44,7 +44,7 @@ public interface BatchMaintenanceService {
      * @param user the user that performed the batch hold
      * @return true if batch successfully hold, false otherwise
      */
-    public boolean holdPendingBatch(Integer batchId, String note, UniversalUser user);
+    public boolean holdPendingBatch(Integer batchId, String note, Person user);
 
     /**
      * This method removes a hold on a Batch.
@@ -53,7 +53,7 @@ public interface BatchMaintenanceService {
      * @param user the user that removed hold on batch
      * @return  true if batch hold successfully removed, false otherwise
      */
-    public boolean removeBatchHold(Integer batchId, String changeText, UniversalUser user);
+    public boolean removeBatchHold(Integer batchId, String changeText, Person user);
 
     /**
      * This method checks if the batch has open payments.
@@ -76,3 +76,4 @@ public interface BatchMaintenanceService {
      */
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId);
 }
+

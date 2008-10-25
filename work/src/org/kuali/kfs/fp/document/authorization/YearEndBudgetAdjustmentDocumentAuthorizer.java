@@ -22,7 +22,7 @@ import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.InactiveDocumentTypeAuthorizationException;
 
 /**
@@ -36,7 +36,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
         List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
         Integer previousPostingYear = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1);
 
@@ -60,3 +60,4 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
         super.canInitiate(documentTypeName, user);
     }
 }
+

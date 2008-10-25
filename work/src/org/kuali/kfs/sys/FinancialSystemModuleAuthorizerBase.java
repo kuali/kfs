@@ -15,25 +15,25 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.authorization.AuthorizationType;
 import org.kuali.rice.kns.authorization.KualiModuleAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBase implements FinancialSystemModuleAuthorizer {
 
-    protected FinancialSystemUserService financialSystemUserService;
+    protected PersonService personService;
     protected ParameterService parameterService;
     
-    public FinancialSystemUserService getFinancialSystemUserService() {
-        return financialSystemUserService;
+    public PersonService getPersonService() {
+        return personService;
     }
 
-    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     public ParameterService getParameterService() {
@@ -45,14 +45,14 @@ public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBa
     }
     
     /** Check whether the user can access the module at all.  Default implementation just checks the user's active status on KFSUser */
-    public boolean canAccessModule( FinancialSystemUser user ) {
-        return user.isActiveFinancialSystemUser();
+    public boolean canAccessModule( Person user ) {
+        return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user);
     }
     
     @Override
-    public boolean isAuthorized(UniversalUser user, AuthorizationType authorizationType) {
+    public boolean isAuthorized(Person user, AuthorizationType authorizationType) {
         if (authorizingForAdHocApproveRequest(authorizationType) || authorizingForDocumentInitiation(authorizationType)) {
-            return financialSystemUserService.convertUniversalUserToFinancialSystemUser(user).isActiveFinancialSystemUser();
+            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(user);
         }
         return super.isAuthorized(user, authorizationType);
     }
@@ -65,3 +65,4 @@ public class FinancialSystemModuleAuthorizerBase extends KualiModuleAuthorizerBa
         return (authorizationType instanceof AuthorizationType.Document) && ((((AuthorizationType.Document) authorizationType).getDocument() == null) || ((AuthorizationType.Document) authorizationType).getDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated() || ((AuthorizationType.Document) authorizationType).getDocument().getDocumentHeader().getWorkflowDocument().stateIsSaved());
     }
 }
+

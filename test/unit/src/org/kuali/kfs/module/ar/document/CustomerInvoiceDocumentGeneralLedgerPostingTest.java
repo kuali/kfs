@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 /**
  * This class tests the GLPE Helper for the Customer Invoice Document
  */
-@ConfigureContext(session = UserNameFixture.KHUNTLEY)
+@ConfigureContext(session = UserNameFixture.khuntley)
 public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBase {
 
     /**
@@ -182,3 +182,4 @@ public class CustomerInvoiceDocumentGeneralLedgerPostingTest extends KualiTestBa
         assertEquals("Receivable Org Ref Id should be " + expectedReceivableOrgRefId + " but is actually " + receivable.getOrganizationReferenceId(), expectedReceivableOrgRefId, receivable.getOrganizationReferenceId());
     }
 }
+

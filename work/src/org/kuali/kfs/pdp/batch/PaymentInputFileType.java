@@ -27,7 +27,7 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -40,10 +40,10 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     private PaymentFileService paymentFileService;
 
     /**
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(UniversalUser user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
         StringBuffer buf = new StringBuffer();
@@ -51,7 +51,7 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
         formatter.setLenient(false);
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
-        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX + user.getPersonUserIdentifier().toLowerCase();
+        String fileName = PdpConstants.PDP_FILE_UPLOAD_FILE_PREFIX + user.getPrincipalName().toLowerCase();
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName += "_" + StringUtils.remove(fileUserIdentifer, " ");
         }
@@ -78,10 +78,10 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
-        String userIdentifier = user.getPersonUserIdentifier();
+    public boolean checkAuthorization(Person user, File batchFile) {
+        String userIdentifier = user.getPrincipalName();
 
         return StringUtils.contains(batchFile.getName(), userIdentifier.toLowerCase());
     }
@@ -135,3 +135,4 @@ public class PaymentInputFileType extends BatchInputFileTypeBase {
     }
 
 }
+

@@ -26,9 +26,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -40,7 +40,7 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     private KualiInteger id; // PMT_GRP_HIST_ID
 
     private String changeNoteText; // PMT_CHG_NTE_TXT VARCHAR2 250
-    private UniversalUser changeUser;
+    private Person changeUser;
     private String changeUserId; // PMT_CHG_USR_ID VARCHAR2 8
     private Timestamp changeTime; // PMT_CHG_TS DATE 7
     private Timestamp origPaymentDate; // ORIG_PMT_DT DATE 7
@@ -375,16 +375,16 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     /**
      * @return Returns the changeUser.
      */
-    public UniversalUser getChangeUser() {
+    public Person getChangeUser() {
         return changeUser;
     }
 
     /**
      * @param changeUser The changeUser to set.
      */
-    public void setChangeUser(UniversalUser changeUser) {
+    public void setChangeUser(Person changeUser) {
         if (changeUser != null) {
-            this.changeUserId = changeUser.getPersonUniversalIdentifier();
+            this.changeUserId = changeUser.getPrincipalId();
         }
         else {
             this.changeUserId = null;
@@ -490,8 +490,8 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
         this.paymentGroupId = paymentGroupId;
     }
 
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(changeUserId);
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+        Person u = userService.getPerson(changeUserId);
         setChangeUser(u);
     }
 
@@ -520,3 +520,4 @@ public class PaymentGroupHistory extends TimestampedBusinessObjectBase {
     }
 
 }
+

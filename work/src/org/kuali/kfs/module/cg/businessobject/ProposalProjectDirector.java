@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private Long proposalNumber;
     private boolean proposalPrimaryProjectDirectorIndicator;
     private String proposalProjectDirectorProjectTitle;
@@ -39,24 +39,24 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Default constructor.
      */
     public ProposalProjectDirector() {
-        // Struts needs this instance to populate the secondary key, personUserIdentifier.
+        // Struts needs this instance to populate the secondary key, principalName.
         projectDirector = new ProjectDirector();
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPersonUniversalIdentifier()
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPrincipalId()
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPrincipalId(java.lang.String)
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
         if (projectDirector != null) {
-            projectDirector.setPersonUniversalIdentifier(personUniversalIdentifier);
+            projectDirector.setPrincipalId(principalId);
         }
     }
 
@@ -157,7 +157,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
@@ -172,8 +172,9 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     @Override
     public String toString() {
         // todo: get "nonexistent", "primary", and "secondary" from ApplicationResources.properties via KFSKeyConstants?
-        String name = ObjectUtils.isNull(getProjectDirector()) ? "nonexistent" : getProjectDirector().getPersonName();
+        String name = ObjectUtils.isNull(getProjectDirector()) ? "nonexistent" : getProjectDirector().getName();
         String title = getProposalProjectDirectorProjectTitle() == null ? "" : " " + getProposalProjectDirectorProjectTitle();
         return name + " " + (isProposalPrimaryProjectDirectorIndicator() ? "primary" : "secondary") + title;
     }
 }
+

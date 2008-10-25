@@ -50,7 +50,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -61,7 +60,6 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -73,15 +71,15 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.EntityExternalIdentifier;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -904,16 +902,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * 
      * @param employee
      */
-    public void templateEmployee(UniversalUser employee) {
+    public void templateEmployee(Person employee) {
         if (employee == null) {
             return;
         }
 
         this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
-        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
-        this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPrincipalId());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getName());
 
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getPersonCampusAddress());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getAddressLine1());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
         this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
@@ -922,8 +920,11 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         // I'm assuming that if a tax id type code other than 'S' is present ('S'=SSN), then the employee must be foreign
-        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(!DisbursementVoucherRuleConstants.TAX_ID_TYPE_SSN.equals(employee.getPersonTaxIdentifierTypeCode()));
-
+        for (EntityExternalIdentifier id : SpringContext.getBean(IdentityService.class).getEntity(employee.getEntityId()).getExternalIdentifiers()) {
+            if (DisbursementVoucherRuleConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
+                this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+            }
+        }
         // Determine if employee is a research subject
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
         ParameterEvaluator researchPaymentReasonCodeEvaluator = paramService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.RESEARCH_PAY_REASONS_PARM_NM, this.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
@@ -992,14 +993,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
         else if (StringUtils.equals(payeeDetail.getDisbursementVoucherPayeeTypeCode(), DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
             // Determine if employee is a non-resident alien
-            try {
-                UniversalUser uu = SpringContext.getBean(UniversalUserService.class).getUniversalUser(payeeDetail.getDisbVchrEmployeeIdNumber());
-                payeeDetail.setDisbVchrAlienPaymentCode(!"S".equals(uu.getPersonTaxIdentifierTypeCode())); // If tax id code is NOT
-                                                                                                            // "S" then assume
-                                                                                                            // employee is foreign
-            }
-            catch (UserNotFoundException unfe) {
-                // Setting value to false, because I can't retrieve the value for the UniversalUser
+            Person uu = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
+            if (uu != null) {
+                payeeDetail.setDisbVchrAlienPaymentCode(true);
+                for (EntityExternalIdentifier id : SpringContext.getBean(IdentityService.class).getEntity(uu.getEntityId()).getExternalIdentifiers()) {
+                    if (DisbursementVoucherRuleConstants.TAX_ID_TYPE_SSN.equals(id.getExternalIdentifierTypeCode())) {
+                        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+                    }
+                }
+            } else {
+                // Setting value to false, because I can't retrieve the value for the Person
                 payeeDetail.setDisbVchrAlienPaymentCode(false);
             }
 
@@ -1105,10 +1108,10 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * generic, shared logic used to initiate a dv document
      */
     public void initiateDocument() {
-        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
-        setDisbVchrContactPersonName(currentUser.getPersonName());
-        setDisbVchrContactPhoneNumber(currentUser.getPersonLocalPhoneNumber());
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(currentUser, KFSConstants.Modules.CHART);
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        setDisbVchrContactPersonName(currentUser.getName());
+        setDisbVchrContactPhoneNumber(currentUser.getPhoneNumber());
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(currentUser, KFSConstants.Modules.CHART);
         if (chartOrg != null && chartOrg.getOrganization() != null) {
             setCampusCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
         }
@@ -1446,3 +1449,4 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }
 }
+

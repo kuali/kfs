@@ -72,7 +72,7 @@ public class CamsPropertyConstants {
         public static final String FINANCIAL_OBJECT_SUB_TYP_CODE = "financialObjectSubTypeCode";
         public static final String CONDITION_CODE = "conditionCode";
         public static final String INVENTORY_STATUS_CODE = "inventoryStatusCode";
-        public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
+        public static final String REP_USER_AUTH_ID = "assetRepresentative.principalName";
         public static final String LAND_COUNTRY_NAME = "landCountyName";
         public static final String LAND_ACREAGE_SIZE = "landAcreageSize";
         public static final String LAND_PARCEL_NUMBER = "landParcelNumber";
@@ -189,7 +189,7 @@ public class CamsPropertyConstants {
         public static final String LOCATION_TAB = "locationTabKey";
         public static final String TRANSFER_FUND_FINANCIAL_DOC = "transferOfFundsFinancialDocument";
         public static final String TRANSFER_FUND_FINANCIAL_DOC_NUM = "transferOfFundsFinancialDocumentNumber";
-        public static final String REP_USER_AUTH_ID = "assetRepresentative.personUserIdentifier";
+        public static final String REP_USER_AUTH_ID = "assetRepresentative.principalName";
         public static final String ASSET = "asset";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
@@ -246,7 +246,7 @@ public class CamsPropertyConstants {
         public static final String LOAN_DATE = "loanDate";
         public static final String EXPECTED_RETURN_DATE = "expectedReturnDate";
         public static final String LOAN_RETURN_DATE = "loanReturnDate";
-        public static final String BORROWER_UNIVERSAL_USER = "borrowerUniversalUser";
+        public static final String BORROWER_UNIVERSAL_USER = "borrowerPerson";
         public static final String BORROWER_UNIVERSAL_INDENTIFIER = "borrowerUniversalIdentifier";
         public static final String BORROWER_STATE = "borrowerState";
         public static final String BORROWER_STATE_CODE = "borrowerStateCode";
@@ -359,3 +359,4 @@ public class CamsPropertyConstants {
     public static final String HIDDEN_FIELD_FOR_ERROR="hiddenFieldForError"; 
     public static final String DOCUMENT_NUMBER="documentNumber"; 
 }
+

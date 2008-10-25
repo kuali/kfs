@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
 
 @SuppressWarnings("deprecation")
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class GlobalDocumentTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
@@ -100,7 +100,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertEquals("New BO should be of the correct class.", AccountGlobal.class, newBo.getClass());
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSaveDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
@@ -153,7 +153,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     }
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
@@ -239,3 +239,4 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     }
 }
+

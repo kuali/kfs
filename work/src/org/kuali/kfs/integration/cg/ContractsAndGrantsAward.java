@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.user.KualiGroup;
+import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
@@ -40,5 +40,6 @@ public interface ContractsAndGrantsAward extends ExternalizableBusinessObject {
      * 
      * @return String representation of the users assigned to the associated workgroup.
      */
-    public String getKualiGroupNames();
+    public String getKimGroupNames();
 }
+

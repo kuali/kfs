@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.service.ParameterService;
  * If the values in the System Parameter change, someone will need to also
  * update this test as well as the fixtures relevant to the change.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
 
     private RequisitionDocument requisitionDocument = null;
@@ -175,7 +175,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testPaymentRequestExistingItemTypesAreValid() throws Exception {
         PaymentRequestDocument paymentRequestWithValidBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_VALID_BELOW_LINE_ITEMS.createPaymentRequestDocument();
         PaymentRequestDocument paymentRequestWithInvalidBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_INVALID_BELOW_LINE_ITEMS.createPaymentRequestDocument();
@@ -187,7 +187,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testPaymentRequestAllowsNegative() throws Exception {
         PaymentRequestDocument paymentRequestWithValidNegativeBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_VALID_NEGATIVE_BELOW_LINE_ITEMS.createPaymentRequestDocument();
         PaymentRequestDocument paymentRequestWithInvalidNegativeBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_INVALID_NEGATIVE_BELOW_LINE_ITEMS.createPaymentRequestDocument();
@@ -199,7 +199,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testPaymentRequestAllowsPositive() throws Exception {
         PaymentRequestDocument paymentRequestWithValidPositiveBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_VALID_POSITIVE_BELOW_LINE_ITEMS.createPaymentRequestDocument();
         PaymentRequestDocument paymentRequestWithInvalidPositiveBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_INVALID_POSITIVE_BELOW_LINE_ITEMS.createPaymentRequestDocument();
@@ -211,7 +211,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testPaymentRequestAllowsZero() throws Exception {
         PaymentRequestDocument paymentRequestWithValidZeroBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_VALID_ZERO_BELOW_LINE_ITEMS.createPaymentRequestDocument();
         PaymentRequestDocument paymentRequestWithInvalidZeroBelowLineItems = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_INVALID_ZERO_BELOW_LINE_ITEMS.createPaymentRequestDocument();
@@ -223,7 +223,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testPaymentRequestRequiringDescription() throws Exception {
         PaymentRequestDocument paymentRequestWithBelowLineItemsWithoutDescription = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION.createPaymentRequestDocument();
         PaymentRequestDocument paymentRequestWithBelowLineItemsWithDescription = SystemParameterBelowTheLineItemPaymentRequestFixture.PREQ_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION.createPaymentRequestDocument();
@@ -235,7 +235,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testCreditMemoExistingItemTypesAreValid() throws Exception {
         CreditMemoDocument creditMemoWithValidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
         CreditMemoDocument creditMemoWithInvalidBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_BELOW_LINE_ITEMS.createCreditMemoDocument();
@@ -248,7 +248,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsNegative() throws Exception {
         CreditMemoDocument creditMemoWithValidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
         CreditMemoDocument creditMemoWithInvalidNegativeBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_NEGATIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
@@ -260,7 +260,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsPositive() throws Exception {
         CreditMemoDocument creditMemoWithValidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
         CreditMemoDocument creditMemoWithInvalidPositiveBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_POSITIVE_BELOW_LINE_ITEMS.createCreditMemoDocument();
@@ -272,7 +272,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testCreditMemoAllowsZero() throws Exception {
         CreditMemoDocument creditMemoWithValidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_VALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
         CreditMemoDocument creditMemoWithInvalidZeroBelowLineItems = SystemParameterBelowTheLineItemCMFixture.CM_INVALID_ZERO_BELOW_LINE_ITEMS.createCreditMemoDocument();
@@ -284,7 +284,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = APPLETON)
+    @ConfigureContext(session = appleton)
     public final void testCreditMemoRequiringDescription() throws Exception {
         CreditMemoDocument creditMemoWithBelowLineItemsWithoutDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITHOUT_DESCRIPTION.createCreditMemoDocument();
         CreditMemoDocument creditMemoWithBelowLineItemsWithDescription = SystemParameterBelowTheLineItemCMFixture.CM_WITH_BELOW_LINE_ITEMS_WITH_DESCRIPTION.createCreditMemoDocument();
@@ -442,3 +442,4 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
         }
     }
 }
+

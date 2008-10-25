@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 
@@ -36,7 +36,7 @@ public interface AccountingLineAuthorizer {
      * @param newLine whether the line is a new line or not
      * @return a Set of the names of blocks that should not being in any way rendered
      */
-    public abstract Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser);
+    public abstract Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser);
     
     /**
      * Determines which, if any, blocks specified for accounting line rendering should be forced to be rendered as read only
@@ -45,7 +45,7 @@ public interface AccountingLineAuthorizer {
      * @param newLine whether the line is a new line or not
      * @return a Set of the names of blocks where all children fields should be forced to render as read only
      */
-    public abstract Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser);
+    public abstract Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser);
     
     /**
      * Determines what actions are available to act upon the given accounting line
@@ -57,7 +57,7 @@ public interface AccountingLineAuthorizer {
      * @param groupTitle title of the group from the data dictionary
      * @return a List of the Actions that are available for this line
      */
-    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineProperty, Integer lineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle);
+    public abstract List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineProperty, Integer lineIndex, Person currentUser, Map editModesForDocument, String groupTitle);
     
     /**
      * Determines if new lines should be rendered for the given accounting line group (identified by its property name)
@@ -65,7 +65,7 @@ public interface AccountingLineAuthorizer {
      * @param accountingGroupProperty the property of this accounting group
      * @return true if new lines should be displayed, false otherwise
      */
-    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, FinancialSystemUser currentUser);
+    public abstract boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Person currentUser);
     
     /**
      * Determines the "classic" authorization mode for the accounting line, based on the given parameters
@@ -76,7 +76,7 @@ public interface AccountingLineAuthorizer {
      * @param editModesForDocument the edit modes currently existing on the document
      * @return one of the "classic" edit modes - AuthorizationConstants.EditMode.UNVIEWABLE, AuthorizationConstants.EditMode.VIEW_ONLY, or AuthorizationConstants.EditMode.FULL_ENTRY
      */
-    public abstract String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
+    public abstract String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser, Map<String, String> editModesForDocument);
     
     /**
      * Determines if the entire group is rendered as read only, which means that no new line will appear
@@ -86,7 +86,7 @@ public interface AccountingLineAuthorizer {
      * @param editModesForDocument the current edit modes on the document
      * @return true if the entire group is read only, false otherwise
      */
-    public abstract boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument);
+    public abstract boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser, Map<String, String> editModesForDocument);
     
     /**
      * Determines which, if any, blocks specified for accounting line rendering should be forced to be rendered as editable when the line is readonly
@@ -94,5 +94,6 @@ public interface AccountingLineAuthorizer {
      * @param accountingLine the accounting line that is being authorized against
      * @return a Set of the names of blocks where all children fields should be forced to render as editable
      */
-    public abstract Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser);
+    public abstract Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser);
 }
+

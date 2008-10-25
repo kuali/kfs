@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address1;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address2;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address3;
@@ -33,7 +33,7 @@ import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.fixture.VendorAddressFixture;
 import org.kuali.kfs.vnd.fixture.VendorRoutingChangesFixture;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class VendorServiceTest extends KualiTestBase {
 
     public VendorDetail oldVDtl;
@@ -156,3 +156,4 @@ public class VendorServiceTest extends KualiTestBase {
         assertTrue(SpringContext.getBean(VendorService.class).noRouteSignificantChangeOccurred(oldVDtl, oldVHdr, newVDtl, newVHdr));
     }
 }
+

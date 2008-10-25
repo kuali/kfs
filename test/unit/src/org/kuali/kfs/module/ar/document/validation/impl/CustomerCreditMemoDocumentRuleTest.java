@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
 
@@ -45,7 +45,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import java.util.ArrayList;
 import java.util.List;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 
 public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     
@@ -338,3 +338,4 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     }
 
 }
+

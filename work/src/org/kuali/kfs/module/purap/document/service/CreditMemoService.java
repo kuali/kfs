@@ -25,7 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.CreditMemoDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Defines methods that must be implemented by a CreditMemoService implementation.
@@ -125,7 +125,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting the hold.
      * @return boolean - true if hold can occur, false if not allowed.
      */
-    public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
+    public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, Person user);
 
     /**
      * Removes a hold on the credit memo document.
@@ -144,7 +144,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting to remove the hold.
      * @return boolean - true if user can take document off hold, false if they cannot.
      */
-    public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
+    public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, Person user);
 
     /**
      * Determines if the document can be canceled and if the given user has permission to do so.
@@ -155,7 +155,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param user - user requesting the cancel.
      * @return boolean - true if document can be canceled, false if it cannot be.
      */
-    public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
+    public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, Person user);
 
     /**
      * This is called by PDP to cancel a CreditMemoDocument that has already been extracted     
@@ -198,3 +198,4 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
     public boolean hasActiveCreditMemosForPurchaseOrder(Integer purchaseOrderIdentifier);
 
 }
+

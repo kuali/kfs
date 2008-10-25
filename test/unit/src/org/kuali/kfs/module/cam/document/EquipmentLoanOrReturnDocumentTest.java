@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+@ConfigureContext(session = khuntley, shouldCommitTransactions = false)
 public class EquipmentLoanOrReturnDocumentTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EquipmentLoanOrReturnDocumentTest.class);
 
@@ -103,3 +103,4 @@ public class EquipmentLoanOrReturnDocumentTest extends KualiTestBase {
         assertTrue(accountRoutingSet_a.contains(routingAccount_b));               
     }    
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailChartCodeReceivableValidationTest extends KualiTestBase {
     
     private CustomerInvoiceDetailChartCodeReceivableValidation validation;
@@ -65,3 +65,4 @@ public class CustomerInvoiceDetailChartCodeReceivableValidationTest extends Kual
     }
 
 }
+

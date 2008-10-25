@@ -85,7 +85,7 @@
                           </td>
                           <th align=right nowrap >Submitter User ID:</th>
                           <td align=left class="datacell">
-                            <c:out value="${BatchDetail.submiterUser.personUserIdentifier}" />&nbsp;
+                            <c:out value="${BatchDetail.submiterUser.principalName}" />&nbsp;
                           </td>
                         </tr>
                       </tbody>
@@ -139,3 +139,4 @@
   <c:import url="/pdp/backdoor.jsp"/>
 </body>
 </html:html>
+

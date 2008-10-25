@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * This class represents an ad-hoc person.
@@ -31,38 +31,38 @@ public class AdhocPerson extends AbstractAdhoc {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AdhocPerson.class);
 
-    private String personUniversalIdentifier;
-    private String personUserIdentifier;
+    private String principalId;
+    private String principalName;
     private String name;
-    private UniversalUser user;
-    private transient FinancialSystemUserService financialSystemUserService;
+    private Person user;
+    private transient PersonService personService;
     
     public AdhocPerson() {
         super();
     }
 
-    public AdhocPerson(String documentNumber, String personUniversalIdentifier) {
+    public AdhocPerson(String documentNumber, String principalId) {
         this();
         this.setDocumentNumber(documentNumber);
-        this.personUniversalIdentifier = personUniversalIdentifier;
+        this.principalId = principalId;
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the principalId.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the principalId attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -70,8 +70,8 @@ public class AdhocPerson extends AbstractAdhoc {
      * 
      * @return Returns the user.
      */
-    public UniversalUser getUser() {
-        user = getKfsUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+    public Person getUser() {
+        user = getKfsUserService().updatePersonIfNecessary(principalId, user);
         return user;
     }
 
@@ -81,41 +81,35 @@ public class AdhocPerson extends AbstractAdhoc {
      * @param user The user to set.
      * @deprecated Should not be set. User should be retrieved from SpringContext each time. See getUser() above.
      */
-    public void setUser(UniversalUser user) {
+    public void setUser(Person user) {
         this.user = user;
     }
     
     public String getPrimaryDepartmentCode() {
         String org = "";
-        if (user == null || user.getPersonUserIdentifier() == null) {
-            user = getKfsUserService().getFinancialSystemUser(getPersonUniversalIdentifier());
+        if (user == null || user.getPrincipalName() == null) {
+            user = getKfsUserService().getPerson(getPrincipalId());
         }
         if (user == null) {
             return "";
         }
-        org = getKfsUserService().getOrganizationByModuleId(KFSConstants.Modules.CHART).getOrganizationCode();
+        org = SpringContext.getBean(KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART).getOrganizationCode();
         return org;
     }
 
     /**
-     * This method retrieves the associated user id from the UniversalUser attribute.
+     * This method retrieves the associated user id from the Person attribute.
      * 
      * @return The user id of the associated user.
      */
-    public String getPersonUserIdentifier() {
-        if (user == null || user.getPersonUserIdentifier() == null) {
-            user = null;
-            try {
-                user = getKfsUserService().getUniversalUser(getPersonUniversalIdentifier());
-            }
-            catch (UserNotFoundException ex) {
-                // do nothing, leave user as null
-            }
+    public String getPrincipalName() {
+        if (user == null || user.getPrincipalName() == null) {
+            user = getKfsUserService().getPerson(getPrincipalId());
         }
         if (user == null) {
             return "";
         }
-        return user.getPersonUserIdentifier();
+        return user.getPrincipalName();
     }
 
     /**
@@ -123,29 +117,23 @@ public class AdhocPerson extends AbstractAdhoc {
      * 
      * @param userIdentifier User id to be passed in.
      */
-    public void setPersonUserIdentifier(String userIdentifier) {
+    public void setPrincipalName(String userIdentifier) {
         // do nothing, the getter will handle this
     }
 
     /**
-     * This method retrieves the associated user name from the UniversalUser attribute.
+     * This method retrieves the associated user name from the Person attribute.
      * 
      * @return The user name in the format of LAST, FIRST
      */
     public String getName() {
-        if (user == null || user.getPersonName() == null) {
-            user = null;
-            try {
-                user = getKfsUserService().getUniversalUser(getPersonUniversalIdentifier());
-            }
-            catch (UserNotFoundException ex) {
-                // do nothing, leave UU as null
-            }
+        if (user == null || user.getName() == null) {
+            user = getKfsUserService().getPerson(getPrincipalId());
         }
         if (user == null) {
             return "";
         }
-        return user.getPersonName();
+        return user.getName();
     }
 
     /**
@@ -163,14 +151,15 @@ public class AdhocPerson extends AbstractAdhoc {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         return m;
     }
 
-    public FinancialSystemUserService getKfsUserService() {
-        if ( financialSystemUserService == null ) {
-            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+    public PersonService getKfsUserService() {
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
         }
-        return financialSystemUserService;
+        return personService;
     }
 }
+

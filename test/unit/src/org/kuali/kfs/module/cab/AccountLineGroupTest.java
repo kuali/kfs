@@ -28,7 +28,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class AccountLineGroupTest extends KualiTestBase {
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -127,3 +127,4 @@ public class AccountLineGroupTest extends KualiTestBase {
         return entry;
     }
 }
+

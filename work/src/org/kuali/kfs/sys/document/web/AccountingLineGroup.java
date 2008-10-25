@@ -136,7 +136,7 @@ public class AccountingLineGroup {
             importLineRenderer.setEditModes(editModes);
             importLineRenderer.setLineCollectionProperty(collectionPropertyName);
             importLineRenderer.setAccountingDocument(accountingDocument);
-            if (groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getFinancialSystemUser(), editModes)) {
+            if (groupDefinition.getAccountingLineAuthorizer().isGroupReadOnly(accountingDocument, collectionPropertyName, GlobalVariables.getUserSession().getPerson(), editModes)) {
                 importLineRenderer.overrideCanUpload(false); // we're read only - so we can't upload
             }
             importLineRenderer.render(pageContext, parentTag);
@@ -290,3 +290,4 @@ public class AccountingLineGroup {
     }
 
 }
+

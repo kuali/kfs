@@ -35,7 +35,7 @@ import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemo
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
@@ -256,7 +256,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         if (customerCreditMemoDocuments.isEmpty())
             return success;
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
             try {
@@ -276,3 +276,4 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
     
 }
+

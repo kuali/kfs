@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -58,7 +58,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests
  * that test functionality that is common to all Purchasing documents.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
 
     PurchasingDocumentRuleBase rules;
@@ -379,3 +379,4 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rules.processCapitalAssetValidation(requisition));
     }
 }
+

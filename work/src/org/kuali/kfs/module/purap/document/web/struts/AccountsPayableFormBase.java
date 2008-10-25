@@ -27,7 +27,7 @@ import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -103,7 +103,7 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     public boolean isApUser() {
 
         boolean apUser = false;
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
 
@@ -139,3 +139,4 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +135,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
     }
     
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public void testSplitPurchaseOrder() throws Exception {
         List<PurchaseOrderItem> items = new TypedArrayList(PurchaseOrderItem.class);        
         items.add((PurchaseOrderItem)PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_2.createPurchaseOrderItem(PurApItemFixture.BASIC_QTY_ITEM_2));
@@ -156,7 +156,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
     }
     
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(
                     PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
@@ -190,7 +190,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
      * @throws Exception
      */
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testCancelAmendPurchaseOrder() throws Exception {        
         createAndSavePOChangeDocument(
                     PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
@@ -209,7 +209,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderPaymentHold() throws Exception {
         createAndRoutePOChangeDocument(
                 PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, 
@@ -236,7 +236,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderRemoveHold() throws Exception {
         poTest.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
         poTest.refreshNonUpdateableReferences();
@@ -265,7 +265,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
@@ -296,7 +296,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }   
     
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderReopen() throws Exception {     
         poTest.setStatusCode(PurchaseOrderStatuses.CLOSED);
         poTest.refreshNonUpdateableReferences();
@@ -325,7 +325,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     @RelatesTo(JiraIssue.KULPURAP2226)
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderVoid() throws Exception {
         createAndRoutePOChangeDocument(
                 PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT,
@@ -387,3 +387,4 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
 
 
 }
+

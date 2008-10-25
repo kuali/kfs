@@ -240,8 +240,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-            <ref bean="universalUserService" />
+		<property name="personService">
+            <ref bean="personService" />
         </property>		
 	</bean> 
 
@@ -261,8 +261,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-            <ref bean="universalUserService" />
+		<property name="personService">
+            <ref bean="personService" />
         </property>		
 	</bean> 
 
@@ -282,8 +282,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-            <ref bean="universalUserService" />
+		<property name="personService">
+            <ref bean="personService" />
         </property>		
 	</bean> 
 
@@ -316,8 +316,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-            <ref bean="universalUserService" />
+		<property name="personService">
+            <ref bean="personService" />
         </property>		
 	</bean> 
 	
@@ -343,10 +343,11 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-            <ref bean="universalUserService" />
+		<property name="personService">
+            <ref bean="personService" />
         </property>
 	</bean>   	
 	
 	<bean id="effortLedgerBalanceInquirable" class="org.kuali.kfs.module.ec.businessobject.inquiry.EffortLedgerBalanceInquirableImpl" singleton="false"/>
 </beans>
+

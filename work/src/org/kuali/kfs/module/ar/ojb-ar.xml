@@ -55,7 +55,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.AgeTrialBalance" table="AR_AGE_TRIAL_BAL_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1454,3 +1454,4 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 
 </class-descriptor>
 </descriptor-repository>
+

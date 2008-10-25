@@ -10,8 +10,8 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -39,7 +39,7 @@ public class Pretag extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private Org organization;
     private AssetType capitalAssetType;
-    private UniversalUser personUniversal;
+    private Person personUniversal;
 
     private List<String> campusTagNumbers;
     private List<String> serialNumbers;
@@ -241,12 +241,12 @@ public class Pretag extends PersistableBusinessObjectBase {
         this.organizationInventoryName = organizationInventoryName;
     }
 
-    public UniversalUser getPersonUniversal() {
-        personUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, personUniversal);
+    public Person getPersonUniversal() {
+        personUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, personUniversal);
         return personUniversal;
     }
 
-    public void setPersonUniversal(UniversalUser personUniversal) {
+    public void setPersonUniversal(Person personUniversal) {
         this.personUniversal = personUniversal;
     }
 
@@ -481,3 +481,4 @@ public class Pretag extends PersistableBusinessObjectBase {
     }
 
 }
+

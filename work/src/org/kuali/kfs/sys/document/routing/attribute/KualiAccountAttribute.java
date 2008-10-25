@@ -52,11 +52,10 @@ import org.kuali.rice.kew.rule.WorkflowAttribute;
 import org.kuali.rice.kew.user.AuthenticationUserId;
 import org.kuali.rice.kew.user.UserId;
 import org.kuali.rice.kew.util.Utilities;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.user.UuId;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.w3c.dom.Document;
@@ -591,11 +590,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
                 String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
                 annotation = "Routing to Account Supervisor";
-                String supervisorNetworkId = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new UuId(accountSupervisorId)).getPersonUserIdentifier();
-                if (!StringUtils.isEmpty(supervisorNetworkId)) {
-                    members.add(new AuthenticationUserId(supervisorNetworkId));
-                }
-                else {
+                Person person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(accountSupervisorId);
+                if (person != null) {
+                    String supervisorNetworkId = person.getPrincipalName();
+                    if (!StringUtils.isEmpty(supervisorNetworkId)) {
+                        members.add(new AuthenticationUserId(supervisorNetworkId));
+                    }
+                } else {
                     LOG.info("No active account supervisor found.");
                 }
             }
@@ -608,17 +609,15 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static AuthenticationUserId getFiscalOfficerId(FiscalOfficerRole role) throws Exception {
         String fiscalOfficerNetworkId = null;
-
+        Person person = null;
         // if we already have an ID, validate it, and then we're done
         if (StringUtils.isNotBlank(role.fiscalOfficerId)) {
-            try {
-                fiscalOfficerNetworkId = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new UuId(role.fiscalOfficerId)).getPersonUserIdentifier();
-            }
-            catch (org.kuali.rice.kns.exception.UserNotFoundException e) {
-                // do nothing, but leave fiscalOfficerNetworkId blank, which will get caught after this
+            person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(role.fiscalOfficerId);
+            if (person != null) {
+                fiscalOfficerNetworkId = person.getPrincipalName();
             }
             if (StringUtils.isBlank(fiscalOfficerNetworkId)) {
-                throw new RuntimeException("FiscalOfficer with UniversalID: " + role.fiscalOfficerId + " was not " + "found in UniversalUsers.  Routing cannot continue.");
+                throw new RuntimeException("FiscalOfficer with UniversalID: " + role.fiscalOfficerId + " was not " + "found in Persons.  Routing cannot continue.");
             }
             else {
                 return new AuthenticationUserId(fiscalOfficerNetworkId);
@@ -630,7 +629,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(role.chart, role.accountNumber);
             if (account != null) {
                 if (account.getAccountFiscalOfficerUser() != null) {
-                    fiscalOfficerNetworkId = account.getAccountFiscalOfficerUser().getPersonUserIdentifier();
+                    fiscalOfficerNetworkId = account.getAccountFiscalOfficerUser().getPrincipalName();
                 }
             }
         }
@@ -658,7 +657,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             delegateExample.setFinancialDocumentTypeCode(fisDocumentType);
             Delegate primaryDelegate = SpringContext.getBean(AccountService.class).getPrimaryDelegationByExample(delegateExample, role.totalDollarAmount);
             if (primaryDelegate != null) {
-                primaryDelegateId = new AuthenticationUserId(primaryDelegate.getAccountDelegate().getPersonUserIdentifier());
+                primaryDelegateId = new AuthenticationUserId(primaryDelegate.getAccountDelegate().getPrincipalName());
             }
         }
         return primaryDelegateId;
@@ -677,7 +676,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             delegateExample.setFinancialDocumentTypeCode(fisDocumentType);
             Iterator secondaryDelegations = SpringContext.getBean(AccountService.class).getSecondaryDelegationsByExample(delegateExample, role.totalDollarAmount).iterator();
             while (secondaryDelegations.hasNext()) {
-                members.add(new AuthenticationUserId(((Delegate) secondaryDelegations.next()).getAccountDelegate().getPersonUserIdentifier()));
+                members.add(new AuthenticationUserId(((Delegate) secondaryDelegations.next()).getAccountDelegate().getPrincipalName()));
             }
         }
         return members;
@@ -733,3 +732,4 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
 }
+

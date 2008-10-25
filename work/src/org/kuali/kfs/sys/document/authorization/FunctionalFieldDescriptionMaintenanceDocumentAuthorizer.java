@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.document.authorization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
 
@@ -28,7 +28,7 @@ public class FunctionalFieldDescriptionMaintenanceDocumentAuthorizer extends Fin
     private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
         MaintenanceDocumentAuthorizations maintenanceDocumentAuthorizations = super.getFieldAuthorizations(document, user);
         if (document.isEdit()) {
             maintenanceDocumentAuthorizations.addReadonlyAuthField("businessObjectProperty.propertyLabel");
@@ -36,3 +36,4 @@ public class FunctionalFieldDescriptionMaintenanceDocumentAuthorizer extends Fin
         return maintenanceDocumentAuthorizations;
     }
 }
+

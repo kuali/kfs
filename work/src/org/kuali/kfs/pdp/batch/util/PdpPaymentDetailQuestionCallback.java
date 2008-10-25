@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.batch.util;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * PDP PaymentDetail Question Callback defines a callback method for post processing handling in the question interface.
@@ -30,5 +30,6 @@ public interface PdpPaymentDetailQuestionCallback {
      * @param user the user that perfoms the action
      * @return true if succesful, false otherwise
      */
-    public boolean doPostQuestion(int paymentDetailId, String note, UniversalUser user);
+    public boolean doPostQuestion(int paymentDetailId, String note, Person user);
 }
+

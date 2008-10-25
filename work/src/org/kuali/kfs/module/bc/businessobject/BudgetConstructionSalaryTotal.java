@@ -36,7 +36,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
     private BigDecimal appointmentRequestedFteQuantity;
     private KualiInteger initialRequestedAmount;
     private BigDecimal initialRequestedFteQuantity;
-    private String personUniversalIdentifier;
+    private String principalId;
 
     private Chart organizationChartOfAccounts;
     private Org organization;
@@ -179,21 +179,21 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the principalId.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the principalId attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -239,9 +239,10 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
         return m;
     }
 }
+

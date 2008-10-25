@@ -26,7 +26,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -47,11 +47,11 @@ public interface LockService {
      * and sets BCLockStatus with LockStatus.FLOCK_FOUND. Accountlocks and Fundinglocks are mutex
      * 
      * @param bcHeader
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), FLOCK_FOUND (also sets
      *         fundingLocks), BY_OTHER (also sets accountLockOwner), NO_DOOR (null bcHeader)
      */
-    public BudgetConstructionLockStatus lockAccount(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockAccount(BudgetConstructionHeader bcHeader, String principalId);
 
     /**
      * This method checks the database for an accountlock. It assumes a valid bcHeader parameter
@@ -77,10 +77,10 @@ public interface LockService {
      * @param accountNumber - account number of account lock
      * @param subAccountNumber - sub account number of account lock
      * @param fiscalYear - fiscal year of account lock
-     * @param personUniversalIdentifier - lock user id
+     * @param principalId - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public boolean isAccountLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * This method attempts to unlock the given BudgetConstructionHeader.
@@ -91,7 +91,7 @@ public interface LockService {
     public LockStatus unlockAccount(BudgetConstructionHeader bcHeader);
 
     /**
-     * This returns the set of BCFundingLocks associated with a BCHeader. The set is sorted by the UniversalUser personName
+     * This returns the set of BCFundingLocks associated with a BCHeader. The set is sorted by the Person personName
      * 
      * @param bcHeader
      * @return SortedSet<BudgetConstructionFundingLock>
@@ -104,19 +104,19 @@ public interface LockService {
      * funding locks are mutex. Finding a funding lock for the passed in uuid returns success without having to relock
      * 
      * @param bcHeader
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, BY_OTHER (accountlock found)
      */
-    public BudgetConstructionLockStatus lockFunding(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockFunding(BudgetConstructionHeader bcHeader, String principalId);
 
     /**
      * acquire a lock for the given appointment funding
      * 
      * @param appointmentFunding the given appointment funding
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, BY_OTHER (accountlock found)
      */
-    public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person);
 
     /**
      * This removes the fundinglock for the account and user
@@ -125,26 +125,26 @@ public interface LockService {
      * @param accountNumber
      * @param subAccountNumber
      * @param fiscalYear
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return LockStatus.SUCCESS, NO_DOOR (no fundinglock found)
      */
-    public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * release the lock for the given appointment funding if any
      * 
      * @param appointmentFunding the given appointment funding that could have lock
-     * @param universalUser the user who owns the lock on the given appointment funding
+     * @param person the user who owns the lock on the given appointment funding
      */
-    public LockStatus unlockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    public LockStatus unlockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person);
 
     /**
      * release the locks for the given appointment fundings if any
      * 
      * @param lockedFundings the given appointment fundings that could have locks
-     * @param universalUser the user who owns the locks on the given appointment fundings
+     * @param person the user who owns the locks on the given appointment fundings
      */
-    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, UniversalUser universalUser);
+    public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, Person person);
 
     /**
      * Checks if the given user has a funding lock for the given accounting key.
@@ -153,10 +153,10 @@ public interface LockService {
      * @param accountNumber - account number of funding lock
      * @param subAccountNumber - sub account number of funding lock
      * @param fiscalYear - fiscal year of funding lock
-     * @param personUniversalIdentifier - lock user id
+     * @param principalId - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * This locks the position, meaning it sets the position lock id field with the puid. Finding the position already locked by the
@@ -164,21 +164,21 @@ public interface LockService {
      * 
      * @param positionNumber
      * @param fiscalYear
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), BY_OTHER (also sets
      *         positionLockOwner), NO_DOOR (BudgetConstructionPosition found)
      */
-    public BudgetConstructionLockStatus lockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockPosition(String positionNumber, Integer fiscalYear, String principalId);
 
     /**
      * acquire a lock for the given budget position
      * 
      * @param position the given position
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock), BY_OTHER (also sets
      *         positionLockOwner), NO_DOOR (BudgetConstructionPosition found)
      */
-    public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, UniversalUser universalUser);
+    public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, Person person);
 
     /**
      * This checks the database for an existing positionlock
@@ -194,10 +194,10 @@ public interface LockService {
      * 
      * @param positionNumber - position number of position record
      * @param fiscalYear - fiscal year of position record
-     * @param personUniversalIdentifier - lock user id
+     * @param principalId - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String principalId);
 
     /**
      * Checks the given user has an position/funding lock for the given position number and accounting key.
@@ -207,10 +207,10 @@ public interface LockService {
      * @param accountNumber - account number of funding lock
      * @param subAccountNumber - sub account number of funding lock
      * @param fiscalYear - fiscal year of position and funding record
-     * @param personUniversalIdentifier - lock user id
+     * @param principalId - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public boolean isPositionFundingLockedByUser(String positionNumber, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * This removes an existing positionlock
@@ -227,27 +227,27 @@ public interface LockService {
      * 
      * @param positionNumber the given position number of a position
      * @param fiscalYear the given fiscal year of a position
-     * @param universalUser the specified user who owns the locks on the position
+     * @param person the specified user who owns the locks on the position
      * @return LockStatus.SUCCESS (success or already unlocked), OPTIMISTIC_EX (lost optimistic lock - unlikely), NO_DOOR
      *         (BudgetConstructionPosition not found)
      */
-    public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String principalId);
 
     /**
      * release the lock for the given position if any
      * 
      * @param position the given budget construction position that could have locks
-     * @param universalUser the specified user who owns the lock on the given position
+     * @param person the specified user who owns the lock on the given position
      */
-    public LockStatus unlockPostion(BudgetConstructionPosition position, UniversalUser universalUser);
+    public LockStatus unlockPostion(BudgetConstructionPosition position, Person person);
 
     /**
      * release the locks for the given positions if any
      * 
      * @param lockedPositions the given budget construction positions that could have locks
-     * @param universalUser the specified user who owns the locks on the given positions
+     * @param person the specified user who owns the locks on the given positions
      */
-    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, UniversalUser universalUser);
+    public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, Person person);
 
     /**
      * This attempts a transactionlock on a BC Edoc for a pUId. It retries based on the setting of
@@ -257,19 +257,19 @@ public interface LockService {
      * @param accountNumber
      * @param subAccountNumber
      * @param fiscalYear
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return BudgetConstructionLockStatus with lockStatus.SUCCESS, OPTIMISTIC_EX (lost optimistic lock - unlikely) BY_OTHER
      *         (retries exhausted, also sets transactionLockOwner), NO_DOOR (BudgetConstructionHeader not found)
      */
-    public BudgetConstructionLockStatus lockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockTransaction(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * attemps to have a transaction lock based on the information provided by the given funding line
      * 
      * @param appointmentFunding the given appointment funding
-     * @param universalUser the specified user
+     * @param person the specified user
      */
-    public BudgetConstructionLockStatus lockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    public BudgetConstructionLockStatus lockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person);
 
     /**
      * This checks the database for an existing transactionlock for the BC EDoc (account).
@@ -289,10 +289,10 @@ public interface LockService {
      * @param accountNumber - account number of transaction lock
      * @param subAccountNumber - sub account number of transaction lock
      * @param fiscalYear - fiscal year of transaction lock
-     * @param personUniversalIdentifier - lock user id
+     * @param principalId - lock user id
      * @return true if locked, false if not locked or not found in the database
      */
-    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier);
+    public boolean isTransactionLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
 
     /**
      * This removes an existing transactionlock for a BC EDoc (account).
@@ -310,9 +310,9 @@ public interface LockService {
      * attemps to unlock a transaction based on the information provided by the given funding line
      * 
      * @param appointmentFunding the given appointment funding
-     * @param universalUser the specified user
+     * @param person the specified user
      */
-    public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, UniversalUser universalUser);
+    public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person);
 
     /**
      * Retrieves all current account locks for the given user (or all locks if user is null/empty).
@@ -375,10 +375,10 @@ public interface LockService {
      * determine whether the account lock on the given budget document is held by the the specified user
      * 
      * @param budgetConstructionHeader the given budget document
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the account lock on the given budget document is held by the the specified user; otherwise, false
      */
-    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, UniversalUser universalUser);
+    public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, Person person);
 
     /**
      * Retrieves account locks for funding records, for use in the payrate import process. Throws
@@ -389,7 +389,7 @@ public interface LockService {
      * @return
      * @throws BudgetConstructionLockUnavailableException
      */
-    public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, UniversalUser user) throws BudgetConstructionLockUnavailableException;
+    public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, Person user) throws BudgetConstructionLockUnavailableException;
 
     /**
      * Retrives an account lock (@see
@@ -397,10 +397,10 @@ public interface LockService {
      * java.lang.String) and commits the lock. Used by the request import process.
      * 
      * @param bcHeader
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return
      */
-    public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockAccountAndCommit(BudgetConstructionHeader bcHeader, String principalId);
 
     /**
      * Locks the position record for the given key if not already locked. Then retrieves all active funding lines for the position
@@ -408,18 +408,18 @@ public interface LockService {
      * 
      * @param universityFiscalYear budget fiscal year, primary key field for position record
      * @param positionNumber position number, primary key field for position record
-     * @param personUniversalIdentifier current user requesting the lock
+     * @param principalId current user requesting the lock
      * @return <code>BudgetConstructionLockStatus</code> indicating the status of the lock attempt. Success is returned if all lock attempts were successful, else one of the Failure status codes are returned
      */
-    public BudgetConstructionLockStatus lockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier);
+    public BudgetConstructionLockStatus lockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String principalId);
     
     /**
      * Unlocks the position and all associated funding lines not marked as delete.
      * 
      * @param universityFiscalYear budget fiscal year, primary key field for position record
      * @param positionNumber position number, primary key field for position record
-     * @param personUniversalIdentifier current user requesting the unlock
+     * @param principalId current user requesting the unlock
      * @return <code>LockStatus</code> indicating the status of the unlock attempt.
      */
-    public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String personUniversalIdentifier);
+    public LockStatus unlockPositionAndActiveFunding(Integer universityFiscalYear, String positionNumber, String principalId);
 }

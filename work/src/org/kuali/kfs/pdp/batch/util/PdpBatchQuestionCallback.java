@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.pdp.batch.util;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * PDP Batch Question Callback defines a callback method for post processing handling in the question interface.
@@ -30,6 +30,7 @@ public interface PdpBatchQuestionCallback {
      * @param user the user that perfoms the action
      * @return true if succesful, false otherwise
      */
-    public boolean doPostQuestion(String batchIdString, String note, UniversalUser user);
+    public boolean doPostQuestion(String batchIdString, String note, Person user);
 
 }
+

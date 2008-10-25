@@ -21,7 +21,7 @@
               p:attributeToHighlightOnFail="accountNumber" />
         <bean parent="ReferenceDefinition"
               p:attributeName="accountDelegate"
-              p:attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
+              p:attributeToHighlightOnFail="accountDelegate.principalName" />
         <bean parent="ReferenceDefinition"
               p:attributeName="documentType"
               p:attributeToHighlightOnFail="financialDocumentTypeCode" />
@@ -88,10 +88,10 @@
               p:readOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountDelegate.personUserIdentifier"
+              p:name="accountDelegate.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="accountDelegate.personName"
+              p:name="accountDelegate.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finDocApprovalFromThisAmt"
@@ -132,3 +132,4 @@
     </property>
   </bean>
 </beans>
+

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
@@ -40,7 +40,7 @@ public class BenefitExpenseTransferAccountingLineAuthorizer extends AccountingLi
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, java.lang.String)
      */
     @Override
-    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle) {
+    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, Person currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
         
         String editMode = this.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
@@ -80,3 +80,4 @@ public class BenefitExpenseTransferAccountingLineAuthorizer extends AccountingLi
         return "Copy "+groupTitle+" Accounting Line "+(accountingLineIndex.intValue()+1);
     }
 }
+

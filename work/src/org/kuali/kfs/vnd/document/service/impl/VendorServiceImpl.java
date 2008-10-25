@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -33,14 +34,12 @@ import org.kuali.kfs.vnd.dataaccess.VendorDao;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.PersonTaxId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +50,7 @@ public class VendorServiceImpl implements VendorService {
 
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private PersistenceService persistenceService;
     private VendorDao vendorDao;
 
@@ -303,12 +302,11 @@ public class VendorServiceImpl implements VendorService {
         if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
             String ssnTaxId = vendorToUse.getVendorHeader().getVendorTaxNumber();
             if (StringUtils.isNotBlank(ssnTaxId)) {
-                try {
-                    UniversalUser user = universalUserService.getUniversalUser(new PersonTaxId(ssnTaxId));
-                    return ObjectUtils.isNotNull(user);
-                }
-                catch (UserNotFoundException e) {
-                    // user is not in the system... assume non-employee
+                Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnTaxId).get(0);
+                if (person != null) {
+                    return ObjectUtils.isNotNull(person);
+                } else {
+                    // user is not in the system... assume non-person
                     return false;
                 }
             }
@@ -365,8 +363,8 @@ public class VendorServiceImpl implements VendorService {
     }
 
     
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     public void setBusinessObjectService(BusinessObjectService boService) {
@@ -385,3 +383,4 @@ public class VendorServiceImpl implements VendorService {
         this.vendorDao = vendorDao;
     }
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ec.batch.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KULUSER)
+@ConfigureContext(session = kuluser)
 public class EffortCertificationCreateServiceTest extends KualiTestBase {
 
     private final Properties properties, message;
@@ -365,3 +365,4 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.DETAIL_BUILD, detailFieldNames, deliminator, numberOfDetailBuild);
     }
 }
+

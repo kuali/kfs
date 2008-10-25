@@ -589,14 +589,14 @@
 </class-descriptor>
     <!--  additions for KfsUser -->
 
-    <class-descriptor class="org.kuali.kfs.sys.businessobject.FinancialSystemUser" table="FS_USR_ATTRIB_T">
-        <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl" table="FS_USR_ATTRIB_T">
+        <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="activeFinancialSystemUser" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
         <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-
+        <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
+        
         <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="chartOfAccountsCode" />
         </reference-descriptor>
@@ -605,29 +605,28 @@
             <foreignkey field-ref="chartOfAccountsCode" />
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
-
+        
         <collection-descriptor name="primaryOrganizations"
-            element-class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization"
+            element-class-ref="org.kuali.kfs.sys.businessobject.ChartOrgHolderModuleImpl"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-            auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true"
-        >
+            auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <orderby name="moduleId" sort="ASC" />
-            <inverse-foreignkey field-ref="personUniversalIdentifier" />
+            <inverse-foreignkey field-ref="principalId" />
         </collection-descriptor>
+        
         <collection-descriptor name="organizationSecurity"
-            element-class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity"
+            element-class-ref="org.kuali.kfs.sys.businessobject.ChartOrgHolderSecurityImpl"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-            auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true"
-        >
+            auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <orderby name="moduleId" sort="ASC" />
             <orderby name="chartOfAccountsCode" sort="ASC" />
             <orderby name="organizationCode" sort="ASC" />
-            <inverse-foreignkey field-ref="personUniversalIdentifier" />
+            <inverse-foreignkey field-ref="principalId" />
         </collection-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kfs.sys.businessobject.FinancialSystemUserPrimaryOrganization" table="FS_USR_PRM_ORG_T">
-        <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.ChartOrgHolderModuleImpl" table="FS_USR_PRM_ORG_T">
+        <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="moduleId" column="APPL_MOD_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -644,14 +643,14 @@
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
     </class-descriptor>
-
-    <class-descriptor class="org.kuali.kfs.sys.businessobject.FinancialSystemUserOrganizationSecurity" table="FS_USR_ORG_SEC_T">
-        <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  
+    <class-descriptor class="org.kuali.kfs.sys.businessobject.ChartOrgHolderSecurityImpl" table="FS_USR_ORG_SEC_T">
+        <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="moduleId" column="APPL_MOD_ID" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="descendOrgHierarchy" column="DSCND_ORG_HIER_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
         <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
         
@@ -664,6 +663,8 @@
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
     </class-descriptor>
+    
+
 
     <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegion" table="FS_TAX_REGION_T">
 	    <field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
@@ -848,3 +849,4 @@
 	</class-descriptor>
 	
 </descriptor-repository>
+

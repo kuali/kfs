@@ -18,8 +18,8 @@
         <ref bean="BudgetUser-budgetUserSequenceNumber" />
         <ref bean="BudgetUser-fiscalCampusCode" />
         <ref bean="BudgetUser-primaryDepartmentCode" />
-        <ref bean="BudgetUser-personNamePrefixText" />
-        <ref bean="BudgetUser-personNameSuffixText" />
+        <ref bean="BudgetUser-namePrefixText" />
+        <ref bean="BudgetUser-nameSuffixText" />
         <ref bean="BudgetUser-personSeniorKeyIndicator" />
         <ref bean="BudgetUser-personProjectDirectorIndicator" />
         <ref bean="BudgetUser-personSecretarialClericalIndicator" />
@@ -29,9 +29,9 @@
         <ref bean="BudgetUser-personSalaryJustificationText" />
         <ref bean="BudgetUser-appointmentTypeCode" />
         <ref bean="BudgetUser-personHourlyNumber" />
-        <ref bean="BudgetUser-user.personUniversalIdentifier" />
-        <ref bean="BudgetUser-user.personUserIdentifier" />
-        <ref bean="BudgetUser-user.personName" />
+        <ref bean="BudgetUser-user.principalId" />
+        <ref bean="BudgetUser-user.principalName" />
+        <ref bean="BudgetUser-user.name" />
         <ref bean="BudgetUser-user.campusCode" />
         <ref bean="BudgetUser-user.primaryDepartmentCode" />
         <ref bean="BudgetUser-user.employeeStatusCode" />
@@ -46,19 +46,19 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="user.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="user.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="user.personName"
-                    p:targetName="personName" />
+                    p:sourceName="user.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -135,9 +135,9 @@
     <property name="summary" value="Primary Department Code" />
     <property name="description" value="Primary Department Code" />
   </bean>
-  <bean id="BudgetUser-personNamePrefixText" parent="BudgetUser-personNamePrefixText-parentBean" />
+  <bean id="BudgetUser-namePrefixText" parent="BudgetUser-namePrefixText-parentBean" />
 
-  <bean id="BudgetUser-personNamePrefixText-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetUser-namePrefixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personNamePrefixText" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Prefix" />
@@ -154,9 +154,9 @@
     <property name="summary" value="Prefix" />
     <property name="description" value="Prefix" />
   </bean>
-  <bean id="BudgetUser-personNameSuffixText" parent="BudgetUser-personNameSuffixText-parentBean" />
+  <bean id="BudgetUser-nameSuffixText" parent="BudgetUser-nameSuffixText-parentBean" />
 
-  <bean id="BudgetUser-personNameSuffixText-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetUser-nameSuffixText-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="personNameSuffixText" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Suffix" />
@@ -301,24 +301,24 @@
     <property name="summary" value="Number of Hourlies" />
     <property name="description" value="The total number of hourly employees that this record represents." />
   </bean>
-  <bean id="BudgetUser-user.personUniversalIdentifier" parent="BudgetUser-user.personUniversalIdentifier-parentBean" />
+  <bean id="BudgetUser-user.principalId" parent="BudgetUser-user.principalId-parentBean" />
 
-  <bean id="BudgetUser-user.personUniversalIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
-    <property name="name" value="user.personUniversalIdentifier" />
+  <bean id="BudgetUser-user.principalId-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
+    <property name="name" value="user.principalId" />
     <property name="label" value="Institution ID" />
     <property name="shortLabel" value="Univ ID" />
     <property name="summary" value="Institution ID" />
     <property name="description" value="Institution ID" />
   </bean>
-  <bean id="BudgetUser-user.personUserIdentifier" parent="BudgetUser-user.personUserIdentifier-parentBean" />
+  <bean id="BudgetUser-user.principalName" parent="BudgetUser-user.principalName-parentBean" />
 
-  <bean id="BudgetUser-user.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="user.personUserIdentifier" />
+  <bean id="BudgetUser-user.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="user.principalName" />
   </bean>
-  <bean id="BudgetUser-user.personName" parent="BudgetUser-user.personName-parentBean" />
+  <bean id="BudgetUser-user.name" parent="BudgetUser-user.name-parentBean" />
 
-  <bean id="BudgetUser-user.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="user.personName" />
+  <bean id="BudgetUser-user.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="user.name" />
     <property name="label" value="Project Director Name" />
     <property name="shortLabel" value="Project Director Name" />
     <property name="summary" value="Project Director Name" />
@@ -331,7 +331,7 @@
   </bean>
   <bean id="BudgetUser-user.primaryDepartmentCode" parent="BudgetUser-user.primaryDepartmentCode-parentBean" />
 
-  <bean id="BudgetUser-user.primaryDepartmentCode-parentBean" abstract="true" parent="UniversalUser-primaryDepartmentCode">
+  <bean id="BudgetUser-user.primaryDepartmentCode-parentBean" abstract="true" parent="PersonImpl-primaryDepartmentCode">
     <property name="name" value="user.primaryDepartmentCode" />
     <property name="label" value="Dept ID" />
     <property name="shortLabel" value="Dept ID" />
@@ -340,7 +340,7 @@
   </bean>
   <bean id="BudgetUser-user.employeeStatusCode" parent="BudgetUser-user.employeeStatusCode-parentBean" />
 
-  <bean id="BudgetUser-user.employeeStatusCode-parentBean" abstract="true" parent="UniversalUser-employeeStatusCode">
+  <bean id="BudgetUser-user.employeeStatusCode-parentBean" abstract="true" parent="PersonImpl-employeeStatusCode">
     <property name="name" value="user.employeeStatusCode" />
     <property name="label" value="Employee Status" />
     <property name="shortLabel" value="Employee Status" />
@@ -349,7 +349,7 @@
   </bean>
   <bean id="BudgetUser-user.employeeTypeCode" parent="BudgetUser-user.employeeTypeCode-parentBean" />
 
-  <bean id="BudgetUser-user.employeeTypeCode-parentBean" abstract="true" parent="UniversalUser-employeeTypeCode">
+  <bean id="BudgetUser-user.employeeTypeCode-parentBean" abstract="true" parent="PersonImpl-employeeTypeCode">
     <property name="name" value="user.employeeTypeCode" />
     <property name="label" value="Employee Type" />
     <property name="shortLabel" value="Employee Typee" />
@@ -377,11 +377,11 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="user.personUniversalIdentifier" />
+                    p:attributeName="user.principalId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="user.personUserIdentifier" />
+                    p:attributeName="user.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="user.personName" />
+                    p:attributeName="user.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="user.campusCode" />
               <bean parent="FieldDefinition"
@@ -397,3 +397,4 @@
     </property>
   </bean>
 </beans>
+

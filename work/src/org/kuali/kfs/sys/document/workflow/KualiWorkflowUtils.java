@@ -92,7 +92,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String ORG_REVERSION_CHANGE_DOC_TYPE = "OrganizationReversionGlobalMaintenanceDocument";
     public static final String C_G_AWARD_DOC_TYPE = "AwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "ProposalMaintenanceDocument";
-    public static final String USER_DOC_TYPE = "UniversalUserMaintenanceDocument";
+    public static final String USER_DOC_TYPE = "PersonMaintenanceDocument";
     public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
     public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = "CreditMemoDocument";
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = "PaymentRequestDocument";
@@ -278,3 +278,4 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         }
     }
 }
+

@@ -26,11 +26,11 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -75,7 +75,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     // Not Persisted
     private Date lastInventoryDate;
     private ContractsAndGrantsAgency agency;
-    private UniversalUser assetRepresentative;
+    private Person assetRepresentative;
     private AssetType capitalAssetType;
     private AssetCondition assetCondition;
     private AssetStatus inventoryStatus;
@@ -1063,8 +1063,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * 
      * @return Returns the assetRepresentative.
      */
-    public UniversalUser getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+    public Person getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -1073,7 +1073,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * 
      * @param assetRepresentative The assetRepresentative to set.
      */
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+    public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
 

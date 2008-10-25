@@ -89,9 +89,9 @@
               p:name="documentInitiatorUserIdentifier"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="documentInitiatorUser.personUserIdentifier" />
+              p:name="documentInitiatorUser.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="documentInitiatorUser.personName" />
+              p:name="documentInitiatorUser.name" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />
@@ -99,3 +99,4 @@
     </property>
   </bean>
 </beans>
+

@@ -75,9 +75,6 @@
 		<property name="maintenanceDocumentService">
 			<ref bean="maintenanceDocumentService" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
-		</property>
 	</bean>
 
 	<bean id="disbursementVoucherCoverSheetService" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl">
@@ -229,8 +226,8 @@
 		<property name="cashDrawerService">
 			<ref bean="cashDrawerService" />
 		</property>
-		<property name="kualiGroupService">
-			<ref bean="kualiGroupService" />
+		<property name="groupService">
+			<ref bean="kimGroupService" />
 		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -303,8 +300,8 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService"/>
+		<property name="personService">
+			<ref bean="personService"/>
 		</property>
 		<property name="customerProfileService">
 			<ref bean="pdpCustomerProfileService"/>
@@ -426,3 +423,4 @@
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
 	
 </beans>
+

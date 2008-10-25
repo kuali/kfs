@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.TransactionalDocument;
 
 
@@ -33,7 +33,7 @@ public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizer
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -44,7 +44,8 @@ public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizer
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 }
+

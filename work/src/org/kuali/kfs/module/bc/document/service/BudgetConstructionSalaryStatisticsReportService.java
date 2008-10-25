@@ -27,9 +27,9 @@ public interface BudgetConstructionSalaryStatisticsReportService {
     /**
      * updates account FundingDetail table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void updateSalaryStatisticsReport(String personUserIdentifier, Integer universityFiscalYear);
+    public void updateSalaryStatisticsReport(String principalName, Integer universityFiscalYear);
 
     
     /**
@@ -39,6 +39,7 @@ public interface BudgetConstructionSalaryStatisticsReportService {
      * @param universityFiscalYear
      * @param accountFundingDetailList
      */
-    public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgSalaryStatisticsReport> buildReports(Integer universityFiscalYear, String principalName);
     
 }
+

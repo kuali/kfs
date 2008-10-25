@@ -28,9 +28,9 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -42,7 +42,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
     private static AssetService assetService = SpringContext.getBean(AssetService.class);
-    private static FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+    private static PersonService personService = SpringContext.getBean(PersonService.class);
 
 
     /**
@@ -52,7 +52,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         Asset newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
         Asset oldAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
@@ -96,7 +96,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
      * @param auths
      * @param asset
      */
-    private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, UniversalUser user) {
+    private void setConditionalReadOnlyFields(MaintenanceDocumentAuthorizations auths, Asset asset, Person user) {
         // Apply the rule, when tag number exists and user is not a member of WORKGROUP_CM_SUPER_USERS &
         // WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS
         if (asset.isTagged() & !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS) && !user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ASSET_MERGE_SEPARATE_USERS)) {
@@ -139,7 +139,7 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
 
 
     @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
 
         // If asset is retired then deny "Save", "Submit" and "Approve"
@@ -156,3 +156,4 @@ public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorize
     }
 
 }
+

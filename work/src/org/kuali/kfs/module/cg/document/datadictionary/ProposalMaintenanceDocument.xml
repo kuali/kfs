@@ -240,7 +240,7 @@
           <property name="summaryFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.personName" />
+                    p:name="projectDirector.name" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="proposalPrimaryProjectDirectorIndicator" />
               <bean parent="MaintainableFieldDefinition"
@@ -250,14 +250,14 @@
           <property name="maintainableFields" >
             <list>
               <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.personUserIdentifier"
+                    p:name="projectDirector.principalName"
                     p:required="true"
                     p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="projectDirector.personName"
+                    p:name="projectDirector.name"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="personUniversalIdentifier"
+                    p:name="principalId"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="proposalPrimaryProjectDirectorIndicator" />
@@ -375,3 +375,4 @@
     </property>
   </bean>
 </beans>
+

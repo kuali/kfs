@@ -22,10 +22,10 @@ import java.util.Map;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -42,7 +42,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.rice.kns.bo.user.KualiUser, java.util.List, java.util.List)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -66,7 +66,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         FinancialSystemTransactionalDocumentActionFlags tflags = flags;
@@ -82,7 +82,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      java.util.List)
      */
     @Override
-    protected boolean userOwnsAnyAccountingLine(FinancialSystemUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
         return false;
     }
 
@@ -93,7 +93,7 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -104,9 +104,10 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.module.chart.bo.KfsUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 
 
 }
+

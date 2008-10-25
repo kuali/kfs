@@ -40,9 +40,9 @@ import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -68,7 +68,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
     private KualiDecimal totalOriginalPayrollAmount;
 
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
-    private UniversalUser employee;
+    private Person employee;
     private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
@@ -180,8 +180,8 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * 
      * @return Returns the employee.
      */
-    public UniversalUser getEmployee() {
-        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+    public Person getEmployee() {
+        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, this.getEmplid()).get(0);
     }
 
     /**
@@ -189,7 +189,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * 
      * @param employee The employee to set.
      */
-    public void setEmployee(UniversalUser employee) {
+    public void setEmployee(Person employee) {
         this.employee = employee;
     }
 
@@ -776,3 +776,4 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
         routingInfo.add(accountRoutingData);
     }
 }
+

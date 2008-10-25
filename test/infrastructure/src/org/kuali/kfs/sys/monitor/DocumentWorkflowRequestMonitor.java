@@ -18,17 +18,17 @@ package org.kuali.kfs.sys.monitor;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
     private final Long docHeaderId;
-    private final UniversalUser user;
+    private final Person user;
     private final String actionRequestedCode;
 
-    public DocumentWorkflowRequestMonitor(Long docHeaderId, UniversalUser user, String actionRequestedCode) {
+    public DocumentWorkflowRequestMonitor(Long docHeaderId, Person user, String actionRequestedCode) {
         this.docHeaderId = docHeaderId;
         this.user = user;
         this.actionRequestedCode = actionRequestedCode;
@@ -51,3 +51,4 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
         return false;
     }
 }
+

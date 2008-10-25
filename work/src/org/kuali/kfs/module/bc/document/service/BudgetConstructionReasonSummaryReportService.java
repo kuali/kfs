@@ -26,11 +26,12 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdS
  */
 public interface BudgetConstructionReasonSummaryReportService {
 
-    public void updateReasonSummaryReport(String personUserIdentifier, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
+    public void updateReasonSummaryReport(String principalName, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
     
     
     
-    public Collection<BudgetConstructionOrgReasonSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
+    public Collection<BudgetConstructionOrgReasonSummaryReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
     
     
 }
+

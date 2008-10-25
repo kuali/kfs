@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
     @Override
-    public Map getEditMode(Document d, UniversalUser u) {
+    public Map getEditMode(Document d, Person u) {
 
         Map editModes = new HashMap();
 
@@ -48,7 +48,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         KualiWorkflowDocument workflowDocument = routingFormDocument.getDocumentHeader().getWorkflowDocument();
 
         // Check initiator
-        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPersonUserIdentifier())) {
+        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPrincipalName())) {
             if (workflowDocument.stateIsEnroute()) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
             }
@@ -60,7 +60,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
         // Check personnel
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
-            if (u.getPersonUniversalIdentifier().equals(person.getPersonUniversalIdentifier())) {
+            if (u.getPrincipalId().equals(person.getPrincipalId())) {
                 //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
                 //RoutingFormPersonnel does not have any updatable references                
                 person.refreshNonUpdateableReferences();
@@ -82,15 +82,15 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         }
 
         // Org approvers are view-only
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
 
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
 
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildOtherOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildOtherOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
 
@@ -122,14 +122,14 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
     }
 
 
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
 
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
 
         flags.setCanAcknowledge(false);
 
-        if (!flags.getCanRoute() && routingFormDocument.isUserProjectDirector(user.getPersonUniversalIdentifier()) && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        if (!flags.getCanRoute() && routingFormDocument.isUserProjectDirector(user.getPrincipalId()) && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
             flags.setCanRoute(true);
         }
         // flags.setCanApprove(false);
@@ -143,3 +143,4 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         return flags;
     }
 }
+

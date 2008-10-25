@@ -39,7 +39,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 
 import org.kuali.rice.kew.exception.WorkflowException;
 
-@ConfigureContext(session = UserNameFixture.KHUNTLEY)
+@ConfigureContext(session = UserNameFixture.khuntley)
 public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTestBase {
 
     /**
@@ -254,3 +254,4 @@ public class CustomerCreditMemoDocumentGeneralLedgerPostingTest extends KualiTes
         assertEquals("Receivable Org Ref Id should be " + expectedReceivableOrgRefId + " but is actually " + receivable.getOrganizationReferenceId(), expectedReceivableOrgRefId, receivable.getOrganizationReferenceId());  
     }
 }
+

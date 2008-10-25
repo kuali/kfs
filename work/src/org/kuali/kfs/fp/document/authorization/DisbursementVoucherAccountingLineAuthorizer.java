@@ -24,7 +24,7 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherRuleConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
@@ -37,10 +37,10 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
         Set<String> editableFields = super.getEditableBlocksInReadOnlyLine(accountingDocument, accountingLine, currentUser);
 
         DocumentAuthorizationService documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class);
@@ -72,3 +72,4 @@ public class DisbursementVoucherAccountingLineAuthorizer extends AccountingLineA
         return editableFields;
     }
 }
+

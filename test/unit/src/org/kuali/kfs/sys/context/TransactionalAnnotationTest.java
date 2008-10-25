@@ -25,9 +25,12 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
+import org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kim.dao.proxy.PersonDaoProxy;
+import org.kuali.rice.kim.service.impl.PersonServiceImpl;
 import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
 import org.kuali.rice.kns.service.impl.BusinessObjectServiceImpl;
 import org.kuali.rice.kns.service.impl.KeyValuesServiceImpl;
@@ -49,17 +52,17 @@ public class TransactionalAnnotationTest extends KualiTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionalAnnotationTest.class);
 
-    Map<Class, Boolean> seenClasses = new HashMap();
-    List<Class> excludedClasses;
+    Map<Class<? extends Object>, Boolean> seenClasses = new HashMap<Class<? extends Object>, Boolean>();
+    List<Class<? extends Object>> excludedClasses;
     Map<String, String> doubleAnnotatedTransactionalServices;
     Map<String, String> nonAnnotatedTransactionalServices;
-    Map<String, Class> incorrectlyAnnotatedTransactionalServices;
+    Map<String, Class<? extends Object>> incorrectlyAnnotatedTransactionalServices;
     
     public void setUp() throws Exception {
         super.setUp();
 /* TODO services that are in RICE and not annotated are excluded from the test.
    Annotate these classes */
-        excludedClasses = new ArrayList<Class>();
+        excludedClasses = new ArrayList<Class<? extends Object>>();
         excludedClasses.add( BusinessObjectServiceImpl.class );
         excludedClasses.add( PersistenceServiceImpl.class );
         excludedClasses.add( SubFundGroupServiceImpl.class );
@@ -69,7 +72,9 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         excludedClasses.add( LookupResultsServiceImpl.class );
         excludedClasses.add( PostDataLoadEncryptionServiceImpl.class );
         excludedClasses.add( LookupServiceImpl.class );
-
+        excludedClasses.add( SensitiveDataServiceImpl.class );
+        excludedClasses.add( PersonServiceImpl.class );
+        excludedClasses.add( PersonDaoProxy.class );
     }
 
     public void testTransactionAnnotations() {
@@ -114,14 +119,15 @@ public class TransactionalAnnotationTest extends KualiTestBase {
 
     }
 
+    @SuppressWarnings("deprecation")
     public void getNonAnnotatedTransactionalServices() {
         /* We only want to run getNonAnnotatedTransactionalSerivces once.
          * The tests actually just read the Maps that are generated here.
          */
         if (incorrectlyAnnotatedTransactionalServices != null) return;
-        incorrectlyAnnotatedTransactionalServices = new HashMap();
-        nonAnnotatedTransactionalServices = new HashMap();
-        doubleAnnotatedTransactionalServices = new HashMap();
+        incorrectlyAnnotatedTransactionalServices = new HashMap<String, Class<? extends Object>>();
+        nonAnnotatedTransactionalServices = new HashMap<String, String>();
+        doubleAnnotatedTransactionalServices = new HashMap<String, String>();
        
         String[] beanNames = SpringContext.getBeanNames();
         for (String beanName : beanNames) {
@@ -133,7 +139,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);
             }
             if (bean != null) {
-                Class beanClass = bean.getClass();
+                Class<? extends Object> beanClass = bean.getClass();
                 if (beanClass.getName().startsWith("$Proxy")) {
                     beanClass = AopProxyUtils.getTargetClass(bean);
                 }
@@ -150,7 +156,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         return;
     }
 
-    private boolean isClassAnnotated(String beanName, Class beanClass) {
+    private boolean isClassAnnotated(String beanName, Class<? extends Object> beanClass) {
         boolean hasClassAnnotation = false;
         if (shouldHaveTransaction(beanClass)&& !excludedClasses.contains(beanClass)){
             if (beanClass.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
@@ -188,7 +194,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
      * Recursively seek evidence that a Transaction is necessary by examining the fields of the given class and recursively
      * investigating its superclass.
      */
-    private boolean shouldHaveTransaction(Class beanClass) {
+    private boolean shouldHaveTransaction(Class<? extends Object> beanClass) {
         Boolean result = seenClasses.get(beanClass);
         if (result != null)
             return result;

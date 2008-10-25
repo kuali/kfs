@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -26,7 +26,7 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 
-@ConfigureContext(session = PARKE)
+@ConfigureContext(session = parke)
 public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderPaymentHoldDocumentRule holdRule;
@@ -57,45 +57,46 @@ public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBas
         }
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testPaymentHoldValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);      
         assertTrue(holdRule.processValidation(po));
     }
 
-    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testPaymentHoldValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);        
         assertFalse(holdRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testRemoveHoldValidate_PaymentHold() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_REMOVE_HOLD.generatePO();
         savePO(po);
         assertTrue(removeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testRemoveHoldValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
         assertFalse(removeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testRemoveHoldValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_CLOSE.generatePO();
         savePO(po);
         assertFalse(removeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testRemoveHoldValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_REMOVE_HOLD.generatePO();
         savePO(po);
         assertFalse(removeRule.processValidation(po));
     }
 }
+

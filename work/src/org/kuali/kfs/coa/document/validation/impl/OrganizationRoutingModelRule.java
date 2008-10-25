@@ -23,12 +23,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -271,9 +269,9 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
         // refresh account delegate
         try {
-            delegateModel.setAccountDelegate(SpringContext.getBean(UniversalUserService.class).getUniversalUser(delegateModel.getAccountDelegateUniversalId()));
+            delegateModel.setAccountDelegate(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(delegateModel.getAccountDelegateUniversalId()));
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("User Not Found Exception: " + e);
             }
@@ -281,22 +279,22 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
         // user must exist
         if (delegateModel.getAccountDelegate() == null) {
-            GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
+            GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
             success = false;
         }
 
         if (success) {
-            UniversalUser user = delegateModel.getAccountDelegate();
+            Person user = delegateModel.getAccountDelegate();
 
             // user must be of the allowable statuses (A - Active)
             if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode()).evaluationSucceeds()) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
+                GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
                 success = false;
             }
 
             // user must be of the allowable types (P - Professional)
             if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(Delegate.class, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode()).evaluationSucceeds()) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
+                GlobalVariables.getErrorMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;
             }
         }
@@ -343,3 +341,4 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
 }
+

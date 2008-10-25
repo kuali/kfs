@@ -23,12 +23,12 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
@@ -40,19 +40,19 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
 
         super.canInitiate(documentTypeName, user);
         
-        //  short-circuit to allow KULUSER to initiate documents (for batch of customer loads)
-        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
+        //  short-circuit to allow kuluser to initiate documents (for batch of customer loads)
+        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
             return;
         }
         
         // to initiate, the user must have the organization options set up.
-        FinancialSystemUser chartUser = ValueFinderUtil.getCurrentFinancialSystemUser();
-        String chartCode = chartUser.getChartOfAccountsCode();
-        String orgCode = chartUser.getOrganizationCode();
+        Person chartUser = ValueFinderUtil.getCurrentPerson();
+        String chartCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(chartUser).getChartOfAccountsCode();
+        String orgCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(chartUser).getOrganizationCode();
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartCode);
@@ -71,11 +71,11 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
 
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         Map editModes = super.getEditMode(document, user);
 
         MaintenanceDocument maintDocument = (MaintenanceDocument) document;
@@ -92,17 +92,17 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
 
 
      /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
 
         MaintenanceDocument maintDocument = (MaintenanceDocument) document;
         String maintenanceAction = maintDocument.getNewMaintainableObject().getMaintenanceAction();
 
         //  this is used for batch processing of customer records
-        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
+        if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
            actionFlags.setCanApprove(true);
            actionFlags.setCanBlanketApprove(true);
            actionFlags.setCanAdHocRoute(true);
@@ -130,3 +130,4 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
     }
 
 }
+

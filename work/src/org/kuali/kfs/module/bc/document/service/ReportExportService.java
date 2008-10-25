@@ -25,41 +25,41 @@ public interface ReportExportService {
     /**
      * Rebuilds the account dump maintenance table.
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      */
-    public void updateAccountDump(String personUniversalIdentifier);
+    public void updateAccountDump(String principalId);
     
     /**
      * Retrieves records for organization account dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      * @param fieldSeperator - string to seperate fields 
      * @param textDelimiter - string for text delimiter
      */
-    public StringBuilder buildOrganizationAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter);
+    public StringBuilder buildOrganizationAccountDumpFile(String principalId, String fieldSeperator, String textDelimiter);
     
     /**
      * Retrieves records for organization monthly dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      * @param fieldSeperator - string to seperate fields 
      * @param textDelimiter - string for text delimiter
      */
-    public StringBuilder buildOrganizationMonthlyDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter);
+    public StringBuilder buildOrganizationMonthlyDumpFile(String principalId, String fieldSeperator, String textDelimiter);
     
     /**
      * Retrieves records for organization funding dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      * @param fieldSeperator - string to seperate fields 
      * @param textDelimiter - string for text delimiter
      */
-    public StringBuilder buildOrganizationFundingDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter);
+    public StringBuilder buildOrganizationFundingDumpFile(String principalId, String fieldSeperator, String textDelimiter);
     
     /**
      * Retrieves records for account dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param fieldSeperator
      * @param textDelimiter
      * @param universityFiscalYear
@@ -68,12 +68,12 @@ public interface ReportExportService {
      * @param subAccountNumber
      * @return
      */
-    public StringBuilder buildAccountDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public StringBuilder buildAccountDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
     /**
      * Retrieves records for account monthly dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param fieldSeperator
      * @param textDelimiter
      * @param universityFiscalYear
@@ -82,12 +82,12 @@ public interface ReportExportService {
      * @param subAccountNumber
      * @return
      */
-    public StringBuilder buildAccountMonthlyDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public StringBuilder buildAccountMonthlyDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
     /**
      * Retrieves records for organization funding dump and outputs file based on user preferences
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param fieldSeperator
      * @param textDelimiter
      * @param universityFiscalYear
@@ -96,5 +96,6 @@ public interface ReportExportService {
      * @param subAccountNumber
      * @return
      */
-    public StringBuilder buildAccountFundingDumpFile(String personUniversalIdentifier, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public StringBuilder buildAccountFundingDumpFile(String principalId, String fieldSeperator, String textDelimiter, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }
+

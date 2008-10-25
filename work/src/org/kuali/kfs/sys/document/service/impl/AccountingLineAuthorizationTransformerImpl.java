@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
@@ -46,7 +46,7 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
      * @param newLine is this line a new line or a line already on a document?
      */
     public void transformElements(List<TableJoining> elements, AccountingLine accountingLine, AccountingDocument document, AccountingLineAuthorizer lineAuthorizer, AccountingDocumentAuthorizer documentAuthorizer, boolean newLine) {
-        final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
         removeUnviewableBlocks(elements, lineAuthorizer.getUnviewableBlocks(document, accountingLine, newLine, currentUser));
         
         Map editModesForDocument = documentAuthorizer.getEditMode(document, currentUser);
@@ -117,3 +117,4 @@ public class AccountingLineAuthorizationTransformerImpl implements AccountingLin
         }
     }
 }
+

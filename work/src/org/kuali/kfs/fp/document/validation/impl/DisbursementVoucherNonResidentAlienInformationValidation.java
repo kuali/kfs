@@ -23,7 +23,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -51,7 +51,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         DisbursementVoucherNonResidentAlienTax nonResidentAlienTax = document.getDvNonResidentAlienTax();
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         
-        FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser(); 
+        Person financialSystemUser = GlobalVariables.getUserSession().getPerson(); 
         if (!payeeDetail.isDisbVchrAlienPaymentCode() || !disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser)) {
             return true;
         }
@@ -165,3 +165,4 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
     }
 
 }
+

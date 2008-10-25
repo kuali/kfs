@@ -46,11 +46,11 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
     
     
     
-    public Collection getDataForBuildingReports(Class clazz, String personUserIdentifier, List<String> orderList){
+    public Collection getDataForBuildingReports(Class clazz, String principalName, List<String> orderList){
         
         //build searchCriteria 
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         return budgetConstructionOrganizationReportsService.getBySearchCriteriaOrderByList(clazz, searchCriteria, orderList);
@@ -70,9 +70,9 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, searchCriteria);
     }
 
-    public String getSelectedObjectCodes (String personUserIdentifier){
+    public String getSelectedObjectCodes (String principalName){
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         searchCriteria.put(KFSPropertyConstants.SELECT_FLAG, 1);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
@@ -108,10 +108,10 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionIntendedIncumbent) businessObjectService.findByPrimaryKey(BudgetConstructionIntendedIncumbent.class, searchCriteria);
     }
     
-    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String personUserIdentifier, BudgetConstructionSalaryFunding salaryFunding){
+    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String principalName, BudgetConstructionSalaryFunding salaryFunding){
         
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         searchCriteria.put(KFSPropertyConstants.EMPLID, salaryFunding.getEmplid());
         
         List<String> orderList = new ArrayList();
@@ -123,9 +123,9 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
         return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
     
-    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String personUserIdentifier, String emplid){
+    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String principalName, String emplid){
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         searchCriteria.put(KFSPropertyConstants.EMPLID, emplid);
         
         List<String> orderList = new ArrayList();
@@ -173,3 +173,4 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
     }
     
    }
+

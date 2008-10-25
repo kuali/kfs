@@ -143,7 +143,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @return Returns the personName.
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -152,7 +152,8 @@ public class CertificationRecreateForm extends EffortCertificationForm {
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 }
+

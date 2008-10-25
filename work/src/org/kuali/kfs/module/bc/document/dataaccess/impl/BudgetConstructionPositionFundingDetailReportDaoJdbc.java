@@ -137,8 +137,8 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.delete(0, sqlText.length());
     }
     
-    public void cleanReportsPositionFundingDetailTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsPositionFundingDetailTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -147,22 +147,22 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     /**
      * 
      * build a list of people with salaries at or above the threshold
-     * @param personUserIdentifier--the user requesting the list
+     * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableAboveThreshold(String personUserIdentifier, KualiDecimal thresholdPercent)
+    private void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
         // get rid of any previous reporting data from this user
-        cleanReportsPositionFundingDetailTable(personUserIdentifier);
+        cleanReportsPositionFundingDetailTable(principalName);
         // sum the FTE and amounts into a temporary table
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,principalName);
         // fill the reporting table with only those people who are at or above the threshold
         // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
         // (apparently, creating a new value from a cast doesn't help either)
         Number thresholdValue = thresholdPercent.floatValue();
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(),personUserIdentifier, personUserIdentifier, thresholdValue, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(),principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
         this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
     }
@@ -170,22 +170,22 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     /**
      * 
      * build a list of people with salaries at or below the threshhold
-     * @param personUserIdentifier--the user requesting the list
+     * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    private void updateReportsPositionFundingDetailTableBelowThreshold(String personUserIdentifier, KualiDecimal thresholdPercent)
+    private void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent)
     {
         Guid guid = new Guid();
         String idForSession = guid.toString();
         // get rid of any previous reporting data from this user
-        cleanReportsPositionFundingDetailTable(personUserIdentifier);
+        cleanReportsPositionFundingDetailTable(principalName);
         // sum the FTE and amounts into a temporary table
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,principalName);
         // fill the reporting table with only those people who are at or below the threshold
         // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
         // (apparently, creating a new value from a cast doesn't help either)
         Number thresholdValue = thresholdPercent.floatValue();
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(),personUserIdentifier, personUserIdentifier, thresholdValue, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(),principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
         this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
     }
@@ -193,35 +193,35 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     /**
      * 
      * build a list of all salaries which this user can see
-     * @param personUserIdentifier--the user requesting the list
+     * @param principalName--the user requesting the list
      */
-    private void updateReportsPositionFundingDetailTableWithAllData(String personUserIdentifier)
+    private void updateReportsPositionFundingDetailTableWithAllData(String principalName)
     {
         // get rid of any previous reporting data from this user
-        cleanReportsPositionFundingDetailTable(personUserIdentifier);
+        cleanReportsPositionFundingDetailTable(principalName);
         // dump all the data this user is authorized to report on into the reporting table
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(3).getSQL(), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(3).getSQL(), principalName, principalName);
     }
 
     /**
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao#updateReportsPositionFundingDetailTable(java.lang.String, boolean, boolean, java.lang.Number)
      */
-    public void updateReportsPositionFundingDetailTable(String personUserIdentifier, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent) {
+    public void updateReportsPositionFundingDetailTable(String principalName, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent) {
         // if there is no threshold, just dump everything in and return
         if (! applyAThreshold)
         {
-            updateReportsPositionFundingDetailTableWithAllData(personUserIdentifier);
+            updateReportsPositionFundingDetailTableWithAllData(principalName);
             return;
         }
         // the user wants a threshold--list above or below?
         if (selectOnlyGreaterThanOrEqualToThreshold)
         {
-            updateReportsPositionFundingDetailTableAboveThreshold(personUserIdentifier, thresholdPercent);
+            updateReportsPositionFundingDetailTableAboveThreshold(principalName, thresholdPercent);
         }
         else
         {
-            updateReportsPositionFundingDetailTableBelowThreshold(personUserIdentifier, thresholdPercent);
+            updateReportsPositionFundingDetailTableBelowThreshold(principalName, thresholdPercent);
         }
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
@@ -235,3 +235,4 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     }
 
 }
+

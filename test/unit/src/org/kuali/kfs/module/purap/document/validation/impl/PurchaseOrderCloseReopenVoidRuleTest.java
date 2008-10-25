@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -29,7 +29,7 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 
-@ConfigureContext(session = PARKE)
+@ConfigureContext(session = parke)
 public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderCloseDocumentRule closeRule;
@@ -63,7 +63,7 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         }
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testCloseValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
@@ -78,7 +78,7 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         assertTrue(closeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testCloseValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);         
@@ -93,66 +93,67 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         assertFalse(closeRule.processValidation(po));
     }    
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testCloseValidate_NoPreq() {     
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
         assertFalse(closeRule.processValidation(po));
     }    
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testReopenValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);
         assertTrue(reopenRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testReopenValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
         assertFalse(reopenRule.processValidation(po));
     }
     
-    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testReopenValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);
         assertFalse(reopenRule.processValidation(po));
     }    
     
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testVoidValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
         assertTrue(voidRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testVoidValidate_PendingPrint() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_PENDING_PRINT.generatePO();
         savePO(po);
         assertTrue(voidRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testVoidValidate_InProcess() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_IN_PROCESS.generatePO();
         savePO(po);      
         assertFalse(voidRule.processValidation(po));
     }    
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testVoidValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);      
         assertFalse(voidRule.processValidation(po));
     }    
     
-    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testVoidValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
         assertFalse(voidRule.processValidation(po));
     }    
 }
+

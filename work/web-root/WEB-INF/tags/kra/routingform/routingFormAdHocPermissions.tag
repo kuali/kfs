@@ -79,8 +79,8 @@
                     			  userName="${KualiForm.newAdHocRoutePerson.name}"
                     			  readOnly="${displayReadOnly}" 
                     			  renderOtherFields="true"
-                    			  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
-                    			  lookupParameters="newAdHocRoutePerson.id:personUserIdentifier" />
+                    			  fieldConversions="principalName:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
+                    			  lookupParameters="newAdHocRoutePerson.id:principalName" />
                    	</td>
                    	<td class="infoline"><div align=center>--</div></td>
                    	<td class="infoline"><div align=center>--</div></td>
@@ -99,15 +99,15 @@
 			<c:forEach items="${KualiForm.document.routingFormAdHocPeople}" var="person" varStatus="status">
 				<tr>
                     <td class="datacell center">
-                    	<div align=left>${person.user.personUserIdentifier}</div>
-                    	<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.personUserIdentifier" />
+                    	<div align=left>${person.user.principalName}</div>
+                    	<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.principalName" />
                     </td>
                     <td>${person.user.campusCode}<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.campusCode" /></td>
                     <td>${person.primaryDepartmentCode}</td>
                     <td>
                     	<c:if test="${displayReadOnly}"><html:hidden property="document.routingFormAdHocPerson[${status.index}].permissionCode" /></c:if>
                     	<kul:htmlControlAttribute property="document.routingFormAdHocPerson[${status.index}].permissionCode" attributeEntry="${routingFormAdHocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personUniversalIdentifier" />
+						<html:hidden property="document.routingFormAdHocPerson[${status.index}].principalId" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].addedByPerson" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personAddedTimestamp" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].objectId" />
@@ -265,3 +265,4 @@
         </table>
     </div>
 </kul:tabTop>
+

@@ -105,7 +105,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         int i = 0;
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
-            String id = pd.getPersonUniversalIdentifier();
+            String id = pd.getPrincipalId();
             if (StringUtils.isBlank(id) || !SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(id)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
@@ -129,10 +129,11 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for (T pd : projectDirectors) {
-            String pdEmplStatusCode = pd.getProjectDirector().getUniversalUser().getEmployeeStatusCode();
-            String pdEmplStatusName = pd.getProjectDirector().getUniversalUser().getEmployeeStatus().getName();
+            String pdEmplStatusCode = pd.getProjectDirector().getPerson().getEmployeeStatusCode();
+            // TODO: FIXME
+            //String pdEmplStatusName = pd.getProjectDirector().getPerson().getEmployeeStatus().getName();
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-                String[] errors = { pd.getProjectDirector().getPersonName(), pdEmplStatusCode + " - " + pdEmplStatusName };
+                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + "person status: fix me!" /*pdEmplStatusName*/ };
                 putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
             }
@@ -206,3 +207,4 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
 }
+

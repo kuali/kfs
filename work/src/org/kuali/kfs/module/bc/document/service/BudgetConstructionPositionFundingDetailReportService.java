@@ -26,12 +26,13 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdS
  */
 public interface BudgetConstructionPositionFundingDetailReportService {
 
-    public void updatePositionFundingDetailReport(String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
+    public void updatePositionFundingDetailReport(String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings);
     
     
     
-    public Collection<BudgetConstructionOrgPositionFundingDetailReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgPositionFundingDetailReport> buildReports(Integer universityFiscalYear, String principalName);
  
     
     
 }
+

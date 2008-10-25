@@ -67,11 +67,11 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#initPointOfView(java.lang.String, java.lang.String, java.lang.String, int)
      */
-    public void initPointOfView(String personUserIdentifier, String chartOfAccountsCode, String organizationCode, int currentLevel) {
+    public void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel) {
    
         LOG.debug("initPointOfView() called");
         
-        getSimpleJdbcTemplate().update(initPointOfViewTemplates[0], personUserIdentifier, currentLevel, chartOfAccountsCode, organizationCode);
+        getSimpleJdbcTemplate().update(initPointOfViewTemplates[0], principalName, currentLevel, chartOfAccountsCode, organizationCode);
     }
 
     /**
@@ -79,7 +79,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao#insertChildOrgs(java.lang.String, int)
      */
-    public void insertChildOrgs(String personUserIdentifier, int previousLevel) {
+    public void insertChildOrgs(String principalName, int previousLevel) {
         
         LOG.debug("insertChildOrgs() called");
 
@@ -89,12 +89,12 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
 
             // insert the children of the organizations at the current level for the user
             // and then recursively call on the new level
-            int rowsAffected = getSimpleJdbcTemplate().update(insertChildOrgTemplates[0], personUserIdentifier, currentLevel, personUserIdentifier, previousLevel);
+            int rowsAffected = getSimpleJdbcTemplate().update(insertChildOrgTemplates[0], principalName, currentLevel, principalName, previousLevel);
             if (rowsAffected > 0) {
-                insertChildOrgs(personUserIdentifier, currentLevel);
+                insertChildOrgs(principalName, currentLevel);
             } else {
                 // cleanup by resetting the pull_flag to zero for all
-                getSimpleJdbcTemplate().update(insertChildOrgTemplates[1], personUserIdentifier);
+                getSimpleJdbcTemplate().update(insertChildOrgTemplates[1], principalName);
             }
         } else {
             // overrun problem
@@ -102,3 +102,4 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         }
     }
 }
+

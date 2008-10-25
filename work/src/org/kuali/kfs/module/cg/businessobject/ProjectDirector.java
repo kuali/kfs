@@ -18,13 +18,10 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -33,10 +30,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class ProjectDirector extends PersistableBusinessObjectBase implements Inactivateable {
 
     private static final long serialVersionUID = -8864103362445919041L;
-    private String personUniversalIdentifier;
-    private String personUserIdentifier; // secondary key from user input, not persisted but takes priority over primary key.
-    private UniversalUser universalUser;
+    private String principalId;
+    private String principalName; // secondary key from user input, not persisted but takes priority over primary key.
+    private Person person;
     private boolean active;
+    // These four field were added after the Person was converted to Person.
+    // Person has no setters so we are now storing them locally and deferring to
+    // the person when possible, using the instances one when person is unavailable.
+    private String personName = "";
+    private String personFirstName = "";
+    private String personLastName = "";
+    private String primaryDepartmentCode = "";
 
     /**
      * Default no-arg constructor.
@@ -45,14 +49,14 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @return the {@link UniversalUser} to which the project director refers.
+     * @return the {@link Person} to which the project director refers.
      */
-    public UniversalUser getUniversalUser() {
-        // If personUserIdentifier is not set, then fall back to personUniversalIdentifier.
-        if (personUserIdentifier == null) {
-            universalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+    public Person getPerson() {
+        // If principalName is not set, then fall back to principalId.
+        if (principalName == null) {
+            person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, person);
         }
-        return universalUser;
+        return person;
     }
 
     /**
@@ -61,26 +65,26 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @param personUniversal The personUniversal to set.
      * @deprecated
      */
-    public void setUniversalUser(UniversalUser user) {
-        this.universalUser = user;
+    public void setPerson(Person user) {
+        this.person = user;
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the principalId.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the principalId attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -88,90 +92,76 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universalUser.getUniversalIdentifier", this.getPersonUniversalIdentifier());
+        m.put("person.getUniversalIdentifier", this.getPrincipalId());
         return m;
     }
 
     /**
      * @return the person name
      */
-    public String getPersonName() {
-        UniversalUser u = getUniversalUser();
-        return u == null ? "" : u.getPersonName();
+    public String getName() {
+        Person u = getPerson();
+        return u == null ? personName : u.getName();
     }
 
     /**
      * @param personName the person name.
      */
-    public void setPersonName(String personName) {
-        if (universalUser == null) {
-            universalUser = new UniversalUser();
-        }
-        universalUser.setPersonName(personName);
+    public void setName(String personName) {
+        this.personName = personName;
     }
 
     /**
      * @return the persons first name
      */
-    public String getPersonFirstName() {
-        UniversalUser u = getUniversalUser();
-        return u == null ? "" : u.getPersonFirstName();
+    public String getFirstName() {
+        Person u = getPerson();
+        return u == null ? personFirstName : u.getFirstName();
     }
 
     /**
      * @param personFirstName the persons first name
      */
-    public void setPersonFirstName(String personFirstName) {
-        if (universalUser == null) {
-            universalUser = new UniversalUser();
-        }
-        universalUser.setPersonFirstName(personFirstName);
+    public void setFirstName(String personFirstName) {
+        this.personFirstName = personFirstName;
     }
 
     /**
      * @return the persons last name
      */
-    public String getPersonLastName() {
-        UniversalUser u = getUniversalUser();
-        return u == null ? "" : u.getPersonLastName();
+    public String getLastName() {
+        Person u = getPerson();
+        return u == null ? personLastName : u.getLastName();
     }
 
     /**
      * @param personLastName the persons last name
      */
-    public void setPersonLastName(String personLastName) {
-        if (universalUser == null) {
-            universalUser = new UniversalUser();
-        }
-        universalUser.setPersonName(personLastName);
+    public void setLastName(String personLastName) {
+        this.personLastName = personLastName;
     }
 
     /**
      * @return the userID for the person.
      */
-    public String getPersonUserIdentifier() {
-        if (personUserIdentifier != null) {
-            return personUserIdentifier;
+    public String getPrincipalName() {
+        if (principalName != null) {
+            return principalName;
         }
-        UniversalUser u = getUniversalUser();
-        return u == null ? "" : u.getPersonUserIdentifier();
+        Person u = getPerson();
+        return u == null ? principalName : u.getPrincipalName();
     }
 
     /**
-     * @param personUserIdentifier the userID for the person.
+     * @param principalName the userID for the person.
      */
-    public void setPersonUserIdentifier(String personUserIdentifier) {
-        this.personUserIdentifier = personUserIdentifier;
-        if (personUserIdentifier == null) {
-            universalUser = null;
+    public void setPrincipalName(String principalName) {
+        this.principalName = principalName;
+        if (principalName == null) {
+            person = null;
         }
-        else if (ObjectUtils.isNull(universalUser) || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
-            try {
-                universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(personUserIdentifier);
-            }
-            catch (UserNotFoundException ex) {
-                universalUser = null;
-            }
+        else if (ObjectUtils.isNull(person) || !principalName.equals(person.getPrincipalName())) {
+            person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(principalName);
         }
     }
 
@@ -180,18 +170,15 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @return the primary DepartmentCodee
      */
     public String getPrimaryDepartmentCode() {
-        UniversalUser u = getUniversalUser();
-        return u == null ? "" : u.getPrimaryDepartmentCode();
+        Person u = getPerson();
+        return u == null ? primaryDepartmentCode : u.getPrimaryDepartmentCode();
     }
 
     /**
      * @param personName the primary DepartmentCode.
      */
     public void setPrimaryDepartmentCode(String primaryDepartmentCode) {
-        if (universalUser == null) {
-            universalUser = new UniversalUser();
-        }
-        universalUser.setPrimaryDepartmentCode(primaryDepartmentCode);
+        this.primaryDepartmentCode = primaryDepartmentCode;
     }
 
 
@@ -210,3 +197,5 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     }
 
 }
+
+

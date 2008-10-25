@@ -16,20 +16,20 @@
 
 package org.kuali.kfs.module.ld.businessobject;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Labor business object for PositionFunding
  */
 public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
-    private UniversalUser ledgerPerson;
+    private Person ledgerPerson;
 
     /**
      * Gets the ledgerPerson.
      * 
      * @return Returns the ledgerPerson.
      */
-    public UniversalUser getLedgerPerson() {
+    public Person getLedgerPerson() {
         return ledgerPerson;
     }
 
@@ -38,7 +38,8 @@ public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
      * 
      * @param ledgerPerson The ledgerPerson to set.
      */
-    public void setLedgerPerson(UniversalUser ledgerPerson) {
+    public void setLedgerPerson(Person ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
     }
 }
+

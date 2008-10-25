@@ -32,29 +32,25 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.PersonTaxId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -150,14 +146,14 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(financialDocument);
             // if approval is requested and it is special conditions routing and the user is in a special conditions routing
             // workgroup then the line is accessible
-            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(financialDocument, GlobalVariables.getUserSession().getFinancialSystemUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
+            if (financialDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && dvAuthorizer.isSpecialRouting(financialDocument, GlobalVariables.getUserSession().getPerson()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
                 isAccessible = true;
             }
         }
 
         // report (and log) errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getPerson().getPrincipalName() };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
@@ -195,7 +191,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         // amounts can only decrease
         DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(dvDocument);
-        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getFinancialSystemUser()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
+        if (dvAuthorizer.isSpecialRouting(dvDocument, GlobalVariables.getUserSession().getPerson()) && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
 
             // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
@@ -320,7 +316,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         if(payeeDetail.isEmployee()) {
             LOG.debug("validating employee information");
-            UniversalUser employee = retrieveEmployee(payeeDetail.getDisbVchrEmployeeIdNumber());
+            Person employee = retrieveEmployee(payeeDetail.getDisbVchrEmployeeIdNumber());
             validateEmployeeInformation(employee, dvDocument);
         }
 
@@ -804,7 +800,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, ALIEN_INDICATOR_CHECKED_PARM_NM, documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
         
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(getInitiator(document),KFSConstants.Modules.CHART);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(getInitiator(document),KFSConstants.Modules.CHART);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null)?null:chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
         
         // initiator campus code restrictions
@@ -901,9 +897,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             // if the vendor tax type is SSN, then check the tax number
             if (dvVendor != null && TAX_TYPE_SSN.equals(dvVendor.getVendorHeader().getVendorTaxTypeCode())) {
                 // check ssn against employee table
-                UniversalUser user = retrieveEmployeeBySSN(dvVendor.getVendorHeader().getVendorTaxNumber());
+                Person user = retrieveEmployeeBySSN(dvVendor.getVendorHeader().getVendorTaxNumber());
                 if (user != null) {
-                    uuid = user.getPersonUniversalIdentifier();
+                    uuid = user.getPrincipalId();
                 }
             }
         }
@@ -914,8 +910,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         // If a uuid was found for payee, check it against the initiator uuid
         if (StringUtils.isNotBlank(uuid)) {
-            UniversalUser initUser = getInitiator(document);
-            if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
+            Person initUser = getInitiator(document);
+            if (uuid.equals(initUser.getPrincipalId())) {
                 GlobalVariables.getErrorMap().putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
             }
         }
@@ -980,10 +976,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     /**
      * Validate attributes of an employee payee for the document.
      * 
-     * @param employee An instance of a UniversalUser to be validated.
+     * @param employee An instance of a Person to be validated.
      * @param document Disbursement voucher document being validated.
      */
-    public void validateEmployeeInformation(UniversalUser employee, DisbursementVoucherDocument document) {
+    public void validateEmployeeInformation(Person employee, DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         // check existence of employee
@@ -1183,7 +1179,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (taxGroupName == null) {
             taxGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(taxGroupName);
+        return GlobalVariables.getUserSession().getPerson().isMember(taxGroupName);
     }
 
     /**
@@ -1195,7 +1191,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (travelGroupName == null) {
             travelGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(travelGroupName);
+        return GlobalVariables.getUserSession().getPerson().isMember(travelGroupName);
     }
 
     /**
@@ -1207,7 +1203,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (frnGroupName == null) {
             frnGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(frnGroupName);
+        return GlobalVariables.getUserSession().getPerson().isMember(frnGroupName);
     }
 
     /**
@@ -1219,7 +1215,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (wireTransferGroupName == null) {
             wireTransferGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(wireTransferGroupName);
+        return GlobalVariables.getUserSession().getPerson().isMember(wireTransferGroupName);
     }
 
     /**
@@ -1231,7 +1227,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (adminGroupName == null) {
             adminGroupName = getParameterService().getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
-        return GlobalVariables.getUserSession().getFinancialSystemUser().isMember(adminGroupName);
+        return GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
     }
 
     /**
@@ -1240,12 +1236,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
-    private UniversalUser getInitiator(AccountingDocument document) {
-        UniversalUser initUser = null;
-        try {
-            initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException("Document Initiator not found " + e.getMessage());
+    private Person getInitiator(AccountingDocument document) {
+        Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+        if (initUser == null) {
+            throw new RuntimeException("Document Initiator not found ");
         }
 
         return initUser;
@@ -1277,35 +1271,23 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     }
 
     /**
-     * Retrieves the UniversalUser object from the uuid.
+     * Retrieves the Person object from the uuid.
      * 
      * @param uuid universal user identifier
-     * @return <code>UniversalUser</code>
+     * @return <code>Person</code>
      */
-    private UniversalUser retrieveEmployee(String uuid) {
-        try {
-            return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByAuthenticationUserId(uuid);
-        }
-        catch (UserNotFoundException unfe) {
-            return null; // an error will be given if the employee is null, so no need to rethrow the exception
-        }
+    private Person retrieveEmployee(String uuid) {
+        return SpringContext.getBean(PersonService.class).getPersonByPrincipalName(uuid);
     }
 
     /**
-     * Retrieves UniversalUser from SSN
+     * Retrieves Person from SSN
      * 
      * @param ssnNumber social security number
-     * @return <code>UniversalUser</code>
+     * @return <code>Person</code>
      */
-    private UniversalUser retrieveEmployeeBySSN(String ssnNumber) {
-        PersonTaxId personTaxId = new PersonTaxId(ssnNumber);
-        UniversalUser user = null;
-        try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(personTaxId);
-        } catch (UserNotFoundException e) {
-            LOG.error("User Not Found", e);
-        }
-        return user;
+    private Person retrieveEmployeeBySSN(String ssnNumber) {
+        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnNumber).get(0);
     }
 
     /**
@@ -1325,7 +1307,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return true if the ssn number is a valid employee ssn and the employee is active
      */
     private boolean isActiveEmployeeSSN(String ssnNumber) {
-        UniversalUser employee = retrieveEmployeeBySSN(ssnNumber);
+        Person employee = retrieveEmployeeBySSN(ssnNumber);
         return employee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode());
     }
 
@@ -1348,3 +1330,4 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     }
 
 }
+

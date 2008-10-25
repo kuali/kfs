@@ -64,22 +64,22 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
     /**
      *  remove from the table rows for any previous report requested by this user
      */
-    private void cleanReportsList2PLGTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_2plg_list_mt", "PERSON_UNVL_ID", personUserIdentifier);
+    private void cleanReportsList2PLGTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_2plg_list_mt", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao#updateReportsList2PLGTable(java.lang.String)
      */
-    public void updateList2PLGReportsTable(String personUserIdentifier) {
+    public void updateList2PLGReportsTable(String principalName) {
         // get rid of any rows from a previous report requested by this user
-        cleanReportsList2PLGTable(personUserIdentifier);
+        cleanReportsList2PLGTable(principalName);
         // fetch the constant naming the 2PLG object class
         ArrayList<String> stringToInsert = new ArrayList<String>(1); 
         stringToInsert.add(BudgetConstructionConstants.OBJECT_CODE_2PLG);
         // fill the table
-        getSimpleJdbcTemplate().update(updateReportsList2PLGTable.get(0).getSQL(stringToInsert), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsList2PLGTable.get(0).getSQL(stringToInsert), principalName, principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -92,3 +92,4 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
     }
 
 }
+

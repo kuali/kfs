@@ -46,7 +46,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
     private BatchExtractService batchExtractService;
     private BusinessObjectService boService;
 
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -104,3 +104,4 @@ public class BatchExtractServiceTest extends BatchTestBase {
         assertEquals(9, preTaggablePOAccounts.size());
     }
 }
+

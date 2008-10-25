@@ -31,7 +31,7 @@ import org.apache.struts.action.ActionMessage;
 import org.kuali.kfs.pdp.GeneralUtilities;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.web.struts.CustomerBankForm;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -75,7 +75,7 @@ public class CustomerProfileForm extends ActionForm {
     private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
     private String id; // CUST_ID
     private Timestamp lastUpdate; // LST_UPDT_TS
-    private UniversalUser lastUpdateUser;
+    private Person lastUpdateUser;
     private String lastUpdateUserId; // LST_UPDT_USR_ID
     private Boolean nraReview; // CUST_NRA_RVW_IND
     private String version; // VER_NBR
@@ -674,7 +674,7 @@ public class CustomerProfileForm extends ActionForm {
     /**
      * @return Returns the lastUpdateUser.
      */
-    public UniversalUser getLastUpdateUser() {
+    public Person getLastUpdateUser() {
         return lastUpdateUser;
     }
 
@@ -989,7 +989,7 @@ public class CustomerProfileForm extends ActionForm {
     /**
      * @param lastUpdateUser The lastUpdateUser to set.
      */
-    public void setLastUpdateUser(UniversalUser lastUpdateUser) {
+    public void setLastUpdateUser(Person lastUpdateUser) {
         this.lastUpdateUser = lastUpdateUser;
     }
 
@@ -1154,3 +1154,4 @@ public class CustomerProfileForm extends ActionForm {
         this.relieveLiabilities = relieveLiabilities;
     }
 }
+

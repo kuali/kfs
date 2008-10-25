@@ -46,7 +46,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             
             // route it
             try {
-                GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
+                GlobalVariables.setUserSession(new UserSession("khuntley"));
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
@@ -63,7 +63,7 @@ public class PurapMassRequisitionStep extends AbstractStep {
             RequisitionDocument reqDoc = populateNonQuantityDocument();
             // route it
             try {
-                GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
+                GlobalVariables.setUserSession(new UserSession("khuntley"));
                 documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
             }
             catch (WorkflowException e) {
@@ -246,3 +246,4 @@ public class PurapMassRequisitionStep extends AbstractStep {
     }
 
 }
+

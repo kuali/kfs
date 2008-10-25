@@ -27,15 +27,15 @@
 			<tr>
 				<th scope="row">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}" noColon="true" />
+						<kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.name']}" noColon="true" />
 					</div>
 				</th>
 			    <td>
 			    	<kul:inquiry 
-						boClassName="org.kuali.rice.kns.bo.user.UniversalUser" 
-						keyValues="personPayrollIdentifier=${document.emplid}&personUniversalIdentifier=${document.employee.personUniversalIdentifier}" 
+						boClassName="org.kuali.rice.kim.bo.Person" 
+						keyValues="personPayrollIdentifier=${document.emplid}&principalId=${document.employee.principalId}" 
 						render="true">
-						${document.employee.personName}
+						${document.employee.name}
 					</kul:inquiry>
 				</td>
 			
@@ -84,3 +84,4 @@
 	     </tbody></table>
 	</div>
 </kul:tab>
+

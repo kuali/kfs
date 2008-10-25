@@ -40,9 +40,9 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
 
     public void setAccountsPayableProcessorIdentifier(String accountsPayableProcessorIdentifier);
 
-    public String getLastActionPerformedByUniversalUserId();
+    public String getLastActionPerformedByPersonId();
 
-    public void setLastActionPerformedByUniversalUserId(String lastActionPerformedByUniversalUserId);
+    public void setLastActionPerformedByPersonId(String lastActionPerformedByPersonId);
 
     public String getProcessingCampusCode();
 
@@ -135,3 +135,4 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public abstract boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PurApItemUseTax offsetUseTax); 
 
 }
+

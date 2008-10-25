@@ -17,7 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,13 +35,13 @@ import org.kuali.kfs.sys.businessobject.Options;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class AccountRuleTest extends ChartRuleTestBase {
 
     private class Accounts {
@@ -157,8 +157,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
         private class UserIds {
             private static final String SUPER1 = "HEAGLE";
-            private static final String GOOD1 = "KCOPLEY";
-            private static final String GOOD2 = "KHUNTLEY";
+            private static final String GOOD1 = "kcopley";
+            private static final String GOOD2 = "khuntley";
         }
 
         private class IndirectCostRecoveryTypeCode {
@@ -166,9 +166,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
         }
     }
 
-    private static UniversalUser FO;
-    private static UniversalUser SUPERVISOR;
-    private static UniversalUser MANAGER;
+    private static Person FO;
+    private static Person SUPERVISOR;
+    private static Person MANAGER;
     Account newAccount;
 
     /**
@@ -405,11 +405,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
-//    private UniversalUser getKualiUserByUserName(String userName) {
+//    private Person getKualiUserByUserName(String userName) {
 //        AuthenticationUserId userId = new AuthenticationUserId(userName);
-//        UniversalUser user = null;
+//        Person user = null;
 //        try {
-//            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(userId);
+//            user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(userId);
 //        }
 //        catch (UserNotFoundException e) {
 //            assertTrue("An Exception should not be thrown.", false);
@@ -575,7 +575,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user = new UniversalUser();
+//        Person user = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //        String fieldName = "userId";
 //
 //        // User w/ T status and N type, should fail
@@ -596,7 +596,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user = new UniversalUser();
+//        Person user = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //        String fieldName = "userId";
 //
 //        // User w/ A status and N type, should fail
@@ -616,7 +616,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user = new UniversalUser();
+//        Person user = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //        String fieldName = "userId";
 //
 //        // User w/ T status and N type, should fail
@@ -636,7 +636,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user = new UniversalUser();
+//        Person user = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //        String fieldName = "userId";
 //
 //        // User w/ T status and N type, should fail
@@ -655,8 +655,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user1 = new UniversalUser();
-//        UniversalUser user2 = new UniversalUser();
+//        Person user1 = new org.kuali.rice.kim.bo.impl.PersonImpl();
+//        Person user2 = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //
 //        // both null
 //        result = rule.areTwoUsersTheSame(null, null);
@@ -671,8 +671,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user1 = new UniversalUser();
-//        UniversalUser user2 = new UniversalUser();
+//        Person user1 = new org.kuali.rice.kim.bo.impl.PersonImpl();
+//        Person user2 = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //
 //        // user1 null, user2 not null
 //        result = rule.areTwoUsersTheSame(user1, null);
@@ -687,8 +687,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user1 = new UniversalUser();
-//        UniversalUser user2 = new UniversalUser();
+//        Person user1 = new org.kuali.rice.kim.bo.impl.PersonImpl();
+//        Person user2 = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //
 //        // user1 not null, user2 null
 //        result = rule.areTwoUsersTheSame(null, user2);
@@ -703,18 +703,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user1 = new UniversalUser();
-//        UniversalUser user2 = new UniversalUser();
+//        Person user1 = new org.kuali.rice.kim.bo.impl.PersonImpl();
+//        Person user2 = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //
 //        // both users non-null, both populated with same UniversalID
-//        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-//        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user1.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user1.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
 //        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-//        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
-//        user2.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-//        user2.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user1.setName(Accounts.User.AhlersEsteban.NAME);
+//        user2.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user2.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
 //        user2.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-//        user2.setPersonName(Accounts.User.AhlersEsteban.NAME);
+//        user2.setName(Accounts.User.AhlersEsteban.NAME);
 //        result = rule.areTwoUsersTheSame(user1, user2);
 //        assertEquals("User1 and User2 are same person, diff objects, result true", true, result);
 //
@@ -727,18 +727,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
 //        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 //        boolean result;
 //
-//        UniversalUser user1 = new UniversalUser();
-//        UniversalUser user2 = new UniversalUser();
+//        Person user1 = new org.kuali.rice.kim.bo.impl.PersonImpl();
+//        Person user2 = new org.kuali.rice.kim.bo.impl.PersonImpl();
 //
 //        // both users non-null, each different people
-//        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
-//        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+//        user1.setPrincipalId(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+//        user1.setPrincipalName(Accounts.User.AhlersEsteban.USER_ID);
 //        user1.setPersonPayrollIdentifier(Accounts.User.AhlersEsteban.EMP_ID);
-//        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
-//        user2.setPersonUniversalIdentifier(Accounts.User.PhamAnibal.UNIVERSAL_ID);
-//        user2.setPersonUserIdentifier(Accounts.User.PhamAnibal.USER_ID);
+//        user1.setName(Accounts.User.AhlersEsteban.NAME);
+//        user2.setPrincipalId(Accounts.User.PhamAnibal.UNIVERSAL_ID);
+//        user2.setPrincipalName(Accounts.User.PhamAnibal.USER_ID);
 //        user2.setPersonPayrollIdentifier(Accounts.User.PhamAnibal.EMP_ID);
-//        user2.setPersonName(Accounts.User.PhamAnibal.NAME);
+//        user2.setName(Accounts.User.PhamAnibal.NAME);
 //        result = rule.areTwoUsersTheSame(user1, user2);
 //        assertEquals("User1 and User2 are different persons, result should be false", false, result);
 //
@@ -1642,3 +1642,4 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorDoesNotExist("accountGuideline.accountPurposeText", KFSKeyConstants.ERROR_MAX_LENGTH);
     }
 }
+

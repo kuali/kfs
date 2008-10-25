@@ -50,7 +50,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -132,7 +132,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void generateExpiredOrClosedAccountWarning(AccountsPayableDocument document) {
 
         // get user
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
 
         // get parameter to see if fiscal officers may see the continuation account warning
         String showContinuationAccountWaringFO = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
@@ -412,7 +412,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @param user      The current user.
      * @return          boolean true if the user is a fiscal officer.
      */
-    private boolean isFiscalUser(AccountsPayableDocument document, UniversalUser user) {
+    private boolean isFiscalUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
         if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(document.getStatusCode()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
@@ -639,3 +639,4 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
 }
+

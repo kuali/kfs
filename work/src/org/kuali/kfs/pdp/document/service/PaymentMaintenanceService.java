@@ -20,7 +20,7 @@ package org.kuali.kfs.pdp.document.service;
 
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.exception.PdpException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -37,7 +37,7 @@ public interface PaymentMaintenanceService {
      * @param user The user that cancels the payment
      * @return true if cancel payment succesful, false otherwise
      */
-    public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user);
+    public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user);
 
     /**
      * This method holds pending payment of the given payment id if the following rules apply. - Payment status
@@ -46,7 +46,7 @@ public interface PaymentMaintenanceService {
      * @param note Change note text entered by user.
      * @param user The user that holds the payment
      */
-    public boolean holdPendingPayment(Integer paymentGroupId, String note, UniversalUser user);
+    public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user);
 
     /**
      * This method removes holds on pending payments of the given payment id if the following rules
@@ -56,7 +56,7 @@ public interface PaymentMaintenanceService {
      * @param note  Change note text entered by user.
      * @param user the user that removes hold on payment
      */
-    public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, UniversalUser user);
+    public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user);
 
     /**
      * This method cancels all disbursements with the same disbursment number as that of the given payment id
@@ -66,7 +66,7 @@ public interface PaymentMaintenanceService {
      * @param note Change note text entered by user.
      * @param user The user that cancels the disbursement
      */
-    public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user);
+    public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user);
 
     /**
      * This method cancels and re-opens all disbursements with the same disbursment number as that of
@@ -75,7 +75,7 @@ public interface PaymentMaintenanceService {
      * @param changeText Change note text entered by user.
      * @param user The user that cancels/reissues disbursement
      */
-    public boolean cancelReissueDisbursement(Integer paymentGroupId, String changeText, UniversalUser user);
+    public boolean cancelReissueDisbursement(Integer paymentGroupId, String changeText, Person user);
 
     /**
      * This method changes the immediate flag
@@ -83,5 +83,6 @@ public interface PaymentMaintenanceService {
      * @param changeText the change text
      * @param user the user that changes the immediate flag
      */
-    public void changeImmediateFlag(Integer paymentGroupId, String changeText, UniversalUser user);
+    public void changeImmediateFlag(Integer paymentGroupId, String changeText, Person user);
 }
+

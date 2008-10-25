@@ -17,7 +17,7 @@
     <property name="objectLabel" value="Security" />
     <property name="attributes" >
       <list>
-        <ref bean="Security-kualiUser.personUniversalIdentifier" />
+        <ref bean="Security-kualiUser.principalId" />
       </list>
     </property>
   </bean>
@@ -25,10 +25,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Security-kualiUser.personUniversalIdentifier" parent="Security-kualiUser.personUniversalIdentifier-parentBean" />
+  <bean id="Security-kualiUser.principalId" parent="Security-kualiUser.principalId-parentBean" />
 
-  <bean id="Security-kualiUser.personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="kualiUser.personUniversalIdentifier" />
+  <bean id="Security-kualiUser.principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="kualiUser.principalId" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Kuali Universal User ID" />
     <property name="shortLabel" value="UniversalID" />
@@ -58,7 +58,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="kualiUser.personUniversalIdentifier" />
+                    p:attributeName="kualiUser.principalId" />
             </list>
           </property>
         </bean>
@@ -78,7 +78,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>kualiUser.personUniversalIdentifier</value>
+            <value>kualiUser.principalId</value>
           </list>
         </property>
       </bean>
@@ -87,14 +87,15 @@
       <list>
         <bean parent="FieldDefinition"
               p:required="true"
-              p:attributeName="kualiUser.personUniversalIdentifier" />
+              p:attributeName="kualiUser.principalId" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="kualiUser.personUniversalIdentifier" />
+              p:attributeName="kualiUser.principalId" />
       </list>
     </property>
   </bean>
 </beans>
+

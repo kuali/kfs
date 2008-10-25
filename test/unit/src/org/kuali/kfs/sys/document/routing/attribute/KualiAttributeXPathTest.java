@@ -44,7 +44,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE_XSTREAMSAFE = "wf:xstreamsafe('"+KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE+"')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE = "wf:xstreamsafe('"+KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET+"')";
     private static final String KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
-    private static final String KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "kualiTransactionalDocumentInformation/documentInitiator/universalUser/student" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
+    private static final String KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "kualiTransactionalDocumentInformation/documentInitiator/person/student" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
 
     public void testKualiSubFundGroupAttribute_TransferOfFunds1() throws IOException, InvalidXmlException, XPathExpressionException {
 
@@ -164,3 +164,4 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         assertEquals("", xpathResult);
     }
 }
+

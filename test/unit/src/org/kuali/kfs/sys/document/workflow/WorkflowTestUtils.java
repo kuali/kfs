@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -66,10 +66,11 @@ public class WorkflowTestUtils {
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatuses + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
     }
 
-    public static void waitForApproveRequest(Long docHeaderId, UniversalUser user) throws Exception {
-        LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPersonUserIdentifier() + ")");
+    public static void waitForApproveRequest(Long docHeaderId, Person user) throws Exception {
+        LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ")");
         DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, KEWConstants.ACTION_REQUEST_APPROVE_REQ);
-        Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPersonUserIdentifier() + ") timed out", ChangeMonitor.waitUntilChange(monitor, 240, 5));
+        Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ") timed out", ChangeMonitor.waitUntilChange(monitor, 240, 5));
     }
 
 }
+

@@ -59,7 +59,7 @@ public class SalaryExpenseTransferAdminWorkGroupValidation extends GenericValida
         String adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM);
         
         try {
-            isAdmin = GlobalVariables.getUserSession().getUniversalUser().isMember(adminGroupName);
+            isAdmin = GlobalVariables.getUserSession().getPerson().isMember(adminGroupName);
         }
         catch (Exception e) {
                 throw new RuntimeException ("Workgroup " + LaborConstants.SalaryExpenseTransfer.SET_ADMIN_WORKGROUP_PARM_NM + " not found", e) ;
@@ -83,3 +83,4 @@ public class SalaryExpenseTransferAdminWorkGroupValidation extends GenericValida
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
 }
+

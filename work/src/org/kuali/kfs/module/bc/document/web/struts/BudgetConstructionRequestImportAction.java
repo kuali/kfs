@@ -35,7 +35,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
@@ -75,14 +75,14 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
             return mapping.findForward("import_export");
         }
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-        String personUniversalIdentifier = user.getPersonUniversalIdentifier();
+        Person user = GlobalVariables.getUserSession().getPerson();
+        String principalId = user.getPrincipalId();
         Date startTime = new Date();
         messageList.add("Import run started " + dateFormatter.format(startTime));
         messageList.add(" ");
         messageList.add("Text file load phase - parsing");
         
-        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), personUniversalIdentifier, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType(), budgetYear);
+        List<String> parsingErrors = budgetRequestImportService.processImportFile(budgetConstructionImportForm.getFile().getInputStream(), principalId, getFieldSeparator(budgetConstructionImportForm), getTextFieldDelimiter(budgetConstructionImportForm), budgetConstructionImportForm.getFileType(), budgetYear);
      
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (!parsingErrors.isEmpty()) {
@@ -97,7 +97,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
         messageList.add(" ");
         messageList.add("Validate data phase");
         
-        List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear, personUniversalIdentifier);
+        List<String> dataValidationErrorList = budgetRequestImportService.validateData(budgetYear, principalId);
 
         if (!dataValidationErrorList.isEmpty()) {
             messageList.add("Errors found during data validation");
@@ -159,3 +159,4 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
     }
     
 }
+

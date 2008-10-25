@@ -22,28 +22,29 @@ public interface BudgetConstructionReasonStatisticsReportDao {
     /**
      *  clears any previous report data for the current user out of the reason statistics report table
      * 
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      */
-    public void cleanReportsReasonStatisticsTable(String personUserIdentifier);
+    public void cleanReportsReasonStatisticsTable(String principalName);
 
 
     /**
      * 
      * report salary reason statistics for people at or above or at or below a given threshold percent
-     * @param personUserIdentifier--the user running this report
+     * @param principalName--the user running this report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are building a budget
      * @param reportIncreasesAtOrAboveTheThreshold--true if we report increases at or above the threshold, false otherwise
      * @param thresholdPercent--the threshold percent (fraction times 100) increase
      */
-    public void updateReasonStatisticsReportsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent);
+    public void updateReasonStatisticsReportsWithAThreshold(String principalName, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent);
     
     /**
      * 
      * report salary reason statistics for everyone
-     * @param personUserIdentifier--the user running this report
+     * @param principalName--the user running this report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are building a budget
      */
-    public void updateReasonStatisticsReportsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear);
+    public void updateReasonStatisticsReportsWithoutAThreshold(String principalName, Integer previousFiscalYear);
 
 
 }
+

@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -75,9 +75,9 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     private Chart chartOfAccounts;
     private Org organization;
-    private UniversalUser hrmsPersonnelApproverUniversal;
+    private Person hrmsPersonnelApproverUniversal;
     private Campus hrmsIuCampus;
-    private UniversalUser fiscalApproverUniversal;
+    private Person fiscalApproverUniversal;
 
     /**
      * Default constructor.
@@ -917,8 +917,8 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
         this.organization = organization;
     }
 
-    public UniversalUser getHrmsPersonnelApproverUniversal() {
-        hrmsPersonnelApproverUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
+    public Person getHrmsPersonnelApproverUniversal() {
+        hrmsPersonnelApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
         return hrmsPersonnelApproverUniversal;
     }
 
@@ -928,7 +928,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @param hrmsPersonnelApproverUniversal The hrmsPersonnelApproverUniversal to set.
      * @deprecated
      */
-    public void setHrmsPersonnelApproverUniversal(UniversalUser hrmsPersonnelApproverUniversal) {
+    public void setHrmsPersonnelApproverUniversal(Person hrmsPersonnelApproverUniversal) {
         this.hrmsPersonnelApproverUniversal = hrmsPersonnelApproverUniversal;
     }
 
@@ -951,8 +951,8 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
         this.hrmsIuCampus = hrmsIuCampus;
     }
 
-    public UniversalUser getFiscalApproverUniversal() {
-        fiscalApproverUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
+    public Person getFiscalApproverUniversal() {
+        fiscalApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
         return fiscalApproverUniversal;
     }
 
@@ -962,7 +962,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @param fiscalApproverUniversal The fiscalApproverUniversal to set.
      * @deprecated
      */
-    public void setFiscalApproverUniversal(UniversalUser fiscalApproverUniversal) {
+    public void setFiscalApproverUniversal(Person fiscalApproverUniversal) {
         this.fiscalApproverUniversal = fiscalApproverUniversal;
     }
 
@@ -976,3 +976,4 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
         return m;
     }
 }
+

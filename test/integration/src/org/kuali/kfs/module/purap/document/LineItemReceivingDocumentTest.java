@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Used to create and test populated Receiving Line Documents of various kinds. 
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class LineItemReceivingDocumentTest extends KualiTestBase {
     public static final Class<ReceivingLineDocument> DOCUMENT_CLASS = ReceivingLineDocument.class;
 
@@ -54,7 +54,7 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         return 0;
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+    @ConfigureContext(session = parke, shouldCommitTransactions=false)
     public final void testRouteDocument() throws Exception {
         //create PO
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
@@ -97,3 +97,4 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
     }
 
 }
+

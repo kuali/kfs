@@ -21,7 +21,8 @@ public interface BudgetConstructionList2PLGReportDao {
     /**
      *  updates the table for the report which lists general ledger rows which do not balance with the corresponding detailed salary rows.  the amount of the difference is in an object class called '2PLG'.
      * 
-     * @param personUserIdentifier--the user requesting this report
+     * @param principalName--the user requesting this report
      */
-    public void updateList2PLGReportsTable(String personUserIdentifier);
+    public void updateList2PLGReportsTable(String principalName);
 }
+

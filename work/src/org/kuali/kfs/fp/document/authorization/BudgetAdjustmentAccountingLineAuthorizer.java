@@ -20,7 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
@@ -32,10 +32,10 @@ public class BudgetAdjustmentAccountingLineAuthorizer extends AccountingLineAuth
 
     /**
      * Overridden to make base amount read only if it is not available to be edited for the given fiscal year 
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getReadOnlyBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getReadOnlyBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser) {
+    public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         Set<String> readOnlyBlocks = super.getReadOnlyBlocks(accountingDocument, accountingLine, newLine, currentUser);
         if (!SpringContext.getBean(FiscalYearFunctionControlService.class).isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) accountingDocument).getPostingYear())) {
             readOnlyBlocks.add(getBaseAmountPropertyName());
@@ -50,3 +50,4 @@ public class BudgetAdjustmentAccountingLineAuthorizer extends AccountingLineAuth
         return "baseBudgetAdjustmentAmount";
     }
 }
+

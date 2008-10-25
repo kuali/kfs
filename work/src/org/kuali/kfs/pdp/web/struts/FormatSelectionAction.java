@@ -37,7 +37,7 @@ import org.kuali.kfs.pdp.businessobject.SecurityRecord;
 import org.kuali.kfs.pdp.service.FormatService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -64,7 +64,7 @@ public class FormatSelectionAction extends BaseAction {
 
         HttpSession session = request.getSession();
 
-        UniversalUser user = getUser(request);
+        Person user = getUser(request);
         FormatSelection fs = formatService.getDataForFormat(user);
 
         // Get the user's campus
@@ -127,3 +127,4 @@ public class FormatSelectionAction extends BaseAction {
         parameterService = ps;
     }
 }
+

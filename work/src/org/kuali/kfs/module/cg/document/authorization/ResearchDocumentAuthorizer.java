@@ -36,11 +36,11 @@ import org.kuali.rice.kew.dto.WorkgroupDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.AuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowGroupService;
@@ -52,7 +52,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    protected String getAdHocEditMode(ResearchDocument researchDocument, UniversalUser u) {
+    protected String getAdHocEditMode(ResearchDocument researchDocument, Person u) {
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
@@ -60,7 +60,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         KualiWorkflowDocument workflowDocument = researchDocument.getDocumentHeader().getWorkflowDocument();
 
         // Check ad-hoc user permissions
-        AdhocPerson budgetAdHocPermission = permissionsService.getAdHocPerson(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
+        AdhocPerson budgetAdHocPermission = permissionsService.getAdHocPerson(researchDocument.getDocumentNumber(), u.getPrincipalId());
         if (budgetAdHocPermission != null) {
             if (CGConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -73,7 +73,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         // check ad-hoc workgroup permissions
         List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
         WorkflowInfo info2 = new WorkflowInfo();
-        List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class).getUsersGroups(u);
+        List<KimGroup> personGroups = (List<KimGroup>)org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonGroups(u, "KFS");
 
         for (AdhocWorkgroup adhocWorkgroup : adhocWorkgroups) {
             WorkgroupDTO workgroup;
@@ -85,7 +85,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
             }
 
             if (!ObjectUtils.isNull(workgroup)) {
-                if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+                if (kimGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
                     if (adhocWorkgroup.getPermissionCode().equals(CGConstants.PERMISSION_MOD_CODE)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
                         break;
@@ -107,7 +107,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
                 ActionRequestDTO request = (ActionRequestDTO) requests[i];
                 if (request.isWorkgroupRequest()) {
                     WorkgroupDTO workgroup = request.getWorkgroupDTO();
-                    if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
+                    if (kimGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                         break;
                     }
@@ -119,11 +119,11 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         }
 
         // Check ad-hoc org permissions (mod first, then read)
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
 
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(CGConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
 
@@ -174,8 +174,8 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
         return editModeMap;
     }
 
-    private boolean kualiGroupsContainWorkgroup(String workgroupId, List<KualiGroup> groups) {
-        for (KualiGroup group : groups) {
+    private boolean kimGroupsContainWorkgroup(String workgroupId, List<KimGroup> groups) {
+        for (KimGroup group : groups) {
             if (group.getGroupName().equals(workgroupId)) {
                 return true;
             }
@@ -190,7 +190,7 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
      * @param user
      * @return true if the given user is allowed to modify documents of the given document type
      */
-    public boolean canModify(String documentTypeName, UniversalUser user) {
+    public boolean canModify(String documentTypeName, Person user) {
         return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
     }
 
@@ -201,7 +201,8 @@ public class ResearchDocumentAuthorizer extends FinancialSystemTransactionalDocu
      * @param user
      * @return true if the given user is allowed to view documents of the given document type
      */
-    public boolean canView(String documentTypeName, UniversalUser user) {
+    public boolean canView(String documentTypeName, Person user) {
         return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
     }
 }
+

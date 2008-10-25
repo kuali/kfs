@@ -113,8 +113,8 @@
     </bean>
 
     <bean id="projectDirectorService" class="org.kuali.kfs.module.cg.service.impl.ProjectDirectorServiceImpl">
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -156,11 +156,11 @@
         <property name="cfdaService">
             <ref bean="cfdaService" />
         </property>
-        <property name="kualiGroupService">
-            <ref bean="kualiGroupService" />
+        <property name="groupService">
+            <ref bean="kimGroupService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="mailService">
             <ref bean="mailService" />
@@ -184,11 +184,11 @@
         <property name="closeService">
             <ref bean="closeService" />
         </property>
-        <property name="kualiGroupService">
-            <ref bean="kualiGroupService" />
+        <property name="groupService">
+            <ref bean="kimGroupService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="mailService">
             <ref bean="mailService" />
@@ -379,3 +379,4 @@
         </property>
     </bean>
 </beans>
+

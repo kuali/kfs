@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -49,7 +49,7 @@ import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 
-@ConfigureContext(session = APPLETON)
+@ConfigureContext(session = appleton)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
 
     CreditMemoDocument creditMemo;
@@ -561,3 +561,4 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rule.verifyAccountingStringsBetween0And100Percent(accountingLine,PurapPropertyConstants.ACCOUNT_LINE_PERCENT,"1"));
     }
 }
+

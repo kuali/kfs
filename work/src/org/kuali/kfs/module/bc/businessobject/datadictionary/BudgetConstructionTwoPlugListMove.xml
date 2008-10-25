@@ -22,7 +22,7 @@
         <ref bean="BudgetConstructionTwoPlugListMove-chartOfAccountsCode" />
         <ref bean="BudgetConstructionTwoPlugListMove-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionTwoPlugListMove-organizationCode" />
-        <ref bean="BudgetConstructionTwoPlugListMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionTwoPlugListMove-principalId" />
         <ref bean="BudgetConstructionTwoPlugListMove-subAccountNumber" />
       </list>
     </property>
@@ -121,10 +121,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionTwoPlugListMove-personUniversalIdentifier" parent="BudgetConstructionTwoPlugListMove-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionTwoPlugListMove-principalId" parent="BudgetConstructionTwoPlugListMove-principalId-parentBean" />
 
-  <bean id="BudgetConstructionTwoPlugListMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionTwoPlugListMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -136,8 +136,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionTwoPlugListMove-subAccountNumber" parent="BudgetConstructionTwoPlugListMove-subAccountNumber-parentBean" />
 
@@ -183,7 +183,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="subAccountNumber" />
             </list>
@@ -218,7 +218,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>
@@ -236,10 +236,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
       </list>
     </property>
   </bean>
 </beans>
+

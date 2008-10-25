@@ -131,11 +131,11 @@ public class BudgetXml {
             projectDirectorElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
         }
         else if (budget.getProjectDirector() != null) {
-            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(budget.getProjectDirector().getUniversalUser().getPersonFirstName()));
+            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(budget.getProjectDirector().getPerson().getFirstName()));
 
-            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(budget.getProjectDirector().getUniversalUser().getPersonLastName()));
+            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(budget.getProjectDirector().getPerson().getLastName()));
 
-            projectDirectorElement.setAttribute("USER_ID", ObjectUtils.toString(budget.getProjectDirector().getUniversalUser().getPersonEmailAddress()));
+            projectDirectorElement.setAttribute("USER_ID", ObjectUtils.toString(budget.getProjectDirector().getPerson().getEmailAddress()));
         }
 
         return projectDirectorElement;
@@ -551,7 +551,7 @@ public class BudgetXml {
             Element personElement = xmlDoc.createElement("PERSON");
 
             Element nameElement = xmlDoc.createElement("NAME");
-            nameElement.appendChild(xmlDoc.createTextNode(budgetOverviewPersonnelHelper.getPersonName()));
+            nameElement.appendChild(xmlDoc.createTextNode(budgetOverviewPersonnelHelper.getName()));
             personElement.appendChild(nameElement);
 
             Element roleElement = xmlDoc.createElement("ROLE");
@@ -852,3 +852,4 @@ public class BudgetXml {
         return modularBudgetElement;
     }
 }
+

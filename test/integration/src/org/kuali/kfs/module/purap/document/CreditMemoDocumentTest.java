@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.purap.document;
 
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RJWEISS;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 /**
  * This class is used to create and test populated CreditMemo Documents of various kinds.
  */
-@ConfigureContext(session = APPLETON)
+@ConfigureContext(session = appleton)
 public class CreditMemoDocumentTest extends KualiTestBase {
     public static final Class<CreditMemoDocument> DOCUMENT_CLASS = CreditMemoDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
@@ -83,13 +83,13 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         creditMemoDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(creditMemoDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public final void testSaveDocument() throws Exception {       
         creditMemoDocument = buildSimpleDocument();       
         creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");
@@ -97,7 +97,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testSaveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public final CreditMemoDocument routeDocument(PaymentRequestDocument preqDocument) throws Exception {
         creditMemoDocument = buildSimpleDocument();
         creditMemoDocument.setPaymentRequestDocument(preqDocument);
@@ -116,7 +116,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
 
     /*
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public final void testRouteDocumentToFinal() throws Exception {
         // To pass validation, the Credit Memo must be associated with another PO or PREQ.
         PurchaseOrderDocumentTest poDocTest = new PurchaseOrderDocumentTest();
@@ -156,11 +156,11 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
     
     private UserNameFixture getInitialUserName() {
-        return RJWEISS;
+        return rjweiss;
     }
 
     protected UserNameFixture getTestUserName() {
-        return RORENFRO;
+        return rorenfro;
     }
     
     /*
@@ -170,13 +170,13 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
        
-        changeCurrentUser(RORENFRO);
+        changeCurrentUser(rorenfro);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 
         WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
 
-        changeCurrentUser(KHUNTLEY);
+        changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         //assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
         // get related POs, if count = 1 then all is well
@@ -190,3 +190,4 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     }
     */
 }
+

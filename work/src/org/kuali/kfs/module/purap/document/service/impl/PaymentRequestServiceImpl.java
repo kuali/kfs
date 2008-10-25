@@ -78,7 +78,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -812,12 +812,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         saveDocumentWithoutValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setHoldIndicator(true);
-        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         return document;
     }
@@ -834,21 +834,21 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to false
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setHoldIndicator(false);
-        preqDoc.setLastActionPerformedByUniversalUserId(null);
+        preqDoc.setLastActionPerformedByPersonId(null);
         saveDocumentWithoutValidation(preqDoc);
         
         // must also save it on the incoming document
         document.setHoldIndicator(false);
-        document.setLastActionPerformedByUniversalUserId(null);
+        document.setLastActionPerformedByPersonId(null);
                         
         return preqDoc;
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+    public boolean canHoldPaymentRequest(PaymentRequestDocument document, Person user) {
         boolean canHold = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
@@ -866,9 +866,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, Person user) {
         boolean canRemoveHold = false;
 
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
@@ -876,7 +876,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is the person who put the preq on hold The user is a member of the AP Supervisor group
          */
-        if (document.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(document.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
+        if (document.isHoldIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REMOVE_HOLD.contains(document.getStatusCode()))) {
 
             canRemoveHold = true;
         }
@@ -896,14 +896,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // retrieve and save with hold indicator set to true
         PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
         preqDoc.setPaymentRequestedCancelIndicator(true);
-        preqDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         saveDocumentWithoutValidation(preqDoc);
 
         // must also save it on the incoming document
         document.setPaymentRequestedCancelIndicator(true);
-        document.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
-        document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
     }
 
     /**
@@ -931,7 +931,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     private void clearRequestCancelFields(PaymentRequestDocument document) {
         document.setPaymentRequestedCancelIndicator(false);
-        document.setLastActionPerformedByUniversalUserId(null);
+        document.setLastActionPerformedByPersonId(null);
         document.setAccountsPayableRequestCancelIdentifier(null);
     }
 
@@ -944,9 +944,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user) {
         /*
          * The user is an approver of the document,
          */
@@ -964,15 +964,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * This method determines if a user has permission to remove a request for cancel on a payment request document.
      * 
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user) {
+    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user) {
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
 
         /*
          * The user is the person who requested a cancel on the preq The user is a member of the AP Supervisor group
          */
-        if (document.getPaymentRequestedCancelIndicator() && (user.getPersonUniversalIdentifier().equals(document.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
+        if (document.getPaymentRequestedCancelIndicator() && (user.getPrincipalId().equals(document.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
             return true;
         }
         return false;
@@ -1125,11 +1125,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getUniversalUserForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getPersonForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
+    public Person getPersonForCancel(AccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
-        UniversalUser user = null;
+        Person user = null;
         if (preqDoc.isPaymentRequestedCancelIndicator()) {
             user = preqDoc.getLastActionPerformedByUser();
         }
@@ -1360,7 +1360,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         
         for (String docNumber : docNumbers) {
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -1443,3 +1443,4 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
     
 }
+

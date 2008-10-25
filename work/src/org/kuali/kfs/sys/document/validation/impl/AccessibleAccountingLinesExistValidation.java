@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -62,7 +62,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
 
         // only count if the doc is enroute
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
-        FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (workflowDocument.stateIsEnroute()) {
             int accessibleLines = 0;
             for (Iterator i = financialDocument.getSourceAccountingLines().iterator(); (accessibleLines < min) && i.hasNext();) {
@@ -81,7 +81,7 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
             hasLines = (accessibleLines >= min);
         }
         else {
-            if (workflowDocument.stateIsException() && currentUser.isWorkflowExceptionUser()) {
+            if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(currentUser, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                 hasLines = true;
             }
             else {
@@ -137,3 +137,4 @@ public class AccessibleAccountingLinesExistValidation extends GenericValidation 
         this.lineWasAlreadyDeletedFromDocumentForValidation = lineWasAlreadyDeletedFromDocumentForValidation;
     }
 }
+

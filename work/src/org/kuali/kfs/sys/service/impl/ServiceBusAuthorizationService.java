@@ -20,10 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.AuthenticationService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.ksb.service.AuthorizationService;
 
 public class ServiceBusAuthorizationService implements AuthorizationService {
@@ -31,13 +29,11 @@ public class ServiceBusAuthorizationService implements AuthorizationService {
 
     public boolean isAdministrator(HttpServletRequest request) {
         String networkId = SpringContext.getBean(AuthenticationService.class).getPrincipalName(request);
-        try {
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(networkId);
-            return user.isMember(getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.SERVICE_BUS_ACCESS_GROUP_PARM));
+        Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(networkId);
+        if (user == null) {
+            throw new RuntimeException("Failed to fetch user " + networkId);
         }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException("Failed to fetch user " + networkId, e);
-        }
+        return user.isMember(getParameterService().getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSConstants.CoreApcParms.SERVICE_BUS_ACCESS_GROUP_PARM));
     }
 
     private ParameterService getParameterService() {
@@ -47,3 +43,4 @@ public class ServiceBusAuthorizationService implements AuthorizationService {
         return parameterService;
     }
 }
+

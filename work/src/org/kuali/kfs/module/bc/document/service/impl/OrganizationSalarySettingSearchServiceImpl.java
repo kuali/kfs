@@ -33,36 +33,36 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
      * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
-    public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
+    public void buildIntendedIncumbentSelect(String principalName, Integer universityFiscalYear) {
 
-        organizationSalarySettingSearchDao.cleanIntendedIncumbentSelect(personUserIdentifier);
-        organizationSalarySettingSearchDao.buildIntendedIncumbentSelect(personUserIdentifier, universityFiscalYear);
+        organizationSalarySettingSearchDao.cleanIntendedIncumbentSelect(principalName);
+        organizationSalarySettingSearchDao.buildIntendedIncumbentSelect(principalName, universityFiscalYear);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#cleanIntendedIncumbentSelect(java.lang.String)
      */
-    public void cleanIntendedIncumbentSelect(String personUserIdentifier) {
+    public void cleanIntendedIncumbentSelect(String principalName) {
 
-        organizationSalarySettingSearchDao.cleanIntendedIncumbentSelect(personUserIdentifier);
+        organizationSalarySettingSearchDao.cleanIntendedIncumbentSelect(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String,
      *      java.lang.Integer)
      */
-    public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
+    public void buildPositionSelect(String principalName, Integer universityFiscalYear) {
 
-        organizationSalarySettingSearchDao.cleanPositionSelect(personUserIdentifier);
-        organizationSalarySettingSearchDao.buildPositionSelect(personUserIdentifier, universityFiscalYear);
+        organizationSalarySettingSearchDao.cleanPositionSelect(principalName);
+        organizationSalarySettingSearchDao.buildPositionSelect(principalName, universityFiscalYear);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#cleanPositionSelect(java.lang.String)
      */
-    public void cleanPositionSelect(String personUserIdentifier) {
+    public void cleanPositionSelect(String principalName) {
 
-        organizationSalarySettingSearchDao.cleanPositionSelect(personUserIdentifier);
+        organizationSalarySettingSearchDao.cleanPositionSelect(principalName);
     }
 
     /**
@@ -75,3 +75,4 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
 }
+

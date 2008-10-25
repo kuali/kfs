@@ -718,7 +718,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
-            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
+            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
             if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
                 // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
                 updateDocumentSummary(document, null, true);
@@ -1049,3 +1049,4 @@ public class LaborCorrectionAction extends CorrectionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }
+

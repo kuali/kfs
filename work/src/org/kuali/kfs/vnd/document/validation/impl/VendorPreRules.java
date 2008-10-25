@@ -47,7 +47,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorPreRules.class);
 
     private VendorDetail newVendorDetail;
-    private String universalUserId;
+    private String personId;
 
     public VendorPreRules() {
     }
@@ -55,14 +55,14 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     /**
      * Returns the Universal User Id of the current logged-in user
      * 
-     * @return String the UniversalUserId
+     * @return String the PersonId
      */
 
-    public String getUniversalUserId() {
-        if (ObjectUtils.isNull(universalUserId)) {
-            this.universalUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+    public String getPersonId() {
+        if (ObjectUtils.isNull(personId)) {
+            this.personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         }
-        return this.universalUserId;
+        return this.personId;
     }
 
     /**
@@ -130,7 +130,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         if ((ObjectUtils.isNull(oldVendorRestrictedIndicator) || (!oldVendorRestrictedIndicator)) && ObjectUtils.isNotNull(newVendorDetail.getVendorRestrictedIndicator()) && newVendorDetail.getVendorRestrictedIndicator()) {
             // Indicator changed from (null or false) to true.
             newVendorDetail.setVendorRestrictedDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            newVendorDetail.setVendorRestrictedPersonIdentifier(getUniversalUserId());
+            newVendorDetail.setVendorRestrictedPersonIdentifier(getPersonId());
         }
         else if (ObjectUtils.isNotNull(oldVendorRestrictedIndicator) && oldVendorRestrictedIndicator && ObjectUtils.isNotNull(newVendorDetail.getVendorRestrictedIndicator()) && (!newVendorDetail.getVendorRestrictedIndicator())) {
             // Indicator changed from true to false.
@@ -162,7 +162,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
                 String vendorTaxTypeCode = newVendorHeader.getVendorTaxTypeCode();
 
                 if ((!StringUtils.equals(vendorTaxNumber, oldVendorTaxNumber)) || (!StringUtils.equals(vendorTaxTypeCode, oldVendorTaxTypeCode))) {
-                    VendorTaxChange taxChange = new VendorTaxChange(newVendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), oldVendorTaxNumber, oldVendorTaxTypeCode, getUniversalUserId());
+                    VendorTaxChange taxChange = new VendorTaxChange(newVendorDetail.getVendorHeaderGeneratedIdentifier(), SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(), oldVendorTaxNumber, oldVendorTaxTypeCode, getPersonId());
                     List<VendorTaxChange> changes = newVendorHeader.getVendorTaxChanges();
                     if (ObjectUtils.isNull(changes)) {
                         changes = new ArrayList();
@@ -250,3 +250,4 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
 
 }
+

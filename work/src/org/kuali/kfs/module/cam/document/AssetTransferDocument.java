@@ -53,7 +53,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
@@ -86,7 +86,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     private String offCampusCountryCode;
     private boolean interdepartmentalSalesIndicator;
     private Long capitalAssetNumber;
-    private UniversalUser assetRepresentative;
+    private Person assetRepresentative;
     private Campus campus;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -140,7 +140,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    public UniversalUser getAssetRepresentative() {
+    public Person getAssetRepresentative() {
         return assetRepresentative;
     }
 
@@ -510,7 +510,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     }
 
 
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+    public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
 

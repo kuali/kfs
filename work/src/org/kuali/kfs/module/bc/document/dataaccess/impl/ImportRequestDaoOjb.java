@@ -39,10 +39,10 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.ImportRequestDao#findAllNonErrorCodeRecords()
      */
-    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String personUniversalIdentifier) {
+    public List<BudgetConstructionRequestMove> findAllNonErrorCodeRecords(String principalId) {
         Criteria criteria = new Criteria();
         criteria.addIsNull("requestUpdateErrorCode");
-        criteria.addEqualToColumn("personUniversalIdentifier", personUniversalIdentifier);
+        criteria.addEqualToColumn("principalId", principalId);
         
         List<BudgetConstructionRequestMove> records = new ArrayList<BudgetConstructionRequestMove>(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionRequestMove.class, criteria)));
         
@@ -62,3 +62,4 @@ public class ImportRequestDaoOjb extends PlatformAwareDaoBaseOjb  implements Imp
     }
 
 }
+

@@ -62,13 +62,13 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +86,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private ParameterService parameterService;
     private CustomerProfileService customerProfileService;
     private DateTimeService dateTimeService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private PaymentGroupService paymentGroupService;
     private PaymentDetailService paymentDetailService;
     private CreditMemoService creditMemoService;
@@ -127,11 +127,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("extractPayments() started");
 
         String userId = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_USER_ID);
-        UniversalUser uuser;
-        try {
-            uuser = universalUserService.getUniversalUserByAuthenticationUserId(userId);
-        }
-        catch (UserNotFoundException e) {
+        Person uuser = personService.getPersonByPrincipalName(userId);
+        if (uuser == null) {
             LOG.error("extractPayments() Unable to find user " + userId);
             throw new IllegalArgumentException("Unable to find user " + userId);
         }
@@ -149,7 +146,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void extractPaymentsForCampus(String campusCode, UniversalUser puser, Date processRunDate, boolean immediateOnly) {
+    private void extractPaymentsForCampus(String campusCode, Person puser, Date processRunDate, boolean immediateOnly) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, puser, processRunDate);
@@ -185,7 +182,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return Totals
      */
-    private Totals extractRegularPaymentsForChart(String campusCode, UniversalUser puser, Date processRunDate, Batch batch) {
+    private Totals extractRegularPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch) {
         LOG.debug("START - extractRegularPaymentsForChart()");
 
         Totals totals = new Totals();
@@ -273,7 +270,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      * @param batch
      */
-    protected void processPaymentBundle(List<PaymentRequestDocument> paymentRequests, List<CreditMemoDocument> creditMemos, Totals totals, List<String> preqsWithOutstandingCreditMemos, UniversalUser puser, Date processRunDate, Batch batch) {
+    protected void processPaymentBundle(List<PaymentRequestDocument> paymentRequests, List<CreditMemoDocument> creditMemos, Totals totals, List<String> preqsWithOutstandingCreditMemos, Person puser, Date processRunDate, Batch batch) {
         KualiDecimal paymentRequestAmount = KualiDecimal.ZERO;
         for (PaymentRequestDocument paymentRequestDocument : paymentRequests) {
             paymentRequestAmount = paymentRequestAmount.add(paymentRequestDocument.getGrandTotal());
@@ -328,7 +325,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      * @return PaymentGroup
      */
-    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument paymentRequestDocument, Batch batch, UniversalUser puser, Date processRunDate) {
+    private PaymentGroup processSinglePaymentRequestDocument(PaymentRequestDocument paymentRequestDocument, Batch batch, Person puser, Date processRunDate) {
         List<PaymentRequestDocument> prds = new ArrayList<PaymentRequestDocument>();
         List<CreditMemoDocument> cmds = new ArrayList<CreditMemoDocument>();
         prds.add(paymentRequestDocument);
@@ -351,7 +348,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param batch
      * @return Totals
      */
-    private Totals extractSpecialPaymentsForChart(String campusCode, UniversalUser puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
+    private Totals extractSpecialPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
         Totals totals = new Totals();
 
         Collection<PaymentRequestDocument> paymentRequests = null;
@@ -380,7 +377,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void updateCreditMemo(CreditMemoDocument creditMemoDocument, UniversalUser puser, Date processRunDate) {
+    private void updateCreditMemo(CreditMemoDocument creditMemoDocument, Person puser, Date processRunDate) {
         try {
             CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(creditMemoDocument.getDocumentNumber());
             doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
@@ -398,7 +395,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param puser
      * @param processRunDate
      */
-    private void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, UniversalUser puser, Date processRunDate) {
+    private void updatePaymentRequest(PaymentRequestDocument paymentRequestDocument, Person puser, Date processRunDate) {
         try {
             PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(paymentRequestDocument.getDocumentNumber());
             doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
@@ -915,7 +912,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      * @return Batch
      */
-    private Batch createBatch(String campusCode, UniversalUser puser, Date processRunDate) {
+    private Batch createBatch(String campusCode, Person puser, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
@@ -1111,12 +1108,12 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Sets the universalUserService attribute value.
+     * Sets the personService attribute value.
      * 
-     * @param universalUserService The universalUserService to set.
+     * @param personService The personService to set.
      */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -1195,3 +1192,4 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         this.purapAccountingService = purapAccountingService;
 }
 }
+

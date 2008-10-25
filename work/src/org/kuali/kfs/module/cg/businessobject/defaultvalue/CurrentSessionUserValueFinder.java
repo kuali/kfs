@@ -27,6 +27,7 @@ public class CurrentSessionUserValueFinder implements ValueFinder {
      * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier();
+        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
 }
+

@@ -22,7 +22,7 @@ import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -35,7 +35,7 @@ public class DistributionOfIncomeAndExpenseDocumentAuthorizer extends Accounting
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
         DistributionOfIncomeAndExpenseDocument diDoc = (DistributionOfIncomeAndExpenseDocument) document;
         
         Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
@@ -54,3 +54,4 @@ public class DistributionOfIncomeAndExpenseDocumentAuthorizer extends Accounting
         return editModeMap;
     }
 }
+

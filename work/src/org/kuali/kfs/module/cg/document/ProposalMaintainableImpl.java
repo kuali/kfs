@@ -45,7 +45,7 @@ import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -202,7 +202,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl implements G
      * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
      * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
-     * personUserIdentifier) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
+     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
      * it may be coming from the database, without any user input.
      * 
      * @param ppd the ProposalProjectDirector to refresh
@@ -211,13 +211,13 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl implements G
         String secondaryKey = null;
         ppd.refreshReferenceObject("projectDirector");
         if (ObjectUtils.isNotNull(ppd.getProjectDirector())) {
-            secondaryKey = ppd.getProjectDirector().getPersonUserIdentifier();
+            secondaryKey = ppd.getProjectDirector().getPrincipalName();
         }
         if (StringUtils.isNotBlank(secondaryKey)) {
             ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
-            ppd.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
+            ppd.setPrincipalId(dir == null ? null : dir.getPrincipalId());
         }
-        if (StringUtils.isNotBlank(ppd.getPersonUniversalIdentifier()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(ppd.getPersonUniversalIdentifier())) {
+        if (StringUtils.isNotBlank(ppd.getPrincipalId()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(ppd.getPrincipalId())) {
             ppd.refreshNonUpdateableReferences();
         }
     }
@@ -259,7 +259,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl implements G
         String preAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PRE_AWARD_GROUP);
         String postAwardWorkgroupName = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.POST_AWARD_GROUP);
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         if (!user.isMember(preAwardWorkgroupName) && !user.isMember(postAwardWorkgroupName)) {
             for (Section section : coreSections) {
                 if (!section.getSectionTitle().equalsIgnoreCase("Research Risks")) {
@@ -327,3 +327,4 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl implements G
         return new OrgReviewRoutingData(proposal.getRoutingChart(), proposal.getRoutingOrg());
     }
 }
+

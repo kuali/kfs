@@ -102,9 +102,9 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
 
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
-        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser(), bcAuthorizationType)) {
+        if (!SpringContext.getBean(KualiModuleService.class).isAuthorized(GlobalVariables.getUserSession().getPerson(), bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
-            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
+            throw new ModuleAuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), bcAuthorizationType, getKualiModuleService().getResponsibleModuleService(this.getClass()));
         }
     }
 
@@ -337,3 +337,4 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }
+

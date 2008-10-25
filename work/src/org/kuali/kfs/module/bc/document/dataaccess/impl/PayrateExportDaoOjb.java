@@ -51,7 +51,7 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.PayrateExportDao#buildPayRateHoldingRows(java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String personUniversalIdentifier) {
+    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String principalId) {
         Integer rowsSaved = 0;
         
         Iterator<Object[]> payRateRows =  getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryForPayrateHoldingRecords(budgetYear, positionUnionCode));
@@ -62,12 +62,12 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
             payRateHolder.setAppointmentRequestedPayRate(new BigDecimal(0));
             payRateHolder.setEmplid((String) payRateRow[0]);
             payRateHolder.setPositionNumber((String) payRateRow[1]);
-            payRateHolder.setPersonName((String) payRateRow[2]);
+            payRateHolder.setName((String) payRateRow[2]);
             payRateHolder.setSetidSalary((String) payRateRow[3]);
             payRateHolder.setSalaryAdministrationPlan((String) payRateRow[4]);
             payRateHolder.setGrade((String) payRateRow[5]);
             payRateHolder.setUnionCode((String) payRateRow[6]);
-            payRateHolder.setPersonUniversalIdentifier(personUniversalIdentifier);
+            payRateHolder.setPrincipalId(principalId);
             
             getPersistenceBrokerTemplate().store(payRateHolder);
             rowsSaved = rowsSaved+1;
@@ -108,3 +108,4 @@ public class PayrateExportDaoOjb extends PlatformAwareDaoBaseOjb implements Payr
         return queryId;
     }
 }
+

@@ -35,10 +35,8 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.user.WorkflowUser;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -55,7 +53,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     private KualiWorkflowInfo kualiWorkflowInfo;
     private WorkflowDocumentService workflowDocumentService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     
     public void setKualiWorkflowInfo(KualiWorkflowInfo kualiWorkflowInfo) {
         this.kualiWorkflowInfo = kualiWorkflowInfo;
@@ -65,19 +63,19 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
-    private UserIdDTO getUserIdDTO(UniversalUser user) {
-        return new NetworkIdDTO(user.getPersonUserIdentifier());
+    private UserIdDTO getUserIdDTO(Person user) {
+        return new NetworkIdDTO(user.getPrincipalName());
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#isActionRequestedOfUserAtNodeName(java.lang.String,
-     *      java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, UniversalUser userToCheck) {
+    public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, Person userToCheck) {
         try {
             List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(Long.valueOf(documentNumber), nodeName, userToCheck);
             return !actionRequests.isEmpty();
@@ -99,7 +97,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @param annotation
      * @throws WorkflowException
      */
-    private void superUserApproveAllActionRequests(UniversalUser superUser, Long documentNumber, String nodeName, UniversalUser user, String annotation) throws WorkflowException {
+    private void superUserApproveAllActionRequests(Person superUser, Long documentNumber, String nodeName, Person user, String annotation) throws WorkflowException {
         KualiWorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
         List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
         for (ActionRequestDTO actionRequestDTO : actionRequests) {
@@ -113,25 +111,25 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService#takeAllActionsForGivenCriteria(org.kuali.rice.kns.document.Document,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
+     *      java.lang.String, java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser userToCheck, String superUserNetworkId) {
+    public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, Person userToCheck, String superUserNetworkId) {
         try {
             Long documentNumber = document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            String networkIdString = (ObjectUtils.isNotNull(userToCheck)) ? userToCheck.getPersonUserIdentifier() : "none";
+            String networkIdString = (ObjectUtils.isNotNull(userToCheck)) ? userToCheck.getPrincipalName() : "none";
             List<ActionRequestDTO> activeActionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, userToCheck);
 
             // if no action requests are found... no actions required
             if (activeActionRequests.isEmpty()) {
-                LOG.debug("No action requests found on document id " + documentNumber + " for given criteria:  personUserIdentifier - " + networkIdString + "; nodeName - " + nodeName);
+                LOG.debug("No action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
                 return false;
             }
 
             // if a super user network id was given... take all actions as super user
             if (StringUtils.isNotBlank(superUserNetworkId)) {
                 // approve each action request as the super user
-                UniversalUser superUser = universalUserService.getUniversalUserByAuthenticationUserId(superUserNetworkId);
-                LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  personUserIdentifier - " + networkIdString + "; nodeName - " + nodeName);
+                Person superUser = personService.getPersonByPrincipalName(superUserNetworkId);
+                LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
                 superUserApproveAllActionRequests(superUser, documentNumber, nodeName, userToCheck, potentialAnnotation);
                 return true;
             }
@@ -185,7 +183,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             LOG.error("takeAllActionsForGivenCriteria() " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
         }
-        catch (UserNotFoundException e) {
+        catch (Exception e) {
             String errorMessage = "Error trying to get user for network id '" + superUserNetworkId + "'";
             LOG.error("takeAllActionsForGivenCriteria() " + errorMessage, e);
             throw new RuntimeException(errorMessage, e);
@@ -201,12 +199,12 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
      * @return List of action requests
      * @throws WorkflowException
      */
-    private List<ActionRequestDTO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, UniversalUser user) throws WorkflowException {
+    private List<ActionRequestDTO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, Person user) throws WorkflowException {
         if (ObjectUtils.isNull(documentNumber)) {
             // throw exception
         }
         List<ActionRequestDTO> activeRequests = new ArrayList<ActionRequestDTO>();
-        UserIdDTO userIdDTO = (ObjectUtils.isNotNull(user)) ? new NetworkIdDTO(user.getPersonUserIdentifier()) : null;
+        UserIdDTO userIdDTO = (ObjectUtils.isNotNull(user)) ? new NetworkIdDTO(user.getPrincipalName()) : null;
         ActionRequestDTO[] actionRequests = kualiWorkflowInfo.getActionRequests(documentNumber, nodeName, userIdDTO);
         for (ActionRequestDTO actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
@@ -236,7 +234,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     // document is only initiated so we need to pass xml for workflow to simulate route properly
                     ReportCriteriaDTO reportCriteriaDTO = new ReportCriteriaDTO(document.getDocumentHeader().getWorkflowDocument().getDocumentType());
                     reportCriteriaDTO.setXmlContent(document.getXmlForRouteReport());
-                    reportCriteriaDTO.setRoutingUser(new NetworkIdDTO(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUserIdentifier()));
+                    reportCriteriaDTO.setRoutingUser(new NetworkIdDTO(GlobalVariables.getUserSession().getPerson().getPrincipalName()));
                     reportCriteriaDTO.setTargetNodeName(givenNodeDetail.getName());
                     boolean value = kualiWorkflowInfo.documentWillHaveAtLeastOneActionRequest(reportCriteriaDTO, new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ, KEWConstants.ACTION_REQUEST_COMPLETE_REQ });
                     return value;
@@ -312,3 +310,4 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
 
 }
+

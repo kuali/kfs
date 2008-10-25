@@ -50,7 +50,7 @@ import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.KualiCode;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -86,7 +86,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note a note for payment status change
      * @param user the user that changed the status
      */
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
@@ -115,7 +115,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param user the user that changed the 
      * @param paymentGroupHistory
      */
-    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, UniversalUser user, PaymentGroupHistory paymentGroupHistory) {
+    public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user, PaymentGroupHistory paymentGroupHistory) {
         LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
 
         KualiCode cd = this.kualiCodeService.getByCode(PaymentChangeCode.class, changeStatus);
@@ -138,9 +138,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user) {
+    public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelPendingPayment() Enter method to cancel pending payment with group id = " + paymentGroupId);
         LOG.debug("cancelPendingPayment() payment detail id being cancelled = " + paymentDetailId);
@@ -225,9 +225,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean holdPendingPayment(Integer paymentGroupId, String note, UniversalUser user) {
+    public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("holdPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
 
@@ -263,9 +263,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, UniversalUser user) {
+    public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("removeHoldPendingPayment() Enter method to hold pending payment with id = " + paymentGroupId);
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
@@ -322,9 +322,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public void changeImmediateFlag(Integer paymentGroupId, String note, UniversalUser user) {
+    public void changeImmediateFlag(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
@@ -345,9 +345,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, UniversalUser user) {
+    public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
 
@@ -407,9 +407,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     }
 
     /**
-     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer, java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer, java.lang.String, org.kuali.rice.kim.bo.Person)
      */
-    public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, UniversalUser user) {
+    public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
 
@@ -496,7 +496,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @param note
      * @param user
      */
-    public void sendCancelEmail(PaymentGroup paymentGroup, String note, UniversalUser user) {
+    public void sendCancelEmail(PaymentGroup paymentGroup, String note, Person user) {
         LOG.debug("sendCancelEmail() starting");
 
         MailMessage message = new MailMessage();
@@ -724,3 +724,4 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         this.paymentGroupService = paymentGroupService;
     }
 }
+

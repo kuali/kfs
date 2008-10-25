@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class tests the Tax Service
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class TaxServiceTest extends KualiTestBase {
 
     private TaxService taxService;
@@ -317,3 +317,4 @@ public class TaxServiceTest extends KualiTestBase {
         }
     }
 }
+

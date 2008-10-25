@@ -27,21 +27,22 @@ public interface BudgetConstructionMonthSummaryReportService {
     /**
      * updates month summary table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @param consolidateToObjectCodeLevel
      * @return
      */
-    public void updateMonthSummaryReport(String personUserIdentifier, boolean consolidateToObjectCodeLevel);
+    public void updateMonthSummaryReport(String principalName, boolean consolidateToObjectCodeLevel);
 
     /**
      * 
      * builds BudgetConstructionLevelSummaryReports
      * 
      * @param universityFiscalYear
-     * @param personUserIdentifier
+     * @param principalName
      *  @param consolidateToObjectCodeLevel
      * @return Collection
      */
-    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel);
+    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidateToObjectCodeLevel);
     
 }
+

@@ -21,14 +21,14 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -47,3 +47,4 @@ public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthori
 
 
 }
+

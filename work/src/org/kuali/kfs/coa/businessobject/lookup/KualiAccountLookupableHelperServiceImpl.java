@@ -19,12 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -37,7 +35,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    ThreadLocal<FinancialSystemUser> currentUser = new ThreadLocal<FinancialSystemUser>();
+    ThreadLocal<Person> currentUser = new ThreadLocal<Person>();
 
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
@@ -51,13 +49,13 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         StringBuffer actions = new StringBuffer();
         Account theAccount = (Account) businessObject;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        FinancialSystemUser user = currentUser.get();
+        Person user = currentUser.get();
         if (user == null) {
-            user = SpringContext.getBean(FinancialSystemUserService.class).convertUniversalUserToFinancialSystemUser(GlobalVariables.getUserSession().getFinancialSystemUser());
+            user = GlobalVariables.getUserSession().getPerson();
             currentUser.set(user);
         }
         AnchorHtmlData urlDataCopy = getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
-        if (theAccount.isActive() || user.isAdministratorUser()) {
+        if (theAccount.isActive() || org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), SpringContext.getBean(org.kuali.kfs.sys.service.ParameterService.class).getParameterValue(org.kuali.kfs.sys.service.impl.ParameterConstants.CHART_DOCUMENT.class, org.kuali.kfs.sys.KFSConstants.MAINTENANCE_ADMIN_WORKGROUP_PARM_NM))) {
             anchorHtmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         else {
@@ -93,3 +91,4 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
 
 
 }
+

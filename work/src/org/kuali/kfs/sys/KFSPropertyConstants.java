@@ -769,18 +769,18 @@ public class KFSPropertyConstants {
     public static final String KUALI_USER_PERSON_ACTIVE_INDICATOR = "active";
     // public static final String KUALI_USER_PERSON_APPROVAL_CHART_OF_ACCOUNTS_CODE = "personApprovalChartOfAcctCd";
     // public static final String KUALI_USER_PERSON_APPROVAL_RC_CODE = "personApprovalRcCode";
-    public static final String KUALI_USER_PERSON_CAMPUS_ADDRESS = "personCampusAddress";
-    public static final String KUALI_USER_PERSON_EMAIL_ADDRESS = "personEmailAddress";
-    public static final String KUALI_USER_PERSON_FIRST_NAME = "personFirstName";
+    public static final String KUALI_USER_PERSON_CAMPUS_ADDRESS = "addressLine1";
+    public static final String KUALI_USER_PERSON_EMAIL_ADDRESS = "emailAddress";
+    public static final String KUALI_USER_PERSON_FIRST_NAME = "firstName";
     // public static final String KUALI_USER_PERSON_IN_FINANCIAL_PROCESS_CODE = "personInFinancialProcessCode";
-    public static final String KUALI_USER_PERSON_LAST_NAME = "personLastName";
+    public static final String KUALI_USER_PERSON_LAST_NAME = "lastName";
     public static final String KUALI_USER_PERSON_LOCAL_PHONE_NUMBER = "personLocalPhoneNumber";
-    public static final String KUALI_USER_PERSON_NAME = "personName";
+    public static final String KUALI_USER_PERSON_NAME = "name";
     // public static final String KUALI_USER_PERSON_ORIGINATION_CODE = "personOriginationCode";
-    public static final String KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER = "personUniversalIdentifier";
+    public static final String KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER = "principalId";
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
-    public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "personUserIdentifier";
+    public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "principalName";
     public static final String LABOR_OBJECT = "laborObject";
     public static final String LAST_UPDATE = "lastUpdate";
     public static final String LAST_UPDATE_TIMESTAMP = "lastUpdateTimestamp";
@@ -975,7 +975,7 @@ public class KFSPropertyConstants {
     public static final String PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     public static final String PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
     public static final String PERSON_USER_ID = KNSPropertyConstants.PERSON_USER_IDENTIFIER;
-    public static final String PERSON_USER_IDENTIFIER = "personUserIdentifier";
+    public static final String PERSON_USER_IDENTIFIER = "principalName";
     public static final String PERSON_WEEKS_AMOUNT = "personWeeksAmount";
     public static final String PERSON_WEEKS_JUSTIFICATION_TEXT = "personWeeksJustificationText";
     public static final String PERSONNEL = "personnel";
@@ -1211,3 +1211,4 @@ public class KFSPropertyConstants {
     public static final String CAPITAL_ASSET_INFORMATION = "capitalAssetInformation";
     public static final String CLOSED = "closed";
 }
+

@@ -16,7 +16,7 @@
     </property>
     <property name="lockingKeys" >
       <list>
-        <value>universalUser.personUserIdentifier</value>
+        <value>person.principalName</value>
       </list>
     </property>
     <property name="label" value="Project Director" />
@@ -57,7 +57,7 @@
     <property name="maintainableItems" >
       <list>
         <bean parent="MaintainableFieldDefinition"
-              p:name="universalUser.personUserIdentifier"
+              p:name="person.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="active" />
@@ -73,3 +73,4 @@
   <bean id="ProjectDirectorMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

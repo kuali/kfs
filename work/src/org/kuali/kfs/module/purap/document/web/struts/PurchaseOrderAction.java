@@ -68,7 +68,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -646,7 +646,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         // update table SensitiveDataAssignment
-        UniversalUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         SensitiveDataAssignment sda = new SensitiveDataAssignment();
         /*
@@ -657,7 +657,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         sda.setPurapDocumentIdentifier(poId);
         sda.setSensitiveDataAssignmentReasonText(poForm.getSensitiveDataAssignmentReason());
         sda.setSensitiveDataAssignmentChangeDate(currentDate);
-        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPersonUserIdentifier());
+        sda.setSensitiveDataAssignmentPersonIdentifier(currentUser.getPrincipalName());
         sdService.saveSensitiveDataAssignment(sda);        
 
         // update table SensitiveDataAssignmentDetail
@@ -1621,7 +1621,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
-                cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+                cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 String reasonPrefix = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
@@ -1878,3 +1878,4 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
 }
+

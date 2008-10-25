@@ -33,7 +33,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private Long proposalNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
-    private String personUniversalIdentifier;
+    private String principalId;
     private boolean active = true;
 
     private Account account;
@@ -45,7 +45,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * Default constructor.
      */
     public AwardAccount() {
-        // Struts needs this instance to populate the secondary key, personUserIdentifier.
+        // Struts needs this instance to populate the secondary key, principalName.
         projectDirector = new ProjectDirector();
     }
 
@@ -100,19 +100,19 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /***
-     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPersonUniversalIdentifier()
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /***
@@ -217,3 +217,4 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         this.active = true;
     }
 }
+

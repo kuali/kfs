@@ -392,8 +392,8 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#cleanReportsAccountSummaryTable(java.lang.String)
      */
-    public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsAccountSummaryTable(String principalName) {
+        clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -403,7 +403,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
      */
-    public void updateReportsAccountSummaryTable(String personUserIdentifier) {
+    public void updateReportsAccountSummaryTable(String principalName) {
         // build the list of strings to insert
         String revenueList = getRevenueINList();
         String expenditureList = getExpenditureINList();
@@ -417,7 +417,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
-        getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -428,7 +428,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
      */
-    public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
+    public void updateReportsAccountSummaryTableWithConsolidation(String principalName) {
         // build the list of strings to insert
         String revenueList = getRevenueINList();
         String expenditureList = getExpenditureINList();
@@ -442,7 +442,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
-        getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -452,7 +452,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
      */
-    public void updateSubFundSummaryReport(String personUserIdentifier) {
+    public void updateSubFundSummaryReport(String principalName) {
         // build the list of strings to insert
         String revenueList = getRevenueINList();
         String expenditureList = getExpenditureINList();
@@ -466,7 +466,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
-        getSimpleJdbcTemplate().update(updateSubFundSummaryReport.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateSubFundSummaryReport.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -478,3 +478,4 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         this.persistenceService = persistenceService;
     }
 }
+

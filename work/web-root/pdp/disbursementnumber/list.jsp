@@ -93,7 +93,7 @@
         <fmt:formatDate value="${b.disbNbrExpirationDt}" pattern="MM/dd/yyyy" />&nbsp;
       </td>
       <td nowrap="nowrap" class="datacell">
-        <fmt:formatDate value="${b.lastUpdate}" pattern="MM/dd/yyyy" /> by <c:out value="${b.lastUpdateUser.personUserIdentifier}"/>
+        <fmt:formatDate value="${b.lastUpdate}" pattern="MM/dd/yyyy" /> by <c:out value="${b.lastUpdateUser.principalName}"/>
       </td>
     </tr>
     </logic:iterate>
@@ -103,3 +103,4 @@
 <c:import url="/backdoor.jsp"/>
 </body>
 </html:html>
+

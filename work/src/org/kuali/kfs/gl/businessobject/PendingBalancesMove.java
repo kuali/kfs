@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class PendingBalancesMove extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private KualiDecimal appropriationBudget;
     private KualiDecimal appropriationActual;
     private KualiDecimal appropriationEncumbrance;
@@ -43,21 +43,21 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -180,7 +180,8 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         return m;
     }
 }
+

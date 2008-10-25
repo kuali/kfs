@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String emplid;
     private String financialObjectCode;
     private String personName;
@@ -38,21 +38,21 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -99,7 +99,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
      * 
      * @return Returns the personName
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -108,7 +108,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -117,9 +117,10 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("emplid", this.emplid);
         m.put("financialObjectCode", this.financialObjectCode);
         return m;
     }
 }
+

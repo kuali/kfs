@@ -15,26 +15,78 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
-public class ChartOrgHolderImpl implements ChartOrgHolder {
+public class ChartOrgHolderImpl extends PersistableBusinessObjectBase implements ChartOrgHolder {
 
-    private String chartOfAccountsCode;
-    private String organizationCode;
+    protected String principalId;
+    protected String moduleId;
+    protected boolean active = true;
 
-    private Chart chartOfAccounts;
-    private Org organization;
+    protected String chartOfAccountsCode;
+    protected String organizationCode;
 
-    private static transient OrganizationService organizationService;
-    private static transient ChartService chartService;
+    protected Chart chartOfAccounts;
+    protected Org organization;
+
+    protected static transient OrganizationService organizationService;
+    protected static transient ChartService chartService;
+
+    protected List<ChartOrgHolderModuleImpl> primaryOrganizations = new TypedArrayList(ChartOrgHolderModuleImpl.class);
+    protected List<ChartOrgHolderSecurityImpl> organizationSecurity = new TypedArrayList(ChartOrgHolderSecurityImpl.class);
+
+    public ChartOrgHolderImpl() {}
     
-    public ChartOrgHolderImpl( String chart, String orgCode ) {
-        this.chartOfAccountsCode = chart;
-        this.organizationCode = orgCode;
+    public List<ChartOrgHolderModuleImpl> getPrimaryOrganizations() {
+        return primaryOrganizations;
+    }
+
+    public void setPrimaryOrganizations(List<ChartOrgHolderModuleImpl> primaryOrganizations) {
+        this.primaryOrganizations = primaryOrganizations;
+    }
+    
+    public ChartOrgHolder getPrimaryOrganizationByModuleId( String moduleId ) {
+        if ( moduleId == null ) {
+            return null;
+        }
+        for ( ChartOrgHolderModuleImpl org : getPrimaryOrganizations() ) {
+            if ( org.getModuleId().equals(moduleId)) {
+                return org;
+            }
+        }
+        return null;
+    }
+    
+    
+    public List<ChartOrgHolderSecurityImpl> getOrganizationSecurity() {
+        return organizationSecurity;
+    }
+
+    public void setOrganizationSecurity(List<ChartOrgHolderSecurityImpl> organizationSecurity) {
+        this.organizationSecurity = organizationSecurity;
+    }
+
+    public List<ChartOrgHolderSecurityImpl> getOrganizationSecurityByModuleId( String moduleId ) {
+        List<ChartOrgHolderSecurityImpl> orgs = new ArrayList<ChartOrgHolderSecurityImpl>();
+        if ( moduleId == null ) {
+            return orgs;
+        }
+        for ( ChartOrgHolderSecurityImpl org : getOrganizationSecurity() ) {
+            if ( org.getModuleId().equals(moduleId)) {
+                orgs.add(org);
+            }
+        }
+        return orgs;
     }
     
     public String getChartOfAccountsCode() {
@@ -73,4 +125,38 @@ public class ChartOrgHolderImpl implements ChartOrgHolder {
         }
         return chartService;
     }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
+        hashMap.put("principalId", principalId);
+        hashMap.put("chartOfAccountsCode", chartOfAccountsCode);
+        hashMap.put("organizationCode", organizationCode);
+        return hashMap;
+    }
+        
 }

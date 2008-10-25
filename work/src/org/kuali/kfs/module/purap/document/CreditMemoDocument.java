@@ -48,7 +48,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -100,8 +100,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         LOG.debug("initiateDocument() started");
         setStatusCode(PurapConstants.CreditMemoStatuses.INITIATE);
 
-        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getFinancialSystemUser();
-        setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
+        setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         setProcessingCampusCode(currentUser.getCampusCode());
     }
 
@@ -635,3 +635,4 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     
 }
+

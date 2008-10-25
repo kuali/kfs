@@ -137,7 +137,7 @@
 			<c:otherwise>
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 
 					accountingLine="${fundingLineName}.budgetConstructionIntendedIncumbent" attributes="${bciiAttributes}"
-					field="personName"
+					field="name"
 					readOnly="true" formattedNumberValue="${BCConstants.VACANT_EMPLID}" 
 					displayHidden="false" rowSpan="${rowspan}" />
 				
@@ -357,3 +357,4 @@
 	</c:if>
 		
 </table>
+

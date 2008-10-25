@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.service;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * A set of methods that help the ElectronicPaymentClaimingService turn a list of 
@@ -45,7 +45,7 @@ public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
      * @param claimingUser the user attempting to claim ElectronicPaymentClaim records with a document
      * @return true if the user can use this kind of document to claim ElectronicPaymentClaim records, false otherwise 
      */
-    public abstract boolean userMayUseToClaim(UniversalUser claimingUser);
+    public abstract boolean userMayUseToClaim(Person claimingUser);
     
     /**
      * Creates a document to claim a given list of ElectronicPaymentClaim records.
@@ -53,7 +53,7 @@ public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
      * @param user the user doing the claiming
      * @return the absolute URL that should be redirected to, so that the user can edit the document
      */
-    public abstract String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user);
+    public abstract String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user);
     
     /**
      * Determines whether the given document number would be considered valid by the system that the document this strategy interacts with
@@ -62,3 +62,4 @@ public interface ElectronicPaymentClaimingDocumentGenerationStrategy {
      */
     public abstract boolean isDocumentReferenceValid(String referenceDocumentNumber);
 }
+

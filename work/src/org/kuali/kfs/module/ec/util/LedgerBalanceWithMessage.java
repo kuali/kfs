@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ec.util;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * To hold the neccessary information of ledger balance for the report generation
@@ -75,8 +75,8 @@ public class LedgerBalanceWithMessage {
         this.emplid = ledgerBalance.getEmplid();
         this.message = message;
         
-        UniversalUser employee = ledgerBalance.getLedgerPerson();
-        this.employeeName = employee != null ? employee.getPersonName() : KFSConstants.EMPTY_STRING;
+        Person employee = ledgerBalance.getLedgerPerson();
+        this.employeeName = employee != null ? employee.getName() : KFSConstants.EMPTY_STRING;
     }
 
     /**
@@ -239,3 +239,4 @@ public class LedgerBalanceWithMessage {
         return ledgerBalanceWithMessage.toString();
     }
 }
+

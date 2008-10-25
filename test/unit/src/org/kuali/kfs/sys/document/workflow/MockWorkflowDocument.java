@@ -23,7 +23,7 @@ import org.kuali.rice.kew.dto.UserIdDTO;
 import org.kuali.rice.kew.dto.WorkflowAttributeDefinitionDTO;
 import org.kuali.rice.kew.dto.WorkgroupIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -519,7 +519,7 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
     /**
      * @see org.kuali.rice.kns.workflow.service.KualiWorkflowDocument#userIsInitiator(org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public boolean userIsInitiator(UniversalUser user) {
+    public boolean userIsInitiator(Person user) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -534,3 +534,4 @@ public abstract class MockWorkflowDocument implements KualiWorkflowDocument {
 
     
 }
+

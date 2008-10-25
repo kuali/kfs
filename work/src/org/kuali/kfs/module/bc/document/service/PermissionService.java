@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Org;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This interface defines the methods that a PermissionService must provide. PermissionService implements methods used to support
@@ -39,61 +39,62 @@ public interface PermissionService {
     /**
      * get a list of organizations where the user is a BC document approver
      * 
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return a list of organizations where the user is a BC document approver
      */
-    public List<Org> getOrgReview(UniversalUser universalUser) throws Exception;
+    public List<Org> getOrgReview(Person person) throws Exception;
 
     /**
      * determine whether or not a user is a BC approver for the passed in organization primary key values
      * 
      * @param chartOfAccountsCode the given chart of accounts code
      * @param organizationCode the given organization code
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the specified user is an organization level approver for the given organization; otherwise, false
      */
-    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, UniversalUser universalUser) throws Exception;
+    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, Person person) throws Exception;
 
     /**
      * determine whether or not the specified user is an organization level approver for the given organization
      * 
      * @param organization the given organization
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the specified user is an organization level approver for the given organization; otherwise, false
      */
-    public boolean isOrgReviewApprover(Org organization, UniversalUser universalUser);
+    public boolean isOrgReviewApprover(Org organization, Person person);
 
     /**
      * get the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
      * 
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return the orgazation review hierachy for which the specified user is an approver if any; otherwise, return null
      */
-    public List<Org> getOrganizationReviewHierachy(UniversalUser universalUser);
+    public List<Org> getOrganizationReviewHierachy(Person person);
 
     /**
      * determine whether the specified user is a manager or account delegate of the given account
      * 
      * @param account the given account
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the specified user is a manager or account delegate of the given account; otherwise, false
      */
-    public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser);
+    public boolean isAccountManagerOrDelegate(Account account, Person person);
 
     /**
      * determine whether the specified user is an account delegate of the given account
      * 
      * @param account the given account
-     * @param universalUser the specified user
+     * @param person the specified user
      * @return true if the specified user is an account delegate of the given account; otherwise, false
      */
-    public boolean isAccountDelegate(Account account, UniversalUser universalUser);
+    public boolean isAccountDelegate(Account account, Person person);
     
     /**
      * determine whether the specified user is a budget construction document root approver 
      * 
-     * @param universalUser
+     * @param person
      * @return
      */
-    public boolean isRootApprover(UniversalUser universalUser);
+    public boolean isRootApprover(Person person);
 }
+

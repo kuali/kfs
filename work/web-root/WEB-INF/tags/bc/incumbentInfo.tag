@@ -43,7 +43,7 @@
         <bc:pbglLineDataCell dataCellCssClass="datacell"
         	accountingLine="budgetConstructionIntendedIncumbent"
             cellProperty="budgetConstructionIntendedIncumbent.personName"
-            field="personName"
+            field="name"
             attributes="${intcumbentAttributes}"
             readOnly="true"
             displayHidden="false"/>
@@ -93,3 +93,4 @@
             displayHidden="false" />
     </tr>
 </table>
+

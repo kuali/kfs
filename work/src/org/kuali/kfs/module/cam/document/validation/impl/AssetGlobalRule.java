@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -434,9 +434,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             maxTotalPaymentByAsset = totalPayment;
         }
 
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
         String capitalizationThresholdAmount = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.CAPITALIZATION_LIMIT_AMOUNT);
-        if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
+        if (isCapitalStatus(assetGlobal) && minTotalPaymentByAsset.isLessThan(new KualiDecimal(capitalizationThresholdAmount)) && !person.isMember(CamsConstants.Workgroups.WORKGROUP_CM_ADMINISTRATORS)) {
             putFieldError(CamsPropertyConstants.AssetGlobal.INVENTORY_STATUS_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAPITAL_ASSET_PAYMENT_AMOUNT_MIN, capitalizationThresholdAmount);
             success &= false;
         }
@@ -554,8 +554,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             success &= validateAccount(assetGlobal);
 
             if (CamsConstants.AssetGlobal.NEW_ACQUISITION_TYPE_CODE.equals(acquisitionTypeCode)) {
-                UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
-                if (!universalUser.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
+                Person person = GlobalVariables.getUserSession().getPerson();
+                if (!person.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
                     putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ACQUISITION_TYPE_CODE_NOT_ALLOWED, new String[] { CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS, acquisitionTypeCode });
                     success &= false;
                 }
@@ -684,3 +684,4 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
 
 }
+

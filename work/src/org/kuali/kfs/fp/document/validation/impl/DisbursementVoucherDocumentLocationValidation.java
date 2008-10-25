@@ -24,12 +24,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -67,8 +64,8 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
             parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
 
-        UniversalUser initiator = getInitiator(document);
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(initiator, KFSConstants.Modules.CHART);
+        Person initiator = getInitiator(document);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(initiator, KFSConstants.Modules.CHART);
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions
@@ -87,13 +84,10 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
-    private UniversalUser getInitiator(AccountingDocument document) {
-        UniversalUser initUser = null;
-        try {
-            initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException("Document Initiator not found " + e.getMessage());
+    private Person getInitiator(AccountingDocument document) {
+        Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+        if (initUser == null) {
+            throw new RuntimeException("Document Initiator not found ");
         }
 
         return initUser;
@@ -124,3 +118,4 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
         return accountingDocumentForValidation;
     }
 }
+

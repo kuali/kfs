@@ -20,18 +20,19 @@ public interface BudgetConstructionLevelSummaryReportDao {
     /**
      *  cleans Level Summary table.
      * 
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      * @return
      */
-    public void cleanReportsLevelSummaryTable(String personUserIdentifier);
+    public void cleanReportsLevelSummaryTable(String principalName);
 
     /**
      *  updates Level Summary table.
      * 
-     * @param personUserIdentifier--the user requesting the report
+     * @param principalName--the user requesting the report
      * @return
      */
-    public void updateReportsLevelSummaryTable(String personUserIdentifier);
+    public void updateReportsLevelSummaryTable(String principalName);
 
     
 }
+

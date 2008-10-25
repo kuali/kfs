@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ec.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
 import java.util.List;
 import java.util.Properties;
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KULUSER)
+@ConfigureContext(session = kuluser)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {
     private final Properties properties, message;
     private final String balanceFieldNames, entryFieldNames;
@@ -201,3 +201,4 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         TestDataPreparator.persistDataObject(ledgerBalances);
     }
 }
+

@@ -24,7 +24,7 @@ import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -351,7 +351,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
 
         // TODO probably need BCAuthorizationConstants extension
         if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
 
         /*
@@ -359,7 +359,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
          * useBCAuthorizer(documentAuthorizer); // graceless hack which takes advantage of the fact that here and only here will we
          * have guaranteed access to the // correct DocumentAuthorizer if
          * (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) { throw new
-         * AuthorizationException(GlobalVariables.getUserSession().getKfsUser().getPersonName(), "view",
+         * AuthorizationException(GlobalVariables.getUserSession().getKfsUser().getName(), "view",
          * this.getAccountNumber()+", "+this.getSubAccountNumber()); } }
          */
     }
@@ -368,7 +368,7 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      * TODO should probably move this to extension class
      */
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
 //        setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
         setEditingMode(documentAuthorizer.getEditModeFromSession());
@@ -377,3 +377,4 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
         // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
     }
 }
+

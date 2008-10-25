@@ -99,11 +99,11 @@
                 </td>			
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${customerInvoiceRecurrenceAttributes.documentInitiatorUserIdentifier}" /></th>
 				<td class="grid" width="25%">
-				<kul:checkErrors keyMatch="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personUserIdentifier" />
-				<kul:user userIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personUserIdentifier" universalIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier" userNameFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personName" label="User" 
-				lookupParameters="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personUserIdentifier:personUserIdentifier,document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier:personUniversalIdentifier,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personName:personName" 
-				fieldConversions="personUserIdentifier:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personUserIdentifier,personUniversalIdentifier:document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier,personName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personName" 
-				userId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personUserIdentifier}" universalId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier}" userName="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.personName}" renderOtherFields="true" hasErrors="${hasErrors}" readOnly="${readOnly}" />
+				<kul:checkErrors keyMatch="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName" />
+				<kul:user userIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName" universalIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier" userNameFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" label="User" 
+				lookupParameters="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName:principalName,document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier:principalId,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name:personName" 
+				fieldConversions="principalName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName,principalId:document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier,personName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" 
+				userId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName}" universalId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier}" userName="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name}" renderOtherFields="true" hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
             </tr>    
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
@@ -124,3 +124,4 @@
         </table>
     </div>
 </kul:tab>
+

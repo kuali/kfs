@@ -24,24 +24,20 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
 
 public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         Map editModes = new HashMap();
      //   try {
         OrganizationAccountingDefault orgAcctDefault = (OrganizationAccountingDefault)document.getDocumentBusinessObject();
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
         Org userOrg = chartOrg.getOrganization();
         Org docOrg = orgAcctDefault.getOrganization();
         
@@ -58,16 +54,10 @@ public class OrganizationAccountingDefaultAuthorizer extends FinancialSystemMain
     * 
     * @return true if user is in group
     */
-   private boolean isUserInArSupervisorGroup(UniversalUser user) {
-       boolean retVal = false;
-           try {
-               retVal = SpringContext.getBean(KualiGroupService.class).getByGroupName(ArConstants.AR_SUPERVISOR_GROUP_NAME).hasMember(user);
-           } catch (GroupNotFoundException gnfe) {
-               
-           }
-     
-       return retVal;
+   private boolean isUserInArSupervisorGroup(Person user) {
+       return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
    }
 
    
 }
+

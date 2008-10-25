@@ -24,8 +24,8 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -56,12 +56,12 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
         initializeAttributes(document);
         document.getNewMaintainableObject().setGenerateDefaultValues(false);
 
-        FinancialSystemUser finSysUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person finSysUser = GlobalVariables.getUserSession().getPerson();
         
-        newOptions.setProcessingChartOfAccountCode(finSysUser.getChartOfAccountsCode());
-        newOptions.setProcessingOrganizationCode(finSysUser.getOrganizationCode());
+        newOptions.setProcessingChartOfAccountCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode());
+        newOptions.setProcessingOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
         
-        updateRemitToAddress(finSysUser.getChartOfAccountsCode(), finSysUser.getOrganizationCode());
+        updateRemitToAddress(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getChartOfAccountsCode(), SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(finSysUser).getOrganizationCode());
     }
     
     /**
@@ -119,3 +119,4 @@ public class OrganizationOptionsMaintainableImpl extends KualiMaintainableImpl {
     }
 
 }
+

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.businessobject.inquiry;
+package org.kuali.kfs.sys.service;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.rice.kim.bo.Person;
 
-public class FinancialSystemUserInquirableImpl extends KfsInquirableImpl {
-
-    
-    @Override
-    public void setBusinessObjectClass(Class businessObjectClass) {
-        super.setBusinessObjectClass(FinancialSystemUser.class);
-    }
+public interface KNSAuthorizationService {
+    boolean isActive( Person p );
+    ChartOrgHolder getPrimaryChartOrganization( Person p );
+    ChartOrgHolder getOrganizationByModuleId( String moduleId );
+    ChartOrgHolder getOrganizationByModuleId( Person p, String moduleId );
+    boolean isResponsibleForAccount(String id, String chartCode, String accountNumber);
 }

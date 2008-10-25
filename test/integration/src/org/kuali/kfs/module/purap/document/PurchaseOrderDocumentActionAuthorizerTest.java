@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.APPLETON;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
  * methods in PurchaseOrderDocumentActionAuthorizer to 
  * test whether certain buttons could be displayed. 
  */
-@ConfigureContext(session = PARKE)
+@ConfigureContext(session = parke)
 public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 
     private PurchaseOrderDocument purchaseOrderDocument = null;
@@ -61,7 +61,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testValidForRetransmit() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -72,12 +72,12 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     
     /**
      * Tests that the print retransmit button is displayed when the purchase order 
-     * is not an APO. It should allow purchasing users (in this case we use PARKE)
+     * is not an APO. It should allow purchasing users (in this case we use parke)
      * to see the button if the purchase order is not an APO.
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+    @ConfigureContext(session = parke, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
@@ -97,12 +97,12 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
     
     /**
      * Tests that the print retransmit button is displayed when the purchase order is an
-     * APO and the user can be anyone (here it is set as RORENFRO prior to checking for the authorizer).
+     * APO and the user can be anyone (here it is set as rorenfro prior to checking for the authorizer).
      * It should allow anyone to see the print retransmit button if it's an APO.
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+    @ConfigureContext(session = parke, shouldCommitTransactions=false)
     public final void testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);
@@ -117,7 +117,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
         poRetransmitDocument.setStatusCode("CGIN");
         poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
-        changeCurrentUser(RORENFRO);
+        changeCurrentUser(rorenfro);
         PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poRetransmitDocument, editMode);
         assertTrue(auth.canPrintRetransmit());
     }
@@ -127,7 +127,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testFirstTransmitPrintPO() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -148,7 +148,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testReopen() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -162,7 +162,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testClose() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -175,7 +175,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         poDocument.prepareForSave();       
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");    
-        changeCurrentUser(APPLETON);
+        changeCurrentUser(appleton);
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
         preq.setPurchaseOrderIdentifier(poDocument.getPurapDocumentIdentifier());
         preq.setProcessingCampusCode("BL");
@@ -191,7 +191,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testPaymentHold() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -206,7 +206,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testVoidPendingPrint() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -222,7 +222,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testVoidOpenNoPreq() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -236,7 +236,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRemoveHold() throws Exception {
         Map editMode = new HashMap();
         editMode.put("fullEntry", true);
@@ -245,3 +245,4 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         assertTrue(auth.canRemoveHold());
     }
 }
+

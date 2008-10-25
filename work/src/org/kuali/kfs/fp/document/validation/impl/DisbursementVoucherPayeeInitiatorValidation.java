@@ -26,10 +26,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.user.PersonTaxId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -60,9 +58,9 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
             // if the vendor tax type is SSN, then check the tax number
             if (dvVendor != null && TAX_TYPE_SSN.equals(dvVendor.getVendorHeader().getVendorTaxTypeCode())) {
                 // check ssn against employee table
-                UniversalUser user = retrieveEmployeeBySSN(dvVendor.getVendorHeader().getVendorTaxNumber());
+                Person user = retrieveEmployeeBySSN(dvVendor.getVendorHeader().getVendorTaxNumber());
                 if (user != null) {
-                    uuid = user.getPersonUniversalIdentifier();
+                    uuid = user.getPrincipalId();
                 }
             }
         }
@@ -73,8 +71,8 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
 
         // If a uuid was found for payee, check it against the initiator uuid
         if (StringUtils.isNotBlank(uuid)) {
-            UniversalUser initUser = getInitiator(document);
-            if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
+            Person initUser = getInitiator(document);
+            if (uuid.equals(initUser.getPrincipalId())) {
                 errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
                 isValid = false;
             }
@@ -97,20 +95,17 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
     }
 
     /**
-     * Retrieves UniversalUser from SSN
+     * Retrieves Person from SSN
      * 
      * @param ssnNumber social security number
-     * @return <code>UniversalUser</code>
+     * @return <code>Person</code>
      */
-    private UniversalUser retrieveEmployeeBySSN(String ssnNumber) {
-        PersonTaxId personTaxId = new PersonTaxId(ssnNumber);
-        UniversalUser user = null;
-        try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(personTaxId);
-        } catch (UserNotFoundException e) {
-            LOG.error("User Not Found", e);
+    private Person retrieveEmployeeBySSN(String ssnNumber) {
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnNumber).get(0);
+        if (person == null) {
+            LOG.error("User Not Found");
         }
-        return user;
+        return person;
     }
     
     /**
@@ -119,12 +114,10 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
-    private UniversalUser getInitiator(AccountingDocument document) {
-        UniversalUser initUser = null;
-        try {
-            initUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException("Document Initiator not found " + e.getMessage());
+    private Person getInitiator(AccountingDocument document) {
+        Person initUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
+        if (initUser == null) {
+            throw new RuntimeException("Document Initiator not found");
         }
 
         return initUser;
@@ -147,3 +140,4 @@ public class DisbursementVoucherPayeeInitiatorValidation extends GenericValidati
     }
 
 }
+

@@ -20,11 +20,12 @@
 package org.kuali.kfs.pdp.service;
 
 import org.kuali.kfs.pdp.businessobject.SecurityRecord;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * @author jsissom
  */
 public interface PdpSecurityService {
-    public SecurityRecord getSecurityRecord(UniversalUser user);
+    public SecurityRecord getSecurityRecord(Person user);
 }
+

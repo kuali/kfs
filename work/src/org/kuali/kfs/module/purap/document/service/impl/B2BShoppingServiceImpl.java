@@ -40,7 +40,7 @@ import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -97,9 +98,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutUrl(org.kuali.rice.kim.bo.Person)
      */
-    public String getPunchOutUrl(FinancialSystemUser user) {
+    public String getPunchOutUrl(Person user) {
         // retrieve info for punchout (url, password, etc)
         B2BInformation b2b = getB2bShoppingConfigurationInformation();
 
@@ -118,9 +119,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BService#createRequisitionsFromCxml(org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser,
-     *      org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public List createRequisitionsFromCxml(B2BShoppingCartParser message, FinancialSystemUser user) throws WorkflowException {
+    public List createRequisitionsFromCxml(B2BShoppingCartParser message, Person user) throws WorkflowException {
         LOG.debug("createRequisitionsFromCxml() started");
         // for returning requisitions
         ArrayList requisitions = new ArrayList();
@@ -157,15 +158,15 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             }
 
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber(), user.getPersonUserIdentifier());
+            List itemsForVendor = getAllVendorItems(items, vendor.getVendorNumber(), user.getPrincipalName());
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
-            req.setChartOfAccountsCode(user.getChartOfAccountsCode());
-            req.setOrganizationCode(user.getOrganizationCode());
-            req.setRequestorPersonName(user.getPersonName());
-            req.setRequestorPersonEmailAddress(user.getPersonEmailAddress());
-            req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPersonLocalPhoneNumber()));
+            req.setChartOfAccountsCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(user).getChartOfAccountsCode());
+            req.setOrganizationCode(SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(user).getOrganizationCode());
+             req.setRequestorPersonName(user.getName());
+            req.setRequestorPersonEmailAddress(user.getEmailAddress());
+            req.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(user.getPhoneNumber()));
             req.setUseTaxIndicator(purchasingService.getDefaultUseTaxIndicatorValue(req));
 
             // set defaults that need to be set
@@ -335,3 +336,4 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
 }
+

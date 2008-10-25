@@ -332,9 +332,9 @@
 			              p:name="representativeUniversalIdentifier" 
 			              p:readOnlyAfterAdd="false" /> 
 			        <bean parent="MaintainableFieldDefinition"
-			              p:name="assetRepresentative.personUserIdentifier" />
+			              p:name="assetRepresentative.principalName" />
 			        <bean parent="MaintainableFieldDefinition"
-			              p:name="assetRepresentative.personName"
+			              p:name="assetRepresentative.name"
 			              p:readOnly="true" />
                     <bean parent="MaintainableFieldDefinition"
                     	  p:name="capitalAssetTypeCode"

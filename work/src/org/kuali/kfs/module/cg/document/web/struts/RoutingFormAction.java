@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -172,11 +172,11 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         routingForm.populateAuthorizationFields(SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(routingForm.getRoutingFormDocument()));
         DocumentActionFlags flags = routingForm.getDocumentActionFlags();
         if (flags.getCanRoute() || flags.getCanApprove()) {
-            UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
-            if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPersonUniversalIdentifier())) {
+            Person user = GlobalVariables.getUserSession().getPerson();
+            if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPrincipalId())) {
                 routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_PROJECT_DIRECTOR_WORDING));
             }
-            else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPersonUserIdentifier())) {
+            else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPrincipalName())) {
                 routingForm.setApprovalsMessage(SpringContext.getBean(ParameterService.class).getParameterValue(RoutingFormDocument.class, CGConstants.APPROVALS_INITIATOR_WORDING));
             }
             else {
@@ -204,3 +204,4 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         }
     }
 }
+

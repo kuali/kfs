@@ -210,7 +210,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         boolean success = true;
         String chartUserId = "";
-        String transactionUserId = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        String transactionUserId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         if (!(newBCOrgReports.getChartOfAccounts() == null)) {
 
             chartUserId = newBCOrgReports.getChartOfAccounts().getFinCoaManagerUniversalId();
@@ -278,3 +278,4 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
     }
 
 }
+

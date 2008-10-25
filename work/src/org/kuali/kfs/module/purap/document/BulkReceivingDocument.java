@@ -253,7 +253,7 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
             VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(getAlternateVendorHeaderGeneratedIdentifier(), 
                                                                                                    getAlternateVendorDetailAssignedIdentifier());
             //copied from creditmemocreateserviceimpl.populatedocumentfromvendor
-            String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
+            String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
             VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(getAlternateVendorHeaderGeneratedIdentifier(), 
                                                                                                              getAlternateVendorDetailAssignedIdentifier(), 
                                                                                                              VendorConstants.AddressTypes.REMIT, 
@@ -941,3 +941,4 @@ public class BulkReceivingDocument extends FinancialSystemTransactionalDocumentB
         return m;
     }
 }
+

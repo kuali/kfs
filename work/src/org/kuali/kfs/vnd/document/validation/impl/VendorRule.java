@@ -57,7 +57,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.FieldAuthorization;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -143,14 +143,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         Object savedValue = null;
 
         KualiWorkflowDocument workflowDocument = null;
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         try {
             workflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), user);
         }
         catch (WorkflowException e) {
             throw new UnknownDocumentIdException("no document found for documentHeaderId '" + document.getDocumentNumber() + "'", e);
         }
-        if (user.getPersonUserIdentifier().equalsIgnoreCase(workflowDocument.getInitiatorNetworkId())) {
+        if (user.getPrincipalName().equalsIgnoreCase(workflowDocument.getInitiatorNetworkId())) {
             // if these are the same person then we know it is the initiator
             isInitiator = true;
         }
@@ -332,8 +332,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             try {
                 theField.getType().asSubclass(PersistableBusinessObjectBase.class);
                 // only add the field to the result list if this is not
-                // a UniversalUser
-                if (!theField.getType().equals(UniversalUser.class)) {
+                // a Person
+                if (!theField.getType().equals(Person.class)) {
                     results.add(theField.getName());
                 }
             }
@@ -1430,3 +1430,4 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         return super.processAddCollectionLineBusinessRules(document, collectionName, bo);
     }
 }
+

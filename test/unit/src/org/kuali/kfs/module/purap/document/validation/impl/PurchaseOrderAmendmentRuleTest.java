@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.RORENFRO;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -26,7 +26,7 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 
-@ConfigureContext(session = PARKE)
+@ConfigureContext(session = parke)
 public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderAmendmentDocumentRule amendRule;
@@ -54,14 +54,14 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
         }
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testAmendmentValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);      
         assertTrue(amendRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
+    @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testAmendmentValidate_NoItem() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         po.deleteItem(0);
@@ -69,10 +69,11 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
         assertFalse(amendRule.processValidation(po));
     }
 
-    @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
+    @ConfigureContext(session = rorenfro, shouldCommitTransactions=true)
     public void testAmendmentValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);        
         assertFalse(amendRule.processValidation(po));
     }
 }
+

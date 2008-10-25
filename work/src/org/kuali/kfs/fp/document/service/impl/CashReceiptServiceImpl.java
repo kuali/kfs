@@ -41,16 +41,15 @@ import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -69,7 +68,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private CashManagementDao cashManagementDao;
     private CashDrawerService cashDrawerService;
     private ParameterService parameterService;
-    private KualiGroupService kualiGroupService;
+    private GroupService kimGroupService;
     private DictionaryValidationService dictionaryValidationService;
 
     /**
@@ -91,11 +90,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
         vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX")+campusCode;
         
-        KualiGroup group = null;
-        try {
-            group = kualiGroupService.getByGroupName(vunit);
-        }
-        catch (GroupNotFoundException e) {
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", vunit);
+        if (group == null) {
             throw new IllegalArgumentException(vunit+" does not have a corresponding workgroup");
         }
 
@@ -161,7 +157,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
      * 
      * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public String getCashReceiptVerificationUnitForUser(UniversalUser user) {
+    public String getCashReceiptVerificationUnitForUser(Person user) {
         String unitName = null;
 
         if (user == null) {
@@ -280,7 +276,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             DocumentHeader docHeader = cr.getDocumentHeader();
             try {
                 Long documentHeaderId = Long.valueOf(docHeader.getDocumentNumber());
-                UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+                Person user = GlobalVariables.getUserSession().getPerson();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }
@@ -466,22 +462,22 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
 
     /**
-     * Gets the kualiGroupService attribute. 
+     * Gets the kimGroupService attribute. 
      * 
-     * @return Returns the kualiGroupService.
+     * @return Returns the org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().
      */
-    public KualiGroupService getKualiGroupService() {
-        return kualiGroupService;
+    public GroupService getGroupService() {
+        return kimGroupService;
     }
 
 
     /**
-     * Sets the kualiGroupService attribute value.
+     * Sets the kimGroupService attribute value.
      * 
-     * @param kualiGroupService The kualiGroupService to set.
+     * @param kimGroupService The kimGroupService to set.
      */
-    public void setKualiGroupService(KualiGroupService kualiGroupService) {
-        this.kualiGroupService = kualiGroupService;
+    public void setGroupService(GroupService kimGroupService) {
+        this.kimGroupService = kimGroupService;
     }
 
 
@@ -520,3 +516,4 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         this.dictionaryValidationService = dictionaryValidationService;
     }
 }
+

@@ -34,7 +34,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This class provides metadata for the batch upload screen to work for files associated with the enterprise feeder.
@@ -104,17 +104,17 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
     /**
      * Return the file name based on information from user and file user identifier
      * 
-     * @param user UniversalUser object representing user who uploaded file
+     * @param user Person object representing user who uploaded file
      * @param fileUserIdentifer String representing user who uploaded file
      * @return String enterprise feeder formated file name string using information from user and file user identifier
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getFileName(String fileType, UniversalUser user, String fileUserIdentifer) {
+    public String getFileName(String fileType, Person user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPersonUserIdentifier()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension(fileType));
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getFileExtension(fileType));
         return buf.toString();
     }
 
@@ -132,12 +132,12 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param batchFile file being checked for authorization
      * @return true if user is authorized to view file
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+    public boolean checkAuthorization(Person user, File batchFile) {
         boolean isAuthorized = false;
 
-        String userIdentifier = user.getPersonUserIdentifier();
+        String userIdentifier = user.getPrincipalName();
         userIdentifier = StringUtils.remove(userIdentifier, " ");
 
         if (!batchFile.getName().startsWith(FILE_NAME_PREFIX)) {
@@ -211,13 +211,13 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param fileUserIdentifier the file identifier
      * @return String done file name
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
-    public String getDoneFileName(UniversalUser user, String fileUserIdentifer) {
+    public String getDoneFileName(Person user, String fileUserIdentifer) {
         StringBuilder buf = new StringBuilder();
         fileUserIdentifer = StringUtils.deleteWhitespace(fileUserIdentifer);
         fileUserIdentifer = StringUtils.remove(fileUserIdentifer, FILE_NAME_PART_DELIMITER);
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPersonUserIdentifier()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getDoneFileExtension());
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER).append(fileUserIdentifer).append(getDoneFileExtension());
         return buf.toString();
     }
 
@@ -228,13 +228,13 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      * @param files list of files objects
      * @return Set containing all user identifiers from list of files
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.rice.kns.bo.user.UniversalUser, java.util.List)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.rice.kim.bo.Person, java.util.List)
      */
-    public Set<String> extractFileUserIdentifiers(UniversalUser user, List<File> files) {
+    public Set<String> extractFileUserIdentifiers(Person user, List<File> files) {
         Set<String> extractedFileUserIdentifiers = new TreeSet<String>();
 
         StringBuilder buf = new StringBuilder();
-        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPersonUserIdentifier()).append(FILE_NAME_PART_DELIMITER);
+        buf.append(FILE_NAME_PREFIX).append(FILE_NAME_PART_DELIMITER).append(user.getPrincipalName()).append(FILE_NAME_PART_DELIMITER);
         String prefixString = buf.toString();
         IOFileFilter prefixFilter = new PrefixFileFilter(prefixString);
 
@@ -268,3 +268,4 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
         return true;
     }
 }
+

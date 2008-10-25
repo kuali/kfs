@@ -23,10 +23,10 @@
         <ref bean="Proposal-award.proposalNumber" />
         <ref bean="Proposal-proposalOrganizations.organization.organizationCode" />
         <ref bean="Proposal-proposalSubcontractors.subcontractor.subcontractorNumber" />
-        <ref bean="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier" />
+        <ref bean="Proposal-proposalProjectDirectors.projectDirector.principalId" />
         <ref bean="Proposal-lookupPersonUniversalIdentifier" />
-        <ref bean="Proposal-lookupUniversalUser.personUserIdentifier" />
-        <ref bean="Proposal-lookupUniversalUser.personName" />
+        <ref bean="Proposal-lookupPerson.principalName" />
+        <ref bean="Proposal-lookupPerson.name" />
         <ref bean="Proposal-proposal.grantNumber" />
         <ref bean="Proposal-agency.fullName" />
         <ref bean="Proposal-agencyNumber" />
@@ -108,29 +108,29 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="proposalProjectDirectors.projectDirector.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="lookupUniversalUser" />
+          <property name="objectAttributeName" value="lookupPerson" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="lookupPersonUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="lookupUniversalUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="lookupPerson.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="lookupUniversalUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="lookupPerson.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -188,41 +188,41 @@
     <property name="name" value="proposalSubcontractors.subcontractor.subcontractorNumber" />
     <property name="shortLabel" value="Subcontr Num" />
   </bean>
-  <bean id="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier" parent="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" />
+  <bean id="Proposal-proposalProjectDirectors.projectDirector.principalId" parent="Proposal-proposalProjectDirectors.projectDirector.principalId-parentBean" />
 
-  <bean id="Proposal-proposalProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
-    <property name="name" value="proposalProjectDirectors.projectDirector.personUniversalIdentifier" />
+  <bean id="Proposal-proposalProjectDirectors.projectDirector.principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
+    <property name="name" value="proposalProjectDirectors.projectDirector.principalId" />
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
   </bean>
   <bean id="Proposal-lookupPersonUniversalIdentifier" parent="Proposal-lookupPersonUniversalIdentifier-parentBean" />
 
-  <bean id="Proposal-lookupPersonUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Proposal-lookupPersonUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="lookupPersonUniversalIdentifier" />
     <property name="label" value="Project Director Unvl ID" />
     <property name="shortLabel" value="ProjDirUnvlId" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="lookupUniversalUser.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="lookupPerson.principalName" />
   </bean>
-  <bean id="Proposal-lookupUniversalUser.personUserIdentifier" parent="Proposal-lookupUniversalUser.personUserIdentifier-parentBean" />
+  <bean id="Proposal-lookupPerson.principalName" parent="Proposal-lookupPerson.principalName-parentBean" />
 
-  <bean id="Proposal-lookupUniversalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="lookupUniversalUser.personUserIdentifier" />
+  <bean id="Proposal-lookupPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="lookupPerson.principalName" />
     <property name="label" value="Project Director User ID" />
     <property name="shortLabel" value="Proj Dir User ID" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="lookupUniversalUser.personName"
+            p:personNameAttributeName="lookupPerson.name"
             p:universalIdAttributeName="lookupPersonUniversalIdentifier"
-            p:userIdAttributeName="lookupUniversalUser.personUserIdentifier" />
+            p:userIdAttributeName="lookupPerson.principalName" />
     </property>
   </bean>
-  <bean id="Proposal-lookupUniversalUser.personName" parent="Proposal-lookupUniversalUser.personName-parentBean" />
+  <bean id="Proposal-lookupPerson.name" parent="Proposal-lookupPerson.name-parentBean" />
 
-  <bean id="Proposal-lookupUniversalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="lookupUniversalUser.personName" />
+  <bean id="Proposal-lookupPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="lookupPerson.name" />
     <property name="label" value="Project Director User Name" />
     <property name="required" value="false" />
   </bean>
@@ -621,9 +621,9 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personUserIdentifier" />
+                          p:attributeName="projectDirector.principalName" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personName" />
+                          p:attributeName="projectDirector.name" />
                     <bean parent="FieldDefinition"
                           p:attributeName="proposalPrimaryProjectDirectorIndicator" />
                     <bean parent="FieldDefinition"
@@ -633,7 +633,7 @@
                 <property name="summaryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personName" />
+                          p:attributeName="projectDirector.name" />
                     <bean parent="FieldDefinition"
                           p:attributeName="proposalPrimaryProjectDirectorIndicator" />
                     <bean parent="FieldDefinition"
@@ -757,9 +757,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="lookupPersonUniversalIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="lookupUniversalUser.personUserIdentifier" />
+              p:attributeName="lookupPerson.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="lookupUniversalUser.personName" />
+              p:attributeName="lookupPerson.name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -790,3 +790,4 @@
     </property>
   </bean>
 </beans>
+

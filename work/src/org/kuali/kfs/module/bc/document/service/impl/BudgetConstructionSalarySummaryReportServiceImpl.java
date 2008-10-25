@@ -54,25 +54,25 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     private KualiConfigurationService kualiConfigurationService;
 
 
-    public void updateSalarySummaryReport(String personUserIdentifier, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public void updateSalarySummaryReport(String principalName, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
 
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(personUserIdentifier, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalName, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(personUserIdentifier, false);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(principalName, false);
         }
 
     }
 
-    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public Collection<BudgetConstructionOrgSalarySummaryReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgSalarySummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry;
-        Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionSalarySocialSecurityNumber.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionSalarySocialSecurityNumber> bcSalarySsnList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionSalarySocialSecurityNumber.class, principalName, buildOrderByList());
 
 
         Map salaryFundingMap = new HashMap();
@@ -83,7 +83,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         // Map intendedIncumbentMap = new HashMap();
         // for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
         // Collection<BudgetConstructionSalaryFunding> salaryFundingList =
-        // budgetConstructionReportsServiceHelper.getSalaryFunding(personUserIdentifier, ssnEntry.getEmplid());
+        // budgetConstructionReportsServiceHelper.getSalaryFunding(principalName, ssnEntry.getEmplid());
         // for (BudgetConstructionSalaryFunding salaryFundingEntry : salaryFundingList){
         // BudgetConstructionAdministrativePost budgetConstructionAdministrativePost =
         // budgetConstructionReportsServiceHelper.getBudgetConstructionAdministrativePost(salaryFundingEntry.getPendingAppointmentFunding());
@@ -101,7 +101,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
         // now, use a map for salaryFunding
         for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
-            Collection<BudgetConstructionSalaryFunding> salaryFundingList = budgetConstructionReportsServiceHelper.getSalaryFunding(personUserIdentifier, ssnEntry.getEmplid());
+            Collection<BudgetConstructionSalaryFunding> salaryFundingList = budgetConstructionReportsServiceHelper.getSalaryFunding(principalName, ssnEntry.getEmplid());
             salaryFundingMap.put(ssnEntry, salaryFundingList);
         }
 
@@ -112,7 +112,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalPerson = calculatePersonTotal(universityFiscalYear, bcSalarySsnList, listForCalculateTotalPerson, salaryFundingMap);
         Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalOrg = calculateOrgTotal(salarySummaryTotalPerson, listForCalculateTotalOrg, salaryFundingMap);
 
-        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(personUserIdentifier);
+        String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalName);
         for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
 
             Collection<BudgetConstructionSalaryFunding> salaryFundingList = (Collection) salaryFundingMap.get(ssnEntry);
@@ -195,7 +195,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         if (budgetConstructionIntendedIncumbent != null) {
             orgSalarySummaryReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
         }
-        orgSalarySummaryReportEntry.setPersonName(bcSSN.getPersonName());
+        orgSalarySummaryReportEntry.setName(bcSSN.getName());
         // get budgetConstructionIntendedIncumbent, budgetConstructionAdministrativePost, budgetConstructionPosition objects
         budgetConstructionAdministrativePost = budgetConstructionReportsServiceHelper.getBudgetConstructionAdministrativePost(appointmentFundingEntry);
         budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
@@ -671,3 +671,4 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
+

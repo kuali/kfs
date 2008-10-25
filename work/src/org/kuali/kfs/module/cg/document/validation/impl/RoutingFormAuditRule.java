@@ -174,24 +174,24 @@ public class RoutingFormAuditRule {
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].principalId", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
             }
 
             if (person.isProjectDirector()) {
                 projectDirectorCount++;
 
                 Map fieldValues = new HashMap();
-                fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonUniversalIdentifier());
+                fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPrincipalId());
                 ProjectDirector projectDirector = (ProjectDirector) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ProjectDirector.class, fieldValues);
                 if (projectDirector == null) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
+                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].principalId", CGKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }
 
                 String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.PERSONNEL_STATUSES);
                 if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].user.personUserIdentifier", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "mainpage.anchor2", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
+                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].user.principalName", CGKeyConstants.AUDIT_PERSONNEL_STATUS, "mainpage.anchor2", new String[] { person.getUser().getName(), person.getUser().getEmployeeStatusCode() }));
                 }
             }
 
@@ -219,11 +219,11 @@ public class RoutingFormAuditRule {
 
         if (projectDirectorCount == 0) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPersonnel.personUniversalIdentifier", CGKeyConstants.AUDIT_MAIN_PAGE_PD_REQUIRED, "mainpage.anchor2"));
+            auditErrors.add(new AuditError("document.routingFormPersonnel.principalId", CGKeyConstants.AUDIT_MAIN_PAGE_PD_REQUIRED, "mainpage.anchor2"));
         }
         else if (projectDirectorCount > 1) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPersonnel.personUniversalIdentifier", CGKeyConstants.AUDIT_MAIN_PAGE_ONLY_ONE_PD, "mainpage.anchor2"));
+            auditErrors.add(new AuditError("document.routingFormPersonnel.principalId", CGKeyConstants.AUDIT_MAIN_PAGE_ONLY_ONE_PD, "mainpage.anchor2"));
         }
 
         i = 0;
@@ -491,3 +491,4 @@ public class RoutingFormAuditRule {
     }
 
 }
+

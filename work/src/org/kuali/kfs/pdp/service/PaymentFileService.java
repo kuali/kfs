@@ -20,7 +20,7 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.exception.PaymentLoadException;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 
 /**
@@ -62,3 +62,4 @@ public interface PaymentFileService {
     public boolean createOutputFile(LoadPaymentStatus status, String inputFileName);
 
 }
+

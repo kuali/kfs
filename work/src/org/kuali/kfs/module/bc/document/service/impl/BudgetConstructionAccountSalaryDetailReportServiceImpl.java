@@ -229,10 +229,10 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         }
 
         if (pendingAppointmentFunding.getEmplid().equals(BCConstants.Report.VACANT)) {
-            accountMonthlyDetailReport.setPersonName(BCConstants.Report.VACANT);
+            accountMonthlyDetailReport.setName(BCConstants.Report.VACANT);
         }
         else {
-            accountMonthlyDetailReport.setPersonName(budgetConstructionIntendedIncumbent.getPersonName());
+            accountMonthlyDetailReport.setName(budgetConstructionIntendedIncumbent.getName());
         }
 
         if (pendingAppointmentFunding.getAppointmentRequestedFteQuantity().equals(budgetConstructionCalculatedSalaryFoundationTracker.getCsfFullTimeEmploymentQuantity())) {
@@ -361,3 +361,4 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
     }
 
 }
+

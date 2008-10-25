@@ -34,7 +34,7 @@
         <ref bean="LaborCalculatedSalaryFoundationTracker-effectiveDate" />
         <ref bean="LaborCalculatedSalaryFoundationTracker-effectiveSequence" />
         <ref bean="LaborCalculatedSalaryFoundationTracker-emplid" />
-        <ref bean="LaborCalculatedSalaryFoundationTracker-personName" />
+        <ref bean="LaborCalculatedSalaryFoundationTracker-name" />
         <ref bean="LaborCalculatedSalaryFoundationTracker-positionNumber" />
         <ref bean="LaborCalculatedSalaryFoundationTracker-employeeRecord" />
         <ref bean="LaborCalculatedSalaryFoundationTracker-july1BudgetAmount" />
@@ -281,9 +281,9 @@
     <property name="description" value="positionNumber description..." />
   </bean>
   
-  <bean id="LaborCalculatedSalaryFoundationTracker-personName" parent="LaborCalculatedSalaryFoundationTracker-personName-parentBean" />
-  <bean id="LaborCalculatedSalaryFoundationTracker-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="LaborCalculatedSalaryFoundationTracker-name" parent="LaborCalculatedSalaryFoundationTracker-name-parentBean" />
+  <bean id="LaborCalculatedSalaryFoundationTracker-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Person" />
     <property name="shortLabel" value="Name" />
@@ -414,7 +414,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="july1BudgetAmount" />
         <bean parent="FieldDefinition"
@@ -429,3 +429,4 @@
     </property>
   </bean>
 </beans>
+

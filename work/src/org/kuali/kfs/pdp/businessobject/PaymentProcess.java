@@ -25,9 +25,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -38,7 +38,7 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     private Timestamp processTimestamp;
     private String campus;
     private String processUserId;
-    private UniversalUser processUser;
+    private Person processUser;
     private boolean extractedInd;
     private boolean formattedIndicator;
     
@@ -47,8 +47,8 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         this.setExtractedInd(false);
     }
 
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(processUserId);
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+        Person u = userService.getPerson(processUserId);
         setProcessUser(u);
     }
 
@@ -76,13 +76,13 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
         this.processTimestamp = processTimestamp;
     }
 
-    public UniversalUser getProcessUser() {
+    public Person getProcessUser() {
         return processUser;
     }
 
-    public void setProcessUser(UniversalUser processUser) {
+    public void setProcessUser(Person processUser) {
         if (processUser != null) {
-            processUserId = processUser.getPersonUniversalIdentifier();
+            processUserId = processUser.getPrincipalId();
         }
         this.processUser = processUser;
     }
@@ -138,3 +138,4 @@ public class PaymentProcess extends TimestampedBusinessObjectBase {
     }
 
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class AssetLocationServiceTest extends KualiTestBase {
     private AssetLocationService assetLocationService;
     private static Map<LocationField, String> fieldMap = new HashMap<LocationField, String>();
@@ -361,3 +361,4 @@ public class AssetLocationServiceTest extends KualiTestBase {
 
     }
 }
+

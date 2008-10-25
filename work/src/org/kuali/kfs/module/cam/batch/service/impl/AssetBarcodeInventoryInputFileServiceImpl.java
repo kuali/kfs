@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
 import org.kuali.kfs.sys.exception.FileStorageException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
 
@@ -40,10 +40,10 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl#delete(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl#delete(org.kuali.rice.kim.bo.Person, org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String)
      */
     @Override
-    public boolean delete(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
+    public boolean delete(Person user, BatchInputFileSetType inputType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException {
         if (user == null || inputType == null || StringUtils.isBlank(fileUserIdentifier)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
@@ -51,8 +51,8 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
 
         // check user is authorized to delete a file for the batch type
         if (!this.isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to delete a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "delete", inputType.getFileSetTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to delete a file of batch type " + inputType.getFileSetTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "delete", inputType.getFileSetTypeIdentifer());
         }
 
         for (String fileType : inputType.getFileTypes()) {
@@ -69,11 +69,11 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         return true;
     }
 
-    public Map<String, String> save(UniversalUser user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
+    public Map<String, String> save(Person user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
         // check user is authorized to upload a file for the batch type
         if (!isUserAuthorizedForBatchType(inputType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "upload", inputType.getFileSetTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to upload a file of batch type " + inputType.getFileSetTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "upload", inputType.getFileSetTypeIdentifer());
         }
 
         assertNoFilesInSetExist(user, inputType, fileUserIdentifier);
@@ -85,7 +85,7 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         
         if (!inputType.validate(typeToTempFiles)) {
             deleteTempFiles(typeToTempFiles);
-            LOG.error("Upload file validation failed for user " + user.getPersonName() + " identifier " + fileUserIdentifier);
+            LOG.error("Upload file validation failed for user " + user.getName() + " identifier " + fileUserIdentifier);
             throw new ValidationException("File validation failed");
         }
         
@@ -136,3 +136,4 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         return typeToFileNames;
     }
 }
+

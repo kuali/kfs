@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.TWATSON;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.twatson;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = TWATSON)
+@ConfigureContext(session = twatson)
 public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
 
@@ -78,7 +78,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testCreateCashManagementDocument_valid() throws Exception {
         String testDocumentId = null;
 
@@ -108,7 +108,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testCreateCashManagementDocument_cashDrawerAlreadyOpen() throws Exception {
 
         String testDocumentId = null;
@@ -153,7 +153,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testCancelCashManagementDocument_validEmpty() throws Exception {
         String testDocumentId = null;
 
@@ -198,7 +198,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testCancelCashManagementDocument_valid_interimOnly() throws Exception {
         String testDocumentId = null;
 
@@ -220,7 +220,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // create Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser(UserNameFixture.INEFF);
+            changeCurrentUser(UserNameFixture.ineff);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
@@ -231,7 +231,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
             CashManagementDocument interimDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
             SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
@@ -293,7 +293,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_nullBank() throws Exception {
         boolean failedAsExpected = false;
 
@@ -326,7 +326,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_nonverifiedCashReceipt() throws Exception {
         boolean failedAsExpected = false;
 
@@ -352,9 +352,9 @@ public class CashManagementServiceTest extends KualiTestBase {
             // create Interim Deposit
 
             // create CashReceipt
-            changeCurrentUser(UserNameFixture.INEFF);
+            changeCurrentUser(UserNameFixture.ineff);
             CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
 
             List crList = new ArrayList();
             crList.add(cr);
@@ -379,7 +379,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_unsavedCMDoc() throws Exception {
         boolean failedAsExpected = false;
 
@@ -392,7 +392,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashDrawer preDocCD = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(CMST_WORKGROUP, true);
             assertTrue(preDocCD.isClosed());
 
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
             CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nonverified", null);
             testDocumentId = createdDoc.getDocumentNumber();
 
@@ -400,10 +400,10 @@ public class CashManagementServiceTest extends KualiTestBase {
             // create Interim Deposit
 
             // create CashReceipt
-            changeCurrentUser(UserNameFixture.INEFF);
+            changeCurrentUser(UserNameFixture.ineff);
             CashReceiptDocument cr = buildCashReceiptDoc(CMST_WORKGROUP, "CMST noncheck CR", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
-            changeCurrentUser(TWATSON);
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
+            changeCurrentUser(twatson);
 
             List crList = new ArrayList();
             crList.add(cr);
@@ -426,7 +426,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_valid() throws Exception {
         String testDocumentId = null;
 
@@ -452,7 +452,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // create Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser(UserNameFixture.INEFF);
+            changeCurrentUser(UserNameFixture.ineff);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("10.00"));
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("23.00"));
@@ -463,7 +463,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
             SpringContext.getBean(CashManagementService.class).addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
 
@@ -525,7 +525,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     public void testCancelDeposit_cancelSingleInterim() throws Exception {
         String testDocumentId = null;
 
@@ -547,7 +547,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             // add Interim Deposit
 
             // create CashReceipts
-            changeCurrentUser(UserNameFixture.INEFF);
+            changeCurrentUser(UserNameFixture.ineff);
             CashReceiptDocument cr1 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             CashReceiptDocument cr2 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
             CashReceiptDocument cr3 = buildCashReceiptDoc(CMST_WORKGROUP, "CMST CR3", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("25.00"));
@@ -558,7 +558,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             crList.add(cr3);
 
             // add interim deposit
-            changeCurrentUser(TWATSON);
+            changeCurrentUser(twatson);
             CashManagementDocument interimDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
             SpringContext.getBean(CashManagementService.class).addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBank(), crList, new ArrayList(), false);
 
@@ -669,7 +669,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
+    @ConfigureContext(session = twatson, shouldCommitTransactions = true)
     public void testKULEDOCS_1475_existentDocument() throws Exception {
         boolean failedAsExpected = false;
 
@@ -780,13 +780,14 @@ public class CashManagementServiceTest extends KualiTestBase {
                 final String initiatorNetworkId = testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
                 final String previousNetworkId = GlobalVariables.getUserSession().getNetworkId();
                 if (!previousNetworkId.equals(initiatorNetworkId)) {
-                    changeCurrentUser(UserNameFixture.valueOf(initiatorNetworkId.toUpperCase()));
+                    changeCurrentUser(UserNameFixture.valueOf(initiatorNetworkId.toLowerCase()));
                     // Only the initiator can cancel an initiated or saved document.
                     testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentId);
                 }
                 SpringContext.getBean(DocumentService.class).cancelDocument(testDoc, "CMST cleanup cancel");
-                changeCurrentUser(UserNameFixture.valueOf(previousNetworkId.toUpperCase()));
+                changeCurrentUser(UserNameFixture.valueOf(previousNetworkId.toLowerCase()));
             }
         }
     }
 }
+

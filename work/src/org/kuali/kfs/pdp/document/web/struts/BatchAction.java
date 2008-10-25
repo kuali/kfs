@@ -34,7 +34,7 @@ import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.document.service.BatchMaintenanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -73,7 +73,7 @@ public class BatchAction extends KualiAction {
     public ActionForward confirmAndCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
-            public boolean doPostQuestion(String batchIdString, String cancelNote, UniversalUser user) {
+            public boolean doPostQuestion(String batchIdString, String cancelNote, Person user) {
                 return performCancel(batchIdString, cancelNote, user);
             }
         };
@@ -88,7 +88,7 @@ public class BatchAction extends KualiAction {
      * @param cancelNote the cancelation note entered by the user
      * @param user the current user
      */
-    private boolean performCancel(String batchIdString, String cancelNote, UniversalUser user) {
+    private boolean performCancel(String batchIdString, String cancelNote, Person user) {
         try {
             Integer batchId = Integer.parseInt(batchIdString);
             return batchMaintenanceService.cancelPendingBatch(batchId, cancelNote, user);
@@ -113,7 +113,7 @@ public class BatchAction extends KualiAction {
     public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
-            public boolean doPostQuestion(String batchIdString, String note, UniversalUser user) {
+            public boolean doPostQuestion(String batchIdString, String note, Person user) {
                 return performHold(batchIdString, note, user);
             }
         };
@@ -128,7 +128,7 @@ public class BatchAction extends KualiAction {
      * @param user
      * @throws PdpException
      */
-    private boolean performHold(String batchIdString, String holdNote, UniversalUser user) {
+    private boolean performHold(String batchIdString, String holdNote, Person user) {
         try {
             Integer batchId = Integer.parseInt(batchIdString);
             return batchMaintenanceService.holdPendingBatch(batchId, holdNote, user);
@@ -152,7 +152,7 @@ public class BatchAction extends KualiAction {
      */
     public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpBatchQuestionCallback callback = new PdpBatchQuestionCallback() {
-            public boolean doPostQuestion(String batchIdString, String note, UniversalUser user) {
+            public boolean doPostQuestion(String batchIdString, String note, Person user) {
                 return performRemoveHold(batchIdString, note, user);
             }
         };
@@ -167,7 +167,7 @@ public class BatchAction extends KualiAction {
      * @param user
      * @throws PdpException
      */
-    private boolean performRemoveHold(String batchIdString, String changeText, UniversalUser user) {
+    private boolean performRemoveHold(String batchIdString, String changeText, Person user) {
         try {
             Integer batchId = Integer.parseInt(batchIdString);
             return batchMaintenanceService.removeBatchHold(batchId, changeText, user);
@@ -197,7 +197,7 @@ public class BatchAction extends KualiAction {
         Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = KFSConstants.EMPTY_STRING;
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
         boolean actionStatus;
         String message = KFSConstants.EMPTY_STRING;
 
@@ -236,7 +236,7 @@ public class BatchAction extends KualiAction {
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, batchId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
 
-                actionStatus = callback.doPostQuestion(batchId, noteText, universalUser);
+                actionStatus = callback.doPostQuestion(batchId, noteText, person);
                 if (actionStatus) {
                     message = successMessage;
                 }
@@ -323,3 +323,4 @@ public class BatchAction extends KualiAction {
     }
 
 }
+

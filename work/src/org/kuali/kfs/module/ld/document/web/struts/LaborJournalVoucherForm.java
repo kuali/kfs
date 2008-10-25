@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Struts Action Form for the Labor Journal Voucher Document.
@@ -130,8 +130,9 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
         retval.put(KFSPropertyConstants.POSITION_NUMBER, lookupField + ";" + PositionData.class.getName());
 
         lookupField = KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER;
-        retval.put(KFSPropertyConstants.EMPLID, lookupField + ";" + UniversalUser.class.getName());
+        retval.put(KFSPropertyConstants.EMPLID, lookupField + ";" + Person.class.getName());
 
         return retval;
     }
 }
+

@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
 
@@ -42,11 +42,8 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
         List searchResults;
-        if (UniversalUser.class.equals(getBusinessObjectClass())) {
-            searchResults = (List) getUniversalUserService().findUniversalUsers(fieldValues);
-        }
-        else if (getUniversalUserService().hasUniversalUserProperty(getBusinessObjectClass(), fieldValues)) {
-            searchResults = (List) getUniversalUserService().findWithUniversalUserJoin(getBusinessObjectClass(), fieldValues, unbounded);
+        if (Person.class.equals(getBusinessObjectClass())) {
+            searchResults = (List) getPersonService().findPeople(fieldValues);
         }
         else {
             searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
@@ -69,3 +66,4 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
         return searchUsingOnlyPrimaryKeyValues;
     }
 }
+

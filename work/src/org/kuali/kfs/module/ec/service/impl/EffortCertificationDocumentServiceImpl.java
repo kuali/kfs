@@ -51,7 +51,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -208,9 +208,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, actionRequestOfOfficer));
             }
 
-            UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
             if (projectDirector != null) {
-                String accountProjectDirectorPersonUserId = projectDirector.getPersonUserIdentifier();
+                String accountProjectDirectorPersonUserId = projectDirector.getPrincipalId();
                 String actionRequestOfDirector = this.getActionRequest(routeLevelName, RouteLevelNames.PROJECT_DIRECTOR);
                 adHocRoutePersons.add(this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, actionRequestOfDirector));
             }
@@ -412,3 +412,4 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         this.kualiModuleService = kualiModuleService;
     }
 }
+

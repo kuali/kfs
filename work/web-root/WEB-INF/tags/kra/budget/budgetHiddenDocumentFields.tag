@@ -53,7 +53,7 @@
     </c:if>
     
     <c:if test="${!excludeBudgetParameteres}">
-      <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
+      <html:hidden property="document.budget.projectDirector.principalId"/>
       <html:hidden property="document.budget.budgetAgencyNumber" />
       <html:hidden property="document.budget.budgetAgency.fullName" />
 
@@ -73,3 +73,4 @@
     
     <kfs:hiddenDocumentFields isFinancialDocument="false" isTransactionalDocument="false"/>
     
+

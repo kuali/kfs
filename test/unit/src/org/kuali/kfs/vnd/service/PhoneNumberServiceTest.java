@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.vnd.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.rice.kns.web.format.FormatException;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PhoneNumberServiceTest extends KualiTestBase {
 
     private PhoneNumberService phoneNumberService;
@@ -147,3 +147,4 @@ public class PhoneNumberServiceTest extends KualiTestBase {
         }
     }
 }
+

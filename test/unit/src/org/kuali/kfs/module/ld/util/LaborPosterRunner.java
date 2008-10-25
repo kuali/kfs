@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-@ConfigureContext(session = UserNameFixture.KULUSER)
+@ConfigureContext(session = UserNameFixture.kuluser)
 public class LaborPosterRunner extends KualiTestBase {
     private LaborPosterService laborPosterService;
 
@@ -46,3 +46,4 @@ public class LaborPosterRunner extends KualiTestBase {
         System.out.println("Labor Poster stopped");
     }
 }
+

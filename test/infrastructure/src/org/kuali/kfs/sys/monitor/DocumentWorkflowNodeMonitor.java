@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.monitor;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
@@ -37,7 +37,7 @@ public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(networkId));
+        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(networkId));
         String currentNodeName = null;
         if (document.getNodeNames().length > 0) {
             currentNodeName = document.getNodeNames()[0];
@@ -47,3 +47,4 @@ public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
     }
 
 }
+

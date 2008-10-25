@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,8 +49,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
-@ConfigureContext(session = KHUNTLEY)
-//@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley)
+//@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class AssetPaymentServiceTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AssetPaymentServiceTest.class);
 
@@ -61,7 +61,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     private WorkflowDocumentService workflowDocumentService;
 
     @Override
-    // @ConfigureContext(session = UserNameFixture.KHUNTLEY)
+    // @ConfigureContext(session = UserNameFixture.khuntley)
     protected void setUp() throws Exception {
         super.setUp();
         assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
@@ -238,7 +238,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     }
     
     public DocumentHeader getDocumentHeader() throws Exception {
-        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetPaymentDocument", GlobalVariables.getUserSession().getUniversalUser());
+        KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument("AssetPaymentDocument", GlobalVariables.getUserSession().getPerson());
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setWorkflowDocument(workflowDocument);
         documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
@@ -277,3 +277,4 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         assertEquals(assetPaymentService.extractPostedDatePeriod(assetPaymentDetail),false);        
     }
 }
+

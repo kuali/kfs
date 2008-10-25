@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This interface defines methods that a Chart Service must provide
@@ -61,6 +61,7 @@ public interface ChartService {
      * @param kualiUser
      * @return
      */
-    public List getChartsThatUserIsResponsibleFor(UniversalUser kualiUser);
+    public List getChartsThatUserIsResponsibleFor(Person kualiUser);
 
 }
+

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 public class AchBankDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
@@ -31,7 +31,7 @@ public class AchBankDocumentAuthorizer extends FinancialSystemMaintenanceDocumen
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         Map editMode = super.getEditMode(document, user);
         String viewAllWorkgroup = "PD_VIEW_ACH";
 
@@ -42,3 +42,4 @@ public class AchBankDocumentAuthorizer extends FinancialSystemMaintenanceDocumen
         return editMode;
     }
 }
+

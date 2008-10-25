@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -43,7 +43,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         flags.setCanErrorCorrect(false); // PCDO doesn't allow error correction
@@ -65,7 +65,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         List activeNodes = getCurrentRouteLevels(workflowDocument);
 
@@ -92,10 +92,11 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
-        if (!KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+    public void canInitiate(String documentTypeName, Person user) {
+        if (!KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPrincipalName())) {
+            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
         }
     }
 
 }
+

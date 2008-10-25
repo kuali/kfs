@@ -28,7 +28,7 @@ import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -66,26 +66,26 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
-    public List getAccountsThatUserIsResponsibleFor(UniversalUser universalUser) {
+    public List getAccountsThatUserIsResponsibleFor(Person person) {
         LOG.debug("getAccountsThatUserIsResponsibleFor() started");
 
         List accountResponsibilities = new ArrayList();
-        accountResponsibilities.addAll(getFiscalOfficerResponsibilities(universalUser));
-        accountResponsibilities.addAll(getDelegatedResponsibilities(universalUser));
+        accountResponsibilities.addAll(getFiscalOfficerResponsibilities(person));
+        accountResponsibilities.addAll(getDelegatedResponsibilities(person));
         return accountResponsibilities;
     }
 
     /**
      * This method determines if the given user has any responsibilities on the given account
      * 
-     * @param universalUser the user to check responsibilities for
+     * @param person the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user is somehow responsible for account, false if otherwise
      */
-    public boolean determineUserResponsibilityOnAccount(UniversalUser universalUser, Account account) {
-        boolean result = hasFiscalOfficerResponsibility(universalUser, account);
+    public boolean determineUserResponsibilityOnAccount(Person person, Account account) {
+        boolean result = hasFiscalOfficerResponsibility(person, account);
         if (!result) {
-            result = hasDelegatedResponsibility(universalUser, account);
+            result = hasDelegatedResponsibility(person, account);
         }
         return result;
     }
@@ -161,13 +161,13 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     /**
      * method to get the fo responsibilities for the account
      * 
-     * @param universalUser - fiscal officer to check for
+     * @param person - fiscal officer to check for
      * @return list of {@link AccountResponsibility} for this fiscal officer
      */
-    private List getFiscalOfficerResponsibilities(UniversalUser universalUser) {
+    private List getFiscalOfficerResponsibilities(Person person) {
         List fiscalOfficerResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", person.getPrincipalId());
         Collection accounts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
         for (Iterator iter = accounts.iterator(); iter.hasNext();) {
             Account account = (Account) iter.next();
@@ -180,14 +180,14 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     /**
      * This method determines if a given user has fiscal officer responsiblity on a given account.
      * 
-     * @param universalUser the user to check responsibilities for
+     * @param person the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user does have fiscal officer responsibility on account, false if otherwise
      */
-    private boolean hasFiscalOfficerResponsibility(UniversalUser universalUser, Account account) {
+    private boolean hasFiscalOfficerResponsibility(Person person, Account account) {
         boolean hasFiscalOfficerResponsibility = false;
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", person.getPrincipalId());
         criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode());
         criteria.addEqualTo("accountNumber", account.getAccountNumber());
         Collection accounts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
@@ -203,13 +203,13 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     /**
      * method to get the fo delegated responsibilities for the account
      * 
-     * @param universalUser - user to check against
+     * @param person - user to check against
      * @return a list of {@link AccountResponsibility} objects for a delegate
      */
-    private List getDelegatedResponsibilities(UniversalUser universalUser) {
+    private List getDelegatedResponsibilities(Person person) {
         List delegatedResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("accountDelegateSystemId", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
         Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
             Delegate accountDelegate = (Delegate) iter.next();
@@ -232,14 +232,14 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     /**
      * This method determines if a user has delegated responsibilities on a given account.
      * 
-     * @param universalUser the user to check responsibilities for
+     * @param person the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user has delegated responsibilities
      */
-    private boolean hasDelegatedResponsibility(UniversalUser universalUser, Account account) {
+    private boolean hasDelegatedResponsibility(Person person, Account account) {
         boolean hasResponsibility = false;
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("accountDelegateSystemId", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
         criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode());
         criteria.addEqualTo("accountNumber", account.getAccountNumber());
         Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
@@ -275,3 +275,4 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         this.dateTimeService = dateTimeService;
     }
 }
+

@@ -18,7 +18,7 @@
     <property name="attributes" >
       <list>
         <ref bean="BudgetConstructionReasonCodePick-appointmentFundingReasonCode" />
-        <ref bean="BudgetConstructionReasonCodePick-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionReasonCodePick-principalId" />
         <ref bean="BudgetConstructionReasonCodePick-selectFlag" />
         <ref bean="BudgetConstructionReasonCodePick-appointmentFundingReason.appointmentFundingReasonDescription" />
       </list>
@@ -46,10 +46,10 @@
     <property name="summary" value="appointmentFundingReasonCode" />
     <property name="description" value="appointmentFundingReasonCode description..." />
   </bean>
-  <bean id="BudgetConstructionReasonCodePick-personUniversalIdentifier" parent="BudgetConstructionReasonCodePick-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionReasonCodePick-principalId" parent="BudgetConstructionReasonCodePick-principalId-parentBean" />
 
-  <bean id="BudgetConstructionReasonCodePick-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionReasonCodePick-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -61,8 +61,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionReasonCodePick-selectFlag" parent="BudgetConstructionReasonCodePick-selectFlag-parentBean" />
 
@@ -105,7 +105,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="appointmentFundingReasonCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="selectFlag" />
             </list>
@@ -132,7 +132,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="appointmentFundingReasonCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="selectFlag" />
       </list>
@@ -142,10 +142,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="appointmentFundingReasonCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="selectFlag" />
       </list>
     </property>
   </bean>
 </beans>
+

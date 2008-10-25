@@ -35,7 +35,7 @@
         <ref bean="BudgetConstructionRequestMove-financialObjectCode" />
         <ref bean="BudgetConstructionRequestMove-financialObjectTypeCode" />
         <ref bean="BudgetConstructionRequestMove-financialSubObjectCode" />
-        <ref bean="BudgetConstructionRequestMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionRequestMove-principalId" />
         <ref bean="BudgetConstructionRequestMove-requestUpdateErrorCode" />
         <ref bean="BudgetConstructionRequestMove-subAccountNumber" />
       </list>
@@ -391,10 +391,10 @@
     <property name="summary" value="financialSubObjectCode" />
     <property name="description" value="financialSubObjectCode description..." />
   </bean>
-  <bean id="BudgetConstructionRequestMove-personUniversalIdentifier" parent="BudgetConstructionRequestMove-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionRequestMove-principalId" parent="BudgetConstructionRequestMove-principalId-parentBean" />
 
-  <bean id="BudgetConstructionRequestMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionRequestMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -406,8 +406,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionRequestMove-requestUpdateErrorCode" parent="BudgetConstructionRequestMove-requestUpdateErrorCode-parentBean" />
 
@@ -499,7 +499,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="requestUpdateErrorCode" />
               <bean parent="FieldDefinition"
@@ -562,7 +562,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="requestUpdateErrorCode" />
         <bean parent="FieldDefinition"
@@ -608,7 +608,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="requestUpdateErrorCode" />
         <bean parent="FieldDefinition"
@@ -617,3 +617,4 @@
     </property>
   </bean>
 </beans>
+

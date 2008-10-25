@@ -77,10 +77,11 @@
 				<value>webAuthenticationService</value>
 				<value>enWebAuthenticationService</value>
 				<value>authorizationService</value>
-				<value>universalUserService</value>
+				<value>identityManagementService</value>
+    		    <value>personService</value>
+	        	<value>personDao</value>
 				<value>enUserService</value>
-				<value>kualiGroupService</value>
-				<value>workflowGroupService</value>
+				<value>kimGroupService</value>
 				<value>workflowInfoService</value>
 				<value>encryptionService</value>
 				<value>enEncryptionService</value>
@@ -99,7 +100,7 @@
 				<value>persistedLookupMetadataDao</value>
 				<value>lookupUtils</value>
 				<value>kualiLookupable</value>
-				<value>universalUserLookupable</value>
+				<value>personLookupable</value>
 				<value>workflowLookupable</value>
 				<value>kualiInquirable</value>
 				<value>keyValuesService</value>
@@ -133,10 +134,30 @@
 		</property>
 	</bean>
 
-	<alias name="universalUserService" alias="enUserService" />
+  <bean id="identityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
+
+  <bean id="personService" class="org.kuali.rice.kim.service.impl.PersonServiceImpl">
+    <property name="personDao" ref="personDao" />
+    <property name="identityManagementService" ref="identityManagementService" />
+  </bean>
+  
+  <bean id="personDao" class="org.kuali.rice.kim.dao.proxy.PersonDaoProxy">
+    <property name="daoJpa">
+        <bean class="org.kuali.rice.kim.dao.impl.PersonDaoJpa" />
+    </property>
+    <property name="daoOjb">
+        <bean class="org.kuali.rice.kim.dao.impl.PersonDaoOjb" parent="platformAwareDao">
+          <property name="personImplementationClass" value="org.kuali.rice.kim.bo.impl.PersonImpl" />
+          <property name="personEntityTypeCode" value="PERSON" />
+        </bean>
+    </property>
+  </bean>
+  <!-- 
+  <bean id="personDao" parent="platformAwareDao" class="org.kuali.rice.kim.dao.impl.PersonDaoOjb" />
+  -->
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
 	<alias name="encryptionService" alias="enEncryptionService" />
-
+    
 	<bean id="platformTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
 			<ref local="jotm" />
@@ -262,24 +283,6 @@
 		<property name="validatePassword" value="${validate.password}" />
 	</bean>
   -->
-	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.UniversalUserDaoOjb" />
-
-	<bean id="universalUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">
-		<property name="universalUserDao" ref="universalUserDao" />
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="lookupDao" ref="lookupDao" />
-		<property name="kualiModuleService" ref="kualiModuleService" />
-		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
-		<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
-		<property name="workflowUserCapabilities">
-			<bean class="org.kuali.rice.kew.user.UserCapabilities">
-				<property name="lookupSupported" value="true" />
-				<property name="reportSupported" value="true" />
-			</bean>
-		</property>
-	</bean>
-    <alias name="universalUserService" alias="financialSystemUserService"/>
 
 	<bean id="encryptionService" class="org.kuali.rice.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
 		<property name="secretKey">
@@ -327,17 +330,18 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 	</bean>
 
 	<bean id="dataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
-		<property name="authorizationService" ref="authorizationService" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
         <property name="baselinePackages">
             <list>
+		        <value>classpath:org/kuali/rice/kim/bo/datadictionary/PersonImpl.xml</value>
+        		<value>classpath:org/kuali/rice/kim/bo/datadictionary/KimBaseBeans.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRoutePerson.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/AdHocRouteWorkgroup.xml</value>
@@ -358,7 +362,6 @@
 
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Note.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/NoteType.xml</value>
-				<value>classpath:org/kuali/rice/kns/bo/datadictionary/UniversalUser.xml</value>
 
                 <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterNamespaceMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/rice/kns/document/datadictionary/ParameterTypeMaintenanceDocument.xml</value>
@@ -370,7 +373,6 @@
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/rice/kns/document/datadictionary/UniversalUserMaintenanceDocument.xml</value>
             </list>
         </property>
 	</bean>
@@ -385,8 +387,8 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
@@ -539,14 +541,7 @@
 		</property>
 	</bean>
 
-	<bean id="kualiGroupService" class="org.kuali.rice.kns.web.RiceGroupServiceImpl">
-		<property name="workflowGroupService">
-			<bean class="org.kuali.rice.kns.workflow.service.impl.WorkflowGroupServiceImpl" />
-		</property>
-		<property name="kualiWorkflowInfo">
-			<ref bean="workflowInfoService" />
-		</property>
-	</bean>
+	<bean id="kimGroupService" class="org.kuali.rice.kns.web.RiceGroupServiceImpl" />
 
 	<bean id="workflowDocumentService" class="org.kuali.rice.kns.workflow.service.impl.WorkflowDocumentServiceImpl">
 		<property name="workflowInfoService">
@@ -564,8 +559,8 @@
 		<property name="noteDao">
 			<ref bean="noteDao" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
@@ -658,8 +653,8 @@
 		<property name="encryptionService">
 			<ref bean="encryptionService" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 		<property name="lookupService">
 			<ref bean="lookupService" />
@@ -701,14 +696,6 @@
 		</property>
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService"/>
-		</property>
-	</bean>
-
-	<bean id="universalUserLookupable" class="org.kuali.rice.kns.lookup.UniversalUserLookupableImpl" parent="kualiLookupable">
-		<property name="lookupableHelperService">
-			<bean id="universalUserLookupableHelperService" class="org.kuali.rice.kns.lookup.UniversalUserLookupableHelperServiceImpl" parent="lookupableHelperService">
-				<property name="configService" ref="kualiConfigurationService" />
-			</bean>
 		</property>
 	</bean>
 
@@ -813,3 +800,4 @@
 	<bean id="sessionDocumentDaoOjb" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.SessionDocumentDaoOjb" />
 	
 </beans>
+

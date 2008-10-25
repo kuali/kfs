@@ -310,7 +310,7 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
         CashReceiptService crs = SpringContext.getBean(CashReceiptService.class);
-        String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getFinancialSystemUser());
+        String verificationUnit = crs.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
         String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
         crDoc.setCampusLocationCode(campusCode);
 
@@ -360,3 +360,4 @@ public class CashReceiptAction extends KualiAccountingDocumentActionBase {
         cform.getBaselineChecks().addAll(cform.getCashReceiptDocument().getChecks());
     }
 }
+

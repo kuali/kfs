@@ -88,7 +88,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         if (payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID)) {
             identifierField = KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER;
 
-            payeeUserId = newPayeeAchAccount.getPersonUniversalIdentifier();
+            payeeUserId = newPayeeAchAccount.getPrincipalId();
             if (payeeUserId == null) {
                 validEntry = false;
             }
@@ -140,7 +140,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         if (newPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && oldPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPayeeAchAccount.getAchAccountGeneratedIdentifier())) {
             if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newPsdTransactionCd.equals(oldPayeeAchAccount.getPsdTransactionCode())) {
                 if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID)) {
-                    if (newPayeeAchAccount.getPersonUniversalIdentifier().equals(oldPayeeAchAccount.getPersonUniversalIdentifier()))
+                    if (newPayeeAchAccount.getPrincipalId().equals(oldPayeeAchAccount.getPrincipalId()))
                         return valid;
                 }
                 else if (newPayeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.VENDOR_ID)) {
@@ -164,3 +164,4 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
     }
 
 }
+

@@ -19,7 +19,7 @@
       <list>
         <ref bean="BudgetConstructionPullup-chartOfAccountsCode" />
         <ref bean="BudgetConstructionPullup-organizationCode" />
-        <ref bean="BudgetConstructionPullup-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionPullup-principalId" />
         <ref bean="BudgetConstructionPullup-pullFlag" />
         <ref bean="BudgetConstructionPullup-reportsToChartOfAccountsCode" />
         <ref bean="BudgetConstructionPullup-reportsToOrganizationCode" />
@@ -66,10 +66,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionPullup-personUniversalIdentifier" parent="BudgetConstructionPullup-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionPullup-principalId" parent="BudgetConstructionPullup-principalId-parentBean" />
 
-  <bean id="BudgetConstructionPullup-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionPullup-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -81,8 +81,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionPullup-pullFlag" parent="BudgetConstructionPullup-pullFlag-parentBean" />
 
@@ -158,7 +158,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="pullFlag" />
               <bean parent="FieldDefinition"
@@ -191,7 +191,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="pullFlag" />
         <bean parent="FieldDefinition"
@@ -207,7 +207,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="pullFlag" />
         <bean parent="FieldDefinition"
@@ -218,3 +218,4 @@
     </property>
   </bean>
 </beans>
+

@@ -52,7 +52,7 @@ import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.InfrastructureException;
@@ -91,7 +91,7 @@ public class DepositWizardAction extends KualiAction {
         // check authorization manually, since the auth-check isn't inherited by this class
         String cmDocTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer cmDocAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(cmDocTypeName);
-        UniversalUser luser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person luser = GlobalVariables.getUserSession().getPerson();
         cmDocAuthorizer.canInitiate(cmDocTypeName, luser);
 
         // populate the outgoing form used by the JSP if it seems empty
@@ -101,7 +101,7 @@ public class DepositWizardAction extends KualiAction {
             String depositTypeCode = request.getParameter("depositTypeCode");
 
             CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cmDocId);
-            DocumentActionFlags documentActionFlags = cmDocAuthorizer.getDocumentActionFlags(cmDoc, GlobalVariables.getUserSession().getUniversalUser());
+            DocumentActionFlags documentActionFlags = cmDocAuthorizer.getDocumentActionFlags(cmDoc, GlobalVariables.getUserSession().getPerson());
 
             try {
                 initializeForm(dwForm, cmDoc, depositTypeCode, documentActionFlags);
@@ -589,3 +589,4 @@ public class DepositWizardAction extends KualiAction {
         return new ActionForward(cmActionUrl, true);
     }
 }
+

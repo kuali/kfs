@@ -46,9 +46,9 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
      */
-    public void updateLevelSummaryReport(String personUserIdentifier) {
-        budgetConstructionLevelSummaryReportDao.cleanReportsLevelSummaryTable(personUserIdentifier);
-        budgetConstructionLevelSummaryReportDao.updateReportsLevelSummaryTable(personUserIdentifier);
+    public void updateLevelSummaryReport(String principalName) {
+        budgetConstructionLevelSummaryReportDao.cleanReportsLevelSummaryTable(principalName);
+        budgetConstructionLevelSummaryReportDao.updateReportsLevelSummaryTable(principalName);
     }
 
     /**
@@ -64,11 +64,11 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgLevelSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgLevelSummaryReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgLevelSummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgLevelSummaryReport orgLevelSummaryReportEntry;
-        Collection<BudgetConstructionLevelSummary> levelSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionLevelSummary.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionLevelSummary> levelSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionLevelSummary.class, principalName, buildOrderByList());
 
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
@@ -499,3 +499,4 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }
+

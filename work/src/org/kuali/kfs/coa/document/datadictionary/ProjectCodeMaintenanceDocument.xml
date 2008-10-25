@@ -22,7 +22,7 @@
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="projectManagerUniversal"
-              p:attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
+              p:attributeToHighlightOnFail="projectManagerUniversal.principalName" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organization"
               p:activeIndicatorAttributeName="active"
@@ -83,10 +83,10 @@
               p:readOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="projectManagerUniversal.personUserIdentifier"
+              p:name="projectManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="projectManagerUniversal.personName"
+              p:name="projectManagerUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="chartOfAccountsCode"
@@ -112,3 +112,4 @@
   <bean id="ProjectCodeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

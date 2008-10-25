@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.document.service;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.CashReceiptDocument;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * 
@@ -51,7 +51,7 @@ public interface CashReceiptService {
      * @param user The user to retrieve the cash receipt verification unit for.
      * @return Cash receipt verificationUnit workgroupName associated with the given user; null if the user is not a member of any verification unit workgroup.
      */
-    public String getCashReceiptVerificationUnitForUser(UniversalUser user);
+    public String getCashReceiptVerificationUnitForUser(Person user);
 
     /**
      * Returns a List of CashReceiptDocuments for the given verification unit whose status matches the given status code.
@@ -92,3 +92,4 @@ public interface CashReceiptService {
      */
     public abstract boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument);
 }
+

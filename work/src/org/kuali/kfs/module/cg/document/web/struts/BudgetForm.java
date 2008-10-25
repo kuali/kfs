@@ -49,10 +49,10 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -82,7 +82,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
     private BudgetFringeRate newFringeRate;
     private BudgetGraduateAssistantRate newGraduateAssistantRate;
 
-    private UniversalUser initiator;
+    private Person initiator;
 
     private String[] deleteValues = new String[50];
 
@@ -132,7 +132,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
         newPersonnel = new BudgetUser();
         newFringeRate = new BudgetFringeRate();
         newGraduateAssistantRate = new BudgetGraduateAssistantRate();
-        initiator = new UniversalUser();
+        initiator = new org.kuali.rice.kim.bo.impl.PersonImpl();
         setDocument(new BudgetDocument());
         newInstitutionCostShare = new BudgetInstitutionCostShare();
         newThirdPartyCostShare = new BudgetThirdPartyCostShare();
@@ -364,7 +364,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      * 
      * @return Returns the initiator.
      */
-    public UniversalUser getInitiator() {
+    public Person getInitiator() {
         return initiator;
     }
 
@@ -373,7 +373,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      * 
      * @param initiator The initiator to set.
      */
-    public void setInitiator(UniversalUser initiator) {
+    public void setInitiator(Person initiator) {
         this.initiator = initiator;
     }
 
@@ -384,7 +384,7 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(this.getInitiator(),KFSConstants.Modules.CHART);
+            ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(this.getInitiator(),KFSConstants.Modules.CHART);
             if ( chartOrg != null ) {
                 return chartOrg.getOrganizationCode();
             }
@@ -619,8 +619,8 @@ public class BudgetForm extends ResearchDocumentFormBase {
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL));
         }
-        else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser() != null && this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonUniversalIdentifier() != null) {
-            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName()));
+        else if (this.getBudgetDocument().getBudget().getProjectDirector() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson() != null && this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getPrincipalId() != null) {
+            getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getPerson().getName()));
         }
         if (this.getBudgetDocument().getBudget().isAgencyToBeNamedIndicator()) {
             getDocInfo().add(new HeaderField("DataDictionary.Budget.attributes.budgetAgency", TO_BE_NAMED_LABEL));
@@ -910,3 +910,4 @@ public class BudgetForm extends ResearchDocumentFormBase {
         this.getBudgetDocument().getBudget().addBudgetTypeCode(code);
     }
 }
+

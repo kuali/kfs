@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
 /**
  * This class tests the <code>CreditCardReceiptDocumentRule</code>s
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CreditCardReceiptDocumentRuleTest extends KualiTestBase {
 
     /**
@@ -200,3 +200,4 @@ public class CreditCardReceiptDocumentRuleTest extends KualiTestBase {
     }
 
 }
+

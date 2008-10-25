@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailSystemInformationDiscountValidationTest extends KualiTestBase {
     
     private CustomerInvoiceDetailSystemInformationDiscountValidation validation;
@@ -74,3 +74,4 @@ public class CustomerInvoiceDetailSystemInformationDiscountValidationTest extend
     }    
 
 }
+

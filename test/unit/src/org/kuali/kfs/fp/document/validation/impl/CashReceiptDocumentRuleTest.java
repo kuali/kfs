@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.MHKOZLOW;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.mhkozlow;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
 /**
  * This class tests the <code>CashReciptDocumentRule</code>s
  */
-@ConfigureContext(session = MHKOZLOW)
+@ConfigureContext(session = mhkozlow)
 public class CashReceiptDocumentRuleTest extends KualiTestBase {
 
     /**
@@ -196,3 +196,4 @@ public class CashReceiptDocumentRuleTest extends KualiTestBase {
     }
 
 }
+

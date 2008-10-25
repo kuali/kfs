@@ -21,7 +21,7 @@
 	</init>
     <allow>
         <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.ProjectDirector">
-            <param name="include" value="personUniversalIdentifier,personName,primaryDepartmentCode" />
+            <param name="include" value="principalId,personName,primaryDepartmentCode" />
         </convert>
         <create creator="spring" javascript="ProjectDirectorService">
             <param name="beanName" value="projectDirectorService" />
@@ -58,3 +58,4 @@
         </create>
     </allow>
 </dwr>
+

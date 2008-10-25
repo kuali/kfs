@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
@@ -154,12 +154,8 @@ public class PayeeAchAccountLookupableHelperService extends AbstractLookupableHe
         setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
         List searchResults;
-        if (UniversalUser.class.equals(getBusinessObjectClass())) {
-            searchResults = (List) getUniversalUserService().findUniversalUsers(fieldValues);
-        }
-        else if (getUniversalUserService().hasUniversalUserProperty(getBusinessObjectClass(), fieldValues)) {
-            // TODO WARNING: this does not support nested joins, because i don't have a test case
-            searchResults = (List) getUniversalUserService().findWithUniversalUserJoin(getBusinessObjectClass(), fieldValues, unbounded);
+        if (Person.class.equals(getBusinessObjectClass())) {
+            searchResults = (List) getPersonService().findPeople(fieldValues);
         }
         else {
             searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
@@ -173,3 +169,4 @@ public class PayeeAchAccountLookupableHelperService extends AbstractLookupableHe
     }
 
 }
+

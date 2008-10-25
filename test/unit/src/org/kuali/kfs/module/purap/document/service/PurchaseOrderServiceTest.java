@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KULUSER;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.service.DocumentService;
@@ -34,7 +34,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 
 
-@ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+@ConfigureContext(session = kuluser, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
 
@@ -53,7 +53,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
 
     /*
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderRetransmit() throws Exception {   
         // Create and save a minimally-populated basic PO document for each test.
         PurchaseOrderDocument po = 
@@ -99,7 +99,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
     
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testPurchaseOrderPrint() throws Exception {        
         PurchaseOrderDocument po = 
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
@@ -125,7 +125,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
     */
     
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=true)
     public final void testGetInternalPurchasingDollarLimit() {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_WITH_VENDOR_CONTRACT.createPurchaseOrderDocument();
 
@@ -209,7 +209,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      * Tests that the PurchaseOrderService would attempt to update vendor with missing commodity codes.
      * 
      */
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=false)
+    @ConfigureContext(session = kuluser, shouldCommitTransactions=false)
     public void testUpdateVendorCommodityCode() {
         PurchaseOrderDocument po = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE_WITH_VENDOR_COMMODITY_CODE.createPurchaseOrderDocument();
         
@@ -231,3 +231,4 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
     
 }
+

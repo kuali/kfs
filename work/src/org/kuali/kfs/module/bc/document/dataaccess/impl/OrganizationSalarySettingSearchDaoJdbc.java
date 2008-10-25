@@ -196,41 +196,41 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
-    public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
+    public void buildIntendedIncumbentSelect(String principalName, Integer universityFiscalYear) {
 
         LOG.debug("buildIntendedIncumbentSelect() started");
         
-        getSimpleJdbcTemplate().update(buildIntendedIncumbentSelectTemplates[0], personUserIdentifier, universityFiscalYear);
+        getSimpleJdbcTemplate().update(buildIntendedIncumbentSelectTemplates[0], principalName, universityFiscalYear);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanIntendedIncumbentSelect(java.lang.String)
      */
-    public void cleanIntendedIncumbentSelect(String personUserIdentifier) {
+    public void cleanIntendedIncumbentSelect(String principalName) {
 
-        clearTempTableByUnvlId("ld_bcn_incumbent_sel_t", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("ld_bcn_incumbent_sel_t", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildPositionSelect(java.lang.String, java.lang.Integer)
      */
-    public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
+    public void buildPositionSelect(String principalName, Integer universityFiscalYear) {
 
         LOG.debug("buildPositionSelect() started");
 
         String sessionId = new Guid().toString();
-        initSelectedPositionOrgs(sessionId, personUserIdentifier);
+        initSelectedPositionOrgs(sessionId, principalName);
 
-        populatePositionSelectForSubTree(sessionId, personUserIdentifier, universityFiscalYear);
+        populatePositionSelectForSubTree(sessionId, principalName, universityFiscalYear);
 
         clearTempTableBySesId("ld_bcn_build_pos_sel01_mt", "SESID", sessionId);
     }
 
-    private void initSelectedPositionOrgs(String sessionId, String personUserIdentifier) {
+    private void initSelectedPositionOrgs(String sessionId, String principalName) {
 
         int currentLevel = 0;
 
-        int rowsAffected = getSimpleJdbcTemplate().update(initSelectedPositionOrgsTemplates[0], sessionId, currentLevel, personUserIdentifier);
+        int rowsAffected = getSimpleJdbcTemplate().update(initSelectedPositionOrgsTemplates[0], sessionId, currentLevel, principalName);
 
         if (rowsAffected > 0) {
             populateSelectedPositionOrgsSubTree(currentLevel, sessionId);
@@ -254,38 +254,39 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         }
     }
 
-    private void populatePositionSelectForSubTree(String sessionId, String personUserIdentifier, Integer universityFiscalYear) {
+    private void populatePositionSelectForSubTree(String sessionId, String principalName, Integer universityFiscalYear) {
 
         // insert actives that are funded with person or vacant
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[0], personUserIdentifier, sessionId, universityFiscalYear);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[0], principalName, sessionId, universityFiscalYear);
 
         // add actives that are unfunded
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[1], personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[1], principalName, sessionId, universityFiscalYear, principalName);
 
         // insert inactives that are funded due to timing problem
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[2], personUserIdentifier, sessionId, universityFiscalYear);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[2], principalName, sessionId, universityFiscalYear);
 
         // insert inactives that are unfunded
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[3], personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[3], principalName, sessionId, universityFiscalYear, principalName);
 
         // set name field for vacants
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[4], personUserIdentifier);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[4], principalName);
 
         // reset name field for positions that only have deleted funding associated
         // note that this overwrites any actual names except for Inactives
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[5], personUserIdentifier);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[5], principalName);
 
         // anything leftover is not funded
-        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[6], personUserIdentifier);
+        getSimpleJdbcTemplate().update(populatePositionSelectForSubTreeTemplates[6], principalName);
 
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanPositionSelect(java.lang.String)
      */
-    public void cleanPositionSelect(String personUserIdentifier) {
+    public void cleanPositionSelect(String principalName) {
 
-        clearTempTableByUnvlId("ld_bcn_pos_sel_t", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("ld_bcn_pos_sel_t", "PERSON_UNVL_ID", principalName);
     }
 
 }
+

@@ -24,46 +24,47 @@ public interface BudgetPushPullService {
      * Pulls up Budget Construction documents based on user selected Organizations and the current point of view Organization
      * on the Organization Selection screen running in Pullup mode. 
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param FiscalYear
      * @param pointOfViewCharOfAccountsCode
      * @param pointOfViewOrganizationCode
      */
-    public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    public void pullupSelectedOrganizationDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
 
     /**
      * Pushes down Budget Construction documents based on user selected Organizations and the current point of view Organization
      * on the Organization Selection screen running in Pushdown mode. 
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param FiscalYear
      * @param pointOfViewCharOfAccountsCode
      * @param pointOfViewOrganizationCode
      */
-    public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    public void pushdownSelectedOrganizationDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
     
     /**
      * Builds list of budget documents that are in the selected organizations and above the user's point of view. Called from the Org Pull Up screen to display the documents
      * that will be affected by the pull up.
      * 
-     * @param personUniversalIdentifier current user doing the pullup
+     * @param principalId current user doing the pullup
      * @param FiscalYear budget fiscal year
      * @param pointOfViewCharOfAccountsCode user's point of view chart
      * @param pointOfViewOrganizationCode user's point of view org
      * @return int number of rows affected (number of documents)
      */
-    public int buildPullUpBudgetedDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    public int buildPullUpBudgetedDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
     
     /**
      * Builds list of budget documents that are in the selected organizations and at the user's point of view. Called from the Org Push Down screen to display the documents
      * that will be affected by the push down.
      * 
-     * @param personUniversalIdentifier current user doing the pushdown
+     * @param principalId current user doing the pushdown
      * @param FiscalYear budget fiscal year
      * @param pointOfViewCharOfAccountsCode user's point of view chart
      * @param pointOfViewOrganizationCode user's point of view org
      * @return int number of rows affected (number of documents)
      */
-    public int buildPushDownBudgetedDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    public int buildPushDownBudgetedDocuments(String principalId, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
 
 }
+

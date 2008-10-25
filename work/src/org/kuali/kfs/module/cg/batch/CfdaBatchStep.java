@@ -24,15 +24,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.UniversalUserService;
 
 /**
  * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
@@ -46,8 +43,8 @@ public class CfdaBatchStep extends AbstractStep {
 
     private CfdaService cfdaService;
     private MailService mailService;
-    private KualiGroupService kualiGroupService;
-    private UniversalUserService universalUserService;
+    private GroupService kimGroupService;
+    private org.kuali.rice.kim.service.PersonService personService;
 
     /**
      * See the class description.
@@ -60,18 +57,21 @@ public class CfdaBatchStep extends AbstractStep {
         try {
             CfdaUpdateResults results = cfdaService.update();
 
-            KualiGroup workgroup = kualiGroupService.getByGroupName(MAIL_RECIPIENTS_GROUP_NAME);
-            List<String> memberNetworkIds = workgroup.getGroupUsers();
-            for (String id : memberNetworkIds) {
-                try {
-                    UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(id.toUpperCase());
-                    String address = user.getPersonEmailAddress();
+            KimGroup workgroup = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", MAIL_RECIPIENTS_GROUP_NAME);
+            if (workgroup == null) {
+                LOG.fatal("Couldn't find workgroup to send notification to.");
+                return true;
+            }
+            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
+            for (String id : principalIds) {
+                Person user = personService.getPerson(id);
+                if (user != null) {
+                    String address = user.getEmailAddress();
                     if (!StringUtils.isEmpty(address)) {
                         message.addToAddress(address);
                     }
-                }
-                catch (UserNotFoundException unfe) {
-                    LOG.info("User " + id + " doesn't exist.", unfe);
+                } else {
+                    LOG.info("User " + id + " doesn't exist.");
                 }
             }
 
@@ -113,10 +113,6 @@ public class CfdaBatchStep extends AbstractStep {
             LOG.warn("Exception while updating CFDA codes.", ioe);
             return false;
         }
-        catch (GroupNotFoundException gnfe) {
-            LOG.fatal("Couldn't find workgroup to send notification to.", gnfe);
-            return true;
-        }
         catch (InvalidAddressException iae) {
             LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
             return true;
@@ -143,21 +139,22 @@ public class CfdaBatchStep extends AbstractStep {
     }
 
     /**
-     * Sets the {@link KualiGroupService}. For use by Spring.
+     * Sets the {@link GroupService}. For use by Spring.
      * 
-     * @param kualiGroupService The service to be assigned.
+     * @param kimGroupService The service to be assigned.
      */
-    public void setKualiGroupService(KualiGroupService kualiGroupService) {
-        this.kualiGroupService = kualiGroupService;
+    public void setGroupService(GroupService kimGroupService) {
+        this.kimGroupService = kimGroupService;
     }
 
     /**
-     * Sets the {@link UniversalUserService}. For use by Spring.
+     * Sets the {@link org.kuali.rice.kim.service.PersonService}. For use by Spring.
      * 
-     * @param universalUserService The service to be assigned.
+     * @param personService The service to be assigned.
      */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
 }
+

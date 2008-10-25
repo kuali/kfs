@@ -32,7 +32,7 @@ import org.kuali.kfs.pdp.businessobject.BatchSearch;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.BatchSearchDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchSearchDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchSearchDaoOjb.class);
-    private UniversalUserService userService;
+    private org.kuali.rice.kim.service.PersonService userService;
 
     public BatchSearchDaoOjb() {
         super();
@@ -109,7 +109,7 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
     }
 
     // Inject
-    public void setUniversalUserService(UniversalUserService us) {
+    public void setPersonService(org.kuali.rice.kim.service.PersonService us) {
         userService = us;
     }
 
@@ -129,3 +129,4 @@ public class BatchSearchDaoOjb extends PlatformAwareDaoBaseOjb implements BatchS
         }
     }*/
 }
+

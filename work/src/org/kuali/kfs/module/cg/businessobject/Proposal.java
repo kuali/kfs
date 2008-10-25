@@ -27,9 +27,9 @@ import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -786,24 +786,24 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
-    private transient UniversalUser lookupUniversalUser;
+    private transient Person lookupPerson;
 
     /**
-     * Gets the lookup {@link UniversalUser}.
+     * Gets the lookup {@link Person}.
      * 
-     * @return the lookup {@link UniversalUser}
+     * @return the lookup {@link Person}
      */
-    public UniversalUser getLookupUniversalUser() {
-        return lookupUniversalUser;
+    public Person getLookupPerson() {
+        return lookupPerson;
     }
 
     /**
-     * Sets the lookup {@link UniversalUser}
+     * Sets the lookup {@link Person}
      * 
-     * @param lookupUniversalUser
+     * @param lookupPerson
      */
-    public void setLookupUniversalUser(UniversalUser lookupUniversalUser) {
-        this.lookupUniversalUser = lookupUniversalUser;
+    public void setLookupPerson(Person lookupPerson) {
+        this.lookupPerson = lookupPerson;
     }
 
     /**
@@ -812,17 +812,17 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
-        lookupUniversalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPersonUniversalIdentifier;
     }
 
     /**
      * Sets the universal user id of the lookup person
      * 
-     * @param lookupUniversalUserId the id of the lookup person
+     * @param lookupPersonId the id of the lookup person
      */
-    public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
-        this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
+    public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
+        this.lookupPersonUniversalIdentifier = lookupPersonId;
     }
 
     /**
@@ -909,3 +909,4 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     }
 
 }
+

@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
@@ -52,7 +52,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     /**
      * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List)
      */
-    public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, UniversalUser user) {
+    public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user) {
         DistributionOfIncomeAndExpenseDocument document = null;
         try {
             document = (DistributionOfIncomeAndExpenseDocument)documentService.getNewDocument(getClaimingDocumentWorkflowDocumentType());
@@ -90,7 +90,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      * @param claims the electronic payments being claimed
      * @param user the user doing the claiming
      */
-    protected void addNotesToDocument(DistributionOfIncomeAndExpenseDocument claimingDoc, List<ElectronicPaymentClaim> claims, UniversalUser user) {
+    protected void addNotesToDocument(DistributionOfIncomeAndExpenseDocument claimingDoc, List<ElectronicPaymentClaim> claims, Person user) {
         for (String noteText: electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
@@ -181,9 +181,9 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
 
     /**
      * This always returns true if the given user in the claiming workgroup.
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
      */
-    public boolean userMayUseToClaim(UniversalUser claimingUser) {
+    public boolean userMayUseToClaim(Person claimingUser) {
         return electronicPaymentClaimingService.isUserMemberOfClaimingGroup(claimingUser);
     }
 
@@ -290,3 +290,4 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
         return documentTypeService;
     }
 }
+

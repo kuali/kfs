@@ -25,7 +25,7 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -37,10 +37,10 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser, java.util.List, java.util.List)
+     *      org.kuali.rice.kim.bo.Person, java.util.List, java.util.List)
      */
     @Override
-    public Map getEditMode(Document d, UniversalUser u, List sourceAccountingLines, List targetAccountingLines) {
+    public Map getEditMode(Document d, Person u, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
@@ -59,3 +59,4 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
     }
     
 }
+

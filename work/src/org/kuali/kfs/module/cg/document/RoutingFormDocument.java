@@ -54,14 +54,14 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -1698,10 +1698,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return otherPersonRoles;
     }
 
-    public boolean isUserProjectDirector(String personUniversalIdentifier) {
+    public boolean isUserProjectDirector(String principalId) {
         for (RoutingFormPersonnel person : this.routingFormPersonnel) {
             if (person.isProjectDirector()) {
-                return personUniversalIdentifier.equals(person.getPersonUniversalIdentifier());
+                return principalId.equals(person.getPrincipalId());
             }
         }
         return false;
@@ -1768,8 +1768,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         DocumentInitiator initiator = new DocumentInitiator();
         String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
         try {
-            UniversalUser initiatorUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-            initiator.setUniversalUser(initiatorUser);
+            Person initiatorUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(initiatorNetworkId);
+            initiator.setPerson(initiatorUser);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -1831,14 +1831,14 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
         if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
             xml.append("<projectDirector>");
-            xml.append(projectDirector.getPersonUniversalIdentifier());
+            xml.append(projectDirector.getPrincipalId());
             xml.append("</projectDirector>");
             if (StringUtils.isNotBlank(projectDirector.getChartOfAccountsCode())) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
                 if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
-                    xml.append(SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode());
+                    xml.append(org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode());
                 }
                 else {
                     xml.append(projectDirector.getOrganizationCode());
@@ -1857,7 +1857,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         List<AdhocPerson> people = this.getAdhocPersons();
         for (AdhocPerson person : people) {
             xml.append("<adhocApprover>");
-            xml.append(person.getPersonUniversalIdentifier());
+            xml.append(person.getPrincipalId());
             xml.append("</adhocApprover>");
         }
         return xml.toString();
@@ -1965,3 +1965,4 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.budget = budget;
     }
 }
+

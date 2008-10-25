@@ -32,7 +32,7 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
-    private String personUniversalIdentifier;
+    private String principalId;
 
     private Account account;
     private Chart chartOfAccounts;
@@ -122,21 +122,21 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
 
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the principalId.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the principalId attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -201,7 +201,7 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -212,3 +212,4 @@ public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase
     }
 
 }
+

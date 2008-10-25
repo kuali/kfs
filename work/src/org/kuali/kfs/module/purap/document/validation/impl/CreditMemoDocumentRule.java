@@ -551,6 +551,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      */
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
-        return SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getFinancialSystemUser());
+        return SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getPerson());
     }
 }
+

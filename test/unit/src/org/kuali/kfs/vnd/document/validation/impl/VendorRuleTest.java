@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.List;
 
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -34,7 +34,7 @@ import org.kuali.kfs.vnd.fixture.VendorRuleFaxNumberFixture;
  * This class should contain all tests of methods implementing Vendor rules. For this purpose, we need to set up the parts of a
  * MaintenanceDocument.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class VendorRuleTest extends MaintenanceRuleTestBase {
 
     private VendorDetail oldVendor;
@@ -438,3 +438,4 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
     }
 
 }
+

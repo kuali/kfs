@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
@@ -46,7 +46,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, java.lang.String)
      */
-    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, FinancialSystemUser currentUser, Map editModesForDocument, String groupTitle) {
+    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLine line, String accountingLineProperty, Integer accountingLineIndex, Person currentUser, Map editModesForDocument, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
 
         String editMode = this.getEditModeForAccountingLine(accountingDocument, line, (accountingLineIndex == null), currentUser, editModesForDocument);        
@@ -158,7 +158,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * Returns a new empty HashSet
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getReadOnlyBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean)
      */
-    public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser) {
+    public Set<String> getReadOnlyBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         return new HashSet<String>();
     }
 
@@ -166,21 +166,21 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * Returns a new empty HashSet
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean)
      */
-    public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser) {
+    public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         return new HashSet<String>();
     }
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#renderNewLine(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String)
      */
-    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, FinancialSystemUser currentUser) {
+    public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty, Person currentUser) {
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#editModeForAccountingLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.kfs.sys.businessobject.FinancialSystemUser, java.util.Map)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#editModeForAccountingLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person, java.util.Map)
      */
-    public String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
+    public String getEditModeForAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser, Map<String, String> editModesForDocument) {
         if (editModesForDocument.containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
             return AuthorizationConstants.EditMode.UNVIEWABLE;
         }
@@ -195,9 +195,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
     /**
      * If the account does not exist then it's editable (so the current user can correct it!!) or if the user has responsiblity on the account, it's editable; it's not editable otherwise
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isAccountLineEditable(org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isAccountLineEditable(org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.bo.Person)
      */
-    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    protected boolean isAccountingLineEditable(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         
         if (workflowDocument.stateIsCanceled() || (((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentInErrorNumber() != null)) {
@@ -235,7 +235,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the user who is viewing this accounting line
      * @return true if the line is editable, false otherwise
      */
-    protected boolean isAccountingLineEditableOnOrgReview(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    protected boolean isAccountingLineEditableOnOrgReview(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
         return false;
     }
     
@@ -247,7 +247,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the user who is viewing this accounting line
      * @return true if the line is editable, false otherwise
      */
-    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
         AccountService accountService = SpringContext.getBean(AccountService.class);
         Account acct = accountService.getByPrimaryId(accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber());
         
@@ -257,16 +257,17 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isGroupReadOnly(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String, org.kuali.kfs.sys.businessobject.FinancialSystemUser, java.util.Map)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isGroupReadOnly(org.kuali.kfs.sys.document.AccountingDocument, java.lang.String, org.kuali.rice.kim.bo.Person, java.util.Map)
      */
-    public boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, FinancialSystemUser currentUser, Map<String, String> editModesForDocument) {
+    public boolean isGroupReadOnly(AccountingDocument accountingDocument, String accountingLineCollectionProperty, Person currentUser, Map<String, String> editModesForDocument) {
         return editModesForDocument.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY);
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getEditableBlocksInReadOnlyLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.rice.kim.bo.Person)
      */
-    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    public Set<String> getEditableBlocksInReadOnlyLine(AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser) {
         return new HashSet<String>();
     }
 }
+

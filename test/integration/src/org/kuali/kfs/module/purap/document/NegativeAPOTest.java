@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.context.TestUtils;
  * yet, so we'll skip this particular criteria for now. 
  * All the other criterias for APO ineligibility are already added in this class.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class NegativeAPOTest extends KualiTestBase {
 
     private RequisitionDocument requisitionDocument = null;
@@ -137,7 +137,7 @@ public class NegativeAPOTest extends KualiTestBase {
          }  
      }
      
-     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=false)
+     @ConfigureContext(session = khuntley, shouldCommitTransactions=false)
      public void testInvalidAPOHasAlternateVendorName() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES.createRequisitionDocument();
          final String docId = requisitionDocument.getDocumentNumber();
@@ -185,3 +185,4 @@ public class NegativeAPOTest extends KualiTestBase {
      }
      
 }
+

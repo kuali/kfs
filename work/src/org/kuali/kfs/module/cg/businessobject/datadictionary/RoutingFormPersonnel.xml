@@ -40,7 +40,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="RoutingFormPersonnel-personToBeNamedIndicator" />
         <ref bean="RoutingFormPersonnel-personStateCode" />
         <ref bean="RoutingFormPersonnel-personSuffixText" />
-        <ref bean="RoutingFormPersonnel-personUniversalIdentifier" />
+        <ref bean="RoutingFormPersonnel-principalId" />
         <ref bean="RoutingFormPersonnel-personZipCode" />
       </list>
     </property>
@@ -214,7 +214,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="RoutingFormPersonnel-personEmailAddress" parent="RoutingFormPersonnel-personEmailAddress-parentBean" />
 
   <bean id="RoutingFormPersonnel-personEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personEmailAddress" />
+    <property name="name" value="emailAddress" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="E-mail" />
     <property name="shortLabel" value="Address" />
@@ -226,7 +226,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="16" />
     </property>
-    <property name="summary" value="personEmailAddress" />
+    <property name="summary" value="emailAddress" />
     <property name="description" value="personEmailAddress description..." />
   </bean>
   <bean id="RoutingFormPersonnel-personFaxNumber" parent="RoutingFormPersonnel-personFaxNumber-parentBean" />
@@ -447,10 +447,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="summary" value="personSuffixText" />
     <property name="description" value="personSuffixText description..." />
   </bean>
-  <bean id="RoutingFormPersonnel-personUniversalIdentifier" parent="RoutingFormPersonnel-personUniversalIdentifier-parentBean" />
+  <bean id="RoutingFormPersonnel-principalId" parent="RoutingFormPersonnel-principalId-parentBean" />
 
-  <bean id="RoutingFormPersonnel-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="RoutingFormPersonnel-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -462,8 +462,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
 
@@ -509,7 +509,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="personDivisionText" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personEmailAddress" />
+                    p:attributeName="emailAddress" />
               <bean parent="FieldDefinition"
                     p:attributeName="personFaxNumber" />
               <bean parent="FieldDefinition"
@@ -535,7 +535,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="personSuffixText" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="personZipCode" />
             </list>
@@ -576,7 +576,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="personDivisionText" />
         <bean parent="FieldDefinition"
-              p:attributeName="personEmailAddress" />
+              p:attributeName="emailAddress" />
         <bean parent="FieldDefinition"
               p:attributeName="personFaxNumber" />
         <bean parent="FieldDefinition"
@@ -602,7 +602,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="personSuffixText" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="personZipCode" />
       </list>
@@ -626,7 +626,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="personDivisionText" />
         <bean parent="FieldDefinition"
-              p:attributeName="personEmailAddress" />
+              p:attributeName="emailAddress" />
         <bean parent="FieldDefinition"
               p:attributeName="personFaxNumber" />
         <bean parent="FieldDefinition"
@@ -652,10 +652,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="personSuffixText" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="personZipCode" />
       </list>
     </property>
   </bean>
 </beans>
+

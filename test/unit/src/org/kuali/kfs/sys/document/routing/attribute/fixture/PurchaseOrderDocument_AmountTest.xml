@@ -16,9 +16,9 @@
 <documentContent><applicationContent><org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
   <kualiTransactionalDocumentInformation>
     <documentInitiator>
-      <universalUser>
-        <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-        <personUserIdentifier>KHUNTLEY</personUserIdentifier>
+      <person>
+        <principalId>6162502038</principalId>
+        <principalName>khuntley</principalName>
         <personPayrollIdentifier>0000202278</personPayrollIdentifier>
         <personTaxIdentifier/>
         <personTaxIdentifierTypeCode>S</personTaxIdentifierTypeCode>
@@ -78,64 +78,64 @@
           <entry>
             <string>vendor</string>
             <org.kuali.module.vendor.bo.VendorUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>vendor</moduleId>
             </org.kuali.module.vendor.bo.VendorUser>
           </entry>
           <entry>
             <string>financial</string>
             <org.kuali.module.financial.bo.FinancialUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>financial</moduleId>
             </org.kuali.module.financial.bo.FinancialUser>
           </entry>
           <entry>
             <string>gl</string>
             <org.kuali.module.gl.bo.GlUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>gl</moduleId>
             </org.kuali.module.gl.bo.GlUser>
           </entry>
           <entry>
             <string>kra</string>
             <org.kuali.module.kra.budget.bo.KraUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>kra</moduleId>
             </org.kuali.module.kra.budget.bo.KraUser>
           </entry>
           <entry>
             <string>purap</string>
             <org.kuali.module.purap.bo.PurapUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>purap</moduleId>
             </org.kuali.module.purap.bo.PurapUser>
           </entry>
           <entry>
             <string>chart</string>
             <org.kuali.module.chart.bo.ChartUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>chart</moduleId>
             </org.kuali.module.chart.bo.ChartUser>
           </entry>
           <entry>
             <string>labor</string>
             <org.kuali.module.labor.bo.LaborUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>labor</moduleId>
             </org.kuali.module.labor.bo.LaborUser>
           </entry>
           <entry>
             <string>cg</string>
             <org.kuali.module.cg.bo.CgUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>cg</moduleId>
             </org.kuali.module.cg.bo.CgUser>
           </entry>
@@ -145,7 +145,7 @@
         <objectId>1ED56454F9FD20E8E043814FD88120E8</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </universalUser>
+      </person>
     </documentInitiator>
   </kualiTransactionalDocumentInformation>
   <document class="org.kuali.kfs.module.purap.document.PurchaseOrderDocument">
@@ -684,7 +684,7 @@
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
       </responsibilityCenter>
-      <organizationPhysicalCampus reference="../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+      <organizationPhysicalCampus reference="../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
       <organizationType>
         <organizationTypeCode>R</organizationTypeCode>
         <organizationTypeName>RESPONSIBILITY CENTER</organizationTypeName>
@@ -726,7 +726,7 @@
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </responsibilityCenter>
-        <organizationPhysicalCampus reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+        <organizationPhysicalCampus reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
         <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b">
           <organizationTypeCode>C</organizationTypeCode>
           <organizationTypeName>CAMPUS</organizationTypeName>
@@ -759,7 +759,7 @@
           <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts/reportsToChartOfAccounts"/>
           <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
           <responsibilityCenter reference="../../responsibilityCenter"/>
-          <organizationPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+          <organizationPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
           <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b">
             <organizationTypeCode>U</organizationTypeCode>
             <organizationTypeName>UNIVERSITY</organizationTypeName>
@@ -862,7 +862,7 @@
               <chartOfAccounts reference="../../chartOfAccounts"/>
               <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
               <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
-              <organizationPhysicalCampus reference="../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+              <organizationPhysicalCampus reference="../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
               <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
               <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1"/>
               <reportsToChartOfAccounts reference="../../chartOfAccounts"/>
@@ -909,9 +909,9 @@
                 <hrmsLastUpdateDate>2004-08-19 00:00:00.0</hrmsLastUpdateDate>
                 <chartOfAccounts reference="../../../chartOfAccounts"/>
                 <organization reference="../.."/>
-                <hrmsPersonnelApproverUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
-                <hrmsIuCampus reference="../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-                <fiscalApproverUniversal class="org.kuali.rice.kns.bo.user.UniversalUser--EnhancerByCGLIB--3a314bf9"/>
+                <hrmsPersonnelApproverUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--3a314bf9"/>
+                <hrmsIuCampus reference="../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
+                <fiscalApproverUniversal class="org.kuali.rice.kim.bo.Person--EnhancerByCGLIB--3a314bf9"/>
                 <versionNumber>1</versionNumber>
                 <objectId>11400DC3EF85041EE043814FD881041E</objectId>
                 <newCollectionRecord>false</newCollectionRecord>
@@ -932,7 +932,7 @@
               <newCollectionRecord>false</newCollectionRecord>
               <boNotes/>
             </accountType>
-            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
             <accountState>
               <postalStateCode>IN</postalStateCode>
               <postalStateName>INDIANA</postalStateName>
@@ -1031,7 +1031,7 @@
             <hrmsLastUpdateDate>2002-11-02 00:00:00.0</hrmsLastUpdateDate>
             <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../chartOfAccounts/reportsToChartOfAccounts"/>
             <organization reference="../.."/>
-            <hrmsIuCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+            <hrmsIuCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
             <versionNumber>1</versionNumber>
             <objectId>11400DC3F1A3041EE043814FD881041E</objectId>
             <newCollectionRecord>false</newCollectionRecord>
@@ -1063,7 +1063,7 @@
           <hrmsLastUpdateDate>2002-12-11 00:00:00.0</hrmsLastUpdateDate>
           <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../chartOfAccounts"/>
           <organization reference="../.."/>
-          <hrmsIuCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+          <hrmsIuCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
           <versionNumber>1</versionNumber>
           <objectId>11400DC3F2FC041EE043814FD881041E</objectId>
           <newCollectionRecord>false</newCollectionRecord>
@@ -1113,8 +1113,8 @@
         <chartOfAccounts reference="../../chartOfAccounts"/>
         <organization reference="../.."/>
         <hrmsPersonnelApproverUniversal>
-          <personUniversalIdentifier>4124805803</personUniversalIdentifier>
-          <personUserIdentifier>CSTANDLE</personUserIdentifier>
+          <principalId>4124805803</principalId>
+          <principalName>CSTANDLE</principalName>
           <personPayrollIdentifier>0000239657</personPayrollIdentifier>
           <personTaxIdentifier/>
           <personTaxIdentifierTypeCode>S</personTaxIdentifierTypeCode>
@@ -1131,19 +1131,19 @@
           <staff>true</staff>
           <faculty>false</faculty>
           <affiliate>false</affiliate>
-          <campus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-          <employeeStatus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeStatus"/>
-          <employeeType reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeType"/>
+          <campus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
+          <employeeStatus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeStatus"/>
+          <employeeType reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeType"/>
           <activeForAnyModule>false</activeForAnyModule>
           <versionNumber>1</versionNumber>
           <objectId>1ED564558BD520E8E043814FD88120E8</objectId>
           <newCollectionRecord>false</newCollectionRecord>
           <boNotes/>
         </hrmsPersonnelApproverUniversal>
-        <hrmsIuCampus reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+        <hrmsIuCampus reference="../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
         <fiscalApproverUniversal>
-          <personUniversalIdentifier>2093401908</personUniversalIdentifier>
-          <personUserIdentifier>TJKEENAN</personUserIdentifier>
+          <principalId>2093401908</principalId>
+          <principalName>TJKEENAN</principalName>
           <personPayrollIdentifier>0000226165</personPayrollIdentifier>
           <personTaxIdentifier/>
           <personTaxIdentifierTypeCode>S</personTaxIdentifierTypeCode>
@@ -1160,9 +1160,9 @@
           <staff>true</staff>
           <faculty>false</faculty>
           <affiliate>false</affiliate>
-          <campus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-          <employeeStatus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeStatus"/>
-          <employeeType reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeType"/>
+          <campus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
+          <employeeStatus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeStatus"/>
+          <employeeType reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeType"/>
           <activeForAnyModule>false</activeForAnyModule>
           <versionNumber>1</versionNumber>
           <objectId>1ED56455573120E8E043814FD88120E8</objectId>
@@ -1182,7 +1182,7 @@
       <boNotes/>
     </organization>
     <chartOfAccounts reference="../organization/chartOfAccounts"/>
-    <deliveryCampus reference="../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+    <deliveryCampus reference="../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
     <contractManager>
       <contractManagerCode>99</contractManagerCode>
       <contractManagerUserIdentifier>1959008511</contractManagerUserIdentifier>
@@ -1954,7 +1954,7 @@
           <chartOfAccounts class="org.kuali.kfs.coa.businessobject.Chart--EnhancerByCGLIB--3cb1d10b" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
           <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
           <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--a1180de8" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
-          <accountPhysicalCampus class="org.kuali.rice.kns.bo.Campus--EnhancerByCGLIB--4968dd25" reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+          <accountPhysicalCampus class="org.kuali.rice.kns.bo.Campus--EnhancerByCGLIB--4968dd25" reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
           <accountState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--762d2ec2" reference="../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
           <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d">
             <subFundGroupCode>DFRES</subFundGroupCode>
@@ -2023,7 +2023,7 @@
             <chartOfAccounts reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
             <organization reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
             <accountType reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountType"/>
-            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
             <accountState reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
             <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
@@ -2083,7 +2083,7 @@
             <chartOfAccounts reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
             <organization reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/organization"/>
             <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--a1180de8"/>
-            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+            <accountPhysicalCampus reference="../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
             <accountState reference="../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/accountState"/>
             <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--e1b6a31d"/>
             <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--43bd15e9"/>
@@ -2154,14 +2154,14 @@
               <proposalNumber>80479</proposalNumber>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
               <accountNumber>0211909</accountNumber>
-              <personUniversalIdentifier>1959008511</personUniversalIdentifier>
+              <principalId>1959008511</principalId>
               <account reference="../../.."/>
               <chartOfAccounts reference="../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
               <projectDirector>
-                <personUniversalIdentifier>1959008511</personUniversalIdentifier>
-                <universalUser>
-                  <personUniversalIdentifier>1959008511</personUniversalIdentifier>
-                  <personUserIdentifier>AHLERS</personUserIdentifier>
+                <principalId>1959008511</principalId>
+                <person>
+                  <principalId>1959008511</principalId>
+                  <principalName>AHLERS</principalName>
                   <personPayrollIdentifier>0000002820</personPayrollIdentifier>
                   <personTaxIdentifier/>
                   <personTaxIdentifierTypeCode>S</personTaxIdentifierTypeCode>
@@ -2179,15 +2179,15 @@
                   <staff>true</staff>
                   <faculty>false</faculty>
                   <affiliate>false</affiliate>
-                  <campus reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
-                  <employeeStatus reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeStatus"/>
-                  <employeeType reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/employeeType"/>
+                  <campus reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
+                  <employeeStatus reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeStatus"/>
+                  <employeeType reference="../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/employeeType"/>
                   <activeForAnyModule>false</activeForAnyModule>
                   <versionNumber>9</versionNumber>
                   <objectId>1ED56451F00520E8E043814FD88120E8</objectId>
                   <newCollectionRecord>false</newCollectionRecord>
                   <boNotes/>
-                </universalUser>
+                </person>
                 <versionNumber>1</versionNumber>
                 <objectId>0292B1004500BBDEE043814FD881BBDE</objectId>
                 <newCollectionRecord>false</newCollectionRecord>
@@ -2222,7 +2222,7 @@
                     </default>
                     <int>10</int>
                     <org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
-                      <personUniversalIdentifier>1959008511</personUniversalIdentifier>
+                      <principalId>1959008511</principalId>
                       <proposalNumber>80479</proposalNumber>
                       <awardPrimaryProjectDirectorIndicator>true</awardPrimaryProjectDirectorIndicator>
                       <projectDirector reference="../../../../../projectDirector"/>
@@ -2286,7 +2286,7 @@
                         <chartOfAccounts reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
                         <organizationDefaultAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--4e127232"/>
                         <responsibilityCenter class="org.kuali.kfs.coa.businessobject.ResponsibilityCenter--EnhancerByCGLIB--f663186e"/>
-                        <organizationPhysicalCampus reference="../../../../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+                        <organizationPhysicalCampus reference="../../../../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
                         <organizationType class="org.kuali.kfs.coa.businessobject.OrgType--EnhancerByCGLIB--ca8e6f2b"/>
                         <reportsToOrganization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--e73483c1"/>
                         <reportsToChartOfAccounts reference="../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
@@ -2338,7 +2338,7 @@
                           <hrmsLastUpdateDate>2002-11-02 00:00:00.0</hrmsLastUpdateDate>
                           <chartOfAccounts reference="../../../../../../../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
                           <organization reference="../.."/>
-                          <hrmsIuCampus reference="../../../../../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+                          <hrmsIuCampus reference="../../../../../../../../../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
                           <versionNumber>1</versionNumber>
                           <objectId>11400DC3EE44041EE043814FD881041E</objectId>
                           <newCollectionRecord>false</newCollectionRecord>
@@ -2719,7 +2719,7 @@
               <proposalNumber>11</proposalNumber>
               <chartOfAccountsCode>BL</chartOfAccountsCode>
               <accountNumber>0211909</accountNumber>
-              <personUniversalIdentifier>1959008511</personUniversalIdentifier>
+              <principalId>1959008511</principalId>
               <account reference="../../.."/>
               <chartOfAccounts reference="../../../../../../organization/reportsToOrganization/reportsToOrganization/organizationPlantAccount/chartOfAccounts"/>
               <projectDirector reference="../../org.kuali.module.cg.bo.AwardAccount/projectDirector"/>
@@ -2772,7 +2772,7 @@
                     </default>
                     <int>10</int>
                     <org.kuali.kfs.module.cg.businessobject.AwardProjectDirector>
-                      <personUniversalIdentifier>1959008511</personUniversalIdentifier>
+                      <principalId>1959008511</principalId>
                       <proposalNumber>11</proposalNumber>
                       <awardPrimaryProjectDirectorIndicator>true</awardPrimaryProjectDirectorIndicator>
                       <projectDirector reference="../../../../../../org.kuali.module.cg.bo.AwardAccount/projectDirector"/>
@@ -2904,7 +2904,7 @@
                       </default>
                       <int>10</int>
                       <org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector>
-                        <personUniversalIdentifier>1000025979</personUniversalIdentifier>
+                        <principalId>1000025979</principalId>
                         <proposalNumber>11</proposalNumber>
                         <proposalPrimaryProjectDirectorIndicator>true</proposalPrimaryProjectDirectorIndicator>
                         <versionNumber>2</versionNumber>
@@ -3559,3 +3559,4 @@
     <boNotes/>
   </document>
 </org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>
+

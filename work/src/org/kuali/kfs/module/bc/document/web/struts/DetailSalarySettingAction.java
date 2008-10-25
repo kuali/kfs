@@ -39,7 +39,7 @@ import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -52,7 +52,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-    private UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+    private Person currentUser = GlobalVariables.getUserSession().getPerson();
 
     /**
      * @see org.kuali.kfs.module.bc.document.web.struts.SalarySettingBaseAction#execute(org.apache.struts.action.ActionMapping,
@@ -264,3 +264,4 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         appointmentFundings.removeAll(purgedAppointmentFundings);
     }
 }
+

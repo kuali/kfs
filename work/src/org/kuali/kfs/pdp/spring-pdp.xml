@@ -90,7 +90,7 @@
 	</bean>
 
 	<bean id="pdpBatchSearchDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchSearchDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
+		<property name="personService" ref="personService" />
 	</bean>
 
 	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.FormatPaymentDaoOjb">
@@ -100,13 +100,13 @@
 	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PendingTransactionDaoOjb"/>
 
 	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentDetailDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
+		<property name="personService" ref="personService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="pdpPaymentDetailSearchDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentDetailSearchDaoOjb">
-		<property name="universalUserService" ref="universalUserService" />
+		<property name="personService" ref="personService" />
 	</bean>
 
 	<bean id="pdpPaymentFileLoadDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.PaymentFileLoadDaoOjb"/>
@@ -432,7 +432,7 @@
 	</bean>
 
 	<bean id="pdpPdpSecurityService" class="org.kuali.kfs.pdp.service.impl.PdpSecurityServiceImpl">
-		<property name="kualiGroupService" ref="kualiGroupService"/>
+		<property name="groupService" ref="kimGroupService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 	
@@ -486,8 +486,8 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
@@ -520,8 +520,8 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -550,8 +550,8 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
         <property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
@@ -578,3 +578,4 @@
 	</bean>	
 	
 </beans>
+

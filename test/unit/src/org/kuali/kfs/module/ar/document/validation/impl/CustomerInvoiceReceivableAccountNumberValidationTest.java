@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CustomerInvoiceReceivableAccountNumberValidationTest extends KualiTestBase {
 
     private CustomerInvoiceReceivableAccountNumberValidation validation;
@@ -58,3 +58,4 @@ public class CustomerInvoiceReceivableAccountNumberValidationTest extends KualiT
     }
 
 }
+

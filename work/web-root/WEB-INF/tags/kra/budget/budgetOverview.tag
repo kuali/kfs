@@ -71,7 +71,7 @@
                 <logic:iterate id="person" name="KualiForm" property="budgetOverviewFormHelper.budgetOverviewPersonnelHelpers">
 	                <tr>
 	                  <td class="datacell" width="5%">&nbsp;</td>
-	                  <td class="datacell">${person.personName}</td>
+	                  <td class="datacell">${person.name}</td>
 	                  <td class="datacell"><c:choose><c:when test="${empty person.role}">&nbsp;</c:when><c:otherwise>${person.role}</c:otherwise></c:choose></td>
 	                  <td class="datacell">${person.appointmentTypeDescription}</td>
 	                  <td class="datacell" align="right"><div align="center"><c:choose><c:when test="${person.hourlyAppointmentType}">${person.userAgencyHours} hrs.</c:when><c:when test="${KualiForm.currentPeriodNumber ne 0 and KualiForm.currentTaskNumber ne 0}"><fmt:formatNumber value="${person.agencyPercentEffortAmount}" type="number" maxFractionDigits="0" />%</c:when><c:otherwise>&nbsp;</c:otherwise></c:choose></div></td>
@@ -104,7 +104,7 @@
                 <logic:iterate id="person" name="KualiForm" property="budgetOverviewFormHelper.budgetOverviewPersonnelHelpers">
 	                <tr>
 	                  <td class="datacell" align="left">&nbsp;</td>
-	                  <td colspan="2" class="datacell" align="left">${person.personName}</td>
+	                  <td colspan="2" class="datacell" align="left">${person.name}</td>
 	                  <td class="datacell">${person.appointmentTypeDescription}</td>
 	                  <td class="datacell" align="right"><div align="center"><fmt:formatNumber value="${person.contractsAndGrantsFringeRateAmount}" type="number" maxFractionDigits="2" />%</div></td>
 	                  <td class="datacell" align="right"><div align="right"><fmt:formatNumber value="${person.agencyFringeBenefitTotalAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /></div></td>
@@ -239,3 +239,4 @@
         </div>
         </div>
  
+

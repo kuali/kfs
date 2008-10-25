@@ -21,7 +21,7 @@
         <ref bean="BudgetConstructionControlList-chartOfAccountsCode" />
         <ref bean="BudgetConstructionControlList-documentNumber" />
         <ref bean="BudgetConstructionControlList-hierarchyOrganizationLevelCode" />
-        <ref bean="BudgetConstructionControlList-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionControlList-principalId" />
         <ref bean="BudgetConstructionControlList-selectedOrganizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionControlList-selectedOrganizationCode" />
         <ref bean="BudgetConstructionControlList-selectedOrganizationLevelCode" />
@@ -108,10 +108,10 @@
     <property name="summary" value="hierarchyOrganizationLevelCode" />
     <property name="description" value="hierarchyOrganizationLevelCode description..." />
   </bean>
-  <bean id="BudgetConstructionControlList-personUniversalIdentifier" parent="BudgetConstructionControlList-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionControlList-principalId" parent="BudgetConstructionControlList-principalId-parentBean" />
 
-  <bean id="BudgetConstructionControlList-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionControlList-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -123,8 +123,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionControlList-selectedOrganizationChartOfAccountsCode" parent="BudgetConstructionControlList-selectedOrganizationChartOfAccountsCode-parentBean" />
 
@@ -276,7 +276,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="hierarchyOrganizationLevelCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="selectedOrganizationChartOfAccountsCode" />
               <bean parent="FieldDefinition"
@@ -321,7 +321,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="hierarchyOrganizationLevelCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="selectedOrganizationChartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -349,7 +349,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="hierarchyOrganizationLevelCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="selectedOrganizationChartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -368,3 +368,4 @@
     </property>
   </bean>
 </beans>
+

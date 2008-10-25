@@ -26,7 +26,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -108,7 +108,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param user      The user whose permission to put the payment request on hold is to be determined.
      * @return          boolean true if the user has permission to put the payment request on hold.
      */
-    public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    public boolean canHoldPaymentRequest(PaymentRequestDocument document, Person user);
 
     /**
      * Determines if a user has permission to remove a hold on the payment request.
@@ -117,7 +117,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param user      The user whose permission to remove hold on the payment request is to be determined.
      * @return          boolean true if the user has permission to remove hold on the payment request.
      */
-    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, Person user);
 
     /**
      * Removes a hold on a payment request.
@@ -169,7 +169,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param user      The user whose permission to request cancel on the payment request is to be determined.
      * @return          boolean true if the user has permission to request cancel on the payment request.
      */
-    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user);
 
     /**
      * Determines if a user has permission to remove a request for cancel on the payment request.
@@ -178,7 +178,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param user      The user whose permission to remove a request for cancel on the payment request is to be determined.
      * @return          boolean true if the user has permission to remove a request for cancel on the payment request.
      */
-    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
+    public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, Person user);
 
     /**
      * Removes a request cancel on payment request.
@@ -364,3 +364,4 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     public boolean isAwaitingReceiving(Integer paymentRequestIdentifier);
     
 }
+

@@ -19,7 +19,7 @@
     <property name="attributes" >
       <list>
         <ref bean="EmployeeFunding-emplid" />
-        <ref bean="EmployeeFunding-personName" />
+        <ref bean="EmployeeFunding-name" />
         <ref bean="EmployeeFunding-positionNumber" />
         <ref bean="EmployeeFunding-universityFiscalYear" />
         <ref bean="EmployeeFunding-subAccountNumber" />
@@ -49,8 +49,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="ledgerPerson.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -71,12 +71,12 @@
 
   <bean id="EmployeeFunding-emplid" parent="EmployeeFunding-emplid-parentBean" />
 
-  <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="EmployeeFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
-  <bean id="EmployeeFunding-personName" parent="EmployeeFunding-personName-parentBean" />
+  <bean id="EmployeeFunding-name" parent="EmployeeFunding-name-parentBean" />
 
-  <bean id="EmployeeFunding-personName-parentBean" abstract="true" parent="UniversalUser-personName">
+  <bean id="EmployeeFunding-name-parentBean" abstract="true" parent="PersonImpl-name">
   </bean>
   <bean id="EmployeeFunding-positionNumber" parent="EmployeeFunding-positionNumber-parentBean" />
 
@@ -248,7 +248,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
@@ -283,3 +283,4 @@
     </property>
   </bean>
 </beans>
+

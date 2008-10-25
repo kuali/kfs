@@ -46,7 +46,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -75,9 +75,9 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#importFile(java.io.InputStream)
      */
     @Transactional
-    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String principalId) {
         Map payRateHoldingPersonUniversalIdentifierKey = new HashMap();
-        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         
         this.businessObjectService.deleteMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
         
@@ -89,7 +89,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
                 BudgetConstructionPayRateHolding budgetConstructionPayRateHolding = new BudgetConstructionPayRateHolding();
                 String line = fileReader.readLine();
                 ObjectUtil.convertLineToBusinessObject(budgetConstructionPayRateHolding, line, DefaultImportFileFormat.fieldLengths, Arrays.asList(DefaultImportFileFormat.fieldNames));
-                budgetConstructionPayRateHolding.setPersonUniversalIdentifier(personUniversalIdentifier);
+                budgetConstructionPayRateHolding.setPrincipalId(principalId);
                 budgetConstructionPayRateHolding.setAppointmentRequestedPayRate(budgetConstructionPayRateHolding.getAppointmentRequestedPayRate().movePointLeft(2));
                 businessObjectService.save(budgetConstructionPayRateHolding);
                 this.importCount++;
@@ -113,13 +113,13 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @see org.kuali.kfs.module.bc.service.PayrateImportService#update()
      */
     @Transactional
-    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier) {
+    public void update(Integer budgetYear, Person user, List<ExternalizedMessageWrapper> messageList, String principalId) {
         List<PendingBudgetConstructionAppointmentFunding> lockedFundingRecords = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         boolean updateContainsErrors = false;
         this.updateCount = 0;
         
         Map payRateHoldingPersonUniversalIdentifierKey = new HashMap();
-        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        payRateHoldingPersonUniversalIdentifierKey.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         List<BudgetConstructionPayRateHolding> records = (List<BudgetConstructionPayRateHolding>) this.businessObjectService.findMatching(BudgetConstructionPayRateHolding.class, payRateHoldingPersonUniversalIdentifierKey);
         
         if ( !getPayrateLock(lockedFundingRecords, messageList, budgetYear, user, records) ) {
@@ -279,7 +279,7 @@ public class PayrateImportServiceImpl implements PayrateImportService {
      * @return
      */
     @Transactional
-    private boolean getPayrateLock(List<PendingBudgetConstructionAppointmentFunding> lockedRecords, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, UniversalUser user, List<BudgetConstructionPayRateHolding> records) {
+    private boolean getPayrateLock(List<PendingBudgetConstructionAppointmentFunding> lockedRecords, List<ExternalizedMessageWrapper> messageList, Integer budgetYear, Person user, List<BudgetConstructionPayRateHolding> records) {
         List<String> biweeklyPayObjectCodes = BudgetParameterFinder.getBiweeklyPayObjectCodes();
         
         for (BudgetConstructionPayRateHolding record: records) {
@@ -329,3 +329,4 @@ public class PayrateImportServiceImpl implements PayrateImportService {
     }
 
 }
+

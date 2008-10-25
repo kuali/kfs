@@ -101,7 +101,7 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
-		<property name="universalUserService" ref="universalUserService"/>
+		<property name="personService" ref="personService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="creditMemoService" ref="creditMemoService"/>
@@ -151,7 +151,7 @@
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.kfs.module.purap.document.service.impl.PurApWorkflowIntegrationServiceImpl">
         <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
         <property name="workflowDocumentService" ref="workflowDocumentService"/>
-        <property name="universalUserService" ref="universalUserService"/>
+        <property name="personService" ref="personService"/>
 	</bean>
 	
     <bean id="purapGeneralLedgerService" class="org.kuali.kfs.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
@@ -330,7 +330,7 @@
         <property name="workflowInfoService" ref="workflowInfoService" />
         <property name="maintenanceDocumentService" ref="maintenanceDocumentService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="universalUserService" ref="universalUserService" />
+        <property name="personService" ref="personService" />
         <property name="mailService" ref="mailService" />
         <property name="printService" ref="printService" />
 	</bean>
@@ -377,7 +377,7 @@
         <property name="b2bDao" ref="b2bDao"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
-        <property name="universalUserService" ref="universalUserService"/>
+        <property name="personService" ref="personService"/>
     </bean>
 
     <bean id="b2bDao" class="org.kuali.kfs.module.purap.dataaccess.impl.B2BDaoImpl"/>
@@ -710,3 +710,4 @@
 	</bean>
 	
 </beans>
+

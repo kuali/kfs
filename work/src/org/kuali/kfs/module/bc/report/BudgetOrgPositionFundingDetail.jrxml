@@ -32,7 +32,7 @@
 	<field name="reqFy" class="java.lang.String"/>
 	<field name="objectCodes" class="java.lang.String"/>
 	<field name="deleteBox" class="java.lang.String"/>
-	<field name="personName" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
 	<field name="cls" class="java.lang.String"/>
 	<field name="financialSubObjectCode" class="java.lang.String"/>
 	<field name="administrativePost" class="java.lang.String"/>
@@ -2246,3 +2246,4 @@
 			</band>
 		</summary>
 </jasperReport>
+

@@ -25,7 +25,7 @@
         <ref bean="BudgetConstructionPositionInitializationMove-iuPositionType" />
         <ref bean="BudgetConstructionPositionInitializationMove-jobCode" />
         <ref bean="BudgetConstructionPositionInitializationMove-jobCodeDescription" />
-        <ref bean="BudgetConstructionPositionInitializationMove-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionPositionInitializationMove-principalId" />
         <ref bean="BudgetConstructionPositionInitializationMove-positionDepartmentIdentifier" />
         <ref bean="BudgetConstructionPositionInitializationMove-positionDescription" />
         <ref bean="BudgetConstructionPositionInitializationMove-positionEffectiveDate" />
@@ -194,10 +194,10 @@
     <property name="summary" value="jobCodeDescription" />
     <property name="description" value="jobCodeDescription description..." />
   </bean>
-  <bean id="BudgetConstructionPositionInitializationMove-personUniversalIdentifier" parent="BudgetConstructionPositionInitializationMove-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionPositionInitializationMove-principalId" parent="BudgetConstructionPositionInitializationMove-principalId-parentBean" />
 
-  <bean id="BudgetConstructionPositionInitializationMove-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionPositionInitializationMove-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -209,8 +209,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionPositionInitializationMove-positionDepartmentIdentifier" parent="BudgetConstructionPositionInitializationMove-positionDepartmentIdentifier-parentBean" />
 
@@ -550,7 +550,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="jobCodeDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionDepartmentIdentifier" />
               <bean parent="FieldDefinition"
@@ -623,7 +623,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="jobCodeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionDepartmentIdentifier" />
         <bean parent="FieldDefinition"
@@ -679,7 +679,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="jobCodeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionDepartmentIdentifier" />
         <bean parent="FieldDefinition"
@@ -718,3 +718,4 @@
     </property>
   </bean>
 </beans>
+

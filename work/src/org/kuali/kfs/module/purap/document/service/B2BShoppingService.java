@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.document.service;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCartParser;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -32,7 +32,7 @@ public interface B2BShoppingService {
      * @param User ID punching out
      * @return URL to punch out to
      */
-    public String getPunchOutUrl(FinancialSystemUser user);
+    public String getPunchOutUrl(Person user);
 
     /**
      * Create requisition(s) from cxml and return list for display
@@ -41,7 +41,7 @@ public interface B2BShoppingService {
      * @param user User doing the requisitioning
      * @return List of requisitions
      */
-    public List createRequisitionsFromCxml(B2BShoppingCartParser message, FinancialSystemUser user) throws WorkflowException;
+    public List createRequisitionsFromCxml(B2BShoppingCartParser message, Person user) throws WorkflowException;
 
 
 }

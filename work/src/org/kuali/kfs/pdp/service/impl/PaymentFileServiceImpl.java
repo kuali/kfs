@@ -316,7 +316,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         }
 
         batch.setPaymentTotalAmount(paymentFile.getPaymentTotalAmount());
-        batch.setSubmiterUser(GlobalVariables.getUserSession().getUniversalUser());
+        batch.setSubmiterUser(GlobalVariables.getUserSession().getPerson());
 
         return batch;
     }
@@ -440,3 +440,4 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     }
 
 }
+

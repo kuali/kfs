@@ -51,7 +51,7 @@ import org.kuali.rice.kns.service.DocumentAuthorizationService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -319,7 +319,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        budgetForm.setInitiator(SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+        budgetForm.setInitiator(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(budgetForm.getDocument().getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
 
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
@@ -382,7 +382,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         for (AdhocPerson adHocPermission : adHocPermissions) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(adHocPermission);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-            adHocRoutePerson.setId(adHocPermission.getUser().getPersonUserIdentifier());
+            adHocRoutePerson.setId(adHocPermission.getUser().getPrincipalName());
             adHocRoutePerson.setActionRequested("F");
             adHocRoutePersons.add(adHocRoutePerson);
         }
@@ -422,3 +422,4 @@ public class BudgetAction extends ResearchDocumentActionBase {
         return map.size() == counter;
     }
 }
+

@@ -48,7 +48,7 @@ import org.kuali.rice.kew.rule.RoleAttribute;
 import org.kuali.rice.kew.rule.WorkflowAttribute;
 import org.kuali.rice.kew.user.UuId;
 import org.kuali.rice.kew.util.Utilities;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -172,7 +172,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     private static UuId getProjectDirectorUniversalId(ProjectDirectorRole role) {
-        UniversalUser projectDirectorUniversalId = null;
+        Person projectDirectorUniversalId = null;
         if (StringUtils.isNotBlank(role.chart) && StringUtils.isNotBlank(role.accountNumber)) {
             projectDirectorUniversalId = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProjectDirectorForAccount(role.chart, role.accountNumber);
         }
@@ -183,7 +183,7 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
             return null;
         }
 
-        return new UuId(projectDirectorUniversalId.getPersonUniversalIdentifier());
+        return new UuId(projectDirectorUniversalId.getPrincipalId());
 
     }
 
@@ -284,3 +284,4 @@ public class KualiPDAttribute implements RoleAttribute, WorkflowAttribute {
 
     }
 }
+

@@ -32,11 +32,11 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -219,16 +219,16 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     protected boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkGeneralRules called");
-        UniversalUser fiscalOfficer = newAccountGlobal.getAccountFiscalOfficerUser();
-        UniversalUser accountManager = newAccountGlobal.getAccountManagerUser();
-        UniversalUser accountSupervisor = newAccountGlobal.getAccountSupervisoryUser();
+        Person fiscalOfficer = newAccountGlobal.getAccountFiscalOfficerUser();
+        Person accountManager = newAccountGlobal.getAccountManagerUser();
+        Person accountSupervisor = newAccountGlobal.getAccountSupervisoryUser();
 
         boolean success = true;
 
         // the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
-        success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountSupervisor);
-        success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountManager);
+        success &= checkUserStatusAndType("accountFiscalOfficerUser.principalName", fiscalOfficer);
+        success &= checkUserStatusAndType("accountSupervisoryUser.principalName", accountSupervisor);
+        success &= checkUserStatusAndType("accountManagerUser.principalName", accountManager);
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
         if (isSupervisorSameAsFiscalOfficer(newAccountGlobal)) {
@@ -265,7 +265,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * @param newSupervisor
      * @return true if the users are either not changed or pass the sub-rules
      */
-    protected boolean checkAllAccountUsers(AccountGlobal doc, UniversalUser newFiscalOfficer, UniversalUser newManager, UniversalUser newSupervisor) {
+    protected boolean checkAllAccountUsers(AccountGlobal doc, Person newFiscalOfficer, Person newManager, Person newSupervisor) {
         boolean success = true;
 
         if (LOG.isDebugEnabled()) {
@@ -298,7 +298,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * @param index - for storing the error line
      * @return true if the new users pass this sub-rule
      */
-    protected boolean checkAccountUsers(AccountGlobalDetail detail, UniversalUser newFiscalOfficer, UniversalUser newManager, UniversalUser newSupervisor, int index) {
+    protected boolean checkAccountUsers(AccountGlobalDetail detail, Person newFiscalOfficer, Person newManager, Person newSupervisor, int index) {
         boolean success = true;
 
         // only need to do this check if at least one of the user fields is non null
@@ -313,7 +313,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                     LOG.debug("old-Manager: " + account.getAccountManagerUser());
                 }
                 // only need to check if they are not being overridden by the change document
-                if (newSupervisor != null && newSupervisor.getPersonUniversalIdentifier() != null) {
+                if (newSupervisor != null && newSupervisor.getPrincipalId() != null) {
                     if (areTwoUsersTheSame(newSupervisor, account.getAccountFiscalOfficerUser())) {
                         success = false;
                         putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_EQUAL_EXISTING_FISCAL_OFFICER, new String[] { account.getAccountFiscalOfficerUserPersonUserIdentifier(), "Fiscal Officer", detail.getAccountNumber() });
@@ -323,13 +323,13 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                         putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_EQUAL_EXISTING_ACCT_MGR, new String[] { account.getAccountManagerUserPersonUserIdentifier(), "Account Manager", detail.getAccountNumber() });
                     }
                 }
-                if (newManager != null && newManager.getPersonUniversalIdentifier() != null) {
+                if (newManager != null && newManager.getPrincipalId() != null) {
                     if (areTwoUsersTheSame(newManager, account.getAccountSupervisoryUser())) {
                         success = false;
                         putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_MGR_CANNOT_EQUAL_EXISTING_ACCT_SUPERVISOR, new String[] { account.getAccountSupervisoryUserPersonUserIdentifier(), "Account Supervisor", detail.getAccountNumber() });
                     }
                 }
-                if (newFiscalOfficer != null && newFiscalOfficer.getPersonUniversalIdentifier() != null) {
+                if (newFiscalOfficer != null && newFiscalOfficer.getPrincipalId() != null) {
                     if (areTwoUsersTheSame(newFiscalOfficer, account.getAccountSupervisoryUser())) {
                         success = false;
                         putFieldError("accountGlobalDetails[" + index + "].accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_FISCAL_OFFICER_CANNOT_EQUAL_EXISTING_ACCT_SUPERVISOR, new String[] { account.getAccountSupervisoryUserPersonUserIdentifier(), "Account Supervisor", detail.getAccountNumber() });
@@ -346,7 +346,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method is a helper method for checking if the supervisor user is the same as the fiscal officer Calls
-     * {@link AccountGlobalRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * {@link AccountGlobalRule#areTwoUsersTheSame(Person, Person)}
      * 
      * @param accountGlobals
      * @return true if the two users are the same
@@ -357,7 +357,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method is a helper method for checking if the supervisor user is the same as the manager Calls
-     * {@link AccountGlobalRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * {@link AccountGlobalRule#areTwoUsersTheSame(Person, Person)}
      * 
      * @param accountGlobals
      * @return true if the two users are the same
@@ -373,7 +373,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * @param user2
      * @return true if these two users are the same
      */
-    protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
+    protected boolean areTwoUsersTheSame(Person user1, Person user2) {
         if (ObjectUtils.isNull(user1)) {
             return false;
         }
@@ -381,7 +381,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             return false;
         }
         // not a real person object - fail the comparison
-        if (user1.getPersonUniversalIdentifier() == null || user2.getPersonUniversalIdentifier() == null) {
+        if (user1.getPrincipalId() == null || user2.getPrincipalId() == null) {
             return false;
         }
         if (ObjectUtils.equalByKeys(user1, user2)) {
@@ -397,16 +397,16 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * and adds an error to the GlobalErrors.
      * 
      * @param propertyName
-     * @param user - UniversalUser to be tested
+     * @param user - Person to be tested
      * @return true if user is of the requested employee type, false if not, true if the user object is null
      */
-    protected boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
+    protected boolean checkUserStatusAndType(String propertyName, Person user) {
 
         boolean success = true;
 
         // if the user isnt populated, exit with success
         // the actual existence check is performed in the general rules so not testing here
-        if (ObjectUtils.isNull(user) || user.getPersonUniversalIdentifier() == null) {
+        if (ObjectUtils.isNull(user) || user.getPrincipalId() == null) {
             return success;
         }
 
@@ -434,11 +434,11 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
 
-        FinancialSystemUser fiscalOfficer = getKfsUserService().getFinancialSystemUser(fiscalOfficerUserId);
-        if (fiscalOfficer == null || !fiscalOfficer.isActiveFinancialSystemUser() ) {
+        Person fiscalOfficer = getKfsUserService().getPerson(fiscalOfficerUserId);
+        if (fiscalOfficer == null || !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(fiscalOfficer) ) {
             result = false;
             if ( fiscalOfficer != null ) {
-                putFieldError("accountFiscalOfficerUser.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+                putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
             }
         }
 
@@ -818,3 +818,4 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         return result;
     }
 }
+

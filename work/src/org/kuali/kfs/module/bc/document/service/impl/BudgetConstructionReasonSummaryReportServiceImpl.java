@@ -60,27 +60,27 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     BusinessObjectService businessObjectService;
 
 
-    public void updateReasonSummaryReport(String personUserIdentifier, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public void updateReasonSummaryReport(String principalName, Integer universityFiscalYear, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
 
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(personUserIdentifier, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalName, universityFiscalYear, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
         }
         else {
-            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(personUserIdentifier, true);
+            budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithoutThreshold(principalName, true);
         }
 
     }
 
-    public Collection<BudgetConstructionOrgReasonSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    public Collection<BudgetConstructionOrgReasonSummaryReport> buildReports(Integer universityFiscalYear, String principalName, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection<BudgetConstructionOrgReasonSummaryReport> reportSet = new ArrayList();
 
         BudgetConstructionOrgReasonSummaryReport orgReasonSummaryReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
@@ -97,7 +97,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionSalaryFunding salaryFundingEntry : reasonSummaryList) {
             BudgetConstructionAdministrativePost budgetConstructionAdministrativePost = getBudgetConstructionAdministrativePost(salaryFundingEntry.getPendingAppointmentFunding());
             BudgetConstructionPosition budgetConstructionPosition = getBudgetConstructionPosition(universityFiscalYear, salaryFundingEntry.getPendingAppointmentFunding());
-            BudgetConstructionSalarySocialSecurityNumber budgetConstructionSalarySocialSecurityNumber = getBudgetConstructionSalarySocialSecurityNumber(personUserIdentifier, salaryFundingEntry);
+            BudgetConstructionSalarySocialSecurityNumber budgetConstructionSalarySocialSecurityNumber = getBudgetConstructionSalarySocialSecurityNumber(principalName, salaryFundingEntry);
             BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = getBudgetConstructionIntendedIncumbent(salaryFundingEntry.getPendingAppointmentFunding());
             
             administrativePostMap.put(salaryFundingEntry, budgetConstructionAdministrativePost);
@@ -115,7 +115,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         
         // object codes --> helper?
         searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionObjectPick> objectPickList = businessObjectService.findMatching(BudgetConstructionObjectPick.class, searchCriteria);
         String objectCodes = "";
         for (BudgetConstructionObjectPick objectPick : objectPickList) {
@@ -124,7 +124,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         
         // get reason codes  --> helper class?
         searchCriteria.clear();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         Collection<BudgetConstructionReasonCodePick> reasonCodePickList = businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, searchCriteria);
         String reasonCodes = "";
         for (BudgetConstructionReasonCodePick reasonCode : reasonCodePickList) {
@@ -218,7 +218,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         if (budgetConstructionIntendedIncumbent != null) {
             orgReasonSummaryReportEntry.setIuClassificationLevel(budgetConstructionIntendedIncumbent.getIuClassificationLevel());
         }
-        orgReasonSummaryReportEntry.setPersonName(bcSSN.getPersonName());
+        orgReasonSummaryReportEntry.setName(bcSSN.getName());
         // get budgetConstructionIntendedIncumbent, budgetConstructionAdministrativePost, budgetConstructionPosition objects
         budgetConstructionAdministrativePost = getBudgetConstructionAdministrativePost(appointmentFundingEntry);
         budgetConstructionPosition = getBudgetConstructionPosition(universityFiscalYear, appointmentFundingEntry);
@@ -644,10 +644,10 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             return false;
     }
 
-    private BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String personUserIdentifier, BudgetConstructionSalaryFunding salaryFunding){
+    private BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String principalName, BudgetConstructionSalaryFunding salaryFunding){
         
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalName);
         searchCriteria.put(KFSPropertyConstants.EMPLID, salaryFunding.getEmplid());
         return (BudgetConstructionSalarySocialSecurityNumber) businessObjectService.findByPrimaryKey(BudgetConstructionSalarySocialSecurityNumber.class, searchCriteria);
     }
@@ -692,3 +692,4 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     }
 
 }
+

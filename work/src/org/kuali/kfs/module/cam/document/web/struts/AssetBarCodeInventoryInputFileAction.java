@@ -45,7 +45,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
@@ -123,8 +123,8 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         }
 
         try {
-            //Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form).isSupressDoneFileCreation(),uploadDescription);
-            Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form));            
+            //Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form).isSupressDoneFileCreation(),uploadDescription);
+            Map<String, String> typeToSavedFileNames =  batchInputFileSetService.save(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getFileUserIdentifer(), typeToStreamMap, ((AssetBarCodeInventoryInputFileForm) form));            
         }
         catch (FileStorageException e) {
             LOG.error("Error occured while trying to save file set (probably tried to save a file that already exists).", e);
@@ -167,7 +167,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         File batchInputFile = null;
         try {
-            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getUniversalUser(), batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
+            batchInputFile = batchInputFileSetService.download(GlobalVariables.getUserSession().getPerson(), batchType, kualiBatchInputFileSetForm.getDownloadFileType(), batchUpload.getExistingFileName());
         }
         catch (FileNotFoundException e1) {
             LOG.error("errors downloading file " + e1.getMessage(), e1);
@@ -193,7 +193,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
     public void setupForm(KualiBatchInputFileSetForm form) {
         List<KeyLabelPair> userFiles = new ArrayList<KeyLabelPair>();
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         BatchInputFileSetType batchInputFileSetType = retrieveBatchInputFileSetTypeImpl(form.getBatchUpload().getBatchInputTypeName());
 
         if (batchInputFileSetType == null) {
@@ -259,7 +259,7 @@ public class AssetBarCodeInventoryInputFileAction extends KualiBatchInputFileSet
 
         BatchInputFileSetType batchType = retrieveBatchInputFileSetTypeImpl(batchUpload.getBatchInputTypeName());
         try {
-            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getFinancialSystemUser(), batchType, batchUpload.getExistingFileName());
+            boolean deleteSuccessful = batchInputFileSetService.delete(GlobalVariables.getUserSession().getPerson(), batchType, batchUpload.getExistingFileName());
 
             if (deleteSuccessful) {
                 GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL);

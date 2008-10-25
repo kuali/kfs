@@ -29,13 +29,13 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -47,14 +47,14 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AccountingDocumentAuthorizerBase extends FinancialSystemTransactionalDocumentAuthorizerBase implements AccountingDocumentAuthorizer {
     private static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
 
-    protected FinancialSystemUserService financialSystemUserService;
+    protected PersonService personService;
     
     
     /**
      * @see org.kuali.rice.kns.authorization.FinancialDocumentAuthorizer#getAccountingLineEditableFields(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getAccountingLineEditableFields(Document document, UniversalUser user) {
+    public Map getAccountingLineEditableFields(Document document, Person user) {
         return new HashMap();
     }
 
@@ -74,10 +74,10 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * because even if the state is briefly enroute, the route level is never ORG_REVIEW or ACCOUNT_REVIEW.
      * 
      * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser, java.util.List, java.util.List)
+     *      org.kuali.rice.kim.bo.Person, java.util.List, java.util.List)
      */
-    public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
-        FinancialSystemUser financialSystemUser = getKfsUserService().convertUniversalUserToFinancialSystemUser(user);
+    public Map getEditMode(Document document, Person user, List sourceAccountingLines, List targetAccountingLines) {
+        Person financialSystemUser = user;
 
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
 
@@ -136,13 +136,13 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @param user
      * @return true if the given user is responsible for any accounting line of the given transactionalDocument
      */
-    protected boolean userOwnsAnyAccountingLine(FinancialSystemUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
         for (Iterator i = accountingLines.iterator(); i.hasNext();) {
             AccountingLine accountingLine = (AccountingLine) i.next();
             String chartCode = accountingLine.getChartOfAccountsCode();
             String accountNumber = accountingLine.getAccountNumber();
 
-            if (user.isResponsibleForAccount(chartCode, accountNumber)) {
+            if (org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber)) {
                 return true;
             }
         }
@@ -156,7 +156,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @param accountService the accountService
      * @return true if the line is editable, false otherwise 
      */
-    private boolean determineLineEditability(AccountingLine line, UniversalUser currentUser, AccountService accountService) {
+    private boolean determineLineEditability(AccountingLine line, Person currentUser, AccountService accountService) {
         Account acct = accountService.getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
         if (ObjectUtils.isNull(acct)) return true;
         if (accountService.hasResponsibilityOnAccount(currentUser, acct)) return true;
@@ -167,7 +167,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      org.kuali.module.chart.bo.KfsUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
 
         Map editableAccounts = new HashMap();
         AccountingDocument acctDoc = (AccountingDocument) document;
@@ -195,7 +195,7 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
      * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer#getEditableAccounts(java.util.List,
      *      org.kuali.module.chart.bo.KfsUser)
      */
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         Map editableAccounts = new HashMap();
         AccountService accountService = SpringContext.getBean(AccountService.class);
         
@@ -209,15 +209,16 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
 
 
-    public FinancialSystemUserService getKfsUserService() {
-        if ( financialSystemUserService == null ) {
-            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+    public PersonService getKfsUserService() {
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
         }
-        return financialSystemUserService;
+        return personService;
     }
 
 
-    public void setKfsUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
+    public void setKfsUserService(PersonService personService) {
+        this.personService = personService;
     }
 }
+

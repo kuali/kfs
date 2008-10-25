@@ -52,7 +52,7 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     }
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         equipmentLoanOrReturnService = new EquipmentLoanOrReturnServiceImpl();
@@ -79,3 +79,4 @@ public class EquipmentLoanOrReturnServiceTest extends KualiTestBase {
     }
 
 }
+

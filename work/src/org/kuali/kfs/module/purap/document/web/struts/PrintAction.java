@@ -33,12 +33,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -63,9 +62,9 @@ public class PrintAction extends KualiAction {
         // get the vendor quote
         // call the print service
         PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocNumber);
-        UniversalUser curUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person curUser = GlobalVariables.getUserSession().getPerson();
         if (!hasPrintAuthorization(po, curUser)) {
-            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPersonUserIdentifier(), "print", "Purchase Order"});
+            throw new DocumentInitiationAuthorizationException(KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, new String[]{curUser.getPrincipalName(), "print", "Purchase Order"});
         }
 
         
@@ -128,14 +127,15 @@ public class PrintAction extends KualiAction {
         return null;
     }
     
-    private boolean hasPrintAuthorization(Document document, UniversalUser user) {
+    private boolean hasPrintAuthorization(Document document, Person user) {
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_INITIATE_ACTION);
-        try {
-            return SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-        }
-        catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        if (group != null) {
+            return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+        } else {
+            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found");
         }
     }
 
 }
+

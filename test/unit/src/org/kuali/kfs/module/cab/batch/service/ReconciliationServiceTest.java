@@ -40,7 +40,7 @@ public class ReconciliationServiceTest extends BatchTestBase {
 
     private BatchExtractService batchExtractService;
 
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -105,3 +105,4 @@ public class ReconciliationServiceTest extends BatchTestBase {
     }
 
 }
+

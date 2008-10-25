@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.inquiry.Inquirable;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -404,8 +404,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
         try {
             ContractsAndGrantsModuleService contractsAndGrantsModuleService = SpringContext.getBean(ContractsAndGrantsModuleService.class);
-            UniversalUser projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
-            projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getPersonName()) : KFSConstants.EMPTY_STRING;
+            Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
+            projectDirectorName = projectDirector != null ? MessageFormat.format("  ({0})", projectDirector.getName()) : KFSConstants.EMPTY_STRING;
         }
         catch (Exception e) {
             LOG.error("Cannot find a project director for the account:" + account);
@@ -427,3 +427,4 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
         return buildAccountInfo(account);
     }
 }
+

@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document.authorization;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 
@@ -34,7 +34,8 @@ public class AdvanceDepositAccountingLineAuthorizer extends AccountingLineAuthor
      * @return true if the line is editable, false otherwise
      */
     @Override
-    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, FinancialSystemUser currentUser) {
+    protected boolean isAccountingLineEditableOnAccountReview(AccountingDocument document, AccountingLine accountingLine, Person currentUser) {
         return false;
     }
 }
+

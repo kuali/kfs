@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.authorization.AuthorizationType;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ModuleAuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -91,14 +91,14 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      */
     @Override
     public void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
 
         if (!getKualiModuleService().isAuthorized(currentUser, bcAuthorizationType)) {
             LOG.error("User not authorized to use this action: " + this.getClass().getName());
 
             ModuleService module = getKualiModuleService().getResponsibleModuleService(this.getClass());
-            throw new ModuleAuthorizationException(currentUser.getPersonUserIdentifier(), bcAuthorizationType, module);
+            throw new ModuleAuthorizationException(currentUser.getPrincipalName(), bcAuthorizationType, module);
         }
     }
 
@@ -382,3 +382,4 @@ public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
      */
     protected abstract String getFundingAwareObjectName();
 }
+

@@ -31,9 +31,9 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
  */
 public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    private static final String LOOKUP_USER_ID_FIELD = "lookupUniversalUser.personUserIdentifier";
-    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.projectDirector.personUniversalIdentifier";
-    private static final String PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD = "universalUser.personUserIdentifier";
+    private static final String LOOKUP_USER_ID_FIELD = "lookupPerson.principalName";
+    private static final String LOOKUP_UNIVERSAL_USER_ID_FIELD = "proposalProjectDirectors.projectDirector.principalId";
+    private static final String PROJECT_DIRECTOR_USER_ID_LOOKUP_FIELD = "person.principalName";
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
@@ -50,7 +50,7 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
                 return Collections.EMPTY_LIST;
             }
             // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, pds.iterator().next().getPersonUniversalIdentifier());
+            fieldValues.put(LOOKUP_UNIVERSAL_USER_ID_FIELD, pds.iterator().next().getPrincipalId());
             fieldValues.remove(LOOKUP_USER_ID_FIELD);
         }
 
@@ -58,3 +58,4 @@ public class ProposalLookupableHelperServiceImpl extends KualiLookupableHelperSe
     }
 
 }
+

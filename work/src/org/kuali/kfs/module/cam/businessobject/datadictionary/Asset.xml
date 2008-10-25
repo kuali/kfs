@@ -72,13 +72,13 @@
         <ref bean="Asset-vendorName" />
         <ref bean="Asset-capitalAssetType.depreciableLifeLimit" />
         <ref bean="Asset-representativeUniversalIdentifier" />
-        <ref bean="Asset-assetRepresentative.personUserIdentifier" />
-        <ref bean="Asset-assetRepresentative.personName" />
+        <ref bean="Asset-assetRepresentative.principalName" />
+        <ref bean="Asset-assetRepresentative.name" />
 
         <!-- ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalIdentifier" />
-        <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier" />
-        <ref bean="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personName" / -->
-        <ref bean="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" />
+        <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.principalName" />
+        <ref bean="EquipmentLoanOrReturnDocument-borrowerPerson.name" / -->
+        <ref bean="Asset-loanOrReturnInfo.borrowerPerson.name" />
 
         <ref bean="Asset-organizationOwnerAccountNumber" />
         <ref bean="Asset-organizationOwnerChartOfAccountsCode" />
@@ -165,18 +165,18 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="representativeUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="assetRepresentative.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="assetRepresentative.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="assetRepresentative.personName"
-                    p:targetName="personName" />
+                    p:sourceName="assetRepresentative.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -951,33 +951,33 @@
   </bean>
   <bean id="Asset-representativeUniversalIdentifier" parent="Asset-representativeUniversalIdentifier-parentBean" />
 
-  <bean id="Asset-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Asset-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="representativeUniversalIdentifier" />
     <property name="label" value="Asset Representative ID" />
     <property name="shortLabel" value="Representative ID" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="assetRepresentative.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="assetRepresentative.principalName" />
   </bean>
-  <bean id="Asset-assetRepresentative.personUserIdentifier" parent="Asset-assetRepresentative.personUserIdentifier-parentBean" />
+  <bean id="Asset-assetRepresentative.principalName" parent="Asset-assetRepresentative.principalName-parentBean" />
 
-  <bean id="Asset-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="assetRepresentative.personUserIdentifier" />
+  <bean id="Asset-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="assetRepresentative.principalName" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="assetRepresentative.personName"
+            p:personNameAttributeName="assetRepresentative.name"
             p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="assetRepresentative.personUserIdentifier" />
+            p:userIdAttributeName="assetRepresentative.principalName" />
     </property>
   </bean>
-  <bean id="Asset-assetRepresentative.personName" parent="Asset-assetRepresentative.personName-parentBean" />
+  <bean id="Asset-assetRepresentative.name" parent="Asset-assetRepresentative.name-parentBean" />
 
-  <bean id="Asset-assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="assetRepresentative.personName" />
+  <bean id="Asset-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="assetRepresentative.name" />
     <property name="label" value="Asset Representative Name" />
     <property name="shortLabel" value="Representative" />
     <property name="required" value="false" />
@@ -1333,10 +1333,10 @@
     <property name="label" value="Buyer" />
     <property name="shortLabel" value="Buyer" />
   </bean>
-  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName" parent="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" />
+  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name" parent="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" />
 																										
-  <bean id="Asset-loanOrReturnInfo.borrowerUniversalUser.personName-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerUniversalUser.personUserIdentifier">
-    <property name="name" value="loanOrReturnInfo.borrowerUniversalUser.personName" />
+  <bean id="Asset-loanOrReturnInfo.borrowerPerson.name-parentBean" abstract="true" parent="EquipmentLoanOrReturnDocument-borrowerPerson.principalName">
+    <property name="name" value="loanOrReturnInfo.borrowerPerson.name" />
     <property name="label" value="Name" />
   </bean>
   <bean id="Asset-loanOrReturnInfo.borrowerAddress" parent="Asset-loanOrReturnInfo.borrowerAddress-parentBean" />
@@ -1672,9 +1672,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="representativeUniversalIdentifier" />
               <bean parent="FieldDefinition"
-                    p:attributeName="assetRepresentative.personUserIdentifier" />
+                    p:attributeName="assetRepresentative.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="assetRepresentative.personName" />
+                    p:attributeName="assetRepresentative.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="assetOrganization.organizationText" />
               <bean parent="FieldDefinition"
@@ -1846,7 +1846,7 @@
               <bean parent="InquirySubSectionHeaderDefinition"
                     p:attributeName="Borrower Address" />
               <bean parent="FieldDefinition"
-                    p:attributeName="loanOrReturnInfo.borrowerUniversalUser.personName" />
+                    p:attributeName="loanOrReturnInfo.borrowerPerson.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="loanOrReturnInfo.borrowerAddress" />
               <bean parent="FieldDefinition"
@@ -2138,9 +2138,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="representativeUniversalIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="assetRepresentative.personUserIdentifier" />
+              p:attributeName="assetRepresentative.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="assetRepresentative.personName" />
+              p:attributeName="assetRepresentative.name" />
         <bean parent="FieldDefinition"
               p:attributeName="organizationInventoryName" />
         <bean parent="FieldDefinition"
@@ -2203,3 +2203,4 @@
     </property>
   </bean>
 </beans>
+

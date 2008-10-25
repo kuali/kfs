@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.LookupDao;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -156,7 +156,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 
         if (businessObject instanceof Batch) {
-            UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+            Person person = GlobalVariables.getUserSession().getPerson();
             Batch batch = (Batch) businessObject;
             Integer batchId = batch.getId().intValue();
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
@@ -164,7 +164,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             String url = KFSConstants.EMPTY_STRING;
             String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.BATCH_SEARCH_DETAIL_ACTION;
 
-            if (universalUser.isMember(PdpConstants.Groups.CANCEL_GROUP) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
+            if (person.isMember(PdpConstants.Groups.CANCEL_GROUP) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
 
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
@@ -176,7 +176,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-            else if (universalUser.isMember(PdpConstants.Groups.HOLD_GROUP)) {
+            else if (person.isMember(PdpConstants.Groups.HOLD_GROUP)) {
 
                 if (batchMaintenanceService.doBatchPaymentsHaveHeldStatus(batchId)) {
 
@@ -308,3 +308,4 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
 }
+

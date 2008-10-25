@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.document.validation.impl;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -43,7 +43,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
 
         Chart chart = (Chart) document.getNewMaintainableObject().getBusinessObject();
         ChartService chartService = SpringContext.getBean(ChartService.class);
-        FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);  
+        PersonService personService = SpringContext.getBean(PersonService.class);  
         
 
         String chartCode = chart.getChartOfAccountsCode();
@@ -59,15 +59,15 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        FinancialSystemUser chartManager = financialSystemUserService.getFinancialSystemUser(chart.getFinCoaManagerUniversalId());
+        Person chartManager = personService.getPerson(chart.getFinCoaManagerUniversalId());
         if ( chartManager == null ) {
             result = false;
-            putFieldError("finCoaManagerUniversal.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
+            putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
         }
 
-        if (chartManager != null && !chartManager.isActiveFinancialSystemUser()) {
+        if (chartManager != null && !org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isActive(chartManager)) {
             result = false;
-            putFieldError("finCoaManagerUniversal.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
+            putFieldError("finCoaManagerUniversal.principalName", KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }
 
 
@@ -76,3 +76,4 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
     }
 
 }
+

@@ -34,7 +34,7 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetFringeRateServiceTest.class);
 
     private static final String UNKNOWN_USERNAME = "foo";
-    private static final String KNOWN_USERNAME = "KHUNTLEY";
+    private static final String KNOWN_USERNAME = "khuntley";
     private static final String UNKNOWN_DOCUMENT_TYPENAME = "bar";
     private static final String KNOWN_DOCUMENT_TYPENAME = "KualiBudgetDocument";
     private static final Long UNKNOWN_DOCHEADERID = new Long(-1);
@@ -74,3 +74,4 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
         assertTrue(SpringContext.getBean(BudgetFringeRateService.class).isValidCostShare(budgetFringeRate.getInstitutionCostShareFringeRateAmount()));
     }
 }
+

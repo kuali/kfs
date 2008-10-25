@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -38,11 +38,11 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
     /**
      * Adds hasAmountTotal flag.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        LOG.debug("calling DocumentActionFlags.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+        LOG.debug("calling DocumentActionFlags.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         // if document implements AmountTotaling interface, then we should display the total
@@ -57,7 +57,7 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
     }
 
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         LOG.debug("getEditMode() started");
 
         String editMode = KfsAuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
@@ -83,3 +83,4 @@ public class CorrectionDocumentAuthorizer extends FinancialSystemTransactionalDo
         return editModeMap;
     }
 }
+

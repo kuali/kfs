@@ -17,9 +17,9 @@
     <property name="objectLabel" value="Proposal Project Director" />
     <property name="attributes" >
       <list>
-        <ref bean="ProposalProjectDirector-personUniversalIdentifier" />
-        <ref bean="ProposalProjectDirector-projectDirector.personUserIdentifier" />
-        <ref bean="ProposalProjectDirector-projectDirector.personName" />
+        <ref bean="ProposalProjectDirector-principalId" />
+        <ref bean="ProposalProjectDirector-projectDirector.principalName" />
+        <ref bean="ProposalProjectDirector-projectDirector.name" />
         <ref bean="ProposalProjectDirector-proposalNumber" />
         <ref bean="ProposalProjectDirector-proposalPrimaryProjectDirectorIndicator" />
         <ref bean="ProposalProjectDirector-proposalProjectDirectorProjectTitle" />
@@ -32,26 +32,26 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProposalProjectDirector-personUniversalIdentifier" parent="ProposalProjectDirector-personUniversalIdentifier-parentBean" />
+  <bean id="ProposalProjectDirector-principalId" parent="ProposalProjectDirector-principalId-parentBean" />
 
-  <bean id="ProposalProjectDirector-personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
+  <bean id="ProposalProjectDirector-principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="ProposalProjectDirector-projectDirector.personUserIdentifier" parent="ProposalProjectDirector-projectDirector.personUserIdentifier-parentBean" />
+  <bean id="ProposalProjectDirector-projectDirector.principalName" parent="ProposalProjectDirector-projectDirector.principalName-parentBean" />
 
-  <bean id="ProposalProjectDirector-projectDirector.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="projectDirector.personUserIdentifier" />
+  <bean id="ProposalProjectDirector-projectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="projectDirector.principalName" />
     <property name="label" value="Project Director User ID" />
     <property name="required" value="false" />
   </bean>
-  <bean id="ProposalProjectDirector-projectDirector.personName" parent="ProposalProjectDirector-projectDirector.personName-parentBean" />
+  <bean id="ProposalProjectDirector-projectDirector.name" parent="ProposalProjectDirector-projectDirector.name-parentBean" />
 
-  <bean id="ProposalProjectDirector-projectDirector.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="projectDirector.personName" />
+  <bean id="ProposalProjectDirector-projectDirector.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="projectDirector.name" />
     <property name="label" value="Name" />
     <property name="required" value="false" />
     <property name="control" >
@@ -130,7 +130,7 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
               <bean parent="FieldDefinition"
@@ -161,7 +161,7 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
@@ -175,7 +175,7 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
@@ -188,3 +188,4 @@
     </property>
   </bean>
 </beans>
+

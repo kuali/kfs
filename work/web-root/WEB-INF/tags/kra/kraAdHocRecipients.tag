@@ -122,8 +122,8 @@
 	                    			  userName="${KualiForm.newAdHocRoutePerson.name}"
 	                    			  readOnly="${displayReadOnly}" 
 	                    			  renderOtherFields="true"
-	                    			  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
-	                    			  lookupParameters="newAdHocRoutePerson.id:personUserIdentifier" />
+	                    			  fieldConversions="principalName:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
+	                    			  lookupParameters="newAdHocRoutePerson.id:principalName" />
 	                      </div>
                     	</td>
                     	<td class="infoline"><div align=center>--</div></td>
@@ -157,19 +157,19 @@
 	                    </c:if>
 	                    <td class="datacell center" colspan="2">
 	                    	<div align=center>
-		                    	<kul:user userIdFieldName="person[${status.index}].personUserIdentifier" 
-		                    			  userId="${KualiForm.document.adhocPersons[status.index].personUserIdentifier}" 
+		                    	<kul:user userIdFieldName="person[${status.index}].principalName" 
+		                    			  userId="${KualiForm.document.adhocPersons[status.index].principalName}" 
 		                    			  universalIdFieldName=""
 		                    			  universalId=""
 		                    			  userNameFieldName="person[${status.index}].name"
 		                    			  userName="${KualiForm.document.adhocPersons[status.index].name}"
 		                    			  readOnly="${displayReadOnly}" 
 		                    			  renderOtherFields="true"
-		                    			  fieldConversions="personUserIdentifier:person.user.personUserIdentifier,personName:person.user.personName" 
-		                    			  lookupParameters="person.user.personUserIdentifier:personUserIdentifier" />
+		                    			  fieldConversions="principalName:person.user.principalName,personName:person.user.name" 
+		                    			  lookupParameters="person.user.principalName:principalName" />
 	                    	</div>
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personUniversalIdentifier" />
-	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personUserIdentifier" />
+	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.principalId" />
+	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.principalName" />
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personFirstName" />
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.personLastName" />
 	                    </td>
@@ -182,7 +182,7 @@
 	                      <div align="center">
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.adhocPersonItem[${status.index}].permissionCode" /></c:if>
 	                    	<kul:htmlControlAttribute property="document.adhocPersonItem[${status.index}].permissionCode" attributeEntry="${adhocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-							<html:hidden property="document.adhocPersonItem[${status.index}].personUniversalIdentifier" />
+							<html:hidden property="document.adhocPersonItem[${status.index}].principalId" />
 							<html:hidden property="document.adhocPersonItem[${status.index}].adhocTypeCode" />
 							<html:hidden property="document.adhocPersonItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.adhocPersonItem[${status.index}].personAddedTimestamp" />
@@ -199,7 +199,7 @@
 	                </c:when>
 	                <c:otherwise>
 	                	<html:hidden property="document.adhocPersonItem[${status.index}].actionRequested" />
-	                	<html:hidden property="document.adhocPersonItem[${status.index}].personUniversalIdentifier" />
+	                	<html:hidden property="document.adhocPersonItem[${status.index}].principalId" />
 	                	<html:hidden property="document.adhocPersonItem[${status.index}].permissionCode" />
 	                	<html:hidden property="document.adhocPersonItem[${status.index}].addedByPerson" />
 	                    <html:hidden property="document.adhocPersonItem[${status.index}].adhocTypeCode" />
@@ -451,3 +451,4 @@
 	        </table>
 	    </div>
 	</kul:tabTop>
+

@@ -37,7 +37,7 @@
         <ref bean="PaymentGroupHistory-changeTime" />
         <ref bean="PaymentGroupHistory-paymentChange.code" />
         <ref bean="PaymentGroupHistory-paymentChange.name" />
-        <ref bean="PaymentGroupHistory-changeUser.personUserIdentifier" />
+        <ref bean="PaymentGroupHistory-changeUser.principalName" />
         <ref bean="PaymentGroupHistory-disbursementType.name" />
         <ref bean="PaymentGroupHistory-origPaymentStatus.name" />
         <ref bean="PaymentGroupHistory-origBankCode" />
@@ -194,10 +194,10 @@
     <property name="label" value="Payment Change" />
     <property name="shortLabel" value="Payment Change" />
   </bean>
-  <bean id="PaymentGroupHistory-changeUser.personUserIdentifier" parent="PaymentGroupHistory-changeUser.personUserIdentifier-parentBean" />
+  <bean id="PaymentGroupHistory-changeUser.principalName" parent="PaymentGroupHistory-changeUser.principalName-parentBean" />
 
-  <bean id="PaymentGroupHistory-changeUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="changeUser.personUserIdentifier" />
+  <bean id="PaymentGroupHistory-changeUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="changeUser.principalName" />
     <property name="label" value="Change User" />
     <property name="shortLabel" value="Change User" />
   </bean>
@@ -335,7 +335,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="paymentChange.code" />
               <bean parent="FieldDefinition"
-                    p:attributeName="changeUser.personUserIdentifier" />   
+                    p:attributeName="changeUser.principalName" />   
               <bean parent="FieldDefinition"
                     p:attributeName="disbursementType.name" /> 
               <bean parent="FieldDefinition"
@@ -452,3 +452,4 @@
     </property>
   </bean>
 </beans>
+

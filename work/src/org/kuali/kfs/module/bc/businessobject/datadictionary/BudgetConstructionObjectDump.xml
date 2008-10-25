@@ -22,7 +22,7 @@
         <ref bean="BudgetConstructionObjectDump-financialObjectCode" />
         <ref bean="BudgetConstructionObjectDump-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionObjectDump-organizationCode" />
-        <ref bean="BudgetConstructionObjectDump-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionObjectDump-principalId" />
         <ref bean="BudgetConstructionObjectDump-subAccountNumber" />
         <ref bean="BudgetConstructionObjectDump-subFundGroupCode" />
         <ref bean="BudgetConstructionObjectDump-universityFiscalYear" />
@@ -123,10 +123,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionObjectDump-personUniversalIdentifier" parent="BudgetConstructionObjectDump-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionObjectDump-principalId" parent="BudgetConstructionObjectDump-principalId-parentBean" />
 
-  <bean id="BudgetConstructionObjectDump-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionObjectDump-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -138,8 +138,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionObjectDump-subAccountNumber" parent="BudgetConstructionObjectDump-subAccountNumber-parentBean" />
 
@@ -221,7 +221,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="subAccountNumber" />
               <bean parent="FieldDefinition"
@@ -260,7 +260,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
@@ -282,7 +282,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
@@ -293,3 +293,4 @@
     </property>
   </bean>
 </beans>
+

@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
-@ConfigureContext(session = UserNameFixture.TWATSON)
+@ConfigureContext(session = UserNameFixture.twatson)
 public class CashieringTransactionRuleTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "FP_CASH_MANAGEMENT_USERS_KO";
 
@@ -508,3 +508,4 @@ public class CashieringTransactionRuleTest extends KualiTestBase {
         return new Date(cal.getTimeInMillis());
     }
 }
+

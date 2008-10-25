@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.service;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This interface is a non spring managed interface that is implemented by both PaymentRequestService and CreditMemoService
@@ -35,7 +35,7 @@ public interface AccountsPayableDocumentSpecificService {
 
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc);
 
-    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc);
+    public Person getPersonForCancel(AccountsPayableDocument apDoc);
 
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc);
 
@@ -49,3 +49,4 @@ public interface AccountsPayableDocumentSpecificService {
      */
     public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDoc);
 }
+

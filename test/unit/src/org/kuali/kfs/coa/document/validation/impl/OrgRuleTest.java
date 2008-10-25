@@ -16,7 +16,7 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class OrgRuleTest extends ChartRuleTestBase {
 
     private static final String GOOD_CHART = "UA";
@@ -169,3 +169,4 @@ public class OrgRuleTest extends ChartRuleTestBase {
         return primaryKeys;
     }
 }
+

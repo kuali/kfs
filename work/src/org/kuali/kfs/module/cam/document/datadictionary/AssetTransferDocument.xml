@@ -54,8 +54,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="AssetTransferDocument-organizationText" />
         <ref bean="AssetTransferDocument-transferOfFundsFinancialDocumentNumber" />
         <ref bean="AssetTransferDocument-representativeUniversalIdentifier" />
-        <ref bean="AssetTransferDocument-assetRepresentative.personUserIdentifier" />
-        <ref bean="AssetTransferDocument-assetRepresentative.personName" />
+        <ref bean="AssetTransferDocument-assetRepresentative.principalName" />
+        <ref bean="AssetTransferDocument-assetRepresentative.name" />
         <ref bean="AssetTransferDocument-objectId" />
         <ref bean="AssetTransferDocument-versionNumber" />
         <ref bean="AssetTransferDocument-documentNumber" />
@@ -368,7 +368,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="AssetTransferDocument-representativeUniversalIdentifier" parent="AssetTransferDocument-representativeUniversalIdentifier-parentBean" />
 
-  <bean id="AssetTransferDocument-representativeUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="AssetTransferDocument-representativeUniversalIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="representativeUniversalIdentifier" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="Representative" />
@@ -377,24 +377,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="AssetTransferDocument-assetRepresentative.personUserIdentifier" parent="AssetTransferDocument-assetRepresentative.personUserIdentifier-parentBean" />
+  <bean id="AssetTransferDocument-assetRepresentative.principalName" parent="AssetTransferDocument-assetRepresentative.principalName-parentBean" />
 
-  <bean id="AssetTransferDocument-assetRepresentative.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="assetRepresentative.personUserIdentifier" />
+  <bean id="AssetTransferDocument-assetRepresentative.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="assetRepresentative.principalName" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="assetRepresentative.personName"
+            p:personNameAttributeName="assetRepresentative.name"
             p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="assetRepresentative.personUserIdentifier" />
+            p:userIdAttributeName="assetRepresentative.principalName" />
     </property>
   </bean>
-  <bean id="AssetTransferDocument-assetRepresentative.personName" parent="AssetTransferDocument-assetRepresentative.personName-parentBean" />
+  <bean id="AssetTransferDocument-assetRepresentative.name" parent="AssetTransferDocument-assetRepresentative.name-parentBean" />
 
-  <bean id="AssetTransferDocument-assetRepresentative.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="assetRepresentative.personName" />
+  <bean id="AssetTransferDocument-assetRepresentative.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="assetRepresentative.name" />
     <property name="label" value="Asset Representative Name" />
     <property name="shortLabel" value="Representative" />
     <property name="required" value="false" />
@@ -480,3 +480,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
+

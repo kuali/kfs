@@ -32,7 +32,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentS
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -46,7 +46,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
-    private FinancialSystemUserService financialSystemUserService;
+    private PersonService personService;
     private BusinessObjectService businessObjectService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
@@ -73,7 +73,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (isUsingOrgAcctDefaultWriteoffFAU) {
 
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-            ChartOrgHolder currentUser = financialSystemUserService.getOrganizationByModuleId(KFSConstants.Modules.CHART);
+            ChartOrgHolder currentUser = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(KFSConstants.Modules.CHART);
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);
@@ -145,12 +145,12 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         this.universityDateService = universityDateService;
     }
 
-    public FinancialSystemUserService getFinancialSystemUserService() {
-        return financialSystemUserService;
+    public PersonService getPersonService() {
+        return personService;
     }
 
-    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -197,3 +197,4 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         this.documentService = documentService;
     }
 }
+

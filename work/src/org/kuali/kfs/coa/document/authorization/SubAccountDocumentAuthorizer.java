@@ -21,13 +21,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -49,31 +48,27 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
      * @return a new set of {@link MaintenanceDocumentAuthorizations} with certain fields marked read-only if necessary
      */
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
 
         // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
-        if (user.isSupervisorUser()) {
+        if (org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.SUPERVISOR_WORKGROUP))) {
             return new MaintenanceDocumentAuthorizations();
         }
 
         String groupName = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
-        // create a new KualiGroup instance with that name
-        KualiGroupService groupService = SpringContext.getBean(KualiGroupService.class);
-        KualiGroup group = null;
-        try {
-            group = groupService.getByGroupName(groupName);
-        }
-        catch (GroupNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException("The group by name '" + groupName + "' was not " + "found in the KualiGroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.", e);
+        // create a new KimGroup instance with that name
+        GroupService groupService = SpringContext.getBean(GroupService.class);
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", groupName);
+        if (group == null) {
+            throw new RuntimeException("The group by name '" + groupName + "' was not " + "found in the GroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.");
         }
 
         // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-        if (!user.isMember(group)) {
+        if (!org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, group.getGroupId())) {
             auths.addReadonlyAuthField("a21SubAccount.subAccountTypeCode");
             auths.addReadonlyAuthField("a21SubAccount.costShareChartOfAccountCode");
             auths.addReadonlyAuthField("a21SubAccount.costShareSourceAccountNumber");
@@ -92,10 +87,10 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
      * Adds in a can blanket approve flag for Sub Accounts if the workflow document state is not canceled
      * 
      * @see org.kuali.rice.kns.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemDocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
         // KULRNE-44: even if some fields are readonly to the user, we allow him to blanket approve
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -105,3 +100,4 @@ public class SubAccountDocumentAuthorizer extends FinancialSystemMaintenanceDocu
         return documentActionFlags;
     }
 }
+

@@ -134,7 +134,7 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
      * @return Returns the rootApprover.
      */
     public boolean isRootApprover() {
-        return SpringContext.getBean(PermissionService.class).isRootApprover(GlobalVariables.getUserSession().getUniversalUser());
+        return SpringContext.getBean(PermissionService.class).isRootApprover(GlobalVariables.getUserSession().getPerson());
     }
 
     /**
@@ -146,3 +146,4 @@ public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     }
 
 }
+

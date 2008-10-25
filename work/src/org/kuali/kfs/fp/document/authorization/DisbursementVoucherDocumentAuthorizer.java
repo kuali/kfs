@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils.RouteLevelNames;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -53,7 +53,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         flags.setCanBlanketApprove(false); // this is never allowed on a DV document
@@ -68,7 +68,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user, List sourceLines, List targetLines) {
+    public Map getEditMode(Document document, Person user, List sourceLines, List targetLines) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         Map editModeMap = super.getEditMode(document, user, sourceLines, targetLines);
@@ -103,7 +103,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param document
      * @param user
      */
-    private void setDVWorkgroupEditModes(Map editModeMap, Document document, UniversalUser user) {
+    private void setDVWorkgroupEditModes(Map editModeMap, Document document, Person user) {
         if (isUserInTaxGroup(user)) {
             editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
             editModeMap.put(KfsAuthorizationConstants.DisbursementVoucherEditMode.EXPENSE_SPECIAL_ENTRY, "TRUE");
@@ -131,7 +131,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInTaxGroup(UniversalUser user) {
+    private boolean isUserInTaxGroup(Person user) {
         if (taxGroupName == null) {
             taxGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
@@ -143,7 +143,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInTravelGroup(UniversalUser user) {
+    private boolean isUserInTravelGroup(Person user) {
         if (travelGroupName == null) {
             travelGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
@@ -155,7 +155,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInFRNGroup(UniversalUser user) {
+    private boolean isUserInFRNGroup(Person user) {
         if (frnGroupName == null) {
             frnGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
@@ -167,7 +167,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group
      */
-    private boolean isUserInWireGroup(UniversalUser user) {
+    private boolean isUserInWireGroup(Person user) {
         if (wireTransferGroupName == null) {
             wireTransferGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
@@ -179,7 +179,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * 
      * @return true if user is in group, false otherwise
      */
-    private boolean isUserInDvAdminGroup(UniversalUser user) {
+    private boolean isUserInDvAdminGroup(Person user) {
         if (adminGroupName == null) {
             adminGroupName = SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
@@ -191,7 +191,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getAccountingLineEditableFields(Document document, UniversalUser user) {
+    public Map getAccountingLineEditableFields(Document document, Person user) {
         Map editableFields = new HashMap();
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
@@ -222,7 +222,7 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param user
      * @return boolean
      */
-    public boolean isSpecialRouting(Document document, UniversalUser user) {
+    public boolean isSpecialRouting(Document document, Person user) {
         boolean isSpecialRouteNode = false;
 
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -245,3 +245,4 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
         return isSpecialRouteNode;
     }
 }
+

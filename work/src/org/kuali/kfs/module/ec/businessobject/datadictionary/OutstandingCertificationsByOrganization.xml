@@ -19,8 +19,8 @@
         <ref bean="OutstandingCertificationsByOrganization-certificationOrganizations" />
         <ref bean="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.organizationCode" />
         <ref bean="OutstandingCertificationsByOrganization-emplid" />
-        <ref bean="OutstandingCertificationsByOrganization-employee.personName" />
-        <ref bean="OutstandingCertificationsByOrganization-employee.personUserIdentifier" />
+        <ref bean="OutstandingCertificationsByOrganization-employee.name" />
+        <ref bean="OutstandingCertificationsByOrganization-employee.principalName" />
         <ref bean="OutstandingCertificationsByOrganization-documentNumber" />
         <ref bean="OutstandingCertificationsByOrganization-effortCertificationDetailLines.account.chartOfAccountsCode" />
         <ref bean="OutstandingCertificationsByOrganization-universityFiscalYear" />
@@ -42,8 +42,8 @@
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="employee.personName"
-                    p:targetName="personName" />
+                    p:sourceName="employee.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -115,18 +115,18 @@
   </bean>
   <bean id="OutstandingCertificationsByOrganization-emplid" parent="OutstandingCertificationsByOrganization-emplid-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="OutstandingCertificationsByOrganization-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
-  <bean id="OutstandingCertificationsByOrganization-employee.personName" parent="OutstandingCertificationsByOrganization-employee.personName-parentBean" />
+  <bean id="OutstandingCertificationsByOrganization-employee.name" parent="OutstandingCertificationsByOrganization-employee.name-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-employee.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="employee.personName" />
+  <bean id="OutstandingCertificationsByOrganization-employee.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="employee.name" />
   </bean>
-  <bean id="OutstandingCertificationsByOrganization-employee.personUserIdentifier" parent="OutstandingCertificationsByOrganization-employee.personUserIdentifier-parentBean" />
+  <bean id="OutstandingCertificationsByOrganization-employee.principalName" parent="OutstandingCertificationsByOrganization-employee.principalName-parentBean" />
 
-  <bean id="OutstandingCertificationsByOrganization-employee.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="employee.personUserIdentifier" />
+  <bean id="OutstandingCertificationsByOrganization-employee.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="employee.principalName" />
   </bean>
   <bean id="OutstandingCertificationsByOrganization-documentNumber" parent="OutstandingCertificationsByOrganization-documentNumber-parentBean" />
 
@@ -178,7 +178,7 @@
       	<bean parent="FieldDefinition"
               p:attributeName="certificationOrganizations" />
         <bean parent="FieldDefinition"
-              p:attributeName="employee.personName" />
+              p:attributeName="employee.name" />
         <bean parent="FieldDefinition"
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
@@ -193,3 +193,4 @@
     </property>
   </bean>
 </beans>
+

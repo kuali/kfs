@@ -26,7 +26,7 @@ public enum AccountsPayableDocumentFixture {
 
     // PAYMENT REQUEST FIXTURES
     PREQ_ONLY_REQUIRED_FIELDS(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
+            null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedDate
@@ -40,8 +40,8 @@ public enum AccountsPayableDocumentFixture {
             false  // reopenPurchaseOrderIndicator
             ),
      PREQ_FOR_PO_CLOSE_DOC(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
-            "KULUSER",    // accountsPayableProcessorIdentifier
+            null,  // lastActionPerformedByPersonId
+            "kuluser",    // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedDate
             1000,  // purchaseOrderIdentifier
@@ -54,7 +54,7 @@ public enum AccountsPayableDocumentFixture {
             false  // reopenPurchaseOrderIndicator
             ),
     CLOSE_PO_WITH_PREQ(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
+            null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedDate
@@ -68,7 +68,7 @@ public enum AccountsPayableDocumentFixture {
             false  // reopenPurchaseOrderIndicator
             ),
     REOPEN_PO_WITH_PREQ(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
+            null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedDate
@@ -82,7 +82,7 @@ public enum AccountsPayableDocumentFixture {
             true  // reopenPurchaseOrderIndicator
             ),
     REQUEST_CANCEL_PREQ(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
+            null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedDate
@@ -96,7 +96,7 @@ public enum AccountsPayableDocumentFixture {
             false  // reopenPurchaseOrderIndicator
             ),
     REQUEST_HOLD_PREQ(null,  // accountsPayableApprovalDate
-            null,  // lastActionPerformedByUniversalUserId
+            null,  // lastActionPerformedByPersonId
             null,  // accountsPayableProcessorIdentifier
             true, // holdIndicator
             null,  // extractedDate
@@ -112,7 +112,7 @@ public enum AccountsPayableDocumentFixture {
 
     // Credit Memo FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // accountsPayableApprovalDate
-            null, // lastActionPerformedByUniversalUserId
+            null, // lastActionPerformedByPersonId
             null, // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null, // extractedDate
@@ -128,7 +128,7 @@ public enum AccountsPayableDocumentFixture {
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     public final Date accountsPayableApprovalDate;
-    public final String lastActionPerformedByUniversalUserId;
+    public final String lastActionPerformedByPersonId;
     public final String accountsPayableProcessorIdentifier;
     public final boolean holdIndicator;
     public final Date extractedDate;
@@ -147,9 +147,9 @@ public enum AccountsPayableDocumentFixture {
      * chartOfAccountsCode; private String organizationCode; // NOT PERSISTED IN DB // BELOW USED BY GL ENTRY CREATION private
      * boolean generateEncumbranceEntries; private String debitCreditCodeForGLEntries;
      */
-    private AccountsPayableDocumentFixture(Date accountsPayableApprovalDate, String lastActionPerformedByUniversalUserId, String accountsPayableProcessorIdentifier, boolean holdIndicator, Date extractedDate, Integer purchaseOrderIdentifier, String processingCampusCode, String noteLine1Text, String noteLine2Text, String noteLine3Text, boolean continuationAccountIndicator, boolean closePurchaseOrderIndicator, boolean reopenPurchaseOrderIndicator) {
+    private AccountsPayableDocumentFixture(Date accountsPayableApprovalDate, String lastActionPerformedByPersonId, String accountsPayableProcessorIdentifier, boolean holdIndicator, Date extractedDate, Integer purchaseOrderIdentifier, String processingCampusCode, String noteLine1Text, String noteLine2Text, String noteLine3Text, boolean continuationAccountIndicator, boolean closePurchaseOrderIndicator, boolean reopenPurchaseOrderIndicator) {
         this.accountsPayableApprovalDate = accountsPayableApprovalDate;
-        this.lastActionPerformedByUniversalUserId = lastActionPerformedByUniversalUserId;
+        this.lastActionPerformedByPersonId = lastActionPerformedByPersonId;
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
         this.holdIndicator = holdIndicator;
         this.extractedDate = extractedDate;
@@ -174,7 +174,7 @@ public enum AccountsPayableDocumentFixture {
     private AccountsPayableDocument createAccountsPayableDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
         AccountsPayableDocument doc = (AccountsPayableDocument) purapFixture.createPurchasingAccountsPayableDocument(clazz);
         doc.setAccountsPayableApprovalDate(this.accountsPayableApprovalDate);
-        doc.setLastActionPerformedByUniversalUserId(this.lastActionPerformedByUniversalUserId);
+        doc.setLastActionPerformedByPersonId(this.lastActionPerformedByPersonId);
         doc.setAccountsPayableProcessorIdentifier(this.accountsPayableProcessorIdentifier);
         doc.setHoldIndicator(this.holdIndicator);
         doc.setExtractedDate(this.extractedDate);
@@ -193,3 +193,4 @@ public enum AccountsPayableDocumentFixture {
     }
 
 }
+

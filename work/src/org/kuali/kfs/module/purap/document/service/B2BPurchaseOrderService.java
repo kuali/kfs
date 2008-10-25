@@ -35,7 +35,7 @@ public interface B2BPurchaseOrderService {
      * Returns the cxml of the Purchase Order for electronic transmission to the vendor
      * 
      * @param purchaseOrder         PurchaseOrderDocument - PO data
-     * @param requisitionInitiator  UniversalUser - user that created the Requisition
+     * @param requisitionInitiator  Person - user that created the Requisition
      * @param password              String - password for PO transmission
      * @param contractManager       ContractManager - contract manager for the PO
      * @param contractManagerEmail  String - email address for the contract manager

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * Declares methods that must be implemented for batch input file set type classes, which provides functionaliy needed to manage
@@ -60,7 +60,7 @@ public interface BatchInputFileSetType extends BatchInputType {
      * @param user - user who is uploading the file
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
-    public String getFileName(String fileType, UniversalUser user, String fileUserIdentifer);
+    public String getFileName(String fileType, Person user, String fileUserIdentifer);
 
     /**
      * Returns whether the file must be uploaded
@@ -91,14 +91,14 @@ public interface BatchInputFileSetType extends BatchInputType {
      * 
      * @return the done file name
      */
-    public String getDoneFileName(UniversalUser user, String fileUserIdentifer);
+    public String getDoneFileName(Person user, String fileUserIdentifer);
 
     /**
      * Returns the set of file user identifiers parsed from the provided list of files for the user.
      * 
      * @return a set of file user identifiers
      */
-    public Set<String> extractFileUserIdentifiers(UniversalUser user, List<File> files);
+    public Set<String> extractFileUserIdentifiers(Person user, List<File> files);
     
     /**
      * Runs validation upon uploaded files.  Note the files passed in the Map may be located in a temporary directory rather than the
@@ -128,3 +128,4 @@ public interface BatchInputFileSetType extends BatchInputType {
      */
     public void process(Map<String, File> typeToFiles);
 }
+

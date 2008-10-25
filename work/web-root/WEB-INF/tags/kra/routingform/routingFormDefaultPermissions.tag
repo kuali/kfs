@@ -33,14 +33,14 @@
 								|| person.personRoleCode == CGConstants.CONTACT_PERSON_PROPOSAL_CODE
 								|| person.personRoleCode == CGConstants.PROJECT_DIRECTOR_CODE)}">
             		<tr>
-            			<td>${person.user.personName}&nbsp;</td>
+            			<td>${person.user.name}&nbsp;</td>
             			<td>${person.chartOfAccountsCode}&nbsp;</td>
             			<td>${person.organizationCode}&nbsp;</td>
             			<td>${person.personRole.personRoleDescription}&nbsp;</td>
             			<td>
             				Read
             				<html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
-            				<html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].user.name" />
             				<html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
             				<html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
             				<html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
@@ -51,3 +51,4 @@
         </table>
 	</div>
 </kul:tab>
+

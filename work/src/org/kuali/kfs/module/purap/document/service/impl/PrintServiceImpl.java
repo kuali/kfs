@@ -46,7 +46,7 @@ import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,8 +157,8 @@ public class PrintServiceImpl implements PrintService {
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "N/A";
         if (contractManager != null && contractManager.getContractManagerUserIdentifier() != null) {
-            criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
-            UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
+            criteria.put("principalName", contractManager.getContractManagerUserIdentifier());
+            Person contractManagerUser = (Person) ((List) businessObjectService.findMatching(Person.class, criteria)).get(0);
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
         else {
@@ -216,10 +216,10 @@ public class PrintServiceImpl implements PrintService {
         // Get the contract manager's campus
         criteria.clear();
         ContractManager contractManager = po.getContractManager();
-        criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
+        criteria.put("principalName", contractManager.getContractManagerUserIdentifier());
         String contractManagerCampusCode = "";
         if (contractManager.getContractManagerUserIdentifier() != null) {
-            UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
+            Person contractManagerUser = (Person) ((List) businessObjectService.findMatching(Person.class, criteria)).get(0);
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 
@@ -568,3 +568,4 @@ public class PrintServiceImpl implements PrintService {
     }
     
 }
+

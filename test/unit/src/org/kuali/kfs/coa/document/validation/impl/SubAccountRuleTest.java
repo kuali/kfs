@@ -17,19 +17,19 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.util.GlobalVariables;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class SubAccountRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRuleTest.class);
@@ -40,8 +40,8 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     private static final String NEW_SUBACCOUNT_NAME = "A New SubAccount";
 
     // CG authorized test users
-    private static final UserNameFixture GOOD_CG_USERID = UserNameFixture.KCOPLEY;
-    private static final UserNameFixture BAD_CG_USERID = UserNameFixture.JHAVENS;
+    private static final UserNameFixture GOOD_CG_USERID = UserNameFixture.kcopley;
+    private static final UserNameFixture BAD_CG_USERID = UserNameFixture.jhavens;
 
     SubAccount newSubAccount;
     SubAccount oldSubAccount;
@@ -195,7 +195,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      */
     public void testIsCgAuthorized_goodUser() throws UserNotFoundException {
         SubAccountRule rule = new SubAccountRule();
-        UniversalUser user = GOOD_CG_USERID.getUniversalUser();
+        Person user = GOOD_CG_USERID.getPerson();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -211,7 +211,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      */
     public void testIsCgAuthorized_badUser() throws UserNotFoundException {
         SubAccountRule rule = new SubAccountRule();
-        UniversalUser user = BAD_CG_USERID.getUniversalUser();
+        Person user = BAD_CG_USERID.getPerson();
         // setup rule, document, and bo
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
@@ -264,3 +264,4 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      */
 
 }
+

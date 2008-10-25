@@ -82,18 +82,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="accountFiscalOfficerSystemIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="accountFiscalOfficerUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="accountFiscalOfficerUser.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="accountFiscalOfficerUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="accountFiscalOfficerUser.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -103,18 +103,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="accountsSupervisorySystemsIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="accountSupervisoryUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="accountSupervisoryUser.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="accountSupervisoryUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="accountSupervisoryUser.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -124,18 +124,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="accountManagerSystemIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="accountManagerUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="accountManagerUser.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="accountManagerUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="accountManagerUser.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -1338,3 +1338,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
+

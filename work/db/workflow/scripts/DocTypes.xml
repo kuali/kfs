@@ -2670,7 +2670,7 @@
       <routingVersion>1</routingVersion>
     </documentType>
     <documentType>
-      <name>UniversalUserMaintenanceDocument</name>
+      <name>PersonMaintenanceDocument</name>
       <parent>KualiMaintenanceDocument</parent>
       <label>User</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
@@ -4238,7 +4238,7 @@
       <routingVersion>1</routingVersion>
     </documentType>
     <documentType>
-      <name>FinancialSystemUserMaintenanceDocument</name>
+      <name>PersonMaintenanceDocument</name>
       <parent>KualiMaintenanceDocument</parent>
       <label>Financial System User</label>
       <postProcessorName>org.kuali.kfs.sys.document.workflow.KualiPostProcessor</postProcessorName>
@@ -6191,4 +6191,5 @@
     </documentType>
   </documentTypes>
 </data>
+
 

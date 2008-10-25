@@ -301,6 +301,9 @@
 		<mkdir dir="${all.temp.directory}" />
 		<mkdir dir="${test.xml.results.directory}" />
 		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+			<jvmarg value="-Xms${run.tests.min.memory}" />
+			<jvmarg value="-Xmx${run.tests.max.memory}" />
+			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
 			<classpath refid="run.tests.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>

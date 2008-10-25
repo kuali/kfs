@@ -23,9 +23,8 @@ import org.kuali.kfs.module.purap.document.ReceivingLineDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -47,16 +46,15 @@ public class ReceivingLineDocumentActionAuthorizer {
         
         this.receivingLine = rl;
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
 
-        try {
-            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-        }
-        catch (GroupNotFoundException gnfe) {
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        if (group != null) {
+            this.isUserAuthorized = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+        } else {
             this.isUserAuthorized = false;
         }
-
         
     }
 
@@ -69,3 +67,4 @@ public class ReceivingLineDocumentActionAuthorizer {
         return SpringContext.getBean(ReceivingService.class).canCreateReceivingCorrectionDocument(receivingLine) && isUserAuthorized;
     }
 }
+

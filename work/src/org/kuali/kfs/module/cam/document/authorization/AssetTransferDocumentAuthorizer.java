@@ -23,7 +23,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -31,13 +31,13 @@ public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactiona
 
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser) This method determines if user can continue with transfer action or not, following
+     *      org.kuali.rice.kim.bo.Person) This method determines if user can continue with transfer action or not, following
      *      conditions are checked to decide
      *      <li>Check if asset is active and not retired</li>
      *      <li>Find all pending documents associated with this asset, if any found disable the transfer action</li>
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags actionFlags = super.getDocumentActionFlags(document, user);
         AssetTransferDocument assetTransferDocument = (AssetTransferDocument) document;
         Asset asset = assetTransferDocument.getAsset();
@@ -52,3 +52,4 @@ public class AssetTransferDocumentAuthorizer extends FinancialSystemTransactiona
         return actionFlags;
     }
 }
+

@@ -22,8 +22,8 @@
         <ref bean="BudgetConstructionPositionFunding-emplid" />
         <ref bean="BudgetConstructionPositionFunding-financialObjectCode" />
         <ref bean="BudgetConstructionPositionFunding-financialSubObjectCode" />
-        <ref bean="BudgetConstructionPositionFunding-personName" />
-        <ref bean="BudgetConstructionPositionFunding-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionPositionFunding-name" />
+        <ref bean="BudgetConstructionPositionFunding-principalId" />
         <ref bean="BudgetConstructionPositionFunding-positionNumber" />
         <ref bean="BudgetConstructionPositionFunding-selectedOrganizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionPositionFunding-selectedOrganizationCode" />
@@ -126,10 +126,10 @@
     <property name="summary" value="financialSubObjectCode" />
     <property name="description" value="financialSubObjectCode description..." />
   </bean>
-  <bean id="BudgetConstructionPositionFunding-personName" parent="BudgetConstructionPositionFunding-personName-parentBean" />
+  <bean id="BudgetConstructionPositionFunding-name" parent="BudgetConstructionPositionFunding-name-parentBean" />
 
-  <bean id="BudgetConstructionPositionFunding-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="BudgetConstructionPositionFunding-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
@@ -141,13 +141,13 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="personName" />
+    <property name="summary" value="name" />
     <property name="description" value="personName description..." />
   </bean>
-  <bean id="BudgetConstructionPositionFunding-personUniversalIdentifier" parent="BudgetConstructionPositionFunding-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionPositionFunding-principalId" parent="BudgetConstructionPositionFunding-principalId-parentBean" />
 
-  <bean id="BudgetConstructionPositionFunding-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionPositionFunding-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -159,8 +159,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionPositionFunding-positionNumber" parent="BudgetConstructionPositionFunding-positionNumber-parentBean" />
 
@@ -278,9 +278,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialSubObjectCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionNumber" />
               <bean parent="FieldDefinition"
@@ -323,9 +323,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -351,9 +351,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -368,3 +368,4 @@
     </property>
   </bean>
 </beans>
+

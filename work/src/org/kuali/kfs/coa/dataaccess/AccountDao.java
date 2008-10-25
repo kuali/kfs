@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -54,16 +54,16 @@ public interface AccountDao {
      * @param kualiUser
      * @return a list of AccountResponsibility objects
      */
-    public List getAccountsThatUserIsResponsibleFor(UniversalUser kualiUser);
+    public List getAccountsThatUserIsResponsibleFor(Person kualiUser);
 
     /**
      * This method should determine if the given user has any responsibilities on the given account
      * 
-     * @param universalUser the user to check responsibilities for
+     * @param person the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user is somehow responsible for account, false if otherwise
      */
-    public boolean determineUserResponsibilityOnAccount(UniversalUser universalUser, Account account);
+    public boolean determineUserResponsibilityOnAccount(Person person, Account account);
 
     /**
      * get all accounts in the system. This is needed by a sufficient funds rebuilder job
@@ -72,3 +72,4 @@ public interface AccountDao {
      */
     public Iterator getAllAccounts();
 }
+

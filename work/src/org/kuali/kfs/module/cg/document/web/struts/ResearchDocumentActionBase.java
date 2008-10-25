@@ -36,13 +36,13 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.service.AuthenticationService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.rice.kns.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -131,9 +131,10 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
 
         if (rulePassed) {
             AdhocPerson newAdHocPermission = researchForm.getNewAdHocPerson();
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(adHocRoutePerson.getId());
-            newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
-            user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
+            Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(adHocRoutePerson.getId());
+            newAdHocPermission.setPrincipalId(user.getPrincipalId());
+            // TODO: FIXME
+            //user.setPrincipalName(StringUtils.upperCase(user.getPrincipalName()));
             if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {
                 newAdHocPermission.setAdhocTypeCode(CGConstants.AD_HOC_PERMISSION);
             }
@@ -280,3 +281,4 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }
+

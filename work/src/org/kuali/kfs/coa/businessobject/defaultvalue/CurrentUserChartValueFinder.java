@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject.defaultvalue;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 /**
@@ -29,9 +29,9 @@ public class CurrentUserChartValueFinder implements ValueFinder {
      * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        FinancialSystemUser currentUser = ValueFinderUtil.getCurrentFinancialSystemUser();
+        Person currentUser = ValueFinderUtil.getCurrentPerson();
         if (currentUser != null) {
-            return currentUser.getChartOfAccountsCode();
+            return org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(currentUser).getChartOfAccountsCode();
         }
         else {
             return "";
@@ -39,3 +39,4 @@ public class CurrentUserChartValueFinder implements ValueFinder {
     }
 
 }
+

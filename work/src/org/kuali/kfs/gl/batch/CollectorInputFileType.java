@@ -25,7 +25,7 @@ import org.kuali.kfs.gl.batch.service.CollectorHelperService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -67,10 +67,10 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @param userIdentifier user identifier for user who uploaded file
      * @return String returns file name using the convention mentioned in the description
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
      *      java.lang.String)
      */
-    public String getFileName(UniversalUser user, Object parsedFileContents, String userIdentifier) {
+    public String getFileName(Person user, Object parsedFileContents, String userIdentifier) {
         CollectorBatch collectorBatch = (CollectorBatch) parsedFileContents;
         Timestamp currentTimestamp = dateTimeService.getCurrentTimestamp();
 
@@ -80,7 +80,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
         formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
         String fileName = "gl_idbilltrans_" + collectorBatch.getChartOfAccountsCode() + collectorBatch.getOrganizationCode();
-        fileName += "_" + user.getPersonUserIdentifier().toLowerCase();
+        fileName += "_" + user.getPrincipalName().toLowerCase();
         if (StringUtils.isNotBlank(userIdentifier)) {
             fileName += "_" + userIdentifier;
         }
@@ -99,12 +99,12 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * @param batchFile uploaded batch file
      * @return true if user's username in in file
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+    public boolean checkAuthorization(Person user, File batchFile) {
         boolean isAuthorized = false;
 
-        String userIdentifier = user.getPersonUserIdentifier();
+        String userIdentifier = user.getPrincipalName();
         userIdentifier = StringUtils.remove(userIdentifier, " ");
 
         String[] fileNameParts = StringUtils.split(batchFile.getName(), "_");
@@ -159,3 +159,4 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
 
 
 }
+

@@ -331,11 +331,11 @@ public class BudgetConstructionOrgSalarySummaryReport {
         this.positionSalaryPlanDefault = positionSalaryPlanDefault;
     }
 
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -645,3 +645,4 @@ public class BudgetConstructionOrgSalarySummaryReport {
 
 
 }
+

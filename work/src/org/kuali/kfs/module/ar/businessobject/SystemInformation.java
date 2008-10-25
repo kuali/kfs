@@ -12,8 +12,8 @@ import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -70,14 +70,14 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     private SubAccount wireSubAccount;
     private ObjectCode wireObject;
     private SubObjCd wireSubObject;
-    private UniversalUser financialDocumentInitiator;
+    private Person financialDocumentInitiator;
     
-	public UniversalUser getFinancialDocumentInitiator() {
-	    financialDocumentInitiator = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
+	public Person getFinancialDocumentInitiator() {
+	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
         return financialDocumentInitiator;
     }
 
-    public void setFinancialDocumentInitiator(UniversalUser financialDocumentInitiator) {
+    public void setFinancialDocumentInitiator(Person financialDocumentInitiator) {
         this.financialDocumentInitiator = financialDocumentInitiator;
     }
 
@@ -1008,3 +1008,4 @@ public class SystemInformation extends PersistableBusinessObjectBase {
     }
 
 }
+

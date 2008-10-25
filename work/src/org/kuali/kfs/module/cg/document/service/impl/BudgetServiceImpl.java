@@ -631,7 +631,7 @@ public class BudgetServiceImpl implements BudgetService {
         if (budget == null) {
             return "budget document not found";
         }
-        return "PD: " + budget.getProjectDirector().getUniversalUser().getPersonName() + "   Agency: " + budget.getBudgetAgency().getFullName();
+        return "PD: " + budget.getProjectDirector().getPerson().getName() + "   Agency: " + budget.getBudgetAgency().getFullName();
     }
 
     private Map<String, Object> mapPrimaryKeys(String documentNumber) {
@@ -641,3 +641,4 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
 }
+

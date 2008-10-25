@@ -27,9 +27,9 @@ public interface BudgetConstructionSynchronizationProblemsReportService {
     /**
      * updates account FundingDetail table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void updateSynchronizationProblemsReport(String personUserIdentifier);
+    public void updateSynchronizationProblemsReport(String principalName);
 
     
     /**
@@ -39,6 +39,7 @@ public interface BudgetConstructionSynchronizationProblemsReportService {
      * @param universityFiscalYear
      * @param accountFundingDetailList
      */
-    public Collection<BudgetConstructionOrgSynchronizationProblemsReport> buildReports(Integer universityFiscalYear, String personUserIdentifier);
+    public Collection<BudgetConstructionOrgSynchronizationProblemsReport> buildReports(Integer universityFiscalYear, String principalName);
     
 }
+

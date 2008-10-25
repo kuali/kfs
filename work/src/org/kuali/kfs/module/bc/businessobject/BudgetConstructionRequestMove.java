@@ -30,7 +30,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -68,21 +68,21 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -499,12 +499,12 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
     }
     
     /**
-     * returns concatenated string of personUniversalIdentifier, chart, account, subaccount
+     * returns concatenated string of principalId, chart, account, subaccount
      * 
      * @return
      */
     public String getSubAccountingString() {
-        return personUniversalIdentifier + "-" + chartOfAccountsCode + "-" + accountNumber + "-" + subAccountNumber;
+        return principalId + "-" + chartOfAccountsCode + "-" + accountNumber + "-" + subAccountNumber;
     }
     
     public String getErrorLinePrefixForLogFile() {
@@ -583,7 +583,7 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
         m.put("subAccountNumber", this.subAccountNumber);
@@ -593,3 +593,4 @@ public class BudgetConstructionRequestMove extends PersistableBusinessObjectBase
     }
 
 }
+

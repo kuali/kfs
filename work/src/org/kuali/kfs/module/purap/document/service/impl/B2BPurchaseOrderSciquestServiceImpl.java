@@ -32,9 +32,9 @@ import org.kuali.kfs.module.purap.exception.CxmlParseError;
 import org.kuali.kfs.module.purap.util.cxml.PurchaseOrderResponse;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +48,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     private ParameterService parameterService;
 
     // FIXME do we really need this?
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
 
 
     /**
@@ -131,7 +131,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#getCxml(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
+     *      org.kuali.rice.kim.bo.Person, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
      *      java.lang.String, java.lang.String)
      */
     public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
@@ -301,7 +301,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.B2BPurchaseOrderService#verifyCxmlPOData(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
+     *      org.kuali.rice.kim.bo.Person, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
      *      java.lang.String, java.lang.String)
      */
     public String verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
@@ -467,19 +467,18 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      * Retrieve the Contract Manager's email
      */
     private String getContractManagerEmail(ContractManager cm) {
-        try {
-            UniversalUser contractManager = universalUserService.getUniversalUser(cm.getContractManagerUserIdentifier());
-            return contractManager.getPersonEmailAddress();
-        }
-        catch (UserNotFoundException e) {
+        Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
+        if (contractManager == null) {
             LOG.error("getContractManagerEmail(): caught UserNotFoundException, returning null.");
             //FIXME (hjs) fix me when KIM is back (this isn't workign right now)
             return "test@email.com";
+        } else {
+            return contractManager.getEmailAddress();
         }
     }
 
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     public void setRequisitionService(RequisitionService requisitionService) {
@@ -495,3 +494,4 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     }
 
 }
+

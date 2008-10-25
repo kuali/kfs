@@ -42,7 +42,7 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
         if (super.authenticate(request, username, password) != false) {
             try {
                 if (username != null && !username.trim().equals("")) {
-                    //UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(username.trim()));                  
+                    //Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(new AuthenticationUserId(username.trim()));                  
                     // Once the IdentityService facade is in place, we should use it to get the principal and clean up this code.
                     KimPrincipal principal = null;
                     Map criteria = new HashMap();
@@ -78,7 +78,7 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                 return false; // fail if the hash function fails
             }
             catch (UserNotFoundException ex) {
-                LOG.info("User " + username + " was not found in the UniversalUser table.");
+                LOG.info("User " + username + " was not found in the Person table.");
                 return false; // fail if user does not exist
             }
 
@@ -87,3 +87,4 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
         return false; // fail if we get to this point
     }
 }
+

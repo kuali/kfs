@@ -639,11 +639,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.totalObjectPositionCsfFteQuantity = totalObjectPositionCsfFteQuantity;
     }
 
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -759,3 +759,4 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
         this.divider = divider;
     }
 }
+

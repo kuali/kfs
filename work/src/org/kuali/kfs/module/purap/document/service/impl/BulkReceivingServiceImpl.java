@@ -76,7 +76,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         KualiWorkflowDocument workflowDocument = null;
         
         try{
-            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(blkRecDoc.getDocumentNumber()), GlobalVariables.getUserSession().getUniversalUser());
+            workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(blkRecDoc.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
         }catch(WorkflowException we){
             throw new RuntimeException(we);
         }
@@ -157,7 +157,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         for (String docNumber : docNumbers) {
         
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -201,7 +201,7 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         
             try{
                 workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), 
-                                                                                  GlobalVariables.getUserSession().getFinancialSystemUser());
+                                                                                  GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -327,3 +327,4 @@ public class BulkReceivingServiceImpl implements BulkReceivingService {
         this.dateTimeService = dateTimeService;
     }
 }
+

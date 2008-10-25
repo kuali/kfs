@@ -29,7 +29,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationInventoryName}" /></th> 
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.organizationInventoryName" attributeEntry="${assetAttributes.organizationInventoryName}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetGlobalDetailAttributes.representativeUniversalIdentifier}" /></th> 
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetRepresentative.personName" attributeEntry="${assetAttributes.representativeUniversalIdentifier}" readOnly="true"/></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetRepresentative.name" attributeEntry="${assetAttributes.representativeUniversalIdentifier}" readOnly="true"/></td>
 			</tr>
 
 			<tr>
@@ -46,3 +46,4 @@
 		</table>
 		</div>
 	</kul:tab>	
+

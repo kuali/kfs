@@ -25,7 +25,7 @@
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="personUniversal"
-              p:attributeToHighlightOnFail="personUniversal.personUserIdentifier"
+              p:attributeToHighlightOnFail="personUniversal.principalName"
               p:displayFieldName="Representative Universal Identifier" />
         <bean parent="ReferenceDefinition"
               p:attributeName="chartOfAccounts"
@@ -99,10 +99,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationInventoryName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversal.personUserIdentifier" 
+              p:name="personUniversal.principalName" 
               p:required="false" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="personUniversal.personName"
+              p:name="personUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationText" />
@@ -183,3 +183,4 @@
     </property>
   </bean>
 </beans>
+

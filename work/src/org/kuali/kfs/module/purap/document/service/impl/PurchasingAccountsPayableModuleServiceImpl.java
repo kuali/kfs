@@ -38,11 +38,11 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
@@ -77,8 +77,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
             // set the initiator user info to the new note
-            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authorId);
-            assetNote.setAuthorUniversalIdentifier(initiator.getPersonUniversalIdentifier());
+            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authorId);
+            assetNote.setAuthorUniversalIdentifier(initiator.getPrincipalId());
             document.addNote(assetNote);
             KNSServiceLocator.getNoteService().save(assetNote);
         }
@@ -216,3 +216,4 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
 }
+

@@ -186,7 +186,7 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
         for (AdhocPerson kraAdhocPerson : this.adhocPersons) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocPerson);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-            adHocRoutePerson.setId(kraAdhocPerson.getUser().getPersonUserIdentifier());
+            adHocRoutePerson.setId(kraAdhocPerson.getUser().getPrincipalName());
             adHocRoutePerson.setActionRequested(kraAdhocPerson.getActionRequested());
             adHocRoutePersons.add(adHocRoutePerson);
         }
@@ -315,3 +315,4 @@ public abstract class ResearchDocumentBase extends FinancialSystemTransactionalD
         return routingInfo.toString();
     }
 }
+

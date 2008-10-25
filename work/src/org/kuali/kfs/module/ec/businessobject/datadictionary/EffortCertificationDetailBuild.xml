@@ -45,8 +45,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="effortCertificationDocumentBuild.employee.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -249,3 +249,4 @@
     </property>
   </bean>
 </beans>
+

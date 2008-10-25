@@ -18,17 +18,18 @@ package org.kuali.kfs.module.bc.document.dataaccess;
 public interface BudgetConstructionAccountFundingDetailReportDao {
 
     /**
-     *  cleans out Account Funding Detail table for the personUserIdentifier in question.
+     *  cleans out Account Funding Detail table for the principalName in question.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void cleanReportsAccountFundingDetailTable(String personUserIdentifier);
+    public void cleanReportsAccountFundingDetailTable(String principalName);
 
     /**
-     *  cleans and updates Account Funding Detail table for a new report for the personUserIdentifier in question.
+     *  cleans and updates Account Funding Detail table for a new report for the principalName in question.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void updateReportsAccountFundingDetailTable(String personUserIdentifier);
+    public void updateReportsAccountFundingDetailTable(String principalName);
 
 }
+

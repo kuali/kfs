@@ -73,7 +73,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * 
      * @return Returns the personName
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -82,7 +82,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -252,3 +252,4 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
         return mapper;
     }
 }
+

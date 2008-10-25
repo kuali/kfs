@@ -49,29 +49,29 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
-    public void updateReportsAccountSummaryTable(String personUserIdentifier) {
-        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(personUserIdentifier);
+    public void updateReportsAccountSummaryTable(String principalName) {
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
      */
-    public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
-        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
+    public void updateReportsAccountSummaryTableWithConsolidation(String principalName) {
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService#updateReportsAccountSummaryTable(java.lang.String,
      *      boolean)
      */
-    public void updateReportsAccountSummaryTable(String personUserIdentifier, boolean consolidated) {
+    public void updateReportsAccountSummaryTable(String principalName, boolean consolidated) {
         if (consolidated) {
-            updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
+            updateReportsAccountSummaryTableWithConsolidation(principalName);
         }
         else {
-            updateReportsAccountSummaryTable(personUserIdentifier);
+            updateReportsAccountSummaryTable(principalName);
         }
     }
 
@@ -88,9 +88,9 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidated) {
+    public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
-        Collection<BudgetConstructionAccountSummary> accountSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionAccountSummary.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionAccountSummary> accountSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionAccountSummary.class, principalName, buildOrderByList());
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List totalList = BudgetConstructionReportHelper.deleteDuplicated((List) accountSummaryList, fieldsForTotal());
@@ -414,3 +414,4 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
+

@@ -56,12 +56,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,14 +133,14 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         String id = StringUtils.upperCase(initiatorID);
-        UniversalUser user = null;
+        Person user = null;
         try {
-            user = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(id);
+            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(id);
         } catch (Exception e) {
             LOG.error( e );
         }
 
-        invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );
+        invoiceMap.put("invoicePreparer", user.getFirstName()+" "+user.getLastName() );
         invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText())?"":invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
@@ -262,18 +262,18 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         if(invoice.getCustomerPurchaseOrderDate() != null) {
             invoiceMap.put("poDate", dateTimeService.toDateString(invoice.getCustomerPurchaseOrderDate()));
         }
-        UniversalUserService userService = SpringContext.getBean(UniversalUserService.class);
+        org.kuali.rice.kim.service.PersonService userService = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class);
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
         String id = StringUtils.upperCase(initiatorID);
-        UniversalUser user = null;
+        Person user = null;
         try {
-            user = KNSServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(id);
+            user = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(id);
         } catch (Exception e) {
             LOG.error( e );
         }
 
-        invoiceMap.put("invoicePreparer", user.getPersonFirstName()+" "+user.getPersonLastName() );
+        invoiceMap.put("invoicePreparer", user.getFirstName()+" "+user.getLastName() );
         invoiceMap.put("headerField", invoice.getInvoiceHeaderText());
         invoiceMap.put("customerOrg", invoice.getBilledByOrganizationCode());
         invoiceMap.put("docNumber", invoice.getDocumentNumber());

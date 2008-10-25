@@ -644,19 +644,19 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pullupSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+    public void pullupSelectedOrganizationDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
         String sessionId = new Guid().toString();
 
         // run the steps
-        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[0], sessionId, personUniversalIdentifier, fiscalYear);
+        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[0], sessionId, principalId, fiscalYear);
         this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[1], sessionId, sessionId, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
         this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[2], sessionId, sessionId, BCConstants.OrgSelControlOption.BOTH.getKey());
         this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[3], sessionId, sessionId, BCConstants.OrgSelControlOption.ORG.getKey());
         this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[4], sessionId, sessionId, BCConstants.OrgSelControlOption.SUBORG.getKey());
-        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[5], personUniversalIdentifier, sessionId);
-        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[6], sessionId, personUniversalIdentifier);
-        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[7], sessionId, personUniversalIdentifier, sessionId, personUniversalIdentifier, sessionId, personUniversalIdentifier, sessionId, personUniversalIdentifier);
+        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[5], principalId, sessionId);
+        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[6], sessionId, principalId);
+        this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[7], sessionId, principalId, sessionId, principalId, sessionId, principalId, sessionId, principalId);
 
         // cleanup temp table space
         this.clearTempTableBySesId("ld_bcn_doc_pullup01_mt", "SESID", sessionId);
@@ -669,7 +669,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pushdownSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+    public void pushdownSelectedOrganizationDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
         String sessionId = new Guid().toString();
 
@@ -679,7 +679,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         Integer orgMgrLev = OrgSelControlOption.ORGMGRLEV.getKey();
         Integer levOne = OrgSelControlOption.LEVONE.getKey();
         Integer levZero = OrgSelControlOption.LEVZERO.getKey();
-        String puid = personUniversalIdentifier;
+        String puid = principalId;
 
         // run the steps
         this.getSimpleJdbcTemplate().update(pushdownSelectedOrganizationDocumentsTemplates[0], sessionId, puid, fiscalYear);
@@ -707,19 +707,19 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPullUpBudgetedDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public int buildPullUpBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+    public int buildPullUpBudgetedDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         // clear temp records for users
-        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", personUniversalIdentifier);
+        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", principalId);
 
         Integer org = OrgSelControlOption.ORG.getKey();
         Integer subOrg = OrgSelControlOption.SUBORG.getKey();
         Integer both = OrgSelControlOption.BOTH.getKey();
 
         // build account select
-        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[0], personUniversalIdentifier, both, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, org, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, subOrg, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[0], principalId, both, principalId, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, org, principalId, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, subOrg, principalId, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
         // update org for accounts at level zero
-        this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[1], personUniversalIdentifier, fiscalYear);
+        this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPullUpTemplates[1], principalId, fiscalYear);
 
         return rowCount;
     }
@@ -730,9 +730,9 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPushDownBudgetedDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public int buildPushDownBudgetedDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
+    public int buildPushDownBudgetedDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         // clear temp records for users
-        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", personUniversalIdentifier);
+        this.clearTempTableByUnvlId("ld_bcn_acctsel_t", "person_unvl_id", principalId);
 
         Integer orgLev = OrgSelControlOption.ORGLEV.getKey();
         Integer mgrLev = OrgSelControlOption.MGRLEV.getKey();
@@ -741,9 +741,10 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         Integer levZero = OrgSelControlOption.LEVZERO.getKey();
 
         // build account select
-        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPushDownTemplates[0], personUniversalIdentifier, orgLev, orgMgrLev, levOne, levZero, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, personUniversalIdentifier, mgrLev, personUniversalIdentifier, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
+        int rowCount = this.getSimpleJdbcTemplate().update(accountSelectBudgetedDocumentsPushDownTemplates[0], principalId, orgLev, orgMgrLev, levOne, levZero, principalId, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode, principalId, mgrLev, principalId, fiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
         return rowCount;
     }
 
 }
+

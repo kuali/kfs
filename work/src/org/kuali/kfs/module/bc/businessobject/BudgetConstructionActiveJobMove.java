@@ -26,7 +26,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionActiveJobMove extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String emplid;
     private Integer employeeRecord;
     private Date effectiveDate;
@@ -43,21 +43,21 @@ public class BudgetConstructionActiveJobMove extends PersistableBusinessObjectBa
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -199,7 +199,7 @@ public class BudgetConstructionActiveJobMove extends PersistableBusinessObjectBa
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("emplid", this.emplid);
         if (this.employeeRecord != null) {
             m.put("employeeRecord", this.employeeRecord.toString());
@@ -213,3 +213,4 @@ public class BudgetConstructionActiveJobMove extends PersistableBusinessObjectBa
         return m;
     }
 }
+

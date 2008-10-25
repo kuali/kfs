@@ -20,8 +20,8 @@
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-emplid" />
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionSalarySocialSecurityNumber-organizationCode" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-personName" />
-        <ref bean="BudgetConstructionSalarySocialSecurityNumber-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-name" />
+        <ref bean="BudgetConstructionSalarySocialSecurityNumber-principalId" />
       </list>
     </property>
   </bean>
@@ -83,10 +83,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-personName" parent="BudgetConstructionSalarySocialSecurityNumber-personName-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-name" parent="BudgetConstructionSalarySocialSecurityNumber-name-parentBean" />
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
@@ -98,13 +98,13 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="personName" />
+    <property name="summary" value="name" />
     <property name="description" value="personName description..." />
   </bean>
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-personUniversalIdentifier" parent="BudgetConstructionSalarySocialSecurityNumber-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId" parent="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean" />
 
-  <bean id="BudgetConstructionSalarySocialSecurityNumber-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionSalarySocialSecurityNumber-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -116,8 +116,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -141,9 +141,9 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
             </list>
           </property>
         </bean>
@@ -172,9 +172,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
       </list>
     </property>
     <property name="resultFields" >
@@ -186,10 +186,11 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
       </list>
     </property>
   </bean>
 </beans>
+

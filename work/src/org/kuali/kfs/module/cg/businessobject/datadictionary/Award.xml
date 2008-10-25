@@ -20,14 +20,14 @@
       <list>
         <ref bean="Award-routingChart" />
         <ref bean="Award-routingOrg" />
-        <ref bean="Award-kualiGroupNames" />
+        <ref bean="Award-kimGroupNames" />
         <ref bean="Award-primaryAwardOrganization.organizationCode" />
         <ref bean="Award-proposal.proposalNumber" />
         <ref bean="Award-proposalNumber" />
         <ref bean="Award-awardAccounts.account.accountNumber" />
         <ref bean="Award-awardOrganizations.organization.organizationCode" />
         <ref bean="Award-awardSubcontractors.subcontractor.subcontractorNumber" />
-        <ref bean="Award-awardProjectDirectors.projectDirector.personUniversalIdentifier" />
+        <ref bean="Award-awardProjectDirectors.projectDirector.principalId" />
         <ref bean="Award-proposal.grantNumber" />
         <ref bean="Award-agency.fullName" />
         <ref bean="Award-agencyAnalystName" />
@@ -117,8 +117,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="awardProjectDirectors.projectDirector.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="awardProjectDirectors.projectDirector.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
         </bean>
@@ -177,10 +177,10 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Award-kualiGroupNames" parent="Award-kualiGroupNames-parentBean" />
+  <bean id="Award-kimGroupNames" parent="Award-kimGroupNames-parentBean" />
 
-  <bean id="Award-kualiGroupNames-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="kualiGroupNames" />
+  <bean id="Award-kimGroupNames-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="kimGroupNames" />
     <property name="label" value="Kuali Workgroup Users" />
     <property name="shortLabel" value="Kuali Workgroup Users" />
   </bean>
@@ -233,10 +233,10 @@
     <property name="name" value="awardSubcontractors.subcontractor.subcontractorNumber" />
     <property name="shortLabel" value="Subcontr Num" />
   </bean>
-  <bean id="Award-awardProjectDirectors.projectDirector.personUniversalIdentifier" parent="Award-awardProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" />
+  <bean id="Award-awardProjectDirectors.projectDirector.principalId" parent="Award-awardProjectDirectors.projectDirector.principalId-parentBean" />
 
-  <bean id="Award-awardProjectDirectors.projectDirector.personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
-    <property name="name" value="awardProjectDirectors.projectDirector.personUniversalIdentifier" />
+  <bean id="Award-awardProjectDirectors.projectDirector.principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
+    <property name="name" value="awardProjectDirectors.projectDirector.principalId" />
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
   </bean>
@@ -667,7 +667,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="workgroupName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="kualiGroupNames" />
+                    p:attributeName="kimGroupNames" />
               <bean parent="FieldDefinition"
                     p:attributeName="agencyAnalystName" />
               <bean parent="FieldDefinition"
@@ -728,9 +728,9 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personUserIdentifier" />
+                          p:attributeName="projectDirector.principalName" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personName" />
+                          p:attributeName="projectDirector.name" />
                     <bean parent="FieldDefinition"
                           p:attributeName="awardPrimaryProjectDirectorIndicator" />
                     <bean parent="FieldDefinition"
@@ -740,7 +740,7 @@
                 <property name="summaryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="projectDirector.personName" />
+                          p:attributeName="projectDirector.name" />
                     <bean parent="FieldDefinition"
                           p:attributeName="awardPrimaryProjectDirectorIndicator" />
                     <bean parent="FieldDefinition"
@@ -800,7 +800,7 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="chartOfAccountsCode" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="personUniversalIdentifier" />
+                          p:attributeName="principalId" />
                   </list>
                 </property>
                 <property name="summaryFields" >
@@ -861,7 +861,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="awardSubcontractors.subcontractor.subcontractorNumber" />
         <bean parent="FieldDefinition"
-              p:attributeName="awardProjectDirectors.projectDirector.personUniversalIdentifier" />
+              p:attributeName="awardProjectDirectors.projectDirector.principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="awardOrganizations.organization.organizationCode" />
         <bean parent="FieldDefinition"
@@ -898,3 +898,4 @@
     </property>
   </bean>
 </beans>
+

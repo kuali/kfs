@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ld.util;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class LaborLedgerUnitOfWorkTest extends KualiTestBase {
 
     private LaborOriginEntry laborOriginEntry;
@@ -107,3 +107,4 @@ public class LaborLedgerUnitOfWorkTest extends KualiTestBase {
         assertFalse(laborLedgerUnitOfWork.hasSameKey(laborOriginEntry));
     }
 }
+

@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -41,17 +41,17 @@ public interface ElectronicPaymentClaimingService {
      * @param user the user attempting to use a document to claim ElectronicPaymentClaim records
      * @return a list of ElectronicPaymentClaimingDocumentGenerationStrategy document helper implementations
      */
-    public abstract List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(UniversalUser user);
+    public abstract List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(Person user);
     
     /**
      * Given a List of ElectronicPaymentClaim records and a ElectronicPaymentClaimingDocumentGenerationStrategy document helper implementation, creates a document that
      * will claim; this method should also do the work of "claiming" each of the given ElectronicPaymentClaim records by filling in their referenceFinancialDocumentNumber field. 
      * @param claims the List of ElectronicPaymentClaim records to claim with a document
      * @param documentCreationHelper the document helper which will help this method in constructing the claiming document
-     * @param user the UniversalUser record of the user who is claiming the given electronic payments
+     * @param user the Person record of the user who is claiming the given electronic payments
      * @return the URL to redirect to, so the user can edit the document
      */
-    public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, UniversalUser user);
+    public abstract String createPaymentClaimingDocument(List<ElectronicPaymentClaim> claims, ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper, Person user);
     
     /**
      * Determines whether the given user is a member of the workgroup designated by parameter KFS-SYS / ElectronicPaymentClaim / ELECTRONIC_FUNDS_CLAIMANT_GROUP
@@ -59,7 +59,7 @@ public interface ElectronicPaymentClaimingService {
      * @param user the user to determine rights for
      * @return true if the user is a member of the parameterized workgroup, false otherwise
      */
-    public abstract boolean isUserMemberOfClaimingGroup(UniversalUser user);
+    public abstract boolean isUserMemberOfClaimingGroup(Person user);
     
     /**
      * Unclaims all ElectronicPaymentClaim records claimed by the given document, by setting the ElectronicPaymentClaim's reference document to null.
@@ -73,7 +73,7 @@ public interface ElectronicPaymentClaimingService {
      * @param user the user to determine the authorizations for
      * @return true if the user is an EFT admin or not
      */
-    public abstract boolean isElectronicPaymentAdministrator(UniversalUser user);
+    public abstract boolean isElectronicPaymentAdministrator(Person user);
     
     /**
      * Sets the referenceFinancialDocumentNumber on each of the payments passed in with the given document number and then saves them. 
@@ -96,3 +96,4 @@ public interface ElectronicPaymentClaimingService {
      */
     public Map<String, List<String>> getElectronicFundAccounts();    
 }
+

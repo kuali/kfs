@@ -283,7 +283,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @return Returns the personName.
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -292,7 +292,7 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -653,3 +653,4 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
     }
     
 }
+

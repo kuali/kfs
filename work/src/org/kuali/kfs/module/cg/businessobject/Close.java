@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
@@ -34,9 +34,9 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
     private Date userInitiatedCloseDate;
     private Long awardClosedCount;
     private Long proposalClosedCount;
-    private String personUserIdentifier;
+    private String principalName;
 
-    private UniversalUser personUser;
+    private Person personUser;
 
     /**
      * Default constructor.
@@ -109,21 +109,21 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
 
 
     /**
-     * Gets the personUserIdentifier attribute.
+     * Gets the principalName attribute.
      * 
-     * @return Returns the personUserIdentifier
+     * @return Returns the principalName
      */
-    public String getPersonUserIdentifier() {
-        return personUserIdentifier;
+    public String getPrincipalName() {
+        return principalName;
     }
 
     /**
-     * Sets the personUserIdentifier attribute.
+     * Sets the principalName attribute.
      * 
-     * @param personUserIdentifier The personUserIdentifier to set.
+     * @param principalName The principalName to set.
      */
-    public void setPersonUserIdentifier(String personUserIdentifier) {
-        this.personUserIdentifier = personUserIdentifier;
+    public void setPrincipalName(String principalName) {
+        this.principalName = principalName;
     }
 
 
@@ -146,10 +146,10 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
     }
 
     /**
-     * @return the {@link UniversalUser} for the personUser
+     * @return the {@link Person} for the personUser
      */
-    public UniversalUser getPersonUser() {
-        personUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUserIdentifier, personUser);
+    public Person getPersonUser() {
+        personUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalName, personUser);
         return personUser;
     }
 
@@ -157,7 +157,7 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
      * @param personUser The personUser to set.
      * @deprecated
      */
-    public void setPersonUser(UniversalUser personUser) {
+    public void setPersonUser(Person personUser) {
         this.personUser = personUser;
     }
 
@@ -172,3 +172,4 @@ public class Close extends FinancialSystemTransactionalDocumentBase {
         return m;
     }
 }
+

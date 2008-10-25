@@ -23,9 +23,9 @@ import org.kuali.kfs.module.bc.dataaccess.HumanResourcesPayrollDao;
 import org.kuali.kfs.module.bc.exception.IncumbentNotFoundException;
 import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollService {
     HumanResourcesPayrollDao humanResourcesPayrollDao;
-    FinancialSystemUserService financialSystemUserService;
+    PersonService personService;
 
     /**
      * @TODO: This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
@@ -68,7 +68,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
      */
     @Transactional
     public Incumbent getIncumbent(String emplid) throws IncumbentNotFoundException {
-        UniversalUser user = financialSystemUserService.getUniversalUserByPersonPayrollIdentifier(emplid);
+        Person user = (Person) personService.getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, emplid).get(0);
 
         if (user == null) {
             throw new IncumbentNotFoundException(emplid);
@@ -76,7 +76,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
 
         Incumbent incumbent = new BudgetConstructionIntendedIncumbent();
         incumbent.setEmplid(emplid);
-        incumbent.setPersonName(user.getPersonName());
+        incumbent.setName(user.getName());
 
         return incumbent;
     }
@@ -101,12 +101,13 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     }
 
     /**
-     * Sets the financialSystemUserService attribute value.
+     * Sets the personService attribute value.
      * 
-     * @param financialSystemUserService The financialSystemUserService to set.
+     * @param personService The personService to set.
      */
     @NonTransactional
-    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
-        this.financialSystemUserService = financialSystemUserService;
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }
+

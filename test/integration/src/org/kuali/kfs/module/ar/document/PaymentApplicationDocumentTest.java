@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PaymentApplicationDocumentTest extends KualiTestBase {
 
     public void testCreatePaymentApplicationDocument() throws Exception {
@@ -32,3 +32,4 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
     }
     
 }
+

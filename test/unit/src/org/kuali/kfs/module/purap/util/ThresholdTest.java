@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.suite.RelatesTo;
 
-@ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+@ConfigureContext(session = parke, shouldCommitTransactions=false)
 
 public class ThresholdTest extends KualiTestBase {
     
@@ -293,3 +293,4 @@ public class ThresholdTest extends KualiTestBase {
         return null;
     }
 }
+

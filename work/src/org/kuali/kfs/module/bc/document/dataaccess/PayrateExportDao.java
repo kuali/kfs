@@ -32,8 +32,9 @@ public interface PayrateExportDao {
      * 
      * @param budgetYear
      * @param positionUnionCode
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return
      */
-    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String personUniversalIdentifier);
+    public Integer buildPayRateHoldingRows(Integer budgetYear, String positionUnionCode, String principalId);
 }
+

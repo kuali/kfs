@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.document.service;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -146,7 +146,7 @@ public interface BudgetDocumentService {
      * @param u
      * @return
      */
-    public String getAccessMode(BudgetConstructionHeader bcHeader, UniversalUser u);
+    public String getAccessMode(BudgetConstructionHeader bcHeader, Person u);
 
     /**
      * Gets the Budget Construction access mode for the document candidate key and the user. Assumes the Budget Document exists in
@@ -168,10 +168,10 @@ public interface BudgetDocumentService {
      * @param u
      * @return
      */
-    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u);
+    public String getAccessMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Person u);
 
 
-    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, UniversalUser u);
+    public List<BudgetConstructionAccountOrganizationHierarchy> getPushPullLevelList(BudgetConstructionDocument bcDoc, Person u);
 
     /**
      * update the pending budget construction GL record assocating with the given appointment funding. If there exists any pbgl
@@ -351,3 +351,4 @@ public interface BudgetDocumentService {
     public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException;
 
 }
+

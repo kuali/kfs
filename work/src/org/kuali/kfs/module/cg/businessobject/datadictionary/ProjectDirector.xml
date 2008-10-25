@@ -17,41 +17,41 @@
     <property name="objectLabel" value="Project Director" />
     <property name="attributes" >
       <list>
-        <ref bean="ProjectDirector-universalUser.personPayrollIdentifier" />
-        <ref bean="ProjectDirector-personUniversalIdentifier" />
-        <ref bean="ProjectDirector-universalUser.personUserIdentifier" />
-        <ref bean="ProjectDirector-universalUser.personName" />
-        <ref bean="ProjectDirector-universalUser.personLastName" />
-        <ref bean="ProjectDirector-universalUser.personFirstName" />
-        <ref bean="ProjectDirector-universalUser.campusCode" />
-        <ref bean="ProjectDirector-universalUser.primaryDepartmentCode" />
-        <ref bean="ProjectDirector-universalUser.employeeStatusCode" />
-        <ref bean="ProjectDirector-universalUser.employeeTypeCode" />
+        <ref bean="ProjectDirector-person.personPayrollIdentifier" />
+        <ref bean="ProjectDirector-principalId" />
+        <ref bean="ProjectDirector-person.principalName" />
+        <ref bean="ProjectDirector-person.name" />
+        <ref bean="ProjectDirector-person.lastName" />
+        <ref bean="ProjectDirector-person.firstName" />
+        <ref bean="ProjectDirector-person.campusCode" />
+        <ref bean="ProjectDirector-person.primaryDepartmentCode" />
+        <ref bean="ProjectDirector-person.employeeStatusCode" />
+        <ref bean="ProjectDirector-person.employeeTypeCode" />
         <ref bean="ProjectDirector-active" />
       </list>
     </property>
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="universalUser" />
+          <property name="objectAttributeName" value="person" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="universalUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="person.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="universalUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="person.name"
+                    p:targetName="name" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="universalUser.primaryDepartmentCode"
+                    p:sourceName="person.primaryDepartmentCode"
                     p:targetName="primaryDepartmentCode" />
             </list>
           </property>
@@ -63,68 +63,68 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProjectDirector-universalUser.personPayrollIdentifier" parent="ProjectDirector-universalUser.personPayrollIdentifier-parentBean" />
+  <bean id="ProjectDirector-person.personPayrollIdentifier" parent="ProjectDirector-person.personPayrollIdentifier-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.personPayrollIdentifier-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
-    <property name="name" value="universalUser.personPayrollIdentifier" />
+  <bean id="ProjectDirector-person.personPayrollIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="person.personPayrollIdentifier" />
   </bean>
-  <bean id="ProjectDirector-personUniversalIdentifier" parent="ProjectDirector-personUniversalIdentifier-parentBean" />
+  <bean id="ProjectDirector-principalId" parent="ProjectDirector-principalId-parentBean" />
 
-  <bean id="ProjectDirector-personUniversalIdentifier-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="ProjectDirector-principalId-parentBean" abstract="true" parent="GenericAttributes-genericSystemId">
+    <property name="name" value="principalId" />
     <property name="label" value="Universal ID" />
     <property name="shortLabel" value="ID" />
     <property name="required" value="true" />
   </bean>
-  <bean id="ProjectDirector-universalUser.personUserIdentifier" parent="ProjectDirector-universalUser.personUserIdentifier-parentBean" />
+  <bean id="ProjectDirector-person.principalName" parent="ProjectDirector-person.principalName-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="universalUser.personUserIdentifier" />
+  <bean id="ProjectDirector-person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="person.principalName" />
   </bean>
-  <bean id="ProjectDirector-universalUser.personName" parent="ProjectDirector-universalUser.personName-parentBean" />
+  <bean id="ProjectDirector-person.name" parent="ProjectDirector-person.name-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="universalUser.personName" />
+  <bean id="ProjectDirector-person.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="person.name" />
     <property name="label" value="Project Director Name" />
     <property name="shortLabel" value="Proj Dir Name" />
   </bean>
-  <bean id="ProjectDirector-universalUser.personLastName" parent="ProjectDirector-universalUser.personLastName-parentBean" />
+  <bean id="ProjectDirector-person.lastName" parent="ProjectDirector-person.lastName-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.personLastName-parentBean" abstract="true" parent="UniversalUser-personLastName">
-    <property name="name" value="universalUser.personLastName" />
+  <bean id="ProjectDirector-person.lastName-parentBean" abstract="true" parent="PersonImpl-lastName">
+    <property name="name" value="person.lastName" />
     <property name="label" value="Project Director Last Name" />
     <property name="shortLabel" value="Proj Dir Last Name" />
   </bean>
-  <bean id="ProjectDirector-universalUser.personFirstName" parent="ProjectDirector-universalUser.personFirstName-parentBean" />
+  <bean id="ProjectDirector-person.firstName" parent="ProjectDirector-person.firstName-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.personFirstName-parentBean" abstract="true" parent="UniversalUser-personFirstName">
-    <property name="name" value="universalUser.personFirstName" />
+  <bean id="ProjectDirector-person.firstName-parentBean" abstract="true" parent="PersonImpl-firstName">
+    <property name="name" value="person.firstName" />
     <property name="label" value="Project Director First Name" />
     <property name="shortLabel" value="Proj Dir First Name" />
   </bean>
-  <bean id="ProjectDirector-universalUser.campusCode" parent="ProjectDirector-universalUser.campusCode-parentBean" />
+  <bean id="ProjectDirector-person.campusCode" parent="ProjectDirector-person.campusCode-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.campusCode-parentBean" abstract="true" parent="Campus-campusCode">
-    <property name="name" value="universalUser.campusCode" />
+  <bean id="ProjectDirector-person.campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+    <property name="name" value="person.campusCode" />
   </bean>
-  <bean id="ProjectDirector-universalUser.primaryDepartmentCode" parent="ProjectDirector-universalUser.primaryDepartmentCode-parentBean" />
+  <bean id="ProjectDirector-person.primaryDepartmentCode" parent="ProjectDirector-person.primaryDepartmentCode-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.primaryDepartmentCode-parentBean" abstract="true" parent="UniversalUser-primaryDepartmentCode">
-    <property name="name" value="universalUser.primaryDepartmentCode" />
+  <bean id="ProjectDirector-person.primaryDepartmentCode-parentBean" abstract="true" parent="PersonImpl-primaryDepartmentCode">
+    <property name="name" value="person.primaryDepartmentCode" />
     <property name="label" value="Dept ID" />
     <property name="shortLabel" value="Dept ID" />
   </bean>
-  <bean id="ProjectDirector-universalUser.employeeStatusCode" parent="ProjectDirector-universalUser.employeeStatusCode-parentBean" />
+  <bean id="ProjectDirector-person.employeeStatusCode" parent="ProjectDirector-person.employeeStatusCode-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.employeeStatusCode-parentBean" abstract="true" parent="UniversalUser-employeeStatusCode">
-    <property name="name" value="universalUser.employeeStatusCode" />
+  <bean id="ProjectDirector-person.employeeStatusCode-parentBean" abstract="true" parent="PersonImpl-employeeStatusCode">
+    <property name="name" value="person.employeeStatusCode" />
     <property name="label" value="Employee Status" />
     <property name="shortLabel" value="Empl Status" />
   </bean>
-  <bean id="ProjectDirector-universalUser.employeeTypeCode" parent="ProjectDirector-universalUser.employeeTypeCode-parentBean" />
+  <bean id="ProjectDirector-person.employeeTypeCode" parent="ProjectDirector-person.employeeTypeCode-parentBean" />
 
-  <bean id="ProjectDirector-universalUser.employeeTypeCode-parentBean" abstract="true" parent="UniversalUser-employeeTypeCode">
-    <property name="name" value="universalUser.employeeTypeCode" />
+  <bean id="ProjectDirector-person.employeeTypeCode-parentBean" abstract="true" parent="PersonImpl-employeeTypeCode">
+    <property name="name" value="person.employeeTypeCode" />
     <property name="label" value="Employee Type" />
     <property name="shortLabel" value="Empl Type" />
   </bean>
@@ -149,19 +149,19 @@
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.personUserIdentifier" />
+                    p:attributeName="person.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.personName" />
+                    p:attributeName="person.name" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.campusCode" />
+                    p:attributeName="person.campusCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.primaryDepartmentCode" />
+                    p:attributeName="person.primaryDepartmentCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.employeeStatusCode" />
+                    p:attributeName="person.employeeStatusCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.employeeTypeCode" />
+                    p:attributeName="person.employeeTypeCode" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
@@ -183,7 +183,7 @@
       <bean parent="SortDefinition">
         <property name="attributeNames" >
           <list>
-            <value>universalUser.personName</value>
+            <value>person.name</value>
           </list>
         </property>
       </bean>
@@ -191,21 +191,21 @@
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personUserIdentifier" />
+              p:attributeName="person.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personPayrollIdentifier" />
+              p:attributeName="person.personPayrollIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personLastName" />
+              p:attributeName="person.lastName" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personFirstName" />
+              p:attributeName="person.firstName" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.primaryDepartmentCode" />
+              p:attributeName="person.primaryDepartmentCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.employeeStatusCode" />
+              p:attributeName="person.employeeStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.employeeTypeCode" />
+              p:attributeName="person.employeeTypeCode" />
         <bean parent="FieldDefinition"
               p:defaultValue="true"
               p:attributeName="active" />
@@ -214,22 +214,23 @@
     <property name="resultFields" >
       <list>
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personUserIdentifier" />
+              p:attributeName="person.principalName" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personPayrollIdentifier" />
+              p:attributeName="person.personPayrollIdentifier" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personName" />
+              p:attributeName="person.name" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.primaryDepartmentCode" />
+              p:attributeName="person.primaryDepartmentCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.employeeStatusCode" />
+              p:attributeName="person.employeeStatusCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.employeeTypeCode" />
+              p:attributeName="person.employeeTypeCode" />
          <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
     </property>
   </bean>
 </beans>
+

@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
@@ -53,7 +53,7 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return ElectronicInvoiceStep.class;
     }
 
-    public String getFileName(UniversalUser user, 
+    public String getFileName(Person user, 
                               Object parsedFileContents, 
                               String userIdentifier) {
         
@@ -66,7 +66,7 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
 //        formatter.format(currentTimestamp, buf, new FieldPosition(0));
 
 //        String fileName = "gl_idbilltrans_" + electronicInvoiceBatch.getChartOfAccountsCode() + electronicInvoiceBatch.getOrganizationCode();
-//        fileName += "_" + user.getPersonUserIdentifier().toLowerCase();
+//        fileName += "_" + user.getPrincipalName().toLowerCase();
 //        if (StringUtils.isNotBlank(userIdentifier)) {
 //            fileName += "_" + userIdentifier;
 //        }
@@ -86,9 +86,10 @@ public class ElectronicInvoiceInputFileType extends BatchInputFileTypeBase {
         return false;
     }
 
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+    public boolean checkAuthorization(Person user, File batchFile) {
         return false;
     }
 
 
 }
+

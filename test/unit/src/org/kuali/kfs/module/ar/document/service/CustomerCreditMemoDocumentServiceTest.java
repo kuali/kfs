@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
     private CustomerCreditMemoDocumentService service;
     private CustomerCreditMemoDocument document;
@@ -121,3 +121,4 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
     }
 
 }
+

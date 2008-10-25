@@ -78,13 +78,13 @@
 
              <tr>
                <kul:htmlAttributeHeaderCell
-                   attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
+                   attributeEntry="${DataDictionary.PersonImpl.attributes.personPayrollIdentifier}"
                    horizontal="true"
                    forceRequired="true" labelFor="emplid"
                    />
                <td>
                      <kfs:employee userIdFieldName="emplid"
-                                 userNameFieldName="user.personName" 
+                                 userNameFieldName="user.name" 
                                  fieldConversions="personPayrollIdentifier:emplid"
                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
                                  hasErrors="${hasErrors}"
@@ -194,3 +194,4 @@
     <kul:panelFooter />
     <kfs:documentControls transactionalDocument="true" />
 </kul:documentPage>
+

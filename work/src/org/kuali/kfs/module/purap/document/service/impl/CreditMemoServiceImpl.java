@@ -62,7 +62,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -342,9 +342,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
+    public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, Person user) {
         boolean canHold = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
@@ -368,25 +368,25 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with hold indicator set to true
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(true);
-        cmDoc.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        cmDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(true);
-        cmDocument.setLastActionPerformedByUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+        cmDocument.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         return cmDoc;
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
+    public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, Person user) {
         boolean canRemoveHold = false;
 
         String accountsPayableSupervisorGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-        if (cmDocument.isHoldIndicator() && (user.getPersonUniversalIdentifier().equals(cmDocument.getLastActionPerformedByUniversalUserId()) || user.isMember(accountsPayableSupervisorGroup))) {
+        if (cmDocument.isHoldIndicator() && (user.getPrincipalId().equals(cmDocument.getLastActionPerformedByPersonId()) || user.isMember(accountsPayableSupervisorGroup))) {
             canRemoveHold = true;
         }
 
@@ -406,12 +406,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // retrieve and save with hold indicator set to false
         CreditMemoDocument cmDoc = getCreditMemoDocumentById(cmDocument.getPurapDocumentIdentifier());
         cmDoc.setHoldIndicator(false);
-        cmDoc.setLastActionPerformedByUniversalUserId(null);
+        cmDoc.setLastActionPerformedByPersonId(null);
         saveDocumentWithoutValidation(cmDoc);
 
         // must also save it on the incoming document
         cmDocument.setHoldIndicator(false);
-        cmDocument.setLastActionPerformedByUniversalUserId(null);
+        cmDocument.setLastActionPerformedByPersonId(null);
         
         return cmDoc;
     }
@@ -419,9 +419,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#canCancelCreditMemo(org.kuali.kfs.module.purap.document.CreditMemoDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user) {
+    public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, Person user) {
         boolean canCancel = false;
 
         String accountsPayableGroup = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
@@ -585,9 +585,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getUniversalUserForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getPersonForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
-    public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
+    public Person getPersonForCancel(AccountsPayableDocument apDoc) {
         // return null, since superuser is fine for CM
         return null;
     }
@@ -684,7 +684,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         
         for (String docNumber : docNumbers) {
             try{
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getFinancialSystemUser());
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(docNumber), GlobalVariables.getUserSession().getPerson());
             }catch(WorkflowException we){
                 throw new RuntimeException(we);
             }
@@ -702,3 +702,4 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return hasActiveCreditMemos;
     }
 }
+

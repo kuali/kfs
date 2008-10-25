@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.bc.report;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class ReportControlListBuildHelperTest extends KualiTestBase {
 
     // this arraylist differs includes all of arrayListForTest but has one additional set of organizations: it is a superset of
@@ -222,7 +222,7 @@ public class ReportControlListBuildHelperTest extends KualiTestBase {
         newMember.setReportsToChartOfAccountsCode(organizationReports.getReportsToChartOfAccountsCode());
         newMember.setReportsToOrganizationCode(organizationReports.getReportsToOrganizationCode());
         newMember.setPullFlag(pullupFlag);
-        newMember.setPersonUniversalIdentifier(userIdString);
+        newMember.setPrincipalId(userIdString);
         // to spoof the pullup object's coming from the DB, we add the OBJ_ID and VER_NBR from the Organization Reports, so they
         // will not be null in the Pullup object.
         // doing this ensures that two pullup objects built from the same source OrganizationReports will have exactly the same
@@ -304,3 +304,4 @@ public class ReportControlListBuildHelperTest extends KualiTestBase {
     }
 
 }
+

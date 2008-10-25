@@ -47,9 +47,9 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
      */
-    public void updateObjectSummaryReport(String personUserIdentifier) {
-        budgetConstructionObjectSummaryReportDao.cleanGeneralLedgerObjectSummaryTable(personUserIdentifier);
-        budgetConstructionObjectSummaryReportDao.updateGeneralLedgerObjectSummaryTable(personUserIdentifier);
+    public void updateObjectSummaryReport(String principalName) {
+        budgetConstructionObjectSummaryReportDao.cleanGeneralLedgerObjectSummaryTable(principalName);
+        budgetConstructionObjectSummaryReportDao.updateGeneralLedgerObjectSummaryTable(principalName);
     }
 
     /**
@@ -65,9 +65,9 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgObjectSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgObjectSummaryReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgObjectSummaryReport> reportSet = new ArrayList();
-        Collection<BudgetConstructionObjectSummary> objectSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectSummary.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionObjectSummary> objectSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionObjectSummary.class, principalName, buildOrderByList());
 
         // 
         List listForCalculateLevel = BudgetConstructionReportHelper.deleteDuplicated((List) objectSummaryList, fieldsForLevel());
@@ -576,3 +576,4 @@ public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetC
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
+

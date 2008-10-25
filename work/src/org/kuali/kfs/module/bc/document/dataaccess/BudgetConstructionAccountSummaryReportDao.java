@@ -20,31 +20,32 @@ public interface BudgetConstructionAccountSummaryReportDao {
     /**
      *  cleans acount summary table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void cleanReportsAccountSummaryTable(String personUserIdentifier);
+    public void cleanReportsAccountSummaryTable(String principalName);
 
     /**
      *  updates acount summary table.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void updateReportsAccountSummaryTable(String personUserIdentifier);
+    public void updateReportsAccountSummaryTable(String principalName);
 
     /**
      *  updates acount summary table when users choose consolidation.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+    public void updateReportsAccountSummaryTableWithConsolidation(String principalName);
     
     /**
      * updates acount summary table for SubFundSummaryReport.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void updateSubFundSummaryReport(String personUserIdentifier);
+    public void updateSubFundSummaryReport(String principalName);
 }
+

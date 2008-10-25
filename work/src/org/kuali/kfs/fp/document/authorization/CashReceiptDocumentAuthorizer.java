@@ -27,11 +27,11 @@ import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -52,7 +52,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         Timer t0 = new Timer("getDocumentActionFlags");
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
@@ -85,7 +85,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      java.util.List)
      */
     @Override
-    protected boolean userOwnsAnyAccountingLine(FinancialSystemUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
         return false;
     }
 
@@ -96,7 +96,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -107,7 +107,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 
@@ -118,7 +118,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
         boolean authorized = false;
         String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
         if (unitName != null) {
@@ -126,7 +126,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
         }
         if (!authorized) {
             // TODO: customize message indicating the required unitName using DocumentInitiationAuthorizationException
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
         }
     }
     
@@ -143,3 +143,4 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
         return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
 }
+

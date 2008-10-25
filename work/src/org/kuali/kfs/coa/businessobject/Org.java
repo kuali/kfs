@@ -33,9 +33,9 @@ import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.UrlFactory;
 
 /**
@@ -78,7 +78,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     private Chart chartOfAccounts;
     private Org hrisOrganization;
     private Account organizationDefaultAccount;
-    private UniversalUser organizationManagerUniversal;
+    private Person organizationManagerUniversal;
     private ResponsibilityCenter responsibilityCenter;
     private Campus organizationPhysicalCampus;
     private OrgType organizationType;
@@ -288,8 +288,8 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
         this.organizationDefaultAccount = organizationDefaultAccount;
     }
 
-    public UniversalUser getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+    public Person getOrganizationManagerUniversal() {
+        organizationManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 
@@ -299,7 +299,7 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
      * @param organizationManagerUniversal The organizationManagerUniversal to set.
      * @deprecated
      */
-    public void setOrganizationManagerUniversal(UniversalUser organizationManagerUniversal) {
+    public void setOrganizationManagerUniversal(Person organizationManagerUniversal) {
         this.organizationManagerUniversal = organizationManagerUniversal;
     }
 
@@ -925,3 +925,4 @@ public class Org extends PersistableBusinessObjectBase implements Inactivateable
     }
 
 }
+

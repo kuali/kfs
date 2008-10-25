@@ -54,17 +54,17 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
         updateReportsAccountFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
     }
-    public void cleanReportsAccountFundingDetailTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_objt_dump_t", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsAccountFundingDetailTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_objt_dump_t", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
         persistenceService.clearCache();
     }
 
-    public void updateReportsAccountFundingDetailTable(String personUserIdentifier) {
-        cleanReportsAccountFundingDetailTable(personUserIdentifier);
-        getSimpleJdbcTemplate().update(updateReportsAccountFundingDetailTable.get(0).getSQL(), personUserIdentifier, personUserIdentifier);
+    public void updateReportsAccountFundingDetailTable(String principalName) {
+        cleanReportsAccountFundingDetailTable(principalName);
+        getSimpleJdbcTemplate().update(updateReportsAccountFundingDetailTable.get(0).getSQL(), principalName, principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
@@ -77,3 +77,4 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
     }
 
 }
+

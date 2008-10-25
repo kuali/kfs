@@ -24,7 +24,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class Security extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
 
     /**
      * Default no-arg constructor.
@@ -34,21 +34,21 @@ public class Security extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -57,7 +57,8 @@ public class Security extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("personUniversalIdentifier", getPersonUniversalIdentifier());
+        m.put("principalId", getPrincipalId());
         return m;
     }
 }
+

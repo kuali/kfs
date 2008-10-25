@@ -31,7 +31,7 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
     private BudgetOrganizationTreeService budgetOrganizationTreeService;
     private BusinessObjectService businessObjectService;
 
-    private String personUniversalIdentifier = "1111111111";
+    private String principalId = "1111111111";
     private String chartOfAccountsCode = "UA";
     private String organizationCode = "UA";
 
@@ -57,9 +57,9 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
 //        if (!runTests())
 //            return;
 //
-//        budgetOrganizationTreeService.buildPullup(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
+//        budgetOrganizationTreeService.buildPullup(principalId, chartOfAccountsCode, organizationCode);
 //        HashMap map = new HashMap();
-//        map.put("personUniversalIdentifier", personUniversalIdentifier);
+//        map.put("principalId", principalId);
 //        map.put("chartOfAccountsCode", chartOfAccountsCode);
 //        map.put("organizationCode", organizationCode);
 //
@@ -67,9 +67,9 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
 //        BudgetConstructionPullup bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
 //        assertTrue(bcPullup.getChartOfAccountsCode().equalsIgnoreCase(chartOfAccountsCode));
 //        assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
-//        assertTrue(bcPullup.getPersonUniversalIdentifier().equalsIgnoreCase(personUniversalIdentifier));
+//        assertTrue(bcPullup.getPrincipalId().equalsIgnoreCase(principalId));
 //
-//        budgetOrganizationTreeService.cleanPullup(personUniversalIdentifier);
+//        budgetOrganizationTreeService.cleanPullup(principalId);
 //        bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
 //        assertTrue(bcPullup == null);
 //    }
@@ -80,19 +80,20 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        budgetOrganizationTreeService.buildPullupSql(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
+        budgetOrganizationTreeService.buildPullupSql(principalId, chartOfAccountsCode, organizationCode);
         HashMap map = new HashMap();
-        map.put("personUniversalIdentifier", personUniversalIdentifier);
+        map.put("principalId", principalId);
         map.put("chartOfAccountsCode", chartOfAccountsCode);
         map.put("organizationCode", organizationCode);
 
         BudgetConstructionPullup bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
         assertTrue(bcPullup.getChartOfAccountsCode().equalsIgnoreCase(chartOfAccountsCode));
         assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
-        assertTrue(bcPullup.getPersonUniversalIdentifier().equalsIgnoreCase(personUniversalIdentifier));
+        assertTrue(bcPullup.getPrincipalId().equalsIgnoreCase(principalId));
 
-        budgetOrganizationTreeService.cleanPullup(personUniversalIdentifier);
+        budgetOrganizationTreeService.cleanPullup(principalId);
         bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
         assertTrue(bcPullup == null);
     }
 }
+

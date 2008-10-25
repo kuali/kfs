@@ -66,7 +66,7 @@
 	<logic:iterate name="KualiForm" id="subFundPick"
 		property="subFundPickList" indexId="ctr">
 		<html-el:hidden name="KualiForm"
-			property="subFundPickList[${ctr}].personUniversalIdentifier" />
+			property="subFundPickList[${ctr}].principalId" />
 		<html-el:hidden name="KualiForm"
 			property="subFundPickList[${ctr}].versionNumber" />
 
@@ -113,4 +113,5 @@
 	</div>
 
 </c:if>
+
 

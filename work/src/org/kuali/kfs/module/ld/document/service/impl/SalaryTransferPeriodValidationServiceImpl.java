@@ -32,11 +32,11 @@ import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationSe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -52,7 +52,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private DocumentService documentService;
     private NoteService noteService;
     private KualiConfigurationService kualiConfigurationService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private WorkflowDocumentService workflowDocumentService;
 
     /**
@@ -132,8 +132,8 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         Note cancelNote = noteService.createNote(new Note(), document.getDocumentHeader());
         cancelNote.setNoteText(kualiConfigurationService.getPropertyString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE));
 
-        UniversalUser systemUser = universalUserService.getUniversalUserByAuthenticationUserId(KFSConstants.SYSTEM_USER);
-        cancelNote.setAuthorUniversalIdentifier(systemUser.getPersonUniversalIdentifier());
+        Person systemUser = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         noteService.save(cancelNote);
         document.addNote(cancelNote);
 
@@ -347,12 +347,12 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     }
 
     /**
-     * Sets the universalUserService attribute value.
+     * Sets the personService attribute value.
      * 
-     * @param universalUserService The universalUserService to set.
+     * @param personService The personService to set.
      */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -364,3 +364,4 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
         this.workflowDocumentService = workflowDocumentService;
     }
 }
+

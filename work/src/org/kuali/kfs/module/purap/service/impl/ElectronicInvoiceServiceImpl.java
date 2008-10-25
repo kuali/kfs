@@ -44,7 +44,7 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -98,7 +98,7 @@ public class ElectronicInvoiceServiceImpl implements ElectronicInvoiceService {
   //FIXME check user authorization 
   public boolean areExternalResourcesAccessible() {
     LOG.debug("areExternalResourcesAccessible() started");
-    UniversalUser testUser = null;
+    Person testUser = null;
     /*
     try {
       testUser = paymentRequestService.getAccountsPayableSupervisorUser();

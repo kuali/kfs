@@ -12,7 +12,7 @@
     <property name="attributes" >
       <list>
         <ref bean="AdhocPerson-documentNumber" />
-        <ref bean="AdhocPerson-personUniversalIdentifier" />
+        <ref bean="AdhocPersonImpl-principalId" />
         <ref bean="AdhocPerson-permissionCode" />
         <ref bean="AdhocPerson-addedByPerson" />
         <ref bean="AdhocPerson-personAddedTimestamp" />
@@ -40,10 +40,10 @@
             p:size="8" />
     </property>
   </bean>
-  <bean id="AdhocPerson-personUniversalIdentifier" parent="AdhocPerson-personUniversalIdentifier-parentBean" />
+  <bean id="AdhocPersonImpl-principalId" parent="AdhocPersonImpl-principalId-parentBean" />
 
-  <bean id="AdhocPerson-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="AdhocPersonImpl-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Universal ID" />
     <property name="shortLabel" value="UnvlID" />
@@ -102,9 +102,10 @@
   </bean>
   <bean id="AdhocPerson-user" parent="AdhocPerson-user-parentBean" />
 
-  <bean id="AdhocPerson-user-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="AdhocPerson-user-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="user" />
     <property name="label" value="Universal User" />
     <property name="shortLabel" value="User" />
   </bean>
 </beans>
+

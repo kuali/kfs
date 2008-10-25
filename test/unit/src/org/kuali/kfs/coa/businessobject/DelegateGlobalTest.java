@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class DelegateGlobalTest extends KualiTestBase {
 
     private static final String GLOBAL_DELEGATE_TYPENAME = "DelegateGlobalMaintenanceDocument";
@@ -46,7 +46,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     private static final java.sql.Date START_DATE_2 = DateUtils.newDate(2006, 5, 1);
     private static final String DELEGATE_ID_1 = "4287701175"; // AFGORMAN BL-UDIV
     private static final String DELEGATE_ID_2 = "1571201547"; // BBURGER BL-VPIT
-    private static final String DELEGATE_ID_3 = "1872708343"; // CSWINSON BL-VPGA
+    private static final String DELEGATE_ID_3 = "1872708343"; // cswinson BL-VPGA
     private static final KualiDecimal FROM_AMOUNT_1 = KualiDecimal.ZERO;
     private static final KualiDecimal FROM_AMOUNT_2 = KualiDecimal.ZERO;
     private static final KualiDecimal FROM_AMOUNT_3 = new KualiDecimal(1000);
@@ -280,3 +280,4 @@ public class DelegateGlobalTest extends KualiTestBase {
     }
 
 }
+

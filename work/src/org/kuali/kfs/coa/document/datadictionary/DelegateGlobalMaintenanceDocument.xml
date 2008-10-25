@@ -78,7 +78,7 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="accountDelegatePrimaryRoutingIndicator" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personUserIdentifier" />
+                    p:name="accountDelegate.principalName" />
             </list>
           </property>
           <property name="maintainableFields" >
@@ -93,10 +93,10 @@
                     p:required="true"
                     p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personUserIdentifier"
+                    p:name="accountDelegate.principalName"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personName"
+                    p:name="accountDelegate.name"
                     p:readOnly="true" />
               <bean parent="MaintainableFieldDefinition"
                     p:name="accountDelegateUniversalId"
@@ -114,7 +114,7 @@
           <property name="includeMultipleLookupLine" value="false" />
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.personUserIdentifier" />
+          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" />
           		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" />
           	</list>
           </property>
@@ -194,3 +194,4 @@
     </property>
   </bean>
 </beans>
+

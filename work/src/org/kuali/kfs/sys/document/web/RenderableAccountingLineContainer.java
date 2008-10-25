@@ -279,7 +279,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         if (field.isSecure()) {
             String workgroupName = boDDEntry.getAttributeDefinition(field.getPropertyName()).getDisplayWorkgroup();
         
-            if (GlobalVariables.getUserSession().getFinancialSystemUser().isMember(workgroupName)) {
+            if (GlobalVariables.getUserSession().getPerson().isMember(workgroupName)) {
                 field.setDisplayMaskValue(field.getPropertyValue());
             }
         }
@@ -345,3 +345,4 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         return StringUtils.substringBeforeLast(this.getAccountingLinePropertyPath(), String.valueOf(PropertyUtils.NESTED_DELIM));
     }   
 }
+

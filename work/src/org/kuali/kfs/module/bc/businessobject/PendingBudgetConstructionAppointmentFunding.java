@@ -33,10 +33,10 @@ import org.kuali.kfs.coa.businessobject.SubObjCd;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -85,7 +85,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List<BudgetConstructionSalaryFunding> budgetConstructionSalaryFunding;
     private List<BudgetConstructionAppointmentFundingReason> budgetConstructionAppointmentFundingReason;
 
-    private UniversalUser employee;
+    private Person employee;
 
     private KualiDecimal percentChange;
     private String adjustmentMeasurement;
@@ -816,8 +816,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * 
      * @return Returns the employee.
      */
-    public UniversalUser getEmployee() {
-        return SpringContext.getBean(FinancialSystemUserService.class).getUniversalUserByPersonPayrollIdentifier(this.getEmplid());
+    public Person getEmployee() {
+        return (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE, this.getEmplid()).get(0);
     }
 
     /**
@@ -825,7 +825,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * 
      * @param employee The employee to set.
      */
-    public void setEmployee(UniversalUser employee) {
+    public void setEmployee(Person employee) {
         this.employee = employee;
     }
 
@@ -1101,3 +1101,4 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.purged = purged;
     }
 }
+

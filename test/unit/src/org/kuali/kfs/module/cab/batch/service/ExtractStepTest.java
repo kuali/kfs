@@ -64,7 +64,7 @@ public class ExtractStepTest extends BatchTestBase {
     private BusinessObjectService boService;
     private ExtractStep extractStep;
 
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -105,3 +105,4 @@ public class ExtractStepTest extends BatchTestBase {
         assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValue().substring(0, 10));
     }
 }
+

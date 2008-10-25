@@ -25,8 +25,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="SystemInformation-adjustmentObjectCode" />
         <ref bean="SystemInformation-lockboxNumber" />
         <ref bean="SystemInformation-financialDocumentInitiatorIdentifier" />
-        <ref bean="SystemInformation-financialDocumentInitiator.personUserIdentifier" />
-        <ref bean="SystemInformation-financialDocumentInitiator.personName" />
+        <ref bean="SystemInformation-financialDocumentInitiator.principalName" />
+        <ref bean="SystemInformation-financialDocumentInitiator.name" />
         <ref bean="SystemInformation-creditCardObjectCode" />
         <ref bean="SystemInformation-processingChartOfAccountCode" />
         <ref bean="SystemInformation-processingOrganizationCode" />
@@ -64,18 +64,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="financialDocumentInitiatorIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="financialDocumentInitiator.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="financialDocumentInitiator.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="financialDocumentInitiator.personName"
-                    p:targetName="personName" />
+                    p:sourceName="financialDocumentInitiator.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -156,7 +156,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
 <bean id="SystemInformation-financialDocumentInitiatorIdentifier" parent="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" />  
   
-<bean id="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+<bean id="SystemInformation-financialDocumentInitiatorIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="financialDocumentInitiatorIdentifier" />
     <property name="label" value="Lockbox Document Initiator ID" />
     <property name="shortLabel" value="Initiator ID" />
@@ -167,24 +167,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="SystemInformation-financialDocumentInitiator.personUserIdentifier" parent="SystemInformation-financialDocumentInitiator.personUserIdentifier-parentBean" />
+  <bean id="SystemInformation-financialDocumentInitiator.principalName" parent="SystemInformation-financialDocumentInitiator.principalName-parentBean" />
 
-  <bean id="SystemInformation-financialDocumentInitiator.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="financialDocumentInitiator.personUserIdentifier" />
+  <bean id="SystemInformation-financialDocumentInitiator.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="financialDocumentInitiator.principalName" />
     <property name="label" value="Lockbox Document Initiator" />
     <property name="shortLabel" value="Initiator" />
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="financialDocumentInitiator.personName"
+            p:personNameAttributeName="financialDocumentInitiator.name"
             p:universalIdAttributeName="financialDocumentInitiatorIdentifier"
-            p:userIdAttributeName="financialDocumentInitiator.personUserIdentifier" />
+            p:userIdAttributeName="financialDocumentInitiator.principalName" />
     </property>
   </bean>
-  <bean id="SystemInformation-financialDocumentInitiator.personName" parent="SystemInformation-financialDocumentInitiator.personName-parentBean" />
+  <bean id="SystemInformation-financialDocumentInitiator.name" parent="SystemInformation-financialDocumentInitiator.name-parentBean" />
 
-  <bean id="SystemInformation-financialDocumentInitiator.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="financialDocumentInitiator.personName" />
+  <bean id="SystemInformation-financialDocumentInitiator.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="financialDocumentInitiator.name" />
     <property name="label" value="Lockbox Document Initiator Name" />
     <property name="shortLabel" value="Initiator Name" />
     <property name="required" value="false" />
@@ -613,3 +613,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
+

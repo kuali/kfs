@@ -45,19 +45,20 @@ public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao#cleanAccountDump(java.lang.String)
      */
-    public void cleanAccountDump(String personUserIdentifier) {
+    public void cleanAccountDump(String principalName) {
         // clear out previous account dump data for user
-        clearTempTableByUnvlId("LD_BCN_ACCT_DUMP_T", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("LD_BCN_ACCT_DUMP_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao#updateAccountDump(java.lang.String)
      */
-    public void updateAccountDump(String personUniversalIdentifier) {
-        cleanAccountDump(personUniversalIdentifier);
+    public void updateAccountDump(String principalId) {
+        cleanAccountDump(principalId);
         
         // rebuild account dump table
-        getSimpleJdbcTemplate().update(updateAccountDump, personUniversalIdentifier, personUniversalIdentifier);
+        getSimpleJdbcTemplate().update(updateAccountDump, principalId, principalId);
     }
 
 }
+

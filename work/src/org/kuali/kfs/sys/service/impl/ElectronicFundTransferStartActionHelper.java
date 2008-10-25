@@ -38,7 +38,7 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
      * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm, org.apache.struts.action.ActionMapping, java.util.Map)
      */
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map parameterMap, String basePath) {
-        return new ActionForward((electronicPaymentClaimingService.isUserMemberOfClaimingGroup(GlobalVariables.getUserSession().getFinancialSystemUser()) ? getClaimingLookupUrl(form, basePath) : getNonClaimingLookupUrl(form, basePath) ), true);
+        return new ActionForward((electronicPaymentClaimingService.isUserMemberOfClaimingGroup(GlobalVariables.getUserSession().getPerson()) ? getClaimingLookupUrl(form, basePath) : getNonClaimingLookupUrl(form, basePath) ), true);
     }
     
     /**
@@ -100,3 +100,4 @@ public class ElectronicFundTransferStartActionHelper implements ElectronicFundTr
     }
     
 }
+

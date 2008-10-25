@@ -56,7 +56,7 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.BudgetConstructionEditMode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -65,7 +65,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -103,7 +103,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             // init the account org hier state on initial load only - this is stored as hiddens
             if (budgetConstructionForm.getMethodToCall().equals(BCConstants.BC_DOCUMENT_METHOD)) {
-                budgetConstructionForm.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getUniversalUser()));
+                budgetConstructionForm.setAccountOrgHierLevels(SpringContext.getBean(BudgetDocumentService.class).getPushPullLevelList(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson()));
             }
 
             if (budgetConstructionForm.getEditingMode().containsKey(BudgetConstructionEditMode.SYSTEM_VIEW_ONLY)) {
@@ -138,8 +138,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
                     if (budgetConstructionHeader != null) {
                         // BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader,
-                        // GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                        // GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                        BudgetConstructionLockStatus bcLockStatus = lockService.lockAccountAndCommit(budgetConstructionHeader, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
                         // TODO: make this a switch
                         if (bcLockStatus.getLockStatus() == LockStatus.SUCCESS) {
@@ -152,22 +152,22 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         }
                         else {
                             if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER) {
-                                String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
-                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by " + lockerName + ")", budgetConstructionForm.isPickListMode());
+                                String lockerName = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
+                                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(document is locked by " + lockerName + ")", budgetConstructionForm.isPickListMode());
                             }
                             else {
                                 if (bcLockStatus.getLockStatus() == LockStatus.FLOCK_FOUND) {
-                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(funding for document is locked)", budgetConstructionForm.isPickListMode());
+                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(funding for document is locked)", budgetConstructionForm.isPickListMode());
                                 }
                                 else {
-                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(optimistic lock or other failure during lock attempt)", budgetConstructionForm.isPickListMode());
+                                    throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(optimistic lock or other failure during lock attempt)", budgetConstructionForm.isPickListMode());
                                 }
                             }
                         }
                     }
                     else {
                         // unlikely
-                        throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(can't find document for locking)", budgetConstructionForm.isPickListMode());
+                        throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", budgetConstructionForm.getDocument().getDocumentHeader().getDocumentNumber(), "(can't find document for locking)", budgetConstructionForm.isPickListMode());
                     }
 
                     // if editing, check if 2plg adjustment needed and calc benefits
@@ -294,10 +294,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String accountNumber = bcDoc.getAccountNumber();
         String subAccountNumber = bcDoc.getSubAccountNumber();
         Integer universityFiscalYear = bcDoc.getUniversityFiscalYear();
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
 
         Map editModeMap = new HashMap();
-        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, universalUser);
+        String editMode = budgetDocumentService.getAccessMode(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, person);
         editModeMap.put(editMode, "TRUE");
 
         // adding the case where system is in view only mode in case we need this fact for functionality
@@ -1341,14 +1341,14 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 doAllowPullup = false;
 
                 LockService lockService = SpringContext.getBean(LockService.class);
-                BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader, GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 LockStatus lockStatus = bcLockStatus.getLockStatus();
                 switch (lockStatus) {
                     case SUCCESS:
                         doAllowPullup = true;
                         break;
                     case BY_OTHER:
-                        String lockerName = SpringContext.getBean(UniversalUserService.class).getUniversalUser(bcLockStatus.getAccountLockOwner()).getPersonName();
+                        String lockerName = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
                         GlobalVariables.getErrorMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by " + lockerName);
                         break;
                     case FLOCK_FOUND:
@@ -1422,7 +1422,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             // check editing mode at the intended level
             BudgetConstructionHeader bcHdr = this.getTestHeaderFromDocument(bcDocument, Integer.parseInt(tForm.getPushdownKeyCode()));
-            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr, GlobalVariables.getUserSession().getUniversalUser());
+            String targetEditMode = budgetDocumentService.getAccessMode(bcHdr, GlobalVariables.getUserSession().getPerson());
             if (targetEditMode.equals(BudgetConstructionEditMode.VIEW_ONLY)) {
 
                 budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
@@ -1706,3 +1706,4 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     }
 }
+

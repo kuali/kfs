@@ -35,9 +35,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -59,8 +59,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
-    private UniversalUser budgetLockUser;
-    private UniversalUser budgetTransactionLockUser;
+    private Person budgetLockUser;
+    private Person budgetTransactionLockUser;
     private Org organizationLevelOrganization;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
 
@@ -407,8 +407,8 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
         this.account = account;
     }
 
-    public UniversalUser getBudgetLockUser() {
-        budgetLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+    public Person getBudgetLockUser() {
+        budgetLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetLockUserIdentifier, budgetLockUser);
         return budgetLockUser;
     }
 
@@ -418,12 +418,12 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param budgetLockUser The budgetLockUser to set.
      * @deprecated
      */
-    public void setBudgetLockUser(UniversalUser budgetLockUser) {
+    public void setBudgetLockUser(Person budgetLockUser) {
         this.budgetLockUser = budgetLockUser;
     }
 
-    public UniversalUser getBudgetTransactionLockUser() {
-        budgetTransactionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+    public Person getBudgetTransactionLockUser() {
+        budgetTransactionLockUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
     }
 
@@ -433,7 +433,7 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
      * @param budgetTransactionLockUser The budgetTransactionLockUser to set.
      * @deprecated
      */
-    public void setBudgetTransactionLockUser(UniversalUser budgetTransactionLockUser) {
+    public void setBudgetTransactionLockUser(Person budgetTransactionLockUser) {
         this.budgetTransactionLockUser = budgetTransactionLockUser;
     }
 
@@ -796,3 +796,4 @@ public class BudgetConstructionDocument extends FinancialSystemTransactionalDocu
     }
 
 }
+

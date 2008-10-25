@@ -39,14 +39,14 @@ public interface Incumbent {
      * 
      * @return Returns the personName
      */
-    public abstract String getPersonName();
+    public abstract String getName();
 
     /**
      * Sets the personName attribute.
      * 
      * @param personName The personName to set.
      */
-    public abstract void setPersonName(String personName);
+    public abstract void setName(String personName);
 
     /**
      * Gets the setidSalary attribute.

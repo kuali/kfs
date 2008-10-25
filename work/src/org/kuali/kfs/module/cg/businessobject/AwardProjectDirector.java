@@ -27,7 +27,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private Long proposalNumber;
     private boolean awardPrimaryProjectDirectorIndicator;
     private String awardProjectDirectorProjectTitle;
@@ -39,22 +39,22 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * Default no-args constructor.
      */
     public AwardProjectDirector() {
-        // Struts needs this instance to populate the secondary key, personUserIdentifier.
+        // Struts needs this instance to populate the secondary key, principalName.
         projectDirector = new ProjectDirector();
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPersonUniversalIdentifier()
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPrincipalId()
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
+     * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPrincipalId(java.lang.String)
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -153,7 +153,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
@@ -161,3 +161,4 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
 }
+

@@ -234,9 +234,9 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="representativeUniversalIdentifier" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.personUserIdentifier" />
+              p:name="assetRepresentative.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="assetRepresentative.personName" />
+              p:name="assetRepresentative.name" />
         <bean parent="MaintainableFieldDefinition"
               p:name="assetOrganization.organizationText" />
         <bean parent="MaintainableFieldDefinition"
@@ -597,7 +597,7 @@
         <bean parent="MaintainableSubSectionHeaderDefinition"
               p:name="Borrower Address" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="loanOrReturnInfo.borrowerUniversalUser.personName"
+              p:name="loanOrReturnInfo.borrowerPerson.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="loanOrReturnInfo.borrowerAddress"
@@ -825,3 +825,4 @@
     </property>
   </bean>
 </beans>
+

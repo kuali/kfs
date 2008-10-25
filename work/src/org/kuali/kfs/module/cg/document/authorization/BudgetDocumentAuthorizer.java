@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.document.workflow.KualiWorkflowUtils;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -42,7 +42,7 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getEditMode(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public Map getEditMode(Document d, UniversalUser u) {
+    public Map getEditMode(Document d, Person u) {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
@@ -51,25 +51,25 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
         KualiWorkflowDocument workflowDocument = budgetDocument.getDocumentHeader().getWorkflowDocument();
 
         // Check initiator
-        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPersonUserIdentifier())) {
+        if (workflowDocument.getInitiatorNetworkId().equalsIgnoreCase(u.getPrincipalName())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
             return finalizeEditMode(budgetDocument, permissionCode);
         }
 
         // Check project director
-        if (u.getPersonUniversalIdentifier().equals(budgetDocument.getBudget().getBudgetProjectDirectorUniversalIdentifier())) {
+        if (u.getPrincipalId().equals(budgetDocument.getBudget().getBudgetProjectDirectorUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, CGConstants.PROJECT_DIRECTOR_BUDGET_PERMISSION));
         }
 
         // Check default org permissions - project director
         if (!budgetDocument.getBudget().getPersonnel().isEmpty()) {
-            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPrincipalId())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(BudgetDocument.class, CGConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
             }
         }
 
         // Check default org permissions - cost sharing orgs
-        if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPrincipalId())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, parameterService.getParameterValue(ParameterConstants.CONTRACTS_AND_GRANTS_DOCUMENT.class, CGConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }
 
@@ -85,7 +85,7 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         LOG.debug("calling BudgetDocumentAuthorizer.getDocumentActionFlags");
 
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
@@ -107,3 +107,4 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
         return flags;
     }
 }
+

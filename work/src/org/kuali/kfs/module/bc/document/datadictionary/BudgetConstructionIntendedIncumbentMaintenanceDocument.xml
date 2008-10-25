@@ -54,7 +54,7 @@
               p:name="emplid"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="personName"
+              p:name="name"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="setidSalary" />
@@ -71,3 +71,4 @@
     </property>
   </bean>
 </beans>
+

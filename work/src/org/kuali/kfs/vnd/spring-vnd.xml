@@ -78,7 +78,7 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="persistenceService" ref="persistenceService" />
-        <property name="universalUserService" ref="universalUserService" />
+        <property name="personService" ref="personService" />
     </bean>
 
     <bean id="phoneNumberService" class="org.kuali.kfs.vnd.service.impl.PhoneNumberServiceImpl">
@@ -196,8 +196,8 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
     </bean>
   
@@ -217,8 +217,8 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
-        <property name="universalUserService">
-            <ref bean="universalUserService" />
+        <property name="personService">
+            <ref bean="personService" />
         </property>
     </bean>
     
@@ -269,3 +269,4 @@
         </property> 
     </bean>
 </beans>
+

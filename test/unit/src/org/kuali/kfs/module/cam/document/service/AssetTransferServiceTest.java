@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,7 +47,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
     private AssetTransferService assetTransferService;
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -60,7 +60,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCreateGLPostables_Success() throws Exception {
         // set up the data
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
@@ -100,7 +100,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCreateGLPostables_No_Offset() throws Exception {
         // set up the data
         AssetTransferDocument document = buildTransferDocumentWithoutOffset(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
@@ -136,7 +136,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCreateGLPostables_Non_CapitalAsset() throws Exception {
         // set up the data
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_NON_CAPITAL_ASSET.newAsset(), true);
@@ -151,7 +151,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCreateGLPostables_No_Payments() throws Exception {
         // set up the data
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), false);
@@ -236,7 +236,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         return document;
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testSaveApprovedChanges() throws Exception {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
         this.assetTransferService.saveApprovedChanges(document);
@@ -291,7 +291,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertNewPayment(document, testDataPayment, newPayment2);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testSaveApprovedChanges_Offcampus() throws Exception {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
         document.setOffCampusAddress("4700 S HAGADORN");
@@ -317,7 +317,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals("48823", offCampusLocation.getAssetLocationZipCode());
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testSaveApprovedChanges_AssetOrgInfo() throws Exception {
         AssetTransferDocument document = buildTransferDocument(AssetTransferFixture.ACTIVE_CAPITAL_ASSET.newAsset(), true);
         document.setOrganizationTagNumber("TEL");
@@ -358,3 +358,4 @@ public class AssetTransferServiceTest extends KualiTestBase {
         assertEquals(CamsConstants.TRANSFER_PAYMENT_CODE_Y, assetOffsetPayment.getTransferPaymentCode());
     }
 }
+

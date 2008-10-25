@@ -22,8 +22,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class PayeeAchAccount extends PersistableBusinessObjectBase implements Inactivateable {
@@ -35,7 +35,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
     private String payeeEmailAddress;
     private KualiInteger vendorHeaderGeneratedIdentifier;
     private KualiInteger vendorDetailAssignedIdentifier;
-    private String personUniversalIdentifier;
+    private String principalId;
     private String payeeIdentifierTypeCode;
     private String psdTransactionCode;
     private boolean active;
@@ -43,7 +43,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
 
     private AchBank bankRouting;
     private VendorDetail vendorDetail;
-    private UniversalUser user;
+    private Person user;
 
     /**
      * Default constructor.
@@ -185,21 +185,21 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -300,8 +300,8 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the user.
      */
-    public UniversalUser getUser() {
-        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+    public Person getUser() {
+        user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, user);
         return user;
     }
 
@@ -310,7 +310,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
      * 
      * @param user The user to set.
      */
-    public void setUser(UniversalUser user) {
+    public void setUser(Person user) {
         this.user = user;
     }
 
@@ -355,3 +355,4 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase implements In
         }
     }
 }
+

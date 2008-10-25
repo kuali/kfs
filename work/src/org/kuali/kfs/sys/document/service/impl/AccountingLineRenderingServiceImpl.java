@@ -123,8 +123,8 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      */
     public Map getEditModes(AccountingDocument document) {
         AccountingDocumentAuthorizer documentAuthorizer = getDocumentAuthorizer(document);
-        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser());
-        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getFinancialSystemUser(), document.getSourceAccountingLines(), document.getTargetAccountingLines()));
+        Map editModes = documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson());
+        editModes.putAll(documentAuthorizer.getEditMode(document, GlobalVariables.getUserSession().getPerson(), document.getSourceAccountingLines(), document.getTargetAccountingLines()));
         return editModes;
     }
  
@@ -383,3 +383,4 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
     }
 }
+

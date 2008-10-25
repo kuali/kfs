@@ -39,7 +39,7 @@ public class B2BAction extends KualiAction {
 
     public ActionForward shopCatalogs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         B2BForm b2bForm = (B2BForm) form;
-        String url = SpringContext.getBean(B2BShoppingService.class).getPunchOutUrl(GlobalVariables.getUserSession().getFinancialSystemUser());
+        String url = SpringContext.getBean(B2BShoppingService.class).getPunchOutUrl(GlobalVariables.getUserSession().getPerson());
 
         if (ObjectUtils.isNull(url)) {
             throw new B2BConnectionException("Unable to connect to remote site for punchout.");
@@ -56,7 +56,7 @@ public class B2BAction extends KualiAction {
         B2BShoppingCartParser cart = new B2BShoppingCartParser(cXml);
 
         if (cart.isSuccess()) {
-            List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getFinancialSystemUser());
+            List requisitions = SpringContext.getBean(B2BShoppingService.class).createRequisitionsFromCxml(cart, GlobalVariables.getUserSession().getPerson());
             if (requisitions.size() > 1) {
                 request.getSession().setAttribute("multipleB2BRequisitions", "true");
             }
@@ -72,3 +72,4 @@ public class B2BAction extends KualiAction {
     }
 
 }
+

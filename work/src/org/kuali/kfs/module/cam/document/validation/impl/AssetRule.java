@@ -46,7 +46,7 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationFi
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -284,7 +284,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      */
     private boolean validateInventoryStatusCode() {
         boolean valid = true;
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         if (!user.isMember(CamsConstants.Workgroups.WORKGROUP_CM_SUPER_USERS)) {
             GlobalVariables.getErrorMap().addToErrorPath(MAINTAINABLE_ERROR_PATH);
             valid &= parameterService.getParameterEvaluator(Asset.class, CamsConstants.Parameters.VALID_INVENTROY_STATUS_CODE_CHANGE, CamsConstants.Parameters.INVALID_INVENTROY_STATUS_CODE_CHANGE, oldAsset.getInventoryStatusCode(), newAsset.getInventoryStatusCode()).evaluateAndAddError(newAsset.getClass(), CamsPropertyConstants.Asset.ASSET_INVENTORY_STATUS);
@@ -413,3 +413,4 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
     }
 
 }
+

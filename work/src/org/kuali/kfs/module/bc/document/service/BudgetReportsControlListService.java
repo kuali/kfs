@@ -33,67 +33,67 @@ public interface BudgetReportsControlListService {
     /**
      * Rebuilds the report control list for the given parameters.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      * @param universityFiscalYear - budget fiscal year
      * @param chartOfAccountsCode - point of view chart of accounts code
      * @param organizationCode - point of view organization code
      * @param buildMode - indicates whether the accounts should be restricted to GL pending budget, monthly budget, or bnc
      *        appointment funding
      */
-    public void updateReportsControlList(String personUniversalIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
+    public void updateReportsControlList(String principalId, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode);
 
     /**
      * Rebuilds the subfunds available for selection based on the control list.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      */
-    public void updateReportSubFundGroupSelectList(String personUniversalIdentifier);
+    public void updateReportSubFundGroupSelectList(String principalId);
 
     /**
      * Rebuilds the object codes available for selection based on the control list.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      */
-    public void updateReportObjectCodeSelectList(String personUniversalIdentifier);
+    public void updateReportObjectCodeSelectList(String principalId);
 
     /**
      * Rebuilds the reason codes available for selection based on the control list.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      */
-    public void updateReportReasonCodeSelectList(String personUniversalIdentifier);
+    public void updateReportReasonCodeSelectList(String principalId);
 
     /**
      * Retrieves organizations selected by given user.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      * @return Collection<BudgetConstructionPullup> that are selected by the given user
      */
-    public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String personUniversalIdentifier);
+    public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String principalId);
 
     /**
      * Retrieves sub funds that are available for selection by the given user.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      * @return Collection<BudgetConstructionSubFundPick> that are selected by the given user
      */
-    public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String personUniversalIdentifier);
+    public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String principalId);
 
     /**
      * Retrieves object codes that are available for selection by the given user.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      * @return Collection<BudgetConstructionObjectPick> that are selected by the given user
      */
-    public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String personUniversalIdentifier);
+    public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String principalId);
 
     /**
      * Retrieves reason codes that are available for selection by the given user.
      * 
-     * @param personUniversalIdentifier - current user who is running the report
+     * @param principalId - current user who is running the report
      * @return Collection<BudgetConstructionReasonCodePick> that are selected by the given user
      */
-    public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String personUniversalIdentifier);
+    public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String principalId);
     
     /**
      * Updates the select flag for each sub fund selection record.
@@ -116,3 +116,4 @@ public interface BudgetReportsControlListService {
      */
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList);
 }
+

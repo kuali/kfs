@@ -921,7 +921,7 @@ Attribute name of the property containing the universal user ID related to this 
                 <xsd:attribute name="userObjectAttribute" type="xsd:string" use="required">
                     <xsd:annotation>
                         <xsd:documentation>
-Attribute name of the property containing the UniversalUser object related to this property.
+Attribute name of the property containing the Person object related to this property.
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
@@ -956,3 +956,4 @@ Attribute name of the property containing the UniversalUser object related to th
     </xsd:complexType>
 
 </xsd:schema>
+

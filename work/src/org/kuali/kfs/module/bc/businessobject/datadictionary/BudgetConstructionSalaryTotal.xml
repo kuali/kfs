@@ -24,7 +24,7 @@
         <ref bean="BudgetConstructionSalaryTotal-initialRequestedFteQuantity" />
         <ref bean="BudgetConstructionSalaryTotal-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionSalaryTotal-organizationCode" />
-        <ref bean="BudgetConstructionSalaryTotal-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionSalaryTotal-principalId" />
       </list>
     </property>
   </bean>
@@ -158,10 +158,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionSalaryTotal-personUniversalIdentifier" parent="BudgetConstructionSalaryTotal-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionSalaryTotal-principalId" parent="BudgetConstructionSalaryTotal-principalId-parentBean" />
 
-  <bean id="BudgetConstructionSalaryTotal-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionSalaryTotal-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -173,8 +173,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -206,7 +206,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
             </list>
           </property>
         </bean>
@@ -243,7 +243,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
       </list>
     </property>
     <property name="resultFields" >
@@ -263,8 +263,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
       </list>
     </property>
   </bean>
 </beans>
+

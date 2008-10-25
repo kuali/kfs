@@ -207,19 +207,19 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl implements Gene
      * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
      * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
-     * personUserIdentifier) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
+     * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
      * it may be coming from the database, without any user input.
      * 
      * @param director the ProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(CGProjectDirector director) {
         if (ObjectUtils.isNotNull(director.getProjectDirector())) {
-            String secondaryKey = director.getProjectDirector().getPersonUserIdentifier();
+            String secondaryKey = director.getProjectDirector().getPrincipalName();
             if (StringUtils.isNotBlank(secondaryKey)) {
                 ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
-                director.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
+                director.setPrincipalId(dir == null ? null : dir.getPrincipalId());
             }
-            if (StringUtils.isNotBlank(director.getPersonUniversalIdentifier()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(director.getPersonUniversalIdentifier())) {
+            if (StringUtils.isNotBlank(director.getPrincipalId()) && SpringContext.getBean(ProjectDirectorService.class).primaryIdExists(director.getPrincipalId())) {
                 ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
             }
         }
@@ -324,3 +324,4 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl implements Gene
         return new OrgReviewRoutingData(award.getRoutingChart(), award.getRoutingOrg());
     }
 }
+

@@ -20,7 +20,7 @@ import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthor
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -45,7 +45,7 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         
-        FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         AccountingDocument accountingDocumentForValidation = this.getAccountingDocumentForValidation();
         AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
 
@@ -68,17 +68,17 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         // report errors if the current user can have no access to the account
         if (!isAccessible) {
             String accountNumber = accountingLineForValidation.getAccountNumber();
-            String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+            String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
             String errorKey = this.convertEventToMessage(event);
 
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, personUserIdentifier);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, principalName);
         }
        
         return isAccessible;
     }
 
     // determine whether the current user is a member of the specified work groups
-    private boolean isUserInDisbursementVouchWorkGroups(FinancialSystemUser financialSystemUser) {
+    private boolean isUserInDisbursementVouchWorkGroups(Person financialSystemUser) {
         boolean isInWorkGroups = true;
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInDvAdminGroup(financialSystemUser);
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInFRNGroup(financialSystemUser);
@@ -107,3 +107,4 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }
+

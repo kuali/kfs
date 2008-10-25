@@ -91,7 +91,7 @@ function proposalDirectorIDLookup( userIdField ) {
     var userIdFieldName = userIdField.name;
     var elPrefix = findElPrefix( userIdFieldName );
 	var userNameFieldName = elPrefix + ".personName";
-	var universalIdFieldName = findElPrefix( elPrefix ) + ".personUniversalIdentifier";
+	var universalIdFieldName = findElPrefix( elPrefix ) + ".principalId";
 	
 	loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldName );
 }
@@ -106,7 +106,7 @@ function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldN
         var dwrReply = {
             callback:function(data) {
                 if ( data != null && typeof data == 'object' ) {
-                    setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
+                    setRecipientValue( universalIdFieldName, data.principalId );
                     setRecipientValue( userNameFieldName, data.personName );
                 } else {
                     clearRecipients( universalIdFieldName );
@@ -187,3 +187,4 @@ function accountNameLookup( anyFieldOnAwardAccount ) {
         AccountService.getByPrimaryIdWithCaching( chartOfAccountsCode, accountNumber, dwrReply);
     }
 }
+

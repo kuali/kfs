@@ -32,7 +32,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -73,7 +73,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         checkForPartiallyEnteredReportingFields();
@@ -101,7 +101,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -129,7 +129,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // set whether the user is authorized to modify the CG fields
-        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getFinancialSystemUser()));
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getPerson()));
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -533,17 +533,17 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @param user - the user to test
      * @return true if user is part of the group, false otherwise
      */
-    protected boolean isCgAuthorized(UniversalUser user) {
+    protected boolean isCgAuthorized(Person user) {
 
         // attempt to get the group name that grants access to the CG fields
         String allowedCgWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(SubAccount.class, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
         if (user.isMember(allowedCgWorkgroup)) {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
+            LOG.info("User '" + user.getPrincipalName() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
         }
         else {
-            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
+            LOG.info("User '" + user.getPrincipalName() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
             return false;
         }
     }
@@ -630,3 +630,4 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
 }
+

@@ -21,10 +21,8 @@ import java.util.Map;
 import org.kuali.kfs.module.cg.businessobject.ProjectDirector;
 import org.kuali.kfs.module.cg.service.ProjectDirectorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 import org.kuali.rice.kns.util.spring.Cached;
 
@@ -33,7 +31,7 @@ import org.kuali.rice.kns.util.spring.Cached;
  */
 public class ProjectDirectorServiceImpl implements ProjectDirectorService {
 
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
     private BusinessObjectService businessObjectService;
 
     /**
@@ -41,11 +39,10 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
      */
     @Cached
     public ProjectDirector getByPersonUserIdentifier(String username) {
-        try {
-            UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(username);
-            return getByPrimaryId(user.getPersonUniversalIdentifier());
-        }
-        catch (UserNotFoundException ex) {
+        Person user = personService.getPersonByPrincipalName(username);
+        if (user != null) {
+            return getByPrimaryId(user.getPrincipalId());
+        } else {
             return null;
         }
     }
@@ -72,11 +69,12 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
         return primaryKeys;
     }
 
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 }
+

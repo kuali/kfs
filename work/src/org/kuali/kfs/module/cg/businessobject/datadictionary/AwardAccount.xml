@@ -18,17 +18,17 @@
     <property name="attributes" >
       <list>
         <ref bean="AwardAccount-proposalNumber" />
-        <ref bean="AwardAccount-personUniversalIdentifier" />
-        <ref bean="AwardAccount-projectDirector.personUserIdentifier" />
-        <ref bean="AwardAccount-projectDirector.personName" />
-        <ref bean="AwardAccount-projectDirector.universalUser.personName" />
+        <ref bean="AwardAccount-principalId" />
+        <ref bean="AwardAccount-projectDirector.principalName" />
+        <ref bean="AwardAccount-projectDirector.name" />
+        <ref bean="AwardAccount-projectDirector.person.name" />
         <ref bean="AwardAccount-chartOfAccountsCode" />
         <ref bean="AwardAccount-accountNumber" />
         <ref bean="AwardAccount-account.accountName" />
         <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
         <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
         <ref bean="AwardAccount-award.workgroupName" />
-        <ref bean="AwardAccount-award.kualiGroupNames" />
+        <ref bean="AwardAccount-award.kimGroupNames" />
         <ref bean="AwardAccount-newCollectionRecord" />
         <ref bean="AwardAccount-active" />
       </list>
@@ -36,23 +36,23 @@
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="projectDirector.universalUser" />
+          <property name="objectAttributeName" value="projectDirector.person" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="projectDirector.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="projectDirector.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="projectDirector.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="projectDirector.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="projectDirector.personName"
-                    p:targetName="personName" />
+                    p:sourceName="projectDirector.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -67,26 +67,26 @@
 
   <bean id="AwardAccount-proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
   </bean>
-  <bean id="AwardAccount-personUniversalIdentifier" parent="AwardAccount-personUniversalIdentifier-parentBean" />
+  <bean id="AwardAccount-principalId" parent="AwardAccount-principalId-parentBean" />
 
-  <bean id="AwardAccount-personUniversalIdentifier-parentBean" abstract="true" parent="ProjectDirector-personUniversalIdentifier">
+  <bean id="AwardAccount-principalId-parentBean" abstract="true" parent="ProjectDirector-principalId">
     <property name="label" value="Project Director ID" />
     <property name="shortLabel" value="Proj Dir ID" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="AwardAccount-projectDirector.personUserIdentifier" parent="AwardAccount-projectDirector.personUserIdentifier-parentBean" />
+  <bean id="AwardAccount-projectDirector.principalName" parent="AwardAccount-projectDirector.principalName-parentBean" />
 
-  <bean id="AwardAccount-projectDirector.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="projectDirector.personUserIdentifier" />
+  <bean id="AwardAccount-projectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="projectDirector.principalName" />
     <property name="label" value="Project Director User ID" />
     <property name="required" value="false" />
   </bean>
-  <bean id="AwardAccount-projectDirector.personName" parent="AwardAccount-projectDirector.personName-parentBean" />
+  <bean id="AwardAccount-projectDirector.name" parent="AwardAccount-projectDirector.name-parentBean" />
 
-  <bean id="AwardAccount-projectDirector.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="projectDirector.personName" />
+  <bean id="AwardAccount-projectDirector.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="projectDirector.name" />
     <property name="label" value="Director Name" />
     <property name="required" value="false" />
     <property name="control" >
@@ -94,10 +94,10 @@
             p:size="40" />
     </property>
   </bean>
-  <bean id="AwardAccount-projectDirector.universalUser.personName" parent="AwardAccount-projectDirector.universalUser.personName-parentBean" />
+  <bean id="AwardAccount-projectDirector.person.name" parent="AwardAccount-projectDirector.person.name-parentBean" />
 
-  <bean id="AwardAccount-projectDirector.universalUser.personName-parentBean" abstract="true" parent="AwardAccount-projectDirector.personName">
-    <property name="name" value="projectDirector.universalUser.personName" />
+  <bean id="AwardAccount-projectDirector.person.name-parentBean" abstract="true" parent="AwardAccount-projectDirector.name">
+    <property name="name" value="projectDirector.person.name" />
   </bean>
   <bean id="AwardAccount-chartOfAccountsCode" parent="AwardAccount-chartOfAccountsCode-parentBean" />
 
@@ -142,10 +142,10 @@
   <bean id="AwardAccount-award.workgroupName-parentBean" abstract="true" parent="Award-workgroupName">
     <property name="name" value="award.workgroupName" />
   </bean>
-  <bean id="AwardAccount-award.kualiGroupNames" parent="AwardAccount-award.kualiGroupNames-parentBean" />
+  <bean id="AwardAccount-award.kimGroupNames" parent="AwardAccount-award.kimGroupNames-parentBean" />
 
-  <bean id="AwardAccount-award.kualiGroupNames-parentBean" abstract="true" parent="Award-kualiGroupNames">
-    <property name="name" value="award.kualiGroupNames" />
+  <bean id="AwardAccount-award.kimGroupNames-parentBean" abstract="true" parent="Award-kimGroupNames">
+    <property name="name" value="award.kimGroupNames" />
   </bean>
   <bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
 
@@ -177,7 +177,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="chartOfAccountsCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
               <bean parent="FieldDefinition"
@@ -208,7 +208,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
@@ -222,7 +222,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="proposalNumber" />
         <bean parent="FieldDefinition"
@@ -231,3 +231,4 @@
     </property>
   </bean>
 </beans>
+

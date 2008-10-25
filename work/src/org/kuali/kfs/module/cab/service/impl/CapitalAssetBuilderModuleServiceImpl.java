@@ -83,7 +83,7 @@ import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -91,7 +91,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -1209,8 +1209,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
             // set the initiator user info to the new note
-            UniversalUser initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(authorId);
-            assetNote.setAuthorUniversalIdentifier(initiator.getPersonUniversalIdentifier());
+            Person initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(authorId);
+            assetNote.setAuthorUniversalIdentifier(initiator.getPrincipalId());
             document.addNote(assetNote);
             KNSServiceLocator.getNoteService().save(assetNote);
         }
@@ -1525,3 +1525,4 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 }
+

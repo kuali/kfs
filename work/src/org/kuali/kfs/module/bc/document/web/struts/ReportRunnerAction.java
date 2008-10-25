@@ -81,7 +81,7 @@ public class ReportRunnerAction extends BudgetExpansionAction {
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ReportRunnerForm reportRunnerForm = (ReportRunnerForm) form;
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         int selectIndex = this.getSelectedLine(request);
         String reportModeName = reportRunnerForm.getBudgetConstructionDocumentReportModes().get(selectIndex).getReportModeName();
@@ -96,8 +96,8 @@ public class ReportRunnerAction extends BudgetExpansionAction {
             
             case 0: {
                 jasperFileName = "BudgetAccountObjectDetail";
-                SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).updateDocumentAccountObjectDetailReportTable(personUserIdentifier, reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
-                reportSet = SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).buildReports(personUserIdentifier);
+                SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).updateDocumentAccountObjectDetailReportTable(principalName, reportRunnerForm.getDocumentNumber(), reportRunnerForm.getUniversityFiscalYear(), reportRunnerForm.getChartOfAccountsCode(), reportRunnerForm.getAccountNumber(), reportRunnerForm.getSubAccountNumber());
+                reportSet = SpringContext.getBean(BudgetConstructionDocumentAccountObjectDetailReportService.class).buildReports(principalName);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 
                 ResourceBundle resourceBundle = ResourceBundle.getBundle(BCConstants.Report.REPORT_MESSAGES_CLASSPATH, Locale.getDefault());
@@ -172,3 +172,4 @@ public class ReportRunnerAction extends BudgetExpansionAction {
         return BudgetUrlUtil.buildBudgetUrl(mapping, reportRunnerForm, BCConstants.REPORT_EXPORT_ACTION, parameters);
     }
 }
+

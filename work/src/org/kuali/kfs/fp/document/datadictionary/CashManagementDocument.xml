@@ -49,7 +49,7 @@
 
   <bean id="CashManagementDocument-workgroupName" parent="CashManagementDocument-workgroupName-parentBean" />
 
-  <bean id="CashManagementDocument-workgroupName-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
+  <bean id="CashManagementDocument-workgroupName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="workgroupName" />
     <property name="label" value="Verification Unit" />
     <property name="shortLabel" value="Verification Unit" />
@@ -86,9 +86,10 @@
     <property name="workflowPropertyGroups" >
       <list>
         <bean parent="WorkflowPropertyGroup">
-          <property name="basePath" value="kualiTransactionalDocumentInformation.documentInitiator.universalUser.campus" />
+          <property name="basePath" value="kualiTransactionalDocumentInformation.documentInitiator.person.campus" />
         </bean>
       </list>
     </property>
   </bean>
 </beans>
+

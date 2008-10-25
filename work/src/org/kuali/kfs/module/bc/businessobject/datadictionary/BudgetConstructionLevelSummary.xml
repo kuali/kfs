@@ -30,7 +30,7 @@
         <ref bean="BudgetConstructionLevelSummary-incomeExpenseCode" />
         <ref bean="BudgetConstructionLevelSummary-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionLevelSummary-organizationCode" />
-        <ref bean="BudgetConstructionLevelSummary-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionLevelSummary-principalId" />
         <ref bean="BudgetConstructionLevelSummary-positionCsfLeaveFteQuantity" />
         <ref bean="BudgetConstructionLevelSummary-subFundGroupCode" />
       </list>
@@ -274,10 +274,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionLevelSummary-personUniversalIdentifier" parent="BudgetConstructionLevelSummary-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionLevelSummary-principalId" parent="BudgetConstructionLevelSummary-principalId-parentBean" />
 
-  <bean id="BudgetConstructionLevelSummary-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionLevelSummary-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -289,8 +289,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionLevelSummary-positionCsfLeaveFteQuantity" parent="BudgetConstructionLevelSummary-positionCsfLeaveFteQuantity-parentBean" />
 
@@ -370,7 +370,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionCsfLeaveFteQuantity" />
               <bean parent="FieldDefinition"
@@ -423,7 +423,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionCsfLeaveFteQuantity" />
         <bean parent="FieldDefinition"
@@ -459,7 +459,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="positionCsfLeaveFteQuantity" />
         <bean parent="FieldDefinition"
@@ -468,3 +468,4 @@
     </property>
   </bean>
 </beans>
+

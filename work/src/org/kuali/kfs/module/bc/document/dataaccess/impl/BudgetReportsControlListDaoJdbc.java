@@ -210,17 +210,17 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportControlList(java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, org.kuali.kfs.module.bc.BCConstants.Report.BuildMode)
      */
-    public void updateReportControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
+    public void updateReportControlList(String principalName, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
         // clear out previous data for user
-        clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", principalName);
 
         Guid idForSession = new Guid();
 
         // build 1st temp table with list of accounts for the selected organizations
-        getSimpleJdbcTemplate().update(updateReportsControlList[0], idForSession.toString(), personUserIdentifier, universityFiscalYear);
+        getSimpleJdbcTemplate().update(updateReportsControlList[0], idForSession.toString(), principalName, universityFiscalYear);
 
         // build 2nd temp table with list of accounts from 1 temp table that are also contained in user's point of view
-        getSimpleJdbcTemplate().update(updateReportsControlList[1], idForSession.toString(), personUserIdentifier, chartOfAccountsCode, organizationCode, idForSession.toString());
+        getSimpleJdbcTemplate().update(updateReportsControlList[1], idForSession.toString(), principalName, chartOfAccountsCode, organizationCode, idForSession.toString());
 
         // constrain account list further based on buildMode
         switch (buildMode) {
@@ -243,34 +243,34 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
      */
-    public void updateReportsSubFundGroupSelectList(String personUserIdentifier) {
+    public void updateReportsSubFundGroupSelectList(String principalName) {
         // clear out previous sub-fund list for user
-        clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", principalName);
 
         // rebuild sub-fund list
-        getSimpleJdbcTemplate().update(updateReportsSubFundGroupSelectList, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsSubFundGroupSelectList, principalName, principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsObjectCodeSelectList(java.lang.String)
      */
-    public void updateReportsObjectCodeSelectList(String personUserIdentifier) {
+    public void updateReportsObjectCodeSelectList(String principalName) {
         // clear out previous object code list for user
-        clearTempTableByUnvlId("LD_BCN_OBJ_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("LD_BCN_OBJ_PICK_T", "PERSON_UNVL_ID", principalName);
 
         // rebuild object code list
-        getSimpleJdbcTemplate().update(updateReportsObjectCodeSelectList, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsObjectCodeSelectList, principalName, principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsReasonCodeSelectList(java.lang.String)
      */
-    public void updateReportsReasonCodeSelectList(String personUserIdentifier) {
+    public void updateReportsReasonCodeSelectList(String principalName) {
         // clear out previous reason code list for user
-        clearTempTableByUnvlId("LD_BCN_RSN_CD_PK_T", "PERSON_UNVL_ID", personUserIdentifier);
+        clearTempTableByUnvlId("LD_BCN_RSN_CD_PK_T", "PERSON_UNVL_ID", principalName);
 
         // rebuild reason code list
-        getSimpleJdbcTemplate().update(updateReportsReasonCodeSelectList, personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsReasonCodeSelectList, principalName, principalName);
     }
 
     /**
@@ -278,7 +278,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      */
     public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList) {
         for (BudgetConstructionObjectPick budgetConstructionObjectPick : objectCodePickList) {
-            getSimpleJdbcTemplate().update(updateReportsSelectedObjectCodeFlags, budgetConstructionObjectPick.getSelectFlag().intValue(), budgetConstructionObjectPick.getPersonUniversalIdentifier(), budgetConstructionObjectPick.getFinancialObjectCode());
+            getSimpleJdbcTemplate().update(updateReportsSelectedObjectCodeFlags, budgetConstructionObjectPick.getSelectFlag().intValue(), budgetConstructionObjectPick.getPrincipalId(), budgetConstructionObjectPick.getFinancialObjectCode());
         }
     }
 
@@ -287,7 +287,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      */
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
         for (BudgetConstructionReasonCodePick budgetConstructionReasonCodePick : reasonCodePickList) {
-            getSimpleJdbcTemplate().update(updateReportsSelectedReasonCodeFlags, budgetConstructionReasonCodePick.getSelectFlag().intValue(), budgetConstructionReasonCodePick.getPersonUniversalIdentifier(), budgetConstructionReasonCodePick.getAppointmentFundingReasonCode());
+            getSimpleJdbcTemplate().update(updateReportsSelectedReasonCodeFlags, budgetConstructionReasonCodePick.getSelectFlag().intValue(), budgetConstructionReasonCodePick.getPrincipalId(), budgetConstructionReasonCodePick.getAppointmentFundingReasonCode());
         }
     }
 
@@ -296,7 +296,8 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      */
     public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
         for (BudgetConstructionSubFundPick budgetConstructionSubFundPick : subFundPickList) {
-            getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags, budgetConstructionSubFundPick.getReportFlag().intValue(), budgetConstructionSubFundPick.getPersonUniversalIdentifier(), budgetConstructionSubFundPick.getSubFundGroupCode());
+            getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags, budgetConstructionSubFundPick.getReportFlag().intValue(), budgetConstructionSubFundPick.getPrincipalId(), budgetConstructionSubFundPick.getSubFundGroupCode());
         }
     }
 }
+

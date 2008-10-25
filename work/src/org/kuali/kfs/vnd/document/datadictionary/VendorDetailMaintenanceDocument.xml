@@ -162,10 +162,10 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorRestrictedPersonIdentifier" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedPerson.personName"
+              p:name="vendorRestrictedPerson.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="vendorRestrictedPerson.personUserIdentifier"
+              p:name="vendorRestrictedPerson.principalName"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="vendorRestrictedReasonText" />
@@ -774,3 +774,4 @@
     </property>
   </bean>
 </beans>
+

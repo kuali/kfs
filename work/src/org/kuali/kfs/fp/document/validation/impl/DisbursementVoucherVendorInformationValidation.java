@@ -29,11 +29,9 @@ import org.kuali.kfs.sys.service.ParameterEvaluator;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.user.PersonTaxId;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -129,21 +127,17 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
     }
 
     /**
-     * Retrieves UniversalUser from SSN
+     * Retrieves Person from SSN
      * 
      * @param ssnNumber social security number
-     * @return <code>UniversalUser</code>
+     * @return <code>Person</code>
      */
-    private UniversalUser retrieveEmployeeBySSN(String ssnNumber) {
-        PersonTaxId personTaxId = new PersonTaxId(ssnNumber);
-        UniversalUser user = null;
-        try {
-            user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(personTaxId);
+    private Person retrieveEmployeeBySSN(String ssnNumber) {
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.TAX_EXT_ID_TYPE, ssnNumber).get(0);
+        if (person == null) {
+            LOG.error("User Not Found");
         }
-        catch (UserNotFoundException e) {
-            LOG.error("User Not Found", e);
-        }
-        return user;
+        return person;
     }
 
     /**
@@ -163,7 +157,7 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
      * @return true if the ssn number is a valid employee ssn and the employee is active
      */
     private boolean isActiveEmployeeSSN(String ssnNumber) {
-        UniversalUser employee = retrieveEmployeeBySSN(ssnNumber);
+        Person employee = retrieveEmployeeBySSN(ssnNumber);
         return employee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(employee.getEmployeeStatusCode());
     }
 
@@ -192,3 +186,4 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
         return accountingDocumentForValidation;
     }
 }
+

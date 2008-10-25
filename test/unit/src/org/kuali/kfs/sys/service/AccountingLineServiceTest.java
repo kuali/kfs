@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2_TOF;
 
 import java.util.Iterator;
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 /**
  * This class tests the AccountingLine service.
  */
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class AccountingLineServiceTest extends KualiTestBase {
 
     private SourceAccountingLine sline;
@@ -141,3 +141,4 @@ public class AccountingLineServiceTest extends KualiTestBase {
         assertEquals(0, SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(TargetAccountingLine.class, docNumber).size());
     }
 }
+

@@ -43,17 +43,17 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
     KualiConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
-    public void updateList2PLGReport(String personUserIdentifier, Integer universityFiscalYear) {
-        budgetConstructionList2PLGReportDao.updateList2PLGReportsTable(personUserIdentifier);
+    public void updateList2PLGReport(String principalName, Integer universityFiscalYear) {
+        budgetConstructionList2PLGReportDao.updateList2PLGReportsTable(principalName);
 
     }
 
-    public Collection<BudgetConstructionOrgList2PLGReport> buildReports(Integer universityFiscalYear, String personUserIdentifier) {
+    public Collection<BudgetConstructionOrgList2PLGReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgList2PLGReport> reportSet = new ArrayList();
         BudgetConstructionOrgList2PLGReport orgList2PLGReportEntry;
         // build searchCriteria
         Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalName);
 
         // build order list
         List<String> orderList = buildOrderByList();
@@ -140,3 +140,4 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 
 public interface DisbursementVoucherWorkGroupService {
 
@@ -25,7 +25,7 @@ public interface DisbursementVoucherWorkGroupService {
      * @param financialSystemUser the given financial system user
      * @return true if user is in group
      */
-    public boolean isUserInTaxGroup(FinancialSystemUser financialSystemUser);
+    public boolean isUserInTaxGroup(Person financialSystemUser);
 
     /**
      * Checks if the given user is a member of the disbursement voucher travel workgroup.
@@ -33,7 +33,7 @@ public interface DisbursementVoucherWorkGroupService {
      * @param financialSystemUser the given financial system user
      * @return true if user is in group
      */
-    public boolean isUserInTravelGroup(FinancialSystemUser financialSystemUser);
+    public boolean isUserInTravelGroup(Person financialSystemUser);
 
     /**
      * Checks if the given user is a member of the disbursement voucher foreign draft workgroup.
@@ -41,7 +41,7 @@ public interface DisbursementVoucherWorkGroupService {
      * @param financialSystemUser the given financial system user
      * @return true if user is in group
      */
-    public boolean isUserInFRNGroup(FinancialSystemUser financialSystemUser);
+    public boolean isUserInFRNGroup(Person financialSystemUser);
 
     /**
      * Checks if the given user is a member of the disbursement voucher wire transfer workgroup.
@@ -49,7 +49,7 @@ public interface DisbursementVoucherWorkGroupService {
      * @param financialSystemUser the given financial system user
      * @return true if user is in group
      */
-    public boolean isUserInWireGroup(FinancialSystemUser financialSystemUser);
+    public boolean isUserInWireGroup(Person financialSystemUser);
 
     /**
      * Checks if the given user is a member of the disbursement voucher admin workgroup.
@@ -57,5 +57,6 @@ public interface DisbursementVoucherWorkGroupService {
      * @param financialSystemUser the given financial system user
      * @return true if user is in group
      */
-    public boolean isUserInDvAdminGroup(FinancialSystemUser financialSystemUser);
+    public boolean isUserInDvAdminGroup(Person financialSystemUser);
 }
+

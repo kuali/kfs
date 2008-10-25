@@ -141,7 +141,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
             // acquire position lock for the current funding line
             BudgetConstructionPosition position = appointmentFunding.getBudgetConstructionPosition();
-            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getUniversalUser());
+            BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getPerson());
             if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
                 this.releasePositionAndFundingLocks();
@@ -151,7 +151,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             // acquire funding lock for the current funding line
             BudgetConstructionLockStatus fundingLockingStatus = this.getLockStatusForBudgetByAccountMode(appointmentFunding);
             if (fundingLockingStatus == null) {
-                fundingLockingStatus = lockService.lockFunding(appointmentFunding, this.getUniversalUser());
+                fundingLockingStatus = lockService.lockFunding(appointmentFunding, this.getPerson());
             }
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
@@ -199,7 +199,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
 
             // update the access flags of the current funding line
-            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getUniversalUser());
+            boolean updated = salarySettingService.updateAccessOfAppointmentFunding(appointmentFunding, fieldsHolder, this.isBudgetByAccountMode(), this.getPerson());
             if (!updated) {
                 errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS, appointmentFunding.getAppointmentFundingString());
                 return false;
@@ -226,7 +226,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             try {
                 BudgetConstructionLockStatus transactionLockStatus = this.getLockStatusForBudgetByAccountMode(appointmentFunding);
                 if (transactionLockStatus == null) {
-                    transactionLockStatus = lockService.lockTransaction(appointmentFunding, this.getUniversalUser());
+                    transactionLockStatus = lockService.lockTransaction(appointmentFunding, this.getPerson());
                 }
 
                 if (!LockStatus.SUCCESS.equals(transactionLockStatus.getLockStatus())) {
@@ -255,7 +255,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         LOG.info("releasePositionAndFundingLocks() started");
 
         List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = this.getReleasableAppointmentFundings();
-        lockService.unlockFunding(releasableAppointmentFundings, this.getUniversalUser());
+        lockService.unlockFunding(releasableAppointmentFundings, this.getPerson());
 
         Set<BudgetConstructionPosition> lockedPositionSet = new HashSet<BudgetConstructionPosition>();
         for (PendingBudgetConstructionAppointmentFunding fundingLine : releasableAppointmentFundings) {
@@ -266,7 +266,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         LOG.info("releasePositionAndFundingLocks()" + lockedPositionSet);
         List<BudgetConstructionPosition> lockedPositions = new ArrayList<BudgetConstructionPosition>();
         lockedPositions.addAll(lockedPositionSet);
-        lockService.unlockPostion(lockedPositions, this.getUniversalUser());
+        lockService.unlockPostion(lockedPositions, this.getPerson());
         for(BudgetConstructionPosition position : lockedPositionSet) {
             LOG.info("fundingLine: " + position.getPositionLockUserIdentifier());
         }
@@ -280,7 +280,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
         List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = this.getReleasableAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
-            lockService.unlockTransaction(appointmentFunding, this.getUniversalUser());
+            lockService.unlockTransaction(appointmentFunding, this.getPerson());
         }
     }
 
@@ -409,13 +409,13 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account = (Account) businessObjectService.retrieve(account);
 
             // instruct the detail salary setting by single account mode if current user is an account approver or delegate
-            if (permissionService.isAccountManagerOrDelegate(account, this.getUniversalUser())) {
+            if (permissionService.isAccountManagerOrDelegate(account, this.getPerson())) {
                 return true;
             }
         }
 
         // instruct the detail salary setting by multiple account mode if current user is an organization level approver
-        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(this.getUniversalUser());
+        List<Org> organizationReviewHierachy = permissionService.getOrganizationReviewHierachy(this.getPerson());
         if (organizationReviewHierachy != null && !organizationReviewHierachy.isEmpty()) {
             return false;
         }
@@ -501,7 +501,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @return Returns the personName.
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -510,7 +510,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 }
+

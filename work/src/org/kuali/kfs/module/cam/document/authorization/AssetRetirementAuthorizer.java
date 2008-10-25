@@ -30,7 +30,7 @@ import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentActionFlags;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -56,7 +56,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
      * @param user
      * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields as necessary
      */
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
 
         MaintenanceDocumentAuthorizations auths = super.getFieldAuthorizations(document, user);
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
@@ -89,7 +89,7 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
 
         super.canInitiate(documentTypeName, user);
         String refreshCaller = GlobalVariables.getKualiForm().getRefreshCaller();
@@ -110,3 +110,4 @@ public class AssetRetirementAuthorizer extends FinancialSystemMaintenanceDocumen
     }
 
 }
+

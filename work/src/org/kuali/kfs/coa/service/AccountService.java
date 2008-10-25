@@ -21,9 +21,9 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -74,7 +74,7 @@ public interface AccountService {
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
-    public List getAccountsThatUserIsResponsibleFor(UniversalUser kualiUser);
+    public List getAccountsThatUserIsResponsibleFor(Person kualiUser);
 
     /**
      * Does the given user have responsibilities on the given account?
@@ -83,7 +83,7 @@ public interface AccountService {
      * @param account the account to check responsibilities on
      * @return true if user does have responsibilities, false if otherwise
      */
-    public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account);
+    public boolean hasResponsibilityOnAccount(Person kualiUser, Account account);
 
     /**
      * get all accounts in the system. This is needed by a sufficient funds rebuilder job
@@ -99,5 +99,6 @@ public interface AccountService {
      * @param user the chart user who may or may not have accessible accounting lines on the document
      * @return true if the given accountingLine refers to an account which allows it to be added, deleted, or updated
      */
-    public abstract boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, FinancialSystemUser user);
+    public abstract boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, Person user);
 }
+

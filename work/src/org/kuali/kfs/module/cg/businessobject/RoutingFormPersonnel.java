@@ -28,19 +28,19 @@ import org.kuali.kfs.sys.businessobject.PostalCode;
 import org.kuali.kfs.sys.businessobject.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.PostalCodeService;
 import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer routingFormPersonSequenceNumber;
-    private String personUniversalIdentifier;
+    private String principalId;
     private String chartOfAccountsCode;
     private String organizationCode;
     private KualiInteger personCreditPercent;
@@ -70,9 +70,9 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private Country personCountry;
     private PersonRole personRole;
     // private RoutingFormDocument routingFormDocument;
-    private UniversalUser user;
+    private Person user;
 
-    private transient FinancialSystemUserService financialSystemUserService;
+    private transient PersonService personService;
     private transient ParameterService parameterService;
     
     /**
@@ -88,7 +88,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     public RoutingFormPersonnel(BudgetUser budgetUser, String documentNumber, String personRoleCode) {
         this.documentNumber = documentNumber;
         this.personRoleCode = personRoleCode;
-        this.personUniversalIdentifier = budgetUser.getPersonUniversalIdentifier();
+        this.principalId = budgetUser.getPrincipalId();
 
 
         this.chartOfAccountsCode = budgetUser.getFiscalCampusCode();
@@ -97,11 +97,11 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         this.personSuffixText = budgetUser.getPersonNameSuffixText();
         ;
         this.personRoleText = budgetUser.getRole();
-        this.personToBeNamedIndicator = budgetUser.getPersonUniversalIdentifier() == null;
+        this.personToBeNamedIndicator = budgetUser.getPrincipalId() == null;
     }
 
     /**
-     * Sets several fields in RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService:
+     * Sets several fields in RoutingFormPersonnel person based upon the contained org.kuali.rice.kim.service.PersonService's ChartUserService:
      * <ul>
      * <li>chart</li>
      * <li>org</li>
@@ -111,16 +111,16 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * </ul>
      */
     public void populateWithUserServiceFields() {
-        // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
-        ChartOrgHolder chartOrg = getKfsUserService().getOrganizationByModuleId(user, KFSConstants.Modules.CHART);
+        // retrieve services and refresh Person objects (it's empty after returning from a kul:lookup)
+        ChartOrgHolder chartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(user, KFSConstants.Modules.CHART);
         // set chart / org for new person
         this.setChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
         this.setOrganizationCode(chartOrg.getOrganizationCode());
 
         // set email address, campus address, and phone
-        this.setPersonEmailAddress(user.getPersonEmailAddress());
-        this.setPersonLine1Address(user.getPersonCampusAddress());
-        this.setPersonPhoneNumber(user.getPersonLocalPhoneNumber());
+        this.setEmailAddress(user.getEmailAddress());
+        this.setPersonLine1Address(user.getAddressLine1());
+        this.setPersonPhoneNumber(user.getPhoneNumber());
     }
 
     /**
@@ -160,21 +160,21 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
     /**
@@ -524,7 +524,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * 
      * @return Returns the personEmailAddress
      */
-    public String getPersonEmailAddress() {
+    public String getEmailAddress() {
         return personEmailAddress;
     }
 
@@ -533,7 +533,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * 
      * @param personEmailAddress The personEmailAddress to set.
      */
-    public void setPersonEmailAddress(String personEmailAddress) {
+    public void setEmailAddress(String personEmailAddress) {
         this.personEmailAddress = personEmailAddress;
     }
 
@@ -678,8 +678,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * 
      * @return Returns the user.
      */
-    public UniversalUser getUser() {
-        user = getKfsUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+    public Person getUser() {
+        user = getKfsUserService().updatePersonIfNecessary(principalId, user);
         return user;
     }
 
@@ -689,7 +689,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @param user The user to set.
      * @deprecated Should not be set. User should be retrieved by SpringContext each time. See getUser() above.
      */
-    public void setUser(UniversalUser user) {
+    public void setUser(Person user) {
         this.user = user;
     }
 
@@ -734,8 +734,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        if (this.personUniversalIdentifier != null) {
-            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
+        if (this.principalId != null) {
+            m.put("principalId", this.principalId.toString());
         }
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -753,11 +753,11 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         return PERSON_ROLE_CODE_CP.equals(this.getPersonRoleCode());
     }
 
-    public FinancialSystemUserService getKfsUserService() {
-        if ( financialSystemUserService == null ) {
-            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+    public PersonService getKfsUserService() {
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
         }
-        return financialSystemUserService;
+        return personService;
     }
     public ParameterService getParameterService() {
         if ( parameterService == null ) {
@@ -767,3 +767,4 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
 }
+

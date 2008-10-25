@@ -117,7 +117,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
 
-        String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument());
         //BarcodeInventoryErrorDetailPredicate predicatedClosure = new BarcodeInventoryErrorDetailPredicate(barcodeInventoryErrorForm);
@@ -154,7 +154,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         BarcodeInventoryErrorDocument document = barcodeInventoryErrorForm.getBarcodeInventoryErrorDocument();
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
 
-        String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
 
@@ -215,7 +215,7 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = document.getBarcodeInventoryErrorDetail();
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
 
-        String currentUserID = GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier();
+        String currentUserID = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         int selectedCheckboxes[] = barcodeInventoryErrorForm.getRowCheckbox();
 

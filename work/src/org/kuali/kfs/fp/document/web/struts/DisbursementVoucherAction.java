@@ -41,15 +41,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -120,11 +119,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * @param payeeIdNumber
      */
     private void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
-        try {
-            UniversalUser employee = (UniversalUser) SpringContext.getBean(FinancialSystemUserService.class).getUniversalUser(payeeIdNumber);
-            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(employee);
-        } catch(UserNotFoundException unfe) {
-            LOG.error("Exception while attempting to retrieve universal user by universal user id "+payeeIdNumber+": "+unfe);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPerson(payeeIdNumber);
+        if (person != null) {
+            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
+        } else {
+            LOG.error("Exception while attempting to retrieve universal user by universal user id "+payeeIdNumber);
         }
     }
 
@@ -534,7 +533,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getFinancialSystemUser().isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
+        if (!GlobalVariables.getUserSession().getPerson().isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -565,7 +564,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getFinancialSystemUser().isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
+        if (!GlobalVariables.getUserSession().getPerson().isMember(SpringContext.getBean(ParameterService.class).getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP))) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
             GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -597,8 +596,8 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (VendorDetail.class.getName().equals(boClassName) && document.getDvPayeeDetail().isEmployee()) {
             String conversionFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
 
-            fullParameter = StringUtils.replace(fullParameter, boClassName, UniversalUser.class.getName());
-            fullParameter = StringUtils.replace(fullParameter, conversionFields, "personUniversalIdentifier:document.dvPayeeDetail.disbVchrPayeeIdNumber");
+            fullParameter = StringUtils.replace(fullParameter, boClassName, Person.class.getName());
+            fullParameter = StringUtils.replace(fullParameter, conversionFields, "principalId:document.dvPayeeDetail.disbVchrPayeeIdNumber");
             request.setAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
         }
 
@@ -622,3 +621,4 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     }
 
 }
+

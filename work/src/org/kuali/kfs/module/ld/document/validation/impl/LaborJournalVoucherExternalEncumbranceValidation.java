@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -124,3 +124,4 @@ public class LaborJournalVoucherExternalEncumbranceValidation extends GenericVal
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }
+

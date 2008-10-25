@@ -277,43 +277,43 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.delete(0, sqlText.length());
     }
 
-    public void cleanReportsLevelSummaryTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_levl_summ_t", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsLevelSummaryTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_levl_summ_t", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */
         persistenceService.clearCache();
     }
 
-    public void updateReportsLevelSummaryTable(String personUserIdentifier) {
+    public void updateReportsLevelSummaryTable(String principalName) {
         
         Guid guid = new Guid();
         String idForSession = guid.toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>(10);
         
-        cleanReportsLevelSummaryTable(personUserIdentifier);
+        cleanReportsLevelSummaryTable(principalName);
         
         // insert revenue by object level from pending budget construction general ledger into the report-by-level table
         stringsToInsert.add(this.getRevenueINList());
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(0).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(0).getSQL(stringsToInsert), principalName, principalName);
         // insert expenditure by object level from pending budget construction general ledger into the report-by-level table
         stringsToInsert.clear();
         stringsToInsert.add(this.getExpenditureINList());
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(1).getSQL(stringsToInsert), personUserIdentifier, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(1).getSQL(stringsToInsert), principalName, principalName);
         // sum the FTE from appointment funding
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(2).getSQL(), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(2).getSQL(), idForSession, principalName);
         // update the appointment FTE in the report-by-level table
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(3).getSQL(), personUserIdentifier, idForSession, personUserIdentifier, idForSession, personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(3).getSQL(), principalName, idForSession, principalName, idForSession, principalName, principalName, idForSession);
         // sum the non-leave FTE from the CSF
         stringsToInsert.clear();
         stringsToInsert.add(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue());
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(4).getSQL(stringsToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(4).getSQL(stringsToInsert), idForSession, principalName);
         // sum the FTE for leaves from the CSF (the leave flag is used twice in this SQL, so just add it again to stringsToInsert)
         stringsToInsert.add(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue());
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(5).getSQL(stringsToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(5).getSQL(stringsToInsert), idForSession, principalName);
         // update all the CSF FTE fields in the report-by-level table
-        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(6).getSQL(), personUserIdentifier, idForSession, personUserIdentifier, idForSession, personUserIdentifier, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(6).getSQL(), principalName, idForSession, principalName, idForSession, principalName, principalName, idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM02_MT", "SESID", idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM03_MT", "SESID", idForSession);
         /**
@@ -329,3 +329,4 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
     }
 
 }
+

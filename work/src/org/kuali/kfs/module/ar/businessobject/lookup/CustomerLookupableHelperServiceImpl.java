@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.util.ARUtil;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -41,7 +41,7 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 
-        FinancialSystemUser user = ValueFinderUtil.getCurrentFinancialSystemUser();
+        Person user = ValueFinderUtil.getCurrentPerson();
         if (!ARUtil.isUserInArSupervisorGroup(user))
             return super.getEmptyActionUrls();
 
@@ -64,3 +64,4 @@ public class CustomerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.CustomerConstants.ACTIONS_REPORT);
     }
 }
+

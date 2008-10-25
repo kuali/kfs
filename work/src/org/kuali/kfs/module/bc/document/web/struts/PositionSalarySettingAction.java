@@ -169,10 +169,10 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
 
         Integer universityFiscalYear = positionSalarySettingForm.getUniversityFiscalYear();
         String positionNumber = positionSalarySettingForm.getPositionNumber();
-        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         // attempt to lock position and associated funding
-        BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPositionAndActiveFunding(universityFiscalYear, positionNumber, personUniversalIdentifier);
+        BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPositionAndActiveFunding(universityFiscalYear, positionNumber, principalId);
         if (!bcLockStatus.getLockStatus().equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_POSITION_LOCK_NOT_OBTAINED, new String[] { universityFiscalYear.toString(), positionNumber });
             return this.returnToCaller(mapping, form, request, response);
@@ -183,13 +183,14 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
         }
         finally {
             // release locks
-            LockStatus lockStatus = SpringContext.getBean(LockService.class).unlockPositionAndActiveFunding(universityFiscalYear, positionNumber, personUniversalIdentifier);
+            LockStatus lockStatus = SpringContext.getBean(LockService.class).unlockPositionAndActiveFunding(universityFiscalYear, positionNumber, principalId);
             if (!lockStatus.equals(BudgetConstructionConstants.LockStatus.SUCCESS)) {
-                LOG.error(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, personUniversalIdentifier));
-                throw new RuntimeException(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, personUniversalIdentifier));
+                LOG.error(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, principalId));
+                throw new RuntimeException(String.format("unable to unlock position and active funding records: %s, %s, %s", universityFiscalYear, positionNumber, principalId));
             }
         }
         
         return null;
     }
 }
+

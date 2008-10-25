@@ -70,7 +70,7 @@
               p:attributeToHighlightOnFail="universityFiscalYear" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialDocumentInitiator"
-              p:attributeToHighlightOnFail="financialDocumentInitiator.personUserIdentifier" />                
+              p:attributeToHighlightOnFail="financialDocumentInitiator.principalName" />                
       </list>
     </property>
     <property name="lockingKeys" >
@@ -126,13 +126,13 @@
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialDocumentInitiatorIdentifier"
-              p:defaultValue="KULUSER" />
+              p:defaultValue="kuluser" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentInitiator.personUserIdentifier"
+              p:name="financialDocumentInitiator.principalName"
               p:required="true"
-              p:defaultValue="KULUSER" />
+              p:defaultValue="kuluser" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="financialDocumentInitiator.personName" />              
+              p:name="financialDocumentInitiator.name" />              
         <bean parent="MaintainableFieldDefinition"
               p:name="lockboxNumber"
               p:required="true"  />
@@ -239,3 +239,4 @@
     </property>
   </bean>
 </beans>
+

@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
@@ -35,7 +35,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -58,12 +57,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
 import org.kuali.kfs.sys.exception.XMLParseException;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -99,7 +97,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private DocumentService docService;
     private ParameterService parameterService;
     private OrganizationService orgService;
-    private FinancialSystemUserService fsUserService;
+    private PersonService fsUserService;
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
@@ -730,29 +728,29 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return existingCustomer;
     }
     
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
-        FinancialSystemUser fsUser = fsUserService.getFinancialSystemUser(user.getPersonUniversalIdentifier());
+    public boolean checkAuthorization(Person user, File batchFile) {
+        Person fsUser = fsUserService.getPerson(user.getPrincipalId());
         return isUserInArBillingOrProcessingOrg(fsUser);
     }
 
-    private boolean isUserInArBillingOrProcessingOrg(FinancialSystemUser fsUser) {
+    private boolean isUserInArBillingOrProcessingOrg(Person fsUser) {
         
-        Org fsUserOrg = fsUser.getOrganization();
-//        List<FinancialSystemUserPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
-//        List<FinancialSystemUserOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
+        //Org fsUserOrg = fsUser.getOrganization();
+//        List<PersonPrimaryOrganization> primaryOrgs = fsUser.getPrimaryOrganizations();
+//        List<PersonOrganizationSecurity> securityOrgs = fsUser.getOrganizationSecurity();
         
         String userChart, userOrg; 
         Map<String,String> pkMap;
         Map<String,Map<String,String>> searchOrgs = new HashMap<String,Map<String,String>>();
 
         //  add the user's base org to the list
-        pkMap = new HashMap<String,String>();
-        pkMap.put("chartOfAccountsCode", fsUserOrg.getChartOfAccountsCode());
-        pkMap.put("organizationCode", fsUserOrg.getOrganizationCode());
-        searchOrgs.put(fsUserOrg.getChartOfAccountsCode() + fsUserOrg.getOrganizationCode(), pkMap);
+        pkMap = new HashMap<String,String>(); 
+        pkMap.put("chartOfAccountsCode", org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getChartOfAccountsCode());
+        pkMap.put("organizationCode", org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getOrganizationCode());
+        searchOrgs.put(org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getChartOfAccountsCode() + org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getPrimaryChartOrganization(fsUser).getOrganizationCode(), pkMap);
         
 //        //  gather up all chart/org combos we want to search for
-//        for (FinancialSystemUserPrimaryOrganization userPrimaryOrg : primaryOrgs) {
+//        for (PersonPrimaryOrganization userPrimaryOrg : primaryOrgs) {
 //            userChart = userPrimaryOrg.getChartOfAccountsCode();
 //            userOrg = userPrimaryOrg.getOrganizationCode();
 //            if (!searchOrgs.containsKey(userChart + userOrg)) {
@@ -762,7 +760,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 //                searchOrgs.put(userChart + userOrg, pkMap);
 //            }
 //        }
-//        for (FinancialSystemUserOrganizationSecurity userOrgSecurity : securityOrgs) {
+//        for (PersonOrganizationSecurity userOrgSecurity : securityOrgs) {
 //            userChart = userOrgSecurity.getChartOfAccountsCode();
 //            userOrg = userOrgSecurity.getOrganizationCode();
 //            if (!searchOrgs.containsKey(userChart + userOrg)) {
@@ -805,7 +803,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         CustomerLoadResult result;
         String customerResultLine;
-        for (CustomerLoadFileResult fileResult : fileResults) {
+        for (CustomerLoadFileResult fileResult : fileResults) { 
             
             //  file name title
             String fileNameOnly = fileResult.getFilename().toUpperCase();
@@ -973,7 +971,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         this.orgService = orgService;
     }
 
-    public void setFsUserService(FinancialSystemUserService fsUserService) {
+    public void setFsUserService(PersonService fsUserService) {
         this.fsUserService = fsUserService;
     }
 
@@ -994,3 +992,4 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
     
 }
+

@@ -20,7 +20,7 @@ import org.kuali.kfs.fp.document.authorization.DisbursementVoucherDocumentAuthor
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
@@ -41,7 +41,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
         boolean isValid = true;
         
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
-        FinancialSystemUser financialSystemUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
         
         DocumentAuthorizationService documentAuthorizer = SpringContext.getBean(DocumentAuthorizationService.class);
         DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) documentAuthorizer.getDocumentAuthorizer(dvDocument);
@@ -73,7 +73,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
     }
     
     // determine whether the current user is a member of the specified work groups
-    private boolean isUserInDisbursementVouchWorkGroups(FinancialSystemUser financialSystemUser) {
+    private boolean isUserInDisbursementVouchWorkGroups(Person financialSystemUser) {
         boolean isInWorkGroups = true;
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInFRNGroup(financialSystemUser);
         isInWorkGroups = isInWorkGroups || disbursementVoucherWorkGroupService.isUserInTaxGroup(financialSystemUser);
@@ -84,7 +84,7 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
     }
     
     // determine whether the current user is a member of neither foreign draft nor wire transfer work groups
-    private boolean isUserNotInForeignDraftAndWireTransferWorkGroups(FinancialSystemUser financialSystemUser) {
+    private boolean isUserNotInForeignDraftAndWireTransferWorkGroups(Person financialSystemUser) {
         boolean isNotInWorkGroups = true;
         isNotInWorkGroups = isNotInWorkGroups && !disbursementVoucherWorkGroupService.isUserInFRNGroup(financialSystemUser);
         isNotInWorkGroups = isNotInWorkGroups && !disbursementVoucherWorkGroupService.isUserInWireGroup(financialSystemUser);
@@ -100,3 +100,4 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
         this.disbursementVoucherWorkGroupService = disbursementVoucherWorkGroupService;
     }
 }
+

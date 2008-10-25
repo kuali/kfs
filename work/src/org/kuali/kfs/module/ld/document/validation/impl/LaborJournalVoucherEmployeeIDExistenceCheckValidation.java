@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -72,7 +72,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, employeeid);
         
-        Collection emplidMatches = SpringContext.getBean(UniversalUserService.class).findUniversalUsers(criteria);
+        Collection emplidMatches = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(criteria);
         if (emplidMatches == null || emplidMatches.isEmpty()) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborJournalVoucherDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.EMPLID).getLabel();
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label) ;
@@ -98,3 +98,4 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class ObjectCodeGlobalDetailTest extends KualiTestBase {
     private AccountingDocument document;
 
@@ -59,3 +59,4 @@ public class ObjectCodeGlobalDetailTest extends KualiTestBase {
     }
 
 }
+

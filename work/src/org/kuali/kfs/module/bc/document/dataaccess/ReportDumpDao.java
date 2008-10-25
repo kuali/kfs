@@ -23,15 +23,16 @@ public interface ReportDumpDao {
     /**
      * Rebuilds the account dump maintenance table.
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      */
-    public void updateAccountDump(String personUserIdentifier);
+    public void updateAccountDump(String principalName);
     
     /**
      * Cleans the account dump maintenance table for given user
      * 
-     * @param personUniversalIdentifier - current user who is running the dump
+     * @param principalId - current user who is running the dump
      */
-    public void cleanAccountDump(String personUserIdentifier);
+    public void cleanAccountDump(String principalName);
     
 }
+

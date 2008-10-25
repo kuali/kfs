@@ -17,8 +17,8 @@ package org.kuali.kfs.coa.businessobject;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class ProjectCode extends KualiCodeBase {
     private String chartOfAccountsCode;
     private String organizationCode;
 
-    private UniversalUser projectManagerUniversal;
+    private Person projectManagerUniversal;
     private Chart chartOfAccounts;
     private Org organization;
 
@@ -60,8 +60,8 @@ public class ProjectCode extends KualiCodeBase {
         this.projectDescription = projectDescription;
     }
 
-    public UniversalUser getProjectManagerUniversal() {
-        projectManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(projectManagerUniversalId, projectManagerUniversal);
+    public Person getProjectManagerUniversal() {
+        projectManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(projectManagerUniversalId, projectManagerUniversal);
         return projectManagerUniversal;
     }
 
@@ -70,7 +70,7 @@ public class ProjectCode extends KualiCodeBase {
      * 
      * @param projectManagerUniversal The projectManagerUniversal to set.
      */
-    public void setProjectManagerUniversal(UniversalUser projectManagerUniversal) {
+    public void setProjectManagerUniversal(Person projectManagerUniversal) {
         this.projectManagerUniversal = projectManagerUniversal;
     }
 
@@ -153,3 +153,4 @@ public class ProjectCode extends KualiCodeBase {
     }
 
 }
+

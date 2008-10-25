@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
 import org.kuali.kfs.module.cam.fixture.AssetAcquisitionTypeFixture;
@@ -30,7 +30,7 @@ public class AssetAcquisitionTypeServiceTest extends KualiTestBase {
     private AssetAcquisitionTypeService assetAcquisitionTypeService;
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         assetAcquisitionTypeService = SpringContext.getBean(AssetAcquisitionTypeService.class);
@@ -42,7 +42,7 @@ public class AssetAcquisitionTypeServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testHasIncomeAssetObjectCode_Success() throws Exception {
         // set up the data
         AssetAcquisitionType assetAcquisitionType = AssetAcquisitionTypeFixture.WITH_INCOME_ASSET_OBJECT_CODE.newAssetAcquisitionType();
@@ -52,3 +52,4 @@ public class AssetAcquisitionTypeServiceTest extends KualiTestBase {
         assertFalse(assetAcquisitionTypeService.hasIncomeAssetObjectCode(assetAcquisitionType.getAcquisitionTypeCode()));
     }
 }
+

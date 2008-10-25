@@ -338,8 +338,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#cleanReportsReasonStatisticsTable(java.lang.String)
      */
-    public void cleanReportsReasonStatisticsTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", personUserIdentifier);
+    public void cleanReportsReasonStatisticsTable(String principalName) {
+        clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", principalName);
     }
     
     /**
@@ -364,20 +364,20 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     /**
      * 
      * works in both threshold and non-threshold mode to get the summary salary statistics and appointment attributes for each person
-     * @param personUserIdentifier--the user running the report
+     * @param principalName--the user running the report
      * @param idForSession--a unique ID for the session of the user running the report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are preparing a budget
      */
-    private void adjustLastYearSalaryForAppointmentChanges(String personUserIdentifier, String idForSession, Integer previousFiscalYear)
+    private void adjustLastYearSalaryForAppointmentChanges(String principalName, String idForSession, Integer previousFiscalYear)
     {
         //  strings to be inserted into SQL
         ArrayList<String >stringsToInsert = new ArrayList<String>(2);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
         stringsToInsert.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         // get base (CSF) and request appointment attributes for people with no leave indicated 
-        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(0).getSQL(stringsToInsert), idForSession, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(0).getSQL(stringsToInsert), idForSession, principalName, idForSession);
         // get base (CSF) and request appointment attributes for people who are marked as going on leave next year
-        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(1).getSQL(stringsToInsert), idForSession, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(1).getSQL(stringsToInsert), idForSession, principalName, idForSession);
         // for each person, take the request appointment attributes from the record with the higest salary amount
         getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(2).getSQL(), idForSession, idForSession);
         // for each continuing person, take the base (CSF) appointment attributes from the record with the highest base salary amount
@@ -395,13 +395,13 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     /**
      * 
      * get detailed salary/FTE rows by person and organization for the continuing people to be reported 
-     * @param personUserIdentifier
+     * @param principalName
      * @param idForSession
      */
-    private void fetchIndividualDetailForContinuingPeople(String personUserIdentifier, String idForSession)
+    private void fetchIndividualDetailForContinuingPeople(String principalName, String idForSession)
     {
         // salaries and FTE by EMPLID and organization for people in the payroll in the base budget year
-        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(8).getSQL(), idForSession, personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(8).getSQL(), idForSession, principalName, idForSession);
     }
     
     
@@ -409,19 +409,19 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String, java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
      */
-    public void updateReasonStatisticsReportsWithAThreshold(String personUserIdentifier, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
+    public void updateReasonStatisticsReportsWithAThreshold(String principalName, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
 
         // get a unique session ID   
         String idForSession = (new Guid()).toString();
-        cleanReportsReasonStatisticsTable(personUserIdentifier);
+        cleanReportsReasonStatisticsTable(principalName);
         // build the list of constant strings to insert into the SQL
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
 
         // for a report by threshold, we want everyone--exclude only vacant lines
-        getSimpleJdbcTemplate().update(reportReasonStatisticsWithThreshold.get(0).getSQL(stringsToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(reportReasonStatisticsWithThreshold.get(0).getSQL(stringsToInsert), idForSession, principalName);
         // get all the salary and appointment information for those people
-        adjustLastYearSalaryForAppointmentChanges(personUserIdentifier, idForSession, previousFiscalYear);
+        adjustLastYearSalaryForAppointmentChanges(principalName, idForSession, previousFiscalYear);
         
         // mark the rows to be excluded when we are screening with a threshold percent
         // (KualiDecimal is not recognized as a type by java.sql--we have to convert it to its superclass BigDecimal)
@@ -437,8 +437,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
             getSimpleJdbcTemplate().update(reportReasonStatisticsWithThreshold.get(2).getSQL(), idForSession, thresholdValue);
         }
         
-        fetchIndividualDetailForContinuingPeople(personUserIdentifier, idForSession);
-        sumTheDetailRowsToProduceTheReportData (personUserIdentifier, idForSession);
+        fetchIndividualDetailForContinuingPeople(principalName, idForSession);
+        sumTheDetailRowsToProduceTheReportData (principalName, idForSession);
         
         cleanWorkTablesFromThisSession(idForSession);
         /**
@@ -451,25 +451,25 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithoutAThreshold(java.lang.String, java.lang.Integer)
      */
-    public void updateReasonStatisticsReportsWithoutAThreshold(String personUserIdentifier, Integer previousFiscalYear) {
+    public void updateReasonStatisticsReportsWithoutAThreshold(String principalName, Integer previousFiscalYear) {
         // get a unique session ID   
         String idForSession = (new Guid()).toString();
-        cleanReportsReasonStatisticsTable(personUserIdentifier);
+        cleanReportsReasonStatisticsTable(principalName);
         
         // build the list of constant strings to insert into the SQL
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(BCConstants.VACANT_EMPLID);
 
         // we want only people who have an attached reason code
-        getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(0).getSQL(stringsToInsert), idForSession, personUserIdentifier);
+        getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(0).getSQL(stringsToInsert), idForSession, principalName);
         // get all the salary and appointment information for those people
-        adjustLastYearSalaryForAppointmentChanges(personUserIdentifier, idForSession, previousFiscalYear);
+        adjustLastYearSalaryForAppointmentChanges(principalName, idForSession, previousFiscalYear);
         
-        fetchIndividualDetailForContinuingPeople(personUserIdentifier, idForSession);
+        fetchIndividualDetailForContinuingPeople(principalName, idForSession);
         // when we are using a reason code and not a threshold, we want everyone with a reason code, not just continuing people
         // new people have no percent increase, and so would not match any threshold, but should be included under this report option
-        getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(1).getSQL(), idForSession, personUserIdentifier, idForSession);
-        sumTheDetailRowsToProduceTheReportData (personUserIdentifier, idForSession);
+        getSimpleJdbcTemplate().update(reportReasonStatisticsWithNoThreshold.get(1).getSQL(), idForSession, principalName, idForSession);
+        sumTheDetailRowsToProduceTheReportData (principalName, idForSession);
         
         cleanWorkTablesFromThisSession(idForSession);
         /**
@@ -483,8 +483,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * sum base and request amounts and FTE by organization to produce the data used by the report
      * @param idForSession--the session of the user doing the report
      */
-    private void sumTheDetailRowsToProduceTheReportData (String personUserIdentifier, String idForSession) {
-        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), personUserIdentifier, idForSession);
+    private void sumTheDetailRowsToProduceTheReportData (String principalName, String idForSession) {
+        getSimpleJdbcTemplate().update(updateReportsReasonStatisticsTable.get(9).getSQL(), principalName, idForSession);
     }
     
     public void setPersistenceService(PersistenceService persistenceService)
@@ -493,3 +493,4 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     }
 
 }
+

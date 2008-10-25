@@ -20,7 +20,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
@@ -38,10 +38,10 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
     private final static String SALES_TAX_LINE_ACCOUNT_OBJECT_CODES_PARAMETER_NAME = "SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES";
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, FinancialSystemUser currentUser) {
+    public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         Set unviewableBlocks = super.getUnviewableBlocks(accountingDocument, accountingLine, newLine, currentUser);
         if (salesTaxUnviewable(accountingDocument, accountingLine)) {
             unviewableBlocks.add(KFSConstants.AccountingLineViewStandardBlockNames.SALES_TAX_BLOCK);
@@ -69,3 +69,4 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
         return true;
     }
 }
+

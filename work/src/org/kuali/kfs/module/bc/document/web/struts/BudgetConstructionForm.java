@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -224,7 +224,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
                     }
                     if (!rvwHierMap.isEmpty()) {
                         try {
-                            List<Org> povOrgs = (List<Org>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getUniversalUser());
+                            List<Org> povOrgs = (List<Org>) SpringContext.getBean(PermissionService.class).getOrgReview(GlobalVariables.getUserSession().getPerson());
                             if (!povOrgs.isEmpty()) {
                                 for (Org povOrg : povOrgs) {
                                     if (rvwHierMap.containsKey(povOrg.getChartOfAccountsCode() + povOrg.getOrganizationCode())) {
@@ -356,13 +356,13 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
             // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
             // correct DocumentAuthorizer
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not organization approver)", this.isPickListMode());
             }
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user below document level)", this.isPickListMode());
             }
             if (getEditingMode().containsKey(KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_IN_ACCOUNT_HIER)) {
-                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
+                throw new BudgetConstructionDocumentAuthorizationException(GlobalVariables.getUserSession().getPerson().getName(), "open", getDocument().getDocumentHeader().getDocumentNumber(), "(user not in account's review hierarchy)", this.isPickListMode());
             }
         }
     }
@@ -375,7 +375,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     @Override
     protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
         BudgetConstructionDocumentAuthorizer bcDocumentAuthorizer = (BudgetConstructionDocumentAuthorizer) documentAuthorizer;
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
         // setEditingMode(bcDocumentAuthorizer.getEditMode(getDocument(), kualiUser));
         setEditingMode(bcDocumentAuthorizer.getEditModeFromSession());
@@ -898,3 +898,4 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.preSalarySettingRows = preSalarySettingRows;
     }
 }
+

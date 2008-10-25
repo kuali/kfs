@@ -2074,7 +2074,7 @@
           <validation required="true" />
           <quickfinder appliesTo="campusCode" draw="true" service="workflow-org.kuali.module.chart.bo.Campus-Lookupable(null)" />
           <fieldEvaluation>
-            <xpathexpression>wf:xstreamsafe('//documentInitiator/universalUser/campus/campusCode') = wf:ruledata('campusCode')</xpathexpression>
+            <xpathexpression>wf:xstreamsafe('//documentInitiator/person/campus/campusCode') = wf:ruledata('campusCode')</xpathexpression>
           </fieldEvaluation>
         </fieldDef>
       </routingConfig>
@@ -2298,4 +2298,5 @@
     </ruleAttribute>
   </ruleAttributes>
 </data>
+
 

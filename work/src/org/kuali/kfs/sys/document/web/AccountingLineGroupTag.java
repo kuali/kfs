@@ -26,7 +26,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
@@ -260,7 +260,7 @@ public class AccountingLineGroupTag extends TagSupport {
         
         final AccountingLineGroupDefinition groupDefinition = getGroupDefinition();
         final AccountingDocument document = getDocument();
-        final FinancialSystemUser currentUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
         boolean addedTopLine = false;
         
         // add the new line
@@ -288,7 +288,7 @@ public class AccountingLineGroupTag extends TagSupport {
      * @param count the count of this line within the collection represented by the group; null if this is a new line for the group
      * @return the container created
      */
-    protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, FinancialSystemUser currentUser, Integer count, boolean topLine) {
+    protected RenderableAccountingLineContainer buildContainerForLine(AccountingLineGroupDefinition groupDefinition, AccountingDocument accountingDocument, AccountingLine accountingLine, Person currentUser, Integer count, boolean topLine) {
         String accountingLinePropertyName = count == null ? newLinePropertyName : collectionItemPropertyName+"["+count.toString()+"]";
         boolean newLine = (count == null);
         List<AccountingLineTableRow> rows = getRenderableElementsForLine(groupDefinition, accountingLine, newLine, topLine);
@@ -348,3 +348,4 @@ public class AccountingLineGroupTag extends TagSupport {
         return document;
     }
 }
+

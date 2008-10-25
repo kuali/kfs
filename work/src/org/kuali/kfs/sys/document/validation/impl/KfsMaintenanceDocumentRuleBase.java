@@ -16,22 +16,23 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class KfsMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
-    protected static FinancialSystemUserService financialSystemUserService;
+    protected static PersonService personService;
     
     public KfsMaintenanceDocumentRuleBase() {
         super();
-        if ( financialSystemUserService == null ) {
-            financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        if ( personService == null ) {
+            personService = SpringContext.getBean(PersonService.class);
         }
     }
     
-    public FinancialSystemUserService getKfsUserService() {
-        return financialSystemUserService;
+    public PersonService getKfsUserService() {
+        return personService;
     }
     
 }
+

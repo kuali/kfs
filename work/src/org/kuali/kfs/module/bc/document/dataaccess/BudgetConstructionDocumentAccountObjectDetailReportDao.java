@@ -23,13 +23,14 @@ public interface BudgetConstructionDocumentAccountObjectDetailReportDao {
     /**
      * 
      * populates a data-holding table with the data from a single Budget Construction document, with the general ledger amounts, and sums of the FTE associated with them
-     * @param personUserIdentifier   the user requesting the report
+     * @param principalName   the user requesting the report
      * @param documentNumber         the budget construction document for the data being reported
      * @param universityFiscalYear   the budget fiscal year 
      * @param chartOfAccountsCode    the chart of accounts for the document 
      * @param accountNumber          the account number for the document
      * @param subAccountNumber       the subaccount number for the document
      */
-    public void updateDocumentAccountObjectDetailReportTable(String personUserIdentifier, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
 }
+

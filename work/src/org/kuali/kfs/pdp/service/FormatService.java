@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.FormatSelection;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 public interface FormatService {
     // Get the customer profiles to list on the screen
@@ -41,7 +41,7 @@ public interface FormatService {
      * @param user the user that initiated the format process
      * @return FormatSelection
      */
-    public FormatSelection getDataForFormat(UniversalUser user);
+    public FormatSelection getDataForFormat(Person user);
 
     // Actually format the data for check printing.
     // Return a list of Process Summaries to be displayed
@@ -80,7 +80,7 @@ public interface FormatService {
      * @param paymentTypes
      * @return
      */
-    public List startFormatProcess(UniversalUser user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
+    public List startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes);
 
     /**
      * This method removes the format process from the format process table
@@ -96,3 +96,4 @@ public interface FormatService {
      */
     public void clearUnfinishedFormat(Integer processId) ;
 }
+

@@ -122,7 +122,7 @@ function personIDLookup( userIdField ) {
    //alert("proposalDirectorIDLookup " + userIdField)
     var elPrefix = findElPrefix( userIdField );
 	var userNameFieldName = elPrefix + ".personName";
-	var universalIdFieldName = findElPrefix( elPrefix ) + ".personUniversalIdentifier";
+	var universalIdFieldName = findElPrefix( elPrefix ) + ".principalId";
 	
 	loadPersonInfo( userIdField, universalIdFieldName, userNameFieldName );
 }
@@ -138,10 +138,10 @@ function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldNam
             callback:function(data) {
                 if ( data != null && typeof data == 'object' ) {
                     //alert("dtpid "+data.primaryDepartmentCode)
-                    setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
+                    setRecipientValue( universalIdFieldName, data.principalId );
                     setRecipientValue( userNameFieldName, data.personName );
-                    if (userIdFieldName=='document.budget.projectDirector.universalUser.personUserIdentifier') {
-                         setRecipientValue( 'document.budget.budgetProjectDirectorUniversalIdentifier', data.personUniversalIdentifier );
+                    if (userIdFieldName=='document.budget.projectDirector.person.principalName') {
+                         setRecipientValue( 'document.budget.budgetProjectDirectorUniversalIdentifier', data.principalId );
                     } else {
                         setChartOrg( findElPrefix( userNameFieldName ), data.primaryDepartmentCode );
                     
@@ -172,7 +172,7 @@ function setChartOrg(elPrefix, deptId) {
 
 function budgetNameLookup( documentNumberField ) {
     var elPrefix = findElPrefix( documentNumberField );
-	var personNameFieldName = elPrefix + ".budget.projectDirector.universalUser.personName";
+	var personNameFieldName = elPrefix + ".budget.projectDirector.person.name";
 	var agencyNameFieldName = elPrefix + ".budget.budgetAgency.fullName";
 	var budgetDocumentNumberFieldName = elPrefix  + ".budget.documentNumber";
 	
@@ -191,12 +191,12 @@ function loadBudgetInfo( documentNumberField, personNameFieldName, agencyNameFie
         var dwrReply = {
             callback:function(data) {
                 //alert("projectdirector "+data)
-                //alert ("data "+data+"- "+data.projectDirector.universalUser.personName+" -"+data.budgetAgency.fullName)
+                //alert ("data "+data+"- "+data.projectDirector.person.name+" -"+data.budgetAgency.fullName)
                 if ( data != null && data != "budget document not found") {
                     setRecipientValue( budgetDocumentNumberFieldName, documentNumber );
                     idx=data.indexOf("Agency:");
                     displayBudgetName(data.substr(0,idx-1),data.substr(idx));
-                    //setRecipientValue( personNameFieldName, "PD: "+data.projectDirector.universalUser.personName );
+                    //setRecipientValue( personNameFieldName, "PD: "+data.projectDirector.person.name );
                     //setRecipientValue( agencyNameFieldName, "&nbsp;&nbsp;Agency: "+data.budgetAgency.fullName );
                 } else {
                     clearRecipients( budgetDocumentNumberFieldName );
@@ -214,13 +214,13 @@ function loadBudgetInfo( documentNumberField, personNameFieldName, agencyNameFie
 function displayBudgetName(personName, agencyName) {
    //alert("displayBudgetName"+personName+agencyName)
     var budgetNameDiv = document.getElementById("budgetNameDiv");
-  var nameDiv = document.getElementById("document.budget.projectDirector.universalUser.personName.div");
+  var nameDiv = document.getElementById("document.budget.projectDirector.person.name.div");
   if (nameDiv!=null) {
 	budgetNameDiv.removeChild(nameDiv);
   }
   if (personName!=null && agencyName!="") {
 	    var newdiv = document.createElement("div");
-	  newdiv.setAttribute("id","document.budget.projectDirector.universalUser.personName.div");
+	  newdiv.setAttribute("id","document.budget.projectDirector.person.name.div");
 	  newdiv.innerHTML = personName+"&nbsp;"+agencyName;
 	  budgetNameDiv.appendChild(newdiv);
   }

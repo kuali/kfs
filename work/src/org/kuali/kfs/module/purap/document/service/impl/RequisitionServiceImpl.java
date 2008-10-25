@@ -206,9 +206,9 @@ public class RequisitionServiceImpl implements RequisitionService {
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
               //FIXME after KIM is done, fix this to retrieve the REQ initiator's campus for the lookup
-//                          UniversalUser initiator = null;
+//                          Person initiator = null;
 //                          try {
-//                              initiator = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
+//                              initiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(new AuthenticationUserId(requisition.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId()));
 //                          }
 //                          catch (UserNotFoundException e) {
 //                              throw new RuntimeException("Document Initiator not found " + e.getMessage());
@@ -379,3 +379,4 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
 
 }
+

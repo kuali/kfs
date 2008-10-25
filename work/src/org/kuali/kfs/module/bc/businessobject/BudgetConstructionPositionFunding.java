@@ -31,7 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionPositionFunding extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String selectedOrganizationChartOfAccountsCode;
     private String selectedOrganizationCode;
     private String personName;
@@ -61,21 +61,21 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -122,7 +122,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
      * 
      * @return Returns the personName
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -131,7 +131,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -407,10 +407,10 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("selectedOrganizationChartOfAccountsCode", this.selectedOrganizationChartOfAccountsCode);
         m.put("selectedOrganizationCode", this.selectedOrganizationCode);
-        m.put("personName", this.personName);
+        m.put("name", this.personName);
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
         if (this.universityFiscalYear != null) {
@@ -442,3 +442,4 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
 
 
 }
+

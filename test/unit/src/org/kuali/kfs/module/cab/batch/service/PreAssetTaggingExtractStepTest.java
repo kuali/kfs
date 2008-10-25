@@ -35,7 +35,7 @@ public class PreAssetTaggingExtractStepTest extends BatchTestBase {
     private PreAssetTaggingExtractStep preAssetTaggingExtractStep;
 
     @Override
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         super.setUp();
         preAssetTaggingExtractStep = SpringContext.getBean(PreAssetTaggingExtractStep.class);
@@ -66,3 +66,4 @@ public class PreAssetTaggingExtractStepTest extends BatchTestBase {
         return match;
     }
 }
+

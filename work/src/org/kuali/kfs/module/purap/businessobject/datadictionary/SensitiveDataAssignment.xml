@@ -60,7 +60,7 @@
 	</bean>
 
 	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier" parent="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" />
-	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier" >
+	<bean id="SensitiveDataAssignment-sensitiveDataAssignmentPersonIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId" >
 		<property name="name" value="sensitiveDataAssignmentPersonIdentifier" />
 		<property name="label" value="Sensitive Data Assignment Person" />
 		<property name="shortLabel" value="Assignment Person" />
@@ -75,3 +75,4 @@
 	</bean>
 
 </beans>
+

@@ -26,9 +26,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -47,7 +47,7 @@ public class Batch extends TimestampedBusinessObjectBase {
     private Timestamp customerFileCreateTimestamp; // CUST_FL_CRTN_TS
     private KualiInteger paymentCount; // PMT_CNT
     private KualiDecimal paymentTotalAmount; // PMT_TOT_AMT
-    private UniversalUser submiterUser;
+    private Person submiterUser;
     private String submiterUserId; // SBMTR_USR_ID
     private Timestamp fileProcessTimestamp; // FL_PROC_TS
     
@@ -160,13 +160,13 @@ public class Batch extends TimestampedBusinessObjectBase {
         customerProfile = cp;
     }
 
-    public UniversalUser getSubmiterUser() {
+    public Person getSubmiterUser() {
         return submiterUser;
     }
 
-    public void setSubmiterUser(UniversalUser s) {
+    public void setSubmiterUser(Person s) {
         if (s != null) {
-            this.submiterUserId = s.getPersonUniversalIdentifier();
+            this.submiterUserId = s.getPrincipalId();
         }
         else {
             this.submiterUserId = null;
@@ -190,8 +190,8 @@ public class Batch extends TimestampedBusinessObjectBase {
     }
 
 
-    public void updateUser(UniversalUserService userService) throws UserNotFoundException {
-        UniversalUser u = userService.getUniversalUser(submiterUserId);
+    public void updateUser(org.kuali.rice.kim.service.PersonService userService) throws UserNotFoundException {
+        Person u = userService.getPerson(submiterUserId);
         if (u == null) {
             setSubmiterUser(null);
         }
@@ -217,3 +217,4 @@ public class Batch extends TimestampedBusinessObjectBase {
     }
    
 }
+

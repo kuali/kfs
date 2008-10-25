@@ -31,13 +31,13 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 
 public interface BudgetConstructionReportsServiceHelper {
 
-    public Collection getDataForBuildingReports(Class clazz, String personUserIdentifier, List<String> orderList);
+    public Collection getDataForBuildingReports(Class clazz, String principalName, List<String> orderList);
     
     public Collection getDataForBuildingReports(Class clazz, Map searchCriteria, List<String> orderList);
     
     public ObjectCode getObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
         
-    public String getSelectedObjectCodes (String personUserIdentifier);
+    public String getSelectedObjectCodes (String principalName);
         
     public BudgetConstructionAdministrativePost getBudgetConstructionAdministrativePost(PendingBudgetConstructionAppointmentFunding appointmentFundingEntry); 
 
@@ -47,7 +47,8 @@ public interface BudgetConstructionReportsServiceHelper {
         
     public Collection<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFundingList(Integer universityFiscalYear, BudgetConstructionObjectDump budgetConstructionObjectDump);
     
-    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String personUserIdentifier, BudgetConstructionSalaryFunding salaryFunding);
+    public BudgetConstructionSalarySocialSecurityNumber getBudgetConstructionSalarySocialSecurityNumber(String principalName, BudgetConstructionSalaryFunding salaryFunding);
     
-    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String personUserIdentifier, String emplid);
+    public Collection<BudgetConstructionSalaryFunding> getSalaryFunding(String principalName, String emplid);
 }
+

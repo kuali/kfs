@@ -36,7 +36,7 @@
 	<field name="financialSubObjectCode" class="java.lang.String"/>
 	<field name="positionNumber" class="java.lang.String"/>
 	<field name="emplid" class="java.lang.String"/>
-	<field name="personName" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
 	<field name="positionObjectChangeIndicator" class="java.lang.String"/>
 	<field name="positionSalaryChangeIndicator" class="java.lang.String"/>
 	<field name="positionEffectiveStatus" class="java.lang.String"/>
@@ -931,3 +931,4 @@
 			</band>
 		</summary>
 </jasperReport>
+

@@ -136,7 +136,7 @@ public class ElectronicFundTransferForm extends KualiForm {
      * @return true if administrative powers exist, false otherwise
      */
     public boolean isAllowElectronicFundsTransferAdministration() {
-        return SpringContext.getBean(ElectronicPaymentClaimingService.class).isElectronicPaymentAdministrator(GlobalVariables.getUserSession().getFinancialSystemUser());
+        return SpringContext.getBean(ElectronicPaymentClaimingService.class).isElectronicPaymentAdministrator(GlobalVariables.getUserSession().getPerson());
     }
     
     /**
@@ -206,3 +206,4 @@ public class ElectronicFundTransferForm extends KualiForm {
         return claimedByCheckboxHelpers.get(index);
     }
 }
+

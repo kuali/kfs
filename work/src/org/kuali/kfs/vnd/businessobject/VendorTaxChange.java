@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * Records any changes to a Vendor's Tax Number or Type. Not shown on the screen.
@@ -36,7 +36,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
     private String vendorPreviousTaxTypeCode;
     private String vendorTaxChangePersonIdentifier;
 
-    private UniversalUser vendorTaxChangePerson;
+    private Person vendorTaxChangePerson;
     private VendorHeader vendorHeader;
 
     /**
@@ -110,8 +110,8 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
         this.vendorTaxChangePersonIdentifier = vendorTaxChangePersonIdentifier;
     }
 
-    public UniversalUser getVendorTaxChangePerson() {
-        vendorTaxChangePerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
+    public Person getVendorTaxChangePerson() {
+        vendorTaxChangePerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(vendorTaxChangePersonIdentifier, vendorTaxChangePerson);
         return vendorTaxChangePerson;
     }
 
@@ -121,7 +121,7 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
      * @param vendorTaxChangePerson The vendorTaxChangePerson to set.
      * @deprecated
      */
-    public void setVendorTaxChangePerson(UniversalUser vendorTaxChangePerson) {
+    public void setVendorTaxChangePerson(Person vendorTaxChangePerson) {
         this.vendorTaxChangePerson = vendorTaxChangePerson;
     }
 
@@ -151,3 +151,4 @@ public class VendorTaxChange extends PersistableBusinessObjectBase {
     }
 
 }
+

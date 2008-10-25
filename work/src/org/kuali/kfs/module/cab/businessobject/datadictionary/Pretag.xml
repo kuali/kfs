@@ -19,8 +19,8 @@
       <list>
         <ref bean="Pretag-capitalAssetTypeCode" />
         <ref bean="Pretag-organizationCode" />
-        <ref bean="Pretag-personUniversal.personUserIdentifier" />
-        <ref bean="Pretag-personUniversal.personName" />
+        <ref bean="Pretag-personUniversal.principalName" />
+        <ref bean="Pretag-personUniversal.name" />
         <ref bean="Pretag-active" />
         <ref bean="Pretag-chartOfAccountsCode" />
         <ref bean="Pretag-purchaseOrderNumber" />
@@ -56,18 +56,18 @@
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="representativeUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="personUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="personUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="personUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="personUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -96,24 +96,24 @@
     <property name="shortLabel" value="Org Code" />
     <property name="required" value="false" />
   </bean>
-  <bean id="Pretag-personUniversal.personUserIdentifier" parent="Pretag-personUniversal.personUserIdentifier-parentBean" />
+  <bean id="Pretag-personUniversal.principalName" parent="Pretag-personUniversal.principalName-parentBean" />
 
-  <bean id="Pretag-personUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="personUniversal.personUserIdentifier" />
+  <bean id="Pretag-personUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="personUniversal.principalName" />
     <property name="label" value="Asset Representative" />
     <property name="shortLabel" value="Identifier" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="personUniversal.personName"
+            p:personNameAttributeName="personUniversal.name"
             p:universalIdAttributeName="representativeUniversalIdentifier"
-            p:userIdAttributeName="personUniversal.personUserIdentifier" />
+            p:userIdAttributeName="personUniversal.principalName" />
     </property>
   </bean>
-  <bean id="Pretag-personUniversal.personName" parent="Pretag-personUniversal.personName-parentBean" />
+  <bean id="Pretag-personUniversal.name" parent="Pretag-personUniversal.name-parentBean" />
 
-  <bean id="Pretag-personUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="personUniversal.personName" />
+  <bean id="Pretag-personUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="personUniversal.name" />
     <property name="required" value="false" />
   </bean>
   <bean id="Pretag-active" parent="Pretag-active-parentBean" />
@@ -391,7 +391,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationInventoryName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversal.personName" />
+                    p:attributeName="personUniversal.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationText" />
               <bean parent="FieldDefinition"
@@ -508,3 +508,4 @@
     </property>
   </bean>
 </beans>
+

@@ -28,7 +28,7 @@
         <ref bean="Batch-customerProfile.customerShortName" />
         <ref bean="Batch-paymentFileName" />
         <ref bean="Batch-fileProcessTimestamp" />
-        <ref bean="Batch-submiterUser.personUserIdentifier" />
+        <ref bean="Batch-submiterUser.principalName" />
         
         
       </list>
@@ -137,10 +137,10 @@
     <property name="label" value="File Processed Time" />
     <property name="shortLabel" value="File Processed Time" />
   </bean>
-  <bean id="Batch-submiterUser.personUserIdentifier" parent="Batch-submiterUser.personUserIdentifier-parentBean" />
+  <bean id="Batch-submiterUser.principalName" parent="Batch-submiterUser.principalName-parentBean" />
 
-  <bean id="Batch-submiterUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="submiterUser.personUserIdentifier" />
+  <bean id="Batch-submiterUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="submiterUser.principalName" />
     <property name="label" value="Submiter User ID" />
     <property name="shortLabel" value="Submiter User ID" />
   </bean>
@@ -229,3 +229,4 @@
     </property>
   </bean>
 </beans>
+

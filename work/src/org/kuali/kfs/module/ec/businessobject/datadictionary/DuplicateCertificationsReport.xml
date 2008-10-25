@@ -35,11 +35,11 @@
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="employee.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="employee.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="employee.personName"
-                    p:targetName="personName" />
+                    p:sourceName="employee.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -84,7 +84,7 @@
   </bean>
   <bean id="DuplicateCertificationsReport-emplid" parent="DuplicateCertificationsReport-emplid-parentBean" />
 
-  <bean id="DuplicateCertificationsReport-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="DuplicateCertificationsReport-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
 
@@ -120,3 +120,4 @@
     </property>
   </bean>
 </beans>
+

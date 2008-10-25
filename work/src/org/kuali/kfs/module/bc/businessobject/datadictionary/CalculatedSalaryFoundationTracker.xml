@@ -35,7 +35,7 @@
         <ref bean="CalculatedSalaryFoundationTracker-emplid" />
         <ref bean="CalculatedSalaryFoundationTracker-employeeRecord" />
         <ref bean="CalculatedSalaryFoundationTracker-positionNumber" />
-        <ref bean="CalculatedSalaryFoundationTracker-personName" />
+        <ref bean="CalculatedSalaryFoundationTracker-name" />
         <ref bean="CalculatedSalaryFoundationTracker-positionLookupOverrideFlag" />
       </list>
     </property>
@@ -278,10 +278,10 @@
     <property name="summary" value="positionNumber" />
     <property name="description" value="positionNumber description..." />
   </bean>
-  <bean id="CalculatedSalaryFoundationTracker-personName" parent="CalculatedSalaryFoundationTracker-personName-parentBean" />
+  <bean id="CalculatedSalaryFoundationTracker-name" parent="CalculatedSalaryFoundationTracker-name-parentBean" />
 
-  <bean id="CalculatedSalaryFoundationTracker-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="CalculatedSalaryFoundationTracker-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person" />
     <property name="shortLabel" value="Name" />
@@ -410,7 +410,7 @@
         <!-- bean parent="FieldDefinition"
               p:attributeName="universityFiscalYear" /-->
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <!-- bean parent="FieldDefinition"
               p:attributeName="chartOfAccountsCode" />
         <bean parent="FieldDefinition"
@@ -441,3 +441,4 @@
     </property>
   </bean>
 </beans>
+

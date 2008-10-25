@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.batch;
 
 import java.io.File;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -32,7 +32,7 @@ public interface BatchInputType {
      * @param batchFile - File object
      * @return true if user has permissions, false otherwise
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile);
+    public boolean checkAuthorization(Person user, File batchFile);
 
     /**
      * Returns the authorization workgroup for the input type.
@@ -45,3 +45,4 @@ public interface BatchInputType {
     public String getTitleKey();
 
 }
+

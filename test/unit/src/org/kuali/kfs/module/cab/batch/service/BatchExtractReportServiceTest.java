@@ -32,7 +32,7 @@ public class BatchExtractReportServiceTest extends KualiTestBase {
 
     private BatchExtractReportService batchExtractReportService;
 
-    @ConfigureContext(session = UserNameFixture.KHUNTLEY, shouldCommitTransactions = false)
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -144,3 +144,4 @@ public class BatchExtractReportServiceTest extends KualiTestBase {
     }
 
 }
+

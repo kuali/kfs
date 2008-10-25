@@ -46,8 +46,8 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
      */
-    public void updateMonthSummaryReport(String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
-        budgetConstructionMonthSummaryReportDao.updateReportsMonthSummaryTable(personUserIdentifier, consolidateToObjectCodeLevel);
+    public void updateMonthSummaryReport(String principalName, boolean consolidateToObjectCodeLevel) {
+        budgetConstructionMonthSummaryReportDao.updateReportsMonthSummaryTable(principalName, consolidateToObjectCodeLevel);
 
     }
 
@@ -55,9 +55,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
-    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String personUserIdentifier, boolean consolidateToObjectCodeLevel) {
+    public Collection<BudgetConstructionOrgMonthSummaryReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidateToObjectCodeLevel) {
         Collection<BudgetConstructionOrgMonthSummaryReport> reportSet = new ArrayList();
-        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthSummary.class, personUserIdentifier, buildOrderByList());
+        Collection<BudgetConstructionMonthSummary> monthSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionMonthSummary.class, principalName, buildOrderByList());
         // Calculate Total Section
         List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalLevelList = calculateLevelTotal((List) monthSummaryList, monthSummaryList);
         List<BudgetConstructionOrgMonthSummaryReportTotal> monthSummaryTotalConsList = calculateConsTotal((List) monthSummaryList, monthSummaryList);
@@ -741,3 +741,4 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     }
 
 }
+

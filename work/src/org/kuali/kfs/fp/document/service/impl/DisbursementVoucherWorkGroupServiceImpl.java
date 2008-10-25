@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.document.service.impl;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.service.ParameterService;
 
 public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVoucherWorkGroupService {
@@ -31,9 +31,9 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
     public static String adminGroupName;
 
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTaxGroup(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTaxGroup(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserInTaxGroup(FinancialSystemUser financialSystemUser) {
+    public boolean isUserInTaxGroup(Person financialSystemUser) {
         if (taxGroupName == null) {
             taxGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP);
         }
@@ -41,9 +41,9 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTravelGroup(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInTravelGroup(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserInTravelGroup(FinancialSystemUser financialSystemUser) {
+    public boolean isUserInTravelGroup(Person financialSystemUser) {
         if (travelGroupName == null) {
             travelGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP);
         }
@@ -51,9 +51,9 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInFRNGroup(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInFRNGroup(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserInFRNGroup(FinancialSystemUser financialSystemUser) {
+    public boolean isUserInFRNGroup(Person financialSystemUser) {
         if (frnGroupName == null) {
             frnGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP);
         }
@@ -61,9 +61,9 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInWireGroup(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInWireGroup(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserInWireGroup(FinancialSystemUser financialSystemUser) {
+    public boolean isUserInWireGroup(Person financialSystemUser) {
         if (wireTransferGroupName == null) {
             wireTransferGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP);
         }
@@ -71,9 +71,9 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInDvAdminGroup(org.kuali.kfs.sys.businessobject.FinancialSystemUser)
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherWorkGroupService#isUserInDvAdminGroup(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserInDvAdminGroup(FinancialSystemUser financialSystemUser) {
+    public boolean isUserInDvAdminGroup(Person financialSystemUser) {
         if (adminGroupName == null) {
             adminGroupName = parameterService.getParameterValue(DisbursementVoucherDocument.class, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP);
         }
@@ -89,3 +89,4 @@ public class DisbursementVoucherWorkGroupServiceImpl implements DisbursementVouc
         this.parameterService = parameterService;
     }
 }
+

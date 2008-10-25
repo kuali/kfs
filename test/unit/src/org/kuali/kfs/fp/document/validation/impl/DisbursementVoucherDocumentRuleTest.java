@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.LRAAB;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.lraab;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
 /**
  * This class tests the DisbursementVoucherDocumentRule
  */
-@ConfigureContext(session = LRAAB)
+@ConfigureContext(session = lraab)
 public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
 
     /**
@@ -197,3 +197,4 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBase {
     // Test Methods End Here //
     // /////////////////////////////////////////////////////////////////////////
 }
+

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 
 import org.kuali.rice.kew.exception.WorkflowException;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class ThresholdRuleTest extends PurapRuleTestBase {
     
     private ThresholdRule thresholdRule;
@@ -128,3 +128,4 @@ public class ThresholdRuleTest extends PurapRuleTestBase {
     }
     
 }
+

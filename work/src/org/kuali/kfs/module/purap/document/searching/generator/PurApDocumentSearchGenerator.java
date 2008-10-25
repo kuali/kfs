@@ -32,10 +32,7 @@ import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchGenerator;
 import org.kuali.rice.kew.exception.WorkflowServiceError;
 import org.kuali.rice.kew.user.WorkflowUser;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.bo.user.UuId;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This class...
@@ -75,16 +72,14 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     public abstract String getErrorMessageForNonSpecialUserInvalidCriteria();
 
     public boolean isSpecialAccessSearchUser(WorkflowUser workflowUser) {
-        String uuid = workflowUser.getUuId().getUuId();
-        try {
-            String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
-            UniversalUser currentUser = SpringContext.getBean(UniversalUserService.class).getUniversalUser(new UuId(uuid));
+        String searchSpecialAccess = getSpecialAccessSearchUserWorkgroupName();
+        Person currentUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(workflowUser.getWorkflowId());
+        if (currentUser != null) {
             return currentUser.isMember(searchSpecialAccess);
-        }
-        catch (UserNotFoundException e) {
-            String errorMessage = "Error attempting to find user with UUID '" + uuid + "'";
-            LOG.error(errorMessage, e);
-            throw new RuntimeException(errorMessage, e);
+        } else {
+            String errorMessage = "Error attempting to find user with UUID '" + workflowUser.getUuId() + "'";
+            LOG.error(errorMessage);
+            throw new RuntimeException(errorMessage);
         }
     }
 
@@ -183,3 +178,4 @@ public abstract class PurApDocumentSearchGenerator extends StandardDocumentSearc
     }
 
 }
+

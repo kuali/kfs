@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 public class SelectLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
-     * Super impl clears out hidden values but we need to keep personUniversalIdentifier hidden field in the criteria. 
+     * Super impl clears out hidden values but we need to keep principalId hidden field in the criteria. 
      * Overridding here so that the call to clear hiddens is not executed.
      * 
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)

@@ -25,7 +25,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountObjectDet
 public interface BudgetConstructionDocumentAccountObjectDetailReportService {
 
     
-    public void updateDocumentAccountObjectDetailReportTable(String personUserIdentifier, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     
     /**
      * 
@@ -35,6 +35,7 @@ public interface BudgetConstructionDocumentAccountObjectDetailReportService {
      * @param accountSummaryList
      * @return Collection
      */
-    public Collection<BudgetConstructionAccountObjectDetailReport> buildReports(String personUserIdentifier);
+    public Collection<BudgetConstructionAccountObjectDetailReport> buildReports(String principalName);
     
 }
+

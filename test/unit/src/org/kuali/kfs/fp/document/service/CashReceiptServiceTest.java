@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CashReceiptServiceTest extends KualiTestBase {
     // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
     private static final String TEST_CAMPUS_CD = "KO";
@@ -124,7 +124,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     public final void testGetCashReceiptVerificationUnit_validUser() {
         String expectedUnit = DEFAULT_UNIT_NAME;
 
-        String unit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getFinancialSystemUser());
+        String unit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
         assertEquals(expectedUnit, unit);
     }
 
@@ -179,7 +179,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -187,7 +187,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -204,7 +204,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -212,7 +212,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -229,7 +229,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -237,7 +237,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -338,7 +338,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -346,7 +346,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -363,7 +363,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -371,7 +371,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -388,7 +388,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -396,7 +396,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
 
         // create some CRs
-        changeCurrentUser(UserNameFixture.INEFF);
+        changeCurrentUser(UserNameFixture.ineff);
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
@@ -451,3 +451,4 @@ public class CashReceiptServiceTest extends KualiTestBase {
         return crDoc;
     }
 }
+

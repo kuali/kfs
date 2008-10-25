@@ -206,7 +206,7 @@
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
 	<collection-descriptor name="budgetConstructionAccountSelect" element-class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<orderby name="principalId" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -301,7 +301,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect" table="LD_BCN_ACCTSEL_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -431,10 +431,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionFunding" table="LD_BCN_POS_FND_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="selectedOrganizationChartOfAccountsCode" column="SEL_ORG_FIN_COA" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="selectedOrganizationCode" column="SEL_ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -533,14 +533,14 @@
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 	</collection-descriptor>
 	<collection-descriptor name="budgetConstructionPositionSelect" element-class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<orderby name="principalId" sort="ASC" />
 		<inverse-foreignkey field-ref="positionNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionSelect" table="LD_BCN_POS_SEL_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -551,7 +551,7 @@
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionDescription" column="POS_DESCR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="budgetConstructionPosition" class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="positionNumber" />
 		<foreignkey field-ref="universityFiscalYear" />
@@ -607,7 +607,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountBalance" table="LD_BCN_ACCT_BAL_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -669,7 +669,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding" table="LD_BCN_SAL_FND_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -716,10 +716,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber" table="LD_BCN_SAL_SSN_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="organizationChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -734,17 +734,17 @@
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent" table="LD_BCN_INTINCBNT_T">
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="setidSalary" column="SETID_SALARY" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuClassificationLevel" column="IU_CLASSIF_LEVEL" jdbc-type="VARCHAR"/>
    	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<collection-descriptor name="budgetConstructionSalarySocialSecurity" element-class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalarySocialSecurityNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<orderby name="principalId" sort="ASC" />
 		<orderby name="organizationChartOfAccountsCode" sort="ASC" />
 		<orderby name="organizationCode" sort="ASC" />
-		<orderby name="personName" sort="ASC" />		
+		<orderby name="name" sort="ASC" />		
 		<inverse-foreignkey field-ref="emplid" />
 	</collection-descriptor>
 	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1036,7 +1036,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSummary" table="LD_BCN_ACCT_SUMM_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1077,7 +1077,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionLevelSummary" table="LD_BCN_LEVL_SUMM_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1118,7 +1118,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthSummary" table="LD_BCN_MNTH_SUMM_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1168,7 +1168,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectSummary" table="LD_BCN_OBJT_SUMM_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1210,7 +1210,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectDump" table="LD_BCN_OBJT_DUMP_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1250,7 +1250,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick" table="LD_BCN_OBJ_PICK_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="selectFlag" column="SELECT_FLAG" jdbc-type="INTEGER"/>
@@ -1259,9 +1259,9 @@
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding" table="LD_BCN_PAYRT_HLDG_T">
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="setidSalary" column="SETID_SALARY" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
@@ -1270,7 +1270,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup" table="LD_BCN_PULLUP_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1294,7 +1294,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick" table="LD_BCN_RSN_CD_PK_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="appointmentFundingReasonCode" column="APPT_FND_REASON_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="selectFlag" column="SELECT_FLAG" jdbc-type="INTEGER"/>
@@ -1304,7 +1304,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryTotal" table="LD_BCN_SLRY_TOT_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1323,7 +1323,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountDump" table="LD_BCN_ACCT_DUMP_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1344,7 +1344,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionControlList" table="LD_BCN_CTRL_LIST_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1417,7 +1417,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionRequestMove" table="LD_BCN_RQST_MT">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1457,7 +1457,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionActiveJobMove" table="LD_BCN_ACTV_JOB_MT">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="employeeRecord" column="EMPL_RCD" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="effectiveDate" column="EFFDT" jdbc-type="DATE" primarykey="true" index="true"/>
@@ -1469,7 +1469,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionInitializationMove" table="LD_BCN_POS_INIT_MT">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1502,7 +1502,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionTwoPlugListMove" table="LD_BCN_2PLG_LIST_MT">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationChartOfAccountsCode" column="ORG_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1532,10 +1532,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentInitializationMove" table="LD_BCN_II_INIT_MT">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="setidSalary" column="SETID_SALARY" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salaryAdministrationPlan" column="SAL_ADMIN_PLAN" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grade" column="GRADE" jdbc-type="VARCHAR"/>
@@ -1657,7 +1657,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionBalanceByAccount" table="LD_BCN_BAL_BY_ACCT_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1718,15 +1718,15 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect" table="LD_BCN_INCUMBENT_SEL_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="name" column="PERSON_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick" table="LD_BCN_SUBFUND_PICK_T">
-	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="reportFlag" column="REPORT_FLAG" jdbc-type="INTEGER"/>
@@ -1915,3 +1915,4 @@
 	</reference-descriptor>	
 </class-descriptor>
 </descriptor-repository>
+

@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * Reporting Codes Business Object
@@ -39,7 +39,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
 
     private Chart chart;
     private Org org;
-    private UniversalUser universalUser;
+    private Person person;
     private ReportingCodes reportingCodes;
 
     /**
@@ -156,17 +156,17 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
         this.org = org;
     }
 
-    public UniversalUser getUniversalUser() {
-        universalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(financialReportingCodeMgrId, universalUser);
-        return universalUser;
+    public Person getPerson() {
+        person = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialReportingCodeMgrId, person);
+        return person;
     }
 
     /**
-     * @param universalUser The universalUser to set.
+     * @param person The person to set.
      * @deprecated
      */
-    public void setUniversalUser(UniversalUser universalUser) {
-        this.universalUser = universalUser;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     /**
@@ -215,3 +215,4 @@ public class ReportingCodes extends PersistableBusinessObjectBase implements Ina
     }
 
 }
+

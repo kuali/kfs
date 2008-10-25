@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
@@ -66,7 +66,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)
      */
-    public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
+    public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
         Map<String, Object> awardAccountMap = new HashMap<String, Object>();
         awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
@@ -75,7 +75,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         if (proposals != null && !proposals.isEmpty()) {
             AwardAccount proposalWithMaxProposalNumber = proposals.iterator().next();
 
-            return proposalWithMaxProposalNumber.getProjectDirector().getUniversalUser();
+            return proposalWithMaxProposalNumber.getProjectDirector().getPerson();
         }
 
         return null;
@@ -84,7 +84,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     /**
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
-    public UniversalUser getProjectDirectorForAccount(Account account) {
+    public Person getProjectDirectorForAccount(Account account) {
         if (account != null) {
             String chartOfAccountsCode = account.getChartOfAccountsCode();
             String accountNumber = account.getAccountNumber();
@@ -212,3 +212,4 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         return SpringContext.getBean(BusinessObjectService.class);
     }
 }
+

@@ -25,20 +25,23 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
 
-public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessObjectBase implements ChartOrgHolder, Inactivateable {
+public class ChartOrgHolderSecurityImpl extends PersistableBusinessObjectBase implements ChartOrgHolder, Inactivateable {
 
     private transient static KualiModuleService kualiModuleService;
-    
-    private String personUniversalIdentifier;
+
+    private String principalId;
     private String moduleId;
     private String chartOfAccountsCode;
     private String organizationCode;
+    private boolean descendOrgHierarchy = false;
     private boolean active = true;
 
     private Chart chartOfAccounts;
     private Org organization;
     private transient ModuleService moduleService;
 
+    public ChartOrgHolderSecurityImpl() {}
+    
     @Override
     public void refresh() {
         super.refresh();
@@ -60,74 +63,68 @@ public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessO
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
-        hashMap.put("personUniversalIdentifier", personUniversalIdentifier);
+        hashMap.put("principalId", principalId);
         hashMap.put("moduleId", moduleId);
         hashMap.put("chartOfAccountsCode", chartOfAccountsCode);
         hashMap.put("organizationCode", organizationCode);
         return hashMap;
     }
 
-
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
-
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
-
 
     public String getModuleId() {
         return moduleId;
     }
 
-
     public void setModuleId(String moduleId) {
-        this.moduleService = null;
         this.moduleId = moduleId;
     }
-
 
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
-
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
-
 
     public String getOrganizationCode() {
         return organizationCode;
     }
 
-
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
     }
 
+    public boolean isDescendOrgHierarchy() {
+        return descendOrgHierarchy;
+    }
+
+    public void setDescendOrgHierarchy(boolean descendOrgHierarchy) {
+        this.descendOrgHierarchy = descendOrgHierarchy;
+    }
 
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
-
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
-
 
     public Org getOrganization() {
         return organization;
     }
 
-
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
-
 
     public ModuleService getModuleService() {
         if ( moduleService == null ) {
@@ -135,7 +132,6 @@ public class FinancialSystemUserPrimaryOrganization extends PersistableBusinessO
         }
         return moduleService;
     }
-
 
     public void setModuleService(ModuleService moduleService) {
         this.moduleService = moduleService;

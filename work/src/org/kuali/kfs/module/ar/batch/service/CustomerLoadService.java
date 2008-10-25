@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public interface CustomerLoadService {
@@ -69,6 +69,7 @@ public interface CustomerLoadService {
      * @param batchFile The file being uploaded/batched.
      * @return True if the person is authorized, False if not.
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile);
+    public boolean checkAuthorization(Person user, File batchFile);
     
 }
+

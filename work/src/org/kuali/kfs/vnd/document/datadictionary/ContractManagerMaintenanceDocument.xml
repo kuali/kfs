@@ -60,8 +60,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerUserIdentifier"
               p:required="true"
-              p:overrideFieldConversions="personUserIdentifier:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber"
-              p:overrideLookupClass="org.kuali.rice.kns.bo.user.UniversalUser" />
+              p:overrideFieldConversions="principalName:contractManagerUserIdentifier,personName:contractManagerName,personLocalPhoneNumber:contractManagerPhoneNumber"
+              p:overrideLookupClass="org.kuali.rice.kim.bo.Person" />
         <bean parent="MaintainableFieldDefinition"
               p:name="contractManagerName"
               p:required="true" />
@@ -89,3 +89,4 @@
   <bean id="ContractManagerMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

@@ -309,8 +309,8 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>		
 	</bean>
 
@@ -977,8 +977,8 @@
 		<property name="humanResourcesPayrollDao">
 			<ref bean="humanResourcesPayrollDao" />
 		</property> 
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property> 
 	</bean> 
 	
@@ -998,8 +998,8 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>	
 	</bean>
 	
@@ -1009,3 +1009,4 @@
 		</property>
 	</bean>	
 </beans>
+

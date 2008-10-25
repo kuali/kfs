@@ -55,11 +55,11 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, GlobalVariables.getUserSession().getFinancialSystemUser());
+        boolean isAccessible = accountService.accountIsAccessible(accountingDocumentForValidation, accountingLineForValidation, GlobalVariables.getUserSession().getPerson());
 
         // report errors
         if (!isAccessible) {
-            String[] errorParams = new String[] { accountingLineForValidation.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
+            String[] errorParams = new String[] { accountingLineForValidation.getAccountNumber(), GlobalVariables.getUserSession().getPerson().getPrincipalName() };
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, convertEventToMessage(event), errorParams);
         }
 
@@ -131,3 +131,4 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }
+

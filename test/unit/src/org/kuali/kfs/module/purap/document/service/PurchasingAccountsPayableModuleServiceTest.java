@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,10 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
     public void testAddAssignedAssetNumbers() {
         Integer purchaseOrderNumber = null;
         PurchaseOrderDocumentTest documentTest = new PurchaseOrderDocumentTest();
@@ -52,7 +52,7 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(new Long("12345"));
         assetNumbers.add(new Long("12346"));
-        String authorId = "KHUNTLEY";
+        String authorId = "khuntley";
         String documentType = "AssetGlobalMaintenanceDocument";
         SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(purchaseOrderNumber, assetNumbers, authorId, documentType);
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purchaseOrderNumber);
@@ -70,7 +70,7 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         assertTrue(hasNote);
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = khuntley, shouldCommitTransactions=true)
     public void testGetPurchaseOrderInquiryUrl() {
         Integer purchaseOrderNumber = null;
         PurchaseOrderDocumentTest documentTest = new PurchaseOrderDocumentTest();
@@ -89,3 +89,4 @@ public class PurchasingAccountsPayableModuleServiceTest extends KualiTestBase {
         assertFalse(StringUtils.isEmpty(url));
     }
 }
+

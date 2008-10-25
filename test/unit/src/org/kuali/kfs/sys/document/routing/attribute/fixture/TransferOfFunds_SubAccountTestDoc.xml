@@ -16,9 +16,9 @@
 <documentContent><applicationContent><org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer>
   <kualiTransactionalDocumentInformation>
     <documentInitiator>
-      <universalUser>
-        <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-        <personUserIdentifier>KHUNTLEY</personUserIdentifier>
+      <person>
+        <principalId>6162502038</principalId>
+        <principalName>khuntley</principalName>
         <personPayrollIdentifier>0000202278</personPayrollIdentifier>
         <personTaxIdentifier/>
         <personTaxIdentifierTypeCode>S</personTaxIdentifierTypeCode>
@@ -78,64 +78,64 @@
           <entry>
             <string>vendor</string>
             <org.kuali.module.vendor.bo.VendorUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>vendor</moduleId>
             </org.kuali.module.vendor.bo.VendorUser>
           </entry>
           <entry>
             <string>financial</string>
             <org.kuali.module.financial.bo.FinancialUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>financial</moduleId>
             </org.kuali.module.financial.bo.FinancialUser>
           </entry>
           <entry>
             <string>gl</string>
             <org.kuali.module.gl.bo.GlUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>gl</moduleId>
             </org.kuali.module.gl.bo.GlUser>
           </entry>
           <entry>
             <string>kra</string>
             <org.kuali.module.kra.budget.bo.KraUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>kra</moduleId>
             </org.kuali.module.kra.budget.bo.KraUser>
           </entry>
           <entry>
             <string>purap</string>
             <org.kuali.module.purap.bo.PurapUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>purap</moduleId>
             </org.kuali.module.purap.bo.PurapUser>
           </entry>
           <entry>
             <string>chart</string>
             <org.kuali.module.chart.bo.ChartUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>chart</moduleId>
             </org.kuali.module.chart.bo.ChartUser>
           </entry>
           <entry>
             <string>labor</string>
             <org.kuali.module.labor.bo.LaborUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>labor</moduleId>
             </org.kuali.module.labor.bo.LaborUser>
           </entry>
           <entry>
             <string>cg</string>
             <org.kuali.module.cg.bo.CgUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
+              <principalId>6162502038</principalId>
+              <person reference="../../../.."/>
               <moduleId>cg</moduleId>
             </org.kuali.module.cg.bo.CgUser>
           </entry>
@@ -145,7 +145,7 @@
         <objectId>1ED56454F9FD20E8E043814FD88120E8</objectId>
         <newCollectionRecord>false</newCollectionRecord>
         <boNotes/>
-      </universalUser>
+      </person>
     </documentInitiator>
   </kualiTransactionalDocumentInformation>
   <document class="org.kuali.kfs.fp.document.TransferOfFundsDocument">
@@ -242,7 +242,7 @@
           <chartOfAccounts reference="../../chart"/>
           <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--89ce0f3f"/>
           <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--43b19966"/>
-          <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/universalUser/campus"/>
+          <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
           <accountState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--18c6ba40"/>
           <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--84502e9b"/>
           <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--e656a167"/>
@@ -828,3 +828,4 @@
     <boNotes/>
   </document>
 </org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>
+

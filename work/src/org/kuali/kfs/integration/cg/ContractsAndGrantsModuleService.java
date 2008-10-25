@@ -18,14 +18,14 @@ package org.kuali.kfs.integration.cg;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 public interface ContractsAndGrantsModuleService {
     public String getAwardWorkgroupForAccount(String chartOfAccountsCode, String accountNumber);
 
-    public UniversalUser getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
+    public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
 
-    public UniversalUser getProjectDirectorForAccount(Account account);
+    public Person getProjectDirectorForAccount(Account account);
 
     /**
      * determine if the given account is awarded by a federal agency
@@ -53,3 +53,4 @@ public interface ContractsAndGrantsModuleService {
      */
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
 }
+

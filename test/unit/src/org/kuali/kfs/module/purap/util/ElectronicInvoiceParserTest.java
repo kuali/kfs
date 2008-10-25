@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,7 +47,7 @@ import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.kfs.sys.suite.RelatesTo.JiraIssue;
 
-@ConfigureContext(session = PARKE, shouldCommitTransactions=false)
+@ConfigureContext(session = parke, shouldCommitTransactions=false)
 public class ElectronicInvoiceParserTest extends KualiTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceParserTest.class);
@@ -284,3 +284,4 @@ public class ElectronicInvoiceParserTest extends KualiTestBase {
         
     }
 }
+

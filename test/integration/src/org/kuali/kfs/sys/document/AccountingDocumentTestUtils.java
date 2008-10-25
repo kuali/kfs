@@ -395,7 +395,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     public static void approve(String docHeaderId, UserNameFixture user, String expectedNode, DocumentService documentService) throws Exception {
-        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getFinancialSystemUser());
+        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getPerson());
         Document document = documentService.getByDocumentHeaderId(docHeaderId);
         assertTrue("Document should be at routing node " + expectedNode, WorkflowTestUtils.isAtNode(document, expectedNode));
         assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
@@ -426,3 +426,4 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         }
     }
 }
+

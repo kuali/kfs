@@ -24,7 +24,7 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 
 public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
@@ -32,16 +32,16 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
 
     private static final String FILE_NAME_PREFIX = "customer_load";
     private static final String FILE_NAME_DELIM = "_";
-    private static final String DEFAULT_USERNAME = "KULUSER";
+    private static final String DEFAULT_USERNAME = "kuluser";
     
     private DateTimeService dateTimeService;
     private CustomerLoadService customerLoadService;
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.Object, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
      */
-    public String getFileName(UniversalUser user, Object parsedFileContents, String fileUserIdentifer) {
+    public String getFileName(Person user, Object parsedFileContents, String fileUserIdentifer) {
         
         //  start with the batch-job-prefix
         StringBuilder fileName = new StringBuilder(FILE_NAME_PREFIX);
@@ -49,8 +49,8 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
         //  add the logged-in user name if there is one, otherwise use a sensible default
         String userName = DEFAULT_USERNAME;
         if (user != null) {
-            if (StringUtils.isNotBlank(user.getPersonUserIdentifier())) {
-                userName = user.getPersonUserIdentifier().toLowerCase();
+            if (StringUtils.isNotBlank(user.getPrincipalName())) {
+                userName = user.getPrincipalName().toLowerCase();
             }
         }
         fileName.append(FILE_NAME_DELIM + userName);
@@ -104,9 +104,9 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kns.bo.user.UniversalUser, java.io.File)
+     * @see org.kuali.kfs.sys.batch.BatchInputType#checkAuthorization(org.kuali.rice.kim.bo.Person, java.io.File)
      */
-    public boolean checkAuthorization(UniversalUser user, File batchFile) {
+    public boolean checkAuthorization(Person user, File batchFile) {
         return customerLoadService.checkAuthorization(user, batchFile);
     }
 
@@ -136,3 +136,4 @@ public class CustomerLoadInputFileType extends BatchInputFileTypeBase {
     }
 
 }
+

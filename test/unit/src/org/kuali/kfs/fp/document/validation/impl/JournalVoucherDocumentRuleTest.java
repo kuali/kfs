@@ -36,7 +36,7 @@ import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE9;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.SOURCE_LINE;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY;
 import static org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture.EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.DocumentTypeService;
 
-@ConfigureContext(session = DFOGLE)
+@ConfigureContext(session = dfogle)
 public class JournalVoucherDocumentRuleTest extends KualiTestBase {
 
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
@@ -334,3 +334,4 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         return result;
     }
 }
+

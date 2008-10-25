@@ -59,7 +59,7 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
         if (lookupResults == null) {
             lookupResults = new LookupResults();
             lookupResults.setLookupResultsSequenceNumber(glcpSearchResuiltsSequenceNumber);
-            lookupResults.setLookupUniversalUserId(GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier());
+            lookupResults.setLookupPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         }
         lookupResults.setLookupDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         lookupResults.setSerializedLookupResults(serializedOriginEntries);
@@ -108,3 +108,4 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
         this.businessObjectService = businessObjectService;
     }
 }
+

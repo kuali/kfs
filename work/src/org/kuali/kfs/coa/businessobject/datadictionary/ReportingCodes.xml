@@ -23,8 +23,8 @@
         <ref bean="ReportingCodes-financialReportingCode" />
         <ref bean="ReportingCodes-financialReportingCodeDescription" />
         <ref bean="ReportingCodes-financialReportingCodeMgrId" />
-        <ref bean="ReportingCodes-universalUser.personUserIdentifier" />
-        <ref bean="ReportingCodes-universalUser.personName" />
+        <ref bean="ReportingCodes-person.principalName" />
+        <ref bean="ReportingCodes-person.name" />
         <ref bean="ReportingCodes-financialReportsToReportingCode" />
         <ref bean="ReportingCodes-active" />
       </list>
@@ -32,23 +32,23 @@
     <property name="relationships" >
       <list>
         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="universalUser" />
+          <property name="objectAttributeName" value="person" />
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="financialReportingCodeMgrId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="universalUser.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="person.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="universalUser.personName"
-                    p:targetName="personName" />
+                    p:sourceName="person.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -124,24 +124,24 @@
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="ReportingCodes-universalUser.personUserIdentifier" parent="ReportingCodes-universalUser.personUserIdentifier-parentBean" />
+  <bean id="ReportingCodes-person.principalName" parent="ReportingCodes-person.principalName-parentBean" />
 
-  <bean id="ReportingCodes-universalUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="universalUser.personUserIdentifier" />
+  <bean id="ReportingCodes-person.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="person.principalName" />
     <property name="label" value="Financial Reporting Code Manager UserID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="universalUser.personName"
+            p:personNameAttributeName="person.name"
             p:universalIdAttributeName="financialReportingCodeMgrId"
-            p:userIdAttributeName="universalUser.personUserIdentifier" />
+            p:userIdAttributeName="person.principalName" />
     </property>
   </bean>
-  <bean id="ReportingCodes-universalUser.personName" parent="ReportingCodes-universalUser.personName-parentBean" />
+  <bean id="ReportingCodes-person.name" parent="ReportingCodes-person.name-parentBean" />
 
-  <bean id="ReportingCodes-universalUser.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="universalUser.personName" />
+  <bean id="ReportingCodes-person.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="person.name" />
     <property name="label" value="Financial Reporting Code Manager Name" />
     <property name="required" value="false" />
   </bean>
@@ -181,7 +181,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="financialReportingCodeDescription" />
               <bean parent="FieldDefinition"
-                    p:attributeName="universalUser.personName" />
+                    p:attributeName="person.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="financialReportsToReportingCode" />
               <bean parent="FieldDefinition"
@@ -233,7 +233,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialReportingCodeDescription" />
         <bean parent="FieldDefinition"
-              p:attributeName="universalUser.personName" />
+              p:attributeName="person.name" />
         <bean parent="FieldDefinition"
               p:attributeName="financialReportsToReportingCode" />
         <bean parent="FieldDefinition"
@@ -242,3 +242,4 @@
     </property>
   </bean>
 </beans>
+

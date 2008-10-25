@@ -130,16 +130,16 @@ public class CreditMemoForm extends AccountsPayableFormBase {
                 addExtraButton("methodToCall.clearInitFields", externalImageURL + "buttonsmall_clear.gif", "Clear");
             }
             else {
-                if (SpringContext.getBean(CreditMemoService.class).canHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
+                if (SpringContext.getBean(CreditMemoService.class).canHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getPerson())) {
                     addExtraButton("methodToCall.addHoldOnCreditMemo", appExternalImageURL + "buttonsmall_hold.gif", "Hold");
                 }
-                else if (SpringContext.getBean(CreditMemoService.class).canRemoveHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getFinancialSystemUser())) {
+                else if (SpringContext.getBean(CreditMemoService.class).canRemoveHoldCreditMemo(cmDocument, GlobalVariables.getUserSession().getPerson())) {
                     addExtraButton("methodToCall.removeHoldFromCreditMemo", appExternalImageURL + "buttonsmall_removehold.gif", "Remove");
                 }
 
                 // add the calculate button
                 String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-                boolean isApUser = GlobalVariables.getUserSession().getFinancialSystemUser().isMember(apGroup);
+                boolean isApUser = GlobalVariables.getUserSession().getPerson().isMember(apGroup);
                 if ( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false && isApUser ) {
                     addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
                 }
@@ -173,3 +173,4 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         return adHocActionRequestCodes;
     }
 }
+

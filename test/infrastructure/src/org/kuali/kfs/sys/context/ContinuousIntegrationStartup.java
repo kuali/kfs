@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.context;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.suite.TestSuiteBuilder;
  * This class preps for the tests to run
  */
 @TestSuiteBuilder.Exclude
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class ContinuousIntegrationStartup extends KualiTestBase {
 
     @Override
@@ -40,3 +40,4 @@ public class ContinuousIntegrationStartup extends KualiTestBase {
     public void testNothing() throws Exception {
     }
 }
+

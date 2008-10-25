@@ -36,7 +36,7 @@
     <kfs:documentOverview editingMode="${KualiForm.editingMode}" />
     <cams:viewAssetDetails defaultTabHide="false" /> 
 
-	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalIdentifier,document.borrowerUniversalUser.personUserIdentifier,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
+	<kul:tab tabTitle="Equipment Loan" defaultOpen="true" tabErrorKey="document.borrowerUniversalIdentifier,document.borrowerPerson.principalName,document.loanDate,document.expectedReturnDate,document.loanReturnDate"> 
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
 	      	<tr>
@@ -46,17 +46,17 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.borrowerUniversalIdentifier}" /></th>
 		      	<td class="grid" width="25%">
 		      	
-		      	<!-- kul:checkErrors keyMatch="document.borrowerUniversalUser.personUserIdentifier" / -->
+		      	<!-- kul:checkErrors keyMatch="document.borrowerPerson.principalName" / -->
 		      	
-				<kul:user userIdFieldName="document.borrowerUniversalUser.personUserIdentifier" 
-					      userId="${KualiForm.document.borrowerUniversalUser.personUserIdentifier}" 
+				<kul:user userIdFieldName="document.borrowerPerson.principalName" 
+					      userId="${KualiForm.document.borrowerPerson.principalName}" 
 				          universalIdFieldName="document.borrowerUniversalIdentifier" 
 					      universalId="${KualiForm.document.borrowerUniversalIdentifier}" 
-				          userNameFieldName="document.borrowerUniversalUser.personName" label="User" 
-					      userName="${KualiForm.document.borrowerUniversalUser.personName}"
+				          userNameFieldName="document.borrowerPerson.name" label="User" 
+					      userName="${KualiForm.document.borrowerPerson.name}"
  						  renderOtherFields="true"						  
- 						  lookupParameters="document.borrowerUniversalUser.personUserIdentifier:personUserIdentifier" 
-						  fieldConversions="personUserIdentifier:document.borrowerUniversalUser.personUserIdentifier,personUniversalIdentifier:document.borrowerUniversalIdentifier,personName:document.borrowerUniversalUser.personName" 
+ 						  lookupParameters="document.borrowerPerson.principalName:principalName" 
+						  fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,personName:document.borrowerPerson.name" 
 						  hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.loanDate}" readOnly="true"/></th>
@@ -182,3 +182,4 @@
     <kfs:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>
+

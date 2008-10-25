@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -64,7 +64,7 @@ public class Budget extends PersistableBusinessObjectBase {
     private Agency budgetAgency;
     private Agency federalPassThroughAgency;
     private ProjectDirector projectDirector;
-    private UniversalUser universalUser;
+    private Person person;
     private BudgetModular modularBudget;
     private List tasks;
     private List periods;
@@ -935,11 +935,12 @@ public class Budget extends PersistableBusinessObjectBase {
         return this.getBudgetIndirectCostLookups().get(index);
     }
 
-    public UniversalUser getUniversalUser() {
-        return universalUser;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUniversalUser(UniversalUser universalUser) {
-        this.universalUser = universalUser;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
+

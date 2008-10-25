@@ -32,14 +32,14 @@
 		<th width="35%" class="bord-l-b">
 			<div align="right">
 				<kul:htmlAttributeLabel 
-					attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
+					attributeEntry="${DataDictionary.PersonImpl.attributes.personPayrollIdentifier}"
 					labelFor="emplid" forceRequired="true" useShortLabel="false" />
 			</div>
 		</th>
 			
 		<td class="datacell-nowrap">
 			<kfs:employee userIdFieldName="emplid" 
-                forceRequired="true" userNameFieldName="personName" 
+                forceRequired="true" userNameFieldName="name" 
                 fieldConversions="personPayrollIdentifier:emplid"
                 lookupParameters="emplid:personPayrollIdentifier"
                 readOnly="${readOnly}" />
@@ -102,3 +102,4 @@
 	</tr>
 	</c:if>	
 </table>
+

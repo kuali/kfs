@@ -45,8 +45,9 @@ public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
                 newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
             }
             else if ( payeeIdTypeCd.equals(PdpConstants.PayeeIdTypeCodes.VENDOR_ID) ) {
-                newPayeeAchAccount.setPersonUniversalIdentifier(null);
+                newPayeeAchAccount.setPrincipalId(null);
             }
         }
     }
 }
+

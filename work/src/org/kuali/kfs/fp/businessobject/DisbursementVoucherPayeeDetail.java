@@ -36,7 +36,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private String documentNumber;
     private String disbVchrPaymentReasonCode;
 
-    // Payee ID Number will correspond to the UniversalUser.personUniversalIdentifier or 
+    // Payee ID Number will correspond to the Person.principalId or 
     // VendorHeader.vendorHeaderGeneratedIdentifier and VendorDetail.vendorDetailAssignedIdentifier,
     // depending on the type of payee that was selected (ie. Employee or Vendor)
     private String disbVchrPayeeIdNumber;
@@ -252,7 +252,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      /**
       * 
       * This method...
-      * @param disbVchrUniversalUserIdNumber
+      * @param disbVchrPersonIdNumber
       */
      public void setDisbVchrEmployeeIdNumber(String disbVchrEmployeeIdNumber) {
          // This field should only be set if the payee type is "E", otherwise, ignore any calls
@@ -815,3 +815,4 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
 }
+

@@ -25,10 +25,10 @@ import org.kuali.kfs.coa.businessobject.Delegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.spring.Cached;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -76,24 +76,24 @@ public class AccountServiceImpl implements AccountService {
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)
      */
-    public List getAccountsThatUserIsResponsibleFor(UniversalUser universalUser) {
+    public List getAccountsThatUserIsResponsibleFor(Person person) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieving accountsResponsible list for user " + universalUser.getPersonName());
+            LOG.debug("retrieving accountsResponsible list for user " + person.getName());
         }
 
         // gets the list of accounts that the user is the Fiscal Officer of
-        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(universalUser);
+        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(person);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved accountsResponsible list for user " + universalUser.getPersonName());
+            LOG.debug("retrieved accountsResponsible list for user " + person.getName());
         }
         return accountList;
     }
 
     /**
-     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.rice.kns.bo.user.UniversalUser,
+     * @see org.kuali.kfs.coa.service.AccountService#hasResponsibilityOnAccount(org.kuali.rice.kim.bo.Person,
      *      org.kuali.kfs.coa.businessobject.Account)
      */
-    public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account) {
+    public boolean hasResponsibilityOnAccount(Person kualiUser, Account account) {
         return accountDao.determineUserResponsibilityOnAccount(kualiUser, account);
     }
 
@@ -132,7 +132,7 @@ public class AccountServiceImpl implements AccountService {
     /**
      * @see org.kuali.kfs.coa.service.AccountService#accountIsAccessible(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.module.chart.bo.ChartUser)
      */
-    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, FinancialSystemUser user) {
+    public boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine, Person user) {
         LOG.debug("accountIsAccessible(AccountingDocument, AccountingLine) - start");
 
         boolean isAccessible = false;
@@ -148,14 +148,14 @@ public class AccountServiceImpl implements AccountService {
                 String accountNumber = accountingLine.getAccountNumber();
 
                 // if a document is enroute, user can only refer to for accounts for which they are responsible
-                isAccessible = user.isResponsibleForAccount(chartCode, accountNumber);
+                isAccessible = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).isResponsibleForAccount(user.getPrincipalId(), chartCode, accountNumber);
             }
             else {
                 if (workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal() || workflowDocument.stateIsDisapproved()) {
                     isAccessible = false;
                 }
                 else {
-                    if (workflowDocument.stateIsException() && user.isWorkflowExceptionUser()) {
+                    if (workflowDocument.stateIsException() && org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().isMemberOfGroup(user, "KFS", org.kuali.rice.kns.service.KNSServiceLocator.getKualiConfigurationService().getParameterValue(org.kuali.rice.kns.util.KNSConstants.KNS_NAMESPACE, org.kuali.rice.kns.util.KNSConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, org.kuali.rice.kns.util.KNSConstants.CoreApcParms.WORKFLOW_EXCEPTION_WORKGROUP))) {
                         isAccessible = true;
                     }
                 }
@@ -174,3 +174,4 @@ public class AccountServiceImpl implements AccountService {
     }
 
 }
+

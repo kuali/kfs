@@ -20,9 +20,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -110,7 +110,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private AssetCondition condition;
     private AssetStatus inventoryStatus;
     private List<AssetPayment> assetPayments;
-    private UniversalUser assetRepresentative;
+    private Person assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
     private List<AssetRepairHistory> assetRepairHistory;
@@ -1642,8 +1642,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * 
      * @return Returns the assetRepresentative.
      */
-    public UniversalUser getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+    public Person getAssetRepresentative() {
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -1653,7 +1653,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @deprecated
      * @param assetRepresentative The assetRepresentative to set.
      */
-    public void setAssetRepresentative(UniversalUser assetRepresentative) {
+    public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
 
@@ -1937,3 +1937,4 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
 }
+

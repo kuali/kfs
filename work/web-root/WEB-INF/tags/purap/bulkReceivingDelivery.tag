@@ -138,7 +138,7 @@
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
 	                    	property="document.deliveryToName" readOnly="${not (fullEntryMode)}"/>
 	                    <c:if test="${fullEntryMode}">
-	                        <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" 
+	                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
 	                        	fieldConversions="personName:document.deliveryToName,personEmailAddress:document.deliveryToEmailAddress,personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
 	                    </c:if>
 	                </td>
@@ -267,7 +267,7 @@
                 	<td align=left valign=middle class="datacell">
 	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode)}" />
 	                    <c:if test="${(fullEntryMode)}" >
-	                        <kul:lookup boClassName="org.kuali.rice.kns.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" />
+	                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" />
 	                    </c:if>
                 	</td>
                 	<th align=right valign=middle class="bord-l-b" rowspan="4">
@@ -298,3 +298,4 @@
         </table>
 	</div>
 </kul:tab>
+

@@ -25,7 +25,7 @@
         <ref bean="BudgetConstructionAccountSummary-incomeExpenseCode" />
         <ref bean="BudgetConstructionAccountSummary-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionAccountSummary-organizationCode" />
-        <ref bean="BudgetConstructionAccountSummary-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionAccountSummary-principalId" />
         <ref bean="BudgetConstructionAccountSummary-subAccountNumber" />
         <ref bean="BudgetConstructionAccountSummary-subFundGroupCode" />
         <ref bean="BudgetConstructionAccountSummary-subFundSortCode" />
@@ -180,10 +180,10 @@
     <property name="summary" value="organizationCode" />
     <property name="description" value="organizationCode description..." />
   </bean>
-  <bean id="BudgetConstructionAccountSummary-personUniversalIdentifier" parent="BudgetConstructionAccountSummary-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionAccountSummary-principalId" parent="BudgetConstructionAccountSummary-principalId-parentBean" />
 
-  <bean id="BudgetConstructionAccountSummary-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionAccountSummary-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -195,8 +195,8 @@
       <bean parent="TextControlDefinition"
             p:size="12" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionAccountSummary-subAccountNumber" parent="BudgetConstructionAccountSummary-subAccountNumber-parentBean" />
 
@@ -284,7 +284,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="subAccountNumber" />
               <bean parent="FieldDefinition"
@@ -329,7 +329,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
@@ -357,7 +357,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
         <bean parent="FieldDefinition"
               p:attributeName="subAccountNumber" />
         <bean parent="FieldDefinition"
@@ -368,3 +368,4 @@
     </property>
   </bean>
 </beans>
+

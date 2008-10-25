@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.bc.document.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.HSOUCY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.hsoucy;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.List;
 
@@ -59,14 +59,14 @@ public class PermissionServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        orgs = permissionService.getOrgReview(KHUNTLEY.getUniversalUser());
+        orgs = permissionService.getOrgReview(khuntley.getPerson());
         assertEquals("Number of BC Approval Organizations returned is incorrect.", 1, orgs.size());
         if (orgs.size() == 1) {
             assertEquals("IU", orgs.get(0).getChartOfAccountsCode());
             assertEquals("UNIV", orgs.get(0).getOrganizationCode());
         }
         orgs = null;
-        orgs = permissionService.getOrgReview(HSOUCY.getUniversalUser());
+        orgs = permissionService.getOrgReview(hsoucy.getPerson());
         assertEquals("Number of BC Approval Organizations returned is incorrect.", 2, orgs.size());
 
     }
@@ -84,9 +84,10 @@ public class PermissionServiceTest extends KualiTestBase {
         if (!runTests())
             return;
 
-        assertTrue(permissionService.isOrgReviewApprover("IU", "UNIV", KHUNTLEY.getUniversalUser()));
-        assertFalse(permissionService.isOrgReviewApprover("BL", "BL", KHUNTLEY.getUniversalUser()));
-        assertTrue(permissionService.isOrgReviewApprover("BL", "PSY", DFOGLE.getUniversalUser()));
+        assertTrue(permissionService.isOrgReviewApprover("IU", "UNIV", khuntley.getPerson()));
+        assertFalse(permissionService.isOrgReviewApprover("BL", "BL", khuntley.getPerson()));
+        assertTrue(permissionService.isOrgReviewApprover("BL", "PSY", dfogle.getPerson()));
 
     }
 }
+

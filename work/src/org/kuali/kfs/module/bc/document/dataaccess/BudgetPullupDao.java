@@ -23,12 +23,12 @@ public interface BudgetPullupDao {
     /**
      * This method initializes the root of the subtree in the temp table for the user
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @param chartOfAccountsCode
      * @param organizationCode
      * @param currentLevel
      */
-    public void initPointOfView(String personUserIdentifier, String chartOfAccountsCode, String organizationCode, int currentLevel);
+    public void initPointOfView(String principalName, String chartOfAccountsCode, String organizationCode, int currentLevel);
 
     /**
      * This method fills out the subtree for the root node already found in the temp table for the user.
@@ -36,9 +36,10 @@ public interface BudgetPullupDao {
      * The report flag field is used to keep track of the levels of the organizations during the build process.
      * The report flag field is reset to zero at the end
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @param previousLevel
      */
-    public void insertChildOrgs(String personUserIdentifier, int previousLevel);
+    public void insertChildOrgs(String principalName, int previousLevel);
 
 }
+

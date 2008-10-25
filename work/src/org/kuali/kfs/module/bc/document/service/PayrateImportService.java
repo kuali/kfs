@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 import com.lowagie.text.DocumentException;
 
@@ -32,12 +32,12 @@ public interface PayrateImportService {
      * @param fileImportStream
      * @return
      */
-    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier);
+    public boolean importFile(InputStream fileImportStream, List<ExternalizedMessageWrapper> messageList, String principalId);
     
     /**
      * Processes all payrate holding records
      */
-    public void update(Integer budgetYear, UniversalUser user, List<ExternalizedMessageWrapper> messageList, String personUniversalIdentifier);
+    public void update(Integer budgetYear, Person user, List<ExternalizedMessageWrapper> messageList, String principalId);
     
     /**
      * Generates the log file
@@ -49,3 +49,4 @@ public interface PayrateImportService {
     public void generatePdf(List<ExternalizedMessageWrapper> logMessages, ByteArrayOutputStream baos) throws DocumentException;
     
 }
+

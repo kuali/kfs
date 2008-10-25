@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kew.exception.WorkflowException;
 
@@ -30,7 +30,7 @@ public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransac
         org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentAuthorizer.class);
 
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = 
             super.getDocumentActionFlags(document, user);
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
@@ -53,3 +53,4 @@ public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransac
     }
 
 }
+

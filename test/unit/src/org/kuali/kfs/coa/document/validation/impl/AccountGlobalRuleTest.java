@@ -119,8 +119,8 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
 
         private class UserIds {
             private static final String SUPER1 = "HEAGLE";
-            private static final String GOOD1 = "KCOPLEY";
-            private static final String GOOD2 = "KHUNTLEY";
+            private static final String GOOD1 = "kcopley";
+            private static final String GOOD2 = "khuntley";
         }
     }
 
@@ -159,3 +159,4 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
         assertGlobalErrorMapEmpty();
     }
 }
+

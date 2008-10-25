@@ -43,7 +43,7 @@ import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
 import org.kuali.kfs.sys.document.workflow.OrgReviewRoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.kfs.sys.document.workflow.RoutingGuid;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kns.exception.IllegalObjectStateException;
 import org.kuali.rice.kns.service.PersistenceService;
@@ -439,12 +439,12 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
         if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
             if (!this.getBudget().isProjectDirectorToBeNamedIndicator()) {
                 xml.append("<projectDirector>");
-                xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
+                xml.append(projectDirector.getUser().getPrincipalId());
                 xml.append("</projectDirector>");
             }
             xml.append(openRoutingInfoXml());
             if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
-                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
+                xml.append(buildRoutingDataXmlForOrg(projectDirector.getFiscalCampusCode(), (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode()) ? org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART).getOrganizationCode() : projectDirector.getPrimaryDepartmentCode())));
             }
         }
         xml.append(closeRoutingInfoXml());
@@ -522,7 +522,7 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
                 String chartOfAccountsCode = person.getFiscalCampusCode();
                 String organizationCode;
                 if (StringUtils.isBlank(person.getPrimaryDepartmentCode())) {
-                    organizationCode = SpringContext.getBean(FinancialSystemUserService.class).getOrganizationByModuleId(person.getUser(),KFSConstants.Modules.CHART).getOrganizationCode();
+                    organizationCode = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(person.getUser(),KFSConstants.Modules.CHART).getOrganizationCode();
                 }
                 else {
                     organizationCode = person.getPrimaryDepartmentCode();
@@ -553,3 +553,4 @@ public class BudgetDocument extends ResearchDocumentBase implements GenericRouti
     }
 
 }
+

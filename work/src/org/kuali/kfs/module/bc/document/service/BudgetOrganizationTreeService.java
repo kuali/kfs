@@ -27,52 +27,53 @@ public interface BudgetOrganizationTreeService {
      * This method populates BudgetConstructionPullup with rows that represent the subtree of the passed in point of view
      * organization for a user. All organizations reporting to the point of view are inserted.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @param chartOfAccountsCode
      * @param organizationCode
      */
-    public void buildPullup(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
+    public void buildPullup(String principalName, String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method populates BudgetConstructionPullup with rows that represent the subtree of the passed in point of view
      * organization for a user. All organizations reporting to the point of view are inserted.
      * This uses raw SQL
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @param chartOfAccountsCode
      * @param organizationCode
      */
-    public void buildPullupSql(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
+    public void buildPullupSql(String principalName, String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method depopulates BudgetConstructionPullup of any rows associated with the user
      * 
-     * @param personUserIdentifier
+     * @param principalName
      */
-    public void cleanPullup(String personUserIdentifier);
+    public void cleanPullup(String principalName);
 
     /**
      * This method returns a list of child organizations for the passed in organization and user
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return
      */
-    public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
+    public List getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method resets the pullflag for the BudgetConstructionPullup set of records owned by the user
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      */
-    public void resetPullFlag(String personUniversalIdentifier);
+    public void resetPullFlag(String principalId);
 
     /**
      * This method returns a list of selected BudgetConstructionPullup rows for the user.
      * 
-     * @param personUniversalIdentifier
+     * @param principalId
      * @return
      */
-    public List getSelectedOrgs(String personUniversalIdentifier);
+    public List getSelectedOrgs(String principalId);
 }
+

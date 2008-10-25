@@ -33,9 +33,9 @@ import org.kuali.kfs.sys.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -110,9 +110,9 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Account contractControlAccount;
     private Account incomeStreamAccount;
     private Account indirectCostRecoveryAcct;
-    private UniversalUser accountFiscalOfficerUser;
-    private UniversalUser accountSupervisoryUser;
-    private UniversalUser accountManagerUser;
+    private Person accountFiscalOfficerUser;
+    private Person accountSupervisoryUser;
+    private Person accountManagerUser;
     private PostalCode postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
@@ -990,8 +990,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
     }
 
-    public UniversalUser getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+    public Person getAccountFiscalOfficerUser() {
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -1000,12 +1000,12 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
-    public void setAccountFiscalOfficerUser(UniversalUser accountFiscalOfficerUser) {
+    public void setAccountFiscalOfficerUser(Person accountFiscalOfficerUser) {
         this.accountFiscalOfficerUser = accountFiscalOfficerUser;
     }
 
-    public UniversalUser getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+    public Person getAccountManagerUser() {
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -1013,13 +1013,13 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param accountManagerUser The accountManagerUser to set.
      * @deprecated
      */
-    public void setAccountManagerUser(UniversalUser accountManagerUser) {
+    public void setAccountManagerUser(Person accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
     }
 
 
-    public UniversalUser getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+    public Person getAccountSupervisoryUser() {
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -1028,7 +1028,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
      */
-    public void setAccountSupervisoryUser(UniversalUser accountSupervisoryUser) {
+    public void setAccountSupervisoryUser(Person accountSupervisoryUser) {
         this.accountSupervisoryUser = accountSupervisoryUser;
     }
 
@@ -1654,3 +1654,4 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         return forContractsAndGrants;
     }
 }
+

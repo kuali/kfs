@@ -50,22 +50,22 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullup(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public void buildPullup(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
-        cleanPullup(personUserIdentifier);
+    public void buildPullup(String principalName, String chartOfAccountsCode, String organizationCode) {
+        cleanPullup(principalName);
         BudgetConstructionOrganizationReports bcOrgRpts = budgetConstructionOrganizationReportsService.getByPrimaryId(chartOfAccountsCode, organizationCode);
         if (bcOrgRpts != null) {
             if (bcOrgRpts.getOrganization().isActive()) {
                 curLevel = 0;
-                buildSubTree(personUserIdentifier, bcOrgRpts, curLevel);
+                buildSubTree(principalName, bcOrgRpts, curLevel);
             }
         }
     }
 
-    private void buildSubTree(String personUserIdentifier, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
+    private void buildSubTree(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
         BudgetConstructionPullup bcPullup = new BudgetConstructionPullup();
-        bcPullup.setPersonUniversalIdentifier(personUserIdentifier);
+        bcPullup.setPrincipalId(principalName);
         bcPullup.setChartOfAccountsCode(bcOrgRpts.getChartOfAccountsCode());
         bcPullup.setOrganizationCode(bcOrgRpts.getOrganizationCode());
         bcPullup.setReportsToChartOfAccountsCode(bcOrgRpts.getReportsToChartOfAccountsCode());
@@ -79,7 +79,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
             if (childOrgs.size() > 0) {
                 for (Iterator iter = childOrgs.iterator(); iter.hasNext();) {
                     BudgetConstructionOrganizationReports bcOrg = (BudgetConstructionOrganizationReports) iter.next();
-                    buildSubTree(personUserIdentifier, bcOrg, curLevel);
+                    buildSubTree(principalName, bcOrg, curLevel);
                 }
             }
         }
@@ -91,32 +91,32 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void buildPullupSql(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
-        cleanPullup(personUserIdentifier);
+    public void buildPullupSql(String principalName, String chartOfAccountsCode, String organizationCode) {
+        cleanPullup(principalName);
         BudgetConstructionOrganizationReports bcOrgRpts = budgetConstructionOrganizationReportsService.getByPrimaryId(chartOfAccountsCode, organizationCode);
         if (bcOrgRpts != null) {
             if (bcOrgRpts.getOrganization().isActive()) {
                 curLevel = 0;
-                buildSubTreeSql(personUserIdentifier, bcOrgRpts, curLevel);
+                buildSubTreeSql(principalName, bcOrgRpts, curLevel);
             }
         }
     }
 
-    private void buildSubTreeSql(String personUserIdentifier, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
+    private void buildSubTreeSql(String principalName, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
 
         curLevel++;
         //TODO remove refs to OBJ_ID in these called methods before implementing any calls using this method
-        budgetPullupDao.initPointOfView(personUserIdentifier, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
-        budgetPullupDao.insertChildOrgs(personUserIdentifier, curLevel);
+        budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
+        budgetPullupDao.insertChildOrgs(principalName, curLevel);
         
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#cleanPullup(java.lang.String)
      */
-    public void cleanPullup(String personUserIdentifier) {
+    public void cleanPullup(String principalName) {
 
-        budgetConstructionDao.deleteBudgetConstructionPullupByUserId(personUserIdentifier);
+        budgetConstructionDao.deleteBudgetConstructionPullupByUserId(principalName);
 
     }
 
@@ -124,10 +124,10 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getPullupChildOrgs(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
+    public List getPullupChildOrgs(String principalId, String chartOfAccountsCode, String organizationCode) {
 
-        if (StringUtils.isBlank(personUniversalIdentifier)) {
-            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        if (StringUtils.isBlank(principalId)) {
+            throw new IllegalArgumentException("String parameter principalId was null or blank.");
         }
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
@@ -136,18 +136,18 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
             throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
         }
 
-        return budgetConstructionDao.getBudgetConstructionPullupChildOrgs(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
+        return budgetConstructionDao.getBudgetConstructionPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#resetPullFlag(java.lang.String)
      */
-    public void resetPullFlag(String personUniversalIdentifier) {
+    public void resetPullFlag(String principalId) {
 
-        if (StringUtils.isBlank(personUniversalIdentifier)) {
-            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        if (StringUtils.isBlank(principalId)) {
+            throw new IllegalArgumentException("String parameter principalId was null or blank.");
         }
-        List<BudgetConstructionPullup> results = budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(personUniversalIdentifier);
+        List<BudgetConstructionPullup> results = budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(principalId);
         if (!results.isEmpty()) {
             for (BudgetConstructionPullup selOrg : results) {
                 selOrg.setPullFlag(OrgSelControlOption.NO.getKey());
@@ -160,12 +160,12 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService#getSelectedOrgs(java.lang.String)
      */
-    public List getSelectedOrgs(String personUniversalIdentifier) {
+    public List getSelectedOrgs(String principalId) {
 
-        if (StringUtils.isBlank(personUniversalIdentifier)) {
-            throw new IllegalArgumentException("String parameter personUniversalIdentifier was null or blank.");
+        if (StringUtils.isBlank(principalId)) {
+            throw new IllegalArgumentException("String parameter principalId was null or blank.");
         }
-        return budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(personUniversalIdentifier);
+        return budgetConstructionDao.getBudgetConstructionPullupFlagSetByUserId(principalId);
     }
 
     /**
@@ -239,3 +239,4 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     }
 
 }
+

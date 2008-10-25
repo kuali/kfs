@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -41,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @RelatesTo(JiraIssue.KFSMI838)
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class CloseServiceTest extends KualiTestBase {
 
     private static final String VALID_AWARD_STATUS_CODE = "R";
@@ -454,3 +454,4 @@ public class CloseServiceTest extends KualiTestBase {
         }
     }
 }
+

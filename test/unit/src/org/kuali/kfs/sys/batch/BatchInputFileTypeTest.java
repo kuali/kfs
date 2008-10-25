@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.batch;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorInputFileType;
@@ -67,8 +67,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_pcdo() throws Exception {
         Object parsedContents = new ArrayList();
-        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        Person createUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
+        Person nonCreateUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
 
         String saveFileName = pcdoBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
@@ -82,8 +82,8 @@ public class BatchInputFileTypeTest extends KualiTestBase {
      */
     public final void testCheckAuthorization_collector() throws Exception {
         Object parsedContents = new CollectorBatch();
-        UniversalUser createUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
-        UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
+        Person createUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
+        Person nonCreateUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
 
         String saveFileName = collectorBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
@@ -93,3 +93,4 @@ public class BatchInputFileTypeTest extends KualiTestBase {
     }
 
 }
+

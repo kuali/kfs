@@ -41,7 +41,7 @@ import org.kuali.kfs.pdp.service.impl.exception.MissingDisbursementRangeExceptio
 import org.kuali.kfs.pdp.service.impl.exception.NoBankForCustomerException;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -71,7 +71,7 @@ public class FormatAction extends KualiAction {
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         FormatForm formatForm = (FormatForm) form;
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
         FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
@@ -130,7 +130,7 @@ public class FormatAction extends KualiAction {
         }
 
         Date paymentDate = formatForm.getPaymentDate();
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
         List<FormatResult> results = formatService.startFormatProcess(kualiUser, formatForm.getCampus(), selectedCustomers, paymentDate, formatForm.getPaymentTypes());
         if (results.size() == 0) {
@@ -245,3 +245,4 @@ public class FormatAction extends KualiAction {
 
     }
 }
+

@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.PARKE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.kuali.kfs.module.purap.fixture.ItemAccountsFixture;
 import org.kuali.kfs.module.purap.fixture.ItemTypesFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderDocumentRule rule;
@@ -52,19 +52,19 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     /*
      * Tests of validateEmptyItemWithAccounts
      */
-    @ConfigureContext(session = PARKE)
+    @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_NullItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.NULL_ITEM_WITH_ACCOUNT.populateItem();
         assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
 
-    @ConfigureContext(session = PARKE)
+    @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_WithItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_WITH_ACCOUNT.populateItem();
         assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
 
-    @ConfigureContext(session = PARKE)
+    @ConfigureContext(session = parke)
     public void testValidateEmptyItemWithAccounts_WithItemWithoutAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_NULL_ACCOUNT.populateItem();
         assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
@@ -132,3 +132,4 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rule.validateSplit(po));
     }
 }
+

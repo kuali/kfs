@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ld.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 
 /**
@@ -29,10 +29,10 @@ public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthor
      * Override to disallow copy and error correction.
      * 
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         flags.setCanCopy(false);
         flags.setCanErrorCorrect(false);
@@ -40,3 +40,4 @@ public class LaborExpenseDocumentAuthorizerBase extends AccountingDocumentAuthor
         return flags;
     }
 }
+

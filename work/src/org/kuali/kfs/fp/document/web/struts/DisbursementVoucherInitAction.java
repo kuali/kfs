@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -131,8 +131,8 @@ public class DisbursementVoucherInitAction extends KualiAction {
         if (VendorDetail.class.getName().equals(boClassName) && dvForm.isEmployee()) {
             String conversionFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
 
-            fullParameter = StringUtils.replace(fullParameter, boClassName, UniversalUser.class.getName());
-            fullParameter = StringUtils.replace(fullParameter, conversionFields, "personUniversalIdentifier:payeeIdNumber,personName:payeePersonName");
+            fullParameter = StringUtils.replace(fullParameter, boClassName, Person.class.getName());
+            fullParameter = StringUtils.replace(fullParameter, conversionFields, "principalId:payeeIdNumber,personName:payeePersonName");
             request.setAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
         }
 
@@ -240,3 +240,4 @@ public class DisbursementVoucherInitAction extends KualiAction {
     }
         
 }
+

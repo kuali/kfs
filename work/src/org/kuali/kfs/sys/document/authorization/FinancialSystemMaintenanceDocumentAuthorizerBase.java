@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.authorization;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 
@@ -31,11 +31,11 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
     /**
      * Adds settings for KFS maintenance-document-specific flags.
      * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        LOG.debug("calling FinancialSystemMaintenanceDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
+        LOG.debug("calling FinancialSystemMaintenanceDocumentAuthorizerBase.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
         FinancialSystemDocumentActionFlags flags =  new FinancialSystemDocumentActionFlags(super.getDocumentActionFlags(document, user));
 
         // if document implements AmountTotaling interface, then we should display the total
@@ -50,3 +50,4 @@ public class FinancialSystemMaintenanceDocumentAuthorizerBase extends Maintenanc
     }
 
 }
+

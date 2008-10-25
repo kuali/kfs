@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -42,7 +42,7 @@ public class ServiceBillingDocumentRuleUtil {
      * @return Whether the current user is authorized to use the given account in the service billing income section.
      */
     public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action) {
-        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getFinancialSystemUser());
+        return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getPerson());
     }
 
     /**
@@ -53,7 +53,7 @@ public class ServiceBillingDocumentRuleUtil {
      * @param user The user for whom to check accessibility.
      * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
-    public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action, UniversalUser user) {
+    public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action, Person user) {
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
@@ -74,7 +74,7 @@ public class ServiceBillingDocumentRuleUtil {
         }
         else {
             if (action != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), control.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(action), accountingLine.getAccountNumber(), user.getPrincipalName(), control.getWorkgroupName());
             }
             return false;
         }
@@ -124,3 +124,4 @@ public class ServiceBillingDocumentRuleUtil {
         }
     }
 }
+

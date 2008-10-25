@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizer;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
@@ -141,7 +141,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      */
     @Override
     protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person kualiUser = GlobalVariables.getUserSession().getPerson();
 
         AccountingDocument financialDocument = (AccountingDocument) getDocument();
         AccountingDocumentAuthorizer financialDocumentAuthorizer = (AccountingDocumentAuthorizer) documentAuthorizer;
@@ -655,7 +655,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      */
     public void refreshEditableAccounts() {
         AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(this.getDocument());
-        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), GlobalVariables.getUserSession().getFinancialSystemUser()));
+        this.setEditableAccounts(authorizer.getEditableAccounts(glomBaselineAccountingLines(), GlobalVariables.getUserSession().getPerson()));
     }
 
     /**
@@ -717,3 +717,4 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     }
 
 }
+

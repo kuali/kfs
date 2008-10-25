@@ -187,7 +187,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         //set the last update user id 
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase)apForm.getDocument();
-        document.setLastActionPerformedByUniversalUserId( GlobalVariables.getUserSession().getFinancialSystemUser().getPersonUniversalIdentifier() );
+        document.setLastActionPerformedByPersonId( GlobalVariables.getUserSession().getPerson().getPrincipalId() );
         
         // if form is not yet calculated, return and prompt user to calculate
         if (requiresCaculate(apForm)) {
@@ -471,7 +471,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                             // need to run a super user cancel since person canceling may not have an action requested on the
                             // document
                             GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                            documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                            documentService.superUserDisapproveDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
                         }
                         finally {
                             GlobalVariables.setUserSession(originalUserSession);
@@ -486,7 +486,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     try {
                         // need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
-                        documentService.superUserCancelDocument(document, "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");
+                        documentService.superUserCancelDocument(document, "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
                     }
                     finally {
                         GlobalVariables.setUserSession(originalUserSession);
@@ -514,3 +514,4 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
 }
+

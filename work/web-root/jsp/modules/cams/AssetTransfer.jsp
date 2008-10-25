@@ -158,7 +158,7 @@
 	</kul:tab>
 
 	<!-- Organization Information -->
-	<kul:tab tabTitle="Organization Information" defaultOpen="true" tabErrorKey="document.assetRepresentative.personUserIdentifier" > 
+	<kul:tab tabTitle="Organization Information" defaultOpen="true" tabErrorKey="document.assetRepresentative.principalName" > 
 		<div class="tab-container" align="center">
 		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">			
 			<tr>
@@ -172,14 +172,14 @@
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.representativeUniversalIdentifier}" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetRepresentative.personName" attributeEntry="${assetTransferAttributes.representativeUniversalIdentifier}" readOnly="true"/></td>
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.asset.assetRepresentative.name" attributeEntry="${assetTransferAttributes.representativeUniversalIdentifier}" readOnly="true"/></td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.representativeUniversalIdentifier}" /></th>
 				<td class="grid" width="25%">
-					<kul:checkErrors keyMatch="document.assetRepresentative.personUserIdentifier" />
-					<kul:user userIdFieldName="document.assetRepresentative.personUserIdentifier" universalIdFieldName="document.representativeUniversalIdentifier" userNameFieldName="document.assetRepresentative.personName" label="User" 
-					lookupParameters="document.assetRepresentative.personUserIdentifier:personUserIdentifier,document.representativeUniversalIdentifier:personUniversalIdentifier,document.assetRepresentative.personName:personName" 
-					fieldConversions="personUserIdentifier:document.assetRepresentative.personUserIdentifier,personUniversalIdentifier:document.representativeUniversalIdentifier,personName:document.assetRepresentative.personName" 
-					userId="${KualiForm.document.assetRepresentative.personUserIdentifier}" universalId="${KualiForm.document.representativeUniversalIdentifier}" userName="${KualiForm.document.assetRepresentative.personName}" 
+					<kul:checkErrors keyMatch="document.assetRepresentative.principalName" />
+					<kul:user userIdFieldName="document.assetRepresentative.principalName" universalIdFieldName="document.representativeUniversalIdentifier" userNameFieldName="document.assetRepresentative.name" label="User" 
+					lookupParameters="document.assetRepresentative.principalName:principalName,document.representativeUniversalIdentifier:principalId,document.assetRepresentative.name:personName" 
+					fieldConversions="principalName:document.assetRepresentative.principalName,principalId:document.representativeUniversalIdentifier,personName:document.assetRepresentative.name" 
+					userId="${KualiForm.document.assetRepresentative.principalName}" universalId="${KualiForm.document.representativeUniversalIdentifier}" userName="${KualiForm.document.assetRepresentative.name}" 
 					renderOtherFields="true" hasErrors="${hasErrors}" readOnly="${readOnly}"/>
 				</td>
 			</tr>

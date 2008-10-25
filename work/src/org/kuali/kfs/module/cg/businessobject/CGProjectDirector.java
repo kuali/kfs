@@ -23,18 +23,18 @@ package org.kuali.kfs.module.cg.businessobject;
 public interface CGProjectDirector {
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier();
+    public String getPrincipalId();
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier);
+    public void setPrincipalId(String principalId);
 
     /**
      * Gets the proposalNumber attribute.
@@ -61,8 +61,9 @@ public interface CGProjectDirector {
      * Sets the projectDirector.
      * 
      * @param projectDirector the projectDirector to set
-     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     * @deprecated required by PersonServiceImpl.isPersonProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
      */
     public void setProjectDirector(ProjectDirector projectDirector);
 
 }
+

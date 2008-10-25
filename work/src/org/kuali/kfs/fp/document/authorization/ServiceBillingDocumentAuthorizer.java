@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
@@ -46,7 +46,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * 
      * @see FinancialDocumentAuthorizer#userOwnsAnyAccountingLine(KualiUser, List)
      */
-    protected boolean userOwnsAnyAccountingLine(UniversalUser user, List accountingLines) {
+    protected boolean userOwnsAnyAccountingLine(Person user, List accountingLines) {
         return false;
     }
 
@@ -56,7 +56,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.rice.kns.authorization.TransactionalDocumentAuthorizer#getEditableAccounts(org.kuali.rice.kns.document.TransactionalDocument,
      *      KualiUser)
      */
-    public Map getEditableAccounts(TransactionalDocument document, UniversalUser user) {
+    public Map getEditableAccounts(TransactionalDocument document, Person user) {
         return new HashMap();
     }
 
@@ -67,7 +67,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
-    public Map getEditableAccounts(List<AccountingLine> lines, UniversalUser user) {
+    public Map getEditableAccounts(List<AccountingLine> lines, Person user) {
         return new HashMap();
     }
 
@@ -78,7 +78,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * 
      * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public void canInitiate(String documentTypeName, UniversalUser user) {
+    public void canInitiate(String documentTypeName, Person user) {
         boolean canInitiate = false;
         ServiceBillingControl[] controls = SpringContext.getBean(ServiceBillingControlService.class).getAll();
         for (int i = 0; i < controls.length; i++) {
@@ -88,7 +88,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
         }
         if (!canInitiate) {
             // TODO: Give better message listing the required control workgroup names using DocumentInitiationAuthorizationException
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
         }
     }
 
@@ -101,7 +101,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         boolean canUseAllIncomeSectionAccountsBool = false;
         if (flags.getCanErrorCorrect() || flags.getCanCopy()) {
@@ -122,7 +122,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @param user
      * @return whether the given user is allowed to use all of the accounts in the given SB doc's income accounting lines section
      */
-    private static boolean canUseAllIncomeSectionAccounts(ServiceBillingDocument serviceBillingDocument, UniversalUser user) {
+    private static boolean canUseAllIncomeSectionAccounts(ServiceBillingDocument serviceBillingDocument, Person user) {
         for (SourceAccountingLine sourceAccountingLine : ((List<SourceAccountingLine>) serviceBillingDocument.getSourceAccountingLines())) {
             if (!ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(sourceAccountingLine, null, user)) {
                 return false;
@@ -131,3 +131,4 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
         return true;
     }
 }
+

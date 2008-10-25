@@ -23,17 +23,13 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.KualiGroup;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -86,7 +82,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     private String awardCommentText;
     private String awardPurposeCode;
     private boolean active;
-    private String kualiGroupNames;
+    private String kimGroupNames;
     private List<AwardProjectDirector> awardProjectDirectors;
     private List<AwardAccount> awardAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
@@ -99,7 +95,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     private Agency agency;
     private Agency federalPassThroughAgency;
     private ProposalPurpose awardPurpose;
-    private KualiGroup workgroup;
+    private KimGroup workgroup;
     private AwardOrganization primaryAwardOrganization;
     private String routingOrg;
     private String routingChart;
@@ -198,7 +194,7 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
                 awardDirector.setProposalNumber(pDirector.getProposalNumber());
                 awardDirector.setAwardPrimaryProjectDirectorIndicator(pDirector.isProposalPrimaryProjectDirectorIndicator());
                 awardDirector.setAwardProjectDirectorProjectTitle(pDirector.getProposalProjectDirectorProjectTitle());
-                awardDirector.setPersonUniversalIdentifier(pDirector.getPersonUniversalIdentifier());
+                awardDirector.setPrincipalId(pDirector.getPrincipalId());
                 awardDirector.setActive(pDirector.isActive());
                 getAwardProjectDirectors().add(awardDirector);
             }
@@ -1075,25 +1071,20 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
     /**
-     * Returns a KualiGroup object whose name is defined by workgroupName.
+     * Returns a KimGroup object whose name is defined by workgroupName.
      * 
-     * @return KualiGroup defined by workgroupName
+     * @return KimGroup defined by workgroupName
      */
-    public KualiGroup getWorkgroup() {
-        try {
-            return SpringContext.getBean(KualiGroupService.class).getByGroupName(workgroupName);
-        }
-        catch (GroupNotFoundException e) {
-            return null;
-        }
+    public KimGroup getWorkgroup() {
+        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", workgroupName);
     }
 
     /**
      * Sets the local workgroupName attribute to the name of the passed in workgroup object.
      * 
-     * @param workgroup KualiGroup object to use to set the local workgroupName attribute.
+     * @param workgroup KimGroup object to use to set the local workgroupName attribute.
      */
-    public void setWorkgroup(KualiGroup workgroup) {
+    public void setWorkgroup(KimGroup workgroup) {
         this.workgroupName = workgroup.getGroupName();
     }
 
@@ -1131,30 +1122,29 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
      * 
      * @return String representation of the users assigned to the associated workgroup.
      */
-    public String getKualiGroupNames() {
+    public String getKimGroupNames() {
         StringBuffer names = new StringBuffer(20);
 
-        KualiGroup finSysWorkgroup = getWorkgroup();
+        KimGroup finSysWorkgroup = getWorkgroup();
 
         if (finSysWorkgroup == null) {
             return "";
         }
         else {
-            List<String> users = finSysWorkgroup.getGroupUsers();
-            if (users.isEmpty()) {
+            List<String> principalIds = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupMemberPrincipalIds(workgroup.getGroupId());
+            if (principalIds.isEmpty()) {
                 names.append("Workgroup user list is empty");
             }
             else {
                 int i = 0;
-                for (String userName : users) {
-                    try {
-                        UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(userName);
-                        names.append(user.getPersonName());
+                for (String id : principalIds) {
+                    Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(id);
+                    if (user != null) {
+                        names.append(user.getName());
+                    } else { 
+                        names.append("No User Found (principal id: " + id + ")");
                     }
-                    catch (UserNotFoundException unfe) {
-                        names.append("No User Name Found (" + userName + ")");
-                    }
-                    if (users.size() > 1) {
+                    if (principalIds.size() > 1) {
                         names.append("; ");
                     }
                     i++;
@@ -1162,19 +1152,20 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
             }
         }
 
-        kualiGroupNames = names.toString();
 
-        return kualiGroupNames;
+        kimGroupNames = names.toString();
+
+        return kimGroupNames;
     }
 
     /**
-     * Simple method that simply sets the kualiGroupNames attribute by calling the getter, which performs all the necessary parsing
+     * Simple method that simply sets the kimGroupNames attribute by calling the getter, which performs all the necessary parsing
      * to retrieve the names.
      * 
-     * @param kualiGroupNames Value to be assigned to the kualiGroupNames attribute. This value is never actually set.
+     * @param kimGroupNames Value to be assigned to the kimGroupNames attribute. This value is never actually set.
      */
-    public void setKualiGroupNames(String kualiGroupNames) {
-        this.kualiGroupNames = getKualiGroupNames();
+    public void setKimGroupNames(String kimGroupNames) {
+        this.kimGroupNames = getKimGroupNames();
     }
 
     /**
@@ -1237,3 +1228,4 @@ public class Award extends PersistableBusinessObjectBase implements AlternateOrg
     }
 
 }
+

@@ -344,7 +344,7 @@ if (knownCustomers.containsKey(customerNumber)) {
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getUniversalUser().isMember(displayWorkgroup)) {
+            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getPerson().isMember(displayWorkgroup)) {
                 // try {
                 // fieldVal = encryptionService.encrypt(fieldVal);
                 // }
@@ -455,7 +455,7 @@ if (knownCustomers.containsKey(customerNumber)) {
                 col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
 
                 // check security on field and do masking if necessary
-                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+                boolean viewAuthorized = getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getPerson(), element.getClass().getName(), col.getPropertyName());
                 if (!viewAuthorized) {
                     Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
                     propValue = displayMask.maskValue(propValue);
@@ -642,3 +642,4 @@ if (knownCustomers.containsKey(customerNumber)) {
 
 
 }
+

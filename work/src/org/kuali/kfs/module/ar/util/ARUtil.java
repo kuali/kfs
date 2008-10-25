@@ -16,10 +16,7 @@
 package org.kuali.kfs.module.ar.util;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
+import org.kuali.rice.kim.bo.Person;
 
 public class ARUtil {
     
@@ -28,16 +25,9 @@ public class ARUtil {
      * @param user
      * @return true is user is AR supervisor, false otherwise
      */
-    public static boolean isUserInArSupervisorGroup(UniversalUser user) {
-        boolean retVal = false;
-        try {
-            retVal = SpringContext.getBean(KualiGroupService.class).getByGroupName(ArConstants.AR_SUPERVISOR_GROUP_NAME).hasMember(user);
-        }
-        catch (GroupNotFoundException gnfe) {
-
-        }
-
-        return retVal;
+    public static boolean isUserInArSupervisorGroup(Person user) {
+        return org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", ArConstants.AR_SUPERVISOR_GROUP_NAME).getGroupId());
     }
 
 }
+

@@ -36,7 +36,7 @@ import org.kuali.rice.kew.dto.RuleExtensionDTO;
 import org.kuali.rice.kew.dto.RuleReportCriteriaDTO;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,23 +64,23 @@ public class PermissionServiceImpl implements PermissionService {
     private static final String ORG_REVIEW_RULE_ORG_CODE_NAME = "org_cd";
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrgReview(org.kuali.rice.kim.bo.Person)
      */
-    public List<Org> getOrgReview(UniversalUser universalUser) throws Exception {
-        return this.getOrgReview(universalUser.getPersonUserIdentifier());
+    public List<Org> getOrgReview(Person person) throws Exception {
+        return this.getOrgReview(person.getPrincipalName());
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(java.lang.String, java.lang.String,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, UniversalUser universalUser) throws Exception {
+    public boolean isOrgReviewApprover(String chartOfAccountsCode, String organizationCode, Person person) throws Exception {
 
         RuleExtensionDTO ruleExtensionDTO = new RuleExtensionDTO(ORG_REVIEW_RULE_CHART_CODE_NAME, chartOfAccountsCode);
         RuleExtensionDTO ruleExtensionVO2 = new RuleExtensionDTO(ORG_REVIEW_RULE_ORG_CODE_NAME, organizationCode);
         RuleExtensionDTO[] ruleExtensionVOs = new RuleExtensionDTO[] { ruleExtensionDTO, ruleExtensionVO2 };
 
-        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(universalUser.getPersonUserIdentifier());
+        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(person.getPrincipalName());
         ruleReportCriteria.setRuleExtensionVOs(ruleExtensionVOs);
 
         RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
@@ -90,14 +90,14 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isOrgReviewApprover(org.kuali.kfs.coa.businessobject.Org,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isOrgReviewApprover(Org organzation, UniversalUser universalUser) {
+    public boolean isOrgReviewApprover(Org organzation, Person person) {
         try {
-            return this.isOrgReviewApprover(organzation.getChartOfAccountsCode(), organzation.getOrganizationCode(), universalUser);
+            return this.isOrgReviewApprover(organzation.getChartOfAccountsCode(), organzation.getOrganizationCode(), person);
         }
         catch (Exception e) {
-            String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", universalUser, organzation);
+            String errorMessage = String.format("Fail to determine if %s is an approver for %s. ", person, organzation);
             LOG.info(errorMessage + e);
         }
 
@@ -105,16 +105,16 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#getOrganizationReviewHierachy(org.kuali.rice.kim.bo.Person)
      */
-    public List<Org> getOrganizationReviewHierachy(UniversalUser universalUser) {
+    public List<Org> getOrganizationReviewHierachy(Person person) {
         List<Org> organazationReview = null;
 
         try {
-            organazationReview = this.getOrgReview(universalUser);
+            organazationReview = this.getOrgReview(person);
         }
         catch (Exception e) {
-            String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", universalUser);
+            String errorMessage = String.format("Fail to get organazation review hierachy for %s. ", person);
             LOG.info(errorMessage + e);
             e.printStackTrace();
         }
@@ -124,23 +124,23 @@ public class PermissionServiceImpl implements PermissionService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountManagerOrDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isAccountManagerOrDelegate(Account account, UniversalUser universalUser) {
-        boolean isAccountManager = StringUtils.equals(universalUser.getPersonUniversalIdentifier(), account.getAccountFiscalOfficerSystemIdentifier());
+    public boolean isAccountManagerOrDelegate(Account account, Person person) {
+        boolean isAccountManager = StringUtils.equals(person.getPrincipalId(), account.getAccountFiscalOfficerSystemIdentifier());
 
-        return isAccountManager || this.isAccountDelegate(account, universalUser);
+        return isAccountManager || this.isAccountDelegate(account, person);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.PermissionService#isAccountDelegate(org.kuali.kfs.coa.businessobject.Account,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isAccountDelegate(Account account, UniversalUser universalUser) {
+    public boolean isAccountDelegate(Account account, Person person) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, universalUser.getPersonUniversalIdentifier());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_SYSTEM_ID, person.getPrincipalId());
         fieldValues.put(KFSPropertyConstants.ACCOUNT_DELEGATE_ACTIVE_INDICATOR, Boolean.TRUE);
 
         fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
@@ -155,16 +155,16 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isRootApprover(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.module.bc.document.service.PermissionService#isRootApprover(org.kuali.rice.kim.bo.Person)
      */
-    public boolean isRootApprover(UniversalUser universalUser) {
+    public boolean isRootApprover(Person person) {
 
         String[] rootNode = organizationService.getRootOrganizationCode();
         String rootChart = rootNode[0];
         String rootOrganization = rootNode[1];
         boolean isRootOrgApprover;
         try {
-            isRootOrgApprover = this.isOrgReviewApprover(rootChart, rootOrganization, universalUser);
+            isRootOrgApprover = this.isOrgReviewApprover(rootChart, rootOrganization, person);
 
         }
         catch (Exception e) {
@@ -176,13 +176,13 @@ public class PermissionServiceImpl implements PermissionService {
     /**
      * collect the list of organizations where the user is a BC document approver
      * 
-     * @param personUserIdentifier the specified person user identifier
+     * @param principalName the specified person user identifier
      * @return the list of organizations where the user is a BC document approver
      */
-    private List<Org> getOrgReview(String personUserIdentifier) throws Exception {
+    private List<Org> getOrgReview(String principalName) throws Exception {
         List<Org> orgReview = new ArrayList<Org>();
 
-        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(personUserIdentifier);
+        RuleReportCriteriaDTO ruleReportCriteria = this.getRuleReportCriteriaForBudgetDocument(principalName);
         RuleDTO[] rules = new WorkflowInfo().ruleReport(ruleReportCriteria);
 
         for (RuleDTO ruleDTO : rules) {
@@ -212,15 +212,15 @@ public class PermissionServiceImpl implements PermissionService {
     /**
      * get the rule report criteria for budget construction document with the specified user
      * 
-     * @param personUserIdentifier the specified user
+     * @param principalName the specified user
      * @return the rule report criteria for budget construction document with the specified user
      */
-    private RuleReportCriteriaDTO getRuleReportCriteriaForBudgetDocument(String personUserIdentifier) {
+    private RuleReportCriteriaDTO getRuleReportCriteriaForBudgetDocument(String principalName) {
         RuleReportCriteriaDTO ruleReportCriteria = new RuleReportCriteriaDTO();
 
         ruleReportCriteria.setDocumentTypeName(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
         ruleReportCriteria.setRuleTemplateName(BudgetConstructionConstants.ORG_REVIEW_RULE_TEMPLATE);
-        ruleReportCriteria.setResponsibleUser(new NetworkIdDTO(personUserIdentifier));
+        ruleReportCriteria.setResponsibleUser(new NetworkIdDTO(principalName));
         ruleReportCriteria.setIncludeDelegations(Boolean.FALSE);
         ruleReportCriteria.setActionRequestCodes(new String[] { KEWConstants.ACTION_REQUEST_APPROVE_REQ });
 
@@ -245,3 +245,4 @@ public class PermissionServiceImpl implements PermissionService {
         this.businessObjectService = businessObjectService;
     }
 }
+

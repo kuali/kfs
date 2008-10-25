@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.suite.CrossSectionSuite;
  * Test class for testing <code>{@link AccountingLineParserBase}</code>
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class AccountingLineParserBaseTest extends KualiTestBase {
 
     private AccountingDocument accountingDocument;
@@ -258,3 +258,4 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
     // assertEquals(expected.toString(), result.toString());
     // }
 }
+

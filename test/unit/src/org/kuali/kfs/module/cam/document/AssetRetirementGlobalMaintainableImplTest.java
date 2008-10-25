@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,8 +41,8 @@ import org.kuali.kfs.sys.document.workflow.RoutingAccount;
 import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-@ConfigureContext(session = KHUNTLEY)
-//@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+@ConfigureContext(session = khuntley)
+//@ConfigureContext(session = khuntley, shouldCommitTransactions = true)
 public class AssetRetirementGlobalMaintainableImplTest extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AssetRetirementGlobalMaintainableImplTest.class);
 
@@ -171,3 +171,4 @@ public class AssetRetirementGlobalMaintainableImplTest extends KualiTestBase {
         }
     }
 }
+

@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
@@ -228,7 +228,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         if (customerCreditMemoDocuments.isEmpty())
             return success;
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
             try {
@@ -271,7 +271,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         if (customerInvoiceWriteoffDocuments.isEmpty())
             return success;
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         
         for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
             try {
@@ -290,3 +290,4 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         return success;  
     }    
 }
+

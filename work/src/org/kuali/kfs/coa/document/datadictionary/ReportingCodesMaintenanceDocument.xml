@@ -23,8 +23,8 @@
               p:attributeName="org"
               p:attributeToHighlightOnFail="organizationCode" />
         <bean parent="ReferenceDefinition"
-              p:attributeName="universalUser"
-              p:attributeToHighlightOnFail="universalUser.personUserIdentifier" />
+              p:attributeName="person"
+              p:attributeToHighlightOnFail="person.principalName" />
       </list>
     </property>
     <property name="lockingKeys" >
@@ -89,10 +89,10 @@
               p:readOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universalUser.personUserIdentifier"
+              p:name="person.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="universalUser.personName"
+              p:name="person.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="financialReportsToReportingCode"
@@ -112,3 +112,4 @@
   <bean id="ReportingCodesMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

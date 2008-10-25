@@ -49,7 +49,7 @@ import org.kuali.kfs.sys.exception.XMLParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -175,10 +175,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kns.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#save(org.kuali.rice.kim.bo.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String, java.io.InputStream)
      */
-    public String save(UniversalUser user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
+    public String save(Person user, BatchInputFileType batchInputFileType, String fileUserIdentifier, InputStream fileContents, Object parsedObject) throws AuthorizationException, FileStorageException {
         if (user == null || batchInputFileType == null || fileContents == null) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
@@ -190,8 +190,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         }
         // check user is authorized to upload a file for the batch type
         if (!isUserAuthorizedForBatchType(batchInputFileType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to upload a file of batch type " + batchInputFileType.getFileTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "upload", batchInputFileType.getFileTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to upload a file of batch type " + batchInputFileType.getFileTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "upload", batchInputFileType.getFileTypeIdentifer());
         }
 
         // defer to batch input type to add any security or other needed information to the file name
@@ -250,10 +250,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#delete(org.kuali.rice.kns.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#delete(org.kuali.rice.kim.bo.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
-    public boolean delete(UniversalUser user, BatchInputFileType batchInputFileType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
+    public boolean delete(Person user, BatchInputFileType batchInputFileType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
         if (user == null || batchInputFileType == null || StringUtils.isBlank(deleteFileNameWithNoPath)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
@@ -261,8 +261,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         // check user is authorized to delete a file for the batch type
         if (!this.isUserAuthorizedForBatchType(batchInputFileType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to delete a file of batch type " + batchInputFileType.getFileTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "delete", batchInputFileType.getFileTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to delete a file of batch type " + batchInputFileType.getFileTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "delete", batchInputFileType.getFileTypeIdentifer());
         }
 
         File fileToDelete = retrieveFileToDownloadOrDelete(batchInputFileType, user, deleteFileNameWithNoPath);
@@ -299,7 +299,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @throws AuthorizationException
      * @throws FileNotFoundException
      */
-    protected boolean canDelete(UniversalUser user, BatchInputFileType inputType, File fileToDelete) {
+    protected boolean canDelete(Person user, BatchInputFileType inputType, File fileToDelete) {
         if (!inputType.checkAuthorization(user, fileToDelete)) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_DELETE_FAILED_NOT_AUTHORIZED);
             return false;
@@ -325,10 +325,10 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
     }
 
     /**
-     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#download(org.kuali.rice.kns.bo.user.UniversalUser,
+     * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#download(org.kuali.rice.kim.bo.Person,
      *      org.kuali.kfs.sys.batch.BatchInputFileType, java.lang.String)
      */
-    public File download(UniversalUser user, BatchInputFileType batchInputFileType, String downloadFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
+    public File download(Person user, BatchInputFileType batchInputFileType, String downloadFileNameWithNoPath) throws AuthorizationException, FileNotFoundException {
         if (user == null || batchInputFileType == null || StringUtils.isBlank(downloadFileNameWithNoPath)) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
@@ -336,8 +336,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         // check user is authorized to download a file for the batch type
         if (!this.isUserAuthorizedForBatchType(batchInputFileType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to download a file of batch type " + batchInputFileType.getFileTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "download", batchInputFileType.getFileTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to download a file of batch type " + batchInputFileType.getFileTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "download", batchInputFileType.getFileTypeIdentifer());
         }
 
         File fileToDownload = retrieveFileToDownloadOrDelete(batchInputFileType, user, downloadFileNameWithNoPath);
@@ -359,7 +359,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @return the File object, if a file exists in the directory specified by the batchInputFileType. null if no file can be found
      *         in the directory specified by batchInputFileType.
      */
-    protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, UniversalUser user, String fileName) {
+    protected File retrieveFileToDownloadOrDelete(BatchInputFileType batchInputFileType, Person user, String fileName) {
         // retrieve a list of files from the appropriate directory for the batch input file type for the user
         List<File> userFileList = listBatchTypeFilesForUserAsFiles(batchInputFileType, user);
 
@@ -414,9 +414,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
     /**
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#isUserAuthorizedForBatchType(org.kuali.kfs.sys.batch.BatchInputFileType,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, UniversalUser user) {
+    public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, Person user) {
         if (batchInputFileType == null || user == null) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
@@ -431,17 +431,17 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * implementation for finer grained security. If the method returns true, the filename is added to the user's list.
      * 
      * @see org.kuali.kfs.sys.batch.service.BatchInputFileService#listBatchTypeFilesForUser(org.kuali.kfs.sys.batch.BatchInputFileType,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
-    public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, UniversalUser user) throws AuthorizationException {
+    public List<String> listBatchTypeFilesForUser(BatchInputFileType batchInputFileType, Person user) throws AuthorizationException {
         if (batchInputFileType == null || user == null) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
         if (!this.isUserAuthorizedForBatchType(batchInputFileType, user)) {
-            LOG.error("User " + user.getPersonUserIdentifier() + " is not authorized to list a file of batch type " + batchInputFileType.getFileTypeIdentifer());
-            throw new AuthorizationException(user.getPersonUserIdentifier(), "list", batchInputFileType.getFileTypeIdentifer());
+            LOG.error("User " + user.getPrincipalName() + " is not authorized to list a file of batch type " + batchInputFileType.getFileTypeIdentifer());
+            throw new AuthorizationException(user.getPrincipalName(), "list", batchInputFileType.getFileTypeIdentifer());
         }
 
         File[] filesInBatchDirectory = listFilesInBatchTypeDirectory(batchInputFileType);
@@ -456,7 +456,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         return userFileNamesList;
     }
 
-    protected List<File> listBatchTypeFilesForUserAsFiles(BatchInputFileType batchInputFileType, UniversalUser user) throws AuthorizationException {
+    protected List<File> listBatchTypeFilesForUserAsFiles(BatchInputFileType batchInputFileType, Person user) throws AuthorizationException {
         File[] filesInBatchDirectory = listFilesInBatchTypeDirectory(batchInputFileType);
 
         List<File> userFileList = new ArrayList<File>();
@@ -571,3 +571,4 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
         return true;
     }
 }
+

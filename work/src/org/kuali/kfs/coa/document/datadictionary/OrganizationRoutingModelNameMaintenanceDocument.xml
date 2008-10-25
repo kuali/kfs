@@ -96,7 +96,7 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="accountDelegatePrimaryRoutingIndicator" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personUserIdentifier" />
+                    p:name="accountDelegate.principalName" />
             </list>
           </property>
           <property name="maintainableFields" >
@@ -115,10 +115,10 @@
               <bean parent="MaintainableFieldDefinition"
                     p:name="approvalToThisAmount" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personUserIdentifier"
+                    p:name="accountDelegate.principalName"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
-                    p:name="accountDelegate.personName"
+                    p:name="accountDelegate.name"
                     p:readOnly="true"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition"
@@ -134,7 +134,7 @@
           </property>
           <property name="duplicateIdentificationFields">
           	<list>
-          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.personUserIdentifier" />
+          		<bean parent="MaintainableFieldDefinition" p:name="accountDelegate.principalName" />
           		<bean parent="MaintainableFieldDefinition" p:name="financialDocumentTypeCode" />
           	</list>
           </property>
@@ -163,3 +163,4 @@
     </property>
   </bean>
 </beans>
+

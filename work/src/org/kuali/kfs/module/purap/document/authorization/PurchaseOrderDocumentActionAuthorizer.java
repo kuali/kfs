@@ -37,10 +37,9 @@ import org.kuali.kfs.module.purap.document.validation.impl.PurchaseOrderCloseDoc
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.group.KimGroup;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -72,7 +71,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      */
     public PurchaseOrderDocumentActionAuthorizer(PurchaseOrderDocument po, Map editingMode) {
 
-        UniversalUser user = GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         this.purchaseOrder = po;
         this.editMode = editingMode;
         
@@ -86,10 +85,10 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
 
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
 
-        try {
-            this.isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
-        }
-        catch (GroupNotFoundException gnfe) {
+        KimGroup group = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", authorizedWorkgroup);
+        if (group != null) {
+            this.isUserAuthorized = org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), group.getGroupId());
+        } else {
             this.isUserAuthorized = false;
         }
         
@@ -147,7 +146,7 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
      * @return boolean true if the print button can be displayed.
      */
     public boolean canFirstTransmitPrintPo() {
-        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getFinancialSystemUser());
+        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getPerson());
         // If the status is Pending Print and the user is either authorized
         // or an action is requested of them for the document transmission route node, return true to show the print po button.
         if (PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) && (isUserAuthorized || isDocumentTransmissionActionRequested)) {
@@ -383,3 +382,4 @@ public class PurchaseOrderDocumentActionAuthorizer extends PurchasingDocumentAct
 
 
 }
+

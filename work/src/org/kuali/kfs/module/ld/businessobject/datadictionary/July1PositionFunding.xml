@@ -25,7 +25,7 @@
         <ref bean="July1PositionFunding-financialObjectCode" />
         <ref bean="July1PositionFunding-financialSubObjectCode" />
         <ref bean="July1PositionFunding-emplid" />
-        <ref bean="July1PositionFunding-personName" />
+        <ref bean="July1PositionFunding-name" />
         <ref bean="July1PositionFunding-positionNumber" />
         <ref bean="July1PositionFunding-july1BudgetAmount" />
         <ref bean="July1PositionFunding-july1BudgetFteQuantity" />
@@ -67,12 +67,12 @@
   </bean>
   <bean id="July1PositionFunding-emplid" parent="July1PositionFunding-emplid-parentBean" />
 
-  <bean id="July1PositionFunding-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="July1PositionFunding-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
-  <bean id="July1PositionFunding-personName" parent="July1PositionFunding-personName-parentBean" />
+  <bean id="July1PositionFunding-name" parent="July1PositionFunding-name-parentBean" />
 
-  <bean id="July1PositionFunding-personName-parentBean" abstract="true" parent="UniversalUser-personName">
+  <bean id="July1PositionFunding-name-parentBean" abstract="true" parent="PersonImpl-name">
   </bean>
   <bean id="July1PositionFunding-positionNumber" parent="July1PositionFunding-positionNumber-parentBean" />
 
@@ -205,7 +205,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="financialSubObjectCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
@@ -220,3 +220,4 @@
     </property>
   </bean>
 </beans>
+

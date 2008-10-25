@@ -38,10 +38,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -53,7 +53,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     private Date accountsPayableApprovalDate;
-    private String lastActionPerformedByUniversalUserId;
+    private String lastActionPerformedByPersonId;
     private String accountsPayableProcessorIdentifier;
     private boolean holdIndicator;
     private Date extractedDate;
@@ -262,12 +262,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
     }
 
-    public String getLastActionPerformedByUniversalUserId() {
-        return lastActionPerformedByUniversalUserId;
+    public String getLastActionPerformedByPersonId() {
+        return lastActionPerformedByPersonId;
     }
 
-    public void setLastActionPerformedByUniversalUserId(String lastActionPerformedByUniversalUserId) {
-        this.lastActionPerformedByUniversalUserId = lastActionPerformedByUniversalUserId;
+    public void setLastActionPerformedByPersonId(String lastActionPerformedByPersonId) {
+        this.lastActionPerformedByPersonId = lastActionPerformedByPersonId;
     }
 
     public String getProcessingCampusCode() {
@@ -426,14 +426,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * Retrieves the universal user object for the last person to perform an action on the document.
      */
-    public UniversalUser getLastActionPerformedByUser() {
-        try {
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getLastActionPerformedByUniversalUserId());
-            return user;
-        }
-        catch (UserNotFoundException unfe) {
-            return null;
-        }
+    public Person getLastActionPerformedByUser() {
+    	return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(getLastActionPerformedByPersonId());
     }
 
     /**
@@ -442,12 +436,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @return - the person's name who last performed an action on the document.
      */
     public String getLastActionPerformedByPersonName() {
-        UniversalUser user = getLastActionPerformedByUser();
+        Person user = getLastActionPerformedByUser();
         if (ObjectUtils.isNull(user)) {
             return "";
         }
         else {
-            return user.getPersonName();
+            return user.getName();
         }
     }
 
@@ -587,3 +581,4 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
     
 }
+

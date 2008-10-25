@@ -62,12 +62,12 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -402,9 +402,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
-        UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getFinancialSystemUser();
+        Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
         this.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
-        this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
+        this.setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         this.setProcessingCampusCode(currentUser.getCampusCode());
         this.refreshNonUpdateableReferences();
     }
@@ -482,7 +482,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setAlternateVendorDetailAssignedIdentifier(po.getAlternateVendorDetailAssignedIdentifier());
         
         // populate preq vendor address with the default remit address type for the vendor if found
-        String userCampus = GlobalVariables.getUserSession().getFinancialSystemUser().getCampusCode();
+        String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
         VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
         if (vendorAddress != null) {
             this.templateVendorAddress(vendorAddress);
@@ -871,11 +871,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public String getAccountsPayableRequestCancelPersonName() {
         String personName = null;
-        try {
-            UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getAccountsPayableRequestCancelIdentifier());
-            personName = user.getPersonName();
-        }
-        catch (UserNotFoundException unfe) {
+        Person user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(getAccountsPayableRequestCancelIdentifier());
+        if (user != null) {
+            personName = user.getName();
+        } else {
             personName = "";
         }
 
@@ -1073,4 +1072,5 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return getInvoiceDate();
     }
 }
+
 

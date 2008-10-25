@@ -66,7 +66,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.service.KualiCodeService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -97,9 +97,9 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatProcessService#getDataForFormat(org.kuali.rice.kns.bo.user.UniversalUser)
+     * @see org.kuali.kfs.pdp.service.FormatProcessService#getDataForFormat(org.kuali.rice.kim.bo.Person)
      */
-    public FormatSelection getDataForFormat(UniversalUser user) {
+    public FormatSelection getDataForFormat(Person user) {
 
         String campusCode = user.getCampusCode();
         Date formatStartDate = getFormatProcessStartDate(campusCode);
@@ -139,9 +139,9 @@ public class FormatServiceImpl implements FormatService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kns.bo.user.UniversalUser, java.lang.String, java.util.List, java.util.Date, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.FormatService#startFormatProcess(org.kuali.rice.kim.bo.Person, java.lang.String, java.util.List, java.util.Date, java.lang.String)
      */
-    public List startFormatProcess(UniversalUser user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {
+    public List startFormatProcess(Person user, String campus, List<CustomerProfile> customers, Date paydate, String paymentTypes) {
         LOG.debug("startFormatProcess() started");
 
         for (CustomerProfile element : customers) {
@@ -835,3 +835,4 @@ public class FormatServiceImpl implements FormatService {
     }
 
 }
+

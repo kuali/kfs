@@ -957,8 +957,8 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>	
-		<property name="universalUserService">
-			<ref bean="universalUserService" />
+		<property name="personService">
+			<ref bean="personService" />
 		</property>	
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
@@ -1021,4 +1021,5 @@
 	-->
 			
 </beans>
+
 

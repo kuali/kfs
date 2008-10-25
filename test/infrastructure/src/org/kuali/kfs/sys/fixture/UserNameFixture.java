@@ -16,24 +16,25 @@
 package org.kuali.kfs.sys.fixture;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.UserNotFoundException;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.service.PersonService;
 
 public enum UserNameFixture {
 
     NO_SESSION, // This is not a user name. It is a Sentinal value telling KualiTestBase not to create a session. (It's needed
                 // because null is not a valid default for the ConfigureContext annotation's session element.)
-    KULUSER, // This is the KualiUser.SYSTEM_USER, which certain automated document type authorizers require.
-    KHUNTLEY, // KualiTestBaseWithSession used this one by default. (testUsername in configuration.properties, no longer used but
+    kuluser, // This is the KualiUser.SYSTEM_USER, which certain automated document type authorizers require.
+    khuntley, // KualiTestBaseWithSession used this one by default. (testUsername in configuration.properties, no longer used but
                 // cannot be removed because that file cannot be committed).
-    GHATTEN, STROUD, DFOGLE, RJWEISS, RORENFRO, HSCHREIN, HSOUCY, LRAAB, JHAVENS, KCOPLEY, MHKOZLOW, INEFF, VPUTMAN, CSWINSON, MYLARGE, RRUFFNER, SEASON, DQPERRON, AATWOOD, PARKE, APPLETON, TWATSON, BUTT, JKITCHEN ;
+    ghatten, stroud, dfogle, rjweiss, rorenfro, hschrein, hsoucy, lraab, jhavens, kcopley, mhkozlow, ineff, vputman, cswinson, mylarge, rruffner, season, dqperron, aatwood, parke, appleton, twatson, butt, jkitchen ;
 
     static {
-        // Assert.assertEquals(KualiUser.SYSTEM_USER, KULUSER.toString());
+        // Assert.assertEquals(KualiUser.SYSTEM_USER, kuluser.toString());
     }
 
-    public UniversalUser getUniversalUser() throws UserNotFoundException {
-        return SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(toString());
+    public Person getPerson() throws UserNotFoundException {
+        return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(toString());
     }
 }
+

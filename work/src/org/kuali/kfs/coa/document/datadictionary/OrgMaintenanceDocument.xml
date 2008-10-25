@@ -23,7 +23,7 @@
               p:attributeToHighlightOnFail="chartOfAccountsCode" />
         <bean parent="ReferenceDefinition"
               p:attributeName="organizationManagerUniversal"
-              p:attributeToHighlightOnFail="organizationManagerUniversal.personUserIdentifier" />
+              p:attributeToHighlightOnFail="organizationManagerUniversal.principalName" />
         <bean parent="ReferenceDefinition"
               p:attributeName="responsibilityCenter"
               p:activeIndicatorAttributeName="active"
@@ -107,10 +107,10 @@
               p:readOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationManagerUniversal.personUserIdentifier"
+              p:name="organizationManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationManagerUniversal.personName"
+              p:name="organizationManagerUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="responsibilityCenterCode"
@@ -211,17 +211,17 @@
               p:name="organizationExtension.hrmsPersonnelApproverUniversalId"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+              p:name="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.hrmsPersonnelApproverUniversal.personName"
+              p:name="organizationExtension.hrmsPersonnelApproverUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.fiscalApproverUniversalId"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+              p:name="organizationExtension.fiscalApproverUniversal.principalName" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="organizationExtension.fiscalApproverUniversal.personName"
+              p:name="organizationExtension.fiscalApproverUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="organizationExtension.hrmsLastUpdateDate"
@@ -250,3 +250,4 @@
     </property>
   </bean>
 </beans>
+

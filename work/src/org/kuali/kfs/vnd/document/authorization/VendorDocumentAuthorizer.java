@@ -35,7 +35,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorSupplierDiversity;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -55,10 +55,10 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * table, then we have to set the vendor type as readOnly field.
      * 
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
+    public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, Person user) {
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         VendorDetail vendor = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
         VendorDetail oldVendor = (VendorDetail) document.getOldMaintainableObject().getBusinessObject();
@@ -118,7 +118,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         Map editMode = new HashMap();
         if (!document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             editMode = super.getEditMode(document, user);
@@ -140,10 +140,10 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * Disables blanket approve for Vendor maintenance document
      * 
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemDocumentActionFlags docActionFlags = super.getDocumentActionFlags(document, user);
         docActionFlags.setCanBlanketApprove(false);
         return docActionFlags;
@@ -158,7 +158,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * @param user current logged-in user
      * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
      */
-    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user, String purchasingWorkgroup) {
+    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
         if (!user.isMember(purchasingWorkgroup)) {
             List<VendorContract> contracts = vendor.getVendorContracts();
             int i = 0;
@@ -204,7 +204,7 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
      * @param user current logged-in user
      * @param purchasingWorkgroup the String representation of purchasing workgroup which was obtained from ParameterService
      */
-    private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user, String purchasingWorkgroup) {
+    private void setVendorCommodityCodeFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, Person user, String purchasingWorkgroup) {
         //If the user is not in purchasing workgroup, we need to set the includeAddLine to false for vendorCommodities collection
         //and set the commodity default indicator and active indicator to be read only.
         if (!user.isMember(purchasingWorkgroup)) {
@@ -225,3 +225,4 @@ public class VendorDocumentAuthorizer extends FinancialSystemMaintenanceDocument
         }
     }
 }
+

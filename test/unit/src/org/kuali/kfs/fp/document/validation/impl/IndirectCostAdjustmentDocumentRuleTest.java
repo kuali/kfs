@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.KHUNTLEY;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.kfs.sys.service.IsDebitTestUtils.Amount.POSITIVE;
 
@@ -39,7 +39,7 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
  * implemented properly. When we get to building this document, we would need to extend AccountingDocumentRuleTestBase. For now it
  * contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  */
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = khuntley)
 public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
     // ////////////////////////////////////////////////////////////////////////
     // Test methods start here //
@@ -685,3 +685,4 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
      */
 }
+

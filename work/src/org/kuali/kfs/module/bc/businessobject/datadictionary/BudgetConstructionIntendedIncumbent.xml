@@ -20,7 +20,7 @@
         <ref bean="BudgetConstructionIntendedIncumbent-emplid" />
         <ref bean="BudgetConstructionIntendedIncumbent-grade" />
         <ref bean="BudgetConstructionIntendedIncumbent-iuClassificationLevel" />
-        <ref bean="BudgetConstructionIntendedIncumbent-personName" />
+        <ref bean="BudgetConstructionIntendedIncumbent-name" />
         <ref bean="BudgetConstructionIntendedIncumbent-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionIntendedIncumbent-setidSalary" />
         <ref bean="BudgetConstructionIntendedIncumbent-active" />
@@ -86,10 +86,10 @@
     <property name="summary" value="Classification Level" />
     <property name="description" value="Classification Level of the employee." />
   </bean>
-  <bean id="BudgetConstructionIntendedIncumbent-personName" parent="BudgetConstructionIntendedIncumbent-personName-parentBean" />
+  <bean id="BudgetConstructionIntendedIncumbent-name" parent="BudgetConstructionIntendedIncumbent-name-parentBean" />
 
-  <bean id="BudgetConstructionIntendedIncumbent-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="BudgetConstructionIntendedIncumbent-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
@@ -168,7 +168,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="iuClassificationLevel" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="salaryAdministrationPlan" />
               <bean parent="FieldDefinition"
@@ -199,7 +199,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="emplid" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="active" />
       </list>
@@ -213,7 +213,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="iuClassificationLevel" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="salaryAdministrationPlan" />
         <bean parent="FieldDefinition"
@@ -224,3 +224,4 @@
     </property>
   </bean>
 </beans>
+

@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -94,15 +94,15 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.rice.kns.bo.user.KualiUser)
      */
-    public List getChartsThatUserIsResponsibleFor(UniversalUser universalUser) {
+    public List getChartsThatUserIsResponsibleFor(Person person) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieving chartsResponsible list for user " + universalUser.getPersonName());
+            LOG.debug("retrieving chartsResponsible list for user " + person.getName());
         }
 
         // gets the list of accounts that the user is the Fiscal Officer of
-        List chartList = chartDao.getChartsThatUserIsResponsibleFor(universalUser);
+        List chartList = chartDao.getChartsThatUserIsResponsibleFor(person);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved chartsResponsible list for user " + universalUser.getPersonName());
+            LOG.debug("retrieved chartsResponsible list for user " + person.getName());
         }
         return chartList;
     }
@@ -122,3 +122,4 @@ public class ChartServiceImpl implements ChartService {
     }
 
 }
+

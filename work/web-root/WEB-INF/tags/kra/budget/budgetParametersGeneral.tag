@@ -50,26 +50,26 @@
   <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   
   <tr>
-    <th scope="row" ><div align="right"><label for="document.budget.projectDirector.universalUser.personUserIdentifier">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}</label>:</div></th>
+    <th scope="row" ><div align="right"><label for="document.budget.projectDirector.person.principalName">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}</label>:</div></th>
     <td>
     	<html:hidden property="document.budget.projectDirectorToBeNamedIndicator"/>
     	<html:hidden property="document.budget.budgetProjectDirectorUniversalIdentifier" /> 
-    	<html:hidden property="document.budget.projectDirector.universalUser.personName"/>
-      <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
-      <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
+    	<html:hidden property="document.budget.projectDirector.person.name"/>
+      <html:hidden property="document.budget.projectDirector.person.principalId"/>
+      <html:hidden property="document.budget.projectDirector.principalId"/>
       <c:if test="${!viewOnly}">
-        <html:text styleId="document.budget.projectDirector.universalUser.personUserIdentifier" property="document.budget.projectDirector.universalUser.personUserIdentifier" onblur="personIDLookup('document.budget.projectDirector.universalUser.personUserIdentifier')"/>
+        <html:text styleId="document.budget.projectDirector.person.principalName" property="document.budget.projectDirector.person.principalName" onblur="personIDLookup('document.budget.projectDirector.person.principalName')"/>
       	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
-	    	<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
+	    	<kul:lookup boClassName="org.kuali.kfs.module.cg.businessobject.ProjectDirector" fieldConversions="person.principalId:document.budget.budgetProjectDirectorUniversalIdentifier,person.name:document.budget.projectDirector.person.name," tabindexOverride="5000" extraButtonSource="${ConfigProperties.externalizable.images.url}buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="General" />
     	</c:if>
-          <div id="document.budget.projectDirector.universalUser.personName.div" >
-             <c:if test="${!empty KualiForm.document.budget.projectDirector.universalUser.personUserIdentifier}">
+          <div id="document.budget.projectDirector.person.name.div" >
+             <c:if test="${!empty KualiForm.document.budget.projectDirector.person.principalName}">
                  <c:choose>
-					<c:when test="${empty KualiForm.document.budget.projectDirector.universalUser.personName}">
+					<c:when test="${empty KualiForm.document.budget.projectDirector.person.name}">
 						<span style='color: red;'><c:out value="person not found" /> </span>
 					</c:when>
 					<c:otherwise>
-						<c:out value="${KualiForm.document.budget.projectDirector.universalUser.personName}" />
+						<c:out value="${KualiForm.document.budget.projectDirector.person.name}" />
 					</c:otherwise>
 				 </c:choose>                        
               </c:if>

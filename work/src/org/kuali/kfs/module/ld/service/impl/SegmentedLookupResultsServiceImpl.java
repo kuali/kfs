@@ -71,7 +71,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#persistResultsTable(java.lang.String, java.util.List, java.lang.String)
      */
-    public void persistResultsTable(String lookupResultsSequenceNumber, List<ResultRow> resultTable, String universalUserId) throws Exception {
+    public void persistResultsTable(String lookupResultsSequenceNumber, List<ResultRow> resultTable, String personId) throws Exception {
         String resultTableString = new String(Base64.encodeBase64(ObjectUtils.toByteArray(resultTable)));
 
         Timestamp now = getDateTimeService().getCurrentTimestamp();
@@ -82,7 +82,7 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
             lookupResults.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         }
         lookupResults.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
-        lookupResults.setLookupUniversalUserId(universalUserId);
+        lookupResults.setLookupPersonId(personId);
         lookupResults.setSerializedLookupResults(resultTableString);
         lookupResults.setLookupDate(now);
         getBusinessObjectService().save(lookupResults);
@@ -92,14 +92,14 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#persistSelectedObjectIds(java.lang.String, java.util.Set, java.lang.String)
      */
-    public void persistSelectedObjectIds(String lookupResultsSequenceNumber, Set<String> selectedObjectIds, String universalUserId) throws Exception {
+    public void persistSelectedObjectIds(String lookupResultsSequenceNumber, Set<String> selectedObjectIds, String personId) throws Exception {
         SelectedObjectIds selectedObjectIdsBO = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
         if (selectedObjectIdsBO == null) {
             selectedObjectIdsBO = new SelectedObjectIds();
             selectedObjectIdsBO.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         }
         selectedObjectIdsBO.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
-        selectedObjectIdsBO.setLookupUniversalUserId(universalUserId);
+        selectedObjectIdsBO.setLookupPersonId(personId);
         selectedObjectIdsBO.setSelectedObjectIds(LookupUtils.convertSetOfObjectIdsToString(selectedObjectIds));
         selectedObjectIdsBO.setLookupDate(getDateTimeService().getCurrentTimestamp());
         getBusinessObjectService().save(selectedObjectIdsBO);
@@ -108,10 +108,10 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     /**
      * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveResultsTable(java.lang.String, java.lang.String)
      */
-    public List<ResultRow> retrieveResultsTable(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
+    public List<ResultRow> retrieveResultsTable(String lookupResultsSequenceNumber, String personId) throws Exception {
         LookupResults lookupResults = retrieveLookupResults(lookupResultsSequenceNumber);
-        if (!isAuthorizedToAccessLookupResults(lookupResults, universalUserId)) {
-            throw new AuthorizationException(universalUserId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
+        if (!isAuthorizedToAccessLookupResults(lookupResults, personId)) {
+            throw new AuthorizationException(personId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
         }
         List<ResultRow> resultTable = (List<ResultRow>) ObjectUtils.fromByteArray(Base64.decodeBase64(lookupResults.getSerializedLookupResults().getBytes()));
         return resultTable;
@@ -125,20 +125,20 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * @see org.kuali.rice.kns.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class,
      *      java.lang.String)
      */
-    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Class boClass, String universalUserId) throws Exception {
-        Set<String> setOfSelectedObjIds = retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, universalUserId);
-        return retrieveSelectedResultBOs(lookupResultsSequenceNumber, setOfSelectedObjIds, boClass, universalUserId);
+    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Class boClass, String personId) throws Exception {
+        Set<String> setOfSelectedObjIds = retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, personId);
+        return retrieveSelectedResultBOs(lookupResultsSequenceNumber, setOfSelectedObjIds, boClass, personId);
     }
 
     /**
      * @param lookupResultsSequenceNumber
-     * @param universalUserId
+     * @param personId
      * @return Set<String>
      */
-    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
+    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String personId) throws Exception {
         SelectedObjectIds selectedObjectIds = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
-        if (!isAuthorizedToAccessSelectedObjectIds(selectedObjectIds, universalUserId)) {
-            throw new AuthorizationException(universalUserId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
+        if (!isAuthorizedToAccessSelectedObjectIds(selectedObjectIds, personId)) {
+            throw new AuthorizationException(personId, "retrieve lookup results", "lookup sequence number " + lookupResultsSequenceNumber);
         }
         Set<String> retval = LookupUtils.convertStringOfObjectIdsToSet(selectedObjectIds.getSelectedObjectIds());
         return retval;
@@ -148,10 +148,10 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * @param lookupResultsSequenceNumber
      * @param setOfSelectedObjIds
      * @param boClass
-     * @param universalUserId
+     * @param personId
      * @return Collection<PersistableBusinessObject>
      */
-    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String universalUserId) throws Exception {
+    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String personId) throws Exception {
         LOG.debug("Retrieving results for class " + boClass + " with objectIds " + setOfSelectedObjIds);
         if (setOfSelectedObjIds.isEmpty()) {
             // OJB throws exception if querying on empty set
@@ -163,3 +163,4 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
 }
+

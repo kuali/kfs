@@ -19,7 +19,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertEquality;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertInequality;
 import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE5;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.DFOGLE;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.dfogle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This class is used to test JournalVoucherDocument.
  */
-@ConfigureContext(session = DFOGLE)
+@ConfigureContext(session = dfogle)
 public class JournalVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
@@ -81,7 +81,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
+    @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         AccountingDocument document = buildDocument();
@@ -149,7 +149,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
+    @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocument document = buildDocument();
 
@@ -243,7 +243,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * @see org.kuali.rice.kns.document.DocumentTestBase#testRouteDocument()
      */
     // @RelatesTo(JiraIssue.KULRNE4926)
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
+    @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();
@@ -304,7 +304,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
+    @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
@@ -332,3 +332,4 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
 
 
 }
+

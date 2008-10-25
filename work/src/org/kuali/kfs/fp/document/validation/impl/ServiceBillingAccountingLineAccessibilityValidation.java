@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedAddAccountingLineEv
 import org.kuali.kfs.sys.document.validation.event.AttributedDeleteAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedUpdateAccountingLineEvent;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -53,7 +53,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, event, GlobalVariables.getUserSession().getFinancialSystemUser());
+            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine, event, GlobalVariables.getUserSession().getPerson());
         }
        
         return true;
@@ -67,7 +67,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
      * @param user The user for whom to check accessibility.
      * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
-    protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine,AttributedDocumentEvent event, UniversalUser user) {
+    protected boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine,AttributedDocumentEvent event, Person user) {
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String accountNumber = accountingLine.getAccountNumber();
@@ -88,7 +88,7 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         }
         else {
             if (event != null) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(event), accountingLine.getAccountNumber(), user.getPersonUserIdentifier(), control.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, notControlGroupMemberErrorKey(event), accountingLine.getAccountNumber(), user.getPrincipalName(), control.getWorkgroupName());
             }
             return false;
         }
@@ -151,3 +151,4 @@ public class ServiceBillingAccountingLineAccessibilityValidation extends Generic
         this.accountingLineForValidation = accountingLineForValidation;
     }
 }
+

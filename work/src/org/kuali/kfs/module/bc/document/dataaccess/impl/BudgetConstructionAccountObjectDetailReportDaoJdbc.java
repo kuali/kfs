@@ -246,17 +246,17 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         insertionPoints.clear();
     }
     
-    private void buildInitialAccountBalances(String sessionId, String personUserIdentifier) 
+    private void buildInitialAccountBalances(String sessionId, String principalName) 
     {
         // remove any rows previously processed by this user
-        cleanReportsAccountObjectDetailTable(personUserIdentifier);
+        cleanReportsAccountObjectDetailTable(principalName);
         
         // build the tables used both for detail and for consolidation
         // insert the funding with all FTE zeroed out
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);
         stringsToInsert.add(this.getRevenueINList());
         stringsToInsert.add(this.getExpenditureINList());
-        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(0).getSQL(stringsToInsert),sessionId, personUserIdentifier, sessionId, personUserIdentifier);
+        getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(0).getSQL(stringsToInsert),sessionId, principalName, sessionId, principalName);
         // fill in the FTE fields that come from appointment fundinng
         getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(1).getSQL(),sessionId);
         // fill in the FTE fields that come from CSF for people not on leave
@@ -268,8 +268,8 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(3).getSQL(stringsToInsert), sessionId);
     }
     
-    private void cleanReportsAccountObjectDetailTable(String personUserIdentifier) {
-        clearTempTableByUnvlId("ld_bcn_acct_bal_t", "PERSON_UNVL_ID", personUserIdentifier);
+    private void cleanReportsAccountObjectDetailTable(String principalName) {
+        clearTempTableByUnvlId("ld_bcn_acct_bal_t", "PERSON_UNVL_ID", principalName);
     }
     
     private void cleanReportsAccountObjectTemporaryTable(String sessionId)
@@ -282,16 +282,16 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
      */
-    public void updateReportsAccountObjectDetailTable(String personUserIdentifier) {
+    public void updateReportsAccountObjectDetailTable(String principalName) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();
 
         // add the reporting rows to the common base tables
-        this.buildInitialAccountBalances(sessionId, personUserIdentifier);
+        this.buildInitialAccountBalances(sessionId, principalName);
 
         // fill in the detail rows
-        getSimpleJdbcTemplate().update(insertDetailForReport.get(0).getSQL(), personUserIdentifier, sessionId);
+        getSimpleJdbcTemplate().update(insertDetailForReport.get(0).getSQL(), principalName, sessionId);
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    
@@ -305,19 +305,19 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
      * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
      */
-    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier) {
+    public void updateReportsAccountObjectConsolidatedTable(String principalName) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();
 
         // add the reporting rows to the common base tables
-        this.buildInitialAccountBalances(sessionId, personUserIdentifier);
+        this.buildInitialAccountBalances(sessionId, principalName);
         
         // fill in the consolidated rows with  the default subaccount and the default subobject
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);
         stringsToInsert.add(KFSConstants.getDashSubAccountNumber());
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
-        getSimpleJdbcTemplate().update(insertSummaryForReport.get(0).getSQL(stringsToInsert), personUserIdentifier, sessionId);
+        getSimpleJdbcTemplate().update(insertSummaryForReport.get(0).getSQL(stringsToInsert), principalName, sessionId);
         
         // clean out the temporary holding table for the reporting rows
         cleanReportsAccountObjectTemporaryTable(sessionId);    
@@ -333,3 +333,4 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     }
     
 }
+

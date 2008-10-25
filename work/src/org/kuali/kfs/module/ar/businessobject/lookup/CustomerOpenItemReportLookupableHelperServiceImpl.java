@@ -123,7 +123,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getUniversalUser().isMember(displayWorkgroup)) {}
+            if (StringUtils.isNotBlank(displayWorkgroup) && !GlobalVariables.getUserSession().getPerson().isMember(displayWorkgroup)) {}
 
             // need to format date in url
             if (fieldVal instanceof Date) {
@@ -227,3 +227,4 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
     }
 
 }
+

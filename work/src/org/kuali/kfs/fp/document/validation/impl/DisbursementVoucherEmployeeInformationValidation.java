@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -51,7 +51,7 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
             return true;
         }
         
-        UniversalUser employee = SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(payeeDetail.getDisbVchrEmployeeIdNumber());
+        Person employee = SpringContext.getBean(PersonService.class).getPerson(payeeDetail.getDisbVchrEmployeeIdNumber());
         
         ErrorMap errors = GlobalVariables.getErrorMap();
         errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
@@ -75,13 +75,13 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
     }
     
     /**
-     * Retrieves the UniversalUser object from the uuid.
+     * Retrieves the Person object from the uuid.
      * 
      * @param uuid universal user identifier
-     * @return <code>UniversalUser</code>
+     * @return <code>Person</code>
      */
-    private UniversalUser retrieveEmployee(String uuid) {
-            return SpringContext.getBean(FinancialSystemUserService.class).getFinancialSystemUser(uuid);
+    private Person retrieveEmployee(String uuid) {
+            return SpringContext.getBean(PersonService.class).getPerson(uuid);
     }
 
     /**
@@ -102,3 +102,4 @@ public class DisbursementVoucherEmployeeInformationValidation extends GenericVal
     }
 
 }
+

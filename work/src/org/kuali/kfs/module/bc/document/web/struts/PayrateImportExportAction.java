@@ -40,7 +40,7 @@ import org.kuali.kfs.module.bc.util.ExternalizedMessageWrapper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
@@ -53,7 +53,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         List<ExternalizedMessageWrapper> messageList = new ArrayList<ExternalizedMessageWrapper>();
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy ' ' HH:mm:ss", Locale.US);
         
@@ -67,7 +67,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE, dateFormatter.format(startTime)));
         
         //parse file
-        if (!payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream(), messageList, personUniversalIdentifier) ) {
+        if (!payrateImportService.importFile(payrateImportExportForm.getFile().getInputStream(), messageList, principalId) ) {
             payrateImportService.generatePdf(messageList, baos);
             WebUtils.saveMimeOutputStreamAsFile(response, ReportGeneration.PDF_MIME_TYPE, baos, BCConstants.PAYRATE_IMPORT_LOG_FILE);
             return null;
@@ -75,10 +75,10 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_COMPLETE));
         
-        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Person user = GlobalVariables.getUserSession().getPerson();
         
         //perform updates
-        payrateImportService.update(budgetYear, user, messageList, personUniversalIdentifier);
+        payrateImportService.update(budgetYear, user, messageList, principalId);
         
         messageList.add(new ExternalizedMessageWrapper(BCKeyConstants.MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER, dateFormatter.format(new Date())));
         
@@ -97,7 +97,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         Integer budgetYear = payrateImportExportForm.getUniversityFiscalYear();
         String positionUnionCode = payrateImportExportForm.getPositionUnionCode();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         
         //form validation
         boolean isValidPositionUnionCode = validateExportFormData(payrateImportExportForm);
@@ -112,7 +112,7 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, payrateImportExportForm.getCsfFreezeDateFormattedForExportFile(), personUniversalIdentifier);
+        StringBuilder fileContents = payrateExportService.buildExportFile(budgetYear, positionUnionCode, payrateImportExportForm.getCsfFreezeDateFormattedForExportFile(), principalId);
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(fileContents.toString().getBytes());
@@ -198,3 +198,4 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         return isValid;
     }
 }
+

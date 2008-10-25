@@ -18,7 +18,7 @@
       <list>
         <bean parent="ReferenceDefinition"
               p:attributeName="finCoaManagerUniversal"
-              p:attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier"
+              p:attributeToHighlightOnFail="finCoaManagerUniversal.principalName"
               p:displayFieldName="Chart Manager" />
         <bean parent="ReferenceDefinition"
               p:attributeName="financialCashObject"
@@ -106,10 +106,10 @@
               p:readOnly="true"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finCoaManagerUniversal.personUserIdentifier"
+              p:name="finCoaManagerUniversal.principalName"
               p:required="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="finCoaManagerUniversal.personName"
+              p:name="finCoaManagerUniversal.name"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="finChartOfAccountDescription"
@@ -154,3 +154,4 @@
   <bean id="ChartMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
   </bean>
 </beans>
+

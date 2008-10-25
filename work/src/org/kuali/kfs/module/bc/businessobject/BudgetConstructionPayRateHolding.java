@@ -34,7 +34,7 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
     private String grade;
     private String unionCode;
     private BigDecimal appointmentRequestedPayRate;
-    private String personUniversalIdentifier;
+    private String principalId;
     
     /**
      * Default constructor.
@@ -86,7 +86,7 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
      * 
      * @return Returns the personName
      */
-    public String getPersonName() {
+    public String getName() {
         return personName;
     }
 
@@ -95,7 +95,7 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
      * 
      * @param personName The personName to set.
      */
-    public void setPersonName(String personName) {
+    public void setName(String personName) {
         this.personName = personName;
     }
 
@@ -205,11 +205,12 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
         return m;
     }
 
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 }
+

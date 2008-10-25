@@ -21,7 +21,7 @@
 
 -->
 <class-descriptor class="org.kuali.kfs.module.cg.businessobject.Security" table="CG_SECURITY_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
@@ -72,7 +72,7 @@
 
 -->
 <class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProjectDirector" table="CG_PRJDR_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -241,7 +241,7 @@
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
     <collection-descriptor name="proposalProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
+        <orderby name="principalId" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
     <collection-descriptor name="proposalResearchRisks" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -336,7 +336,7 @@
 
 -->
 <class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" table="CG_PRPSL_PRJDR_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -344,7 +344,7 @@
     <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="personUniversalIdentifier" />
+        <foreignkey field-ref="principalId" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -360,7 +360,7 @@
     <field-descriptor name="closeOnOrBeforeDate" column="CG_LAST_CLOSED_DT" jdbc-type="DATE" />
     <field-descriptor name="awardClosedCount" column="CGAWD_CLOSED_CNT" jdbc-type="BIGINT" />
     <field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
-    <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="principalName" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="DATE" />
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -435,7 +435,7 @@
         <foreignkey field-ref="awardPurposeCode" />
     </reference-descriptor>
     <collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="personUniversalIdentifier" sort="ASC" />
+        <orderby name="principalId" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
     <collection-descriptor name="awardAccounts" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -475,7 +475,7 @@
 
 -->
 <class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" table="CG_AWD_PRJDR_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -483,7 +483,7 @@
     <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="personUniversalIdentifier" />
+        <foreignkey field-ref="principalId" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -498,7 +498,7 @@
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="proposalNumber" />
@@ -511,7 +511,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
     <reference-descriptor name="projectDirector" class-ref="org.kuali.kfs.module.cg.businessobject.ProjectDirector" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="personUniversalIdentifier" />
+        <foreignkey field-ref="principalId" />
     </reference-descriptor>
 </class-descriptor>
 
@@ -851,7 +851,7 @@
     <field-descriptor name="primaryDepartmentCode" column="EMP_PRM_DEPT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="baseSalary" column="PRSN_BASE_SLRY" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="role" column="PRSN_ROLE_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="personUniversalIdentifier" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="principalId" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personSeniorKeyIndicator" column="PRSN_SNR_KEY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="personSecretarialClericalIndicator" column="PRSN_SCRTRL_CLRCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="personPostDoctoralIndicator" column="PRSN_POST_DCTRL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
@@ -869,7 +869,7 @@
 
 <class-descriptor class="org.kuali.kfs.module.cg.businessobject.AdhocPerson" table="ER_ADHOC_PRSN_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="personUniversalIdentifier" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="principalId" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1575,7 +1575,7 @@
 	<field-descriptor name="routingFormPersonSequenceNumber" column="RF_PRSN_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="personUniversalIdentifier" column="PRSN_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="principalId" column="PRSN_UNVL_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="chartOfAccountsCode" column="COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personCreditPercent" column="PRSN_CRDT_PCT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiIntegerPercentageFieldConversion" />
@@ -1594,7 +1594,7 @@
 	<field-descriptor name="personZipCode" column="PRSN_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personPhoneNumber" column="PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personFaxNumber" column="PRSN_FAX_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="personEmailAddress" column="PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="emailAddress" column="PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personRoleText" column="PRSN_ROLE_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="personToBeNamedIndicator" column="PRSN_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -1698,3 +1698,4 @@
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>
+

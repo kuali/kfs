@@ -26,10 +26,10 @@
         <ref bean="BudgetConstructionAccountSelect-organizationChartOfAccountsCode" />
         <ref bean="BudgetConstructionAccountSelect-organizationCode" />
         <ref bean="BudgetConstructionAccountSelect-organizationLevelCode" />
-        <ref bean="BudgetConstructionAccountSelect-personUniversalIdentifier" />
+        <ref bean="BudgetConstructionAccountSelect-principalId" />
         <ref bean="BudgetConstructionAccountSelect-subAccountNumber" />
         <ref bean="BudgetConstructionAccountSelect-universityFiscalYear" />
-        <ref bean="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
+        <ref bean="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName" />
       </list>
     </property>
   </bean>
@@ -199,10 +199,10 @@
     <property name="summary" value="organizationLevelCode" />
     <property name="description" value="organizationLevelCode description..." />
   </bean>
-  <bean id="BudgetConstructionAccountSelect-personUniversalIdentifier" parent="BudgetConstructionAccountSelect-personUniversalIdentifier-parentBean" />
+  <bean id="BudgetConstructionAccountSelect-principalId" parent="BudgetConstructionAccountSelect-principalId-parentBean" />
 
-  <bean id="BudgetConstructionAccountSelect-personUniversalIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personUniversalIdentifier" />
+  <bean id="BudgetConstructionAccountSelect-principalId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalId" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Universal Identifier" />
     <property name="shortLabel" value="Identifier" />
@@ -213,8 +213,8 @@
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="summary" value="personUniversalIdentifier" />
-    <property name="description" value="personUniversalIdentifier description..." />
+    <property name="summary" value="principalId" />
+    <property name="description" value="principalId description..." />
   </bean>
   <bean id="BudgetConstructionAccountSelect-subAccountNumber" parent="BudgetConstructionAccountSelect-subAccountNumber-parentBean" />
 
@@ -252,10 +252,10 @@
     <property name="summary" value="universityFiscalYear" />
     <property name="description" value="universityFiscalYear description..." />
   </bean>
-  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier" parent="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier-parentBean" />
+  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName" parent="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean" />
 
-  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
+  <bean id="BudgetConstructionAccountSelect-budgetConstructionHeader.budgetLockUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="budgetConstructionHeader.budgetLockUser.principalName" />
     <property name="label" value="Bdgt. Lock" />
     <property name="shortLabel" value="Bdgt. Lock" />
     <property name="summary" value="Bdgt. Lock" />
@@ -298,7 +298,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="organizationCode" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personUniversalIdentifier" />
+                    p:attributeName="principalId" />
               <bean parent="FieldDefinition"
                     p:attributeName="universityFiscalYear" />
             </list>
@@ -342,7 +342,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="personUniversalIdentifier" />
+              p:attributeName="principalId" />
       </list>
     </property>
     <property name="resultFields" >
@@ -368,8 +368,9 @@
         <bean parent="FieldDefinition"
               p:attributeName="organizationCode" />
         <bean parent="FieldDefinition"
-              p:attributeName="budgetConstructionHeader.budgetLockUser.personUserIdentifier" />
+              p:attributeName="budgetConstructionHeader.budgetLockUser.principalName" />
       </list>
     </property>
   </bean>
 </beans>
+

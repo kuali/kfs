@@ -18,9 +18,9 @@
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUniversalIdentifier" />
-        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUserIdentifier" />
-        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personName" />
+        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalId" />
+        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalName" />
+        <ref bean="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.name" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-positionNumber" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-universityFiscalYear" />
         <ref bean="LedgerBalanceForBenefitExpenseTransfer-subAccountNumber" />
@@ -57,8 +57,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="ledgerPerson.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="ledgerPerson.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -69,11 +69,11 @@
                     p:targetName="personPayrollIdentifier" />
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="ledgerPerson.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="ledgerPerson.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="ledgerPerson.personName"
-                    p:targetName="personName" />
+                    p:sourceName="ledgerPerson.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -84,36 +84,36 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUniversalIdentifier" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUniversalIdentifier-parentBean" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalId" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalId-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUniversalIdentifier-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
-    <property name="name" value="ledgerPerson.personUniversalIdentifier" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="ledgerPerson.principalId" />
     <property name="label" value="Employee Univ ID" />
     <property name="shortLabel" value="EmplUnvId" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="HiddenControlDefinition" />
     </property>
-    <property name="displayLabelAttribute" value="ledgerPerson.personUserIdentifier" />
+    <property name="displayLabelAttribute" value="ledgerPerson.principalName" />
   </bean>
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUserIdentifier" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUserIdentifier-parentBean" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalName" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalName-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="ledgerPerson.personUserIdentifier" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="ledgerPerson.principalName" />
     <property name="label" value="Employee User ID" />
     <property name="shortLabel" value="UserID" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="ledgerPerson.personName"
-            p:universalIdAttributeName="ledgerPerson.personUniversalIdentifier"
-            p:userIdAttributeName="ledgerPerson.personUserIdentifier" />
+            p:personNameAttributeName="ledgerPerson.name"
+            p:universalIdAttributeName="ledgerPerson.principalId"
+            p:userIdAttributeName="ledgerPerson.principalName" />
     </property>
   </bean>
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personName" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personName-parentBean" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.name" parent="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.name-parentBean" />
 
-  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="ledgerPerson.personName" />
+  <bean id="LedgerBalanceForBenefitExpenseTransfer-ledgerPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="ledgerPerson.name" />
     <property name="label" value="Employee Name" />
     <property name="required" value="false" />
   </bean>
@@ -424,3 +424,4 @@
     </property>
   </bean>
 </beans>
+

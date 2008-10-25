@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.service;
 
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE18;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.MHKOZLOW;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.mhkozlow;
 
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +36,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 /**
  * This class tests the Check service.
  */
-@ConfigureContext(session = MHKOZLOW)
+@ConfigureContext(session = mhkozlow)
 public class CheckServiceTest extends KualiTestBase {
 
     private Check check;
@@ -63,7 +63,7 @@ public class CheckServiceTest extends KualiTestBase {
         clearTestData();
     }
 
-    @ConfigureContext(session = MHKOZLOW, shouldCommitTransactions = true)
+    @ConfigureContext(session = mhkozlow, shouldCommitTransactions = true)
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
         List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
@@ -112,3 +112,4 @@ public class CheckServiceTest extends KualiTestBase {
         return document.getDocumentNumber();
     }
 }
+

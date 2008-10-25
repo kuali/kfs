@@ -47,7 +47,6 @@ import org.kuali.kfs.module.cg.document.service.RoutingFormMainPageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ActionTakenDTO;
@@ -57,9 +56,9 @@ import org.kuali.rice.kew.dto.UserDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -181,7 +180,7 @@ public class RoutingFormXml {
         RoutingFormPersonnel projectDirector = routingFormMainPageService.getProjectDirector(routingFormPersonnel);
 
         principlesElement.setAttribute("CO-PD_IND", formatBoolean(routingFormMainPageService.checkCoPdExistance(routingFormPersonnel)));
-        FinancialSystemUserService financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        PersonService personService = SpringContext.getBean(PersonService.class);
 
         Element projectDirectorElement = xmlDoc.createElement("PROJECT_DIRECTOR");
         if (projectDirector != null) {
@@ -190,12 +189,12 @@ public class RoutingFormXml {
                 projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
             }
             else {
-                projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonFirstName()));
-                projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonLastName()));
+                projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(projectDirector.getUser().getFirstName()));
+                projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(projectDirector.getUser().getLastName()));
                 projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
 
                 Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
-                ChartOrgHolder userChartOrg = financialSystemUserService.getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART);
+                ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(projectDirector.getUser(),KFSConstants.Modules.CHART);
                 String chart = userChartOrg.getChartOfAccountsCode();
                 String org = userChartOrg.getOrganizationCode();
 
@@ -213,7 +212,7 @@ public class RoutingFormXml {
             projectDirectorElement.appendChild(pdPhoneElement);
 
             Element pdEmailElement = xmlDoc.createElement("PD_EMAIL");
-            pdEmailElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getPersonEmailAddress())));
+            pdEmailElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getEmailAddress())));
             projectDirectorElement.appendChild(pdEmailElement);
 
             Element submittingOrgElement = xmlDoc.createElement("SUBMITTING_ORG");
@@ -233,8 +232,8 @@ public class RoutingFormXml {
                     coPdElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
                 }
                 else {
-                    coPdElement.setAttribute("FIRST_NAME", ObjectUtils.toString(person.getUser().getPersonFirstName()));
-                    coPdElement.setAttribute("LAST_NAME", ObjectUtils.toString(person.getUser().getPersonLastName()));
+                    coPdElement.setAttribute("FIRST_NAME", ObjectUtils.toString(person.getUser().getFirstName()));
+                    coPdElement.setAttribute("LAST_NAME", ObjectUtils.toString(person.getUser().getLastName()));
                 }
 
                 coPdElement.setAttribute("CHART", ObjectUtils.toString(person.getChartOfAccountsCode()));
@@ -254,10 +253,10 @@ public class RoutingFormXml {
                 contactPersonElement.setAttribute("FIRST_NAME", TO_BE_NAMED);
             }
             else {
-                contactPersonElement.setAttribute("FIRST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonFirstName()));
-                contactPersonElement.setAttribute("LAST_NAME", ObjectUtils.toString(contactPerson.getUser().getPersonLastName()));
+                contactPersonElement.setAttribute("FIRST_NAME", ObjectUtils.toString(contactPerson.getUser().getFirstName()));
+                contactPersonElement.setAttribute("LAST_NAME", ObjectUtils.toString(contactPerson.getUser().getLastName()));
             }
-            contactPersonElement.setAttribute("EMAIL", ObjectUtils.toString(contactPerson.getPersonEmailAddress()));
+            contactPersonElement.setAttribute("EMAIL", ObjectUtils.toString(contactPerson.getEmailAddress()));
             contactPersonElement.setAttribute("PHONE_NUMBER", ObjectUtils.toString(contactPerson.getPersonPhoneNumber()));
             contactPersonElement.setAttribute("FAX_NUMBER", ObjectUtils.toString(contactPerson.getPersonFaxNumber()));
         }
@@ -558,7 +557,7 @@ public class RoutingFormXml {
                     percentCreditDescription.setAttribute("NAME", TO_BE_NAMED);
                 }
                 else {
-                    percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormPerson.getUser().getPersonName()));
+                    percentCreditDescription.setAttribute("NAME", ObjectUtils.toString(routingFormPerson.getUser().getName()));
                 }
                 percentCreditDescription.setAttribute("ROLE", ObjectUtils.toString(routingFormPerson.getPersonRoleText()));
                 percentCreditDescription.setAttribute("CHART", ObjectUtils.toString(routingFormPerson.getChartOfAccountsCode()));
@@ -662,16 +661,14 @@ public class RoutingFormXml {
     private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserDTO workflowUser, String nodeName, String actionName, String actionDate) {
         Element approverElement = xmlDoc.createElement("APPROVER");
 
-        UniversalUser kualiUser;
-        FinancialSystemUserService kfsUserService = SpringContext.getBean(FinancialSystemUserService.class);
-        try {
-            kualiUser = kfsUserService.getUniversalUser(workflowUser.getUuId());
-        }
-        catch (UserNotFoundException e) {
+        Person kualiUser;
+        PersonService kfsUserService = SpringContext.getBean(PersonService.class);
+        kualiUser = kfsUserService.getPerson(workflowUser.getUuId());
+        if (kualiUser == null) {
             LOG.error("Lookup for emplId=" + workflowUser.getEmplId() + " failed. Skipping putting person in XML.");
             return;
         }
-        ChartOrgHolder userChartOrg = kfsUserService.getOrganizationByModuleId(kualiUser,KFSConstants.Modules.CHART);
+        ChartOrgHolder userChartOrg = org.kuali.kfs.sys.context.SpringContext.getBean(org.kuali.kfs.sys.service.KNSAuthorizationService.class).getOrganizationByModuleId(kualiUser,KFSConstants.Modules.CHART);
         approverElement.setAttribute("TITLE", ObjectUtils.toString(nodeName));
         approverElement.setAttribute("CHART", ObjectUtils.toString(userChartOrg.getChartOfAccountsCode()));
         approverElement.setAttribute("ORG", ObjectUtils.toString(userChartOrg.getOrganizationCode()));
@@ -724,7 +721,7 @@ public class RoutingFormXml {
             Element commentElement = xmlDoc.createElement("COMMENT");
 
             Element commentatorDescription = xmlDoc.createElement("COMMENTATOR");
-            commentatorDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(note.getAuthorUniversal().getPersonName())));
+            commentatorDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(note.getAuthorUniversal().getName())));
             commentElement.appendChild(commentatorDescription);
 
             Element commentTimestampDescription = xmlDoc.createElement("COMMENT_TIMESTAMP");
@@ -755,3 +752,4 @@ public class RoutingFormXml {
         return bool ? "Y" : "N";
     }
 }
+

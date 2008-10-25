@@ -34,10 +34,10 @@
 				<ref bean="PaymentGroup-disbursementType.name" />
 				<ref bean="PaymentGroup-paymentDetails.netPaymentAmount" />
 				<ref bean="PaymentGroup-physCampusProcessCd" />
-				<ref bean="PaymentGroup-process.processUser.personUserIdentifier" />
+				<ref bean="PaymentGroup-process.processUser.principalName" />
 				<ref bean="PaymentGroup-batch.paymentFileName" />
 				<ref bean="PaymentGroup-process.processTimestamp" />
-				<ref bean="PaymentGroup-batch.submiterUser.personUserIdentifier" />
+				<ref bean="PaymentGroup-batch.submiterUser.principalName" />
 				<ref bean="PaymentGroup-combineGroups" />
 				<ref bean="PaymentGroup-lastUpdate" />
 				<ref bean="PaymentGroup-alternatePayeeIdTypeCd" />
@@ -341,12 +341,12 @@
 		<property name="summary" value="physCampusProcessCd" />
 		<property name="description" value="Physical Campus Process Location." />
 	</bean>
-    <bean id="PaymentGroup-process.processUser.personUserIdentifier"
-		parent="PaymentGroup-process.processUser.personUserIdentifier-parentBean" />
+    <bean id="PaymentGroup-process.processUser.principalName"
+		parent="PaymentGroup-process.processUser.principalName-parentBean" />
 
-	<bean id="PaymentGroup-process.processUser.personUserIdentifier-parentBean"
-		abstract="true" parent="UniversalUser-personUserIdentifier">
-		<property name="name" value="process.processUser.personUserIdentifier" />
+	<bean id="PaymentGroup-process.processUser.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="process.processUser.principalName" />
 	</bean>
 	<bean id="PaymentGroup-batch.paymentFileName"
 		parent="PaymentGroup-batch.paymentFileName-parentBean" />
@@ -362,12 +362,12 @@
 		abstract="true" parent="PaymentProcess-processTimestamp">
 		<property name="name" value="process.processTimestamp" />
 	</bean> 
-    <bean id="PaymentGroup-batch.submiterUser.personUserIdentifier"
-		parent="PaymentGroup-batch.submiterUser.personUserIdentifier-parentBean" />
+    <bean id="PaymentGroup-batch.submiterUser.principalName"
+		parent="PaymentGroup-batch.submiterUser.principalName-parentBean" />
 
-	<bean id="PaymentGroup-batch.submiterUser.personUserIdentifier-parentBean"
-		abstract="true" parent="Batch-submiterUser.personUserIdentifier">
-		<property name="name" value="batch.submiterUser.personUserIdentifier" />
+	<bean id="PaymentGroup-batch.submiterUser.principalName-parentBean"
+		abstract="true" parent="Batch-submiterUser.principalName">
+		<property name="name" value="batch.submiterUser.principalName" />
 	</bean> 
 	<bean id="PaymentGroup-combineGroups" parent="PaymentGroup-combineGroups-parentBean" />
 	
@@ -680,3 +680,4 @@
   </bean>
 		
 </beans>
+

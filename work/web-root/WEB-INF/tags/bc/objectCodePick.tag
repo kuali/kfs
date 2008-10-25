@@ -59,7 +59,7 @@
 	</tr>
 
 	<logic:iterate name="KualiForm" id="objectCodePick"	property="objectCodePickList" indexId="ctr">
-		<html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].personUniversalIdentifier" />
+		<html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].principalId" />
         <html-el:hidden name="KualiForm" property="objectCodePickList[${ctr}].versionNumber" />
         
 		<tr align="center">
@@ -109,6 +109,7 @@
 	</div>
 
   </c:if>
+
 
 
 

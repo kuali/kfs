@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
@@ -35,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.service.impl.ParameterConstants;
+import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * A test to see if the balance forward year end process produces the expected origin entries
@@ -85,10 +85,10 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         Map criteria = new HashMap();
 
         criteria.put("sourceCode", "YEBB");
-        Collection kualiGeneratedNonClosedPriorYearAccountGroups = groupService.getMatchingGroups(criteria);
+        Collection kualiGeneratedNonClosedPriorYearAccountGroups = originEntryGroupService.getMatchingGroups(criteria);
 
         criteria.put("sourceCode", "YEBC");
-        Collection kualiGeneratedClosedPriorYearAccountGroups = groupService.getMatchingGroups(criteria);
+        Collection kualiGeneratedClosedPriorYearAccountGroups = originEntryGroupService.getMatchingGroups(criteria);
 
         // compute the difference between what should be output and what was output.
         List kualiGeneratedEntriesNotGeneratedByFis = new ArrayList();
@@ -96,9 +96,9 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         Iterator kualiGeneratedNonClosedPriorYearAccountGroupIterator = kualiGeneratedNonClosedPriorYearAccountGroups.iterator();
         while (kualiGeneratedNonClosedPriorYearAccountGroupIterator.hasNext()) {
 
-            OriginEntryGroup kualiGroup = (OriginEntryGroup) kualiGeneratedNonClosedPriorYearAccountGroupIterator.next();
+            OriginEntryGroup kimGroup = (OriginEntryGroup) kualiGeneratedNonClosedPriorYearAccountGroupIterator.next();
 
-            Iterator kualiGeneratedNonClosedPriorYearAccountEntryIterator = entryService.getEntriesByGroup(kualiGroup);
+            Iterator kualiGeneratedNonClosedPriorYearAccountEntryIterator = entryService.getEntriesByGroup(kimGroup);
 
             while (kualiGeneratedNonClosedPriorYearAccountEntryIterator.hasNext()) {
 
@@ -1288,3 +1288,4 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     }
 }
+

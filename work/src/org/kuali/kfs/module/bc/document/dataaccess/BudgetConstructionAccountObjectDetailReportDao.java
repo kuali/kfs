@@ -22,16 +22,17 @@ public interface BudgetConstructionAccountObjectDetailReportDao {
    /**
    * 
    * adds rows with object detail to the temporary table used for budget construction account balance reporting.
-   * @param personUserIdentifier: the id of the user initiating the report
+   * @param principalName: the id of the user initiating the report
    */
-    public void updateReportsAccountObjectDetailTable(String personUserIdentifier);
+    public void updateReportsAccountObjectDetailTable(String principalName);
     
     /**
      * 
      * adds rows consolidated at the object code level to the temporary table used for budget construction account balance reporting.
-     * @param personUserIdentifier: the id of the user initiating the report
+     * @param principalName: the id of the user initiating the report
      */
-    public void updateReportsAccountObjectConsolidatedTable(String personUserIdentifier);
+    public void updateReportsAccountObjectConsolidatedTable(String principalName);
 
     
 }
+

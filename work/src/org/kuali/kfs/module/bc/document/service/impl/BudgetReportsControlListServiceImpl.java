@@ -44,29 +44,29 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, org.kuali.kfs.module.bc.BCConstants.Report.BuildMode)
      */
-    public void updateReportsControlList(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
-        budgetReportsControlListDao.updateReportControlList(personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode, buildMode);
+    public void updateReportsControlList(String principalName, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
+        budgetReportsControlListDao.updateReportControlList(principalName, universityFiscalYear, chartOfAccountsCode, organizationCode, buildMode);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsSubFundGroupSelectList(java.lang.String)
      */
-    public void updateReportSubFundGroupSelectList(String personUserIdentifier) {
-        budgetReportsControlListDao.updateReportsSubFundGroupSelectList(personUserIdentifier);
+    public void updateReportSubFundGroupSelectList(String principalName) {
+        budgetReportsControlListDao.updateReportsSubFundGroupSelectList(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportObjectCodeSelectList(java.lang.String)
      */
-    public void updateReportObjectCodeSelectList(String personUserIdentifier) {
-        budgetReportsControlListDao.updateReportsObjectCodeSelectList(personUserIdentifier);
+    public void updateReportObjectCodeSelectList(String principalName) {
+        budgetReportsControlListDao.updateReportsObjectCodeSelectList(principalName);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportReasonCodeSelectList(java.lang.String)
      */
-    public void updateReportReasonCodeSelectList(String personUserIdentifier) {
-        budgetReportsControlListDao.updateReportsReasonCodeSelectList(personUserIdentifier);
+    public void updateReportReasonCodeSelectList(String principalName) {
+        budgetReportsControlListDao.updateReportsReasonCodeSelectList(principalName);
     }
 
     /**
@@ -90,9 +90,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveSelectedOrganziations(java.lang.String)
      */
-    public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String personUserIdentifier) {
+    public Collection<BudgetConstructionPullup> retrieveSelectedOrganziations(String principalName) {
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER, personUserIdentifier);
+        criteria.put(KFSPropertyConstants.KUALI_USER_PERSON_USER_IDENTIFIER, principalName);
         criteria.put(BCPropertyConstants.PULL_FLAG, new Integer(1));
 
         return businessObjectService.findMatching(BudgetConstructionPullup.class, criteria);
@@ -101,9 +101,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveSubFundList(java.lang.String)
      */
-    public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String personUniversalIdentifier) {
+    public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String principalId) {
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
         return businessObjectService.findMatching(BudgetConstructionSubFundPick.class, criteria);
     }
@@ -111,9 +111,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveObjectCodeList(java.lang.String)
      */
-    public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String personUniversalIdentifier) {
+    public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String principalId) {
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
         return businessObjectService.findMatching(BudgetConstructionObjectPick.class, criteria);
     }
@@ -121,9 +121,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveReasonCodeList(java.lang.String)
      */
-    public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String personUniversalIdentifier) {
+    public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String principalId) {
         Map criteria = new HashMap();
-        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, personUniversalIdentifier);
+        criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
         return businessObjectService.findMatching(BudgetConstructionReasonCodePick.class, criteria);
     }
@@ -149,3 +149,4 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
         budgetReportsControlListDao.updateSubFundSelectFlags(subFundPickList);
     }
 }
+

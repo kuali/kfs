@@ -135,14 +135,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="maintainableItems" >
       <list>
         <dd:maintField attributeName="accountFiscalOfficerSystemIdentifier" readOnly="true" required="true" />
-        <dd:maintField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="true" />
-        <dd:maintField attributeName="accountFiscalOfficerUser.personName" readOnly="true" />
+        <dd:maintField attributeName="accountFiscalOfficerUser.principalName" required="true" />
+        <dd:maintField attributeName="accountFiscalOfficerUser.name" readOnly="true" />
         <dd:maintField attributeName="accountsSupervisorySystemsIdentifier" readOnly="true" required="true" />
-        <dd:maintField attributeName="accountSupervisoryUser.personUserIdentifier" required="true" />
-        <dd:maintField attributeName="accountSupervisoryUser.personName" readOnly="true" />
+        <dd:maintField attributeName="accountSupervisoryUser.principalName" required="true" />
+        <dd:maintField attributeName="accountSupervisoryUser.name" readOnly="true" />
         <dd:maintField attributeName="accountManagerSystemIdentifier" readOnly="true" required="true" />
-        <dd:maintField attributeName="accountManagerUser.personUserIdentifier" required="true" />
-        <dd:maintField attributeName="accountManagerUser.personName" readOnly="true" />
+        <dd:maintField attributeName="accountManagerUser.principalName" required="true" />
+        <dd:maintField attributeName="accountManagerUser.name" readOnly="true" />
 
         <dd:maintField attributeName="continuationFinChrtOfAcctCd" />
         <dd:maintField attributeName="continuationAccountNumber" />
@@ -218,3 +218,4 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </dd:workflow> 
   
 </beans>
+

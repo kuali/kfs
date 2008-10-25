@@ -25,8 +25,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Org-organizationName" />
         <ref bean="Org-codeAndDescription" />
         <ref bean="Org-organizationManagerUniversalId" />
-        <ref bean="Org-organizationManagerUniversal.personUserIdentifier" />
-        <ref bean="Org-organizationManagerUniversal.personName" />
+        <ref bean="Org-organizationManagerUniversal.principalName" />
+        <ref bean="Org-organizationManagerUniversal.name" />
         <ref bean="Org-responsibilityCenterCode" />
         <ref bean="Org-organizationPhysicalCampusCode" />
         <ref bean="Org-organizationTypeCode" />
@@ -56,11 +56,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="Org-organizationExtension.hrmsIuCampusBuilding" />
         <ref bean="Org-organizationExtension.hrmsIuCampusRoom" />
         <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversalId" />
-        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
-        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
+        <ref bean="Org-organizationExtension.hrmsPersonnelApproverUniversal.name" />
         <ref bean="Org-organizationExtension.fiscalApproverUniversalId" />
-        <ref bean="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
-        <ref bean="Org-organizationExtension.fiscalApproverUniversal.personName" />
+        <ref bean="Org-organizationExtension.fiscalApproverUniversal.principalName" />
+        <ref bean="Org-organizationExtension.fiscalApproverUniversal.name" />
         <ref bean="Org-organizationExtension.hrmsIuPositionAllowedFlag" />
         <ref bean="Org-organizationExtension.hrmsIuTenureAllowedFlag" />
         <ref bean="Org-organizationExtension.hrmsIuTitleAllowedFlag" />
@@ -76,18 +76,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationManagerUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="organizationManagerUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="organizationManagerUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationManagerUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="organizationManagerUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -97,18 +97,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="organizationExtension.hrmsPersonnelApproverUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -118,18 +118,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <list>
               <bean parent="PrimitiveAttributeDefinition"
                     p:sourceName="organizationExtension.fiscalApproverUniversalId"
-                    p:targetName="personUniversalIdentifier" />
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition"
                     p:identifier="true"
-                    p:sourceName="organizationExtension.fiscalApproverUniversal.personUserIdentifier"
-                    p:targetName="personUserIdentifier" />
+                    p:sourceName="organizationExtension.fiscalApproverUniversal.principalName"
+                    p:targetName="principalName" />
               <bean parent="SupportAttributeDefinition"
-                    p:sourceName="organizationExtension.fiscalApproverUniversal.personName"
-                    p:targetName="personName" />
+                    p:sourceName="organizationExtension.fiscalApproverUniversal.name"
+                    p:targetName="name" />
             </list>
           </property>
         </bean>
@@ -222,24 +222,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Org-organizationManagerUniversal.personUserIdentifier" parent="Org-organizationManagerUniversal.personUserIdentifier-parentBean" />
+  <bean id="Org-organizationManagerUniversal.principalName" parent="Org-organizationManagerUniversal.principalName-parentBean" />
 
-  <bean id="Org-organizationManagerUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="organizationManagerUniversal.personUserIdentifier" />
+  <bean id="Org-organizationManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="organizationManagerUniversal.principalName" />
     <property name="label" value="Organization Manager UserID" />
     <property name="shortLabel" value="OrgMgrUserId" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationManagerUniversal.personName"
+            p:personNameAttributeName="organizationManagerUniversal.name"
             p:universalIdAttributeName="organizationManagerUniversalId"
-            p:userIdAttributeName="organizationManagerUniversal.personUserIdentifier" />
+            p:userIdAttributeName="organizationManagerUniversal.principalName" />
     </property>
   </bean>
-  <bean id="Org-organizationManagerUniversal.personName" parent="Org-organizationManagerUniversal.personName-parentBean" />
+  <bean id="Org-organizationManagerUniversal.name" parent="Org-organizationManagerUniversal.name-parentBean" />
 
-  <bean id="Org-organizationManagerUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="organizationManagerUniversal.personName" />
+  <bean id="Org-organizationManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="organizationManagerUniversal.name" />
     <property name="label" value="Organization Manager Name" />
     <property name="required" value="false" />
   </bean>
@@ -566,7 +566,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversalId" parent="Org-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" />
 
-  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversalId" />
     <property name="label" value="Personnel Approver UserID" />
     <property name="shortLabel" value="Personnel Approver UserID" />
@@ -575,30 +575,30 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" />
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.principalName" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean" />
 
-  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
     <property name="label" value="Personnel Approver UserID" />
     <property name="shortLabel" value="Personnel Approver" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName"
+            p:personNameAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.name"
             p:universalIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversalId"
-            p:userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+            p:userIdAttributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
     </property>
   </bean>
-  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName-parentBean" />
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.name" parent="Org-organizationExtension.hrmsPersonnelApproverUniversal.name-parentBean" />
 
-  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+  <bean id="Org-organizationExtension.hrmsPersonnelApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="organizationExtension.hrmsPersonnelApproverUniversal.name" />
     <property name="label" value="Personnel Approver Name" />
     <property name="required" value="false" />
   </bean>
   <bean id="Org-organizationExtension.fiscalApproverUniversalId" parent="Org-organizationExtension.fiscalApproverUniversalId-parentBean" />
 
-  <bean id="Org-organizationExtension.fiscalApproverUniversalId-parentBean" abstract="true" parent="UniversalUser-personUniversalIdentifier">
+  <bean id="Org-organizationExtension.fiscalApproverUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="organizationExtension.fiscalApproverUniversalId" />
     <property name="label" value="Fiscal Approver UserID" />
     <property name="shortLabel" value="Fiscal Approver UserID" />
@@ -607,24 +607,24 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="HiddenControlDefinition" />
     </property>
   </bean>
-  <bean id="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier" parent="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier-parentBean" />
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.principalName" parent="Org-organizationExtension.fiscalApproverUniversal.principalName-parentBean" />
 
-  <bean id="Org-organizationExtension.fiscalApproverUniversal.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.principalName" />
     <property name="label" value="Fiscal Approver UserID" />
     <property name="shortLabel" value="Fiscal Approver" />
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="KualiUserControlDefinition"
-            p:personNameAttributeName="organizationExtension.fiscalApproverUniversal.personName"
+            p:personNameAttributeName="organizationExtension.fiscalApproverUniversal.name"
             p:universalIdAttributeName="organizationExtension.fiscalApproverUniversalId"
-            p:userIdAttributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+            p:userIdAttributeName="organizationExtension.fiscalApproverUniversal.principalName" />
     </property>
   </bean>
-  <bean id="Org-organizationExtension.fiscalApproverUniversal.personName" parent="Org-organizationExtension.fiscalApproverUniversal.personName-parentBean" />
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.name" parent="Org-organizationExtension.fiscalApproverUniversal.name-parentBean" />
 
-  <bean id="Org-organizationExtension.fiscalApproverUniversal.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="organizationExtension.fiscalApproverUniversal.personName" />
+  <bean id="Org-organizationExtension.fiscalApproverUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="organizationExtension.fiscalApproverUniversal.name" />
     <property name="label" value="Fiscal Approver Name" />
     <property name="required" value="false" />
   </bean>
@@ -691,9 +691,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="organizationManagerUniversalId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationManagerUniversal.personUserIdentifier" />
+                    p:attributeName="organizationManagerUniversal.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationManagerUniversal.personName" />
+                    p:attributeName="organizationManagerUniversal.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="responsibilityCenterCode" />
               <bean parent="FieldDefinition"
@@ -763,15 +763,15 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="organizationExtension.hrmsPersonnelApproverUniversalId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personUserIdentifier" />
+                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.personName" />
+                    p:attributeName="organizationExtension.hrmsPersonnelApproverUniversal.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationExtension.fiscalApproverUniversalId" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.fiscalApproverUniversal.personUserIdentifier" />
+                    p:attributeName="organizationExtension.fiscalApproverUniversal.principalName" />
               <bean parent="FieldDefinition"
-                    p:attributeName="organizationExtension.fiscalApproverUniversal.personName" />
+                    p:attributeName="organizationExtension.fiscalApproverUniversal.name" />
               <bean parent="FieldDefinition"
                     p:attributeName="organizationExtension.hrmsLastUpdateDate" />
             </list>
@@ -841,8 +841,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="active" />
         <bean parent="FieldDefinition"
-              p:attributeName="organizationManagerUniversal.personName" />
+              p:attributeName="organizationManagerUniversal.name" />
       </list>
     </property>
   </bean>
 </beans>
+

@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 public class BudgetConstructionAccountSummary extends PersistableBusinessObjectBase {
 
-    private String personUniversalIdentifier;
+    private String principalId;
     private String organizationChartOfAccountsCode;
     private String organizationCode;
     private String chartOfAccountsCode;
@@ -62,21 +62,21 @@ public class BudgetConstructionAccountSummary extends PersistableBusinessObjectB
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier
+     * @return Returns the principalId
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
+     * Sets the principalId attribute.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -425,7 +425,7 @@ public class BudgetConstructionAccountSummary extends PersistableBusinessObjectB
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("personUniversalIdentifier", this.personUniversalIdentifier);
+        m.put("principalId", this.principalId);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -438,3 +438,4 @@ public class BudgetConstructionAccountSummary extends PersistableBusinessObjectB
     }
 
 }
+

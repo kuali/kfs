@@ -26,10 +26,10 @@ import org.kuali.kfs.module.cg.document.service.BudgetPersonnelService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.KNSAuthorizationService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -39,7 +39,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetUser.class);
     private transient BudgetPersonnelService budgetPersonnelService;
-    private transient FinancialSystemUserService financialSystemUserService;
+    private transient PersonService personService;
 
     private String documentNumber; // RDOC_NBR
     private Integer budgetUserSequenceNumber; // BDGT_USR_SEQ_NBR
@@ -48,8 +48,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     private KualiDecimal baseSalary; // PRSN_BASE_SLRY
     private Integer budgetSalaryFiscalYear;
     private String role; //
-    private String personUniversalIdentifier;
-    private UniversalUser user;
+    private String principalId;
+    private Person user;
     private String appointmentTypeCode; // Not present in the database - only for the convenience of the user interface
     private String appointmentTypeDescription; // Not present in the database - only for the convenience of the user interface
     private boolean personSeniorKeyIndicator;
@@ -77,7 +77,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     public BudgetUser() {
         super();
         budgetPersonnelService = SpringContext.getBean(BudgetPersonnelService.class);
-        financialSystemUserService = SpringContext.getBean(FinancialSystemUserService.class);
+        personService = SpringContext.getBean(PersonService.class);
     }
 
     public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {
@@ -94,7 +94,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         this.primaryDepartmentCode = budgetUser.getPrimaryDepartmentCode();
         this.baseSalary = budgetUser.getBaseSalary();
         this.role = budgetUser.getRole();
-        this.personUniversalIdentifier = budgetUser.getPersonUniversalIdentifier();
+        this.principalId = budgetUser.getPrincipalId();
         this.personNamePrefixText = budgetUser.getPersonNamePrefixText();
         this.personNameSuffixText = budgetUser.getPersonNameSuffixText();
         this.personSalaryJustificationText = budgetUser.getPersonSalaryJustificationText();
@@ -229,22 +229,22 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
 
     /**
-     * Gets the personUniversalIdentifier attribute.
+     * Gets the principalId attribute.
      * 
-     * @return Returns the personUniversalIdentifier.
+     * @return Returns the principalId.
      */
-    public String getPersonUniversalIdentifier() {
-        return personUniversalIdentifier;
+    public String getPrincipalId() {
+        return principalId;
     }
 
 
     /**
-     * Sets the personUniversalIdentifier attribute value.
+     * Sets the principalId attribute value.
      * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param principalId The principalId to set.
      */
-    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-        this.personUniversalIdentifier = personUniversalIdentifier;
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
     }
 
 
@@ -253,8 +253,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * 
      * @return Returns the user.
      */
-    public UniversalUser getUser() {
-        user = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(personUniversalIdentifier, user);
+    public Person getUser() {
+        user = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, user);
         return user;
     }
 
@@ -265,7 +265,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * @param user The user to set.
      * @deprecated - Should not be set, should be retrieved by SpringContext each time. See getUser() above.
      */
-    public void setUser(UniversalUser user) {
+    public void setUser(Person user) {
         this.user = user;
     }
 
@@ -380,13 +380,13 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     }
 
     /**
-     * Makes sure that copied fields between the referenced UniversalUser object and this object are properly synchronized.
+     * Makes sure that copied fields between the referenced Person object and this object are properly synchronized.
      */
     public void synchronizeUserObject() {
-        if (this.getPersonUniversalIdentifier() != null) {
+        if (this.getPrincipalId() != null) {
             this.getUser();
-            if (this.getUser().getPersonBaseSalaryAmount() != null) {
-                this.baseSalary = this.user.getPersonBaseSalaryAmount();
+            if (this.getUser().getBaseSalaryAmount() != null) {
+                this.baseSalary = this.user.getBaseSalaryAmount();
             }
             else {
                 this.baseSalary = KualiDecimal.ZERO;
@@ -394,7 +394,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
             String chart = "";
             String org = "";
-            ChartOrgHolder chartOrg = financialSystemUserService.getOrganizationByModuleId(this.user,"chart");
+            ChartOrgHolder chartOrg = SpringContext.getBean(KNSAuthorizationService.class).getOrganizationByModuleId(this.user,"chart");
             if ( chartOrg != null ) {
                 chart = chartOrg.getChartOfAccountsCode();
                 org = chartOrg.getOrganizationCode();
@@ -459,7 +459,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         LOG.info("  primaryDepartmentCode: (" + this.primaryDepartmentCode + ")");
         LOG.info("  baseSalary: (" + this.baseSalary + ")");
         LOG.info("  role: (" + this.role + ")");
-        LOG.info("  personUniversalIdentifier: (" + this.personUniversalIdentifier + ")");
+        LOG.info("  principalId: (" + this.principalId + ")");
         LOG.info("  appointmentTypeCode: (" + this.appointmentTypeCode + ")");
         LOG.info("  appointmentTypeDescription: (" + this.appointmentTypeDescription + ")");
         LOG.info("  personSeniorKeyIndicator: (" + this.personSeniorKeyIndicator + ")");
@@ -471,7 +471,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             LOG.info("  user: <null>");
         }
         else {
-            LOG.info("  user: (" + this.user.getPersonPayrollIdentifier() + ")");
+            LOG.info("  user: (" + this.user.getExternalId( org.kuali.rice.kim.util.KimConstants.EMPLOYEE_EXT_ID_TYPE ) + ")");
         }
     }
 
@@ -644,3 +644,4 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         this.delete = delete;
     }
 }
+

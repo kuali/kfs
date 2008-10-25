@@ -41,8 +41,8 @@
           <property name="primitiveAttributes" >
             <list>
               <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="employee.personUniversalIdentifier"
-                    p:targetName="personUniversalIdentifier" />
+                    p:sourceName="employee.principalId"
+                    p:targetName="principalId" />
             </list>
           </property>
           <property name="supportAttributes" >
@@ -99,7 +99,7 @@
   </bean>
   <bean id="EffortCertificationDocumentBuild-emplid" parent="EffortCertificationDocumentBuild-emplid-parentBean" />
 
-  <bean id="EffortCertificationDocumentBuild-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="EffortCertificationDocumentBuild-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
   </bean>
   <bean id="EffortCertificationDocumentBuild-universityFiscalYear" parent="EffortCertificationDocumentBuild-universityFiscalYear-parentBean" />
@@ -226,3 +226,4 @@
     </property>
   </bean>
 </beans>
+

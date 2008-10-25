@@ -59,7 +59,7 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
-            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         }
         catch (Exception e) {
             LOG.error("error occured trying to export multiple lookup results", e);
@@ -130,3 +130,4 @@ public class CustomerInvoiceWriteoffLookupAction extends KualiMultipleValueLooku
         }
     }
 }
+

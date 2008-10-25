@@ -27,10 +27,10 @@ public interface BudgetConstructionAccountObjectDetailReportService {
     /**
      * updates account summary table for SubFundSummaryReport.
      * 
-     * @param personUserIdentifier
+     * @param principalName
      * @return
      */
-    public void updateAccountObjectDetailReport(String personUserIdentifier, boolean consolidated);
+    public void updateAccountObjectDetailReport(String principalName, boolean consolidated);
     
     /**
      * builds BudgetConstructionOrgSubFundSummaryReports
@@ -39,6 +39,7 @@ public interface BudgetConstructionAccountObjectDetailReportService {
      * @param accountSummaryList
      * @return
      */
-    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear,  String personUserIdentifier, boolean consolidated);
+    public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear,  String principalName, boolean consolidated);
 
 }
+

@@ -8,17 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.kuali.kfs.module.purap.businessobject.B2BInformation;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * @author local-jsissom
  *
  */
 public class PunchOutSetupCxml {
-  private UniversalUser user;
+  private Person user;
   private B2BInformation b2bInformation;
 
-  public PunchOutSetupCxml(UniversalUser u,B2BInformation b) {
+  public PunchOutSetupCxml(Person u,B2BInformation b) {
     user = u;
     b2bInformation = b;
   }
@@ -62,7 +62,7 @@ public class PunchOutSetupCxml {
     cxml.append("    </To>\n");
     cxml.append("    <Sender>\n");
     cxml.append("      <Credential domain=\"TOPSNetworkUserId\">\n");
-    cxml.append("        <Identity>").append(user.getPersonUserIdentifier().toUpperCase()).append("</Identity>\n");
+    cxml.append("        <Identity>").append(user.getPrincipalName().toUpperCase()).append("</Identity>\n");
     cxml.append("        <SharedSecret>").append(b2bInformation.getPassword()).append("</SharedSecret>\n");
     cxml.append("      </Credential>\n");
     cxml.append("      <UserAgent>").append(b2bInformation.getUserAgent()).append("</UserAgent>\n");
@@ -70,18 +70,18 @@ public class PunchOutSetupCxml {
     cxml.append("  </Header>\n");
     cxml.append("  <Request deploymentMode=\"").append(b2bInformation.getEnvironment()).append("\">\n");
     cxml.append("    <PunchOutSetupRequest operation=\"create\">\n");
-    cxml.append("      <BuyerCookie>").append(user.getPersonUserIdentifier().toUpperCase()).append("</BuyerCookie>\n");
+    cxml.append("      <BuyerCookie>").append(user.getPrincipalName().toUpperCase()).append("</BuyerCookie>\n");
     //cxml.append(" <Extrinsic
     // name=\"UserEmail\">jdoe@TOPS.com</Extrinsic>\n"); // we can't reliably
     // get the e-mail address, so we're leaving it out
-    cxml.append("      <Extrinsic name=\"UniqueName\">").append(user.getPersonUserIdentifier().toUpperCase()).append("</Extrinsic>\n");
+    cxml.append("      <Extrinsic name=\"UniqueName\">").append(user.getPrincipalName().toUpperCase()).append("</Extrinsic>\n");
     cxml.append("      <Extrinsic name=\"Department\">IU").append(user.getCampusCode()).append(user.getPrimaryDepartmentCode()).append("</Extrinsic>\n");
     cxml.append("      <Extrinsic name=\"Campus\">").append(user.getCampusCode()).append("</Extrinsic>\n");
     cxml.append("      <BrowserFormPost>\n");
     cxml.append("        <URL>").append(b2bInformation.getPunchbackURL()).append("</URL>\n");
     cxml.append("      </BrowserFormPost>\n");
     cxml.append("      <Contact role=\"endUser\">\n");
-    cxml.append("        <Name xml:lang=\"en\">").append(user.getPersonName()).append("</Name>\n");
+    cxml.append("        <Name xml:lang=\"en\">").append(user.getName()).append("</Name>\n");
     //cxml.append(" <Email>jdoe@TOPS.com</Email>\n"); // again, we can't
     // reliably get this, so we're leaving it out
     cxml.append("      </Contact>\n");
@@ -96,3 +96,4 @@ public class PunchOutSetupCxml {
   }
 
 }
+

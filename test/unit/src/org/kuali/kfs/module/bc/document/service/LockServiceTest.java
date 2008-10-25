@@ -76,7 +76,7 @@ public class LockServiceTest extends KualiTestBase {
     private Integer universityFiscalYear;
     private String positionNumber;
     private  String pUIdOne = "3670600494"; // MCGUIRE
-    private  String pUIdTwo = "6162502038"; // KHUNTLEY
+    private  String pUIdTwo = "6162502038"; // khuntley
     
     // set up some data for the tests.
     // we will run everything in one test method, so this only needs to be done once
@@ -359,4 +359,5 @@ public class LockServiceTest extends KualiTestBase {
     }
     
 }
+
 

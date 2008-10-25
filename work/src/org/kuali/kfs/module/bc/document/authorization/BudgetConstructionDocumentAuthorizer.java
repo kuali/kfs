@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentActionFlags;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -43,10 +43,10 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
      * This inits and returns an editModeMap based on the BC security model
      * 
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public Map getEditMode(Document d, UniversalUser u) {
+    public Map getEditMode(Document d, Person u) {
 
 
         // This does not use workflow states to calculate editmode
@@ -92,7 +92,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
      * @param u
      * @return
      */
-    public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
+    public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, Person u) {
 
         BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
         FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
@@ -127,9 +127,9 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
         Map editModeMap = new HashMap();
 
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-        UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
+        Person person = GlobalVariables.getUserSession().getPerson();
         try {
-            List<Org> pointOfViewOrgs = permissionService.getOrgReview(universalUser);
+            List<Org> pointOfViewOrgs = permissionService.getOrgReview(person);
             if (pointOfViewOrgs.isEmpty()) {
                 // GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
                 String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
@@ -146,7 +146,7 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
             // TODO for now just return unviewable
             // really should report the exception in some soft way - maybe another EditMode value
 
-            LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: " + universalUser, e);
+            LOG.error("Could not get list of pointOfViewOrgs from permissionService.getOrgReview() for: " + person, e);
             String editMode = KfsAuthorizationConstants.BudgetConstructionEditMode.USER_NOT_ORG_APPROVER;
             editModeMap.put(editMode, "TRUE");
         }
@@ -157,14 +157,14 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kns.bo.user.UniversalUser)
+     *      org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         // TODO this needs to call service methods that implements the BC security model
         // TODO instead the form should call the verson of this method that passes in the editmode map, actions are based on that
         // return super.getDocumentActionFlags(document, user);
-        LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+        LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
 
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
 
@@ -185,9 +185,9 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
      * @param editModeMap
      * @return
      */
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user, Map editModeMap) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user, Map editModeMap) {
         
-        LOG.debug("calling editMode version of BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+        LOG.debug("calling editMode version of BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPrincipalName() + "'");
 
         FinancialSystemTransactionalDocumentActionFlags flags = new FinancialSystemTransactionalDocumentActionFlags(); // all flags default to false
 
@@ -203,3 +203,4 @@ public class BudgetConstructionDocumentAuthorizer extends FinancialSystemTransac
     }
 
 }
+

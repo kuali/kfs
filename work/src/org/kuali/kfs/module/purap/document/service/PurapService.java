@@ -143,7 +143,7 @@ public interface PurapService {
     /**
      * Performs the given logic with the given fake user id.  Need this to control the user.
      * 
-     * @param requiredUniversalUserPersonUserId
+     * @param requiredPersonPersonUserId
      * @param logicToRun
      * @param objects
      * @return
@@ -151,7 +151,7 @@ public interface PurapService {
      * @throws WorkflowException
      * @throws Exception
      */
-    public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
+    public Object performLogicWithFakedUserSession(String requiredPersonPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
 
     /**
      * Sort the below the line elements of the given document
@@ -240,3 +240,4 @@ public interface PurapService {
     */
    public void updateUseTaxIndicator(PurchasingAccountsPayableDocument purapDocument, boolean newUseTaxIndicatorValue);
 }
+

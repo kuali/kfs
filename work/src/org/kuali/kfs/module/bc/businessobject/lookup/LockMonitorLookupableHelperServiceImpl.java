@@ -31,16 +31,14 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.exception.UserNotFoundException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.UniversalUserService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -50,7 +48,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
  */
 public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private KualiConfigurationService kualiConfigurationService;
-    private UniversalUserService universalUserService;
+    private org.kuali.rice.kim.service.PersonService personService;
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -86,7 +84,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         for (BudgetConstructionHeader header : accountLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.ACCOUNT_LOCK);
-            lockSummary.setLockUserId(header.getBudgetLockUser().getPersonUserIdentifier());
+            lockSummary.setLockUserId(header.getBudgetLockUser().getPrincipalName());
 
             lockSummary.setDocumentNumber(header.getDocumentNumber());
             lockSummary.setUniversityFiscalYear(header.getUniversityFiscalYear());
@@ -108,7 +106,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         for (BudgetConstructionHeader header : transLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.TRANSACTION_LOCK);
-            lockSummary.setLockUserId(header.getBudgetTransactionLockUser().getPersonUserIdentifier());
+            lockSummary.setLockUserId(header.getBudgetTransactionLockUser().getPrincipalName());
 
             lockSummary.setDocumentNumber(header.getDocumentNumber());
             lockSummary.setUniversityFiscalYear(header.getUniversityFiscalYear());
@@ -131,7 +129,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         for (BudgetConstructionFundingLock fundingLock : fundingLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.FUNDING_LOCK);
-            lockSummary.setLockUserId(fundingLock.getAppointmentFundingLockUser().getPersonUserIdentifier());
+            lockSummary.setLockUserId(fundingLock.getAppointmentFundingLockUser().getPrincipalName());
 
             lockSummary.setUniversityFiscalYear(fundingLock.getUniversityFiscalYear());
             lockSummary.setChartOfAccountsCode(fundingLock.getChartOfAccountsCode());
@@ -152,7 +150,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : positionFundingLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.POSITION_FUNDING_LOCK);
-            lockSummary.setLockUserId(appointmentFunding.getBudgetConstructionPosition().getPositionLockUser().getPersonUserIdentifier());
+            lockSummary.setLockUserId(appointmentFunding.getBudgetConstructionPosition().getPositionLockUser().getPrincipalName());
 
             lockSummary.setUniversityFiscalYear(appointmentFunding.getUniversityFiscalYear());
             lockSummary.setChartOfAccountsCode(appointmentFunding.getChartOfAccountsCode());
@@ -177,7 +175,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         for (BudgetConstructionPosition position : positionLocks) {
             BudgetConstructionLockSummary lockSummary = new BudgetConstructionLockSummary();
             lockSummary.setLockType(BCConstants.LockTypes.POSITION_LOCK);
-            lockSummary.setLockUserId(position.getPositionLockUser().getPersonUserIdentifier());
+            lockSummary.setLockUserId(position.getPositionLockUser().getPrincipalName());
 
             lockSummary.setUniversityFiscalYear(position.getUniversityFiscalYear());
             lockSummary.setPositionNumber(position.getPositionNumber());
@@ -222,7 +220,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
     
     /**
-     * Uses UniversalUserService to retrieve user object associated with the given network id (if not blank) and then
+     * Uses org.kuali.rice.kim.service.PersonService to retrieve user object associated with the given network id (if not blank) and then
      * returns universal id. Add error to GlobalVariables if the user was not found.
      * 
      * @param networkID - network id for the user to find
@@ -231,11 +229,10 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     protected String getUniversalIdFromNetworkID(String networkID) {
         String universalId = null;
         if (StringUtils.isNotBlank(networkID)) {
-            try {
-                UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(networkID);
-                universalId = user.getPersonUniversalIdentifier();
-            }
-            catch (UserNotFoundException e) {
+            Person user = personService.getPersonByPrincipalName(networkID);
+            if (user != null) {
+                universalId = user.getPrincipalId();
+            } else {
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_LOCK_INVALID_USER, networkID);
             }
         }
@@ -287,12 +284,13 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
 
     /**
-     * Sets the universalUserService attribute value.
+     * Sets the personService attribute value.
      * 
-     * @param universalUserService The universalUserService to set.
+     * @param personService The personService to set.
      */
-    public void setUniversalUserService(UniversalUserService universalUserService) {
-        this.universalUserService = universalUserService;
+    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
+        this.personService = personService;
     }
     
 }
+

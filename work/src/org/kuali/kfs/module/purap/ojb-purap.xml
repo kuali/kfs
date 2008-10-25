@@ -2579,7 +2579,7 @@
     <field-descriptor name="extractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>
     <field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableRequestCancelIdentifier" column="AP_RQST_CNCL_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="lastActionPerformedByUniversalUserId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastActionPerformedByPersonId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="processingCampusCode" column="PRCS_CMP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
     <field-descriptor name="originalVendorHeaderGeneratedIdentifier" column="ORIG_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
@@ -3492,7 +3492,7 @@
     <field-descriptor name="itemMiscellaneousCreditDescription" column="ITM_MISC_CRDT_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="extractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>
     <field-descriptor name="accountsPayablePurchasingDocumentLinkIdentifier" column="AP_PUR_DOC_LNK_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="lastActionPerformedByUniversalUserId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastActionPerformedByPersonId" column="AP_HLD_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="continuationAccountIndicator" column="CONT_ACCT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="closePurchaseOrderIndicator" column="CLOSE_PO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     <field-descriptor name="reopenPurchaseOrderIndicator" column="REOPEN_PO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
@@ -4247,3 +4247,4 @@
         <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
 </class-descriptor>
 </descriptor-repository>
+

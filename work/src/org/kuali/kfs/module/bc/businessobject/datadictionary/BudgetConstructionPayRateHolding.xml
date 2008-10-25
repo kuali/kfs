@@ -20,7 +20,7 @@
         <ref bean="BudgetConstructionPayRateHolding-appointmentRequestedPayRate" />
         <ref bean="BudgetConstructionPayRateHolding-emplid" />
         <ref bean="BudgetConstructionPayRateHolding-grade" />
-        <ref bean="BudgetConstructionPayRateHolding-personName" />
+        <ref bean="BudgetConstructionPayRateHolding-name" />
         <ref bean="BudgetConstructionPayRateHolding-positionNumber" />
         <ref bean="BudgetConstructionPayRateHolding-salaryAdministrationPlan" />
         <ref bean="BudgetConstructionPayRateHolding-setidSalary" />
@@ -86,10 +86,10 @@
     <property name="summary" value="grade" />
     <property name="description" value="grade description..." />
   </bean>
-  <bean id="BudgetConstructionPayRateHolding-personName" parent="BudgetConstructionPayRateHolding-personName-parentBean" />
+  <bean id="BudgetConstructionPayRateHolding-name" parent="BudgetConstructionPayRateHolding-name-parentBean" />
 
-  <bean id="BudgetConstructionPayRateHolding-personName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="personName" />
+  <bean id="BudgetConstructionPayRateHolding-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Person Name" />
     <property name="shortLabel" value="Name" />
@@ -101,7 +101,7 @@
       <bean parent="TextControlDefinition"
             p:size="52" />
     </property>
-    <property name="summary" value="personName" />
+    <property name="summary" value="name" />
     <property name="description" value="personName description..." />
   </bean>
   <bean id="BudgetConstructionPayRateHolding-positionNumber" parent="BudgetConstructionPayRateHolding-positionNumber-parentBean" />
@@ -198,7 +198,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="grade" />
               <bean parent="FieldDefinition"
-                    p:attributeName="personName" />
+                    p:attributeName="name" />
               <bean parent="FieldDefinition"
                     p:attributeName="positionNumber" />
               <bean parent="FieldDefinition"
@@ -235,7 +235,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="grade" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -255,7 +255,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="grade" />
         <bean parent="FieldDefinition"
-              p:attributeName="personName" />
+              p:attributeName="name" />
         <bean parent="FieldDefinition"
               p:attributeName="positionNumber" />
         <bean parent="FieldDefinition"
@@ -268,3 +268,4 @@
     </property>
   </bean>
 </beans>
+

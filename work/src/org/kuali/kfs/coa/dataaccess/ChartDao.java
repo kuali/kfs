@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 
 /**
  * This interface defines what methods of data retrieval should be allowed for {@link org.kuali.kfs.coa.businessobject.Chart}
@@ -60,5 +60,6 @@ public interface ChartDao {
      * @param kualiUser
      * @return list of Chart objects that this user is responsible for
      */
-    public List getChartsThatUserIsResponsibleFor(UniversalUser kualiUser);
+    public List getChartsThatUserIsResponsibleFor(Person kualiUser);
 }
+

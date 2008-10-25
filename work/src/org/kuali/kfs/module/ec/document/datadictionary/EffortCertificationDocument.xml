@@ -34,8 +34,8 @@
         <ref bean="EffortCertificationDocument-emplid" />
         <ref bean="EffortCertificationDocument-documentNumber" />
         <ref bean="EffortCertificationDocument-universityFiscalYear" />
-        <ref bean="EffortCertificationDocument-employee.personName" />
-        <ref bean="EffortCertificationDocument-employee.personUserIdentifier" />
+        <ref bean="EffortCertificationDocument-employee.name" />
+        <ref bean="EffortCertificationDocument-employee.principalName" />
         <ref bean="EffortCertificationDocument-effortCertificationReportNumber" />
         <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" />
         <ref bean="EffortCertificationDocument-effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" />
@@ -67,7 +67,7 @@
   </bean>
   <bean id="EffortCertificationDocument-emplid" parent="EffortCertificationDocument-emplid-parentBean" />
 
-  <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="UniversalUser-personPayrollIdentifier">
+  <bean id="EffortCertificationDocument-emplid-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="emplid" />
     <property name="required" value="true" />
   </bean>
@@ -82,16 +82,16 @@
     <property name="label" value="Fiscal Year" />
     <property name="required" value="true" />
   </bean>
-  <bean id="EffortCertificationDocument-employee.personName" parent="EffortCertificationDocument-employee.personName-parentBean" />
+  <bean id="EffortCertificationDocument-employee.name" parent="EffortCertificationDocument-employee.name-parentBean" />
 
-  <bean id="EffortCertificationDocument-employee.personName-parentBean" abstract="true" parent="UniversalUser-personName">
-    <property name="name" value="employee.personName" />
+  <bean id="EffortCertificationDocument-employee.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="employee.name" />
     <property name="label" value="Employee Name" />
   </bean>
-  <bean id="EffortCertificationDocument-employee.personUserIdentifier" parent="EffortCertificationDocument-employee.personUserIdentifier-parentBean" />
+  <bean id="EffortCertificationDocument-employee.principalName" parent="EffortCertificationDocument-employee.principalName-parentBean" />
 
-  <bean id="EffortCertificationDocument-employee.personUserIdentifier-parentBean" abstract="true" parent="UniversalUser-personUserIdentifier">
-    <property name="name" value="employee.personUserIdentifier" />
+  <bean id="EffortCertificationDocument-employee.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="employee.principalName" />
   </bean>
   <bean id="EffortCertificationDocument-effortCertificationReportNumber" parent="EffortCertificationDocument-effortCertificationReportNumber-parentBean" />
 
@@ -115,3 +115,4 @@
   <bean id="EffortCertificationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
   </bean>
 </beans>
+

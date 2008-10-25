@@ -21,8 +21,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.Summarizable;
-import org.kuali.rice.kns.bo.user.UniversalUser;
-import org.kuali.rice.kns.service.UniversalUserService;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     private ObjectCode finInternalEncumbranceObj;
     private ObjectCode icrExpenseFinancialObject;
     private ObjectCode fundBalanceObject;
-    private UniversalUser finCoaManagerUniversal;
+    private Person finCoaManagerUniversal;
     private Chart reportsToChartOfAccounts;
 
 
@@ -221,8 +221,8 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
         this.finAccountsReceivableObj = finAccountsReceivableObj;
     }
 
-    public UniversalUser getFinCoaManagerUniversal() {
-        finCoaManagerUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
+    public Person getFinCoaManagerUniversal() {
+        finCoaManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(finCoaManagerUniversalId, finCoaManagerUniversal);
         return finCoaManagerUniversal;
     }
 
@@ -232,7 +232,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * @param finCoaManagerUniversal The finCoaManagerUniversal to set.
      * @deprecated
      */
-    public void setFinCoaManagerUniversal(UniversalUser finCoaManagerUniversal) {
+    public void setFinCoaManagerUniversal(Person finCoaManagerUniversal) {
         this.finCoaManagerUniversal = finCoaManagerUniversal;
     }
 
@@ -623,3 +623,4 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     }
 
 }
+

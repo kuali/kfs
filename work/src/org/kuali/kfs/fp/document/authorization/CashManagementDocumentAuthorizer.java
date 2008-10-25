@@ -33,12 +33,10 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kew.dto.ValidActionsDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.user.UniversalUser;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.DocumentInitiationAuthorizationException;
 import org.kuali.rice.kns.exception.DocumentTypeAuthorizationException;
-import org.kuali.rice.kns.exception.GroupNotFoundException;
-import org.kuali.rice.kns.service.KualiGroupService;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -54,38 +52,33 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public Map getEditMode(Document document, UniversalUser user) {
+    public Map getEditMode(Document document, Person user) {
         // default is UNVIEWABLE for this doctype
         Map editModeMap = new HashMap();
         editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.UNVIEWABLE, "TRUE");
 
         // update editMode if possible
-        try {
-            CashManagementDocument cmDoc = (CashManagementDocument) document;
+        CashManagementDocument cmDoc = (CashManagementDocument) document;
 
-            if (SpringContext.getBean(KualiGroupService.class).getByGroupName(cmDoc.getWorkgroupName()).hasMember(user)) {
-                editModeMap.clear();
+        if (org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().isMemberOfGroup(user.getPrincipalId(), org.kuali.rice.kim.service.KIMServiceLocator.getIdentityManagementService().getGroupByName("KFS", cmDoc.getWorkgroupName()).getGroupId())) {
+            editModeMap.clear();
 
-                KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-                if (workflowDocument.stateIsInitiated()) {
-                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
-                }
-                else if (workflowDocument.stateIsSaved()) {
-                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
+            if (workflowDocument.stateIsInitiated()) {
+                editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
+            }
+            else if (workflowDocument.stateIsSaved()) {
+                editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.FULL_ENTRY, "TRUE");
 
-                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS, "TRUE");
-                    if (!cmDoc.hasFinalDeposit()) {
-                        editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS, "TRUE");
-                    }
-                }
-                else {
-                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.VIEW_ONLY, "TRUE");
+                editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_CANCEL_DEPOSITS, "TRUE");
+                if (!cmDoc.hasFinalDeposit()) {
+                    editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS, "TRUE");
                 }
             }
-        }
-        catch (GroupNotFoundException e) {
-            // leave editModeMap UNVIEWABLE
+            else {
+                editModeMap.put(KfsAuthorizationConstants.CashManagementEditMode.VIEW_ONLY, "TRUE");
+            }
         }
 
         return editModeMap;
@@ -96,7 +89,7 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
      *      org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+    public FinancialSystemTransactionalDocumentActionFlags getDocumentActionFlags(Document document, Person user) {
         FinancialSystemTransactionalDocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         CashManagementDocument cmDoc = (CashManagementDocument) document;
@@ -162,17 +155,18 @@ public class CashManagementDocumentAuthorizer extends FinancialSystemTransaction
      * @see org.kuali.rice.kns.document.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
      */
     @Override
-    public void canInitiate(String documentTypeName, UniversalUser user) throws DocumentTypeAuthorizationException {
+    public void canInitiate(String documentTypeName, Person user) throws DocumentTypeAuthorizationException {
         try {
             super.canInitiate(documentTypeName, user);
             // to initiate, you have to be a member of the bursar's group for your campus
             String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForUser(user);
             if (!user.isMember(unitName)) {
-                throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+                throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "initiate", documentTypeName);
             }
         }
         catch (DocumentInitiationAuthorizationException e) {
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "add deposits to", documentTypeName);
+            throw new DocumentTypeAuthorizationException(user.getPrincipalName(), "add deposits to", documentTypeName);
         }
     }
 }
+

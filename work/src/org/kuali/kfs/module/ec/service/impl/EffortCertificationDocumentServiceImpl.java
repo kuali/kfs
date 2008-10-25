@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
@@ -412,4 +413,3 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         this.kualiModuleService = kualiModuleService;
     }
 }
-

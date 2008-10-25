@@ -82,7 +82,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         A21SubAccount A21SubAccount = this.getA21SubAccount(ledgerBalance);
         String subAccountTypeCode = ObjectUtils.isNull(A21SubAccount) ? null : A21SubAccount.getSubAccountTypeCode();
 
-        if (subAccountTypeCode == null || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
+        if (ObjectUtils.isNull(subAccountTypeCode) || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
             detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);

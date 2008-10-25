@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a
@@ -46,7 +47,7 @@ public class LedgerBalanceFieldValidator {
      * @return null if the given ledger balance has an account qualified for effort reporting; otherwise, a message
      */
     public static Message hasValidAccount(LaborLedgerBalance ledgerBalance) {
-        if (ledgerBalance.getAccount() == null) {
+        if (ObjectUtils.isNull(ledgerBalance.getAccount())) {
             String account = new StringBuilder(ledgerBalance.getChartOfAccountsCode()).append(EffortConstants.VALUE_SEPARATOR).append(ledgerBalance.getAccountNumber()).toString();
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
         }
@@ -64,7 +65,7 @@ public class LedgerBalanceFieldValidator {
     public static Message isInFundGroups(LaborLedgerBalance ledgerBalance, List<String> fundGroupCodes) {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
-        if (subFundGroup == null || !fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
+        if (ObjectUtils.isNull(subFundGroup) || !fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getFundGroupCode());
         }
         return null;
@@ -81,7 +82,7 @@ public class LedgerBalanceFieldValidator {
     public static Message isInSubFundGroups(LaborLedgerBalance ledgerBalance, List<String> subFundGroupCodes) {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
-        if (subFundGroup == null || !subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
+        if (ObjectUtils.isNull(subFundGroup) || !subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getSubFundGroupCode());
         }
         return null;

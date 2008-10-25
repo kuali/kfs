@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.List;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.ld.LaborModuleService;
@@ -226,7 +227,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
 
-        if (reportDefinition == null) {
+        if ( ObjectUtils.isNull(reportDefinition)) {
             reportError(EffortConstants.EFFORT_DETAIL_IMPORT_ERRORS, EffortKeyConstants.ERROR_REPORT_DEFINITION_NOT_EXIST);
             return false;
         }

@@ -98,7 +98,7 @@ public class EffortCertificationDocumentRuleUtil {
         Account account = detailLine.getAccount();
 
         boolean canExpiredAccountUsed = true;
-        if (account != null && account.isExpired()) {
+        if (ObjectUtils.isNotNull(account) && account.isExpired()) {
             String overrideCode = detailLine.getOverrideCode();
             canExpiredAccountUsed = Arrays.asList(EXPIRED_ACCOUNT, EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED).contains(overrideCode);
         }
@@ -370,7 +370,7 @@ public class EffortCertificationDocumentRuleUtil {
     public static void updateSourceAccountInformation(EffortCertificationDetail detailLine) {
         A21SubAccount a21SubAccount = detailLine.getSubAccount().getA21SubAccount();
 
-        if (a21SubAccount != null) {
+        if (ObjectUtils.isNotNull(a21SubAccount)) {
             detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
             detailLine.setSourceAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
             detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());

@@ -39,6 +39,7 @@
         </bean>
       </list>
     </property>
+    <property name="allowsNewOrCopy" value="false" />
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -53,7 +54,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="code"
-              p:required="true" />
+              p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="name"
               p:required="true" />

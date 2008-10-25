@@ -4,29 +4,29 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="DisbursementTypeMaintenanceDocument" parent="DisbursementTypeMaintenanceDocument-parentBean" />
+  <bean id="AchTransactionCodeMaintenanceDocument" parent="AchTransactionCodeMaintenanceDocument-parentBean" />
 
-  <bean id="DisbursementTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.DisbursementType" />
+  <bean id="AchTransactionCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.AchTransactionCode" />
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
     <property name="maintainableSections" >
       <list>
-        <ref bean="DisbursementTypeMaintenanceDocument-EditDisbursementType" />
+        <ref bean="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode" />
       </list>
     </property>
     
     <property name="lockingKeys" >
       <list>
-        <value>code</value>
+        <value>transactionCode</value>
       </list>
     </property>
-    <property name="label" value="Disbursement Type" />
-    <property name="shortLabel" value="Disbursement Type" />
-    <property name="summary" value="Disbursement Type Maintenance Document" />
-    <property name="description" value="Document used to create or update Disbursement Type Descriptions" />
-    <property name="documentTypeName" value="DisbursementTypeMaintenanceDocument" />
+    <property name="label" value="Payee Type" />
+    <property name="shortLabel" value="Payee Type" />
+    <property name="summary" value="Payee Type Maintenance Document" />
+    <property name="description" value="Document used to create or update Payee Type Descriptions" />
+    <property name="documentTypeName" value="AchTransactionCodeMaintenanceDocument" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-    <property name="documentTypeCode" value="DSTP" />
+    <property name="documentTypeCode" value="ACTR" />
     <property name="authorizations" >
       <list>
         <bean parent="AuthorizationDefinition">
@@ -45,18 +45,18 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="DisbursementTypeMaintenanceDocument-EditDisbursementType" parent="DisbursementTypeMaintenanceDocument-EditDisbursementType-parentBean" />
+  <bean id="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode" parent="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode-parentBean" />
 
-  <bean id="DisbursementTypeMaintenanceDocument-EditDisbursementType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Payment Type" />
-    <property name="title" value="Edit Payment Type" />
+  <bean id="AchTransactionCodeMaintenanceDocument-EditAchTransactionCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Payee Type" />
+    <property name="title" value="Edit Payee Type" />
     <property name="maintainableItems" >
       <list>
-        <bean parent="MaintainableFieldDefinition"
-              p:name="code"
+       <bean parent="MaintainableFieldDefinition"
+              p:name="transactionCode"
               p:readOnly="true" />
         <bean parent="MaintainableFieldDefinition"
-              p:name="name"
+              p:name="description"
               p:required="true" />
       </list>
     </property>

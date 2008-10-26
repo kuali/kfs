@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.dataaccess.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,27 +53,37 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
         Class workingBusinessObjectClass = businessObjectClass;
         String workingPropertyName = propertyName;
         while (workingPropertyName.contains(".")) {
+            BusinessObject businessObject = null;
             try {
-                BusinessObject businessObject = (BusinessObject)workingBusinessObjectClass.newInstance();
-                workingBusinessObjectClass = PropertyUtils.getPropertyType(businessObject, workingPropertyName.substring(0, workingPropertyName.indexOf(".")));
-                if (Collection.class.isAssignableFrom(workingBusinessObjectClass)) {
-                    workingBusinessObjectClass = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(businessObject.getClass()).getCollectionDescriptorByName(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).getItemClass();
-                }
-                if ((workingBusinessObjectClass == null) || !PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
-                    setDummyValues();
-                    return this;
-                }
-                else {
-                    workingPropertyName = workingPropertyName.substring(workingPropertyName.indexOf(".") + 1);
-                }
+                businessObject = (BusinessObject)workingBusinessObjectClass.newInstance();
             }
             catch (Exception e) {
-                LOG.error(new StringBuffer("Unable to traverse object tree for business object class ").append(businessObjectClass).append(" and propertyName ").append(propertyName).toString(), e);
-                setDummyValues();
-                return this;                
+                LOG.error("Unable to instantiate businessObjectClass " + workingBusinessObjectClass, e);
+                return populateAndReturnNonPersistableInstance();
+            }
+            try {
+                workingBusinessObjectClass = PropertyUtils.getPropertyType(businessObject, workingPropertyName.substring(0, workingPropertyName.indexOf(".")));
+            }
+            catch (Exception e) {
+                LOG.error(new StringBuffer("Unable to get type of property ").append(workingPropertyName).append(" for BusinessObject class ").append(businessObject.getClass()).toString(), e);
+                return populateAndReturnNonPersistableInstance();
+            }
+            if (Collection.class.isAssignableFrom(workingBusinessObjectClass)) {
+                if (!PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
+                    return populateAndReturnNonPersistableInstance();
+                }
+                workingBusinessObjectClass = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(businessObject.getClass()).getCollectionDescriptorByName(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).getItemClass();
+            }
+            if ((workingBusinessObjectClass == null) || !PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
+                return populateAndReturnNonPersistableInstance();
+            }
+            else {
+                workingPropertyName = workingPropertyName.substring(workingPropertyName.indexOf(".") + 1);
             }
         }
-
+        if (!PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
+            return populateAndReturnNonPersistableInstance();
+        }
         ClassDescriptor classDescriptor = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(workingBusinessObjectClass);
         if (classDescriptor != null) {
             tableName = classDescriptor.getFullTableName();
@@ -85,21 +96,20 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
                     decimalPlaces = resultSet.getInt("DECIMAL_DIGITS");
                     encrypted = classDescriptor.getFieldDescriptorByName(workingPropertyName).getFieldConversion() instanceof OjbKualiEncryptDecryptFieldConversion;
                 }
+                return this;
             }
         }
-        else {
-            setDummyValues();
-        }
-        return this;
+        return populateAndReturnNonPersistableInstance();
     }
     
-    private void setDummyValues() {
+    private FieldMetaData populateAndReturnNonPersistableInstance() {
         tableName = "N/A";
         columnName = tableName;
         dataType = tableName;
         length = 0;
         decimalPlaces = 0;
         encrypted = false;
+        return this;
     }
 
     public String getTableName() {

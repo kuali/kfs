@@ -53,28 +53,34 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
         Class workingBusinessObjectClass = businessObjectClass;
         String workingPropertyName = propertyName;
         while (workingPropertyName.contains(".")) {
-            BusinessObject businessObject = null;
             try {
-                businessObject = (BusinessObject)workingBusinessObjectClass.newInstance();
+                workingBusinessObjectClass = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(workingBusinessObjectClass).getObjectReferenceDescriptorByName(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).getItemClass();
             }
-            catch (Exception e) {
-                LOG.error("Unable to instantiate businessObjectClass " + workingBusinessObjectClass, e);
-                return populateAndReturnNonPersistableInstance();
-            }
-            try {
-                workingBusinessObjectClass = PropertyUtils.getPropertyType(businessObject, workingPropertyName.substring(0, workingPropertyName.indexOf(".")));
-            }
-            catch (Exception e) {
-                LOG.error(new StringBuffer("Unable to get type of property ").append(workingPropertyName).append(" for BusinessObject class ").append(businessObject.getClass()).toString(), e);
-                return populateAndReturnNonPersistableInstance();
-            }
-            if (Collection.class.isAssignableFrom(workingBusinessObjectClass)) {
-                if (!PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
-                    return populateAndReturnNonPersistableInstance();
+            catch (Exception e1) {
+                LOG.debug(new StringBuffer("Unable to get property type via reference descriptor for property ").append(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).append(" of BusinessObject class ").append(workingBusinessObjectClass).toString(), e1);
+                try {
+                    workingBusinessObjectClass = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(workingBusinessObjectClass).getCollectionDescriptorByName(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).getItemClass();                        
                 }
-                workingBusinessObjectClass = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(businessObject.getClass()).getCollectionDescriptorByName(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).getItemClass();
+                catch (Exception e2) {
+                    LOG.debug(new StringBuffer("Unable to get property type via collection descriptor of property ").append(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).append(" of BusinessObject class ").append(workingBusinessObjectClass).toString(), e2);
+                    BusinessObject businessObject = null;
+                    try {
+                        businessObject = (BusinessObject)workingBusinessObjectClass.newInstance();
+                    }
+                    catch (Exception e3) {
+                        LOG.debug("Unable to instantiate BusinessObject class " + workingBusinessObjectClass, e3);
+                        return populateAndReturnNonPersistableInstance();
+                    }
+                    try {
+                        workingBusinessObjectClass = PropertyUtils.getPropertyType(businessObject, workingPropertyName.substring(0, workingPropertyName.indexOf(".")));
+                    }
+                    catch (Exception e4) {
+                        LOG.debug(new StringBuffer("Unable to get type of property ").append(workingPropertyName.substring(0, workingPropertyName.indexOf("."))).append(" for BusinessObject class ").append(workingBusinessObjectClass).toString(), e4);
+                        return populateAndReturnNonPersistableInstance();
+                    }
+                }
             }
-            if ((workingBusinessObjectClass == null) || !PersistableBusinessObject.class.isAssignableFrom(workingBusinessObjectClass)) {
+            if (workingBusinessObjectClass == null) {
                 return populateAndReturnNonPersistableInstance();
             }
             else {
@@ -85,21 +91,22 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
             return populateAndReturnNonPersistableInstance();
         }
         ClassDescriptor classDescriptor = org.apache.ojb.broker.metadata.MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(workingBusinessObjectClass);
-        if (classDescriptor != null) {
-            tableName = classDescriptor.getFullTableName();
-            if (classDescriptor.getFieldDescriptorByName(workingPropertyName) != null) {
-                columnName = classDescriptor.getFieldDescriptorByName(workingPropertyName).getColumnName();
-                ResultSet resultSet = databaseMetaData.getColumns(null, null, tableName, columnName);
-                if (resultSet.next()) {
-                    dataType = resultSet.getString("TYPE_NAME");
-                    length = resultSet.getInt("COLUMN_SIZE");
-                    decimalPlaces = resultSet.getInt("DECIMAL_DIGITS");
-                    encrypted = classDescriptor.getFieldDescriptorByName(workingPropertyName).getFieldConversion() instanceof OjbKualiEncryptDecryptFieldConversion;
-                }
-                return this;
-            }
+        if (classDescriptor == null) {
+            return populateAndReturnNonPersistableInstance();
         }
-        return populateAndReturnNonPersistableInstance();
+        tableName = classDescriptor.getFullTableName();
+        if (classDescriptor.getFieldDescriptorByName(workingPropertyName) == null) {
+            return populateAndReturnNonPersistableInstance();
+        }
+        columnName = classDescriptor.getFieldDescriptorByName(workingPropertyName).getColumnName();
+        ResultSet resultSet = databaseMetaData.getColumns(null, null, tableName, columnName);
+        if (resultSet.next()) {
+            dataType = resultSet.getString("TYPE_NAME");
+            length = resultSet.getInt("COLUMN_SIZE");
+            decimalPlaces = resultSet.getInt("DECIMAL_DIGITS");
+            encrypted = classDescriptor.getFieldDescriptorByName(workingPropertyName).getFieldConversion() instanceof OjbKualiEncryptDecryptFieldConversion;
+        }
+        return this;
     }
     
     private FieldMetaData populateAndReturnNonPersistableInstance() {

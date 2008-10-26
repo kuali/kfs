@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.kuali.kfs.module.ar.dataaccess.CustomerAddressDao;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +65,29 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         }
         
         return primaryAddress;
+    }
+
+    /**
+     * This method returns true if customer address is active
+     * 
+     * @param customerNumber
+     * @param customerAddressIdentifier
+     * @return
+     */
+    public boolean customerAddressActive(String customerNumber, Integer customerAddressIdentifier) {
+        
+        CustomerAddress customerAddress = getByPrimaryKey(customerNumber, customerAddressIdentifier);
+
+        if (ObjectUtils.isNotNull(customerAddress)) {
+            if (ObjectUtils.isNotNull(customerAddress.getCustomerAddressEndDate())) {
+                Timestamp currentDateTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+                Timestamp addressEndDateTimestamp = new Timestamp(customerAddress.getCustomerAddressEndDate().getTime());
+                if (addressEndDateTimestamp.before(currentDateTimestamp)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public BusinessObjectService getBusinessObjectService() {

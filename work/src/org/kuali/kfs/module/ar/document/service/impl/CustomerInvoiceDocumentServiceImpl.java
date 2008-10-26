@@ -321,10 +321,12 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
             if (ObjectUtils.isNotNull(customerShipToAddress)) {
                 customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+                customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
             }
 
             if (ObjectUtils.isNotNull(customerBillToAddress)) {
                 customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+                customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
             }
         }
     }

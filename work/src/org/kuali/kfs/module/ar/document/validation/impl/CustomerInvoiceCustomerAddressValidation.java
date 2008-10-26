@@ -15,13 +15,19 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
+import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
+import java.sql.Timestamp;
+
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -36,9 +42,11 @@ public class CustomerInvoiceCustomerAddressValidation extends GenericValidation 
 
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerShipToAddressIdentifier())) {
             success &= isCustomerAddressValid(customerNumber, customerInvoiceDocument.getCustomerShipToAddressIdentifier(), true);
+            success &= isCustomerAddressActive(customerNumber, customerInvoiceDocument.getCustomerShipToAddressIdentifier(), true);
         }
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getCustomerBillToAddressIdentifier())) {
             success &= isCustomerAddressValid(customerNumber, customerInvoiceDocument.getCustomerBillToAddressIdentifier(), false);
+            success &= isCustomerAddressActive(customerNumber, customerInvoiceDocument.getCustomerBillToAddressIdentifier(), false);
         }
 
         return success;
@@ -55,13 +63,34 @@ public class CustomerInvoiceCustomerAddressValidation extends GenericValidation 
 
         if (!customerAddressService.customerAddressExists(customerNumber, customerAddressIdentifier)) {
             if (isShipToAddress) {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_SHIP_TO_ADDRESS_IDENTIFIER);
             }
             else {
-                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_BILL_TO_ADDRESS_IDENTIFIER);
             }
             return false;
 
+        }
+        return true;
+    }    
+    
+    /**
+     * This method validates if a customer address is active
+     * 
+     * @param customerInvoiceDocument
+     * @param isShipToAddress
+     * @return
+     */
+    protected boolean isCustomerAddressActive(String customerNumber, Integer customerAddressIdentifier, boolean isShipToAddress) {
+
+        if (!customerAddressService.customerAddressActive(customerNumber, customerAddressIdentifier)) {
+            if (isShipToAddress) {
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.SHIP_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_SHIP_TO_ADDRESS_IDENTIFIER);
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_TO_ADDRESS_IDENTIFIER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INACTIVE_BILL_TO_ADDRESS_IDENTIFIER);
+            }
+            return false;
         }
         return true;
     }    

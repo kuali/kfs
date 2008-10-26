@@ -1792,4 +1792,45 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return returnVal;
     }
 
+    /**
+     * Populate Customer Billing Address fields on Customer Invoice.
+     * @return
+     */
+    public void setCustomerBillToAddressOnInvoice(CustomerAddress customerBillToAddress) {
+        
+        this.setCustomerName(accountsReceivableDocumentHeader.getCustomer().getCustomerName());
+
+        this.setBillingAddressTypeCode(customerBillToAddress.getCustomerAddressTypeCode());
+        this.setBillingAddressName(customerBillToAddress.getCustomerAddressName());
+        this.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
+        this.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
+        this.setBillingCityName(customerBillToAddress.getCustomerCityName());
+        this.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
+        this.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
+        this.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
+        this.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
+        this.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
+        this.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+    }
+
+    /**
+     * Populate Customer Shipping Address fields on Customer Invoice.
+     * @return
+     */
+    public void setCustomerShipToAddressOnInvoice(CustomerAddress customerShipToAddress) {
+
+        this.setCustomerName(accountsReceivableDocumentHeader.getCustomer().getCustomerName());
+
+        this.setShippingAddressTypeCode(customerShipToAddress.getCustomerAddressTypeCode());
+        this.setShippingAddressName(customerShipToAddress.getCustomerAddressName());
+        this.setShippingLine1StreetAddress(customerShipToAddress.getCustomerLine1StreetAddress());
+        this.setShippingLine2StreetAddress(customerShipToAddress.getCustomerLine2StreetAddress());
+        this.setShippingCityName(customerShipToAddress.getCustomerCityName());
+        this.setShippingStateCode(customerShipToAddress.getCustomerStateCode());
+        this.setShippingZipCode(customerShipToAddress.getCustomerZipCode());
+        this.setShippingCountryCode(customerShipToAddress.getCustomerCountryCode());
+        this.setShippingAddressInternationalProvinceName(customerShipToAddress.getCustomerAddressInternationalProvinceName());
+        this.setShippingInternationalMailCode(customerShipToAddress.getCustomerInternationalMailCode());
+        this.setShippingEmailAddress(customerShipToAddress.getCustomerEmailAddress());
+    }
 }

@@ -110,7 +110,6 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         CustomerInvoiceDocumentForm form = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         form.getCustomerInvoiceDocument().updateDiscountAndParentLineReferences();
-        SpringContext.getBean(CustomerInvoiceDocumentService.class).loadCustomerAddressesForCustomerInvoiceDocument(form.getCustomerInvoiceDocument());
 
     }
 
@@ -359,6 +358,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerAddress customerBillToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerBillToAddressIdentifier());
         if (ObjectUtils.isNotNull(customerBillToAddress)) {
             customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+            customerInvoiceDocument.setCustomerBillToAddressOnInvoice(customerBillToAddress);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -380,6 +380,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerAddress customerShipToAddress = SpringContext.getBean(CustomerAddressService.class).getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerShipToAddressIdentifier());
         if (ObjectUtils.isNotNull(customerShipToAddress)) {
             customerInvoiceDocument.setCustomerShipToAddress(customerShipToAddress);
+            customerInvoiceDocument.setCustomerShipToAddressOnInvoice(customerShipToAddress);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

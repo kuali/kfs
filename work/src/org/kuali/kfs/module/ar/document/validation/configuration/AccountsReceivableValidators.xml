@@ -111,6 +111,7 @@
    		</property>   		
    	</bean>   	
    	
+   	<bean id="CustomerInvoice-recurrenceIntervalCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceIntervalCodeValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceBeginDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceBeginDateValidation" abstract="true"/>
    	<bean id="CustomerInvoice-recurrenceEndDateValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceRecurrenceEndDateValidation" abstract="true"/>
    	<bean id="CustomerInvoice-maximumNumberOfRecurrencesValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceMaximumNumberOfRecurrencesValidation" abstract="true"/>

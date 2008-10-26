@@ -427,7 +427,7 @@ public class CustomerCreditMemoDocument extends FinancialSystemTransactionalDocu
             invoiceOpenItemQuantity = KualiDecimal.ZERO;
         else {
             BigDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount().bigDecimalValue();
-            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemAmount.divide(invoiceItemUnitPrice));
+            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemAmount.divide(invoiceItemUnitPrice, 4));
         }
         return invoiceOpenItemQuantity;
     }

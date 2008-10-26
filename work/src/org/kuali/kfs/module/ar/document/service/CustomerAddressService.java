@@ -51,4 +51,13 @@ public interface CustomerAddressService {
      */
     
     public CustomerAddress getPrimaryAddress(String customerNumber);
+
+    /**
+     * This method returns true if customer address is active
+     * 
+     * @param customerNumber
+     * @param customerAddressIdentifier
+     * @return
+     */
+    public boolean customerAddressActive(String customerNumber, Integer customerAddressIdentifier);
 }

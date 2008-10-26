@@ -547,6 +547,16 @@
 						</map>
 					</property>
 				</bean>
+				<bean parent="CustomerInvoice-recurrenceIntervalCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="customerInvoiceDocument" />
+							</bean>											
+						</list>
+					</property>					
+				</bean>
 				<bean parent="CustomerInvoice-recurrenceBeginDateValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

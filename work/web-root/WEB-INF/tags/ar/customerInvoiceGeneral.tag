@@ -59,6 +59,20 @@
 					    />                    
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell" style="width: 25%;">
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerName}" property="document.customerName" readOnly="${readOnly}" />
+                </td>
+            </tr>    
+            <tr>        
+				<th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" property="document.customerPurchaseOrderNumber" readOnly="${readOnly}"/>
+				</td>    
+                <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerPurchaseOrderDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
@@ -71,20 +85,6 @@
 	                    </c:otherwise>
 	                </c:choose>                
                 </td>          
-            </tr>    
-            <tr>        
-				<th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.customerPurchaseOrderNumber}" property="document.customerPurchaseOrderNumber" readOnly="${readOnly}"/>
-				</td>    
-				<th align=right valign=middle class="bord-l-b">
-                    &nbsp;
-                </th>
-                <td align=left valign=middle class="datacell">
-                    &nbsp;
-                </td> 
             </tr>         
             <tr>
                 <td colspan="4" class="subhead">Detail Information</td>

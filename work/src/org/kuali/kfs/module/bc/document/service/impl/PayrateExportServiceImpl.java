@@ -101,7 +101,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         StringBuilder line = new StringBuilder();
         String emplid = padString(holdingRecord.getEmplid(), 11, true);
         String positionNumber = padString(holdingRecord.getPositionNumber(), 8, true);
-        String personName = padString(holdingRecord.getName(), 50, true);
+        String name = padString(holdingRecord.getName(), 50, true);
         String setIdSalary = padString(holdingRecord.getSetidSalary(), 5, true);
         String salAdminPlan = padString(holdingRecord.getSalaryAdministrationPlan(), 4, true);
         String grade = padString(holdingRecord.getGrade(), 3, true);
@@ -111,7 +111,7 @@ public class PayrateExportServiceImpl implements PayrateExportService {
         
         line.append(emplid);
         line.append(positionNumber);
-        line.append(personName);
+        line.append(name);
         line.append(setIdSalary);
         line.append(salAdminPlan);
         line.append(grade);

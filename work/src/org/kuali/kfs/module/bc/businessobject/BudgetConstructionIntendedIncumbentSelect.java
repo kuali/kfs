@@ -28,7 +28,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     private String principalId;
     private String emplid;
     private String financialObjectCode;
-    private String personName;
+    private String name;
 
     /**
      * Default constructor.
@@ -95,21 +95,21 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
 
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public String getName() {
-        return personName;
+        return name;
     }
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

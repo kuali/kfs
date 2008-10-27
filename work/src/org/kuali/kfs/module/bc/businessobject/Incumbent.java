@@ -35,18 +35,18 @@ public interface Incumbent {
     public abstract void setEmplid(String emplid);
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public abstract String getName();
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public abstract void setName(String personName);
+    public abstract void setName(String name);
 
     /**
      * Gets the setidSalary attribute.

@@ -42,7 +42,7 @@ public class BudgetConstructionAccountSalaryDetailReport{
     private String financialObjectCode;
     private String financialObjectCodeName;
     
-    private String personName;
+    private String name;
     // from PendingBudgetConstructionAppointmentFunding
     private String deleteBox;
     private String financialSubObjectCode;
@@ -279,14 +279,14 @@ public class BudgetConstructionAccountSalaryDetailReport{
 
 
     public String getName() {
-        return personName;
+        return name;
     }
 
 
 
 
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

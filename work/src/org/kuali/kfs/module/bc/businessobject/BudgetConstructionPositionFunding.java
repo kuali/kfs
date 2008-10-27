@@ -34,7 +34,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
     private String principalId;
     private String selectedOrganizationChartOfAccountsCode;
     private String selectedOrganizationCode;
-    private String personName;
+    private String name;
     private String emplid;
     private String positionNumber;
     private Integer universityFiscalYear;
@@ -118,21 +118,21 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
 
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public String getName() {
-        return personName;
+        return name;
     }
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -410,7 +410,7 @@ public class BudgetConstructionPositionFunding extends PersistableBusinessObject
         m.put("principalId", this.principalId);
         m.put("selectedOrganizationChartOfAccountsCode", this.selectedOrganizationChartOfAccountsCode);
         m.put("selectedOrganizationCode", this.selectedOrganizationCode);
-        m.put("name", this.personName);
+        m.put("name", this.name);
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
         if (this.universityFiscalYear != null) {

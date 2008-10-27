@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase implements PendingBudgetConstructionAppointmentFundingAware, Incumbent, Inactivateable {
 
     private String emplid;
-    private String personName;
+    private String name;
     private String setidSalary;
     private String salaryAdministrationPlan;
     private String grade;
@@ -69,21 +69,21 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
 
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public String getName() {
-        return personName;
+        return name;
     }
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

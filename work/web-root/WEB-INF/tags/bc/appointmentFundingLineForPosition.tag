@@ -163,7 +163,7 @@
 			accountingLine="${fundingLineName}"
 			field="emplid" 
 			detailFunction="budgetObjectInfoUpdator.loadIntendedIncumbentInfo"
-			detailField="budgetConstructionIntendedIncumbent.personName"
+			detailField="budgetConstructionIntendedIncumbent.name"
 			detailFunctionExtraParam="'${fundingLineName}.positionNumber', 
 						'${fundingLineName}.budgetConstructionIntendedIncumbent.iuClassificationLevel', 
 						'${fundingLineName}.budgetConstructionAdministrativePost.administrativePost',"

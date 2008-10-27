@@ -91,7 +91,7 @@ public interface LockService {
     public LockStatus unlockAccount(BudgetConstructionHeader bcHeader);
 
     /**
-     * This returns the set of BCFundingLocks associated with a BCHeader. The set is sorted by the Person personName
+     * This returns the set of BCFundingLocks associated with a BCHeader. The set is sorted by the Person name
      * 
      * @param bcHeader
      * @return SortedSet<BudgetConstructionFundingLock>

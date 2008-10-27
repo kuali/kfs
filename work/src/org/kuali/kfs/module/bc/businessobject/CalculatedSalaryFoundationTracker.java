@@ -47,7 +47,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private String financialSubObjectCode;
     private String positionNumber;
     private String emplid;
-    private String personName;
+    private String name;
     private Timestamp csfCreateTimestamp;
     private String csfDeleteCode;
     private KualiDecimal csfAmount;
@@ -562,8 +562,8 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
         return person.getName();
     }
 
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

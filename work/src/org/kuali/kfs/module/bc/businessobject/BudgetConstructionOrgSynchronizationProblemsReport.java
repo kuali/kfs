@@ -41,7 +41,7 @@ public class BudgetConstructionOrgSynchronizationProblemsReport {
     private String positionNumber;
     
     private String emplid;
-    private String personName;
+    private String name;
     
     private String positionObjectChangeIndicator;
     private String positionSalaryChangeIndicator;
@@ -157,10 +157,10 @@ public class BudgetConstructionOrgSynchronizationProblemsReport {
         this.emplid = emplid;
     }
     public String getName() {
-        return personName;
+        return name;
     }
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
     
     

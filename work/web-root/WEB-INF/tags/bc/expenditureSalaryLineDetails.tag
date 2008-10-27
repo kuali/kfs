@@ -124,7 +124,7 @@
 				<bc:pbglLineDataCell dataCellCssClass="datacell"
 					accountingLine="${fundingLineName}"
 					field="emplid" detailFunction="loadEmplInfo"
-					detailField="budgetConstructionIntendedIncumbent.personName"
+					detailField="budgetConstructionIntendedIncumbent.name"
 					attributes="${pbcafAttributes}" inquiry="true"
 					boClassSimpleName="BudgetConstructionIntendedIncumbent"
 					boPackageName="org.kuali.kfs.module.bc.businessobject"

@@ -54,7 +54,7 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     private String financialObjectCodeName;
     
     private String deleteBox;
-    private String personName;
+    private String name;
     //from BudgetConstructionIntendedIncumbent
     private String iuClassificationLevel;
     //from PendingBudgetConstructionAppointmentFunding
@@ -640,11 +640,11 @@ public class BudgetConstructionOrgAccountFundingDetailReport {
     }
 
     public String getName() {
-        return personName;
+        return name;
     }
 
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getAmountChange() {

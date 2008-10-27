@@ -50,7 +50,7 @@
 	    </create>
 	    
 	    <convert converter="bean" match="org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent">
-	    	<param name="include" value="emplid,personName,setidSalary,salaryAdministrationPlan,grade,iuClassificationLevel" />
+	    	<param name="include" value="emplid,name,setidSalary,salaryAdministrationPlan,grade,iuClassificationLevel" />
 	    </convert>
 	    <create creator="spring" javascript="BudgetConstructionIntendedIncumbentService">
 	    	<param name="beanName" value="budgetConstructionIntendedIncumbentService" />

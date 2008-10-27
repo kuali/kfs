@@ -48,7 +48,7 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     private BigDecimal appointmentRequestedPayRate;
     
     private String deleteBox;
-    private String personName;
+    private String name;
     private String cls;
     
     //from PendingBudgetConstructionAppointmentFunding
@@ -514,11 +514,11 @@ public class BudgetConstructionOrgPositionFundingDetailReport {
     }
 
     public String getName() {
-        return personName;
+        return name;
     }
 
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getAmountChange() {

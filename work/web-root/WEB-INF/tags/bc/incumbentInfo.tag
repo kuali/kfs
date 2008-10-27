@@ -38,11 +38,11 @@
             displayHidden="false" />                  
 
         <kul:htmlAttributeHeaderCell
-        	attributeEntry="${intcumbentAttributes.personName}"
+        	attributeEntry="${intcumbentAttributes.name}"
             horizontal="true" />
         <bc:pbglLineDataCell dataCellCssClass="datacell"
         	accountingLine="budgetConstructionIntendedIncumbent"
-            cellProperty="budgetConstructionIntendedIncumbent.personName"
+            cellProperty="budgetConstructionIntendedIncumbent.name"
             field="name"
             attributes="${intcumbentAttributes}"
             readOnly="true"

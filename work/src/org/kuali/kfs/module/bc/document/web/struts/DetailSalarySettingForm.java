@@ -55,7 +55,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private String positionNumber;
     private String emplid;
-    private String personName;
+    private String name;
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
@@ -497,21 +497,21 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     }
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName.
+     * @return Returns the name.
      */
-    public String getName() {
-        return personName;
+    public String name() {
+        return name;
     }
 
     /**
-     * Sets the personName attribute value.
+     * Sets the name attribute value.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

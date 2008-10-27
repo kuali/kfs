@@ -28,7 +28,7 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
 
     private String emplid;
     private String positionNumber;
-    private String personName;
+    private String name;
     private String setidSalary;
     private String salaryAdministrationPlan;
     private String grade;
@@ -82,21 +82,21 @@ public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectB
 
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public String getName() {
-        return personName;
+        return name;
     }
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

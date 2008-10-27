@@ -30,7 +30,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
     private String principalId;
     private String organizationChartOfAccountsCode;
     private String organizationCode;
-    private String personName;
+    private String name;
     private String emplid;
 
     private Chart organizationChartOfAccounts;
@@ -101,21 +101,21 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
 
 
     /**
-     * Gets the personName attribute.
+     * Gets the name attribute.
      * 
-     * @return Returns the personName
+     * @return Returns the name
      */
     public String getName() {
-        return personName;
+        return name;
     }
 
     /**
-     * Sets the personName attribute.
+     * Sets the name attribute.
      * 
-     * @param personName The personName to set.
+     * @param name The name to set.
      */
-    public void setName(String personName) {
-        this.personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -184,7 +184,7 @@ public class BudgetConstructionSalarySocialSecurityNumber extends PersistableBus
         m.put("principalId", this.principalId);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-        m.put("name", this.personName);
+        m.put("name", this.name);
         m.put("emplid", this.emplid);
         return m;
     }

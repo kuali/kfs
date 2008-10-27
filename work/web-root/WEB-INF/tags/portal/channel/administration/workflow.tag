@@ -24,7 +24,9 @@
 		<li><portal:portalLink displayTitle="true" title="Rule Attribute" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleAttributeLookupableImplService" /></li>
 		<li><portal:portalLink displayTitle="true" title="Rule Template" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleTemplateLookupableImplService" /></li>
 		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.workflow.url}/Stats.do" /></li>
+  	<%-- 				
   		<li><portal:portalLink displayTitle="true" title="Workgroup Type" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=WorkgroupTypeLookup" /></li>
+  	--%>
 		<li><portal:portalLink displayTitle="true" title="XML Ingester" url="${ConfigProperties.workflow.url}/Ingester.do" /></li>
 	</ul>
 </div>

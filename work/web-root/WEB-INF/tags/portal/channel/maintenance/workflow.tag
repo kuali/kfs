@@ -18,12 +18,16 @@
 <channel:portalChannelTop channelTitle="Workflow" />
 <div class="body">
 
-  	<ul class="chan">				
+  	<ul class="chan">
+  	<%-- 				
 		<li><portal:portalLink displayTitle="true" title="Preferences" url="${ConfigProperties.workflow.url}/Preferences.do" /></li>
+	--%>
 		<li><portal:portalLink displayTitle="true" title="Routing Report" url="${ConfigProperties.workflow.url}/RoutingReport.do" /></li>
 		<li><portal:portalLink displayTitle="true" title="Rules" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" /></li>
 		<li><portal:portalLink displayTitle="true" title="Rule QuickLinks" url="${ConfigProperties.workflow.url}/RuleQuickLinks.do" /></li>
+  	<%-- 				
 		<li><portal:portalLink displayTitle="true" title="Workgroup" url="${ConfigProperties.workflow.url}/Lookup.do?lookupableImplServiceName=WorkGroupLookupableImplService" /></li>
+	--%>
 	</ul>
 </div>
 <channel:portalChannelBottom />

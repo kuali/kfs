@@ -19,9 +19,11 @@
 <div class="body">
     <ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Data Mapping Field Definition" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.DataMappingFieldDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<%-- 
 		<li><portal:portalLink displayTitle="true" title="Employee Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.EmployeeStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Employee Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.EmployeeType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Financial System User" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.Person&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		--%>
 		<li><portal:portalLink displayTitle="true" title="Functional Field Description" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.FunctionalFieldDescription&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Message Of The Day" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.fp.businessobject.MessageOfTheDay&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>					
         <li><portal:portalLink displayTitle="true" title="Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Parameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -29,7 +31,9 @@
         <li><portal:portalLink displayTitle="true" title="Parameter Module" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.ParameterNamespace&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Parameter Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.ParameterType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="System Options" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sys.businessobject.Options&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		<%-- 
 		<li><portal:portalLink displayTitle="true" title="Workflow User Removal / Replacement" url="${ConfigProperties.workflow.url}/RemoveReplace.do" /></li>
+		--%>
     </ul>
 </div>
 <channel:portalChannelBottom />       

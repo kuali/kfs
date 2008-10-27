@@ -176,7 +176,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 
         // Scrubber accepts closed fiscal periods for A21 Balance
         AccountingPeriod accountingPeriod = referenceLookup.get().getAccountingPeriod(laborOriginEntry);
-        if (accountingPeriod != null && !accountingPeriod.isActive()) {
+        if (ObjectUtils.isNotNull(accountingPeriod) && !accountingPeriod.isActive()) {
             String bypassBalanceType = parameterService.getParameterValue(LaborScrubberStep.class, LaborConstants.Scrubber.CLOSED_FISCAL_PERIOD_BYPASS_BALANCE_TYPES);
             
             if (!laborWorkingEntry.getFinancialBalanceTypeCode().equals(bypassBalanceType)) {
@@ -197,7 +197,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateFiscalYear() started");
 
         Integer payrollEndDateFiscalYear = laborOriginEntry.getPayrollEndDateFiscalYear();    
-        if (payrollEndDateFiscalYear == null || payrollEndDateFiscalYear == 0) {
+        if (ObjectUtils.isNull(payrollEndDateFiscalYear) || payrollEndDateFiscalYear == 0) {
             laborWorkingEntry.setPayrollEndDateFiscalYear(universityRunDate.getUniversityFiscalYear());
         }
         else {
@@ -205,7 +205,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         
         Options options = optionsService.getOptions(laborWorkingEntry.getUniversityFiscalYear());
-        if (options == null) {
+        if (ObjectUtils.isNull(options)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, "" + payrollEndDateFiscalYear, Message.TYPE_FATAL);
         }
         
@@ -226,7 +226,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             laborWorkingEntry.setPayrollEndDateFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());
         }
         
-        if (laborOriginEntry.getAccountingPeriod() == null) {
+        if (ObjectUtils.isNull(laborOriginEntry.getAccountingPeriod())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, payrollEndDateFiscalPeriodCode, Message.TYPE_FATAL);
         }
 
@@ -340,13 +340,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
             // Lookup the account
             Account account = accountService.getByPrimaryId(chartCode, accountNumber);
-            if (account == null) {
+            if (ObjectUtils.isNull(account)) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND, Message.TYPE_FATAL);
             }
 
             // check account expiration
             long offsetAccountExpirationTime = getAdjustedAccountExpirationDate(account);
-            if (account.getAccountExpirationDate() != null && isExpired(offsetAccountExpirationTime, today)) {
+            if (ObjectUtils.isNotNull(account.getAccountExpirationDate()) && isExpired(offsetAccountExpirationTime, today)) {
                 chartCode = account.getContinuationFinChrtOfAcctCd();
                 accountNumber = account.getContinuationAccountNumber();
             }
@@ -388,7 +388,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         // alternative account handling for non fringe accounts
         if (isFringeTransaction && !account.isAccountsFringesBnftIndicator()) {
             Account altAccount = accountService.getByPrimaryId(laborOriginEntry.getAccount().getReportsToChartOfAccountsCode(), laborOriginEntry.getAccount().getReportsToAccountNumber());
-            if (altAccount != null) {
+            if (ObjectUtils.isNotNull(altAccount)) {
                 laborWorkingEntry.setAccount(altAccount);
                 laborWorkingEntry.setAccountNumber(altAccount.getAccountNumber());
                 laborWorkingEntry.setChartOfAccountsCode(altAccount.getChartOfAccountsCode());
@@ -460,7 +460,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
         Account account = accountService.getByPrimaryId(suspenseCOAcode, suspenseAccountNumber);
 
-        if (account == null) {
+        if (ObjectUtils.isNull(account)) {
             return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_INVALID_SUSPENSE_ACCOUNT, Message.TYPE_FATAL);
         }
 

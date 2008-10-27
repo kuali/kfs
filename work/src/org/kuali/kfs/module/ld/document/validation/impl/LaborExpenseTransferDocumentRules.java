@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -175,7 +176,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         for (Object sourceAccountingLine : expenseTransferDocument.getSourceAccountingLines()) {
             AccountingLine line = (AccountingLine) sourceAccountingLine;
-            if (line.getAccount() == null) {
+            if (ObjectUtils.isNull(line.getAccount())) {
                 reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
                 return false;
             }
@@ -183,7 +184,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
 
         for (Object targetAccountingLine : expenseTransferDocument.getTargetAccountingLines()) {
             AccountingLine line = (AccountingLine) targetAccountingLine;
-            if (line.getAccount() == null) {
+            if (ObjectUtils.isNull(line.getAccount())) {
                 reportError(KFSPropertyConstants.TARGET_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT, new String[] { line.getChartOfAccountsCode(), line.getAccountNumber() });
                 return false;
             }

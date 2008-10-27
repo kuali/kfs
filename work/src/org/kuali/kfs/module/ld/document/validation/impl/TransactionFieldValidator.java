@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 
 import java.util.List;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -113,7 +114,7 @@ public class TransactionFieldValidator {
         }
 
         if (!KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
-            if (transaction.getSubAccount() == null) {
+            if (ObjectUtils.isNull(transaction.getSubAccount())) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, subAccountKey, Message.TYPE_FATAL);
             }
 

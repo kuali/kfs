@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.BalanceTyp;
 import org.kuali.kfs.coa.service.BalanceTypService;
@@ -83,7 +84,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
         BalanceTyp selectedBalanceType = getSelectedBalanceType();
-        if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
+        if (ObjectUtils.isNotNull(selectedBalanceType) && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 

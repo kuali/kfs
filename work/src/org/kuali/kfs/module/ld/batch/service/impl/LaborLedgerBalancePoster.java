@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -47,7 +48,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         // ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
-        if (tempLedgerBalance != null) {
+        if (ObjectUtils.isNotNull(tempLedgerBalance)) {
             ledgerBalance = tempLedgerBalance;
             operationType = KFSConstants.OperationType.UPDATE;
         }

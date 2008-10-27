@@ -275,7 +275,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         if (StringUtils.isNotEmpty(requisition.getAlternate1VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate2VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate3VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate4VendorName()) || StringUtils.isNotEmpty(requisition.getAlternate5VendorName())) {
             LOG.debug("isAPO() alternate vendor name exists; return false.");
-            return kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES);
+            return "Requisition contains additional suggested vendor names.";
         }
         
         if (!ruleService.applyRules(new ValidateCapitalAssetsForAutomaticPurchaseOrderEvent("", requisition))) {
@@ -329,7 +329,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition contains inactive commodity codes.";
         }
         else if (purItem.getCommodityCode().isRestrictedItemsIndicator()) {
-            return kualiConfigurationService.getPropertyString(PurapKeyConstants.NON_APO_REQUISITION_COMMODITY_CODE_WITH_SENSITIVE_DATA);
+            return "Requisition contains an item that is marked as sensitive data.";
         }
         return "";
     }

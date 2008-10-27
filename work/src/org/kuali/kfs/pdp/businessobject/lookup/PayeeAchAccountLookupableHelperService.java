@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -153,13 +152,7 @@ public class PayeeAchAccountLookupableHelperService extends AbstractLookupableHe
         setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
-        List searchResults;
-        if (Person.class.equals(getBusinessObjectClass())) {
-            searchResults = (List) getPersonService().findPeople(fieldValues);
-        }
-        else {
-            searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
-        }
+        List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {

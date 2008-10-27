@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.service.impl.ParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -153,16 +154,11 @@ public class PrintServiceImpl implements PrintService {
         CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
         // Get the contract manager's campus
-        criteria.clear();
         ContractManager contractManager = po.getContractManager();
         String contractManagerCampusCode = "N/A";
         if (contractManager != null && contractManager.getContractManagerUserIdentifier() != null) {
-            criteria.put("principalName", contractManager.getContractManagerUserIdentifier());
-            Person contractManagerUser = (Person) ((List) businessObjectService.findMatching(Person.class, criteria)).get(0);
+            Person contractManagerUser = KIMServiceLocator.getPersonService().getPersonByPrincipalName(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
-        }
-        else {
-
         }
 
         String pdfFileLocation = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
@@ -214,12 +210,10 @@ public class PrintServiceImpl implements PrintService {
         CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
         // Get the contract manager's campus
-        criteria.clear();
         ContractManager contractManager = po.getContractManager();
-        criteria.put("principalName", contractManager.getContractManagerUserIdentifier());
         String contractManagerCampusCode = "";
-        if (contractManager.getContractManagerUserIdentifier() != null) {
-            Person contractManagerUser = (Person) ((List) businessObjectService.findMatching(Person.class, criteria)).get(0);
+        if (contractManager.getContractManagerUserIdentifier() != null) {            
+            Person contractManagerUser = KIMServiceLocator.getPersonService().getPersonByPrincipalName(contractManager.getContractManagerUserIdentifier());
             contractManagerCampusCode = contractManagerUser.getCampusCode();
         }
 

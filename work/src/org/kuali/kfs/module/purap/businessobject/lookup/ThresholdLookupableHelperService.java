@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorKeyConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -144,6 +143,7 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
      * @return A List of search results.
      * 
      */
+    @SuppressWarnings("unchecked")
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         // pretty much the same code as exists in KualiLookupableHelperServiceImpl, except that we're not removing hidden fields
 
@@ -152,13 +152,7 @@ public class ThresholdLookupableHelperService extends AbstractLookupableHelperSe
         setBackLocation(fieldValues.get(KNSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KNSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH));
-        List searchResults;
-        if (Person.class.equals(getBusinessObjectClass())) {
-            searchResults = (List) getPersonService().findPeople(fieldValues);
-        }
-        else {
-            searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
-        }
+        List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {

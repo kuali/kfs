@@ -54,10 +54,9 @@ import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.FieldAuthorization;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizations;
@@ -329,18 +328,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     private List getObjectReferencesListFromBOClass(Class theClass) {
         List<String> results = new ArrayList();
         for (Field theField : theClass.getDeclaredFields()) {
-            try {
-                theField.getType().asSubclass(PersistableBusinessObjectBase.class);
-                // only add the field to the result list if this is not
-                // a Person
-                if (!theField.getType().equals(Person.class)) {
-                    results.add(theField.getName());
-                }
-            }
-            catch (ClassCastException e) {
-                // If we catches this, it means the "theField" can't be casted as a BusinessObjectBase,
-                // so we won't add it to the results list because this method is aiming at getting
-                // a list of object references that are subclasses of BusinessObjectBase.
+            // only get persistable business object references
+            if ( PersistableBusinessObject.class.isAssignableFrom( theField.getType() ) ) {
+                results.add(theField.getName());
             }
         }
         return results;

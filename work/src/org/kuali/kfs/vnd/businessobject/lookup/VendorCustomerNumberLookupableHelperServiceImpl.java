@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.BeanPropertyComparator;
@@ -34,6 +33,7 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
      * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
@@ -41,13 +41,7 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
         setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
-        List searchResults;
-        if (Person.class.equals(getBusinessObjectClass())) {
-            searchResults = (List) getPersonService().findPeople(fieldValues);
-        }
-        else {
-            searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
-        }
+        List searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
         // sort list if default sort column given
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {

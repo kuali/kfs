@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ec.service;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.kuluser;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.List;
 import java.util.Properties;
@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
-@ConfigureContext(session = kuluser)
+@ConfigureContext(session = khuntley)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {
     private final Properties properties, message;
     private final String balanceFieldNames, entryFieldNames;

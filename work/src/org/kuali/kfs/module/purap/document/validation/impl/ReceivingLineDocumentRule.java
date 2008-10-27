@@ -104,7 +104,7 @@ public class ReceivingLineDocumentRule extends DocumentRuleBase implements Conti
         }
 
         if (ObjectUtils.isNull(receivingLineDocument.getShipmentReceivedDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ReceivingLineDocumentStrings.VENDOR_DATE);
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, KFSKeyConstants.ERROR_REQUIRED, PurapConstants.ReceivingLineDocumentStrings.VENDOR_DATE);
             valid &= false;
         }
 

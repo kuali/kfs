@@ -38,7 +38,7 @@
 		    <c:set var="transparentBackground" value="false" />
 			  <c:if test="${listIndex eq 0}"><c:set var="transparentBackground" value="true" /></c:if>
 	          <kul:tab 
-	          	tabTitle="${fn:substring(personName, 0, 22)}" 
+	          	tabTitle="${fn:substring(name, 0, 22)}" 
 	          	tabDescription="${(not empty person.role) ? fn:substring(person.role, 0, 16) : ' '}" 
 	          	leftSideHtmlProperty="document.budget.personFromList[${listIndex}].delete" 
 	          	leftSideHtmlAttribute="${budgetUserAttributes.delete}" 
@@ -62,24 +62,8 @@
                       <html:hidden property="document.budget.personFromList[${listIndex}].personProjectDirectorIndicator" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].versionNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].objectId" />
-			                 
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalId" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.name" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeStatusCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeTypeCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalId" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.primaryDepartmentCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.principalName" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personEmailAddress" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personFirstName" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personLastName" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personCampusAddress" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personLocalPhoneNumber" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personBaseSalaryAmount" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.versionNumber" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.objectId" />
                       <span class= "subhead-left">
-                        ${personName}
+                        ${name}
                       </span>
                     </td>
                   </tr>

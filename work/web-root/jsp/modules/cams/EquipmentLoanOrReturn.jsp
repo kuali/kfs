@@ -56,7 +56,7 @@
 					      userName="${KualiForm.document.borrowerPerson.name}"
  						  renderOtherFields="true"						  
  						  lookupParameters="document.borrowerPerson.principalName:principalName" 
-						  fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,personName:document.borrowerPerson.name" 
+						  fieldConversions="principalName:document.borrowerPerson.principalName,principalId:document.borrowerUniversalIdentifier,name:document.borrowerPerson.name" 
 						  hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.loanDate}" readOnly="true"/></th>

@@ -79,7 +79,7 @@
                     			  userName="${KualiForm.newAdHocRoutePerson.name}"
                     			  readOnly="${displayReadOnly}" 
                     			  renderOtherFields="true"
-                    			  fieldConversions="principalName:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
+                    			  fieldConversions="principalName:newAdHocRoutePerson.id,name:newAdHocRoutePerson.name" 
                     			  lookupParameters="newAdHocRoutePerson.id:principalName" />
                    	</td>
                    	<td class="infoline"><div align=center>--</div></td>

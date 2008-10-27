@@ -122,7 +122,7 @@
 	                    			  userName="${KualiForm.newAdHocRoutePerson.name}"
 	                    			  readOnly="${displayReadOnly}" 
 	                    			  renderOtherFields="true"
-	                    			  fieldConversions="principalName:newAdHocRoutePerson.id,personName:newAdHocRoutePerson.name" 
+	                    			  fieldConversions="principalName:newAdHocRoutePerson.id,name:newAdHocRoutePerson.name" 
 	                    			  lookupParameters="newAdHocRoutePerson.id:principalName" />
 	                      </div>
                     	</td>
@@ -165,7 +165,7 @@
 		                    			  userName="${KualiForm.document.adhocPersons[status.index].name}"
 		                    			  readOnly="${displayReadOnly}" 
 		                    			  renderOtherFields="true"
-		                    			  fieldConversions="principalName:person.user.principalName,personName:person.user.name" 
+		                    			  fieldConversions="principalName:person.user.principalName,name:person.user.name" 
 		                    			  lookupParameters="person.user.principalName:principalName" />
 	                    	</div>
 	                    	<html:hidden property="document.adhocPersonItem[${status.index}].user.principalId" />

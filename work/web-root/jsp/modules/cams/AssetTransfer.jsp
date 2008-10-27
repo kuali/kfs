@@ -177,8 +177,8 @@
 				<td class="grid" width="25%">
 					<kul:checkErrors keyMatch="document.assetRepresentative.principalName" />
 					<kul:user userIdFieldName="document.assetRepresentative.principalName" universalIdFieldName="document.representativeUniversalIdentifier" userNameFieldName="document.assetRepresentative.name" label="User" 
-					lookupParameters="document.assetRepresentative.principalName:principalName,document.representativeUniversalIdentifier:principalId,document.assetRepresentative.name:personName" 
-					fieldConversions="principalName:document.assetRepresentative.principalName,principalId:document.representativeUniversalIdentifier,personName:document.assetRepresentative.name" 
+					lookupParameters="document.assetRepresentative.principalName:principalName,document.representativeUniversalIdentifier:principalId,document.assetRepresentative.name:name" 
+					fieldConversions="principalName:document.assetRepresentative.principalName,principalId:document.representativeUniversalIdentifier,name:document.assetRepresentative.name" 
 					userId="${KualiForm.document.assetRepresentative.principalName}" universalId="${KualiForm.document.representativeUniversalIdentifier}" userName="${KualiForm.document.assetRepresentative.name}" 
 					renderOtherFields="true" hasErrors="${hasErrors}" readOnly="${readOnly}"/>
 				</td>

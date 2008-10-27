@@ -47,7 +47,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
 			        <c:if test="${(fullEntryMode or amendmentEntry)}" >
-                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="personName:document.requestorPersonName,personLocalPhoneNumber:document.requestorPersonPhoneNumber,personEmailAddress:document.requestorPersonEmailAddress" /></div>
+                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.requestorPersonName,personLocalPhoneNumber:document.requestorPersonPhoneNumber,personEmailAddress:document.requestorPersonEmailAddress" /></div>
 			        </c:if>
                 </td>
             </tr>
@@ -75,7 +75,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     <c:if test="${(fullEntryMode or amendmentEntry)}" >
-                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
+                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" fieldConversions="name:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">

@@ -32,6 +32,11 @@ class VendorTestConstants {
         static final String dvType = "DV";
         static final String rmType = "RM";
     }
+    
+    static class AddressRequiredFields {
+        static final String line1Address = "1011 S. Grant Ave.";
+        static final String cityName = "Chicago";
+    }
 
     @SuppressWarnings("deprecation")
     static class BeginEndDates {

@@ -18,10 +18,13 @@ package org.kuali.kfs.vnd.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressTypes;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.AddressRequiredFields;
+import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;
 
 /**
  * This is an enumeration of configurations of 'type codes' and 'address type codes' which should be useful for testing the code
@@ -52,12 +55,26 @@ public enum VendorRuleAddressTypeFixture {
         type.setVendorAddressTypeRequiredCode(this.addrTypeCode1);
         vndr.getVendorHeader().setVendorType(type);
         List<VendorAddress> addrList = new ArrayList();
+        
         VendorAddress addr1 = new VendorAddress();
         VendorAddress addr2 = new VendorAddress();
+        
         addr1.setVendorAddressTypeCode(this.addrTypeCode1);
         addr1.setVendorDefaultAddressIndicator(this.defaultAddr1);
+        addr1.setVendorLine1Address(AddressRequiredFields.line1Address);
+        addr1.setVendorCityName(AddressRequiredFields.cityName);
+        addr1.setVendorStateCode(StatesZips.stateCd);
+        addr1.setVendorZipCode(StatesZips.zipCode);
+        addr1.setVendorCountryCode(KFSConstants.COUNTRY_CODE_UNITED_STATES);
+        
         addr2.setVendorAddressTypeCode(this.addrTypeCode2);
         addr2.setVendorDefaultAddressIndicator(this.defaultAddr2);
+        addr2.setVendorLine1Address(AddressRequiredFields.line1Address);
+        addr2.setVendorCityName(AddressRequiredFields.cityName);
+        addr2.setVendorStateCode(StatesZips.stateCd);
+        addr2.setVendorZipCode(StatesZips.zipCode);
+        addr2.setVendorCountryCode(KFSConstants.COUNTRY_CODE_UNITED_STATES);
+        
         addrList.add(addr1);
         addrList.add(addr2);
         vndr.setVendorAddresses(addrList);

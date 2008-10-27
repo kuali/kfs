@@ -56,7 +56,7 @@
 				        				<c:out value="${note.notePostedTimestamp}" />
 					        		</td>
 					        		<td align="center" valign="middle" class="datacell">
-				        				<c:out value="${note.authorUniversal.personName}" />
+				        				<c:out value="${note.authorUniversal.name}" />
 					        		</td>
 					        		<td align="left" valign="middle" class="datacell">
 				        				<c:out value="${note.noteText}" />

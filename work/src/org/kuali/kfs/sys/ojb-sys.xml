@@ -249,6 +249,13 @@
         <foreignkey field-ref="postalCountryCode" />
         <foreignkey field-ref="postalStateCode" />
     </reference-descriptor>
+
+	<reference-descriptor name="county" class-ref="org.kuali.kfs.sys.businessobject.CountyImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="postalCountryCode" />        
+        <foreignkey field-ref="countyCode" />
+        <foreignkey field-ref="postalStateCode" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.CountyImpl" table="KR_COUNTY_T" >

@@ -38,7 +38,8 @@ public class PostalCodeImpl extends PersistableBusinessObjectBase implements Ina
 
     private State state;
     private Country country;
-
+    private County county;
+    
     /**
      * Default no-arg constructor.
      */
@@ -188,4 +189,13 @@ public class PostalCodeImpl extends PersistableBusinessObjectBase implements Ina
     public void setCountry(Country country) {
         this.country = country;
     }
+
+    public County getCounty() {
+        return county;
+    }
+
+    public void setCounty(County county) {
+        this.county = county;
+    }
+
 }

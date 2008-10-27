@@ -18,7 +18,7 @@
     <property name="objectLabel" value="County" />
     <property name="attributes" >
       <list>
-      	<ref bean="County-postalCountryCode" />
+      	<ref bean="County-postalCountryCode" />        
         <ref bean="County-countyCode" />
         <ref bean="County-stateCode" />
         <ref bean="County-countyName" />
@@ -51,25 +51,13 @@
   
   <bean id="County-stateCode" parent="County-stateCode-parentBean" />
 
-  <bean id="County-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="stateCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="State Abbreviation" />
-    <property name="shortLabel" value="State Abbr." />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:exactLength="2" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="2" />
-    </property>
-    <property name="summary" value="State Abbreviation" />
-    <property name="description" value="The two digit code for a state" />
-  </bean>
-  
+  <bean id="County-stateCode-parentBean" abstract="true" parent="State-postalStateCode">
+	<property name="name" value="stateCode" />  
+    <property name="label" value="State" />
+    <property name="shortLabel" value="State" />
+    <property name="summary" value="State" />
+    <property name="description" value="Postal State Code" />
+  </bean>  
   <bean id="County-countyName" parent="County-countyName-parentBean" />
 
   <bean id="County-countyName-parentBean" abstract="true" parent="AttributeDefinition">

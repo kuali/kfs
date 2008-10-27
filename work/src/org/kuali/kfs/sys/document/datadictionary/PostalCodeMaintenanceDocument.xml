@@ -22,6 +22,9 @@
         <bean parent="ReferenceDefinition"
               p:attributeName="state"
               p:attributeToHighlightOnFail="postalStateCode" />
+        <bean parent="ReferenceDefinition"
+              p:attributeName="county"
+              p:attributeToHighlightOnFail="countyCode" />                                        
       </list>
     </property>
     <property name="lockingKeys" >
@@ -84,8 +87,6 @@
         <bean parent="MaintainableFieldDefinition"
               p:defaultValue="true"
               p:name="active" />
-        <bean parent="MaintainableFieldDefinition"
-              p:name="versionNumber" />
       </list>
     </property>
   </bean>

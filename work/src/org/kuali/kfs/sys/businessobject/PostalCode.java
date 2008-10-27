@@ -122,4 +122,18 @@ public interface PostalCode extends ExternalizableBusinessObject{
      */
     public abstract void setCountry(Country country);
 
+    /**
+     * Gets the county attribute.
+     * 
+     * @return Returns the county.
+     */
+    public abstract County getCounty();
+
+    /**
+     * Sets the county attribute value.
+     * 
+     * @param county The county to set.
+     */
+    public abstract void setCounty(County county);
+
 }

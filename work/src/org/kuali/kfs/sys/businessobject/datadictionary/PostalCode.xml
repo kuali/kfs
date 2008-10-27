@@ -87,20 +87,9 @@
 
   <bean id="PostalCode-countyCode" parent="PostalCode-countyCode-parentBean" />
   
-  <bean id="PostalCode-countyCode-parentBean" abstract="true" parent="AttributeDefinition">
-  	<property name="name" value="countyCode" />
-    <property name="forceUppercase" value="true" />
+  <bean id="PostalCode-countyCode-parentBean" abstract="true" parent="County-countyCode">
     <property name="label" value="County Code" />
     <property name="shortLabel" value="County" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="County Code" />
     <property name="description" value="County Code" />
   </bean>

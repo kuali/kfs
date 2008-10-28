@@ -537,7 +537,7 @@
 		</property>
 	</bean>
 
-	<bean id="kimGroupService" class="org.kuali.rice.kns.web.RiceGroupServiceImpl" />
+	<bean id="kimGroupService" class="org.kuali.rice.kim.service.impl.GroupServiceImpl"/>
 
 	<bean id="workflowDocumentService" class="org.kuali.rice.kns.workflow.service.impl.WorkflowDocumentServiceImpl">
 		<property name="workflowInfoService">
@@ -576,7 +576,6 @@
 
   	<bean id="persistenceService" class="org.kuali.rice.kns.service.impl.PersistenceServiceOjbImpl">
     	<property name="persistenceDao" ref="persistenceDao" />
-    	<property name="moduleService" ref="kualiModuleService" />
   	</bean>
   
 	<bean id="persistenceDao" class="org.kuali.rice.kns.dao.proxy.PersistenceDaoProxy">

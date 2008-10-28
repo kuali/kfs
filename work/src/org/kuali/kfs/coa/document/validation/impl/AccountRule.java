@@ -505,18 +505,13 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
      * @return true if these two users are the same
      */
     protected boolean areTwoUsersTheSame(Person user1, Person user2) {
-        if (ObjectUtils.isNull(user1)) {
+        if (ObjectUtils.isNull(user1) || user1.getPrincipalId() == null ) {
             return false;
         }
-        if (ObjectUtils.isNull(user2)) {
+        if (ObjectUtils.isNull(user2) || user2.getPrincipalId() == null ) {
             return false;
         }
-        if (ObjectUtils.equalByKeys(user1, user2)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return user1.getPrincipalId().equals(user2.getPrincipalId());
     }
 
     /**

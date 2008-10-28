@@ -129,6 +129,7 @@ public class ArPropertyConstants {
     // CustomerInvoiceWriteoffDocument
     public static class CustomerInvoiceWriteoffDocumentFields {
         public static final String CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF = "customerInvoiceDetailsForWriteoff";
+        public static final String CUSTOMER_INVOICE_WRITEOFF_EXPLANATION ="documentHeader.explanation";
     }
 
     // CustomerAgingReport

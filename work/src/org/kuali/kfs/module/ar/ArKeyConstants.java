@@ -152,6 +152,8 @@ public class ArKeyConstants {
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_ACCOUNT_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUAccountMustExist";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_FAU_OBJECT_CODE_MUST_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffFAUObjectMustExist";
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE = "error.document.customerInvoiceWriteoff.invoiceHasCreditBalance";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION = "error.document.customerInvoiceWriteoff.invalidExplanation";
+    public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION = "error.document.customerInvoiceWriteoff.emptyExplanation";
 
     // Organization Options errors
     public static class OrganizationOptionsErrors {

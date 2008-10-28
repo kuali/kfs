@@ -233,7 +233,7 @@
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.PostalCodeImpl" table="KR_POSTAL_CODE_T">
 	<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="postalCode" column="POSTAL_ZIP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="postalCode" column="POSTAL_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="postalStateCode" column="POSTAL_STATE_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="postalCityName" column="POSTAL_CITY_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

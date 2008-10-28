@@ -77,8 +77,7 @@
 			
 			<fin:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
-				field="buildingSubRoomNumber" lookup="false" inquiry="false"
-				businessObjectValuesMap="${detailLine.valuesMap}"/>
+				field="buildingSubRoomNumber" lookup="false" inquiry="false"/>
 			
 			<c:if test="${!readOnly}">
 				<td class="infoline">  

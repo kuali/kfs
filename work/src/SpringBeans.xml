@@ -352,8 +352,6 @@
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/CampusType.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentHeader.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentType.xml</value>
-				<value>classpath:org/kuali/rice/kns/bo/datadictionary/EmployeeStatus.xml</value>
-				<value>classpath:org/kuali/rice/kns/bo/datadictionary/EmployeeType.xml</value>
 
                 <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterNamespace.xml</value>
                 <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterType.xml</value>
@@ -371,8 +369,6 @@
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusTypeMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeStatusMaintenanceDocument.xml</value>
-				<value>classpath:org/kuali/rice/kns/document/datadictionary/EmployeeTypeMaintenanceDocument.xml</value>
             </list>
         </property>
 	</bean>

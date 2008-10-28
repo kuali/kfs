@@ -28,7 +28,6 @@ import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -89,8 +88,7 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         super.populate(request);
         //fix document item/account references if necessary
         PurchasingAccountsPayableDocument purapDoc = (PurchasingAccountsPayableDocument)this.getDocument();
-        //TODO: wait for Ailish and Heather to decide where to call this.
-        //SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(purapDoc);
+
         purapDoc.fixItemReferences();
     }
 

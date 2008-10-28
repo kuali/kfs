@@ -15,25 +15,31 @@
  */
 package org.kuali.kfs.sys.document;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.kfs.sys.document.workflow.GenericRoutingInfo;
+import org.kuali.kfs.sys.document.workflow.RoutingData;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
-public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
+public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase implements GenericRoutingInfo {
     private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
+    protected Set<RoutingData> routingInfo;
 
     /**
      * Constructs a FinancialSystemMaintenanceDocument.java.
@@ -149,4 +155,23 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      * A hook to allow population of workflow properties for routing
      */
     protected void processCustomPopulateDocumentForRouting() {}
+
+    
+    public Set<RoutingData> getRoutingInfo() {
+        return routingInfo;
+    }
+
+    public void populateRoutingInfo() {
+        LOG.error("FSMD.populateRoutingInfo()");
+        Maintainable maintainable = getNewMaintainableObject();
+        if (maintainable instanceof GenericRoutingInfo) {
+          ((GenericRoutingInfo)maintainable).populateRoutingInfo();
+          Set<RoutingData> routingInfo =  ((GenericRoutingInfo)maintainable).getRoutingInfo();
+          this.setRoutingInfo(routingInfo);
+        }
+    }
+
+    public void setRoutingInfo(Set<RoutingData> routingInfo) {
+        this.routingInfo = routingInfo;
+    }
 }

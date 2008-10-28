@@ -23,4 +23,4 @@ import java.io.Serializable;
  * document data that will be used by routing attributes to determine routing
  * as part of the generic routing framework.  See {@link RoutingData}
  */
-abstract class RoutingObject implements Serializable {}
+public abstract class RoutingObject implements Serializable {}

@@ -45,7 +45,7 @@ public class TransactionFieldValidator {
         if (fiscalYear == null) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, Message.TYPE_FATAL);
         }
-        else if (transaction.getOption() == null) {
+        else if (ObjectUtils.isNull(transaction.getOption())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, fiscalYear.toString(), Message.TYPE_FATAL);
         }
         return null;
@@ -59,7 +59,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkChartOfAccountsCode(LaborTransaction transaction) {
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
-        if (StringUtils.isBlank(chartOfAccountsCode) || transaction.getChart() == null) {
+        if (StringUtils.isBlank(chartOfAccountsCode) || ObjectUtils.isNull(transaction.getChart())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_CHART_NOT_FOUND, chartOfAccountsCode, Message.TYPE_FATAL);
         }
 
@@ -77,7 +77,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkAccountNumber(LaborTransaction transaction) {
         String accountNumber = transaction.getAccountNumber();
-        if (StringUtils.isBlank(accountNumber) || transaction.getAccount() == null) {
+        if (StringUtils.isBlank(accountNumber) || ObjectUtils.isNull(transaction.getAccount())) {
             String chartOfAccountsCode = transaction.getChartOfAccountsCode();
             String accountKey = chartOfAccountsCode + "-" + accountNumber;
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ACCOUNT_NOT_FOUND, accountKey, Message.TYPE_FATAL);
@@ -142,7 +142,9 @@ public class TransactionFieldValidator {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String objectCodeKey = fiscalYear + "-" + chartOfAccountsCode + "-" + objectCode;
-        if (transaction.getFinancialObject() == null) {
+        
+        transaction.refreshNonUpdateableReferences();
+        if (ObjectUtils.isNull(transaction.getFinancialObject())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND, objectCodeKey, Message.TYPE_FATAL);
         }
 
@@ -170,7 +172,7 @@ public class TransactionFieldValidator {
         }
 
         if (!KFSConstants.getDashFinancialSubObjectCode().equals(subObjectCode)) {
-            if (transaction.getFinancialSubObject() == null) {
+            if (ObjectUtils.isNull(transaction.getFinancialSubObject())) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
             }
         }
@@ -185,7 +187,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialBalanceTypeCode(LaborTransaction transaction) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
-        if (StringUtils.isBlank(balanceTypeCode) || transaction.getBalanceType() == null) {
+        if (StringUtils.isBlank(balanceTypeCode) || ObjectUtils.isNull(transaction.getBalanceType())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND, balanceTypeCode, Message.TYPE_FATAL);
         }
         return null;
@@ -199,7 +201,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialObjectTypeCode(LaborTransaction transaction) {
         String objectTypeCode = transaction.getFinancialObjectTypeCode();
-        if (StringUtils.isBlank(objectTypeCode) || transaction.getObjectType() == null) {
+        if (StringUtils.isBlank(objectTypeCode) || ObjectUtils.isNull(transaction.getObjectType())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND, objectTypeCode, Message.TYPE_FATAL);
         }
         return null;
@@ -227,7 +229,7 @@ public class TransactionFieldValidator {
      */
     public static Message checkFinancialDocumentTypeCode(LaborTransaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        if (StringUtils.isBlank(documentTypeCode) || transaction.getDocumentType() == null) {
+        if (StringUtils.isBlank(documentTypeCode) || ObjectUtils.isNull(transaction.getDocumentType())) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
         }
         return null;

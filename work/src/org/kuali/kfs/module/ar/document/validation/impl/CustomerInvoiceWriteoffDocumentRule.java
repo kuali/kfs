@@ -26,13 +26,17 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.TransactionalDocument;
 import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -43,7 +47,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRuleBase {
+public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRuleBase implements ContinueCustomerInvoiceWriteoffDocumentRule<TransactionalDocument>{
     
     /**
      * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.Document)
@@ -67,12 +71,26 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         GlobalVariables.getErrorMap().addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
         
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument)document;
+        success &= validateExplanation(customerInvoiceWriteoffDocument);
         success &= validateWriteoffGLPEGenerationInformation( customerInvoiceWriteoffDocument);
         success &= doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
         
         GlobalVariables.getErrorMap().removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
 
         return success;        
+    }
+    
+    protected boolean validateExplanation(CustomerInvoiceWriteoffDocument document) {
+        boolean success = true;
+        
+        String explanation = document.getDocumentHeader().getExplanation();
+        if (ObjectUtils.isNull(explanation) || StringUtils.isEmpty(explanation.trim())) {
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_EMPTY_EXPLANATION);
+            success = false;
+        } else if (explanation.trim().length() < 10) {
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_WRITEOFF_EXPLANATION, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVALID_EXPLANATION);
+        }
+        return success;
     }
     
     /**
@@ -192,13 +210,13 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     }     
     
     /**
-     * This method returns true if customer invoice document for writeoff does not have a credit balance (i.e. a open amount less than or equal to 0). 
+     * This method returns true if customer invoice document for writeoff does not have a credit balance (i.e. a open amount less than 0). 
      * 
      * @param customerInvoiceWriteoffDocument
      * @return
      */
     protected boolean doesCustomerInvoiceDocumentHaveValidBalance(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument){
-        if( KualiDecimal.ZERO.isGreaterEqual(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
+        if( KualiDecimal.ZERO.isGreaterThan(customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getOpenAmount())){
             GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_INVOICE_HAS_CREDIT_BALANCE);
             return false;
         }
@@ -288,6 +306,43 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
             }
         }
         return success;  
-    }    
+    }
+    
+    /*
+     * @see org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule#processContinueCustomerInvoiceWriteoffDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    
+    public boolean processContinueCustomerInvoiceWriteoffDocumentRules(TransactionalDocument document) {
+        boolean success;
+        CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
+   
+        success = checkIfInvoiceNumberIsValid(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
+        if (success)
+            success = doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
+        if (success)
+            success = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
+        if (success)
+            success = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
+        
+        return success;        
+    }
+    
+    public boolean checkIfInvoiceNumberIsValid(String invDocumentNumber) {
+        boolean success = true;
+        
+        if (ObjectUtils.isNull(invDocumentNumber) || StringUtils.isBlank(invDocumentNumber)) {
+            success = false;
+            GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT__INVOICE_DOCUMENT_NUMBER_IS_REQUIRED);
+        } else {    
+            CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+            CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
+        
+            if (ObjectUtils.isNull(customerInvoiceDocument)) {
+                success = false;
+                GlobalVariables.getErrorMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVALID_INVOICE_DOCUMENT_NUMBER);
+            }
+        }
+        return success;
+    }
 }
 

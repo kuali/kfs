@@ -20,7 +20,7 @@ import java.sql.Date;
 import org.kuali.kfs.module.purap.businessobject.Carrier;
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
-import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Campus;

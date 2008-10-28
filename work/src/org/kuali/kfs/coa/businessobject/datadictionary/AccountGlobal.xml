@@ -169,7 +169,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AccountGlobal-accountStateCode" parent="AccountGlobal-accountStateCode-parentBean" />
 
   <bean id="AccountGlobal-accountStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="accountStateCode" />
     <property name="label" value="Account State Code" />
@@ -197,7 +197,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AccountGlobal-accountZipCode" parent="AccountGlobal-accountZipCode-parentBean" />
 
   <bean id="AccountGlobal-accountZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="accountZipCode" />
     <property name="label" value="Account Postal Code" />
@@ -383,4 +383,3 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="false" />
   </bean>
 </beans>
-

@@ -107,7 +107,7 @@
   <bean id="RoutingFormAgency-agencyCountryCode" parent="RoutingFormAgency-agencyCountryCode-parentBean" />
 
   <bean id="RoutingFormAgency-agencyCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="agencyCountryCode" />
     <property name="forceUppercase" value="true" />
@@ -337,7 +337,7 @@
   <bean id="RoutingFormAgency-agencyStateCode" parent="RoutingFormAgency-agencyStateCode-parentBean" />
 
   <bean id="RoutingFormAgency-agencyStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="agencyStateCode" />
     <property name="forceUppercase" value="true" />
@@ -357,7 +357,7 @@
   <bean id="RoutingFormAgency-agencyZipCode" parent="RoutingFormAgency-agencyZipCode-parentBean" />
 
   <bean id="RoutingFormAgency-agencyZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="agencyZipCode" />
     <property name="required" value="false" />

@@ -3,8 +3,10 @@ package org.kuali.kfs.sys.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.CountyService;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.CountyService;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.County;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 

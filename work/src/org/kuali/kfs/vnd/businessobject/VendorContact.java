@@ -19,11 +19,11 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;

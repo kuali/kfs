@@ -37,7 +37,7 @@ import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -83,6 +83,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (SpringContext.getBean(AssetService.class).isAssetLocked(document.getDocumentNumber(), asset.getCapitalAssetNumber())) {
             return false;
         }
+
         return checkReferencesExist(assetTransferDocument);
     }
 
@@ -350,4 +351,3 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         this.assetService = assetService;
     }
 }
-

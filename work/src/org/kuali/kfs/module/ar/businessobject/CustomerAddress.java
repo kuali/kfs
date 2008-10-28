@@ -6,9 +6,9 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

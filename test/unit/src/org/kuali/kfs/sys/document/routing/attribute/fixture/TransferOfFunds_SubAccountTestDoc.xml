@@ -243,14 +243,14 @@
           <organization class="org.kuali.kfs.coa.businessobject.Org--EnhancerByCGLIB--89ce0f3f"/>
           <accountType class="org.kuali.kfs.coa.businessobject.AcctType--EnhancerByCGLIB--43b19966"/>
           <accountPhysicalCampus reference="../../../../../kualiTransactionalDocumentInformation/documentInitiator/person/campus"/>
-          <accountState class="org.kuali.kfs.sys.businessobject.State--EnhancerByCGLIB--18c6ba40"/>
+          <accountState class="org.kuali.rice.kns.bo.State--EnhancerByCGLIB--18c6ba40"/>
           <subFundGroup class="org.kuali.kfs.coa.businessobject.SubFundGroup--EnhancerByCGLIB--84502e9b"/>
           <financialHigherEdFunction class="org.kuali.kfs.coa.businessobject.HigherEdFunction--EnhancerByCGLIB--e656a167"/>
           <accountRestrictedStatus class="org.kuali.kfs.coa.businessobject.RestrictedStatus--EnhancerByCGLIB--25e742a6"/>
           <reportsToAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--f0abfdb0"/>
           <continuationAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--f0abfdb0"/>
           <incomeStreamAccount class="org.kuali.kfs.coa.businessobject.Account--EnhancerByCGLIB--f0abfdb0"/>
-          <postalZipCode class="org.kuali.kfs.sys.businessobject.PostalCode--EnhancerByCGLIB--514fcb62"/>
+          <postalZipCode class="org.kuali.rice.kns.bo.PostalCode--EnhancerByCGLIB--514fcb62"/>
           <budgetRecordingLevel class="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel--EnhancerByCGLIB--dba033c6"/>
           <sufficientFundsCode class="org.kuali.kfs.coa.businessobject.SufficientFundsCode--EnhancerByCGLIB--f84fa298"/>
           <forContractsAndGrants>false</forContractsAndGrants>
@@ -828,4 +828,3 @@
     <boNotes/>
   </document>
 </org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer></applicationContent></documentContent>
-

@@ -37,14 +37,14 @@ import org.kuali.kfs.module.purap.document.service.PurapServiceImpl;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
-import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -462,7 +462,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return null;
     }
-    
+
     /**
      * Find the item in the document via its string identifier.
      * @param itemStrID the string identifier of the item being searched for
@@ -582,7 +582,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return total;
     }
-    
+
     public KualiDecimal getTotalDollarAmountForTradeIn() {
         List<PurApItem> tradeInItems = getTradeInItems();
         return getTotalDollarAmountWithExclusionsSubsetItems(null,false,tradeInItems);

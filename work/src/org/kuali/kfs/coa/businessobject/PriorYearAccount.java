@@ -25,11 +25,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.PostalCodeService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -1654,4 +1654,3 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         return forContractsAndGrants;
     }
 }
-

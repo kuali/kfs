@@ -4,11 +4,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Org;
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.PostalCodeService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 

@@ -60,15 +60,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.sys.businessobject.CountryImpl" table="KR_COUNTRY_T">
-    <field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="postalCountryName" column="POSTAL_CNTRY_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="postalCountryRestrictedIndicator" column="PSTL_CNTRY_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.sys.businessobject.HomeOrigination" table="FS_HOME_ORIGIN_T">
     <field-descriptor name="finSystemHomeOriginationCode" column="FS_HOME_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -216,65 +207,6 @@
     <field-descriptor name="acctRcvbNextCustomerNumber" column="AR_NEXT_CUST_NBR" jdbc-type="BIGINT" />
     <field-descriptor name="financialDocumentNextItemIdentifier" column="FDOC_NEXT_ITEM_ID" jdbc-type="BIGINT" />
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.sys.businessobject.StateImpl" table="KR_STATE_T">
-	<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="postalStateCode" column="POSTAL_STATE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="postalStateName" column="POSTAL_STATE_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
-	<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.CountryImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.sys.businessobject.PostalCodeImpl" table="KR_POSTAL_CODE_T">
-	<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="postalCode" column="POSTAL_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="postalStateCode" column="POSTAL_STATE_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="postalCityName" column="POSTAL_CITY_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="countyCode" column="COUNTY_CD" jdbc-type="VARCHAR" />
-	
-	<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.CountryImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />
-    </reference-descriptor>
-    
-    <reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.StateImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />
-        <foreignkey field-ref="postalStateCode" />
-    </reference-descriptor>
-
-	<reference-descriptor name="county" class-ref="org.kuali.kfs.sys.businessobject.CountyImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />        
-        <foreignkey field-ref="countyCode" />
-        <foreignkey field-ref="postalStateCode" />
-    </reference-descriptor>
-    
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.sys.businessobject.CountyImpl" table="KR_COUNTY_T" >
-	<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="countyCode" column="COUNTY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="stateCode" column="STATE_CD"  jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	<field-descriptor name="countyName" column="COUNTY_NM" jdbc-type="VARCHAR" />
-	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
-	<reference-descriptor name="country" class-ref="org.kuali.kfs.sys.businessobject.CountryImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />
-    </reference-descriptor>
-	
-	<reference-descriptor name="state" class-ref="org.kuali.kfs.sys.businessobject.StateImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="postalCountryCode" />
-        <foreignkey field-ref="stateCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.Room" table="SH_ROOM_T">
@@ -603,7 +535,7 @@
         <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />        
-        
+
         <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="chartOfAccountsCode" />
         </reference-descriptor>
@@ -612,7 +544,7 @@
             <foreignkey field-ref="chartOfAccountsCode" />
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
-        
+
         <collection-descriptor name="primaryOrganizations"
             element-class-ref="org.kuali.kfs.sys.businessobject.ChartOrgHolderModuleImpl"
             collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
@@ -620,7 +552,7 @@
             <orderby name="moduleId" sort="ASC" />
             <inverse-foreignkey field-ref="principalId" />
         </collection-descriptor>
-        
+      
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kfs.sys.businessobject.ChartOrgHolderModuleImpl" table="FS_USR_PRM_ORG_T">
@@ -641,7 +573,7 @@
             <foreignkey field-ref="organizationCode" />
         </reference-descriptor>
     </class-descriptor>
-  
+
     <class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegion" table="FS_TAX_REGION_T">
 	    <field-descriptor name="taxRegionCode" column="TAX_REGION_CD" jdbc-type="VARCHAR" primarykey="true" />
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -825,4 +757,3 @@
 	</class-descriptor>
 	
 </descriptor-repository>
-

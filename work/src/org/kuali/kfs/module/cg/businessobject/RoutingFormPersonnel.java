@@ -23,15 +23,15 @@ import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.RoutingFormDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
+import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.kfs.sys.service.ParameterService;
-import org.kuali.kfs.sys.service.PostalCodeService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -767,4 +767,3 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
 }
-

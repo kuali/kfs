@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.businessobject.PostalCode;
+import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
-import org.kuali.kfs.sys.service.PostalCodeService;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.kfs.sys.service.TaxRegionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;

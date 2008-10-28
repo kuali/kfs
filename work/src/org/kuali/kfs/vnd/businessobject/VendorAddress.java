@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.kfs.vnd.document.routing.VendorRoutingComparable;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kns.bo.Inactivateable;

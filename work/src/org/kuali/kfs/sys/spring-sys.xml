@@ -59,14 +59,6 @@
             </list>
         </property>
         
-		<property name="externalizableBusinessObjectImplementations">
-            <map>
-				<entry key="org.kuali.kfs.sys.businessobject.Country" value="org.kuali.kfs.sys.businessobject.CountryImpl" />
-				<entry key="org.kuali.kfs.sys.businessobject.State" value="org.kuali.kfs.sys.businessobject.StateImpl" />
-				<entry key="org.kuali.kfs.sys.businessobject.PostalCode" value="org.kuali.kfs.sys.businessobject.PostalCodeImpl" />
-				<entry key="org.kuali.kfs.sys.businessobject.County" value="org.kuali.kfs.sys.businessobject.CountyImpl" />
-            </map>
-        </property>	        
     </bean>
 
     <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
@@ -356,42 +348,6 @@
         </property>
     </bean>	    
 
-	<bean id="postalCodeService" class="org.kuali.kfs.sys.service.impl.PostalCodeServiceImpl">
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="countryService">
-			<ref bean="countryService" />
-		</property>
-	</bean>
-	
-	<bean id="countyService" class="org.kuali.kfs.sys.service.impl.CountyServiceImpl">
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="countryService">
-			<ref bean="countryService" />
-		</property>
-	</bean>
-	
-	<bean id="stateService" class="org.kuali.kfs.sys.service.impl.StateServiceImpl">
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="countryService">
-			<ref bean="countryService" />
-		</property>
-	</bean>
-	
-	<bean id="countryService" class="org.kuali.kfs.sys.service.impl.CountryServiceImpl">
-		<property name="kualiModuleService">
-			<ref bean="kualiModuleService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>		
-	</bean>
-
 	<bean id="workflow-org.kuali.rice.kim.bo.Person-Lookupable" parent="workflowLookupable" scope="prototype">
 		<property name="businessObjectClassName">
 			<value>org.kuali.rice.kim.bo.Person</value>
@@ -619,4 +575,3 @@
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	
 </beans>
-

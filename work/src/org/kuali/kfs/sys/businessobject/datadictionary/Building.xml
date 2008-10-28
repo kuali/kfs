@@ -151,7 +151,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean" />
 
   <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="buildingAddressStateCode" />
     <property name="forceUppercase" value="true" />
@@ -173,7 +173,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean" />
 
   <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="buildingAddressZipCode" />
     <property name="label" value="Building Address Postal Code" />
@@ -185,7 +185,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
    <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean" />
 
   <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="buildingAddressCountryCode" />
     <property name="forceUppercase" value="true" />

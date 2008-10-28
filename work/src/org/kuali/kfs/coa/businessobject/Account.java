@@ -35,11 +35,11 @@ import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.PostalCodeService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -158,7 +158,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Account() {
         active = true; // assume active is true until set otherwise
     }
-
+    
     /**
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
@@ -758,14 +758,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public ContractsAndGrantsCfda getCfda() {
         return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
     }
-
+    
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
         // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the
         // pike
         awards = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class).retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
         return awards;
     }
-
+    
     public void setAwards(List awards) {
         this.awards = awards;
     }
@@ -814,7 +814,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public boolean isClosed() {
         return !active;
     }
-
+    
     /**
      * Sets the closed attribute.
      * 
@@ -1519,7 +1519,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     /**
      * @param subFundGroupCode The subFundGroupCode to set.
      */
-    public void setSubFundGroupCode(String subFundGroupCode) {
+    public void setSubFundGroupCode(String subFundGroupCode) {        
         this.subFundGroupCode = subFundGroupCode;
         forContractsAndGrants = null;
     }
@@ -1822,7 +1822,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the forContractsAndGrants.
      */
     public boolean isForContractsAndGrants() {
-        if (forContractsAndGrants == null) {
+        if ( forContractsAndGrants == null ) {
             forContractsAndGrants = SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(getSubFundGroup());
         }
         return forContractsAndGrants;
@@ -1848,7 +1848,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Integer getContractsAndGrantsAccountResponsibilityId() {
         return contractsAndGrantsAccountResponsibilityId;
     }
-
+    
     /**
      * Sets the contractsAndGrantsAccountResponsibilityId attribute value.
      * 
@@ -1858,4 +1858,3 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
 }
-

@@ -2,13 +2,13 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.CountryService;
-import org.kuali.kfs.sys.service.PostalCodeService;
-import org.kuali.kfs.sys.service.StateService;
+import org.kuali.rice.kns.service.CountryService;
+import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.service.StateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**

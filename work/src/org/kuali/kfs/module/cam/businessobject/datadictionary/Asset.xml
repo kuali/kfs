@@ -1442,7 +1442,7 @@
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean" />
 
   <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationStateCode" />
     <property name="label" value="State" />
@@ -1499,7 +1499,7 @@
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" />
 
   <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusLocation.assetLocationState.postalStateCode" />
   </bean>
@@ -1511,7 +1511,7 @@
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" />
 
   <bean id="Asset-loanOrReturnInfo.borrowerState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerState.postalStateCode" />
   </bean>
@@ -1523,7 +1523,7 @@
   <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode" parent="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" />
 
   <bean id="Asset-loanOrReturnInfo.borrowerStorageState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="loanOrReturnInfo.borrowerStorageState.postalStateCode" />
   </bean>
@@ -2203,4 +2203,3 @@
     </property>
   </bean>
 </beans>
-

@@ -20,8 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.kfs.sys.businessobject.PostalCode;
-import org.kuali.kfs.sys.businessobject.State;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kim.bo.Person;
 
@@ -1127,4 +1127,3 @@ public interface AccountIntf {
     public String getGuidelinesAndPurposeSectionBlank();
 
 }
-

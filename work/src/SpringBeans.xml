@@ -130,6 +130,10 @@
 				<value>transactionalDocumentDictionaryService</value>
 				<value>maintenanceDocumentRuleBase</value>
 				<value>sessionDocumentService</value>
+				<value>countryService</value>
+				<value>countyService</value>
+				<value>stateService</value>
+				<value>postalCodeService</value>
 			</set>
 		</property>
 	</bean>
@@ -157,7 +161,7 @@
   -->
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
 	<alias name="encryptionService" alias="enEncryptionService" />
-    
+
 	<bean id="platformTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
 			<ref local="jotm" />
@@ -352,6 +356,11 @@
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/CampusType.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentHeader.xml</value>
 				<value>classpath:org/kuali/rice/kns/bo/datadictionary/DocumentType.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/Country.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/County.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/State.xml</value>
+				<value>classpath:org/kuali/rice/kns/bo/datadictionary/PostalCode.xml</value>
+				
 
                 <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterNamespace.xml</value>
                 <value>classpath:org/kuali/rice/kns/bo/datadictionary/ParameterType.xml</value>
@@ -369,6 +378,10 @@
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/CampusTypeMaintenanceDocument.xml</value>
 				<value>classpath:org/kuali/rice/kns/document/datadictionary/DocumentTypeMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/CountryMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/CountyMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/StateMaintenanceDocument.xml</value>
+				<value>classpath:org/kuali/rice/kns/document/datadictionary/PostalCodeMaintenanceDocument.xml</value>
             </list>
         </property>
 	</bean>
@@ -794,5 +807,38 @@
 
 	<bean id="sessionDocumentDaoOjb" parent="platformAwareDao" class="org.kuali.rice.kns.dao.impl.SessionDocumentDaoOjb" />
 	
+		<bean id="postalCodeService" class="org.kuali.rice.kns.service.impl.PostalCodeServiceImpl">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="countryService">
+			<ref bean="countryService" />
+		</property>
+	</bean>
+	
+	<bean id="countyService" class="org.kuali.rice.kns.service.impl.CountyServiceImpl">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="countryService">
+			<ref bean="countryService" />
+		</property>
+	</bean>
+	
+	<bean id="stateService" class="org.kuali.rice.kns.service.impl.StateServiceImpl">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+		<property name="countryService">
+			<ref bean="countryService" />
+		</property>
+	</bean>
+	
+	<bean id="countryService" class="org.kuali.rice.kns.service.impl.CountryServiceImpl">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
+	</bean>
+	
+	
 </beans>
-

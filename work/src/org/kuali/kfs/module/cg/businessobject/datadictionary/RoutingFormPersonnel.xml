@@ -140,7 +140,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="RoutingFormPersonnel-personCountryCode" parent="RoutingFormPersonnel-personCountryCode-parentBean" />
 
   <bean id="RoutingFormPersonnel-personCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="personCountryCode" />
     <property name="forceUppercase" value="true" />
@@ -413,7 +413,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="RoutingFormPersonnel-personStateCode" parent="RoutingFormPersonnel-personStateCode-parentBean" />
 
   <bean id="RoutingFormPersonnel-personStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="personStateCode" />
     <property name="forceUppercase" value="true" />
@@ -468,7 +468,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="RoutingFormPersonnel-personZipCode" parent="RoutingFormPersonnel-personZipCode-parentBean" />
 
   <bean id="RoutingFormPersonnel-personZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="personZipCode" />
     <property name="label" value="Zip" />
@@ -659,4 +659,3 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
-

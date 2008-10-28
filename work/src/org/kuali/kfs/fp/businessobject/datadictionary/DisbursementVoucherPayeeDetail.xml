@@ -159,7 +159,7 @@
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" />
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrSpecialHandlingZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="disbVchrSpecialHandlingZipCode" />
     <property name="label" value="Special Handling Postal Code" />

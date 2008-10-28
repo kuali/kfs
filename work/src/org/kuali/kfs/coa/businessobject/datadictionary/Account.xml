@@ -307,7 +307,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
 
   <bean id="Account-accountStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="accountStateCode" />
     <property name="label" value="Account State Code" />
@@ -346,7 +346,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
 
   <bean id="Account-accountZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="accountZipCode" />
     <property name="label" value="Account Postal Code" />
@@ -891,7 +891,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="Account-accountDescription.buildingCode-parentBean" abstract="true" parent="AccountDescription-buildingCode">
     <property name="name" value="accountDescription.buildingCode" />
   </bean>
-  
+
   <bean id="Account-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean" />
   <bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contractsAndGrantsAccountResponsibilityId" />
@@ -1083,4 +1083,3 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
-

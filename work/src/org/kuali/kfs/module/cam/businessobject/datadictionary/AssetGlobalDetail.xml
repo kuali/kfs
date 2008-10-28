@@ -289,7 +289,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-offCampusCountryCode" parent="AssetGlobalDetail-offCampusCountryCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="offCampusCountryCode" />
     <property name="forceUppercase" value="true" />
@@ -329,7 +329,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="AssetGlobalDetail-offCampusStateCode" parent="AssetGlobalDetail-offCampusStateCode-parentBean" />
   
   <bean id="AssetGlobalDetail-offCampusStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="offCampusStateCode" />
     <property name="forceUppercase" value="true" />
@@ -341,7 +341,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   
   <bean id="AssetGlobalDetail-offCampusZipCode" parent="AssetGlobalDetail-offCampusZipCode-parentBean" />
   <bean id="AssetGlobalDetail-offCampusZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="offCampusZipCode" />
     <property name="label" value="Off Campus Postal Code" />
@@ -497,4 +497,3 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     </property>
   </bean>
 </beans>
-

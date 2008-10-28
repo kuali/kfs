@@ -321,14 +321,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrganizationOptions-organizationRemitToStateCode" parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
 
   <bean id="OrganizationOptions-organizationRemitToStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="organizationRemitToStateCode" />
   </bean>
   <bean id="OrganizationOptions-organizationRemitToZipCode" parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 
   <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationRemitToZipCode" />
     <property name="required" value="true" />
@@ -375,7 +375,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="OrganizationOptions-organizationPostalZipCode" parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
   
   <bean id="OrganizationOptions-organizationPostalZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="organizationPostalZipCode" />
     <property name="required" value="false" />

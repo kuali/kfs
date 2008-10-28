@@ -165,7 +165,7 @@
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" />
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" abstract="true"
-  		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
   		p:sourceAttributeName="postalCode"
         p:name="capitalAssetPostalCode"
         p:label="Capital Asset Postal Code"
@@ -176,7 +176,7 @@
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" />
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="capitalAssetStateCode" />
     <property name="forceUppercase" value="true" />

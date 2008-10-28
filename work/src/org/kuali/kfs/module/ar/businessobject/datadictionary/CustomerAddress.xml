@@ -229,7 +229,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
   <bean id="CustomerAddress-customerStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
     <property name="name" value="customerStateCode" />
     <property name="forceUppercase" value="true" />
@@ -250,7 +250,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
   <bean id="CustomerAddress-customerZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.PostalCode"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
 	p:sourceAttributeName="postalCode">
     <property name="name" value="customerZipCode" />
     <property name="summary" value="customerZipCode" />
@@ -260,7 +260,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
 
   <bean id="CustomerAddress-customerCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
     <property name="name" value="customerCountryCode" />
     <property name="forceUppercase" value="true" />

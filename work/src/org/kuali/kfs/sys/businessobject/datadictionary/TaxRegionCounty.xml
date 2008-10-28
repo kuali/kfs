@@ -39,7 +39,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="TaxRegionCounty-postalCountryCode" parent="TaxRegionCounty-postalCountryCode-parentBean" />
   
   <bean id="TaxRegionCounty-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.Country"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
 	p:sourceAttributeName="postalCountryCode">
 	<property name="name" value="postalCountryCode" />
   </bean>	
@@ -47,7 +47,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="TaxRegionCounty-countyCode" parent="TaxRegionCounty-countyCode-parentBean" />
 
   <bean id="TaxRegionCounty-countyCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.County"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.County"
 	p:sourceAttributeName="countyCode">
     <property name="name" value="countyCode" />
   </bean>
@@ -55,7 +55,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   <bean id="TaxRegionCounty-stateCode" parent="TaxRegionCounty-stateCode-parentBean" />
 
   <bean id="TaxRegionCounty-stateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-  	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.sys.businessobject.State"
+  	p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
 	p:sourceAttributeName="postalStateCode">
   	<property name="name" value="stateCode" />
   </bean>

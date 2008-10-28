@@ -32,7 +32,7 @@ import org.kuali.kfs.coa.businessobject.Org;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Country;
+import org.kuali.rice.kns.bo.Country;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ParameterService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -330,9 +330,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         for (Field theField : theClass.getDeclaredFields()) {
             // only get persistable business object references
             if ( PersistableBusinessObject.class.isAssignableFrom( theField.getType() ) ) {
-                results.add(theField.getName());
+                    results.add(theField.getName());
+                }
             }
-        }
         return results;
     }
 
@@ -1420,4 +1420,3 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         return super.processAddCollectionLineBusinessRules(document, collectionName, bo);
     }
 }
-

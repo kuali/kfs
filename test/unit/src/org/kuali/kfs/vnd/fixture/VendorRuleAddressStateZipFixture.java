@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Country;
-import org.kuali.kfs.sys.businessobject.CountryImpl;
-import org.kuali.kfs.sys.businessobject.State;
-import org.kuali.kfs.sys.businessobject.StateImpl;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.CountryImpl;
+import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.bo.StateImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.fixture.VendorTestConstants.StatesZips;

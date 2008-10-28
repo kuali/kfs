@@ -19,8 +19,8 @@ import java.util.Collection;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -48,7 +48,7 @@ public interface ExtractDao {
      * @param batchParameters Batch Parameters
      * @return List of Credit memo account history records
      */
-    Collection<CreditMemoAccountHistory> findCreditMemoAccountHistory(BatchParameters batchParameters);
+    Collection<CreditMemoAccountRevision> findCreditMemoAccountRevisions(BatchParameters batchParameters);
 
     /**
      * This method implementation should find valid Payment Request account line changes as per the batch parameters
@@ -56,7 +56,7 @@ public interface ExtractDao {
      * @param batchParameters Batch Parameters
      * @return List of Payment Request account history records
      */
-    Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters);
+    Collection<PaymentRequestAccountRevision> findPaymentRequestAccountRevisions(BatchParameters batchParameters);
 
     /**
      * This method implementation should retrieve all eligible pretaggable PO account lines from Purchasing module

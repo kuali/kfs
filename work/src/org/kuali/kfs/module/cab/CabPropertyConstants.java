@@ -76,7 +76,7 @@ public class CabPropertyConstants {
         public static final String ACCOUNTS_PAYABLE_ITEM_QUANTITY = "accountsPayableItemQuantity";
         public static final String SPLIT_QTY = "splitQty";
         public static final String PURCHASING_ACCOUNTS_PAYABLE_DOCUMENT = "purchasingAccountsPayableDocument";
-        public static final String CAMS_DOCUMENT_NUMBER= "capitalAssetManagementDocumentNumber";
+        public static final String CAMS_DOCUMENT_NUMBER = "capitalAssetManagementDocumentNumber";
     }
 
     public static class PurchasingAccountsPayableLineAssetAccount {
@@ -114,15 +114,15 @@ public class CabPropertyConstants {
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
 
-    public static class CreditMemoAccountHistory {
-        public static final String ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+    public static class CreditMemoAccountRevision {
+        public static final String ACCOUNT_REVISION_TIMESTAMP = "accountRevisionTimestamp";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
     }
 
-    public static class PaymentRequestAccountHistory {
-        public static final String ACCOUNT_HISTORY_TIMESTAMP = "accountHistoryTimestamp";
+    public static class PaymentRequestAccountRevision {
+        public static final String ACCOUNT_REVISION_TIMESTAMP = "accountRevisionTimestamp";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";

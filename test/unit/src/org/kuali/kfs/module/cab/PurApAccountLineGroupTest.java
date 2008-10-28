@@ -18,8 +18,8 @@ package org.kuali.kfs.module.cab;
 import java.util.List;
 
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -39,7 +39,7 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
             setFinancialObjectCode(entry.getFinancialObjectCode());
             setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
             getSourceEntries().add(entry);
-            if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
+            if (CreditMemoAccountRevision.class.isAssignableFrom(entry.getClass())) {
                 setAmount(entry.getAmount().negated());
             }
             else {
@@ -55,17 +55,17 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
     }
 
     public void testCombineEntry_PREQ() throws Exception {
-        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
-        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), PaymentRequestAccountHistory.class);
+        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountRevision.class);
+        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), PaymentRequestAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(first, "1001", null)));
         group.combineEntry(first);
         assertEquals(new KualiDecimal(300), group.getAmount());
-        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), PaymentRequestAccountHistory.class);
+        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), PaymentRequestAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(second, "1001", null)));
         group.combineEntry(second);
         assertEquals(new KualiDecimal(200), group.getAmount());
 
-        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), PaymentRequestAccountHistory.class);
+        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), PaymentRequestAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(third, "1001", null)));
         group.combineEntry(third);
         assertEquals(new KualiDecimal(0), group.getAmount());
@@ -80,17 +80,17 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
     }
 
     public void testCombineEntry_CM() throws Exception {
-        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), CreditMemoAccountHistory.class);
-        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), CreditMemoAccountHistory.class);
+        PurApAccountLineGroup group = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), CreditMemoAccountRevision.class);
+        PurApAccountingLineBase first = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(200), CreditMemoAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(first, "1001", null)));
         group.combineEntry(first);
         assertEquals(new KualiDecimal(-300), group.getAmount());
-        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), CreditMemoAccountHistory.class);
+        PurApAccountingLineBase second = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-100), CreditMemoAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(second, "1001", null)));
         group.combineEntry(second);
         assertEquals(new KualiDecimal(-200), group.getAmount());
 
-        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), CreditMemoAccountHistory.class);
+        PurApAccountingLineBase third = createEntry(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(-200), CreditMemoAccountRevision.class);
         assertTrue(group.equals(new PurApAccountLineGroupTestable(third, "1001", null)));
         group.combineEntry(third);
         assertEquals(new KualiDecimal(0), group.getAmount());
@@ -132,4 +132,3 @@ public class PurApAccountLineGroupTest extends KualiTestBase {
 
 
 }
-

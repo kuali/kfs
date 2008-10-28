@@ -63,7 +63,7 @@ public class ReconciliationServiceTest extends BatchTestBase {
         Collection<Entry> glEntries = batchExtractService.findElgibleGLEntries(new ExtractProcessLog());
         List<Entry> purapLines = new ArrayList<Entry>();
         batchExtractService.separatePOLines(new ArrayList<Entry>(), purapLines, glEntries);
-        Collection<PurApAccountingLineBase> purapAcctEntries = batchExtractService.findPurapAccountHistory();
+        Collection<PurApAccountingLineBase> purapAcctEntries = batchExtractService.findPurapAccountRevisions();
         Collection<GeneralLedgerPendingEntry> pendingGlEntries = batchExtractService.findPurapPendingGLEntries();
         service.reconcile(purapLines, pendingGlEntries, purapAcctEntries);
         List<Entry> ignoredEntries = service.getDuplicateEntries();
@@ -105,4 +105,3 @@ public class ReconciliationServiceTest extends BatchTestBase {
     }
 
 }
-

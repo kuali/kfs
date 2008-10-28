@@ -48,8 +48,8 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
@@ -242,7 +242,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         // This is a list of pending GL entries created after last GL process and Cab Batch extract
         Collection<GeneralLedgerPendingEntry> purapPendingGLEntries = findPurapPendingGLEntries();
         // PurAp Account Line history comes from PURAP module
-        Collection<PurApAccountingLineBase> purapAcctLines = findPurapAccountHistory();
+        Collection<PurApAccountingLineBase> purapAcctLines = findPurapAccountRevisions();
         // Pass the records to reconciliation service method
         reconciliationService.reconcile(poLines, purapPendingGLEntries, purapAcctLines);
 
@@ -309,10 +309,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * 
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapAccountHistory()
      */
-    public Collection<PurApAccountingLineBase> findPurapAccountHistory() {
+    public Collection<PurApAccountingLineBase> findPurapAccountRevisions() {
         Collection<PurApAccountingLineBase> purapAcctLines = new ArrayList<PurApAccountingLineBase>();
-        Collection<CreditMemoAccountHistory> cmAccountHistory = extractDao.findCreditMemoAccountHistory(createCabBatchParameters());
-        Collection<PaymentRequestAccountHistory> preqAccountHistory = extractDao.findPaymentRequestAccountHistory(createCabBatchParameters());
+        Collection<CreditMemoAccountRevision> cmAccountHistory = extractDao.findCreditMemoAccountRevisions(createCabBatchParameters());
+        Collection<PaymentRequestAccountRevision> preqAccountHistory = extractDao.findPaymentRequestAccountRevisions(createCabBatchParameters());
         if (cmAccountHistory != null) {
             purapAcctLines.addAll(cmAccountHistory);
         }

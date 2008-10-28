@@ -85,7 +85,7 @@ public interface BatchExtractService {
      * 
      * @return Collection Purchasing Accounts Payable Account Line History
      */
-    Collection<PurApAccountingLineBase> findPurapAccountHistory();
+    Collection<PurApAccountingLineBase> findPurapAccountRevisions();
 
 
     /**

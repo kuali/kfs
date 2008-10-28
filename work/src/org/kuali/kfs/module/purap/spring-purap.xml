@@ -167,6 +167,11 @@
         <property name="universityDateService" ref="universityDateService"/>
     </bean>
     
+    <bean id="purapAccountRevisionService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountRevisionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+    </bean>
+    
 	<bean id="purapAccountingService" class="org.kuali.kfs.module.purap.service.impl.PurapAccountingServiceImpl">
 		<property name="purApAccountingDao" ref="purApAccountingDao"/>
 		<property name="purapService" ref="purapService"/>
@@ -710,4 +715,3 @@
 	</bean>
 	
 </beans>
-

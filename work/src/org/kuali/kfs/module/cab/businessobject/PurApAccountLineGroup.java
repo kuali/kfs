@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
@@ -66,7 +66,7 @@ public class PurApAccountLineGroup extends AccountLineGroup {
         setFinancialObjectCode(entry.getFinancialObjectCode());
         setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
         this.sourceEntries.add(entry);
-        if (CreditMemoAccountHistory.class.isAssignableFrom(entry.getClass())) {
+        if (CreditMemoAccountRevision.class.isAssignableFrom(entry.getClass())) {
             setAmount(entry.getAmount().negated());
         }
         else {
@@ -92,7 +92,7 @@ public class PurApAccountLineGroup extends AccountLineGroup {
      */
     public void combineEntry(PurApAccountingLineBase newEntry) {
         this.sourceEntries.add(newEntry);
-        if (CreditMemoAccountHistory.class.isAssignableFrom(newEntry.getClass())) {
+        if (CreditMemoAccountRevision.class.isAssignableFrom(newEntry.getClass())) {
             this.amount = this.amount.add(newEntry.getAmount().negated());
         }
         else {

@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cab;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -37,7 +37,7 @@ public class AccountLineGroupTest extends KualiTestBase {
         // test reflexive
         GlAccountLineGroup first = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", "--------", "01", "1001", null, "D");
         GlAccountLineGroup second = createAccountLineGroup(2008, "BL", "BL002323", "------", "7000", null, "01", "1001", null, "C");
-        PurApAccountLineGroup third = createPurApAccountLineGroup(2008, "BL", "BL002323", "---", "7000", null, "01", "1001", "----", new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        PurApAccountLineGroup third = createPurApAccountLineGroup(2008, "BL", "BL002323", "---", "7000", null, "01", "1001", "----", new KualiDecimal(100), PaymentRequestAccountRevision.class);
         // equals all
         assertTrue(first.equals(first));
         assertTrue(first.equals(second));
@@ -50,7 +50,7 @@ public class AccountLineGroupTest extends KualiTestBase {
         // first and third equals
         first = createAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, "C");
         second = createAccountLineGroup(2008, "BL", "BL002323", "--", "7000", null, "01", "1001", null, "D");
-        third = createPurApAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        third = createPurApAccountLineGroup(2008, "BA", "BL002323", "--", "7000", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountRevision.class);
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -61,7 +61,7 @@ public class AccountLineGroupTest extends KualiTestBase {
 
         first = createAccountLineGroup(2008, "BA", "BL002323", "X", "7000", null, "01", "1001", null, "C");
         second = createAccountLineGroup(2008, "BA", "BL002323", "XXX", "7000", null, "01", "1001", null, "D");
-        third = createPurApAccountLineGroup(2008, "BL", "BL002323", "X", "7001", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountHistory.class);
+        third = createPurApAccountLineGroup(2008, "BL", "BL002323", "X", "7001", null, "01", "1001", null, new KualiDecimal(100), PaymentRequestAccountRevision.class);
 
         assertFalse(first.equals(second));
         assertFalse(second.equals(first));
@@ -127,4 +127,3 @@ public class AccountLineGroupTest extends KualiTestBase {
         return entry;
     }
 }
-

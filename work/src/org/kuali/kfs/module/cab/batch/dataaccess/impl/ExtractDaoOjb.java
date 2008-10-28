@@ -25,8 +25,8 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountHistory;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountHistory;
+import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -93,30 +93,30 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findCreditMemoAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
-    public Collection<CreditMemoAccountHistory> findCreditMemoAccountHistory(BatchParameters batchParameters) {
+    public Collection<CreditMemoAccountRevision> findCreditMemoAccountRevisions(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
-        criteria.addGreaterThan(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
-        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
-        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
-        criteria.addIn(CabPropertyConstants.CreditMemoAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
-        QueryByCriteria query = new QueryByCriteria(CreditMemoAccountHistory.class, criteria);
-        query.addOrderByAscending(CabPropertyConstants.CreditMemoAccountHistory.ACCOUNT_HISTORY_TIMESTAMP);
-        Collection<CreditMemoAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        criteria.addGreaterThan(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_REVISION_TIMESTAMP, batchParameters.getLastRunTime());
+        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountRevision.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.CreditMemoAccountRevision.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        QueryByCriteria query = new QueryByCriteria(CreditMemoAccountRevision.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_REVISION_TIMESTAMP);
+        Collection<CreditMemoAccountRevision> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return historyRecs;
     }
 
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPaymentRequestAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
-    public Collection<PaymentRequestAccountHistory> findPaymentRequestAccountHistory(BatchParameters batchParameters) {
+    public Collection<PaymentRequestAccountRevision> findPaymentRequestAccountRevisions(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
-        criteria.addGreaterThan(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_HISTORY_TIMESTAMP, batchParameters.getLastRunTime());
-        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
-        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
-        criteria.addIn(CabPropertyConstants.PaymentRequestAccountHistory.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
-        QueryByCriteria query = new QueryByCriteria(PaymentRequestAccountHistory.class, criteria);
-        query.addOrderByAscending(CabPropertyConstants.PaymentRequestAccountHistory.ACCOUNT_HISTORY_TIMESTAMP);
-        Collection<PaymentRequestAccountHistory> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        criteria.addGreaterThan(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_REVISION_TIMESTAMP, batchParameters.getLastRunTime());
+        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountRevision.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        criteria.addIn(CabPropertyConstants.PaymentRequestAccountRevision.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        QueryByCriteria query = new QueryByCriteria(PaymentRequestAccountRevision.class, criteria);
+        query.addOrderByAscending(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_REVISION_TIMESTAMP);
+        Collection<PaymentRequestAccountRevision> historyRecs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return historyRecs;
     }
 }

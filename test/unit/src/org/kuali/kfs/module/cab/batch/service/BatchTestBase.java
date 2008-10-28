@@ -143,7 +143,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_itm_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_acct_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_acct_hist_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/preq/ap_pmt_rqst_acct_chg_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/preq/gl_entry_t.sql", connection);
         // cm
         executeSqls("org/kuali/kfs/module/cab/sql/cm/en_doc_hdr_t.sql", connection);
@@ -152,7 +152,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_itm_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_acct_t.sql", connection);
-        executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_acct_hist_t.sql", connection);
+        executeSqls("org/kuali/kfs/module/cab/sql/cm/ap_crdt_memo_acct_chg_t.sql", connection);
         executeSqls("org/kuali/kfs/module/cab/sql/cm/gl_entry_t.sql", connection);
 
         executeSqls("org/kuali/kfs/module/cab/sql/ar/en_doc_hdr_t.sql", connection);
@@ -161,7 +161,7 @@ public abstract class BatchTestBase extends KualiTestBase {
         connection.close();
     }
 
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         DataSource dataSource = SpringContext.getBean(DataSource.class);
         Connection connection = dataSource.getConnection();
         return connection;
